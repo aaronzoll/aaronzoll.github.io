@@ -21,7 +21,7 @@
 title: Aaron Zoll Wesbite
 email: azoll1@jhu.edu
 description: >- # this means to ignore newlines until "baseurl:"
-  I am a third your PhD student as Johns Hopkins
+  I am a third year PhD student at Johns Hopkins
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
@@ -31,6 +31,9 @@ github_username:  aaronzoll
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-remote-theme
+
+remote_theme: daviddarnes/alembic@main
 
 # Exclude from processing.
 # The following items will not be processed, by default.
