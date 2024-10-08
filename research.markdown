@@ -12,3 +12,4 @@ This page is for Research:
 
 **Current Projects**
 
+[Composite Opti Presentation](assets/Composite_Opti_Presentation.pdf)
