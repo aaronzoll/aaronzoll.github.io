@@ -9,3 +9,4 @@ feature_text: |
   ## Aaron Zoll Personal Website
 
 ---
+I am a PhD student at <a href="https://engineering.jhu.edu/ams/">The Johns Hopkins University</a> in the department of applied math and statistics. My work primarily focuses in optimization, under the supervision of  <a href="https://www.ams.jhu.edu/~grimmer/">Benjamin Grimmer</a>. 
