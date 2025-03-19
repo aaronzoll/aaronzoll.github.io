@@ -20,4 +20,3 @@ feature_text: |
   - <a href="https://www.desmos.com/3d/x2xnklyhne">Holder Smoothness/Uniform Convexity (3D!)</a>
 
   - <a href="https://www.desmos.com/calculator/cmmndy7oq1">Quadratic Upper Bound (with "wiggle room")</a>
-
