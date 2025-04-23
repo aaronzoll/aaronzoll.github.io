@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Home - Site Title</title>
+<!-- begin _includes/seo.html --><title>Research - Site Title</title>
 <meta name="description" content="An amazing website.">
 
 
@@ -20,8 +20,8 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Site Title">
-<meta property="og:title" content="Home">
-<meta property="og:url" content="http://localhost:4000/">
+<meta property="og:title" content="Research">
+<meta property="og:url" content="http://localhost:4000/research/">
 
 
   <meta property="og:description" content="An amazing website.">
@@ -41,20 +41,10 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/">
+<link rel="canonical" href="http://localhost:4000/research/">
 
 
 
-
-
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-    "name": "Your Name",
-    "url": "http://localhost:4000/"
-}
-</script>
 
 
 
@@ -89,9 +79,10 @@
 
 <!-- end custom head snippets -->
 
-  </head>
+  <script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
 
-  <body class="layout--home" dir="ltr">
+  <body class="layout--splash" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -143,75 +134,36 @@
     <div class="initial-content">
       
 
-
-
 <div id="main" role="main">
-  
-
-
-  <div class="archive">
+  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Research">
     
-      <h1 id="page-title" class="page__title">Home</h1>
     
-    <p>I am a PhD student at <a href="https://engineering.jhu.edu/ams/">The Johns Hopkins University</a> in the department of applied math and statistics. My work primarily focuses in optimization, under the supervision of  <a href="https://www.ams.jhu.edu/~grimmer/">Benjamin Grimmer</a>.</p>
-
-
-<h3 class="archive__subtitle">Recent posts</h3>
-
-
-
-
-<div class="entries-list">
-  
-
-
-
-
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/jekyll/update/welcome-to-website/" rel="permalink">Welcome to My Website!
-</a>
-      
-    </h2>
     
 
-  <p class="page__meta">
-    
+    <section class="page__content" itemprop="text">
+      <h4 id="current-projects">
+<strong>Current Projects</strong><br>
+</h4>
+<p>I am currently working on researching universally optimal methods for composite minimization. Specifically, we want to allow for heterogeneous components that vary in their level of smoothness (from standard $L$-smooth functions with Lipschitz gradients to nonsmooth Lipschitz functions themselves). We further look for where we can benefit from heterogeneous levels of uniform convexity in the components. Future work entails characterizing these dual notions and applying them to novel research on interpolation theorems and performance estimation.</p>
 
-    
+<h4 id="papers-preprints">
+<strong>Papers (preprints)</strong><br>
+</h4>
+<ul>
+  <li>A Universally Optimal Primal-Dual Method for Minimizing Heterogeneous Compositions	<a href="https://arxiv.org/abs/2503.07566">arXiv</a>
+</li>
+</ul>
 
-    
-      
-      
+<h4 id="slides">
+<strong>Slides</strong><br>
+</h4>
+<ul>
+  <li><a href="/assets/Jr_MINDS_Presentation_3_8.pdf">Jr Minds Presentation</a></li>
+</ul>
 
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">This is a work in progress and a lot neads to be updated.
-
-</p>
+    </section>
   </article>
-</div>
-
-</div>
-
-
-
-
-  </div>
 </div>
 
       
