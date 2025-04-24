@@ -7,7 +7,7 @@ categories: jekyll update
 
 This is a work in progress and a lot neads to be updated. 
 
-$$ \nabla_\boldsymbol{x} J(\boldsymbol{x}) $$
+$$ \nabla_\boldsymbol{x} J({\bf x}) $$
 
 
 Here is the test code gien by Jeykll
