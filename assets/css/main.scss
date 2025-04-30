@@ -13,6 +13,8 @@ $global-font-family: $garamond !default;
 $header-font-family: $garamond !default;
 $caption-font-family: $garamond !default;
 
+
+
 @charset "utf-8";
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
