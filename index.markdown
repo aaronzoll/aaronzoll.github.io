@@ -3,7 +3,7 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 # bundle exec jekyll serve to run locally
-
+layout: single
 title: Home 
 feature_image: "https://picsum.photos/1300/400?image=989"
 feature_text: |
@@ -12,7 +12,6 @@ header:
   overlay_color: "#000"         # Dark overlay to improve text visibility
   overlay_filter: "0.5"         # Opacity of overlay
   overlay_image: "https://picsum.photos/1300/400?image=989"  # Path to your background image
-  # caption: "Photo by [Unsplash](https://unsplash.com)"
   actions:
     - label: "About Me"
       url: "/about/"

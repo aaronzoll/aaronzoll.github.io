@@ -151,7 +151,10 @@
       position: relative;
       overflow: hidden;
     }
-  
+    .page__hero.wrapper {
+      position: relative;
+      z-index: 2;
+    }
     .particles-wrapper {
       position: absolute;
       top: 0;
@@ -161,6 +164,7 @@
       z-index: 1;
     }
   
+
     .page__hero > *:not(.particles-wrapper) {
       position: relative;
       z-index: 2;
@@ -169,7 +173,7 @@
   <div class="particles-wrapper" id="particles-js"></div>
 
   
-    <div class="wrapper">
+    <div class="wrapper" style="position: relative; z-index: 2;">
       <h1 id="page-title" class="page__title" itemprop="headline">
         
           Contact

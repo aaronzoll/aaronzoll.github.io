@@ -94,7 +94,7 @@
     <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
   </head>
 
-  <body class="layout--home" dir="ltr">
+  <body class="layout--single" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -159,7 +159,10 @@
       position: relative;
       overflow: hidden;
     }
-  
+    .page__hero.wrapper {
+      position: relative;
+      z-index: 2;
+    }
     .particles-wrapper {
       position: absolute;
       top: 0;
@@ -169,6 +172,7 @@
       z-index: 1;
     }
   
+
     .page__hero > *:not(.particles-wrapper) {
       position: relative;
       z-index: 2;
@@ -177,7 +181,7 @@
   <div class="particles-wrapper" id="particles-js"></div>
 
   
-    <div class="wrapper">
+    <div class="wrapper" style="position: relative; z-index: 2;">
       <h1 id="page-title" class="page__title" itemprop="headline">
         
           Home
@@ -208,71 +212,49 @@
 
 
 
+
+
 <div id="main" role="main">
+
   
 
 
-  <div class="archive">
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Home">
     
-    <p>I am a PhD student at <a href="https://engineering.jhu.edu/ams/">The Johns Hopkins University</a> in the department of applied math and statistics. My work primarily focuses in optimization, under the supervision of  <a href="https://www.ams.jhu.edu/~grimmer/">Benjamin Grimmer</a>.</p>
-
-
-<h3 class="archive__subtitle">Recent posts</h3>
-
-
-
-
-<div class="entries-list">
-  
-
-
-
-
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/jekyll/update/welcome-to-website/" rel="permalink">Welcome to My Website!
-</a>
-      
-    </h2>
     
 
-  <p class="page__meta">
-    
-
-    
-
-    
-      
+    <div class="page__inner-wrap">
       
 
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
+      <section class="page__content" itemprop="text">
         
-          less than 1 minute read
+        <p>I am a PhD student at <a href="https://engineering.jhu.edu/ams/">The Johns Hopkins University</a> in the department of applied math and statistics. My work primarily focuses in optimization, under the supervision of  <a href="https://www.ams.jhu.edu/~grimmer/">Benjamin Grimmer</a>.</p>
+
         
-      </span>
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+      </footer>
+
+      
+
+      
+
+    </div>
+
     
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">This is a work in progress and a lot neads to be updated.
-
-</p>
   </article>
-</div>
 
-</div>
-
-
-
-
-  </div>
+  
+  
 </div>
 
       
