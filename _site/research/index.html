@@ -73,6 +73,10 @@
 
 
 
+
+
+  <script src="/assets/js/particles.js"></script>
+
     <!-- start custom head snippets -->
 
 <!-- insert favicons. use https://realfavicongenerator.net/ -->
@@ -143,6 +147,28 @@
 
 
 <div class="page__hero--overlay" style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://picsum.photos/1300/400?image=989');">
+  <style>
+    .page__hero {
+      position: relative;
+      overflow: hidden;
+    }
+  
+    .particles-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+    }
+  
+    .page__hero > *:not(.particles-wrapper) {
+      position: relative;
+      z-index: 2;
+    }
+  </style>
+  <div class="particles-wrapper" id="particles-js"></div>
+
   
     <div class="wrapper">
       <h1 id="page-title" class="page__title" itemprop="headline">
@@ -279,6 +305,35 @@
     </section>
   </article>
 </div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5 },
+        size: { value: 3 },
+        line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2 }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" },
+          resize: true
+        },
+        modes: {
+          repulse: { distance: 100 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+  });
+</script>
 
       
     </div>

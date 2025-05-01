@@ -26,3 +26,8 @@
     <script src="{{ script | relative_url }}"></script>
   {% endfor %}
 {% endif %}
+
+
+{% if page.layout == "splash" %}
+  <script src='/assets/js/particles.js'></script>
+{% endif %}

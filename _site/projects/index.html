@@ -73,6 +73,10 @@
 
 
 
+
+
+  <script src="/assets/js/particles.js"></script>
+
     <!-- start custom head snippets -->
 
 <!-- insert favicons. use https://realfavicongenerator.net/ -->
@@ -142,6 +146,28 @@
 
 
 <div class="page__hero--overlay" style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://picsum.photos/1300/400?image=989');">
+  <style>
+    .page__hero {
+      position: relative;
+      overflow: hidden;
+    }
+  
+    .particles-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+    }
+  
+    .page__hero > *:not(.particles-wrapper) {
+      position: relative;
+      z-index: 2;
+    }
+  </style>
+  <div class="particles-wrapper" id="particles-js"></div>
+
   
     <div class="wrapper">
       <h1 id="page-title" class="page__title" itemprop="headline">
@@ -176,6 +202,7 @@
     </section>
   </article>
 </div>
+
 
       
     </div>
