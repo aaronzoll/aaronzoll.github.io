@@ -4,7 +4,7 @@
 
 <head>
 
-      <div id="particles-js"></div>
+<div id="particles-js"></div>
 
   <style>
     .desmos-gallery-header {
@@ -30,8 +30,12 @@
       color: #a2b1fc;
       /* optional: even lighter on hover */
     }
-
-    /* Create a background "layer" */
+    :root {
+      --bg-size: cover;          /* Try 'contain' or '120%' for zoom */
+      --bg-pos-x: 50%;           /* 0% = left, 100% = right */
+      --bg-pos-y: 50%;           /* 0% = top, 100% = bottom */
+      --bg-opacity: 0.95;           /* 0 to 1 */
+    }
     .desmos-gallery-header::before {
       content: "";
       position: absolute;
@@ -39,30 +43,16 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-image: url('https://picsum.photos/1300/400?image=989');
-      /* your background */
-      background-size: cover;
-      background-position: center;
+      background-image: url("/assets/images/desmos_gallery_background1.png");
+      background-size: var(--bg-size);
+      background-position: var(--bg-pos-x) var(--bg-pos-y);
       background-repeat: no-repeat;
-      opacity: 0.9;
-      /* <<< Adjust this number for more/less transparency */
+      opacity: var(--bg-opacity);
       z-index: 0;
-      /* Put it underneath */
     }
 
 
-    /* Dark overlay layer */
-    .desmos-gallery-header::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      /* semi-transparent black */
-      z-index: 0;
-    }
+   
 
     /* Make sure the real text stays above the background */
     .desmos-gallery-header * {

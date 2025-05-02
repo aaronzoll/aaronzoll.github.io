@@ -26,4 +26,4 @@ custom_js: |
 
 I am a PhD student at <a href="https://engineering.jhu.edu/ams/">The Johns Hopkins University</a> in the department of applied math and statistics. My work primarily focuses in optimization, under the supervision of  <a href="https://www.ams.jhu.edu/~grimmer/">Benjamin Grimmer</a>. 
 
-Click <a href="/assets/CV 2025.pdf">here</a> for my CV!
+<a href="/assets/CV 2025.pdf">Here is my CV</a> 
