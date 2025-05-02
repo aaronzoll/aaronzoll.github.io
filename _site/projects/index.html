@@ -161,13 +161,12 @@
       left: 0;
       right: 0;
       bottom: 0;
-      z-index: 1;
+      z-index: 3;
     }
   
-
-    .page__hero > *:not(.particles-wrapper) {
+    .page__hero-actions {
       position: relative;
-      z-index: 2;
+      z-index: 10; /* Higher, explicitly above particles */
     }
   </style>
   <div class="particles-wrapper" id="particles-js"></div>
@@ -185,6 +184,9 @@
 
 
       
+    </div>
+    <div class="page__hero-actions" style="position: relative; z-index: 10;">
+    
     </div>
   
   

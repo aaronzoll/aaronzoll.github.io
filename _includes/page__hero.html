@@ -35,13 +35,12 @@
       left: 0;
       right: 0;
       bottom: 0;
-      z-index: 1;
+      z-index: 3;
     }
   
-
-    .page__hero > *:not(.particles-wrapper) {
+    .page__hero-actions {
       position: relative;
-      z-index: 2;
+      z-index: 10; /* Higher, explicitly above particles */
     }
   </style>
   <div class="particles-wrapper" id="particles-js"></div>
@@ -62,12 +61,15 @@
       {% endif %}
       {% include page__meta.html %}
       {% if page.header.actions %}
-        <p>
-        {% for action in page.header.actions %}
-          <a href="{{ action.url | relative_url }}" class="btn btn--light-outline btn--large">{{ action.label | default: site.data.ui-text[site.locale].more_label | default: "Learn More" }}</a>
-        {% endfor %}
-        </p>
-      {% endif %}
+      <p>
+      {% for action in page.header.actions %}
+        <a href="{{ action.url | relative_url }}" class="btn btn--light-outline btn--large">{{ action.label | default: site.data.ui-text[site.locale].more_label | default: "Learn More" }}</a>
+      {% endfor %}
+      </p>
+    {% endif %}
+    </div>
+    <div class="page__hero-actions" style="position: relative; z-index: 10;">
+    
     </div>
   {% else %}
     <img src="{{ page.header.image | relative_url }}" alt="{{ image_description }}" class="page__hero-image">

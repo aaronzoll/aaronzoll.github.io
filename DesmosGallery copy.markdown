@@ -1,0 +1,227 @@
+---
+layout: splash
+title: Desmos Gallery
+permalink: /desmos1/
+
+feature_image: "https://picsum.photos/1300/400?image=989"
+feature_text: |
+  # Desmos Gallery
+header:
+  overlay_color: "#000"         # Dark overlay to improve text visibility
+  overlay_filter: "0.5"         # Opacity of overlay
+  overlay_image: "https://picsum.photos/1300/400?image=989"  # Path to your background image
+  # caption: "Photo by [Unsplash]("https://unsplash.com)"
+custom_js: |
+  <script src="/assets/js/particles.js"></script>
+
+  <script>particlesJS.load('particles-js', '/assets/particles.json', function() {
+    console.log('callback - particles.js config loaded');
+  });</script>
+
+---
+
+
+
+
+
+<div id="particles-js"></div>
+
+
+<style>
+
+
+    .desmos-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 2rem 4rem;
+    }
+
+    .desmos-gallery div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 295px;
+      font-size: 0.9rem;
+      line-height: 1.;
+      text-align: center;
+      padding-bottom: 1rem;
+      /* Adds space between rows */
+    }
+
+    .desmos-gallery div a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .desmos-gallery div a img {
+      height: 250px;
+      width: 250px;
+      border-radius: 0;
+      border: none;
+      box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.6),
+        inset -2px -2px 6px rgba(0, 0, 0, 0.2),
+        0 4px 8px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
+      padding: 8px;
+      outline: 5px ridge #593302;
+    }
+
+    .desmos-gallery div a img:hover {
+      height: 255px;
+      width: 255px;
+      border-radius: 0;
+      border: none;
+      box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.6),
+        inset -2px -2px 6px rgba(0, 0, 0, 0.2),
+        0 4px 8px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
+      padding: 5.5px;
+      outline: 3px ridge #593302;
+    }
+
+
+    /* Underline the graph name and use default link color */
+    .desmos-gallery div a::after {
+      content: attr(href);
+      display: none;
+      /* hides the full URL from showing */
+    }
+
+
+    .desmos-gallery div a span {
+      text-decoration: underline;
+      color: #0000EE;
+      /* browser standard blue */
+      margin-top: 0.5rem;
+    }
+
+    .desmos-gallery div a span:hover {
+      text-decoration: underline;
+      color: #58048c;
+      /* browser standard blue */
+      margin-top: 0.5rem;
+    }
+</style>
+
+
+
+
+
+  <div class="desmos-gallery">
+    <div><a href="https://www.desmos.com/calculator/rkvecbbe5a"><img
+          src="https://www.desmos.com/calc_thumbs/production/rkvecbbe5a.png"><br><span>Predator Prey</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/gxpetz7wpg"><img
+          src="https://www.desmos.com/calc_thumbs/production/gxpetz7wpg.png"><br><span>Decreasing Principle</span></a>
+    </div>
+    <div><a href="https://www.desmos.com/calculator/9ijs32sdpm"><img
+          src="https://www.desmos.com/calc_thumbs/production/9ijs32sdpm.png"><br><span>Holder Smooth Quadratic Upper
+          Bound</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/qkcgerowqp"><img
+          src="https://www.desmos.com/calc_thumbs/production/qkcgerowqp.png"><br><span>muada quad LB</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/waigjg0hua"><img
+          src="https://www.desmos.com/calc_thumbs/production/waigjg0hua.png"><br><span>GBO demonstration</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/zhov7k8cfq"><img
+          src="https://www.desmos.com/calc_thumbs/production/zhov7k8cfq.png"><br><span>Section 10 finite
+          differences</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/jo9n4woxsf"><img
+          src="https://www.desmos.com/calc_thumbs/production/jo9n4woxsf.png"><br><span>HS/UC Conjugates</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/vnivqljv0z"><img
+          src="https://www.desmos.com/calc_thumbs/production/vnivqljv0z.png"><br><span>Mixture Models Image</span></a>
+    </div>
+    <div><a href="https://www.desmos.com/calculator/ucrlxcqtkl"><img
+          src="https://www.desmos.com/calc_thumbs/production/ucrlxcqtkl.png"><br><span>Mixture Model</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/3zkorvjbtt"><img
+          src="https://www.desmos.com/calc_thumbs/production/gzragmnctk.png"><br><span>p-norm regularization</span></a>
+    </div>
+    <div><a href="https://www.desmos.com/calculator/lz3we8jgwr"><img
+          src="https://www.desmos.com/calc_thumbs/production/lz3we8jgwr.png"><br><span>Lada = muada</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/rk2xdfhf3k"><img
+          src="https://www.desmos.com/calc_thumbs/production/rk2xdfhf3k.png"><br><span>Week 9 Interpolation</span></a>
+    </div>
+    <div><a href="https://www.desmos.com/calculator/a1u273dl38"><img
+          src="https://www.desmos.com/calc_thumbs/production/a1u273dl38.png"><br><span>Week 2 Interpolation</span></a>
+    </div>
+    <div><a href="https://www.desmos.com/calculator/3tpddvfhwg"><img
+          src="https://www.desmos.com/calc_thumbs/production/3tpddvfhwg.png"><br><span>Lada = muada</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/gnvjynvgk9"><img
+          src="https://www.desmos.com/calc_thumbs/production/gnvjynvgk9.png"><br><span>Section 8 Interpolation</span></a>
+    </div>
+    <div><a href="https://www.desmos.com/calculator/0cupdr6yiw"><img
+          src="https://www.desmos.com/calc_thumbs/production/0cupdr6yiw.png"><br><span>Clarke Gradients (max)</span></a>
+    </div>
+    <div><a href="https://www.desmos.com/calculator/xrgyojsi5s"><img
+          src="https://www.desmos.com/calc_thumbs/production/xrgyojsi5s.png"><br><span>(musical) HS/UC
+          Conjugates</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/0ojud0ei5y"><img
+          src="https://www.desmos.com/calc_thumbs/production/0ojud0ei5y.png"><br><span>Secant method</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/4mp95ew1rg"><img
+          src="https://www.desmos.com/calc_thumbs/production/4mp95ew1rg.png"><br><span>Newtons Method</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/xwljuznw9j"><img
+          src="https://www.desmos.com/calc_thumbs/production/xwljuznw9j.png"><br><span>Fixed Point Methods</span></a>
+    </div>
+    <div><a href="https://www.desmos.com/calculator/oaylkppo3f"><img
+          src="https://www.desmos.com/calc_thumbs/production/oaylkppo3f.png"><br><span>Nonlinear Root Finding</span></a>
+    </div>
+    <div><a href="https://www.desmos.com/calculator/jzct403rnw"><img
+          src="https://www.desmos.com/calc_thumbs/production/jzct403rnw.png"><br><span>GD test</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/oahkt7wzj1"><img
+          src="https://www.desmos.com/calc_thumbs/production/oahkt7wzj1.png"><br><span>Armijo Rule</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/f2nvtdsza2"><img
+          src="https://www.desmos.com/calc_thumbs/production/f2nvtdsza2.png"><br><span>Strongly Convex
+          Functions</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/sybazxt9yh"><img
+          src="https://www.desmos.com/calc_thumbs/production/sybazxt9yh.png"><br><span>L-smooth functions</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/19odhwjnda"><img
+          src="https://www.desmos.com/calc_thumbs/production/19odhwjnda.png"><br><span>Modular Multiplication</span></a>
+    </div>
+    <div><a href="https://www.desmos.com/calculator/rncupjhxht"><img
+          src="https://www.desmos.com/calc_thumbs/production/rncupjhxht.png"><br><span>Composite Rates</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/vsz8d2uapx"><img
+          src="https://www.desmos.com/calc_thumbs/production/vsz8d2uapx.png"><br><span>rect/sinc</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/zmn5oe1ykj"><img
+          src="https://www.desmos.com/calc_thumbs/production/zmn5oe1ykj.png"><br><span>Piano</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/8hsifnmgc4"><img
+          src="https://www.desmos.com/calc_thumbs/production/8hsifnmgc4.png"><br><span>Parabola Opti</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/hbv9pdxbsl"><img
+          src="https://www.desmos.com/calc_thumbs/production/hbv9pdxbsl.png"><br><span>SVM</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/mrebejr4lf"><img
+          src="https://www.desmos.com/calc_thumbs/production/mrebejr4lf.png"><br><span>sigmoidals</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/fr3ebnsfxk"><img
+          src="https://www.desmos.com/calc_thumbs/production/fr3ebnsfxk.png"><br><span>Distributions</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/v1f8klet41"><img
+          src="https://www.desmos.com/calc_thumbs/production/v1f8klet41.png"><br><span>Fourier Rect</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/bxvj9gugnb"><img
+          src="https://www.desmos.com/calc_thumbs/production/bxvj9gugnb.png"><br><span>Circles</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/dd38ps9syp"><img
+          src="https://www.desmos.com/calc_thumbs/production/dd38ps9syp.png"><br><span>Phase portrait</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/dky40i5wjj"><img
+          src="https://www.desmos.com/calc_thumbs/production/dky40i5wjj.png"><br><span>Laser Bounce</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/wroqixosmj"><img
+          src="https://www.desmos.com/calc_thumbs/production/wroqixosmj.png"><br><span>Bifurcation example</span></a>
+    </div>
+    <div><a href="https://www.desmos.com/calculator/hmf4ylm05t"><img
+          src="https://www.desmos.com/calc_thumbs/production/hmf4ylm05t.png"><br><span>?(x) Secant Lines</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/ipq7zsbcwd"><img
+          src="https://www.desmos.com/calc_thumbs/production/ipq7zsbcwd.png"><br><span>Apery Constant</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/ygdwazixu3"><img
+          src="https://www.desmos.com/calc_thumbs/production/ygdwazixu3.png"><br><span>2 form tangent lines</span></a>
+    </div>
+  </div>
+
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+  <hr>&nbsp&nbsp&nbsp<small>generated with <a
+      href="https://github.com/FabriceNeyret/DesmosGallery>DesmosGallery</a></small>
+
+
+    
+
