@@ -75,6 +75,8 @@
 
 
 
+  <script src="/assets/js/particles.js"></script>
+
     <!-- start custom head snippets -->
 
 <!-- insert favicons. use https://realfavicongenerator.net/ -->
@@ -84,7 +86,7 @@
     <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
   </head>
 
-  <body class="layout--single" dir="ltr">
+  <body class="layout--splash" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -196,53 +198,50 @@
 
 
 
-
-
-
-
 <div id="main" role="main">
 
-  
-
-
-  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="About Me">
     
     
     
 
-    <div class="page__inner-wrap">
-      
-
-      <section class="page__content" itemprop="text">
-        
-        <p>I am a PhD student at <a href="https://engineering.jhu.edu/ams/">The Johns Hopkins University</a> in the department of Applied Math and Statistics. My work primarily focuses in optimization, under the supervision of  <a href="https://www.ams.jhu.edu/~grimmer/">Benjamin Grimmer</a>. In particular, I work on expanding classical theory to apply universally to Lipschitz functions, functions with Lipschitz gradients, and everywhere in between. In a dual notion, my work also focuses on functions that are convex, strongly convex, and anywhere in between.</p>
+    <section class="page__content" itemprop="text">
+      <p>I am a PhD student at <a href="https://engineering.jhu.edu/ams/">The Johns Hopkins University</a> in the department of Applied Math and Statistics. My work primarily focuses in optimization, under the supervision of  <a href="https://www.ams.jhu.edu/~grimmer/">Benjamin Grimmer</a>. In particular, I work on expanding classical theory to apply universally to Lipschitz functions, functions with Lipschitz gradients, and everywhere in between. In a dual notion, my work also focuses on functions that are convex, strongly convex, and anywhere in between.</p>
 
 
-        
-      </section>
-
-      <footer class="page__meta">
-        
-        
-
-
-        
-
-      </footer>
-
-      
-
-      
-
-    </div>
-
-    
+    </section>
   </article>
-
-  
-  
 </div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5 },
+        size: { value: 3 },
+        line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2 }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" },
+          resize: true
+        },
+        modes: {
+          repulse: { distance: 100 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+  });
+</script>
 
       
     </div>

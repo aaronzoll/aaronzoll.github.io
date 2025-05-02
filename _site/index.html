@@ -85,6 +85,8 @@
 
 
 
+  <script src="/assets/js/particles.js"></script>
+
     <!-- start custom head snippets -->
 
 <!-- insert favicons. use https://realfavicongenerator.net/ -->
@@ -94,7 +96,7 @@
     <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
   </head>
 
-  <body class="layout--home" dir="ltr">
+  <body class="layout--splash" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -210,75 +212,50 @@
 
 
 
-
-
 <div id="main" role="main">
-  
 
-
-  <div class="archive">
+  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Home">
     
-    <p>I am a PhD student at <a href="https://engineering.jhu.edu/ams/">The Johns Hopkins University</a> in the department of applied math and statistics. My work primarily focuses in optimization, under the supervision of  <a href="https://www.ams.jhu.edu/~grimmer/">Benjamin Grimmer</a>.</p>
-
-
-
-<h3 class="archive__subtitle">Recent posts</h3>
-
-
-
-
-<div class="entries-list">
-  
-
-
-
-
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/jekyll/update/welcome-to-website/" rel="permalink">Welcome to My Website!
-</a>
-      
-    </h2>
     
 
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
+    <section class="page__content" itemprop="text">
+      <p>I am a PhD student at <a href="https://engineering.jhu.edu/ams/">The Johns Hopkins University</a> in the department of applied math and statistics. My work primarily focuses in optimization, under the supervision of  <a href="https://www.ams.jhu.edu/~grimmer/">Benjamin Grimmer</a>.</p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">This is a work in progress and a lot neads to be updated.
-
-</p>
+    </section>
   </article>
 </div>
 
-</div>
-
-
-
-
-  </div>
-</div>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5 },
+        size: { value: 3 },
+        line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 2 }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" },
+          resize: true
+        },
+        modes: {
+          repulse: { distance: 100 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+  });
+</script>
 
       
     </div>
