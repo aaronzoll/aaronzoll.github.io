@@ -29,14 +29,14 @@ I am currently working on researching universally optimal methods for composite 
 
 <style>
   .slides {
-      display: flex;
-      gap: 5em;
+    display: flex;
+    gap: 5em;
   }
 
   .desmos-gallery-image {
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
   }
 
   .bullet-points {
@@ -58,16 +58,16 @@ I am currently working on researching universally optimal methods for composite 
   }
 
   .slide-picture:hover {
-      height: 270px;
-      width: 470px;
-      border-radius: 0;
-      border: none;
-      box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.6),
-        inset -2px -2px 6px rgba(0, 0, 0, 0.2),
-        0 4px 8px rgba(0, 0, 0, 0.3);
-      background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
-      padding: 5.5px;
-      outline: 5px ridge #593302;
+    height: 270px;
+    width: 470px;
+    border-radius: 0;
+    border: none;
+    box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.6),
+      inset -2px -2px 6px rgba(0, 0, 0, 0.2),
+      0 4px 8px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
+    padding: 5.5px;
+    outline: 5px ridge #593302;
   }
 </style>
 
