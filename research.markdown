@@ -44,12 +44,7 @@ I am currently working on researching universally optimal methods for composite 
     flex-direction: column;
   }
 
-  .first-bullet {
-    list-style: none;
-    margin: 0;
-  }
-
-  .slide {
+  .slide-picture {
     height: 270px;
     width: 470px;
     border-radius: 0;
@@ -62,7 +57,7 @@ I am currently working on researching universally optimal methods for composite 
     outline: 5px ridge #593302;
   }
 
-  .slide:hover {
+  .slide-picture:hover {
       height: 270px;
       width: 470px;
       border-radius: 0;
@@ -93,7 +88,7 @@ I am currently working on researching universally optimal methods for composite 
   </div>
   <div class="desmos-gallery-image">
       <a href="https://docs.google.com/presentation/d/1tWwSVU1H9AicJsRl5ckGGWJNYubuAOYnmS248aNhD9s/edit?usp=sharing">
-      <div class="slide">
+      <div class="slide-picture">
         <img src="/assets/images/Heterogeneous_compositions_slide.png" alt="Slides">
       </div>
       </a>
