@@ -20,17 +20,17 @@ custom_js: |
 ---
 
 #### **Current Projects**<br>
-I am currently working on researching universally optimal methods for composite minimization. Specifically, we want to allow for heterogeneous components that vary in their level of smoothness (from standard $$L$$-smooth functions with Lipschitz gradients to nonsmooth Lipschitz functions themselves). We further look for where we can benefit from heterogeneous levels of uniform convexity in the components. Future work entails characterizing these dual notions and applying them to novel research on interpolation theorems and performance estimation. 
+My current research aims to construct and design universally optipal methods for minimizing a wide class of functions, bridging the gap between smooth and nonsmooth optimization. Previous work has dealt with compositions of Hölder smooth functions, with interpolate the smoothness between Lipschitz functions and those with Lipschitz gradient (typically denoted as "$$L$$-smooth"). Current work aims to further analyze the complexity of first-order algorithms on functions that may only attain an approximate notion of smoothness. 
 
 #### **Papers (preprints)**<br>
 - A Universally Optimal Primal-Dual Method for Minimizing Heterogeneous Compositions	<a href="https://arxiv.org/abs/2503.07566" target="_blank">arXiv</a>
 
-#### **Slides**<br>
+##### **Slides**<br>
 
 <style>
   .slides {
     display: flex;
-    gap: 5em;
+    gap: 2em;
   }
 
   .desmos-gallery-image {
@@ -78,12 +78,12 @@ I am currently working on researching universally optimal methods for composite 
             <div>
             Presentations on Heterogenous Compositions
             <ul>
-                <li>I presented our work for minimizing heterogenous compositions at the Jr MINDS seminar, an event hosted by <a href="https://www.minds.jhu.edu/" target="_blank">The Johns Hopkins Mathematical Institute for Data Science (MINDS)</a> encouraging grad students to share their research. Attached are the updated slides I will use for future talks, as well as the original used in the seminar (created using only Tikz!)</li>
+              <li>Johns Hopkins <a href="https://sites.google.com/view/ams-grad-seminar" target="_blank">Applied Math and Statistics Student Seminar</a></li>
+              <li>Jr MINDS seminar, an event hosted by <a href="https://www.minds.jhu.edu/" target="_blank">The Johns Hopkins Mathematical Institute for Data Science (MINDS)</a> encouraging grad students to share their research. </li>
             </ul>
             </div>
           </li>
-          <li><a href="/assets/Jr_MINDS_Presentation_3_8.pdf" target="_blank">Original Jr MINDS slides</a></li>
-          <li><a href="https://docs.google.com/presentation/d/1tWwSVU1H9AicJsRl5ckGGWJNYubuAOYnmS248aNhD9s/edit?usp=sharing" target="_blank">View updated presentation on Google Slides</a></li>
+
       </ul>
   </div>
   <div class="desmos-gallery-image">
