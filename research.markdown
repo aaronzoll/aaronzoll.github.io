@@ -80,6 +80,7 @@ My current research aims to construct and design universally optipal methods for
             <ul>
               <li>Johns Hopkins <a href="https://sites.google.com/view/ams-grad-seminar" target="_blank">Applied Math and Statistics Student Seminar</a></li>
               <li>Jr MINDS seminar, an event hosted by <a href="https://www.minds.jhu.edu/" target="_blank">The Johns Hopkins Mathematical Institute for Data Science (MINDS)</a> encouraging grad students to share their research. </li>
+              <li>International Conference on Continuous Optimization <a href="https://sites.google.com/view/iccopt2025/home">(ICCOPT)</a> </li>
             </ul>
             </div>
           </li>
