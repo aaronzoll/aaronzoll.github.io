@@ -15,6 +15,9 @@ custom_js: |
 ---
 
 
+#### **A Passion for Teaching**<br>
+A significant motivator in my pursuit of higher education lies in the end goal of teaching. Since helping peers with their calculus homework in high school (and even earlier if you ask my elementary school art teacher, Ms. Haydon), I have enjoyed the art of conveying knowledge. I find the puzzle of sharing information in a digestible, informative, yet fun way to be fascinating, and I hope to continue with teaching opportunities as I move forward in my career. Below, I share some of the (very much work in progress) artifacts I have created in my various experiences with teaching. To supplement, I also share various (also fluid and improving) <a href="./DesmosGallery.html" target="_blank">Desmos graphs</a>. Future work will be adding helpful notes and cleaning them up, but for now feel free to play around with the paramters to your heart's content!
+
 ### Slides and Other Notes
 ---
 
@@ -31,6 +34,11 @@ custom_js: |
 **Graduate Teaching Assistant**
 
 <div style="display: flex; flex-direction: column; gap: 0.25em;">
+
+  <div style="display: flex; justify-content: space-between;">
+    <span>Machine Learning 1 (EN.553.740)</span>
+    <span>Fall 2025</span>
+  </div>
 
   <div style="display: flex; justify-content: space-between;">
     <span>Introduction to Computational Mathematics (EN.553.385)</span>
