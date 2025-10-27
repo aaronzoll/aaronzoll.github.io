@@ -107,7 +107,7 @@ Current work aims to further analyze the complexity of first-order algorithms on
       </ul>
     </div>
     <div class="desmos-gallery-image">
-      <a href="https://docs.google.com/presentation/d/1tWwSVU1H9AicJsRl5ckGGWJNYubuAOYnmS248aNhD9s/edit?usp=sharing" target="_blank">
+      <a href="https://docs.google.com/presentation/d/16-uQ_1_5pgzji-R4n-FNhOw6n-XYtm5olD0_tYGngIs/edit?slide=id.p#slide=id.p">
         <div class="slide-picture">
           <img src="/assets/images/Informs_slides.png" alt="Slides">
         </div>
