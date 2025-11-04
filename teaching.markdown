@@ -27,6 +27,26 @@ A significant motivator in my pursuit of higher education lies in the end goal o
 - ##### **Directed Reading Program Notes:**
   - [Why Does Gradient Descent Work (well)?](/assets/DRP_Notes.pdf)
 
+
+### Courses Delevoped
+---  
+  <div style="display: flex; justify-content: space-between;">
+    <span>Data Analysics Workshop (AS.110.100)</span>
+    <span>Spring 2023</span>
+  </div>
+  <div style="display: flex; justify-content: space-between;">
+    <span>College Algebra (collaborator, AS.110.102)</span>
+    <span>Summer 2021</span>
+  </div>
+  
+### Courses Taught
+---  
+  <div style="display: flex; justify-content: space-between;">
+    <span>Data Analysics Workshop (AS.110.100)</span>
+    <span>Summer 2023, 2024, 2025</span>
+  </div>
+
+
 ### Courses TA'ed
 ---
 
