@@ -91,7 +91,7 @@ Current work aims to further analyze the complexity of first-order algorithms on
 
 <div class="slides">
   <!-- Row 1: UOGM bullets ↔ first image -->
-  <div class="slide-row">
+  <!-- <div class="slide-row">
     <div class="bullet-points">
       <ul>
         <li>
@@ -113,7 +113,7 @@ Current work aims to further analyze the complexity of first-order algorithms on
         </div>
       </a>
     </div>
-  </div>
+  </div> -->
 
   <!-- Row 2: Heterogeneous Compositions bullets ↔ second image -->
   <div class="slide-row">
