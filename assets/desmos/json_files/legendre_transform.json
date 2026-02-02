@@ -1,0 +1,583 @@
+{
+  "version": 11,
+  "randomSeed": "084f3f137fcf74e37538e8865ebb3815",
+  "graph": {
+    "viewport": {
+      "xmin": -17.840821522650955,
+      "ymin": -22.621180893720155,
+      "xmax": 16.672787198067986,
+      "ymax": 26.142777853415925
+    },
+    "showGrid": false,
+    "showXAxis": false,
+    "showYAxis": false,
+    "squareAxes": false,
+    "__v12ViewportLatexStash": {
+      "xmin": "-17.840821522650955",
+      "xmax": "16.672787198067986",
+      "ymin": "-22.621180893720155",
+      "ymax": "26.142777853415925"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "folder",
+        "id": "126",
+        "title": "Some lengthy note on this demo",
+        "collapsed": true
+      },
+      {
+        "type": "text",
+        "id": "2",
+        "folderId": "126",
+        "text": "\nHere we give a demonstration of a useful tool in optimization theory, classical mechanics and thermodynamics. The Legendre Transform (or more general, the convex conjugate) is a way of transforming a function, in a similar flavor to the Fourier Transform, that let's one encode information about derivative/gradients. For a given function f, one may construct its conjugate f_star, that instead of taking in points as its values, it takes inputs of gradients (i.e. \"lines\"). This transform highlight the duality between points and lines and yields deeper information about a function.\n\n\nI highly recommend watching this video for more information https://www.youtube.com/watch?v=P2HZelQm7Lw&t=739s, but you can play around with the demonstration to learn some personal intuition.  \n\n"
+      },
+      {
+        "type": "text",
+        "id": "117",
+        "folderId": "126",
+        "text": "In this demo we look at a function and its Legendre Transform. As mentioned above, the transformed function encodes information about the derivatives/gradients of a function. In particular, given a \"slope value,\" one can calculate the vertical shift needed to completely lower bound the original function. That is, if we fix a line with chosen slope to \"hug\" the original function and observe where this line crosses the y-axis, this value is the output of our transformed function. \n\n(note: technically, we want the negative of all of this, but for the visualization, I left that part out. Really, the conjugate function should be convex, not concave.)\n\n"
+      },
+      {
+        "type": "text",
+        "id": "120",
+        "folderId": "126",
+        "text": "Another way to look at this is as follows (again keep in mind everything is negative for the visualization):\n\n   - Consider you are company product \"x\" units of something\n   - Suppose it costs f(x) dollars to product \"x\" units\n   - Boss man gives you a price \"p\" that you will sell each unit for\n   - To maximize profit, i.e. px - f(x), you choose the optimal amount of units to product, assuming you could sell them all\n   - That is, for a price per unit \"p\", i.e. a derivative-like quantity, we take the function f_star(p) = max {px - f(x)} over all possible \"x\" to encode this price per unit.\n\n\nTherefore, the conjugate function, in blue, encodes the best profit that could be made for a given price per unit. The corresponding primal side tells you how many units to sell, and furthermore, the price chosen will \"hug\" the graph there.\n\n"
+      },
+      {
+        "type": "text",
+        "id": "123",
+        "folderId": "126",
+        "text": "One last note. This encoding of gradient information is especially useful in optimization as applying the *duality* nature to this, we can evaluate the conjugate function at 0. This will yield information to us about where a \"zero gradient\" exists in the primal space, and for convex functions, where optimality lies. "
+      },
+      {
+        "type": "expression",
+        "id": "124",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "text",
+        "id": "116",
+        "text": "Enter a simple convex function into the \"f(x)\" in the following folder. Note that because of how this was coded up, complicated functions make break since calculations are done numerical, and inverses are solved via Newton steps. Moreover, this means that you may need to restrict to differentiable, full domain functions as well. "
+      },
+      {
+        "type": "folder",
+        "id": "10",
+        "title": "Point information",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "3",
+        "folderId": "10",
+        "color": "#2d70b3",
+        "latex": "f\\left(x\\right)\\ =\\ \\frac{1}{4}\\left(\\sqrt{3+x^{2}}+\\left(x-1\\right)^{2}\\right)+e^{\\left(x+2\\right)}-5",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "35",
+        "folderId": "10",
+        "color": "#388c46"
+      },
+      {
+        "type": "folder",
+        "id": "12",
+        "title": "Line (derivative) information",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "18",
+        "folderId": "12",
+        "color": "#000000",
+        "latex": "f_{star}\\left(g\\right)=gp_{inv}\\left(g\\right)-f\\left(p_{inv}\\left(g\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "32",
+        "folderId": "12",
+        "color": "#6042a6"
+      },
+      {
+        "type": "folder",
+        "id": "57",
+        "title": "Primal Space",
+        "inFrontOfEverything": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "68",
+        "folderId": "57",
+        "color": "#c74440",
+        "latex": "f_{demo}\\left(x\\right)=f\\left(x+C_{x}\\right)\\ +C_{y}\\ ",
+        "hidden": true,
+        "lineWidth": "6"
+      },
+      {
+        "type": "expression",
+        "id": "87",
+        "folderId": "57",
+        "color": "#c74440",
+        "latex": "y\\ =\\ f_{demo}\\left(x\\right)\\left\\{-R\\le x\\le-L\\right\\}\\left\\{B\\le y\\le U\\right\\}",
+        "lineWidth": "6"
+      },
+      {
+        "type": "expression",
+        "id": "93",
+        "folderId": "57",
+        "color": "#388c46",
+        "latex": "y=f_{demo}\\left(x_{demo}\\right)+\\left(g_{demo}-C_{x}\\right)\\left(x-x_{demo}\\right)\\left\\{-R\\le x\\le-L\\right\\}\\left\\{B\\le y\\le U\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "75",
+        "folderId": "57",
+        "color": "#000000",
+        "latex": "\\left(x_{demo},f_{demo}\\left(x_{demo}\\right)\\right)\\left\\{-R\\le x_{demo}\\le-L\\right\\}\\left\\{B\\le f_{demo}\\left(x_{demo}\\right)\\le U\\right\\}",
+        "pointStyle": "OPEN",
+        "pointSize": "16",
+        "movablePointSize": "16"
+      },
+      {
+        "type": "expression",
+        "id": "88",
+        "folderId": "57",
+        "color": "#000000",
+        "latex": "x_{demo}=p_{inv}\\left(g_{demo}-C_{x}\\right)-C_{x}",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-R",
+          "max": "-L"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "59",
+        "folderId": "57",
+        "color": "#000000",
+        "latex": "x\\ =\\ \\left[-L,-R\\right]\\ \\left\\{B\\le y\\le U\\right\\}",
+        "lineWidth": "T"
+      },
+      {
+        "type": "expression",
+        "id": "62",
+        "folderId": "57",
+        "color": "#000000",
+        "latex": "y=\\ \\left[B,U\\right]\\ \\left\\{-R\\le x\\le-L\\right\\}",
+        "lineWidth": "T"
+      },
+      {
+        "type": "expression",
+        "id": "104",
+        "folderId": "57",
+        "color": "#c74440",
+        "latex": "\\left(-C_{x},U\\right)",
+        "showLabel": true,
+        "label": "Primal Space",
+        "dragMode": "NONE",
+        "labelOrientation": "above",
+        "labelSize": "T_{extsize}",
+        "pointSize": "0",
+        "movablePointSize": "0",
+        "labelAngle": "0"
+      },
+      {
+        "type": "expression",
+        "id": "106",
+        "folderId": "57",
+        "color": "#388c46",
+        "latex": "T_{extsize}=2.75",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "5"
+        }
+      },
+      {
+        "type": "folder",
+        "id": "60",
+        "title": "Dual Space",
+        "inFrontOfEverything": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "71",
+        "folderId": "60",
+        "color": "#2d70b3",
+        "latex": "f_{stardemo}\\left(x\\right)\\ =\\ f_{star}\\left(x-C_{x}\\right)-C_{y}\\ ",
+        "hidden": true,
+        "lineWidth": "6"
+      },
+      {
+        "type": "expression",
+        "id": "90",
+        "folderId": "60",
+        "color": "#2d70b3",
+        "latex": "y\\ =\\ -f_{stardemo}\\left(x\\right)\\ \\left\\{L\\le x\\le R\\right\\}\\left\\{B\\le y\\le U\\right\\}",
+        "lineWidth": "6"
+      },
+      {
+        "type": "expression",
+        "id": "89",
+        "folderId": "60",
+        "color": "#c74440",
+        "latex": "g_{demo}\\ =7.6",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "B_{ound1}",
+          "max": "B_{ound2}"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "91",
+        "folderId": "60",
+        "color": "#000000",
+        "latex": "\\left(g_{demo},-f_{stardemo}\\left(g_{demo}\\right)\\right)",
+        "pointOpacity": "1"
+      },
+      {
+        "type": "expression",
+        "id": "65",
+        "folderId": "60",
+        "color": "#000000",
+        "latex": "x\\ =\\ \\left[L,R\\right]\\ \\left\\{B\\le y\\le U\\right\\}",
+        "lineWidth": "T"
+      },
+      {
+        "type": "expression",
+        "id": "66",
+        "folderId": "60",
+        "color": "#000000",
+        "latex": "y=\\ \\left[B,U\\right]\\ \\left\\{L\\le x\\le R\\right\\}",
+        "lineWidth": "T"
+      },
+      {
+        "type": "expression",
+        "id": "94",
+        "folderId": "60",
+        "color": "#c74440",
+        "latex": "y\\ =-f_{stardemo}\\left(g_{demo}\\right)\\ \\left\\{-C_{x}\\le x\\le g_{demo}\\right\\}",
+        "lineStyle": "DASHED",
+        "lineOpacity": "0.7"
+      },
+      {
+        "type": "expression",
+        "id": "105",
+        "folderId": "60",
+        "color": "#2d70b3",
+        "latex": "\\left(C_{x},U\\right)",
+        "showLabel": true,
+        "label": "Dual Space",
+        "dragMode": "NONE",
+        "labelSize": "T_{extsize}",
+        "pointSize": "0",
+        "movablePointSize": "0"
+      },
+      {
+        "type": "expression",
+        "id": "110",
+        "folderId": "60",
+        "color": "#2d70b3",
+        "latex": "t_{rueg}=\\operatorname{round}\\left(g_{demo}-C_{x},4\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "108",
+        "folderId": "60",
+        "color": "#000000",
+        "latex": "\\left(0,B-\\frac{\\left(U-B\\right)}{20}\\right)",
+        "showLabel": true,
+        "label": "Derivative Chosen: ${t_{rueg}}",
+        "labelOrientation": "below",
+        "labelSize": "1.5",
+        "pointSize": "0",
+        "movablePointSize": "0"
+      },
+      {
+        "type": "folder",
+        "id": "76",
+        "title": "Grids",
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "73",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "x\\ =\\ -C_{x}\\ \\left\\{B\\ \\le\\ y\\ \\le U\\right\\}",
+        "lineOpacity": "0.6",
+        "lineWidth": "\\frac{T}{3}"
+      },
+      {
+        "type": "expression",
+        "id": "83",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "x\\ =\\ C_{x}\\ \\left\\{B\\ \\le\\ y\\ \\le U\\right\\}",
+        "lineOpacity": "0.6",
+        "lineWidth": "\\frac{T}{3}"
+      },
+      {
+        "type": "expression",
+        "id": "72",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "y\\ =\\ C_{y}\\ \\left\\{-R\\le x\\le-L\\right\\}",
+        "lineOpacity": "0.6",
+        "lineWidth": "\\frac{T}{3}"
+      },
+      {
+        "type": "expression",
+        "id": "84",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "y\\ =\\ C_{y}\\ \\left\\{L\\le x\\le R\\right\\}",
+        "lineOpacity": "0.6",
+        "lineWidth": "\\frac{T}{3}"
+      },
+      {
+        "type": "expression",
+        "id": "77",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "x\\ =\\ \\left[-R,-R+\\frac{\\left(R-L\\right)}{G_{ridx}},...,-L\\right]\\ \\left\\{B\\ \\le\\ y\\ \\le U\\right\\}",
+        "lineOpacity": "0.3",
+        "lineWidth": "\\frac{T}{6}"
+      },
+      {
+        "type": "expression",
+        "id": "81",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "x\\ =\\ \\left[L,L+\\frac{\\left(R-L\\right)}{G_{ridx}},...,R\\right]\\ \\left\\{B\\ \\le\\ y\\ \\le U\\right\\}",
+        "lineOpacity": "0.3",
+        "lineWidth": "\\frac{T}{6}"
+      },
+      {
+        "type": "expression",
+        "id": "82",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "y\\ =\\ \\left[B,B+\\frac{\\left(U-B\\right)}{G_{ridy}},...,U\\right]\\ \\left\\{L\\le\\ x\\ \\le R\\right\\}",
+        "lineOpacity": "0.3",
+        "lineWidth": "\\frac{T}{6}"
+      },
+      {
+        "type": "expression",
+        "id": "79",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "y\\ =\\ \\left[B,B+\\frac{\\left(U-B\\right)}{G_{ridy}},...,U\\right]\\ \\left\\{-R\\le\\ x\\ \\le-L\\right\\}",
+        "lineOpacity": "0.3",
+        "lineWidth": "\\frac{T}{6}"
+      },
+      {
+        "type": "expression",
+        "id": "78",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "G_{ridx}\\ =14",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "2",
+          "max": "20",
+          "step": "2"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "80",
+        "folderId": "76",
+        "color": "#2d70b3",
+        "latex": "G_{ridy}\\ =16",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "2",
+          "max": "20",
+          "step": "2"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "67",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "C_{x}\\ =\\ \\frac{\\left(L+R\\right)}{2}"
+      },
+      {
+        "type": "expression",
+        "id": "69",
+        "folderId": "76",
+        "color": "#2d70b3",
+        "latex": "C_{y}\\ =\\ \\frac{\\left(U+B\\right)}{2}"
+      },
+      {
+        "type": "expression",
+        "id": "58",
+        "folderId": "76",
+        "color": "#2d70b3",
+        "latex": "B\\ =-14.1",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-20"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "63",
+        "folderId": "76",
+        "color": "#c74440",
+        "latex": "U\\ =17.3",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "B",
+          "max": "20"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "61",
+        "folderId": "76",
+        "color": "#6042a6",
+        "latex": "L\\ =0.456",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "64",
+        "folderId": "76",
+        "color": "#2d70b3",
+        "latex": "R\\ =14.7",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "L",
+          "max": "20"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "70",
+        "folderId": "76",
+        "color": "#388c46",
+        "latex": "T=5.64",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "96",
+        "folderId": "76",
+        "color": "#388c46",
+        "latex": "G_{rid2}\\ =\\ \\left[L,L+E_{2},...,R\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "98",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "G_{ridvals}=-f_{stardemo}\\left(G_{rid2}\\left[i\\right]\\right)\\ \\operatorname{for}\\ i\\ =\\ \\left[1,...,\\operatorname{length}\\left(G_{rid2}\\right)\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "99",
+        "folderId": "76",
+        "color": "#c74440",
+        "latex": "G_{oodIndices}=\\left[1,...,\\operatorname{length}\\left(G_{rid2}\\right)\\right]\\left[G_{ridvals}>B\\right]\\ "
+      },
+      {
+        "type": "expression",
+        "id": "100",
+        "folderId": "76",
+        "color": "#2d70b3",
+        "latex": "B_{ound1}=\\max\\left(L,G_{rid2}\\left[\\min\\left(G_{oodIndices}\\right)\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "103",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "B_{ound2}=\\min\\left(R,G_{rid2}\\left[\\max\\left(G_{oodIndices}\\right)\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "97",
+        "folderId": "76",
+        "color": "#6042a6",
+        "latex": "E_{2}=0.12",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "folder",
+        "id": "36",
+        "title": "Computational Stuff",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "14",
+        "folderId": "36",
+        "color": "#c74440",
+        "latex": "p_{inv}\\left(x\\right)\\ =N_{ewton}\\left(10,x\\right)",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "15",
+        "folderId": "36",
+        "color": "#2d70b3",
+        "latex": "N_{ewton}\\left(k,x\\right)=N_{ewton}\\left(k-1,x\\right)-\\frac{f'\\left(N_{ewton}\\left(k-1,x\\right)\\right)-x}{f''\\left(N_{ewton}\\left(k-1,x\\right)\\right)}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "16",
+        "folderId": "36",
+        "color": "#388c46",
+        "latex": "N_{ewton}\\left(0,x\\right)\\ =\\ 0.1"
+      },
+      {
+        "type": "expression",
+        "id": "25",
+        "folderId": "36",
+        "color": "#2d70b3",
+        "latex": "k_{tight}=h\\left(0,p_{inv}\\left(g\\right)\\right)",
+        "hidden": true
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrateMovablePointStyle": true
+}

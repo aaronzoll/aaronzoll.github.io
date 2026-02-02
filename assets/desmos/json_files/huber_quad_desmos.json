@@ -1,0 +1,636 @@
+{
+  "version": 11,
+  "randomSeed": "f0b4bbdc5eb67f1f86b930ebe0b458b3",
+  "graph": {
+    "viewport": {
+      "xmin": -7.160757524732522,
+      "ymin": -4.038798846688106,
+      "xmax": 6.740572803934849,
+      "ymax": 5.783004951780475
+    },
+    "showGrid": false,
+    "__v12ViewportLatexStash": {
+      "xmin": "-7.160757524732522",
+      "xmax": "6.740572803934849",
+      "ymin": "-4.038798846688106",
+      "ymax": "5.783004951780475"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "text",
+        "id": "101",
+        "text": "This graph demonstrates the conjectured result of Driori and Teboull (2012, https://arxiv.org/pdf/1206.3209), later proven by Kim (2025, https://arxiv.org/pdf/2412.04427) that the best step size for a fixed-step gradient descent method is the value of \"h\" which satisfies (1 - h)^2N = 1/(2Nh + 1).\n\nThat is, considering the worst-case performance over all smooth, convex functions, the \"best worst-case performance\" occurs when the stepsize solves that equation above.\n\nThis Desmos graph lets you play around with various parameters, like the smoothness of the class, the initial distance to optimal, the number of steps taken, and lastly the stepsize.\n\nRemarkably, this (inherently difficult problem) of finding the worst case performance over all possible functions simplifies to just looking at the performance of two functions: a quadratic and a Huber. So we analyze gradient descent with a fixed step size on just those two, and see which is worse. The conjectures result says that when these equal, the optimal step size is attained. "
+      },
+      {
+        "type": "folder",
+        "id": "28",
+        "title": "Huber Function and Points",
+        "inFrontOfEverything": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "1",
+        "folderId": "28",
+        "color": "#c74440",
+        "latex": "h_{uber}\\left(x\\right)\\ =\\ \\left\\{\\left|x\\right|\\le t_{1}:\\ \\frac{L}{2}x^{2},\\ \\ \\left|x\\right|>t_{1}:\\ Lt_{1}\\left(\\left|x\\right|-\\frac{t_{1}}{2}\\right)\\right\\}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "8",
+        "folderId": "28",
+        "color": "#6042a6",
+        "latex": "h_{quad}\\left(x\\right)\\ =\\ \\frac{L}{2}x^{2}\\ \\left\\{\\left|x\\right|\\le t_{1}\\right\\}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "17",
+        "folderId": "28",
+        "color": "#2d70b3",
+        "latex": "h_{linear}\\left(x\\right)\\ =\\ \\ Lt_{1}\\left(\\left|x\\right|-\\frac{t_{1}}{2}\\right)\\ \\left\\{\\left|x\\right|>t_{1}\\right\\}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "5",
+        "folderId": "28",
+        "color": "#000000",
+        "latex": "\\left(R,h_{uber}\\left(R\\right)\\right)",
+        "dragMode": "NONE",
+        "pointSize": "20",
+        "movablePointSize": "20"
+      },
+      {
+        "type": "expression",
+        "id": "19",
+        "folderId": "28",
+        "color": "#2d70b3",
+        "latex": "I\\ =\\left[0,1,2,...,N\\right]"
+      },
+      {
+        "type": "text",
+        "id": "30",
+        "folderId": "28",
+        "text": "This generates all the points from gradient descent on the Huber function, since each gradient will be the same (it always stays on the linear part)"
+      },
+      {
+        "type": "expression",
+        "id": "26",
+        "folderId": "28",
+        "color": "#6042a6",
+        "latex": "X_{huber}\\ =\\ R\\ -\\ \\frac{hI}{L}h_{uber}'\\left(R\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "31",
+        "folderId": "28",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "expression",
+        "id": "32",
+        "folderId": "28",
+        "color": "#6042a6",
+        "latex": "\\left(X_{huber},\\ h_{uber}\\left(X_{huber}\\right)\\right)",
+        "pointSize": "12",
+        "movablePointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "33",
+        "folderId": "28",
+        "color": "#6042a6"
+      },
+      {
+        "type": "folder",
+        "id": "34",
+        "title": "Quadratic Function and Points",
+        "inFrontOfEverything": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "16",
+        "folderId": "34",
+        "color": "#fa7e19",
+        "latex": "q_{uad}\\left(x\\right)\\ =\\ \\frac{L}{2}x^{2}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "text",
+        "id": "36",
+        "folderId": "34",
+        "text": "Here, we have to use a recursion to generate the gradient steps, but below are the points generate by the algorithm for the quadratic function"
+      },
+      {
+        "type": "expression",
+        "id": "38",
+        "folderId": "34",
+        "color": "#000000",
+        "latex": "\\left(R,q_{uad}\\left(R\\right)\\right)",
+        "dragMode": "NONE",
+        "pointSize": "20",
+        "movablePointSize": "20"
+      },
+      {
+        "type": "expression",
+        "id": "37",
+        "folderId": "34",
+        "color": "#c74440",
+        "latex": "\\left(X_{quad},\\ q_{uad}\\left(X_{quad}\\right)\\right)",
+        "pointSize": "12",
+        "movablePointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "25",
+        "folderId": "34",
+        "color": "#388c46",
+        "latex": "X_{quad}\\ =\\ g_{step}\\left(I\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "22",
+        "folderId": "34",
+        "color": "#000000",
+        "latex": "g_{step}\\left(N\\right)=g_{step}\\left(N-1\\right)\\ -\\ \\frac{h}{L}q_{uad}'\\left(g_{step}\\left(N-1\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "23",
+        "folderId": "34",
+        "color": "#c74440",
+        "latex": "g_{step}\\left(0\\right)=R"
+      },
+      {
+        "type": "expression",
+        "id": "74",
+        "color": "#c74440"
+      },
+      {
+        "type": "folder",
+        "id": "63",
+        "title": "Quadratic GD Lines (optional, if you want to view click the circle next to the folder drop down to highlight the directions the iterates are moving to)",
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "64",
+        "folderId": "63",
+        "color": "#c74440",
+        "latex": "y=q_{uad}\\left(X_{quad}\\left[i\\right]\\right)+\\frac{q_{uad}\\left(X_{quad}\\left[i\\right]\\right)-q_{uad}\\left(X_{quad}\\left[i+1\\right]\\right)}{\\left(X_{quad}\\left[i\\right]\\right)-\\left(X_{quad}\\left[i+1\\right]\\right)}\\left(x-X_{quad}\\left[i\\right]\\right)\\ \\left\\{\\left|x-\\frac{X_{quad}\\left[i+1\\right]+X_{quad}\\left[i\\right]}{2}\\right|\\le\\left|\\frac{X_{quad}\\left[i+1\\right]-X_{quad}\\left[i\\right]}{2}\\right|\\right\\}\\operatorname{for}\\ i\\ =\\ \\left[1,...,N\\right]\\ ",
+        "lineStyle": "DOTTED",
+        "lineWidth": "1"
+      },
+      {
+        "type": "expression",
+        "id": "65",
+        "folderId": "63",
+        "color": "#388c46"
+      },
+      {
+        "type": "folder",
+        "id": "67",
+        "title": "Huber GD Lines (optional, if you want to view click the circle next to the folder drop down to highlight the directions the iterates are moving to)"
+      },
+      {
+        "type": "expression",
+        "id": "69",
+        "folderId": "67",
+        "color": "#6042a6",
+        "latex": "\\left(\\frac{X_{huber}\\left[i\\right]+X_{huber}\\left[i+1\\right]}{2}+R_{t}\\cos\\left(t\\right),\\frac{h_{uber}\\left(X_{huber}\\left[i\\right]\\right)+h_{uber}\\left(X_{huber}\\left[i+1\\right]\\right)}{2}+R_{t}\\sin\\left(t\\right)\\right)\\ \\left\\{\\arctan\\left(h_{uber}'\\left(X_{huber}\\left[i\\right]\\right)\\right)<t<\\arctan\\left(h_{uber}'\\left(X_{huber}\\left[i\\right]\\right)\\right)+\\pi\\right\\}\\operatorname{for}\\ i\\ =\\ \\left[1,...,\\ N\\right]",
+        "lineStyle": "DOTTED",
+        "parametricDomain": {
+          "min": "0",
+          "max": "6"
+        },
+        "lineWidth": "1",
+        "domain": {
+          "min": "0",
+          "max": "6"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "70",
+        "folderId": "67",
+        "color": "#2d70b3",
+        "latex": "R_{t}=\\frac{1}{2}\\sqrt{\\left(X_{huber}\\left[i\\right]-X_{huber}\\left[i+1\\right]\\right)^{2}+\\left(h_{uber}\\left(X_{huber}\\left[i\\right]\\right)-h_{uber}\\left(X_{huber}\\left[i+1\\right]\\right)\\right)^{2}}",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "71",
+        "folderId": "67",
+        "color": "#388c46"
+      },
+      {
+        "type": "expression",
+        "id": "68",
+        "color": "#000000"
+      },
+      {
+        "type": "folder",
+        "id": "12",
+        "title": "Parameters"
+      },
+      {
+        "type": "expression",
+        "id": "7",
+        "folderId": "12",
+        "color": "#2d70b3",
+        "latex": "L=0.8",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "3",
+        "folderId": "12",
+        "color": "#388c46",
+        "latex": "N=10",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "2",
+          "max": "N_{max}+1",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "4",
+        "folderId": "12",
+        "color": "#6042a6",
+        "latex": "R\\ =3.19",
+        "slider": {
+          "hardMin": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "15",
+        "folderId": "12",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "text",
+        "id": "14",
+        "folderId": "12",
+        "text": "This value of t determines where your Huber function \"levels off\" \n\nNote, it is slightly different than what I told you on Monday."
+      },
+      {
+        "type": "expression",
+        "id": "6",
+        "folderId": "12",
+        "color": "#c74440",
+        "latex": "t_{1}=\\frac{R}{2Nh+1}",
+        "hidden": true
+      },
+      {
+        "type": "folder",
+        "id": "40",
+        "title": "Performance"
+      },
+      {
+        "type": "text",
+        "id": "43",
+        "folderId": "40",
+        "text": "Because of the indexing, the N+1 element of the array is \"x_N\""
+      },
+      {
+        "type": "expression",
+        "id": "41",
+        "folderId": "40",
+        "color": "#6042a6",
+        "latex": "h_{uberVal}=\\operatorname{round}\\left(h_{uber}\\left(X_{huber}\\left[N+1\\right]\\right),6\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "45",
+        "folderId": "40",
+        "color": "#2d70b3",
+        "latex": "q_{uadVal}=\\operatorname{round}\\left(q_{uad}\\left(X_{quad}\\left[N+1\\right]\\right),6\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "48",
+        "folderId": "40",
+        "color": "#6042a6",
+        "latex": "w_{orstCasePerformance}\\ =\\ \\max\\left(h_{uberVal},q_{uadVal}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "52",
+        "folderId": "40",
+        "color": "#388c46"
+      },
+      {
+        "type": "text",
+        "id": "47",
+        "folderId": "40",
+        "text": "Placing \"h\" here so it is easy to play with. "
+      },
+      {
+        "type": "expression",
+        "id": "2",
+        "folderId": "40",
+        "color": "#2d70b3",
+        "latex": "h\\ =1.763",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "2"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "53",
+        "folderId": "40",
+        "color": "#6042a6"
+      },
+      {
+        "type": "text",
+        "id": "55",
+        "folderId": "40",
+        "text": "Here are some other useful values. \"Balancing Huber and Quadratic\" looks like getting the following value to be as small as possible, and when that happens, I claim the next two values will be equal and will equal the worst case performance!"
+      },
+      {
+        "type": "expression",
+        "id": "49",
+        "folderId": "40",
+        "color": "#000000",
+        "latex": "\\left|h_{uberVal}-q_{uadVal}\\right|"
+      },
+      {
+        "type": "expression",
+        "id": "50",
+        "folderId": "40",
+        "color": "#c74440",
+        "latex": "\\frac{LR^{2}}{2}\\left(1-h\\right)^{\\left(2N\\right)}"
+      },
+      {
+        "type": "expression",
+        "id": "51",
+        "folderId": "40",
+        "color": "#2d70b3",
+        "latex": "\\frac{LR^{2}}{2}\\frac{1}{2Nh+1}"
+      },
+      {
+        "type": "folder",
+        "id": "76",
+        "title": "Graph Visuals"
+      },
+      {
+        "type": "expression",
+        "id": "94",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "y\\ =\\ s_{lidery}\\ \\left\\{-s_{liderxmin}\\ge x\\ge-s_{liderxmax}\\right\\}",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "95",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "x\\ =\\ \\left[-s_{liderxmin},-s_{liderxmax}\\right]\\ \\left\\{\\ s_{lidery}-\\frac{m}{2}\\le y\\le\\ s_{lidery}+\\frac{m}{2}\\right\\}",
+        "lineWidth": "6"
+      },
+      {
+        "type": "expression",
+        "id": "96",
+        "folderId": "76",
+        "color": "#2d70b3",
+        "latex": "x\\ =\\ -\\left[s_{liderxmin}+\\frac{s_{liderxmax}-s_{liderxmin}}{N_{max}-1}\\ ,\\ s_{liderxmin}+2\\frac{s_{liderxmax}-s_{liderxmin}}{N_{max}-1}\\ ...\\ ,s_{liderxmax}-\\frac{s_{liderxmax}-s_{liderxmin}}{N_{max}}\\right]\\ \\left\\{\\ s_{lidery}-\\frac{m}{4}\\le y\\le\\ s_{lidery}+\\frac{m}{4}\\right\\}",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "98",
+        "folderId": "76",
+        "color": "#2d70b3",
+        "latex": "\\left(-\\left(1-\\frac{N_{max}-N+1}{N_{max}-1}\\right)\\left(s_{min}\\right)-\\frac{N_{max}-N+1}{N_{max}-1}\\left(s_{max}\\right),s_{lidery}\\right)",
+        "showLabel": true,
+        "label": "N = ${N}",
+        "dragMode": "X",
+        "labelSize": "1.5"
+      },
+      {
+        "type": "expression",
+        "id": "99",
+        "folderId": "76",
+        "color": "#000000"
+      },
+      {
+        "type": "expression",
+        "id": "97",
+        "folderId": "76",
+        "color": "#388c46",
+        "latex": "N_{max}=9",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "1",
+          "max": "30",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "91",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "\\left(s_{liderxmin},\\ s_{lidery}-0.5\\right)",
+        "showLabel": true,
+        "label": " Huber Suboptimality Gap: ${h_{uberVal}}",
+        "dragMode": "NONE",
+        "labelOrientation": "right",
+        "labelSize": "1.",
+        "pointSize": "12",
+        "movablePointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "92",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "\\left(s_{liderxmin},\\ s_{lidery}-1\\right)",
+        "showLabel": true,
+        "label": "Quadratic Suboptimality Gap: ${q_{uadVal}}",
+        "dragMode": "NONE",
+        "labelOrientation": "right",
+        "pointSize": "12",
+        "movablePointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "93",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "\\left(s_{liderxmin},\\ s_{lidery}-1.5\\right)",
+        "showLabel": true,
+        "label": "Optimal h value: ${h_true}",
+        "dragMode": "NONE",
+        "labelOrientation": "right",
+        "pointSize": "12",
+        "movablePointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "77",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "x\\ =\\ R\\ \\ \\left\\{0\\le y\\right\\}",
+        "lineStyle": "DASHED",
+        "lineWidth": "1.5"
+      },
+      {
+        "type": "expression",
+        "id": "90",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "\\left(R,0\\right)\\ ",
+        "showLabel": true,
+        "label": "R = ${R}",
+        "labelOrientation": "below_right",
+        "labelSize": "1"
+      },
+      {
+        "type": "expression",
+        "id": "79",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "y\\ =\\ s_{lidery}\\ \\left\\{s_{liderxmin}\\le x\\le s_{liderxmax}\\right\\}",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "80",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "x\\ =\\ \\left[s_{liderxmin},s_{liderxmax}\\right]\\ \\left\\{\\ s_{lidery}-\\frac{m}{2}\\le y\\le\\ s_{lidery}+\\frac{m}{2}\\right\\}",
+        "lineWidth": "6"
+      },
+      {
+        "type": "expression",
+        "id": "86",
+        "folderId": "76",
+        "color": "#2d70b3",
+        "latex": "m=0.18",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "85",
+        "folderId": "76",
+        "color": "#c74440",
+        "latex": "\\left(\\left(1-\\frac{h}{2}\\right)\\left(s_{min}\\right)+\\frac{h}{2}\\left(s_{max}\\right),s_{lidery}\\right)",
+        "showLabel": true,
+        "label": "h = ${h}",
+        "dragMode": "X",
+        "labelOrientation": "above",
+        "labelSize": "1.5"
+      },
+      {
+        "type": "expression",
+        "id": "88",
+        "folderId": "76",
+        "color": "#6042a6",
+        "latex": "s_{min}=s_{liderxmin}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "89",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "s_{max}=s_{liderxmax}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "82",
+        "folderId": "76",
+        "color": "#388c46",
+        "latex": "s_{lidery}=-1.08",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "83",
+        "folderId": "76",
+        "color": "#6042a6",
+        "latex": "s_{liderxmin}=-3.9",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "84",
+        "folderId": "76",
+        "color": "#000000",
+        "latex": "s_{liderxmax}=-0.7",
+        "hidden": true
+      },
+      {
+        "type": "folder",
+        "id": "56",
+        "title": "Newton Method to Balance Two Rates (a little out of the scope, but uses another iterative process to solve for the \"best h\", i.e. 30 \"Newton steps\"). You can test above by entering this value into \"h\" and seeing if everything is equal."
+      },
+      {
+        "type": "expression",
+        "id": "60",
+        "folderId": "56",
+        "color": "#6042a6",
+        "latex": "h_{true}=\\operatorname{round}\\left(N_{ewton}\\left(30\\right),6\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "57",
+        "folderId": "56",
+        "color": "#c74440",
+        "latex": "r_{duff}\\left(h\\right)\\ =\\ \\frac{LR^{2}}{2}\\left(1-h\\right)^{\\left(2N\\right)}-\\frac{LR^{2}}{2}\\frac{1}{2Nh+1}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "58",
+        "folderId": "56",
+        "color": "#2d70b3",
+        "latex": "N_{ewton}\\left(N\\right)\\ =\\ N_{ewton}\\left(N-1\\right)\\ -\\ \\frac{r_{duff}\\left(N_{ewton}\\left(N-1\\right)\\ \\right)}{r_{duff}'\\left(N_{ewton}\\left(N-1\\right)\\ \\right)}"
+      },
+      {
+        "type": "expression",
+        "id": "59",
+        "folderId": "56",
+        "color": "#388c46",
+        "latex": "N_{ewton}\\left(0\\right)=1",
+        "hidden": true
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrateMovablePointStyle": true
+}

@@ -1,0 +1,745 @@
+{
+  "version": 11,
+  "randomSeed": "fc9a3366d78997420fe2657ada1c1578",
+  "graph": {
+    "viewport": {
+      "xmin": -1.76,
+      "ymin": -1.99,
+      "zmin": -1.99,
+      "xmax": 41.76,
+      "ymax": 1.99,
+      "zmax": 1.99
+    },
+    "complex": true,
+    "worldRotation3D": [
+      -0.6581927179123305,
+      -0.6953007547760572,
+      -0.2886853070304278,
+      0.6367467060320412,
+      -0.7187189022198299,
+      0.2792790216781284,
+      -0.4016665015217859,
+      2.7522391603201666e-12,
+      0.9157860129721943
+    ],
+    "axis3D": [
+      0,
+      0,
+      0.9999999999839996
+    ],
+    "perspectiveDistortion": 2.3,
+    "showAxis3D": false,
+    "squareAxes": false,
+    "product": "graphing-3d",
+    "threeDMode": true,
+    "__v12ViewportLatexStash": {
+      "xmin": "x_{min}",
+      "xmax": "\\left(1+p\\right)x_{max}",
+      "ymin": "y_{min}",
+      "ymax": "y_{max}",
+      "zmin": "z_{min}",
+      "zmax": "z_{max}"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "folder",
+        "id": "2",
+        "title": "General Model",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "text",
+        "id": "6",
+        "folderId": "2",
+        "text": "e^(sx) = e^a(cos(bx)+isin(bx)), s = a+bi \\in \\C, x > 0"
+      },
+      {
+        "type": "expression",
+        "id": "38",
+        "folderId": "2",
+        "color": "#aaaaaa"
+      },
+      {
+        "type": "expression",
+        "id": "7",
+        "folderId": "2",
+        "color": "#aaaaaa",
+        "latex": "\\left(t,\\sum_{n=1}^{\\operatorname{count}\\left(a\\right)}c\\left[n\\right]e^{F\\left(t\\right)a\\left[n\\right]}\\cos\\left(b\\left[n\\right]F\\left(t\\right)\\right),\\sum_{n=1}^{\\operatorname{count}\\left(a\\right)}c\\left[n\\right]e^{F\\left(t\\right)a\\left[n\\right]}\\sin\\left(b\\left[n\\right]F\\left(t\\right)\\right)\\right)",
+        "parametricDomain": {
+          "min": "0",
+          "max": "x_{max}"
+        },
+        "lineWidth": "2T",
+        "domain": {
+          "min": "0",
+          "max": "x_{max}"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "83",
+        "folderId": "2",
+        "color": "#6042a6",
+        "latex": "H\\left(t\\right)=\\sum_{n=1}^{\\operatorname{count}\\left(a\\right)}c\\left[n\\right]e^{\\left(a\\left[n\\right]+ib\\left[n\\right]\\right)F\\left(t\\right)}"
+      },
+      {
+        "type": "expression",
+        "id": "90",
+        "folderId": "2",
+        "color": "#c74440"
+      },
+      {
+        "type": "expression",
+        "id": "84",
+        "folderId": "2",
+        "color": "#aaaaaa",
+        "latex": "\\left(t,H\\left(t\\right)\\right)",
+        "hidden": true,
+        "parametricDomain": {
+          "min": "x_{min}",
+          "max": "x_{max}"
+        },
+        "domain": {
+          "min": "x_{min}",
+          "max": "x_{max}"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "54",
+        "folderId": "2",
+        "color": "#aaaaaa",
+        "latex": "F\\left(t\\right)=t",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "12",
+        "folderId": "2",
+        "color": "#aaaaaa",
+        "latex": "K=1",
+        "slider": {
+          "min": "-10",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "39",
+        "folderId": "2",
+        "color": "#c74440",
+        "latex": "L_{a}=\\left[\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "40",
+        "folderId": "2",
+        "color": "#2d70b3",
+        "latex": "L_{b}=\\left[\\right]"
+      },
+      {
+        "type": "text",
+        "id": "60",
+        "folderId": "2",
+        "text": "\"Frequencies\""
+      },
+      {
+        "type": "expression",
+        "id": "8",
+        "folderId": "2",
+        "color": "#c74440",
+        "latex": "a=\\operatorname{join}\\left(L_{a},\\ -0.2\\operatorname{random}\\left(K\\right)\\right)",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "85",
+        "folderId": "2",
+        "color": "#c74440",
+        "latex": "a"
+      },
+      {
+        "type": "expression",
+        "id": "9",
+        "folderId": "2",
+        "color": "#2d70b3",
+        "latex": "b=\\operatorname{join}\\left(L_{b},\\ 10\\operatorname{random}\\left(K\\right)\\right)",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-1",
+          "max": "10"
+        }
+      },
+      {
+        "type": "text",
+        "id": "58",
+        "folderId": "2",
+        "text": "Weights"
+      },
+      {
+        "type": "expression",
+        "id": "56",
+        "folderId": "2",
+        "color": "#2d70b3",
+        "latex": "c\\ =\\ \\left[1\\right]"
+      },
+      {
+        "type": "folder",
+        "id": "13",
+        "title": "Complex Plane",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "11",
+        "folderId": "13",
+        "color": "#6042a6",
+        "latex": "\\left(0,\\sum_{n=1}^{\\operatorname{count}\\left(a\\right)}c\\left[n\\right]e^{F\\left(t\\right)a\\left[n\\right]}\\cos\\left(b\\left[n\\right]F\\left(t\\right)\\right),\\sum_{n=1}^{\\operatorname{count}\\left(a\\right)}c\\left[n\\right]e^{F\\left(t\\right)a\\left[n\\right]}\\sin\\left(b\\left[n\\right]F\\left(t\\right)\\right)\\right)",
+        "parametricDomain": {
+          "min": "0",
+          "max": "x_{max}"
+        },
+        "lineWidth": "T",
+        "domain": {
+          "min": "0",
+          "max": "x_{max}"
+        }
+      },
+      {
+        "type": "folder",
+        "id": "15",
+        "title": "Sine Plane",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "16",
+        "folderId": "15",
+        "color": "#c74440",
+        "latex": "\\left(t,0,\\sum_{n=1}^{\\operatorname{count}\\left(a\\right)}c\\left[n\\right]e^{F\\left(t\\right)a\\left[n\\right]}\\sin\\left(b\\left[n\\right]F\\left(t\\right)\\right)\\right)",
+        "parametricDomain": {
+          "min": "0",
+          "max": "10"
+        },
+        "lineWidth": "T",
+        "domain": {
+          "min": "0",
+          "max": "10"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "17",
+        "folderId": "15",
+        "color": "#388c46"
+      },
+      {
+        "type": "folder",
+        "id": "19",
+        "title": "Cosine Plane",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "20",
+        "folderId": "19",
+        "color": "#2d70b3",
+        "latex": "\\left(t,\\sum_{n=1}^{\\operatorname{count}\\left(a\\right)}c\\left[n\\right]e^{F\\left(t\\right)a\\left[n\\right]}\\cos\\left(b\\left[n\\right]F\\left(t\\right)\\right),0\\right)",
+        "parametricDomain": {
+          "min": "0",
+          "max": "x_{max}"
+        },
+        "lineWidth": "T",
+        "domain": {
+          "min": "0",
+          "max": "x_{max}"
+        }
+      },
+      {
+        "type": "folder",
+        "id": "117",
+        "title": "Important Parameters",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "104",
+        "folderId": "117",
+        "color": "#6042a6",
+        "latex": "t_{max}=40",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-0.5",
+          "max": "40"
+        }
+      },
+      {
+        "type": "folder",
+        "id": "61",
+        "title": "Application: Damped Harmonic Oscillator"
+      },
+      {
+        "type": "text",
+        "id": "64",
+        "folderId": "61",
+        "text": "Consider the damped harmonic oscillator with an external force (initial position and velocity set to 0):"
+      },
+      {
+        "type": "text",
+        "id": "66",
+        "folderId": "61",
+        "text": "mx'' + ux' + k = F_0cos(wx), with\n-- m = mass, \n-- u = dampening,\n-- k = spring constant,\n-- F = force,\n-- w = force frequency"
+      },
+      {
+        "type": "expression",
+        "id": "68",
+        "folderId": "61",
+        "color": "#6042a6",
+        "latex": "m\\ =0.5",
+        "slider": {
+          "hardMin": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "69",
+        "folderId": "61",
+        "color": "#aaaaaa",
+        "latex": "u\\ =0.07",
+        "slider": {
+          "hardMin": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "70",
+        "folderId": "61",
+        "color": "#c74440",
+        "latex": "k\\ =0.33",
+        "slider": {
+          "hardMin": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "67",
+        "folderId": "61",
+        "color": "#388c46",
+        "latex": "F\\ _{0}=0.99",
+        "slider": {
+          "hardMin": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "71",
+        "folderId": "61",
+        "color": "#2d70b3",
+        "latex": "w\\ =2.44",
+        "slider": {
+          "hardMin": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "95",
+        "folderId": "61",
+        "color": "#c74440"
+      },
+      {
+        "type": "text",
+        "id": "113",
+        "folderId": "61",
+        "text": "A Laplace (and inverse Laplace) Transform later and some partial fractions..."
+      },
+      {
+        "type": "expression",
+        "id": "80",
+        "folderId": "61",
+        "color": "#c74440",
+        "latex": "h\\left(t\\right)=Ae^{\\left(iwt\\right)}+Be^{-iwt}+Ce^{r_{1}t}+De^{r_{2}t}"
+      },
+      {
+        "type": "expression",
+        "id": "81",
+        "folderId": "61",
+        "color": "#2d70b3",
+        "latex": "\\left(t,\\operatorname{real}\\left(h\\left(t\\right)\\right),\\operatorname{imag}\\left(h\\left(t\\right)\\right)\\right)",
+        "parametricDomain": {
+          "min": "0",
+          "max": "x_{max}"
+        },
+        "lineWidth": "T",
+        "domain": {
+          "min": "0",
+          "max": "x_{max}"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "99",
+        "folderId": "61",
+        "color": "#6042a6",
+        "latex": "t_{ime}=22.89",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "animationPeriod": 11428.57142857143,
+          "loopMode": "PLAY_ONCE",
+          "min": "0",
+          "max": "x_{max}"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "100",
+        "folderId": "61",
+        "color": "#aaaaaa",
+        "latex": "\\left(t_{ime},\\operatorname{real}\\left(h\\left(t_{ime}\\right)\\right)\\right)",
+        "colorLatex": "C_{olor}",
+        "pointSize": "6",
+        "movablePointSize": "6"
+      },
+      {
+        "type": "expression",
+        "id": "96",
+        "folderId": "61",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "text",
+        "id": "98",
+        "folderId": "61",
+        "text": "roots and constants"
+      },
+      {
+        "type": "expression",
+        "id": "73",
+        "folderId": "61",
+        "color": "#6042a6",
+        "latex": "A=\\frac{F_{0}r_{3}}{m\\left(r_{3}-r_{1}\\right)\\left(r_{3}-r_{2}\\right)\\left(r_{3}-r_{4}\\right)}"
+      },
+      {
+        "type": "expression",
+        "id": "74",
+        "folderId": "61",
+        "color": "#aaaaaa",
+        "latex": "B=\\frac{F_{0}r_{4}}{m\\left(r_{4}-r_{1}\\right)\\left(r_{4}-r_{2}\\right)\\left(r_{4}-r_{3}\\right)}"
+      },
+      {
+        "type": "expression",
+        "id": "75",
+        "folderId": "61",
+        "color": "#c74440",
+        "latex": "C=\\frac{F_{0}r_{1}}{m\\left(r_{1}-r_{2}\\right)\\left(r_{1}-r_{3}\\right)\\left(r_{1}-r_{4}\\right)}"
+      },
+      {
+        "type": "expression",
+        "id": "76",
+        "folderId": "61",
+        "color": "#2d70b3",
+        "latex": "D=\\frac{F_{0}r_{2}}{m\\left(r_{2}-r_{1}\\right)\\left(r_{2}-r_{3}\\right)\\left(r_{2}-r_{4}\\right)}"
+      },
+      {
+        "type": "expression",
+        "id": "77",
+        "folderId": "61",
+        "color": "#388c46",
+        "latex": "r_{oots}=\\left[\\frac{-u-\\sqrt{u^{2}-4mk}}{2m},\\frac{-u+\\sqrt{u^{2}-4mk}}{2m}\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "78",
+        "folderId": "61",
+        "color": "#6042a6",
+        "latex": "r_{1}=r_{oots}\\left[1\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "79",
+        "folderId": "61",
+        "color": "#aaaaaa",
+        "latex": "r_{2}=r_{oots}\\left[2\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "91",
+        "folderId": "61",
+        "color": "#2d70b3",
+        "latex": "r_{3}=wi"
+      },
+      {
+        "type": "expression",
+        "id": "92",
+        "folderId": "61",
+        "color": "#388c46",
+        "latex": "r_{4}=-wi"
+      },
+      {
+        "type": "expression",
+        "id": "114",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "expression",
+        "id": "115",
+        "color": "#388c46"
+      },
+      {
+        "type": "expression",
+        "id": "72",
+        "color": "#388c46"
+      },
+      {
+        "type": "folder",
+        "id": "26",
+        "title": "Visuals settings",
+        "collapsed": true
+      },
+      {
+        "type": "text",
+        "id": "35",
+        "folderId": "26",
+        "text": "Line Thickness:"
+      },
+      {
+        "type": "expression",
+        "id": "36",
+        "folderId": "26",
+        "color": "#388c46",
+        "latex": "T\\ =0.506",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "27",
+        "folderId": "26",
+        "color": "#c74440",
+        "latex": "T_{1}=T"
+      },
+      {
+        "type": "expression",
+        "id": "28",
+        "folderId": "26",
+        "color": "#2d70b3",
+        "latex": "T_{2}=T"
+      },
+      {
+        "type": "expression",
+        "id": "29",
+        "folderId": "26",
+        "color": "#388c46",
+        "latex": "T_{3}=T"
+      },
+      {
+        "type": "expression",
+        "id": "30",
+        "folderId": "26",
+        "color": "#6042a6",
+        "latex": "T_{full}=T"
+      },
+      {
+        "type": "text",
+        "id": "44",
+        "folderId": "26",
+        "text": "axes:"
+      },
+      {
+        "type": "expression",
+        "id": "45",
+        "folderId": "26",
+        "color": "#c74440",
+        "latex": "x_{min}=-0.03125",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "X",
+          "max": "X"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "51",
+        "folderId": "26",
+        "color": "#2d70b3",
+        "latex": "X=-px_{max}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "52",
+        "folderId": "26",
+        "color": "#388c46",
+        "latex": "p=0.044",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "53",
+        "folderId": "26",
+        "color": "#6042a6",
+        "latex": "M=1.99",
+        "slider": {
+          "hardMin": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "46",
+        "folderId": "26",
+        "color": "#2d70b3",
+        "latex": "y_{min}=-M",
+        "slider": {
+          "hardMax": true,
+          "max": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "47",
+        "folderId": "26",
+        "color": "#388c46",
+        "latex": "z_{min}=-M"
+      },
+      {
+        "type": "expression",
+        "id": "48",
+        "folderId": "26",
+        "color": "#6042a6",
+        "latex": "x_{max}=t_{max}",
+        "slider": {
+          "hardMin": true,
+          "min": "0.5",
+          "max": "50"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "49",
+        "folderId": "26",
+        "color": "#aaaaaa",
+        "latex": "y_{max}=M"
+      },
+      {
+        "type": "expression",
+        "id": "50",
+        "folderId": "26",
+        "color": "#c74440",
+        "latex": "z_{max}=M"
+      },
+      {
+        "type": "text",
+        "id": "105",
+        "folderId": "26",
+        "text": "axes"
+      },
+      {
+        "type": "expression",
+        "id": "106",
+        "folderId": "26",
+        "color": "#aaaaaa",
+        "latex": "\\left(t,0,0\\right)",
+        "parametricDomain": {
+          "min": "-100",
+          "max": "100"
+        },
+        "colorLatex": "C_{olor}",
+        "lineWidth": "T_{axis}",
+        "domain": {
+          "min": "-100",
+          "max": "100"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "110",
+        "folderId": "26",
+        "color": "#6042a6",
+        "latex": "\\left(0,t,0\\right)",
+        "parametricDomain": {
+          "min": "-100",
+          "max": "100"
+        },
+        "colorLatex": "C_{olor}",
+        "lineWidth": "T_{axis}",
+        "domain": {
+          "min": "-100",
+          "max": "100"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "111",
+        "folderId": "26",
+        "color": "#aaaaaa",
+        "latex": "\\left(0,0,t\\right)",
+        "parametricDomain": {
+          "min": "-100",
+          "max": "100"
+        },
+        "colorLatex": "C_{olor}",
+        "lineWidth": "T_{axis}",
+        "domain": {
+          "min": "-100",
+          "max": "100"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "107",
+        "folderId": "26",
+        "color": "#c74440",
+        "latex": "C_{olor}=\\operatorname{rgb}\\left(0,0,0\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "109",
+        "folderId": "26",
+        "color": "#388c46",
+        "latex": "T_{axis}=0.483",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "102",
+        "folderId": "26",
+        "color": "#2d70b3"
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrate3dLineWidthZero": true,
+  "doNotMigrateMovablePointStyle": true
+}
