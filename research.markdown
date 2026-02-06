@@ -115,7 +115,7 @@ Current work aims to further analyze the complexity of first-order algorithms on
     </div>
   </div> -->
 
-  <!-- Row 2: Heterogeneous Compositions bullets ↔ second image -->
+  <!-- Row 2: Heterogeneous Compositions bullets ↔ second image.-->
   <div class="slide-row">
     <div class="bullet-points">
       <ul>
