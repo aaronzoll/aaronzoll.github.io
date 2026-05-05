@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.27.0 by Michael Rose
+  Copyright 2013-2025 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+--><html lang="en-US" class="no-js">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Fixed Point Methods - Aaron Zoll Personal Website</title>
+<meta name="description" content="An amazing website.">
+
+
+  <meta name="author" content="Aaron Zoll">
+  
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Aaron Zoll Personal Website">
+<meta property="og:title" content="Fixed Point Methods">
+<meta property="og:url" content="http://localhost:4000/desmos/fixed-point/">
+
+
+  <meta property="og:description" content="An amazing website.">
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/desmos/fixed-point/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+  <body class="layout--desmos-graph" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Aaron Zoll Personal Website
+          
+        </a>
+        <ul class="visible-links">
+<li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/research/">Research</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/teaching/">Teaching</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/DesmosGallery.html">Desmos Gallery</a>
+            </li>
+</ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      <style>
+  .desmos-page-wrap {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  .desmos-page-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .desmos-page-top h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  .desmos-page-links {
+    font-size: 0.9rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  .desmos-controls {
+    margin-bottom: 0.5rem;
+  }
+
+  .desmos-toggle-btn {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: 1px solid #a67b5b;
+    background: #fdf6ee;
+    color: #3b1f00;
+    border-radius: 3px;
+    transition: background 0.15s;
+  }
+
+  .desmos-toggle-btn:hover {
+    background: #f0e0ca;
+  }
+
+  .desmos-embed-container {
+    width: 100%;
+    height: 650px;
+    border: 2px solid #a67b5b;
+    outline: 4px ridge #593302;
+    box-sizing: border-box;
+  }
+
+  .desmos-embed-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  #calculator {
+    width: 100%;
+    height: 100%;
+  }
+
+  .desmos-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #888;
+    font-style: italic;
+  }
+
+  .desmos-writeup {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #a67b5b;
+  }
+</style>
+
+<div class="desmos-page-wrap">
+
+  <div class="desmos-page-top">
+    <h1>Fixed Point Methods</h1>
+    <div class="desmos-page-links">
+      <a href="/DesmosGallery">← Gallery</a>
+      <a href="https://www.desmos.com/calculator/xwljuznw9j" target="_blank">Open in Desmos ↗</a>
+    </div>
+  </div>
+
+  
+
+    <div class="desmos-controls">
+      <button class="desmos-toggle-btn" id="toggle-btn" onclick="toggleExpressions()">Show Expressions</button>
+    </div>
+
+    <div class="desmos-embed-container">
+      <div id="calculator"></div>
+    </div>
+
+    <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=88d0c7b9a32a465da20a22e0e61756f3"></script>
+    <script>
+      (function () {
+        var expressionsVisible = false;
+        var calc = window.desmosCalc = Desmos.Calculator(document.getElementById('calculator'), {
+          expressions: false,
+          settingsMenu: false,
+          keypad: false,
+        });
+
+        fetch('/assets/desmos/json_files/fixed_point.json')
+          .then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          })
+          .then(function (state) {
+            calc.setState(state);
+            if (typeof window.onDesmosReady === 'function') window.onDesmosReady(calc);
+          })
+          .catch(function (err) {
+            document.getElementById('calculator').innerHTML =
+              '<div class="desmos-error">Could not load graph state: ' + err.message + '</div>';
+          });
+
+        window.toggleExpressions = function () {
+          expressionsVisible = !expressionsVisible;
+          calc.updateSettings({ expressions: expressionsVisible });
+          document.getElementById('toggle-btn').textContent =
+            expressionsVisible ? 'Hide Expressions' : 'Show Expressions';
+        };
+      })();
+    </script>
+
+  
+
+  
+    <div class="desmos-writeup page__content">
+      <div class="fp-section">
+
+  <p class="fp-description">
+    A <strong>fixed point</strong> of \(g\) is a value \(x^*\) where \(g(x^*) = x^*\).
+    The iteration \(x_{k+1} = g(x_k)\) either converges to a fixed point or diverges,
+    depending on the function and starting value.
+    Use the <strong>Step</strong> and <strong>Reset</strong> buttons inside the graph to advance or restart the iteration.
+    Switch the iteration function below.
+  </p>
+
+  <div class="fp-selector">
+    <span class="fp-selector-label">Iteration function \(g(x)\):</span>
+    <div class="fp-buttons">
+      <button class="fp-btn" data-idx="0" onclick="fpSetFunc(this)">
+        <span class="fp-btn-math">\(\sin(x) + x\)</span>
+      </button>
+      <button class="fp-btn" data-idx="1" onclick="fpSetFunc(this)">
+        <span class="fp-btn-math">\(\dfrac{x^2}{(x-3)(x+1)}\)</span>
+      </button>
+      <button class="fp-btn" data-idx="2" onclick="fpSetFunc(this)">
+        <span class="fp-btn-math">\(e^{-x^2/2} + 3\)</span>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .fp-section {
+    margin-top: 1.5rem;
+  }
+
+  .fp-description {
+    margin-bottom: 1.25rem;
+    line-height: 1.7;
+  }
+
+  .fp-selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .fp-selector-label {
+    font-weight: bold;
+    font-size: 0.95rem;
+    color: #4a5568;
+    text-align: center;
+  }
+
+  .fp-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .fp-btn {
+    min-width: 160px;
+    padding: 0.65rem 1.4rem;
+    border: 1px solid #b0bec5;
+    border-radius: 4px;
+    background: #f4f6f8;
+    color: #37474f;
+    font-size: 1.05rem;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+    text-align: center;
+  }
+
+  .fp-btn:hover:not(.fp-btn--active) {
+    background: #e8edf2;
+    border-color: #90a4ae;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .fp-btn.fp-btn--active {
+    background: #546e7a;
+    border-color: #37474f;
+    color: white;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2),
+                0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  .fp-btn-math {
+    display: block;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  var FP_FUNCTIONS = [
+    'g\\left(x\\right)=\\sin\\left(x\\right)+x',
+    'g\\left(x\\right)=\\frac{x^{2}}{\\left(x-3\\right)\\left(x+1\\right)}',
+    'g\\left(x\\right)=e^{-\\frac{x^{2}}{2}}+3'
+  ];
+
+  function fpApply(calc, idx) {
+    calc.setExpression({ id: '1', latex: FP_FUNCTIONS[idx] });
+    calc.setExpression({ id: '6', latex: 'x_{k}=1' });
+    calc.setExpression({ id: '43', latex: 'H_{istory}=\\left[1\\right]' });
+  }
+
+  function fpSetFunc(btn) {
+    var idx = parseInt(btn.getAttribute('data-idx'), 10);
+    fpApply(window.desmosCalc, idx);
+    document.querySelectorAll('.fp-btn').forEach(function (b) {
+      b.classList.remove('fp-btn--active');
+    });
+    btn.classList.add('fp-btn--active');
+  }
+
+  window.onDesmosReady = function (calc) {
+    fpApply(calc, 0);
+    document.querySelector('.fp-btn[data-idx="0"]').classList.add('fp-btn--active');
+  };
+</script>
+
+
+    </div>
+  
+
+</div>
+
+      
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">© 2026 <a href="http://localhost:4000">Aaron Zoll Personal Website</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

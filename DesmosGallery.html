@@ -9,7 +9,6 @@
   <style>
     .desmos-gallery-header {
       position: relative;
-      /* important to allow layering */
       text-align: center;
       margin-top: 2rem;
       margin-bottom: 1rem;
@@ -27,21 +26,20 @@
 
     .desmos-gallery-header a {
       color: #8585fe;
-      /* <-- light bluish color (you can pick whatever) */
       text-decoration: underline;
-      /* keep it a proper link */
     }
 
     .desmos-gallery-header a:hover {
       color: #a2b1fc;
-      /* optional: even lighter on hover */
     }
+
     :root {
-      --bg-size: cover;          /* Try 'contain' or '120%' for zoom */
-      --bg-pos-x: 50%;           /* 0% = left, 100% = right */
-      --bg-pos-y: 50%;           /* 0% = top, 100% = bottom */
-      --bg-opacity: 0.95;           /* 0 to 1 */
+      --bg-size: cover;
+      --bg-pos-x: 50%;
+      --bg-pos-y: 50%;
+      --bg-opacity: 0.95;
     }
+
     .desmos-gallery-header::before {
       content: "";
       position: absolute;
@@ -57,13 +55,19 @@
       z-index: 0;
     }
 
-
-   
-
-    /* Make sure the real text stays above the background */
     .desmos-gallery-header * {
       position: relative;
       z-index: 1;
+    }
+
+    .desmos-section-header {
+      max-width: 1300px;
+      margin: 2rem auto 0.25rem auto;
+      padding: 0 4rem;
+      font-size: 1.3rem;
+      font-weight: bold;
+      border-bottom: 2px solid #a67b5b;
+      color: #3b1f00;
     }
 
     .desmos-gallery {
@@ -73,7 +77,7 @@
       gap: 20px;
       max-width: 1300px;
       margin: 0 auto;
-      padding: 2rem 4rem;
+      padding: 1rem 4rem 2rem 4rem;
     }
 
     .desmos-gallery div {
@@ -85,7 +89,6 @@
       line-height: 1.;
       text-align: center;
       padding-bottom: 1rem;
-      /* Adds space between rows */
     }
 
     .desmos-gallery div a {
@@ -122,147 +125,109 @@
       outline: 5px ridge #593302;
     }
 
-
-    /* Underline the graph name and use default link color */
     .desmos-gallery div a::after {
       content: attr(href);
       display: none;
-      /* hides the full URL from showing */
     }
-
 
     .desmos-gallery div a span {
       text-decoration: underline;
       color: #0000EE;
-      /* browser standard blue */
       margin-top: 0.5rem;
     }
 
     .desmos-gallery div a span:hover {
       text-decoration: underline;
       color: #58048c;
-      /* browser standard blue */
       margin-top: 0.5rem;
     }
   </style>
 
   <div class="desmos-gallery-header">
     <h1>Desmos Gallery</h1>
-    <p><strong> 37 graphs</strong> <small>generated on Wed Oct 27 2025</small></p>
+    <p><strong>37 graphs</strong> <small>generated on Wed Oct 27 2025</small></p>
     <p><a href="/">aaronzoll.github.io</a></p>
   </div>
 
   <hr>
 
-
 </head>
 
 <body>
 
-<div class="desmos-gallery">
-            <div><a href="https://www.desmos.com/calculator/tihgkbwbyq" target="_blank"><img
-            src="./assets/desmos/huber_quad_image.png" target="_blank"><br><span>Legendre Transform Demo</span></a>
-      </div>
-      <div><a href="https://www.desmos.com/calculator/ua9fujvuxe" target="_blank"><img
-            src="./assets/images/legendre_demo.png" target="_blank"><br><span>Legendre Transform Demo</span></a>
-      </div>
-      <div><a href="https://www.desmos.com/calculator/2rrfzfzuwc" target="_blank"><img
-            src="./assets/desmos/inexact_coco_image.png" target="_blank"><br><span>Inexact Cocoercivity Demo</span></a>
-      </div>
-      <div><a href="https://www.desmos.com/calculator/u2txhwu0jq" target="_blank"><img
-            src="./assets/desmos/inext_interpolation_image.png" target="_blank"><br><span>Inexactly Smooth Interpolation</span></a>
-      </div>  
-            <div><a href="https://www.desmos.com/3d/t9p2q0wjjx" target="_blank"><img
-            src="./assets/images/inexact_construction_3d.png" target="_blank"><br><span>Inexactly Smooth 3D Construction</span></a>
-      </div>     
-      <div><a href="https://www.desmos.com/calculator/9ijs32sdpm" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/9ijs32sdpm.png" target="_blank"><br><span>Holder Smooth Quadratic Upper
-            Bound</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/qkcgerowqp" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/qkcgerowqp.png" target="_blank"><br><span>Approximate Dualized Aggregate Lower Bound</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/waigjg0hua" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/waigjg0hua.png" target="_blank"><br><span>GBO demonstration</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/19odhwjnda" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/19odhwjnda.png" target="_blank"><br><span>Modular Multiplication</span></a>
-      </div>
-      <div><a href="https://www.desmos.com/calculator/zhov7k8cfq" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/zhov7k8cfq.png" target="_blank"><br><span>Computation for Applied Mathematics: Section 10 - finite
-            differences</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/jo9n4woxsf" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/jo9n4woxsf.png" target="_blank"><br><span>HS/UC Conjugates</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/ucrlxcqtkl" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/ucrlxcqtkl.png" target="_blank"><br><span>Mixture Model</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/3zkorvjbtt" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/gzragmnctk.png" target="_blank"><br><span>p-norm regularization</span></a>
-      </div>
-      <div><a href="https://www.desmos.com/calculator/a1u273dl38" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/a1u273dl38.png" target="_blank"><br><span>Computation for Applied Mathematics: Week 2 - Interpolation</span></a>
-      </div>
-     <div><a href="https://www.desmos.com/calculator/gnvjynvgk9" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/gnvjynvgk9.png" target="_blank"><br><span>Computation for Applied Mathematics: Section 8 - Interpolation Revisited</span></a>
-      </div>
-      <div><a href="https://www.desmos.com/calculator/0cupdr6yiw" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/0cupdr6yiw.png" target="_blank"><br><span>Clarke Gradients (max)</span></a>
-      </div>
-      <div><a href="https://www.desmos.com/calculator/xrgyojsi5s" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/xrgyojsi5s.png" target="_blank"><br><span>(musical version) HS/UC
-            Conjugates</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/0ojud0ei5y" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/0ojud0ei5y.png" target="_blank"><br><span>Computation for Applied Mathematics: Secant method</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/4mp95ew1rg" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/4mp95ew1rg.png" target="_blank"><br><span>Computation for Applied Mathematics: Newtons Method</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/xwljuznw9j" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/xwljuznw9j.png" target="_blank"><br><span>Computation for Applied Mathematics: Fixed Point Methods</span></a>
-      </div>
-      <div><a href="https://www.desmos.com/calculator/oaylkppo3f" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/oaylkppo3f.png" target="_blank"><br><span>Nonlinear Root Finding</span></a>
-      </div>
-      <div><a href="https://www.desmos.com/calculator/jzct403rnw" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/jzct403rnw.png" target="_blank"><br><span>Directed Reading Program: GD test</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/oahkt7wzj1" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/oahkt7wzj1.png" target="_blank"><br><span>Directed Reading Program: Armijo Rule</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/f2nvtdsza2" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/f2nvtdsza2.png" target="_blank"><br><span>Strongly Convex
-            Functions</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/sybazxt9yh" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/sybazxt9yh.png" target="_blank"><br><span>L-smooth functions</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/rncupjhxht" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/rncupjhxht.png" target="_blank"><br><span>Composite Rates</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/zmn5oe1ykj" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/zmn5oe1ykj.png" target="_blank"><br><span>Piano</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/hbv9pdxbsl" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/hbv9pdxbsl.png" target="_blank"><br><span>SVM</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/mrebejr4lf" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/mrebejr4lf.png" target="_blank"><br><span>sigmoidals</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/fr3ebnsfxk" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/fr3ebnsfxk.png" target="_blank"><br><span>Distributions</span></a></div>
-     <div><a href="https://www.desmos.com/calculator/bxvj9gugnb" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/bxvj9gugnb.png" target="_blank"><br><span>Circles</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/dd38ps9syp" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/dd38ps9syp.png" target="_blank"><br><span>Phase portrait</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/dky40i5wjj" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/dky40i5wjj.png" target="_blank"><br><span>Laser Bounce</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/hmf4ylm05t" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/hmf4ylm05t.png" target="_blank"><br><span>?(x) Secant Lines</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/ipq7zsbcwd" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/ipq7zsbcwd.png" target="_blank"><br><span>Apery Constant</span></a></div>
-      <div><a href="https://www.desmos.com/calculator/ygdwazixu3" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/ygdwazixu3.png" target="_blank"><br><span>2 form tangent lines</span></a>
-      </div>
-      <div><a href="https://www.desmos.com/calculator/ahe9rjacu0" target="_blank"><img
-            src="https://www.desmos.com/calc_thumbs/production/version/ahe9rjacu0/fa9133b0-6a60-11f0-b45d-231724ae0d35.png" target="_blank"><br><span>Bifurcation example</span></a>
-      </div>  
-      </div>
+  <!-- ── Research / Convex Analysis ─────────────────────────────────────── -->
+  <div class="desmos-section-header">Research / Convex Analysis</div>
+  <div class="desmos-gallery">
+    <div><a href="https://www.desmos.com/calculator/tihgkbwbyq" target="_blank"><img
+          src="./assets/desmos/images/huber_quad_image.png"><br><span>Worst-Case Smooth Gradient Descent</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/ua9fujvuxe" target="_blank"><img
+          src="./assets/desmos/images/legendre_demo.png"><br><span>Legendre Transform Demo</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/2rrfzfzuwc" target="_blank"><img
+          src="./assets/desmos/images/inexact_coco_image.png"><br><span>Inexact Cocoercivity Demo</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/u2txhwu0jq" target="_blank"><img
+          src="./assets/desmos/images/inext_interpolation_image.png"><br><span>Inexactly Smooth Interpolation</span></a></div>
+    <div><a href="https://www.desmos.com/3d/t9p2q0wjjx" target="_blank"><img
+          src="./assets/desmos/images/inexact_construction_3d.png"><br><span>Inexactly Smooth 3D Construction</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/3zkorvjbtt" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/gzragmnctk.png"><br><span>p-norm regularization</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/f2nvtdsza2" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/f2nvtdsza2.png"><br><span>Strongly Convex Functions</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/sybazxt9yh" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/sybazxt9yh.png"><br><span>L-smooth functions</span></a></div>
+  </div>
 
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <hr>&nbsp&nbsp&nbsp<small>generated with <a
-      href=https://github.com/FabriceNeyret/DesmosGallery>DesmosGallery</a></small>
+  <!-- ── Computation for Applied Mathematics ────────────────────────────── -->
+  <div class="desmos-section-header">Computation for Applied Mathematics</div>
+  <div class="desmos-gallery">
+    <div><a href="https://www.desmos.com/calculator/zhov7k8cfq" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/zhov7k8cfq.png"><br><span>Section 10 — finite differences</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/a1u273dl38" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/a1u273dl38.png"><br><span>Week 2 — Interpolation</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/gnvjynvgk9" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/gnvjynvgk9.png"><br><span>Section 8 — Interpolation Revisited</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/0ojud0ei5y" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/0ojud0ei5y.png"><br><span>Secant Method</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/4mp95ew1rg" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/4mp95ew1rg.png"><br><span>Newton's Method</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/621dec8bb7" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/xwljuznw9j.png"><br><span>Fixed Point Methods</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/oaylkppo3f" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/oaylkppo3f.png"><br><span>Nonlinear Root Finding</span></a></div>
+  </div>
 
+  <!-- ── Directed Reading Program ───────────────────────────────────────── -->
+  <div class="desmos-section-header">Directed Reading Program</div>
+  <div class="desmos-gallery">
+    <div><a href="https://www.desmos.com/calculator/jzct403rnw" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/jzct403rnw.png"><br><span>Gradient Descent</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/oahkt7wzj1" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/oahkt7wzj1.png"><br><span>Armijo Rule</span></a></div>
+  </div>
 
-    
+  <!-- ── Machine Learning ───────────────────────────────────────────────── -->
+  <div class="desmos-section-header">Machine Learning</div>
+  <div class="desmos-gallery">
+    <div><a href="https://www.desmos.com/calculator/ucrlxcqtkl" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/ucrlxcqtkl.png"><br><span>Mixture Model</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/hbv9pdxbsl" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/hbv9pdxbsl.png"><br><span>SVM</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/mrebejr4lf" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/mrebejr4lf.png"><br><span>Sigmoidals</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/fr3ebnsfxk" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/fr3ebnsfxk.png"><br><span>Distributions</span></a></div>
+  </div>
+
+  <!-- ── Fun / Creative ─────────────────────────────────────────────────── -->
+  <div class="desmos-section-header">Fun / Creative</div>
+  <div class="desmos-gallery">
+    <div><a href="https://www.desmos.com/calculator/19odhwjnda" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/19odhwjnda.png"><br><span>Modular Multiplication</span></a></div>
+    <div><a href="https://www.desmos.com/calculator/dky40i5wjj" target="_blank"><img
+          src="https://www.desmos.com/calc_thumbs/production/dky40i5wjj.png"><br><span>Laser Bounce</span></a></div>
+  </div>
+
+  <hr>&nbsp;&nbsp;&nbsp;<small>generated with <a href="https://github.com/FabriceNeyret/DesmosGallery">DesmosGallery</a></small>
+
 </body>
 
 </html>
