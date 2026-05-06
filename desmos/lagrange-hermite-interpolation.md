@@ -118,6 +118,7 @@ side_controls: true
   /* Narrow buttons to fit the panel */
   .lhi-btn-row .site-btn {
     min-width: 120px;
+    flex-shrink: 0;
     padding: 0.5rem 0.9rem;
     font-size: 0.92rem;
     white-space: nowrap;
