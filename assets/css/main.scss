@@ -20,7 +20,7 @@ $caption-font-family: $garamond !default;
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
-// ── Site-wide neutral button ───────────────────────────────────────────────
+// Site-wide neutral button
 // Usage: class="site-btn"  /  class="site-btn site-btn--active"
 // For buttons that contain rendered math, wrap the inner span in .site-btn-math
 .site-btn {
@@ -37,20 +37,20 @@ $caption-font-family: $garamond !default;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
   text-align: center;
+}
 
-  &:hover:not(.site-btn--active) {
-    background: #e8edf2;
-    border-color: #90a4ae;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  }
+.site-btn:hover:not(.site-btn--active) {
+  background: #e8edf2;
+  border-color: #90a4ae;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
 
-  &.site-btn--active {
-    background: #546e7a;
-    border-color: #37474f;
-    color: white;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2),
-                0 2px 6px rgba(0, 0, 0, 0.15);
-  }
+.site-btn.site-btn--active {
+  background: #546e7a;
+  border-color: #37474f;
+  color: white;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2),
+              0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .site-btn-math {
