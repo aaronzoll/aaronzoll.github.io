@@ -2,6 +2,12 @@
 layout: default
 ---
 
+{% if page.side_controls %}
+  {% assign _parts   = content | split: '<!--writeup-->' %}
+  {% assign _panel   = _parts[0] %}
+  {% assign _writeup = _parts[1] %}
+{% endif %}
+
 <style>
   .desmos-page-wrap {
     max-width: 1100px;
@@ -83,6 +89,25 @@ layout: default
     padding-top: 1.5rem;
     border-top: 2px solid #a67b5b;
   }
+
+  /* Side-panel layout (opt-in via side_controls: true in front matter) */
+  .desmos-body--side {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .desmos-body--side .desmos-embed-section {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .desmos-side-panel {
+    width: 310px;
+    flex-shrink: 0;
+    border-left: 2px solid #d0d7de;
+    padding-left: 1.25rem;
+  }
 </style>
 
 <div class="desmos-page-wrap">
@@ -95,61 +120,71 @@ layout: default
     </div>
   </div>
 
-  {% if page.desmos_json %}
+  <div class="desmos-body{% if page.side_controls %} desmos-body--side{% endif %}">
 
-    <div class="desmos-controls">
-      <button class="desmos-toggle-btn" id="toggle-btn" onclick="toggleExpressions()">Show Expressions</button>
+    <div class="desmos-embed-section">
+      {% if page.desmos_json %}
+
+        <div class="desmos-controls">
+          <button class="desmos-toggle-btn" id="toggle-btn" onclick="toggleExpressions()">Show Expressions</button>
+        </div>
+
+        <div class="desmos-embed-container">
+          <div id="calculator"></div>
+        </div>
+
+        <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=88d0c7b9a32a465da20a22e0e61756f3"></script>
+        <script>
+          (function () {
+            var expressionsVisible = false;
+            var calc = window.desmosCalc = Desmos.Calculator(document.getElementById('calculator'), {
+              expressions: false,
+              settingsMenu: false,
+              keypad: false,
+            });
+
+            fetch('/assets/desmos/json_files/{{ page.desmos_json }}')
+              .then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.json();
+              })
+              .then(function (state) {
+                calc.setState(state);
+                if (typeof window.onDesmosReady === 'function') window.onDesmosReady(calc);
+              })
+              .catch(function (err) {
+                document.getElementById('calculator').innerHTML =
+                  '<div class="desmos-error">Could not load graph state: ' + err.message + '</div>';
+              });
+
+            window.toggleExpressions = function () {
+              expressionsVisible = !expressionsVisible;
+              calc.updateSettings({ expressions: expressionsVisible });
+              document.getElementById('toggle-btn').textContent =
+                expressionsVisible ? 'Hide Expressions' : 'Show Expressions';
+            };
+          })();
+        </script>
+
+      {% elsif page.desmos_url %}
+
+        <div class="desmos-embed-container">
+          <iframe src="{{ page.desmos_url }}?embed" allowfullscreen></iframe>
+        </div>
+
+      {% endif %}
     </div>
 
-    <div class="desmos-embed-container">
-      <div id="calculator"></div>
-    </div>
+    {% if page.side_controls %}
+      <div class="desmos-side-panel page__content">{{ _panel }}</div>
+    {% elsif content %}
+      <div class="desmos-writeup page__content">{{ content }}</div>
+    {% endif %}
 
-    <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=88d0c7b9a32a465da20a22e0e61756f3"></script>
-    <script>
-      (function () {
-        var expressionsVisible = false;
-        var calc = window.desmosCalc = Desmos.Calculator(document.getElementById('calculator'), {
-          expressions: false,
-          settingsMenu: false,
-          keypad: false,
-        });
+  </div>
 
-        fetch('/assets/desmos/json_files/{{ page.desmos_json }}')
-          .then(function (r) {
-            if (!r.ok) throw new Error('HTTP ' + r.status);
-            return r.json();
-          })
-          .then(function (state) {
-            calc.setState(state);
-            if (typeof window.onDesmosReady === 'function') window.onDesmosReady(calc);
-          })
-          .catch(function (err) {
-            document.getElementById('calculator').innerHTML =
-              '<div class="desmos-error">Could not load graph state: ' + err.message + '</div>';
-          });
-
-        window.toggleExpressions = function () {
-          expressionsVisible = !expressionsVisible;
-          calc.updateSettings({ expressions: expressionsVisible });
-          document.getElementById('toggle-btn').textContent =
-            expressionsVisible ? 'Hide Expressions' : 'Show Expressions';
-        };
-      })();
-    </script>
-
-  {% elsif page.desmos_url %}
-
-    <div class="desmos-embed-container">
-      <iframe src="{{ page.desmos_url }}?embed" allowfullscreen></iframe>
-    </div>
-
-  {% endif %}
-
-  {% if content %}
-    <div class="desmos-writeup page__content">
-      {{ content }}
-    </div>
+  {% if page.side_controls and _writeup %}
+    <div class="desmos-writeup page__content">{{ _writeup }}</div>
   {% endif %}
 
 </div>

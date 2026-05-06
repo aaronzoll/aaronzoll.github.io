@@ -1,0 +1,1152 @@
+{
+  "version": 11,
+  "randomSeed": "d6765c179f94e058638147526787c549",
+  "graph": {
+    "viewport": {
+      "xmin": -9.065542595700727,
+      "ymin": -8.82724167764698,
+      "xmax": 9.454383656902817,
+      "ymax": 8.93833590816928
+    },
+    "showGrid": false,
+    "squareAxes": false,
+    "__v12ViewportLatexStash": {
+      "xmin": "-9.065542595700727",
+      "xmax": "9.454383656902817",
+      "ymin": "-8.82724167764698",
+      "ymax": "8.93833590816928"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "folder",
+        "id": "102",
+        "title": "Points, Function Values, Gradients",
+        "inFrontOfEverything": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "103",
+        "folderId": "102",
+        "color": "#2d70b3",
+        "latex": "X\\ =\\ \\left[x_{1},x_{2},x_{3},x_{4},x_{5}\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "104",
+        "folderId": "102",
+        "color": "#388c46",
+        "latex": "F\\ =\\ \\left[y_{1},y_{2},y_{3},y_{4},y_{5}\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "107",
+        "folderId": "102",
+        "color": "#c74440",
+        "latex": "G\\ =\\ \\left[2,\\ -1,-3,1,-3\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "136",
+        "folderId": "102",
+        "color": "#c74440",
+        "latex": "M=7.3",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "137",
+        "folderId": "102",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "expression",
+        "id": "108",
+        "folderId": "102",
+        "color": "#2d70b3",
+        "latex": "y\\ =\\ F+G\\cdot\\left(x-X\\right)\\ \\left\\{\\left(x-X\\right)^{2}+\\left(y-F\\right)^{2}\\le R^{2}\\right\\}",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "125",
+        "folderId": "102",
+        "color": "#2d70b3",
+        "latex": "y\\ =\\ F+G\\cdot\\left(x-X\\right)\\ \\left\\{\\left(x-X\\right)^{2}+\\left(y-F\\right)^{2}\\le4R^{2}\\right\\}",
+        "lineStyle": "DASHED",
+        "lineOpacity": "0.5"
+      },
+      {
+        "type": "expression",
+        "id": "105",
+        "folderId": "102",
+        "color": "#000000",
+        "latex": "\\left(X,F\\right)",
+        "pointStyle": "OPEN",
+        "pointSize": "15",
+        "movablePointSize": "15"
+      },
+      {
+        "type": "expression",
+        "id": "109",
+        "folderId": "102",
+        "color": "#388c46",
+        "latex": "R=0.753",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "287",
+        "folderId": "102",
+        "color": "#c74440",
+        "latex": "R_{esetPoints}\\ =\\ x_{1}\\to-5,\\ x_{2}\\to-3,\\ x_{3}\\to-2,\\ x_{4}\\to2,\\ x_{5}\\to4,\\ y_{1}\\to-3,\\ y_{2}\\to2,\\ y_{3}\\to-1,\\ y_{4}\\to-0.5,\\ y_{5}\\to-5"
+      },
+      {
+        "type": "expression",
+        "id": "288",
+        "folderId": "102",
+        "color": "#2d70b3",
+        "latex": "\\left(x_{1},y_{1}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "289",
+        "folderId": "102",
+        "color": "#388c46",
+        "latex": "\\left(x_{2},y_{2}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "290",
+        "folderId": "102",
+        "color": "#6042a6",
+        "latex": "\\left(x_{3},y_{3}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "291",
+        "folderId": "102",
+        "color": "#000000",
+        "latex": "\\left(x_{4},y_{4}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "292",
+        "folderId": "102",
+        "color": "#c74440",
+        "latex": "\\left(x_{5},y_{5}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "110",
+        "folderId": "102",
+        "color": "#6042a6",
+        "latex": "x_{1}=-5.48"
+      },
+      {
+        "type": "expression",
+        "id": "278",
+        "folderId": "102",
+        "color": "#2d70b3",
+        "latex": "x_{2}=-3"
+      },
+      {
+        "type": "expression",
+        "id": "279",
+        "folderId": "102",
+        "color": "#388c46",
+        "latex": "x_{3}=-2"
+      },
+      {
+        "type": "expression",
+        "id": "280",
+        "folderId": "102",
+        "color": "#6042a6",
+        "latex": "x_{4}=2"
+      },
+      {
+        "type": "expression",
+        "id": "281",
+        "folderId": "102",
+        "color": "#000000",
+        "latex": "x_{5}=4"
+      },
+      {
+        "type": "expression",
+        "id": "282",
+        "folderId": "102",
+        "color": "#c74440",
+        "latex": "y_{1}=-2.04"
+      },
+      {
+        "type": "expression",
+        "id": "283",
+        "folderId": "102",
+        "color": "#2d70b3",
+        "latex": "y_{2}=2"
+      },
+      {
+        "type": "expression",
+        "id": "284",
+        "folderId": "102",
+        "color": "#388c46",
+        "latex": "y_{3}=-1"
+      },
+      {
+        "type": "expression",
+        "id": "285",
+        "folderId": "102",
+        "color": "#6042a6",
+        "latex": "y_{4}\\ =-0.5"
+      },
+      {
+        "type": "expression",
+        "id": "286",
+        "folderId": "102",
+        "color": "#000000",
+        "latex": "y_{5}\\ =\\ -5"
+      },
+      {
+        "type": "expression",
+        "id": "134",
+        "folderId": "102",
+        "color": "#000000"
+      },
+      {
+        "type": "folder",
+        "id": "111",
+        "title": "Lagrange Interpolants",
+        "hidden": true,
+        "inFrontOfEverything": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "113",
+        "folderId": "111",
+        "color": "#c74440",
+        "latex": "m\\ =\\ \\operatorname{length}\\left(X\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "112",
+        "folderId": "111",
+        "color": "#000000",
+        "latex": "L\\left(x,i\\right)=\\prod_{j=1}^{m}\\left\\{\\operatorname{abs}\\left(i-j\\right)>0:\\frac{x-X\\left[j\\right]}{X\\left[i\\right]-X\\left[j\\right]},\\ 1\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "115",
+        "folderId": "111",
+        "color": "#388c46",
+        "latex": "k=5",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "1",
+          "max": "m",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "114",
+        "folderId": "111",
+        "color": "#2d70b3",
+        "latex": "F\\left[k\\right]L\\left(x,k\\right)",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "116",
+        "folderId": "111",
+        "color": "#c74440",
+        "latex": "\\left(X\\left[k\\right],F\\left[k\\right]\\right)",
+        "pointSize": "12",
+        "movablePointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "270",
+        "folderId": "111",
+        "color": "#c74440",
+        "latex": "\\left(j,0\\right)\\ \\operatorname{for}\\ j\\ =\\ X\\left[\\left|\\left[1...X.\\operatorname{count}\\right]-k\\right|>0\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "121",
+        "folderId": "111",
+        "color": "#6042a6"
+      },
+      {
+        "type": "expression",
+        "id": "119",
+        "folderId": "111",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "folder",
+        "id": "127",
+        "title": "Hermite Interpolants Function Value",
+        "hidden": true,
+        "inFrontOfEverything": true
+      },
+      {
+        "type": "expression",
+        "id": "128",
+        "folderId": "127",
+        "color": "#6042a6",
+        "latex": "L_{prime}\\left(x,i\\right)=\\frac{d}{dx}L\\left(x,i\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "129",
+        "folderId": "127",
+        "color": "#000000",
+        "latex": "H\\left(x,i\\right)=\\left(1-2\\left(x-X\\left[i\\right]\\right)\\cdot L_{prime}\\left(X\\left[i\\right],i\\right)\\right)\\left(L\\left(x,i\\right)\\right)^{2}"
+      },
+      {
+        "type": "expression",
+        "id": "257",
+        "folderId": "127",
+        "color": "#c74440",
+        "latex": "\\frac{d}{dx}H\\left(x,k_{1}\\right)",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "130",
+        "folderId": "127",
+        "color": "#c74440",
+        "latex": "H_{hat}\\left(x,i\\right)=\\left(x-X\\left[i\\right]\\right)\\left(L\\left(x,i\\right)\\right)^{2}"
+      },
+      {
+        "type": "expression",
+        "id": "261",
+        "folderId": "127",
+        "color": "#000000",
+        "latex": "H_{hatPrime}\\left(x,i\\right)=\\frac{d}{dx}H_{hat}\\left(x,i\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "259",
+        "folderId": "127",
+        "color": "#388c46",
+        "latex": "H_{hatPrime}\\left(X\\left[k_{1}\\right],k_{1}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "260",
+        "folderId": "127",
+        "color": "#6042a6"
+      },
+      {
+        "type": "expression",
+        "id": "139",
+        "folderId": "127",
+        "color": "#6042a6",
+        "latex": "k_{1}=1",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "1",
+          "max": "m",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "138",
+        "folderId": "127",
+        "color": "#fa7e19",
+        "latex": "F\\left[k_{1}\\right]H\\left(x,k_{1}\\right)",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "274",
+        "folderId": "127",
+        "color": "#c74440",
+        "latex": "\\left(X\\left[k_{1}\\right],F\\left[k_{1}\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "146",
+        "folderId": "127",
+        "color": "#c74440",
+        "latex": "\\left(j,0\\right)\\ \\operatorname{for}\\ j\\ =\\ X\\left[\\left|\\left[1...X.\\operatorname{count}\\right]-k_{1}\\right|>0\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "296",
+        "folderId": "127",
+        "color": "#6042a6",
+        "latex": "y\\ =\\ F\\left[k_{1}\\right]\\ \\left\\{\\left(x-X\\left[k_{1}\\right]\\right)^{2}+\\left(y-F\\left[k_{1}\\right]\\right)^{2}\\ \\le R^{2}\\right\\}\\ ",
+        "lineStyle": "DASHED",
+        "lineOpacity": "0.7",
+        "lineWidth": "2"
+      },
+      {
+        "type": "expression",
+        "id": "298",
+        "folderId": "127",
+        "color": "#c74440",
+        "latex": "y\\ =\\ \\ 0\\ \\left\\{\\left(x-X\\left[\\left|\\left[1...X.\\operatorname{count}\\right]-k_{1}\\right|>0\\right]\\right)^{2}+\\left(y\\right)^{2}\\ \\le R^{2}\\right\\}\\ ",
+        "lineOpacity": "0.7",
+        "lineWidth": "2"
+      },
+      {
+        "type": "folder",
+        "id": "294",
+        "title": "Hermite Interpolants Derivative Value",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "275",
+        "folderId": "294",
+        "color": "#6042a6",
+        "latex": "k_{2}\\ =2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "1",
+          "max": "m",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "297",
+        "folderId": "294",
+        "color": "#fa7e19",
+        "latex": "G\\left[k_{2}\\right]H_{hat}\\left(x,k_{2}\\right)",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "299",
+        "folderId": "294",
+        "color": "#2d70b3",
+        "latex": "y\\ =\\ \\ 0\\ \\left\\{\\left(x-X\\left[\\left|\\left[1...X.\\operatorname{count}\\right]-k_{2}\\right|>0\\right]\\right)^{2}+\\left(y\\right)^{2}\\ \\le R^{2}\\right\\}\\ ",
+        "lineStyle": "DASHED",
+        "lineOpacity": "0.7",
+        "lineWidth": "2"
+      },
+      {
+        "type": "expression",
+        "id": "301",
+        "folderId": "294",
+        "color": "#6042a6",
+        "latex": "y\\ =\\ G\\left[k_{2}\\right]\\left(x-X\\left[k_{2}\\right]\\right)\\ \\left\\{\\left(x-X\\left[k_{2}\\right]\\right)^{2}+\\left(y\\right)^{2}\\ \\le2R^{2}\\right\\}\\ ",
+        "lineStyle": "DASHED",
+        "lineOpacity": "0.7",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "300",
+        "folderId": "294",
+        "color": "#388c46",
+        "latex": "\\left(X,0\\right)\\ "
+      },
+      {
+        "type": "folder",
+        "id": "135",
+        "title": "Full Lagrange Interpolation",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "124",
+        "folderId": "135",
+        "color": "#6042a6",
+        "latex": "\\sum_{i=1}^{m}F\\left[i\\right]L\\left(x,i\\right)",
+        "lineWidth": "4"
+      },
+      {
+        "type": "folder",
+        "id": "273",
+        "title": "Full Hermite Interpolation"
+      },
+      {
+        "type": "expression",
+        "id": "131",
+        "folderId": "273",
+        "color": "#fa7e19",
+        "latex": "\\sum_{k=1}^{m}F\\left[k\\right]H\\left(x,k\\right)+\\sum_{k=1}^{m}G\\left[k\\right]H_{hat}\\left(x,k\\right)",
+        "lineWidth": "5"
+      },
+      {
+        "type": "folder",
+        "id": "148",
+        "title": "Lagrange Demo 1",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "152",
+        "folderId": "148",
+        "color": "#c74440",
+        "latex": "X_{demo1}=\\left[-1,\\ 2\\right]",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "164",
+        "folderId": "148",
+        "color": "#c74440"
+      },
+      {
+        "type": "expression",
+        "id": "157",
+        "folderId": "148",
+        "color": "#000000"
+      },
+      {
+        "type": "expression",
+        "id": "176",
+        "folderId": "148",
+        "color": "#000000",
+        "latex": "c_{demo1}=2",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "182",
+        "folderId": "148",
+        "color": "#000000",
+        "latex": "c_{demo2}=2.7",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "223",
+        "folderId": "148",
+        "color": "#c74440",
+        "latex": "g_{demo1}\\left(x\\right)\\ =\\ c_{demo1}\\ \\cdot\\ \\frac{x-X_{demo1}\\left[2\\right]}{X_{demo1}\\left[1\\right]-X_{demo1}\\left[2\\right]}",
+        "lineOpacity": "D_{emoOpacity}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "224",
+        "folderId": "148",
+        "color": "#2d70b3",
+        "latex": "g_{demo2}\\left(x\\right)\\ =\\ c_{demo2}\\ \\cdot\\ \\frac{x-X_{demo1}\\left[1\\right]}{X_{demo1}\\left[2\\right]-X_{demo1}\\left[1\\right]}",
+        "lineOpacity": "D_{emoOpacity}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "227",
+        "folderId": "148",
+        "color": "#2d70b3",
+        "latex": "L_{demo}\\ =\\ \\left[X_{demo1}\\left[1\\right],X_{demo1}\\left[1\\right]+E_{demo},\\ ...\\ X_{demo1}\\left[2\\right]\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "229",
+        "folderId": "148",
+        "color": "#c74440",
+        "latex": "x=\\ L_{demo}\\ \\left\\{0\\le y\\le g_{demo1}\\left(L_{demo}\\right)\\right\\}\\left\\{X_{demo1}\\left[1\\right]\\le x\\le\\min\\left(X_{demo1}\\left[2\\right],d_{emoRange}\\right)\\right\\}",
+        "lineOpacity": "0.5\\cdot D_{emoOpacity}",
+        "lineWidth": "7"
+      },
+      {
+        "type": "expression",
+        "id": "233",
+        "folderId": "148",
+        "color": "#2d70b3",
+        "latex": "x=\\ L_{demo}\\ \\left\\{ag_{demo1}\\left(L_{demo}\\right)\\le y\\le ag_{demo1}\\left(L_{demo}\\right)+g_{demo2}\\left(L_{demo}\\ \\right)\\right\\}\\left\\{X_{demo1}\\left[1\\right]\\le x\\le\\min\\left(X_{demo1}\\left[2\\right],d_{emoRange}-\\left(4+X_{demo1}\\left[2\\right]-X_{demo1}\\left[1\\right]\\right)\\right)\\right\\}",
+        "lineOpacity": "0.5\\cdot D_{emoOpacity}",
+        "lineWidth": "7"
+      },
+      {
+        "type": "expression",
+        "id": "230",
+        "folderId": "148",
+        "color": "#000000",
+        "latex": "d_{emoRange}=3.1",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "animationPeriod": 8000,
+          "loopMode": "PLAY_ONCE",
+          "min": "-8",
+          "max": "50"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "228",
+        "folderId": "148",
+        "color": "#388c46",
+        "latex": "E_{demo}=0.361",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "234",
+        "folderId": "148",
+        "color": "#6042a6",
+        "latex": "D_{emoOpacity}=1-\\min\\left(1,\\max\\left(0,\\ \\frac{\\left(d_{emoRange}-27\\right)}{4}\\right)\\right)",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "226",
+        "folderId": "148",
+        "color": "#c74440",
+        "latex": "a=\\max\\left(0,\\min\\left(\\frac{\\left(d_{emoRange}-12\\right)}{8},\\ 1\\right)\\right)",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "235",
+        "folderId": "148",
+        "color": "#6042a6",
+        "latex": "g_{3}\\left(x\\right)=\\ \\ c_{demo1}\\ \\cdot\\ \\frac{x-X_{demo1}\\left[2\\right]}{X_{demo1}\\left[1\\right]-X_{demo1}\\left[2\\right]}+c_{demo2}\\ \\cdot\\ \\frac{x-X_{demo1}\\left[1\\right]}{X_{demo1}\\left[2\\right]-X_{demo1}\\left[1\\right]}\\ \\left\\{-100\\le x\\le d_{emoRange}-28\\right\\}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "text",
+        "id": "185",
+        "folderId": "148",
+        "text": "Finally, we note the first line is some value at our first point and 0 at the other, and the second line is 0 at the first point and another value at the other. "
+      },
+      {
+        "type": "text",
+        "id": "187",
+        "folderId": "148",
+        "text": "Taking two lines and adding them together gives us a new line that is would be precisely the values we want at both points (since zero plus anything is itself)."
+      },
+      {
+        "type": "text",
+        "id": "189",
+        "folderId": "148",
+        "text": "Precisely, we made two lines that are scaled and shifted appropriately, so when we add them together, they interpolate our data."
+      },
+      {
+        "type": "expression",
+        "id": "192",
+        "folderId": "148",
+        "color": "#6042a6",
+        "latex": "y\\ =\\ \\ c_{demo1}\\ \\cdot\\ \\frac{x-X_{demo1}\\left[2\\right]}{X_{demo1}\\left[1\\right]-X_{demo1}\\left[2\\right]}+c_{demo2}\\ \\cdot\\ \\frac{x-X_{demo1}\\left[1\\right]}{X_{demo1}\\left[2\\right]-X_{demo1}\\left[1\\right]}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "193",
+        "folderId": "148",
+        "color": "#6042a6",
+        "latex": "y=\\ c_{demo1}+\\frac{c_{demo1}-c_{demo2}}{X_{demo1}\\left[1\\right]-X_{demo1}\\left[2\\right]}\\left(x-X_{demo1}\\left[1\\right]\\right)",
+        "hidden": true,
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "191",
+        "folderId": "148",
+        "color": "#000000",
+        "latex": "\\left[\\left(X_{demo1}\\left[1\\right],c_{demo1}\\right),\\ \\left(X_{demo1}\\left[2\\right],c_{demo2}\\right)\\right]",
+        "pointStyle": "OPEN",
+        "pointSize": "15",
+        "movablePointSize": "15"
+      },
+      {
+        "type": "expression",
+        "id": "190",
+        "folderId": "148",
+        "color": "#000000"
+      },
+      {
+        "type": "folder",
+        "id": "195",
+        "title": "Lagrange Demo 2",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "196",
+        "folderId": "195",
+        "color": "#000000",
+        "latex": "X_{demo2}\\ =\\ \\left[-3,\\ 1,\\ 4\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "198",
+        "folderId": "195",
+        "color": "#6042a6",
+        "latex": "y=k_{demo}\\left(x-X_{demo2}\\left[2\\right]\\right)\\left(x-X_{demo2}\\left[3\\right]\\right)",
+        "hidden": true,
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "203",
+        "folderId": "195",
+        "color": "#c74440",
+        "latex": "k_{demo}=0.02",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-1",
+          "max": "1"
+        }
+      },
+      {
+        "type": "text",
+        "id": "201",
+        "folderId": "195",
+        "text": "We want to find some scalar so that at x = X_{demo2}[1], we have this parabola equal exactly 1. \n\nWell, we can just plug in the x we want, and solve for the constant. "
+      },
+      {
+        "type": "expression",
+        "id": "202",
+        "folderId": "195",
+        "color": "#6042a6",
+        "latex": "y=\\frac{\\left(x-X_{demo2}\\left[2\\right]\\right)\\left(x-X_{demo2}\\left[3\\right]\\right)}{\\left(X_{demo2}\\left[1\\right]-X_{demo2}\\left[2\\right]\\right)\\left(X_{demo2}\\left[1\\right]-X_{demo2}\\left[3\\right]\\right)}",
+        "hidden": true,
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "197",
+        "folderId": "195",
+        "color": "#000000",
+        "latex": "\\left[\\left(X_{demo2}\\left[1\\right],1\\right),\\ \\left(X_{demo2}\\left[2\\right],0\\right),\\ \\left(X_{demo2}\\left[3\\right],0\\right)\\right]",
+        "hidden": true,
+        "pointStyle": "OPEN",
+        "pointSize": "15",
+        "movablePointSize": "15"
+      },
+      {
+        "type": "expression",
+        "id": "204",
+        "folderId": "195",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "text",
+        "id": "206",
+        "folderId": "195",
+        "text": "Then, if our first X value is at some arbitrary Y value, we simply scale the parabola since it won't affect the zeros."
+      },
+      {
+        "type": "expression",
+        "id": "207",
+        "folderId": "195",
+        "color": "#6042a6",
+        "latex": "Y_{demo2}\\ =\\ \\left[4,-2,3\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "149",
+        "folderId": "195",
+        "color": "#6042a6",
+        "latex": "y=Y_{demo2}\\left[1\\right]\\cdot\\frac{\\left(x-X_{demo2}\\left[2\\right]\\right)\\left(x-X_{demo2}\\left[3\\right]\\right)}{\\left(X_{demo2}\\left[1\\right]-X_{demo2}\\left[2\\right]\\right)\\left(X_{demo2}\\left[1\\right]-X_{demo2}\\left[3\\right]\\right)}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "209",
+        "folderId": "195",
+        "color": "#c74440"
+      },
+      {
+        "type": "text",
+        "id": "211",
+        "folderId": "195",
+        "text": "We can then repeat this process, creating parabolas that have zeros everywhere except one target point, scaling appropriately"
+      },
+      {
+        "type": "expression",
+        "id": "212",
+        "folderId": "195",
+        "color": "#6042a6",
+        "latex": "f_{demo1}\\left(x\\right)\\ =\\ Y_{demo2}\\left[1\\right]\\cdot\\frac{\\left(x-X_{demo2}\\left[2\\right]\\right)\\left(x-X_{demo2}\\left[3\\right]\\right)}{\\left(X_{demo2}\\left[1\\right]-X_{demo2}\\left[2\\right]\\right)\\left(X_{demo2}\\left[1\\right]-X_{demo2}\\left[3\\right]\\right)}",
+        "hidden": true,
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "213",
+        "folderId": "195",
+        "color": "#6042a6",
+        "latex": "f_{demo2}\\left(x\\right)\\ =\\ Y_{demo2}\\left[2\\right]\\cdot\\frac{\\left(x-X_{demo2}\\left[1\\right]\\right)\\left(x-X_{demo2}\\left[3\\right]\\right)}{\\left(X_{demo2}\\left[2\\right]-X_{demo2}\\left[1\\right]\\right)\\left(X_{demo2}\\left[2\\right]-X_{demo2}\\left[3\\right]\\right)}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "214",
+        "folderId": "195",
+        "color": "#6042a6",
+        "latex": "f_{demo3}\\left(x\\right)\\ =\\ Y_{demo2}\\left[3\\right]\\cdot\\frac{\\left(x-X_{demo2}\\left[1\\right]\\right)\\left(x-X_{demo2}\\left[2\\right]\\right)}{\\left(X_{demo2}\\left[3\\right]-X_{demo2}\\left[1\\right]\\right)\\left(X_{demo2}\\left[3\\right]-X_{demo2}\\left[2\\right]\\right)}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "217",
+        "folderId": "195",
+        "color": "#6042a6",
+        "latex": "\\left\\{\\operatorname{floor}\\left(s_{how}\\right)=1:f_{demo1}\\left(x\\right),\\operatorname{floor}\\left(s_{how}\\right)=2:f_{demo2}\\left(x\\right),\\ \\operatorname{floor}\\left(s_{how}\\right)=3:f_{demo3}\\left(x\\right)\\ \\right\\}",
+        "hidden": true,
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "208",
+        "folderId": "195",
+        "color": "#000000",
+        "latex": "\\left[\\left(X_{demo2}\\left[1\\right],0\\right),\\ \\left(X_{demo2}\\left[2\\right],0\\right),\\ \\left(X_{demo2}\\left[3\\right],Y_{demo2}\\left[3\\right]\\right)\\right]",
+        "hidden": true,
+        "pointStyle": "OPEN",
+        "pointSize": "15",
+        "movablePointSize": "15"
+      },
+      {
+        "type": "expression",
+        "id": "218",
+        "folderId": "195",
+        "color": "#6042a6",
+        "latex": "s_{how}=3.5",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "1",
+          "max": "3.99999"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "219",
+        "folderId": "195",
+        "color": "#000000"
+      },
+      {
+        "type": "text",
+        "id": "221",
+        "folderId": "195",
+        "text": "Our full interpolation is then just adding these three quadratics"
+      },
+      {
+        "type": "expression",
+        "id": "222",
+        "folderId": "195",
+        "color": "#6042a6",
+        "latex": "f_{demoFull}\\left(x\\right)\\ =\\ f_{demo1}\\left(x\\right)+f_{demo2}\\left(x\\right)\\ +f_{demo3}\\left(x\\right)\\ ",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "236",
+        "folderId": "195",
+        "color": "#c74440",
+        "latex": "D_{2}=61.4",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "playDirection": -1,
+          "min": "-8",
+          "max": "65"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "238",
+        "folderId": "195",
+        "color": "#388c46",
+        "latex": "D_{emoOpacity2}=1-\\min\\left(1,\\max\\left(0,\\ \\frac{\\left(D_{2}-47\\right)}{4}\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "237",
+        "folderId": "195",
+        "color": "#2d70b3",
+        "latex": "f_{demo1}\\left(x\\right)",
+        "lineOpacity": "D_{emoOpacity2}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "242",
+        "folderId": "195",
+        "color": "#c74440",
+        "latex": "f_{demo2}\\left(x\\right)",
+        "lineOpacity": "D_{emoOpacity2}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "243",
+        "folderId": "195",
+        "color": "#388c46",
+        "latex": "f_{demo3}\\left(x\\right)",
+        "lineOpacity": "D_{emoOpacity2}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "239",
+        "folderId": "195",
+        "color": "#6042a6",
+        "latex": "L_{demo2}\\ =\\ \\left[X_{demo2}\\left[1\\right],X_{demo2}\\left[1\\right]+E_{demo},\\ ...\\ X_{demo2}\\left[3\\right]\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "240",
+        "folderId": "195",
+        "color": "#2d70b3",
+        "latex": "x=\\ L_{demo2}\\ \\left\\{0\\le y\\le f_{demo1}\\left(L_{demo2}\\right)\\right\\}\\left\\{X_{demo2}\\left[1\\right]\\le x\\le\\min\\left(X_{demo2}\\left[3\\right],D_{2}\\right)\\right\\}",
+        "lineOpacity": "\\frac{D_{emoOpacity2}}{2}",
+        "lineWidth": "7"
+      },
+      {
+        "type": "expression",
+        "id": "245",
+        "folderId": "195",
+        "color": "#388c46",
+        "latex": "x=\\ L_{demo2}\\ \\left\\{0\\ge y\\ge f_{demo1}\\left(L_{demo2}\\right)\\right\\}\\left\\{X_{demo2}\\left[1\\right]\\le x\\le\\min\\left(X_{demo2}\\left[3\\right],D_{2}\\right)\\right\\}",
+        "colorLatex": "C_{1}",
+        "lineOpacity": "0.5\\cdot D_{emoOpacity2}",
+        "lineWidth": "7"
+      },
+      {
+        "type": "expression",
+        "id": "248",
+        "folderId": "195",
+        "color": "#388c46"
+      },
+      {
+        "type": "expression",
+        "id": "251",
+        "folderId": "195",
+        "color": "#c74440",
+        "latex": "x=\\ L_{demo2}\\ \\left\\{a_{2}f_{demo1}\\left(L_{demo2}\\right)\\le y\\le f_{demo2}\\left(L_{demo2}\\right)+a_{2}\\left(f_{demo1}\\left(L_{demo2}\\right)\\right)\\right\\}\\left\\{X_{demo2}\\left[1\\right]\\le x\\le\\min\\left(X_{demo2}\\left[3\\right],D_{2}-10\\right)\\right\\}",
+        "lineOpacity": "0.5\\cdot D_{emoOpacity2}",
+        "lineWidth": "7"
+      },
+      {
+        "type": "expression",
+        "id": "256",
+        "folderId": "195",
+        "color": "#c74440",
+        "latex": "x=\\ L_{demo2}\\ \\left\\{a_{2}f_{demo1}\\left(L_{demo2}\\right)\\ge y\\ge f_{demo2}\\left(L_{demo2}\\right)+a_{2}\\left(f_{demo1}\\left(L_{demo2}\\right)\\right)\\right\\}\\left\\{X_{demo2}\\left[1\\right]\\le x\\le\\min\\left(X_{demo2}\\left[3\\right],D_{2}-10\\right)\\right\\}",
+        "lineOpacity": "0.5\\cdot D_{emoOpacity2}",
+        "lineWidth": "7"
+      },
+      {
+        "type": "expression",
+        "id": "252",
+        "folderId": "195",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "expression",
+        "id": "249",
+        "folderId": "195",
+        "color": "#388c46",
+        "latex": "x=\\ L_{demo2}\\ \\left\\{a_{2}\\left(f_{demo2}\\left(L_{demo2}\\right)+f_{demo1}\\left(L_{demo2}\\right)\\right)\\le y\\le f_{demo3}\\left(L_{demo2}\\right)+a_{2}\\left(f_{demo2}\\left(L_{demo2}\\right)+f_{demo1}\\left(L_{demo2}\\right)\\right)\\right\\}\\left\\{X_{demo2}\\left[1\\right]\\le x\\le\\min\\left(X_{demo2}\\left[3\\right],D_{2}-20\\right)\\right\\}",
+        "lineOpacity": "0.5\\cdot D_{emoOpacity2}",
+        "lineWidth": "7"
+      },
+      {
+        "type": "expression",
+        "id": "250",
+        "folderId": "195",
+        "color": "#000000",
+        "latex": "x=\\ L_{demo2}\\ \\left\\{a_{2}\\left(f_{demo2}\\left(L_{demo2}\\right)+f_{demo1}\\left(L_{demo2}\\right)\\right)\\ge y\\ge f_{demo3}\\left(L_{demo2}\\right)+a_{2}\\left(f_{demo2}\\left(L_{demo2}\\right)+f_{demo1}\\left(L_{demo2}\\right)\\right)\\right\\}\\left\\{X_{demo2}\\left[1\\right]\\le x\\le\\min\\left(X_{demo2}\\left[3\\right],D_{2}-20\\right)\\right\\}",
+        "colorLatex": "C_{2}",
+        "lineOpacity": "0.5\\cdot D_{emoOpacity2}",
+        "lineWidth": "7"
+      },
+      {
+        "type": "expression",
+        "id": "253",
+        "folderId": "195",
+        "color": "#388c46",
+        "latex": "a_{2}=\\max\\left(0,\\min\\left(\\frac{\\left(D_{2}-32\\right)}{8},\\ 1\\right)\\right)",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "254",
+        "folderId": "195",
+        "color": "#6042a6",
+        "latex": "L_{demo1}=1",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "255",
+        "folderId": "195",
+        "color": "#000000"
+      },
+      {
+        "type": "expression",
+        "id": "246",
+        "folderId": "195",
+        "color": "#c74440",
+        "latex": "C_{1}=\\operatorname{rgb}\\left(30,0,180\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "247",
+        "folderId": "195",
+        "color": "#2d70b3",
+        "latex": "C_{2}=\\operatorname{rgb}\\left(20,60,20\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "241",
+        "folderId": "195",
+        "color": "#6042a6",
+        "latex": "f_{demoFull}\\left(x\\right)\\ \\left\\{-100\\le x\\le D_{2}-50\\right\\}",
+        "lineOpacity": "1",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "216",
+        "folderId": "195",
+        "color": "#000000",
+        "latex": "\\left(X_{demo2},Y_{demo2}\\right)",
+        "pointStyle": "OPEN",
+        "pointSize": "15",
+        "movablePointSize": "15"
+      },
+      {
+        "type": "folder",
+        "id": "272",
+        "title": "Hermite Demo",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "269",
+        "folderId": "272",
+        "color": "#388c46",
+        "latex": "S_{bound}=18",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "1",
+          "max": "20",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "268",
+        "folderId": "272",
+        "color": "#2d70b3",
+        "latex": "s_{oftfloor}\\left(0\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "262",
+        "folderId": "272",
+        "color": "#c74440",
+        "latex": "\\sum_{k=1}^{m}\\min\\left(\\frac{1}{k}s_{oftfloor}\\left(D_{herm}\\right),1\\right)F\\left[k\\right]H\\left(x,k\\right)+\\sum_{k=1}^{m}\\min\\left(\\frac{1}{\\left(\\left(m+k\\right)\\right)}s_{oftfloor}\\left(D_{herm}\\right),1\\right)G\\left[k\\right]H_{hat}\\left(x,k\\right)",
+        "hidden": true,
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "266",
+        "folderId": "272",
+        "color": "#000000",
+        "latex": "P=25",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "min": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "264",
+        "folderId": "272",
+        "color": "#388c46",
+        "latex": "s_{oftfloor}\\left(x\\right)=\\sum_{n=-S_{bound}}^{S_{bound}}\\frac{1}{1+e^{-P\\left(x-0.5-n\\right)}}-S_{bound}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "263",
+        "folderId": "272",
+        "color": "#2d70b3",
+        "latex": "D_{herm}=10 ",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "loopMode": "PLAY_ONCE",
+          "min": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "265",
+        "folderId": "272",
+        "color": "#6042a6",
+        "latex": "s_{oftfloor}\\left(\\frac{D_{herm}}{2}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "145",
+        "folderId": "272",
+        "color": "#000000",
+        "latex": "R_{1}=1.56",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "215",
+        "color": "#c74440"
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrateMovablePointStyle": true
+}

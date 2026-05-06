@@ -18,14 +18,14 @@ desmos_url: "https://www.desmos.com/calculator/xwljuznw9j"
   <div class="fp-selector">
     <span class="fp-selector-label">Iteration function \(g(x)\):</span>
     <div class="fp-buttons">
-      <button class="fp-btn" data-idx="0" onclick="fpSetFunc(this)">
-        <span class="fp-btn-math">\(\sin(x) + x\)</span>
+      <button class="site-btn" data-idx="0" onclick="fpSetFunc(this)">
+        <span class="site-btn-math">\(\sin(x) + x\)</span>
       </button>
-      <button class="fp-btn" data-idx="1" onclick="fpSetFunc(this)">
-        <span class="fp-btn-math">\(\dfrac{x^2}{(x-3)(x+1)}\)</span>
+      <button class="site-btn" data-idx="1" onclick="fpSetFunc(this)">
+        <span class="site-btn-math">\(\dfrac{x^2}{(x-3)(x+1)}\)</span>
       </button>
-      <button class="fp-btn" data-idx="2" onclick="fpSetFunc(this)">
-        <span class="fp-btn-math">\(e^{-x^2/2} + 3\)</span>
+      <button class="site-btn" data-idx="2" onclick="fpSetFunc(this)">
+        <span class="site-btn-math">\(e^{-x^2/2} + 3\)</span>
       </button>
     </div>
   </div>
@@ -62,39 +62,6 @@ desmos_url: "https://www.desmos.com/calculator/xwljuznw9j"
     justify-content: center;
     gap: 0.75rem;
   }
-
-  .fp-btn {
-    min-width: 160px;
-    padding: 0.65rem 1.4rem;
-    border: 1px solid #b0bec5;
-    border-radius: 4px;
-    background: #f4f6f8;
-    color: #37474f;
-    font-size: 1.05rem;
-    cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
-    text-align: center;
-  }
-
-  .fp-btn:hover:not(.fp-btn--active) {
-    background: #e8edf2;
-    border-color: #90a4ae;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  }
-
-  .fp-btn.fp-btn--active {
-    background: #546e7a;
-    border-color: #37474f;
-    color: white;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2),
-                0 2px 6px rgba(0, 0, 0, 0.15);
-  }
-
-  .fp-btn-math {
-    display: block;
-    pointer-events: none;
-  }
 </style>
 
 <script>
@@ -113,14 +80,14 @@ desmos_url: "https://www.desmos.com/calculator/xwljuznw9j"
   function fpSetFunc(btn) {
     var idx = parseInt(btn.getAttribute('data-idx'), 10);
     fpApply(window.desmosCalc, idx);
-    document.querySelectorAll('.fp-btn').forEach(function (b) {
-      b.classList.remove('fp-btn--active');
+    document.querySelectorAll('.site-btn').forEach(function (b) {
+      b.classList.remove('site-btn--active');
     });
-    btn.classList.add('fp-btn--active');
+    btn.classList.add('site-btn--active');
   }
 
   window.onDesmosReady = function (calc) {
     fpApply(calc, 0);
-    document.querySelector('.fp-btn[data-idx="0"]').classList.add('fp-btn--active');
+    document.querySelector('.site-btn[data-idx="0"]').classList.add('site-btn--active');
   };
 </script>
