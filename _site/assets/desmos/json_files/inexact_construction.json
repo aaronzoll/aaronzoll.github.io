@@ -1,0 +1,188 @@
+{
+  "version": 11,
+  "randomSeed": "5b0a4b04952b7f76cdd40e02bf3d5b86",
+  "graph": {
+    "viewport": {
+      "xmin": -7.007389602534672,
+      "ymin": -1.5959935778523286,
+      "xmax": 6.893940726132681,
+      "ymax": 6.90199280681004
+    },
+    "showGrid": false,
+    "__v12ViewportLatexStash": {
+      "xmin": "-7.007389602534672",
+      "xmax": "6.893940726132681",
+      "ymin": "-1.5959935778523286",
+      "ymax": "6.90199280681004"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "folder",
+        "id": "2",
+        "title": " Params"
+      },
+      {
+        "type": "expression",
+        "id": "3",
+        "folderId": "2",
+        "color": "#2d70b3",
+        "latex": "L\\left(x\\right)\\ =\\ \\frac{\\beta}{x^{q}}+\\beta_{1}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "6",
+        "folderId": "2",
+        "color": "#000000",
+        "latex": "p_{si}\\left(x\\right)\\ =\\ \\min\\left(\\frac{L\\left(d\\right)}{2}x^{2}+d\\right)",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "8",
+        "folderId": "2",
+        "color": "#2d70b3",
+        "latex": "d=\\exp\\left(\\left[-15,-14.9,...,5\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "20",
+        "folderId": "2",
+        "color": "#2d70b3",
+        "latex": "R=2",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "10",
+        "folderId": "2",
+        "color": "#6042a6",
+        "latex": "a=-1.12",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "4",
+        "folderId": "2",
+        "color": "#388c46",
+        "latex": "q=1",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "5",
+        "folderId": "2",
+        "color": "#6042a6",
+        "latex": "\\beta=1",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "169",
+        "folderId": "2",
+        "color": "#c74440",
+        "latex": "\\beta_{1}=0.6",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "3"
+        }
+      },
+      {
+        "type": "folder",
+        "id": "170",
+        "title": "L(delta) inexactly Smooth Function"
+      },
+      {
+        "type": "expression",
+        "id": "16",
+        "folderId": "170",
+        "color": "#fa7e19",
+        "latex": "q_{uad}\\left(x\\right)=f\\left(a\\right)+f'\\left(a\\right)\\left(x-a\\right)+p_{si}\\left(\\left|x-a\\right|\\right)",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "174",
+        "folderId": "170",
+        "color": "#000000"
+      },
+      {
+        "type": "expression",
+        "id": "13",
+        "folderId": "170",
+        "color": "#000000",
+        "latex": "f\\left(x\\right)\\ =\\ \\ \\left\\{\\left|x\\right|\\le R:\\frac{k}{2}x^{2},\\left|x\\right|>R:kR\\left|x\\right|-\\frac{kR^{2}}{2}\\right\\}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "19",
+        "folderId": "170",
+        "color": "#c74440",
+        "latex": "k=\\min\\left(\\left(\\frac{L\\left(d\\right)}{2}+\\sqrt{\\frac{L\\left(d\\right)^{2}}{4}+\\frac{2dL\\left(d\\right)}{\\left(2R\\right)^{2}}}\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "9",
+        "folderId": "170",
+        "color": "#c74440",
+        "latex": "\\left(a,f\\left(a\\right)\\right)",
+        "pointStyle": "OPEN",
+        "pointSize": "12",
+        "movablePointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "171",
+        "folderId": "170",
+        "color": "#000000",
+        "latex": "\\left(R,0\\right)",
+        "showLabel": true,
+        "label": "R = ${R}",
+        "pointStyle": "OPEN"
+      },
+      {
+        "type": "expression",
+        "id": "28",
+        "color": "#c74440",
+        "latex": "p_{si}\\left(a\\right)+p_{si}'\\left(a\\right)\\left(x-a\\right)+c_{L}p_{si}\\left(\\left|x-a\\right|\\right)",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "29",
+        "color": "#2d70b3",
+        "latex": "c_{L}=\\max\\left(\\frac{p_{si}\\left(d_{2}\\right)-p_{si}\\left(d_{1}\\right)-p_{si}'\\left(d_{1}\\right)\\left(d_{2}-d_{1}\\right)}{p_{si}\\left(\\left|d_{1}-d_{2}\\right|\\right)}\\ \\operatorname{for}\\ d_{1}\\ =\\exp\\left(\\left[-2,-1.9,...,2\\right]\\right),\\ d_{2}\\ =-\\exp\\left(\\left[-2,-1.9,...,2\\right]\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "23",
+        "color": "#000000",
+        "latex": "x=\\ \\left[-R,R\\right]",
+        "lineStyle": "DOTTED",
+        "lineWidth": "1"
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrateMovablePointStyle": true
+}

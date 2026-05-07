@@ -14,6 +14,9 @@
 <loc>http://localhost:4000/contact/</loc>
 </url>
 <url>
+<loc>http://localhost:4000/desmos/finite-diff/</loc>
+</url>
+<url>
 <loc>http://localhost:4000/desmos/fixed-point/</loc>
 </url>
 <url>
@@ -26,6 +29,9 @@
 <loc>http://localhost:4000/desmos/inexact-cocoercivity/</loc>
 </url>
 <url>
+<loc>http://localhost:4000/desmos/inexact-construction/</loc>
+</url>
+<url>
 <loc>http://localhost:4000/desmos/inexact-interpolation/</loc>
 </url>
 <url>
@@ -33,6 +39,9 @@
 </url>
 <url>
 <loc>http://localhost:4000/desmos/legendre-transform/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/desmos/p-norm-regularization/</loc>
 </url>
 <url>
 <loc>http://localhost:4000/projects/</loc>
@@ -52,7 +61,7 @@
 </url>
 <url>
 <loc>http://localhost:4000/DesmosGallery.html</loc>
-<lastmod>2026-05-06T23:49:34-04:00</lastmod>
+<lastmod>2026-05-07T16:38:14-04:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/assets/CV%202025.pdf</loc>

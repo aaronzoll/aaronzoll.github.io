@@ -1,0 +1,329 @@
+{
+  "version": 11,
+  "randomSeed": "772e936727bfeb1ce355ed7bb2ae9c24",
+  "graph": {
+    "viewport": {
+      "xmin": -3.638561097407269,
+      "ymin": -2.132912815462031,
+      "xmax": 6.627684975762529,
+      "ymax": 4.120821588264642
+    },
+    "showGrid": false,
+    "__v12ViewportLatexStash": {
+      "xmin": "-3.638561097407269",
+      "xmax": "6.627684975762529",
+      "ymin": "-2.132912815462031",
+      "ymax": "4.120821588264642"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "expression",
+        "id": "41",
+        "color": "#2d70b3",
+        "latex": "f\\left(x,y\\right)=\\frac{a}{2}\\left(x-x_{0}\\right)^{2}+\\frac{b}{2}\\left(y-y_{0}\\right)^{2}"
+      },
+      {
+        "type": "folder",
+        "id": "66",
+        "title": "Constraint Set (l_p ball)",
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "29",
+        "folderId": "66",
+        "color": "#000000",
+        "latex": "\\left|x\\right|^{p}+\\left|y\\right|^{p}\\ =C^{p}"
+      },
+      {
+        "type": "expression",
+        "id": "1",
+        "folderId": "66",
+        "color": "#2d70b3",
+        "latex": "\\left|x\\right|^{p}+\\left|y\\right|^{p}\\ \\le C^{p}",
+        "fillOpacity": "0.3"
+      },
+      {
+        "type": "expression",
+        "id": "19",
+        "folderId": "66",
+        "color": "#2d70b3",
+        "latex": "p=1.355",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "1",
+          "max": "2"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "20",
+        "folderId": "66",
+        "color": "#388c46",
+        "latex": "C=2.25",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "folder",
+        "id": "63",
+        "title": "Optimal Value Calculation"
+      },
+      {
+        "type": "expression",
+        "id": "21",
+        "folderId": "63",
+        "color": "#c74440",
+        "latex": "\\frac{a}{2}\\left(x-x_{0}\\right)^{2}+\\frac{b}{2}\\left(y-y_{0}\\right)^{2}=L",
+        "colorLatex": "C_{olor}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "67",
+        "folderId": "63",
+        "color": "#2d70b3",
+        "latex": "\\frac{a}{2}\\left(x-x_{0}\\right)^{2}+\\frac{b}{2}\\left(y-y_{0}\\right)^{2}=\\left[L-m,L-m+h_{2},...,L+M\\right]",
+        "lineStyle": "DASHED",
+        "colorLatex": "C_{olor}",
+        "lineWidth": "1.5"
+      },
+      {
+        "type": "expression",
+        "id": "74",
+        "folderId": "63",
+        "color": "#000000",
+        "latex": "R=\\left[0,0.01,...,1\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "73",
+        "folderId": "63",
+        "color": "#6042a6",
+        "latex": "C_{olor}=\\operatorname{hsv}\\left(20-280R,0.6+0.8\\sqrt{R},0.9\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "75",
+        "folderId": "63",
+        "color": "#c74440"
+      },
+      {
+        "type": "expression",
+        "id": "70",
+        "folderId": "63",
+        "color": "#c74440",
+        "latex": "m=0.304",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "L"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "71",
+        "folderId": "63",
+        "color": "#2d70b3",
+        "latex": "M=0.454",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "68",
+        "folderId": "63",
+        "color": "#6042a6",
+        "latex": "h_{2}=0.064",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "0.1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "69",
+        "folderId": "63",
+        "color": "#000000"
+      },
+      {
+        "type": "expression",
+        "id": "55",
+        "folderId": "63",
+        "color": "#000000",
+        "latex": "\\left(x_{star},y_{star}\\right)",
+        "pointOutline": true,
+        "pointOpacity": "1",
+        "pointSize": "10",
+        "movablePointSize": "10",
+        "__stashed_V12PointStyle": "STAR"
+      },
+      {
+        "type": "expression",
+        "id": "49",
+        "folderId": "63",
+        "color": "#000000",
+        "latex": "h\\left(x\\right)=\\left(\\left|C^{p}-x^{p}\\right|\\right)^{\\frac{1}{p}}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "52",
+        "folderId": "63",
+        "color": "#388c46",
+        "latex": "h_{1}\\left(x\\right)=\\frac{a\\left(x-x_{0}\\right)}{\\left|x\\right|^{\\left(p-1\\right)}}-\\frac{b\\left(h\\left(x\\right)-y_{0}\\right)}{\\left(\\left|h\\left(x\\right)\\right|\\right)^{\\left(p-1\\right)}}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "57",
+        "folderId": "63",
+        "color": "#c74440",
+        "latex": "y_{star}=h\\left(x_{star}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "79",
+        "folderId": "63",
+        "color": "#000000"
+      },
+      {
+        "type": "expression",
+        "id": "53",
+        "folderId": "63",
+        "color": "#6042a6",
+        "latex": "L_{1}=\\left[0.00001,k,...,x_{0}\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "27",
+        "folderId": "63",
+        "color": "#000000",
+        "latex": "k=0.01",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "0.1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "60",
+        "folderId": "63",
+        "color": "#6042a6",
+        "latex": "x_{star}=\\operatorname{sort}\\left(L_{1},\\left|h_{1}\\left(L_{1}\\right)\\right|\\right)\\left[1\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "58",
+        "folderId": "63",
+        "color": "#2d70b3",
+        "latex": "L=f\\left(x_{star},y_{star}\\right)"
+      },
+      {
+        "type": "folder",
+        "id": "64",
+        "title": "parameters"
+      },
+      {
+        "type": "expression",
+        "id": "30",
+        "folderId": "64",
+        "color": "#c74440",
+        "latex": "a=0.44",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-1",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "32",
+        "folderId": "64",
+        "color": "#388c46",
+        "latex": "b=0.723",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-1",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "31",
+        "folderId": "64",
+        "color": "#2d70b3",
+        "latex": "x_{0}=1.8183376099987545",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0.011",
+          "max": "C-0.001"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "33",
+        "folderId": "64",
+        "color": "#6042a6",
+        "latex": "y_{0}=1.5",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "y_{min}",
+          "max": "y_{min}+70"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "28",
+        "folderId": "64",
+        "color": "#6042a6",
+        "latex": "\\left(x_{0},y_{0}\\right)",
+        "pointSize": "8",
+        "movablePointSize": "8"
+      },
+      {
+        "type": "expression",
+        "id": "35",
+        "folderId": "64",
+        "color": "#c74440",
+        "latex": "y_{min}=\\min\\left(\\max\\left(C^{p}-x_{0}^{p},0\\right),\\left|\\left(\\left|C^{p}-\\left|x_{0}\\right|^{p}\\right|\\right)^{\\frac{1}{p}}\\right|\\right)+0.001"
+      },
+      {
+        "type": "expression",
+        "id": "77",
+        "color": "#388c46"
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrateMovablePointStyle": true
+}

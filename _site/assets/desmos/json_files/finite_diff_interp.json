@@ -1,0 +1,442 @@
+{
+  "version": 11,
+  "randomSeed": "578d36e2e42bc47999bdd3653c01112a",
+  "graph": {
+    "viewport": {
+      "xmin": -2.1234087325759856,
+      "ymin": -1.6745347433590485,
+      "xmax": 2.836394017300466,
+      "ymax": 1.3574294818304429
+    },
+    "showGrid": false,
+    "__v12ViewportLatexStash": {
+      "xmin": "-2.1234087325759856",
+      "xmax": "2.836394017300466",
+      "ymin": "-1.6745347433590485",
+      "ymax": "1.3574294818304429"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "folder",
+        "id": "2",
+        "title": "Function and Derivatives",
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "3",
+        "folderId": "2",
+        "color": "#000000",
+        "latex": "f\\left(x\\right)\\ =\\ \\sin\\left(2x\\right)+\\frac{1}{4}x",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "4",
+        "folderId": "2",
+        "color": "#388c46",
+        "latex": "f'\\left(x\\right)\\ ",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "5",
+        "folderId": "2",
+        "color": "#6042a6",
+        "latex": "\\cos\\left(x\\right)\\ +\\ \\frac{1}{4}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "6",
+        "folderId": "2",
+        "color": "#000000",
+        "latex": "a\\ =-0.474"
+      },
+      {
+        "type": "expression",
+        "id": "9",
+        "folderId": "2",
+        "color": "#2d70b3",
+        "latex": "\\left(a,f\\left(a\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "18",
+        "folderId": "2",
+        "color": "#000000",
+        "latex": "R\\ =0.81",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "3"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "19",
+        "folderId": "2",
+        "color": "#c74440",
+        "latex": "y=f\\left(a\\right)+f'\\left(a\\right)\\left(x-a\\right)\\ \\left\\{\\left(\\left(x-a\\right)^{2}+\\left(y-f\\left(a\\right)\\right)^{2}\\right)^{0.5}\\le R^{2}\\right\\}",
+        "lineWidth": "4"
+      },
+      {
+        "type": "folder",
+        "id": "7",
+        "title": "Finite Difference 1",
+        "hidden": true,
+        "inFrontOfEverything": true,
+        "collapsed": true
+      },
+      {
+        "type": "text",
+        "id": "58",
+        "folderId": "7",
+        "text": "Set node width and nodes."
+      },
+      {
+        "type": "expression",
+        "id": "8",
+        "folderId": "7",
+        "color": "#c74440",
+        "latex": "h_{1}=0.273",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0.0001",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "10",
+        "folderId": "7",
+        "color": "#388c46",
+        "latex": "X_{1}=\\ a+h_{1}\\cdot\\left[-1,1\\right]"
+      },
+      {
+        "type": "text",
+        "id": "60",
+        "folderId": "7",
+        "text": "Connect the two point. i.e. Lagrange interpolation."
+      },
+      {
+        "type": "expression",
+        "id": "16",
+        "folderId": "7",
+        "color": "#6042a6",
+        "latex": "f\\left(a-h_{1}\\right)+\\frac{f\\left(a+h_{1}\\right)-f\\left(a-h_{1}\\right)}{\\left(a+h_{1}\\right)-\\left(a-h_{1}\\right)}\\left(x-\\left(a-h_{1}\\right)\\right)\\ \\left\\{a-h_{1}\\le x\\le a+h_{1}\\right\\}",
+        "lineStyle": "DASHED",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "17",
+        "folderId": "7",
+        "color": "#6042a6",
+        "latex": "f_{1}\\left(x\\right)\\ =\\ \\frac{f\\left(x+h_{1}\\right)-f\\left(x-h_{1}\\right)}{\\left(x+h_{1}\\right)-\\left(x-h_{1}\\right)}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "15",
+        "folderId": "7",
+        "color": "#2d70b3",
+        "latex": "\\left(X_{1},f\\left(X_{1}\\right)\\right)",
+        "pointStyle": "OPEN",
+        "pointSize": "15",
+        "movablePointSize": "15"
+      },
+      {
+        "type": "folder",
+        "id": "13",
+        "title": "Finite Difference 2",
+        "inFrontOfEverything": true
+      },
+      {
+        "type": "text",
+        "id": "71",
+        "folderId": "13",
+        "text": "Set node width and nodes"
+      },
+      {
+        "type": "expression",
+        "id": "14",
+        "folderId": "13",
+        "color": "#c74440",
+        "latex": "h_{2}\\ =0.71",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0.0001",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "11",
+        "folderId": "13",
+        "color": "#6042a6",
+        "latex": "X_{2}=a+h_{2}\\cdot\\left[-2,-1,1,2\\right]"
+      },
+      {
+        "type": "text",
+        "id": "24",
+        "folderId": "13",
+        "text": "Lagrange Interpolation will tell us exactly how to construct our finite difference method"
+      },
+      {
+        "type": "expression",
+        "id": "25",
+        "folderId": "13",
+        "color": "#c74440",
+        "latex": "L_{minus2}\\left(x\\right)\\ =\\ \\frac{\\left(x+h_{2}\\right)\\left(x-h_{2}\\right)\\left(x-2h_{2}\\right)}{\\left(-2h_{2}-\\left(-h_{2}\\right)\\right)\\left(-2h_{2}-h_{2}\\right)\\left(-2h_{2}-2h_{2}\\right)}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "26",
+        "folderId": "13",
+        "color": "#2d70b3",
+        "latex": "L_{minus1}\\left(x\\right)\\ =\\ \\frac{\\left(x+2h_{2}\\right)\\left(x-h_{2}\\right)\\left(x-2h_{2}\\right)}{\\left(-h_{2}-\\left(-2h_{2}\\right)\\right)\\left(-h_{2}-h_{2}\\right)\\left(-h_{2}-2h_{2}\\right)}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "27",
+        "folderId": "13",
+        "color": "#388c46",
+        "latex": "L_{plus1}\\left(x\\right)\\ =\\ \\frac{\\left(x+2h_{2}\\right)\\left(x+h_{2}\\right)\\left(x-2h_{2}\\right)}{\\left(h_{2}-\\left(-2h_{2}\\right)\\right)\\left(h_{2}-\\left(-h_{2}\\right)\\right)\\left(h_{2}-2h_{2}\\right)}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "28",
+        "folderId": "13",
+        "color": "#6042a6",
+        "latex": "L_{plus2}\\left(x\\right)\\ =\\ \\frac{\\left(x+2h_{2}\\right)\\left(x+h_{2}\\right)\\left(x-h_{2}\\right)}{\\left(2h_{2}-\\left(-2h_{2}\\right)\\right)\\left(2h_{2}-\\left(-h_{2}\\right)\\right)\\left(2h_{2}-h_{2}\\right)}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "29",
+        "folderId": "13",
+        "color": "#6042a6",
+        "latex": "L\\left(x\\right)\\ =\\ f\\left(a-2h_{2}\\right)L_{minus2}\\left(x-a\\right)+f\\left(a-h_{2}\\right)L_{minus1}\\left(x-a\\right)+f\\left(a+h_{2}\\right)L_{plus1}\\left(x-a\\right)+f\\left(a+2h_{2}\\right)L_{plus2}\\left(x-a\\right)\\ \\left\\{a-4h_{2}\\le x\\le a+4h_{2}\\right\\}",
+        "lineStyle": "DASHED",
+        "lineWidth": "3"
+      },
+      {
+        "type": "text",
+        "id": "31",
+        "folderId": "13",
+        "text": "If we look at the derivatives of L_{k} at x = 0, then we immediately get our coefficients for the finite difference method!"
+      },
+      {
+        "type": "expression",
+        "id": "32",
+        "folderId": "13",
+        "color": "#2d70b3",
+        "latex": "L_{minus2}'\\left(0\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "33",
+        "folderId": "13",
+        "color": "#388c46",
+        "latex": "\\frac{1}{12h_{2}}"
+      },
+      {
+        "type": "text",
+        "id": "39",
+        "folderId": "13",
+        "text": "So the full derivative approximation is"
+      },
+      {
+        "type": "expression",
+        "id": "34",
+        "folderId": "13",
+        "color": "#6042a6",
+        "latex": "f_{2}\\left(x\\right)\\ =\\ \\frac{1}{12h_{2}}f\\left(x-2h_{2}\\right)-\\frac{2}{3h_{2}}f\\left(x-h_{2}\\right)+\\frac{2}{3h_{2}}f\\left(x+h_{2}\\right)-\\frac{1}{12h_{2}}f\\left(x+2h_{2}\\right)",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "37",
+        "folderId": "13",
+        "color": "#2d70b3",
+        "latex": "L\\left(a\\right)+f_{2}\\left(a\\right)\\left(x-a\\right)\\ \\left\\{a-h_{2}\\le x\\le a+h_{2}\\right\\}",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "20",
+        "folderId": "13",
+        "color": "#6042a6",
+        "latex": "\\left(X_{2},f\\left(X_{2}\\right)\\right)",
+        "pointStyle": "OPEN",
+        "pointSize": "15",
+        "movablePointSize": "15"
+      },
+      {
+        "type": "expression",
+        "id": "35",
+        "folderId": "13",
+        "color": "#000000"
+      },
+      {
+        "type": "folder",
+        "id": "41",
+        "title": "Finite Difference 3",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "text",
+        "id": "63",
+        "folderId": "41",
+        "text": "Set node width and nodes.\n\nExamples:\n\nNodes = [-1, 0] --> backwards difference\nNodes = [-1, 1] --> central difference\nNodes = [0, 1] --> forward difference\n\nNodes = [-2, -1, -1, 2] -> Higher order central difference (for first derivative)\nNodes = [-1, 0, 2] --> example from section"
+      },
+      {
+        "type": "expression",
+        "id": "70",
+        "folderId": "41",
+        "color": "#388c46"
+      },
+      {
+        "type": "expression",
+        "id": "42",
+        "folderId": "41",
+        "color": "#c74440",
+        "latex": "h_{3}=0.68",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0.0001",
+          "max": "2"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "44",
+        "folderId": "41",
+        "color": "#388c46",
+        "latex": "X_{3}=a+h_{3}\\cdot N_{odes}"
+      },
+      {
+        "type": "expression",
+        "id": "46",
+        "folderId": "41",
+        "color": "#000000",
+        "latex": "N_{odes}\\ =\\ \\left[-2,\\ -1,\\ 1,\\ 2\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "48",
+        "folderId": "41",
+        "color": "#2d70b3",
+        "latex": "m\\ =\\ \\operatorname{length}\\left(N_{odes}\\right)"
+      },
+      {
+        "type": "text",
+        "id": "65",
+        "folderId": "41",
+        "text": "General Lagrange interpolation."
+      },
+      {
+        "type": "expression",
+        "id": "47",
+        "folderId": "41",
+        "color": "#2d70b3",
+        "latex": "L_{gen}\\left(x\\right)\\ =\\sum_{i=1}^{m}\\ f\\left(X_{3}\\left[i\\right]\\right)\\ \\left(\\prod_{j=1}^{m}\\left\\{\\operatorname{abs}\\left(i-j\\right)>0:\\frac{\\left(x-X_{3}\\left[j\\right]\\right)}{X_{3}\\left[i\\right]-X_{3}\\left[j\\right]},\\ 1\\right\\}\\right)",
+        "lineStyle": "DASHED",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "49",
+        "folderId": "41",
+        "color": "#388c46",
+        "latex": "\\left(X_{3},f\\left(X_{3}\\right)\\right)",
+        "pointStyle": "OPEN",
+        "pointSize": "15",
+        "movablePointSize": "15"
+      },
+      {
+        "type": "expression",
+        "id": "66",
+        "folderId": "41",
+        "color": "#388c46",
+        "latex": "y=L_{gen}\\left(a\\right)+L'_{gen}\\left(a\\right)\\left(x-a\\right)\\ \\left\\{\\left(x-a\\right)^{2}+\\left(y-L_{gen}\\left(a\\right)\\right)^{2}\\le 0.5R\\right\\}"
+      },
+      {
+        "type": "text",
+        "id": "68",
+        "folderId": "41",
+        "text": "In our example, the nodes are set to [-1, 0, 2] in which case we can check directly"
+      },
+      {
+        "type": "expression",
+        "id": "45",
+        "folderId": "41",
+        "color": "#6042a6",
+        "latex": "L_{gen}'\\left(a\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "51",
+        "folderId": "41",
+        "color": "#000000",
+        "latex": "\\frac{1}{h_{3}}\\left(-\\frac{2}{3}f\\left(X_{3}\\left[1\\right]\\right)+\\frac{1}{2}f\\left(X_{3}\\left[2\\right]\\right)+\\frac{1}{6}f\\left(X_{3}\\left[3\\right]\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "69",
+        "folderId": "41",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "text",
+        "id": "56",
+        "folderId": "41",
+        "text": "We can then directly construct the coefficient in the finite difference formula by looking at the derivative of each component at our center. Here, we multiply by our node width to rescale to something independent of it. Therefore, we get the same result as our example"
+      },
+      {
+        "type": "expression",
+        "id": "53",
+        "folderId": "41",
+        "color": "#2d70b3",
+        "latex": "L_{genComponent}\\left(x,i\\right)=\\prod_{j=1}^{m}\\left\\{\\operatorname{abs}\\left(i-j\\right)>0:\\frac{\\left(x-X_{3}\\left[j\\right]\\right)}{X_{3}\\left[i\\right]-X_{3}\\left[j\\right]},\\ 1\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "52",
+        "folderId": "41",
+        "color": "#c74440",
+        "latex": "L_{comp}\\left(x,i\\right)=\\frac{d}{dx}L_{genComponent}\\left(x,i\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "54",
+        "folderId": "41",
+        "color": "#388c46",
+        "latex": "h_{3}L_{comp}\\left(a,i\\right)\\ \\operatorname{for}\\ i\\ =\\ \\left[1,...,m\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "43",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "expression",
+        "id": "50",
+        "color": "#6042a6"
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrateMovablePointStyle": true
+}

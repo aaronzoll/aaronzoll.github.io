@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>L(δ) Inexactly Smooth Interpolation - Aaron Zoll Personal Website</title>
+<!-- begin _includes/seo.html --><title>Finite Difference and Interpolation - Aaron Zoll Personal Website</title>
 <meta name="description" content="An amazing website.">
 
 
@@ -20,8 +20,8 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Aaron Zoll Personal Website">
-<meta property="og:title" content="L(δ) Inexactly Smooth Interpolation">
-<meta property="og:url" content="http://localhost:4000/desmos/inexact-interpolation/">
+<meta property="og:title" content="Finite Difference and Interpolation">
+<meta property="og:url" content="http://localhost:4000/desmos/finite-diff/">
 
 
   <meta property="og:description" content="An amazing website.">
@@ -41,7 +41,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/desmos/inexact-interpolation/">
+<link rel="canonical" href="http://localhost:4000/desmos/finite-diff/">
 
 
 
@@ -240,10 +240,10 @@
 <div class="desmos-page-wrap">
 
   <div class="desmos-page-top">
-    <h1>L(δ) Inexactly Smooth Interpolation</h1>
+    <h1>Finite Difference and Interpolation</h1>
     <div class="desmos-page-links">
       <a href="/DesmosGallery">← Gallery</a>
-      <a href="https://www.desmos.com/calculator/GRAPH_ID" target="_blank">Open in Desmos ↗</a>
+      <a href="https://www.desmos.com/calculator/9qttjfsxve" target="_blank">Open in Desmos ↗</a>
     </div>
   </div>
 
@@ -270,7 +270,7 @@
               keypad: false,
             });
 
-            fetch('/assets/desmos/json_files/L_delta_interpolation.json')
+            fetch('/assets/desmos/json_files/finite_diff_interp.json')
               .then(function (r) {
                 if (!r.ok) throw new Error('HTTP ' + r.status);
                 return r.json();
@@ -298,47 +298,67 @@
 
     
       <div class="desmos-side-panel page__content">
-<div class="ild-stack">
+<div class="fd-stack">
 
-  <span class="ild-section-label">Nonsmooth parameters</span>
-
-  <div class="ild-row">
-    <div class="desmos-param">
-      <span class="desmos-param-label">\(\beta\) = <strong id="ild-beta-val">1.60</strong></span>
-      <input class="site-slider" type="range" min="0" max="5" step="0.01" value="1.6" data-expr-id="2" data-latex-prefix="\beta=" data-val-id="ild-beta-val" data-decimals="2">
-    </div>
-    <div class="desmos-param">
-      <span class="desmos-param-label">\(q\) = <strong id="ild-q-val">0.38</strong></span>
-      <input class="site-slider" type="range" min="0" max="1" step="0.01" value="0.38" data-expr-id="29" data-latex-prefix="q=" data-val-id="ild-q-val" data-decimals="2">
+  <div class="fd-method">
+    <button class="site-btn site-btn--active fd-toggle-btn" data-folder="7" data-controls="fd1-controls">
+      Order-2 Central
+    </button>
+    <div id="fd1-controls">
+      <div class="desmos-param">
+        <span class="desmos-param-label">\(h_1\) = <strong id="fd-h1-val">0.273</strong></span>
+        <input class="site-slider" type="range" min="0.001" max="2" step="0.001" value="0.273" data-expr-id="8" data-latex-prefix="h_{1}=" data-val-id="fd-h1-val" data-decimals="3">
+      </div>
     </div>
   </div>
 
   <hr class="desmos-divider">
 
-  <span class="ild-section-label">Smooth parameter</span>
-
-  <div class="desmos-param">
-    <span class="desmos-param-label">\(\beta_1\) = <strong id="ild-beta1-val">1.0</strong></span>
-    <input class="site-slider" type="range" min="0" max="4" step="0.1" value="1" data-expr-id="86" data-latex-prefix="\beta_{1}=" data-val-id="ild-beta1-val" data-decimals="1">
+  <div class="fd-method">
+    <button class="site-btn fd-toggle-btn" data-folder="13" data-controls="fd2-controls">
+      Order-4 Central
+    </button>
+    <div id="fd2-controls" style="display:none">
+      <div class="desmos-param">
+        <span class="desmos-param-label">\(h_2\) = <strong id="fd-h2-val">0.710</strong></span>
+        <input class="site-slider" type="range" min="0.001" max="2" step="0.001" value="0.71" data-expr-id="14" data-latex-prefix="h_{2}=" data-val-id="fd-h2-val" data-decimals="3">
+      </div>
+    </div>
   </div>
 
   <hr class="desmos-divider">
 
-  <span class="ild-section-label">Observed gradients</span>
-
-  <div class="desmos-param">
-    <span class="desmos-param-label">\(g_1\) = <strong id="ild-g1-val">-1.0</strong></span>
-    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="-1" data-expr-id="220" data-latex-prefix="g_{1}=" data-val-id="ild-g1-val" data-decimals="1">
-  </div>
-
-  <div class="desmos-param">
-    <span class="desmos-param-label">\(g_2\) = <strong id="ild-g2-val">0.0</strong></span>
-    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="0" data-expr-id="221" data-latex-prefix="g_{2}=" data-val-id="ild-g2-val" data-decimals="1">
-  </div>
-
-  <div class="desmos-param">
-    <span class="desmos-param-label">\(g_3\) = <strong id="ild-g3-val">1.0</strong></span>
-    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="1" data-expr-id="222" data-latex-prefix="g_{3}=" data-val-id="ild-g3-val" data-decimals="1">
+  <div class="fd-method">
+    <button class="site-btn fd-toggle-btn" data-folder="41" data-controls="fd3-controls">
+      General
+    </button>
+    <div id="fd3-controls" style="display:none">
+      <div class="desmos-param">
+        <span class="desmos-param-label">\(h_3\) = <strong id="fd-h3-val">0.680</strong></span>
+        <input class="site-slider" type="range" min="0.001" max="2" step="0.001" value="0.68" data-expr-id="42" data-latex-prefix="h_{3}=" data-val-id="fd-h3-val" data-decimals="3">
+      </div>
+      <span class="fd-preset-label">Node presets</span>
+      <div class="fd-preset-row">
+        <button class="site-btn fd-preset-btn" data-nodes="N_{odes}=\left[-1,\ 1,\ 2\right]">
+          \(N = [-1,\\ 1,\\ 2]\)
+        </button>
+        <button class="site-btn fd-preset-btn" data-nodes="N_{odes}=\left[-1,\ 0,\ 1\right]">
+          \(N = [-1,\\ 0,\\ 1]\)
+        </button>
+        <button class="site-btn fd-preset-btn" data-nodes="N_{odes}=\left[-2,\ 0,\ 1,\ 2\right]">
+          \(N = [-2,\\ 0,\\ 1,\\ 2]\)
+        </button>
+        <button class="site-btn fd-preset-btn" data-nodes="N_{odes}=\left[-3,\ 1\right]">
+          \(N = [-3,\\ 1]\)
+        </button>
+        <button class="site-btn fd-preset-btn" data-nodes="N_{odes}=\left[-3,\ -2,\ -1\right]">
+          \(N = [-3,\\ -2,\\ -1]\)
+        </button>
+        <button class="site-btn fd-preset-btn" data-nodes="N_{odes}=\left[-0.25,\ 0.5,\ 1,\ 2\right]">
+          \(N = [-0.25,\\ 0.5,\\ 1,\\ 2]\)
+        </button>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -346,56 +366,50 @@
 <style>
   .desmos-page-wrap { max-width: 1350px; }
 
-  .ild-stack {
+  .fd-stack {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.6rem;
   }
 
-  .ild-section-label {
+  .fd-method {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .fd-toggle-btn {
+    width: 100%;
+  }
+
+  .fd-preset-label {
+    display: block;
     font-weight: bold;
     font-size: 0.82rem;
     color: #4a5568;
     text-transform: uppercase;
     letter-spacing: 0.04em;
+    margin-top: 0.4rem;
   }
 
-  .ild-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-  }
-
-  .coco-wrap {
+  .fd-preset-row {
     display: flex;
-    justify-content: center;
-    margin: 1rem 0;
+    flex-direction: column;
+    gap: 0.35rem;
   }
 
-  .coco-table {
-    display: table;
-    width: fit-content;
-    border-collapse: collapse;
-    font-size: 0.9rem;
+  .fd-preset-row .site-btn {
+    width: 100%;
+    min-width: 0;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
   }
-
-  .coco-table th, .coco-table td {
-    border: 1px solid #d0d7de;
-    padding: 0.4rem 0.9rem;
-    text-align: center;
-  }
-
-  .coco-table th {
-    background: #f4f6f8;
-  }
-
-  .coco-ok   { color: #2e7d32; font-weight: bold; }
-  .coco-fail { color: #c62828; font-weight: bold; }
 </style>
 
 <script>
   window.onDesmosReady = function(calc) {
-    document.querySelectorAll('.ild-stack .site-slider').forEach(function(input) {
+
+    document.querySelectorAll('.fd-stack .site-slider').forEach(function(input) {
       input.addEventListener('input', function() {
         var val = parseFloat(input.value);
         var d = parseInt(input.getAttribute('data-decimals'), 10);
@@ -409,29 +423,37 @@
       });
     });
 
-    var pairs = [[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]];
-    pairs.forEach(function(pair) {
-      var i = pair[0], j = pair[1];
-      var latex = 'f_{' + i + '}-f_{' + j + '}-g_{' + j +
-                  '}\\left(x_{' + i + '}-x_{' + j +
-                  '}\\right)-t_{star}\\left(g_{' + i + '}-g_{' + j + '}\\right)';
-      var helper = calc.HelperExpression({ latex: latex });
-      var cellId = 'coco-' + i + '-' + j;
-      helper.observe('numericValue', (function(cid, h) {
-        return function() {
-          var el = document.getElementById(cid);
-          if (!el) { return; }
-          var v = h.numericValue;
-          if (isNaN(v)) {
-            el.textContent = '—';
-            el.className = '';
-          } else {
-            el.textContent = v.toFixed(3);
-            el.className = v >= -0.001 ? 'coco-ok' : 'coco-fail';
-          }
-        };
-      })(cellId, helper));
+    calc.setExpression({ id: '7',  hidden: false });
+    calc.setExpression({ id: '13', hidden: true });
+    calc.setExpression({ id: '41', hidden: true });
+
+    document.querySelectorAll('.fd-toggle-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        if (btn.classList.contains('site-btn--active')) { return; }
+        document.querySelectorAll('.fd-toggle-btn').forEach(function(b) {
+          calc.setExpression({ id: b.getAttribute('data-folder'), hidden: true });
+          b.classList.remove('site-btn--active');
+          var c = document.getElementById(b.getAttribute('data-controls'));
+          if (c) { c.style.display = 'none'; }
+        });
+        calc.setExpression({ id: btn.getAttribute('data-folder'), hidden: false });
+        btn.classList.add('site-btn--active');
+        var controls = document.getElementById(btn.getAttribute('data-controls'));
+        if (controls) { controls.style.display = ''; }
+      });
     });
+
+    document.querySelectorAll('.fd-preset-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var latex = btn.getAttribute('data-nodes');
+        calc.setExpression({ id: '46', latex: latex });
+        document.querySelectorAll('.fd-preset-btn').forEach(function(b) {
+          b.classList.remove('site-btn--active');
+        });
+        btn.classList.add('site-btn--active');
+      });
+    });
+
   };
 </script>
 
@@ -443,41 +465,7 @@
   
     <div class="desmos-writeup page__content">
 
-<p>Each cell shows \(f_i - f_j - g_j(x_i - x_j) - \theta^*(g_i - g_j)\). All values must be \(\geq 0\) for the data to be \(L(\delta)\)-inexactly smooth interpolable.</p>
-
-<div class="coco-wrap">
-<table class="coco-table">
-  <thead>
-    <tr>
-      <th>
-</th>
-      <th>\(\boldsymbol{j=1}\)</th>
-      <th>\(\boldsymbol{j=2}\)</th>
-      <th>\(\boldsymbol{j=3}\)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>\(\boldsymbol{i=1}\)</th>
-      <td id="coco-1-1">—</td>
-      <td id="coco-1-2">—</td>
-      <td id="coco-1-3">—</td>
-    </tr>
-    <tr>
-      <th>\(\boldsymbol{i=2}\)</th>
-      <td id="coco-2-1">—</td>
-      <td id="coco-2-2">—</td>
-      <td id="coco-2-3">—</td>
-    </tr>
-    <tr>
-      <th>\(\boldsymbol{i=3}\)</th>
-      <td id="coco-3-1">—</td>
-      <td id="coco-3-2">—</td>
-      <td id="coco-3-3">—</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+<p><em>Write-up coming soon.</em></p>
 </div>
   
 
