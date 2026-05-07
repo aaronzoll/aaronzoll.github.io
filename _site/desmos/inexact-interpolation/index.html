@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Worst-Case Smooth, Convex Gradient Descent - Aaron Zoll Personal Website</title>
+<!-- begin _includes/seo.html --><title>L(delta) Inexactly Smooth Interpolation - Aaron Zoll Personal Website</title>
 <meta name="description" content="An amazing website.">
 
 
@@ -20,8 +20,8 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Aaron Zoll Personal Website">
-<meta property="og:title" content="Worst-Case Smooth, Convex Gradient Descent">
-<meta property="og:url" content="http://localhost:4000/desmos/worst-case-gd/">
+<meta property="og:title" content="L(delta) Inexactly Smooth Interpolation">
+<meta property="og:url" content="http://localhost:4000/desmos/inexact-interpolation/">
 
 
   <meta property="og:description" content="An amazing website.">
@@ -41,7 +41,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/desmos/worst-case-gd/">
+<link rel="canonical" href="http://localhost:4000/desmos/inexact-interpolation/">
 
 
 
@@ -239,14 +239,14 @@
 <div class="desmos-page-wrap">
 
   <div class="desmos-page-top">
-    <h1>Worst-Case Smooth, Convex Gradient Descent</h1>
+    <h1>L(delta) Inexactly Smooth Interpolation</h1>
     <div class="desmos-page-links">
       <a href="/DesmosGallery">← Gallery</a>
-      <a href="https://www.desmos.com/calculator/tihgkbwbyq" target="_blank">Open in Desmos ↗</a>
+      <a href="https://www.desmos.com/calculator/GRAPH_ID" target="_blank">Open in Desmos ↗</a>
     </div>
   </div>
 
-  <div class="desmos-body">
+  <div class="desmos-body desmos-body--side">
 
     <div class="desmos-embed-section">
       
@@ -269,7 +269,7 @@
               keypad: false,
             });
 
-            fetch('/assets/desmos/json_files/huber_quad_desmos.json')
+            fetch('/assets/desmos/json_files/L_delta_interpolation.json')
               .then(function (r) {
                 if (!r.ok) throw new Error('HTTP ' + r.status);
                 return r.json();
@@ -296,13 +296,104 @@
     </div>
 
     
-      <div class="desmos-writeup page__content">
-<p><em>Write-up coming soon.</em></p>
+      <div class="desmos-side-panel page__content">
+<div class="ild-stack">
+
+  <span class="ild-section-label">Nonsmooth parameters</span>
+
+  <div class="ild-row">
+    <div class="desmos-param">
+      <span class="desmos-param-label">\(\beta\) = <strong id="ild-beta-val">1.60</strong></span>
+      <input class="site-slider" type="range" min="0" max="5" step="0.01" value="1.6" data-expr-id="2" data-latex-prefix="\beta=" data-val-id="ild-beta-val" data-decimals="2">
+    </div>
+    <div class="desmos-param">
+      <span class="desmos-param-label">\(q\) = <strong id="ild-q-val">0.38</strong></span>
+      <input class="site-slider" type="range" min="0" max="1" step="0.01" value="0.38" data-expr-id="29" data-latex-prefix="q=" data-val-id="ild-q-val" data-decimals="2">
+    </div>
+  </div>
+
+  <hr class="desmos-divider">
+
+  <span class="ild-section-label">Smooth parameter</span>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(\beta_1\) = <strong id="ild-beta1-val">1.0</strong></span>
+    <input class="site-slider" type="range" min="0" max="4" step="0.1" value="1" data-expr-id="86" data-latex-prefix="\beta_{1}=" data-val-id="ild-beta1-val" data-decimals="1">
+  </div>
+
+  <hr class="desmos-divider">
+
+  <span class="ild-section-label">Observed gradients</span>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(g_1\) = <strong id="ild-g1-val">-1.0</strong></span>
+    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="-1" data-expr-id="220" data-latex-prefix="g_{1}=" data-val-id="ild-g1-val" data-decimals="1">
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(g_2\) = <strong id="ild-g2-val">0.0</strong></span>
+    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="0" data-expr-id="221" data-latex-prefix="g_{2}=" data-val-id="ild-g2-val" data-decimals="1">
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(g_3\) = <strong id="ild-g3-val">1.0</strong></span>
+    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="1" data-expr-id="222" data-latex-prefix="g_{3}=" data-val-id="ild-g3-val" data-decimals="1">
+  </div>
+
+</div>
+
+<style>
+  .desmos-page-wrap { max-width: 1350px; }
+
+  .ild-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .ild-section-label {
+    font-weight: bold;
+    font-size: 0.82rem;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .ild-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+</style>
+
+<script>
+  window.onDesmosReady = function(calc) {
+    document.querySelectorAll('.ild-stack .site-slider').forEach(function(input) {
+      input.addEventListener('input', function() {
+        var val = parseFloat(input.value);
+        var d = parseInt(input.getAttribute('data-decimals'), 10);
+        var decimals = isNaN(d) ? 3 : d;
+        var exprId = input.getAttribute('data-expr-id');
+        var prefix = input.getAttribute('data-latex-prefix');
+        var valId = input.getAttribute('data-val-id');
+        var el = document.getElementById(valId);
+        if (el) { el.textContent = val.toFixed(decimals); }
+        calc.setExpression({ id: exprId, latex: prefix + val });
+      });
+    });
+  };
+</script>
+
 </div>
     
 
   </div>
 
+  
+    <div class="desmos-writeup page__content">
+
+<p><em>Write-up coming soon.</em></p>
+</div>
   
 
 </div>

@@ -3,17 +3,17 @@
   "randomSeed": "f0b4bbdc5eb67f1f86b930ebe0b458b3",
   "graph": {
     "viewport": {
-      "xmin": -7.160757524732522,
-      "ymin": -4.038798846688106,
-      "xmax": 6.740572803934849,
-      "ymax": 5.783004951780475
+      "xmin": -6.607585824630007,
+      "ymin": -3.3420040176158823,
+      "xmax": 7.293744504037363,
+      "ymax": 5.126059879776567
     },
     "showGrid": false,
     "__v12ViewportLatexStash": {
-      "xmin": "-7.160757524732522",
-      "xmax": "6.740572803934849",
-      "ymin": "-4.038798846688106",
-      "ymax": "5.783004951780475"
+      "xmin": "-6.607585824630007",
+      "xmax": "7.293744504037363",
+      "ymin": "-3.3420040176158823",
+      "ymax": "5.126059879776567"
     }
   },
   "expressions": {
@@ -195,7 +195,8 @@
       {
         "type": "folder",
         "id": "67",
-        "title": "Huber GD Lines (optional, if you want to view click the circle next to the folder drop down to highlight the directions the iterates are moving to)"
+        "title": "Huber GD Lines (optional, if you want to view click the circle next to the folder drop down to highlight the directions the iterates are moving to)",
+        "collapsed": true
       },
       {
         "type": "expression",
@@ -242,7 +243,8 @@
       {
         "type": "folder",
         "id": "12",
-        "title": "Parameters"
+        "title": "Parameters",
+        "collapsed": true
       },
       {
         "type": "expression",
@@ -261,7 +263,7 @@
         "id": "3",
         "folderId": "12",
         "color": "#388c46",
-        "latex": "N=10",
+        "latex": "N=4",
         "slider": {
           "hardMin": true,
           "hardMax": true,
@@ -275,7 +277,7 @@
         "id": "4",
         "folderId": "12",
         "color": "#6042a6",
-        "latex": "R\\ =3.19",
+        "latex": "R\\ =3.3",
         "slider": {
           "hardMin": true,
           "min": "0"
@@ -304,7 +306,8 @@
       {
         "type": "folder",
         "id": "40",
-        "title": "Performance"
+        "title": "Performance",
+        "collapsed": true
       },
       {
         "type": "text",
@@ -350,7 +353,7 @@
         "id": "2",
         "folderId": "40",
         "color": "#2d70b3",
-        "latex": "h\\ =1.763",
+        "latex": "h\\ =1.71",
         "slider": {
           "hardMin": true,
           "hardMax": true,
@@ -394,7 +397,8 @@
       {
         "type": "folder",
         "id": "76",
-        "title": "Graph Visuals"
+        "title": "Graph Visuals",
+        "collapsed": true
       },
       {
         "type": "expression",
@@ -597,7 +601,8 @@
       {
         "type": "folder",
         "id": "56",
-        "title": "Newton Method to Balance Two Rates (a little out of the scope, but uses another iterative process to solve for the \"best h\", i.e. 30 \"Newton steps\"). You can test above by entering this value into \"h\" and seeing if everything is equal."
+        "title": "Newton Method to Balance Two Rates (a little out of the scope, but uses another iterative process to solve for the \"best h\", i.e. 30 \"Newton steps\"). You can test above by entering this value into \"h\" and seeing if everything is equal.",
+        "collapsed": true
       },
       {
         "type": "expression",

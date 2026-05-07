@@ -27,7 +27,7 @@ side_controls: true
     </button>
   </div>
 
-  <hr class="lhi-divider">
+  <hr class="desmos-divider">
   <span class="lhi-label">Basis functions</span>
 
   <div class="lhi-btn-row">
@@ -40,7 +40,7 @@ side_controls: true
     </button>
     <div class="lhi-slider-wrap" id="lhi-k-wrap">
       <span class="lhi-slider-label">\(k\) = <strong id="lhi-k-val">5</strong></span>
-      <input class="lhi-slider" type="range" min="1" max="5" step="1" value="5"
+      <input class="site-slider" type="range" min="1" max="5" step="1" value="5"
              oninput="lhiSlide(this)">
     </div>
   </div>
@@ -55,7 +55,7 @@ side_controls: true
     </button>
     <div class="lhi-slider-wrap" id="lhi-k1-wrap">
       <span class="lhi-slider-label">\(k\) = <strong id="lhi-k1-val">1</strong></span>
-      <input class="lhi-slider" type="range" min="1" max="5" step="1" value="1"
+      <input class="site-slider" type="range" min="1" max="5" step="1" value="1"
              oninput="lhiSlide(this)">
     </div>
   </div>
@@ -70,7 +70,7 @@ side_controls: true
     </button>
     <div class="lhi-slider-wrap" id="lhi-k2-wrap">
       <span class="lhi-slider-label">\(k\) = <strong id="lhi-k2-val">2</strong></span>
-      <input class="lhi-slider" type="range" min="1" max="5" step="1" value="2"
+      <input class="site-slider" type="range" min="1" max="5" step="1" value="2"
              oninput="lhiSlide(this)">
     </div>
   </div>
@@ -102,12 +102,6 @@ side_controls: true
     letter-spacing: 0.04em;
   }
 
-  .lhi-divider {
-    border: none;
-    border-top: 1px solid #d0d7de;
-    margin: 0.4rem 0;
-  }
-
   /* Each row holds a button + optional inline slider */
   .lhi-btn-row {
     display: flex;
@@ -137,11 +131,7 @@ side_controls: true
     min-width: 2.8rem;
   }
 
-  .lhi-slider {
-    width: 90px;
-    accent-color: #546e7a;
-    cursor: pointer;
-  }
+
 </style>
 
 <script>
@@ -185,4 +175,4 @@ side_controls: true
 
 <!--writeup-->
 
-*Write-up coming soon.* (Since derivatives aren't as easy to slide around the page as points and function values, so alter these data you must hit "Show Expressions" and change manually)
+*Write-up coming soon.* (Since derivatives aren't as easy to slide around the page as points and function values, alter these data by clicking "Show Expressions" and changing manually)

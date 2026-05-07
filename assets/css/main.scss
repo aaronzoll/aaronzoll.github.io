@@ -57,3 +57,32 @@ $caption-font-family: $garamond !default;
   display: block;
   pointer-events: none;
 }
+
+// Site-wide range slider for Desmos side panels
+// Usage: class="site-slider" on <input type="range">
+.site-slider {
+  width: 100%;
+  accent-color: #546e7a;
+  cursor: pointer;
+}
+
+// Vertical param block: label stacked above a slider
+// Usage: class="desmos-param" wrapping a .desmos-param-label + .site-slider
+.desmos-param {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.desmos-param-label {
+  font-size: 0.87rem;
+  color: #37474f;
+}
+
+// Thin horizontal separator for side panels
+// Usage: <hr class="desmos-divider">
+.desmos-divider {
+  border: none;
+  border-top: 1px solid #d0d7de;
+  margin: 0.3rem 0;
+}

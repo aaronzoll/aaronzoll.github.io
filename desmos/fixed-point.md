@@ -5,6 +5,9 @@ desmos_json: "fixed_point.json"
 desmos_url: "https://www.desmos.com/calculator/xwljuznw9j"
 ---
 
+*Write-up coming soon.*
+
+
 <div class="fp-section">
 
   <p class="fp-description">
