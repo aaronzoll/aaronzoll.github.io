@@ -1,6 +1,9 @@
 ---
 layout: desmos-graph
 title: "Graph Title Here"
+# Optional: if the title contains LaTeX, set title_math for the rendered heading
+# and keep title as plain text (used for browser tab, SEO, gallery).
+# title_math: '\(\mu\)-Strongly Convex Functions'
 
 # If you have downloaded the JSON from Desmos, put the filename here
 # (file goes in assets/desmos/json_files/).

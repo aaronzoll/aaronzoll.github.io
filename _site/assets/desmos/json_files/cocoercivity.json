@@ -1,0 +1,280 @@
+{
+  "version": 11,
+  "randomSeed": "c0fdc5939903d9a6f1824a7ba1c2cc2f",
+  "graph": {
+    "viewport": {
+      "xmin": -7.769521289306114,
+      "ymin": -3.808150867819508,
+      "xmax": 13.480478710693871,
+      "ymax": 11.395529860054758
+    },
+    "__v12ViewportLatexStash": {
+      "xmin": "-7.769521289306114",
+      "xmax": "13.480478710693871",
+      "ymin": "-3.808150867819508",
+      "ymax": "11.395529860054758"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "expression",
+        "id": "1",
+        "color": "#000000",
+        "latex": "f\\left(x\\right)=\\sqrt{1+kLx^{2}}+\\frac{\\left(1-k\\right)L}{2}\\left(x-2\\right)^{2}-\\frac{\\left(1-k\\right)L}{2}\\left(2\\right)^{2}",
+        "lineOpacity": "1",
+        "lineWidth": "5"
+      },
+      {
+        "type": "text",
+        "id": "47",
+        "text": "Adjust these parameters to change the function"
+      },
+      {
+        "type": "expression",
+        "id": "2",
+        "color": "#2d70b3",
+        "latex": "L=1.92",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "min": "0.5"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "28",
+        "color": "#6042a6",
+        "latex": "k=0.833",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "folder",
+        "id": "36",
+        "title": "Derivation of Cocoersive Bound",
+        "collapsed": true
+      },
+      {
+        "type": "text",
+        "id": "38",
+        "folderId": "36",
+        "text": "The cocoersive bound may be the most useful result in smooth, convex optimization. Unlike the \"quadratic upper bound\" alone that provide a nice visual characterization of a smooth function, it provides the necessary and sufficient condition. However, it can be hard to interpret the result visually, as it heavily relies on gradient information.\n\n\nBelow, we show how for a convex and L-smooth function, applying the quadratic upper bound from smoothness (in red) and the linear lower bound (in purple), we can derive the cocoersive bound. The upper bound always lies above the lower bound, and where that gap is minimized is precisely what yields the cocercivity. \n\nThat is, the minimum gap between the quadratic and linear bounds is exactly the nonnegative value that is the cocoercive gap.  "
+      },
+      {
+        "type": "text",
+        "id": "42",
+        "folderId": "36",
+        "text": "What may seem surprising is that this one result is necessary and sufficient for a function to be smooth and convex. Even more  so are the interpolation results that utilize these cocoersive bounds. "
+      },
+      {
+        "type": "expression",
+        "id": "43",
+        "folderId": "36",
+        "color": "#c74440"
+      },
+      {
+        "type": "text",
+        "id": "45",
+        "folderId": "36",
+        "text": "Here we derive the results geometrically..."
+      },
+      {
+        "type": "text",
+        "id": "25",
+        "folderId": "36",
+        "text": "The following function should be nonnegative everywhere (by smoothness + convexity)"
+      },
+      {
+        "type": "expression",
+        "id": "20",
+        "folderId": "36",
+        "color": "#388c46",
+        "latex": "d_{iff}\\left(x\\right)=q\\left(x,x_{1}\\right)-l\\left(x,y_{1}\\right)",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "23",
+        "folderId": "36",
+        "color": "#c74440",
+        "latex": "d_{iff}\\left(z_{star}\\right)"
+      },
+      {
+        "type": "text",
+        "id": "27",
+        "folderId": "36",
+        "text": "The smallest difference (applied at z_star) from quadratic upper bound to linear lower bound yields the cocoersive results. That is, the minimimum gap between the upper bounding quadratic and the lower bounding linear function is exactly the cocoersive gap from x1 to y1."
+      },
+      {
+        "type": "expression",
+        "id": "21",
+        "folderId": "36",
+        "color": "#6042a6",
+        "latex": "c_{oco}\\left(x,y\\right)=f\\left(x\\right)-f\\left(y\\right)-f'\\left(y\\right)\\left(x-y\\right)-\\frac{1}{2L}\\left(f'\\left(y\\right)-f'\\left(x\\right)\\right)^{2}"
+      },
+      {
+        "type": "expression",
+        "id": "22",
+        "folderId": "36",
+        "color": "#000000",
+        "latex": "c_{oco}\\left(x_{1},y_{1}\\right)"
+      },
+      {
+        "type": "folder",
+        "id": "12",
+        "title": "Points"
+      },
+      {
+        "type": "expression",
+        "id": "5",
+        "folderId": "12",
+        "color": "#000000",
+        "latex": "x_{1}=-0.01"
+      },
+      {
+        "type": "expression",
+        "id": "6",
+        "folderId": "12",
+        "color": "#c74440",
+        "latex": "y_{1}=3.64"
+      },
+      {
+        "type": "expression",
+        "id": "7",
+        "folderId": "12",
+        "color": "#2d70b3",
+        "latex": "z_{1}=1"
+      },
+      {
+        "type": "expression",
+        "id": "15",
+        "folderId": "12",
+        "color": "#388c46",
+        "latex": "z_{star}=x_{1}-\\frac{1}{L}\\left(f'\\left(x_{1}\\right)-f'\\left(y_{1}\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "17",
+        "folderId": "12",
+        "color": "#6042a6",
+        "latex": "\\left(x_{1},f\\left(x_{1}\\right)\\right)",
+        "pointStyle": "OPEN"
+      },
+      {
+        "type": "expression",
+        "id": "18",
+        "folderId": "12",
+        "color": "#c74440",
+        "latex": "\\left(y_{1},f\\left(y_{1}\\right)\\right)",
+        "pointStyle": "OPEN"
+      },
+      {
+        "type": "expression",
+        "id": "30",
+        "folderId": "12",
+        "color": "#388c46",
+        "latex": "x\\ =\\ z_{star}\\ \\left\\{l\\left(x,x_{1}\\right)\\le y\\le q\\left(x,y_{1}\\right)\\right\\}",
+        "lineStyle": "DOTTED",
+        "lineWidth": "2"
+      },
+      {
+        "type": "expression",
+        "id": "31",
+        "folderId": "12",
+        "color": "#000000",
+        "latex": "\\left(z_{star},\\left(Al\\left(z_{star},x_{1}\\right)+\\left(1-A\\right)q\\left(z_{star},y_{1}\\right)\\right)\\right)",
+        "showLabel": true,
+        "label": "min quad-to-linear gap = cocoersive bound",
+        "pointStyle": "CROSS",
+        "labelOrientation": "left",
+        "labelSize": "1",
+        "pointOutline": true,
+        "interactiveLabel": true,
+        "pointOpacity": "0",
+        "pointSize": "8",
+        "movablePointSize": "8",
+        "labelAngle": "0"
+      },
+      {
+        "type": "expression",
+        "id": "19",
+        "folderId": "12",
+        "color": "#388c46",
+        "latex": "\\left(z_{star},f\\left(z_{star}\\right)\\right)",
+        "hidden": true,
+        "pointSize": "12",
+        "movablePointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "32",
+        "folderId": "12",
+        "color": "#388c46",
+        "latex": "w_{hite}=\\operatorname{rgb}\\left(255,255,255\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "33",
+        "folderId": "12",
+        "color": "#6042a6",
+        "latex": "A=\\left[0,0.01,...,1\\right]",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "34",
+        "folderId": "12",
+        "color": "#000000"
+      },
+      {
+        "type": "folder",
+        "id": "14",
+        "title": "Functions"
+      },
+      {
+        "type": "expression",
+        "id": "3",
+        "folderId": "14",
+        "color": "#388c46",
+        "latex": "l\\left(x,x_{k}\\right)=f\\left(x_{k}\\right)+f'\\left(x_{k}\\right)\\left(x-x_{k}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "4",
+        "folderId": "14",
+        "color": "#6042a6",
+        "latex": "q\\left(x,x_{k}\\right)=f\\left(x_{k}\\right)+f'\\left(x_{k}\\right)\\left(x-x_{k}\\right)+\\frac{L}{2}\\left(x-x_{k}\\right)^{2}"
+      },
+      {
+        "type": "expression",
+        "id": "10",
+        "folderId": "14",
+        "color": "#fa7e19",
+        "latex": "q\\left(x,y_{1}\\right)",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "9",
+        "folderId": "14",
+        "color": "#2d70b3",
+        "latex": "l\\left(x,x_{1}\\right)",
+        "lineStyle": "DASHED",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "16",
+        "color": "#6042a6"
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrateMovablePointStyle": true
+}

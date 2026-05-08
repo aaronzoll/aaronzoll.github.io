@@ -1,0 +1,251 @@
+{
+  "version": 11,
+  "randomSeed": "9a314350973157f2ec195a900b61322b",
+  "graph": {
+    "viewport": {
+      "xmin": -14.463395749750852,
+      "ymin": -2.8815476910334734,
+      "xmax": 11.025190676030398,
+      "ymax": 13.498561713350467
+    },
+    "__v12ViewportLatexStash": {
+      "xmin": "-14.463395749750852",
+      "xmax": "11.025190676030398",
+      "ymin": "-2.8815476910334734",
+      "ymax": "13.498561713350467"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "folder",
+        "id": "2",
+        "title": "Example 1",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "3",
+        "folderId": "2",
+        "color": "#000000",
+        "latex": "f_{1}\\left(x\\right)=-\\ln\\left(x\\right)+x^{2}",
+        "lineWidth": "3.55"
+      },
+      {
+        "type": "expression",
+        "id": "21",
+        "folderId": "2",
+        "color": "#c74440",
+        "latex": "X\\ =\\ \\left[-5,-4.95,\\ ...,\\ 5\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "4",
+        "folderId": "2",
+        "color": "#388c46",
+        "latex": "m_{1}=\\min\\left(f_{1}''\\left(\\left|X\\right|+0.01\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "7",
+        "folderId": "2",
+        "color": "#2d70b3",
+        "latex": "q_{1}\\left(x\\right)=f_{1}\\left(a_{1}\\right)+f_{1}'\\left(a_{1}\\right)\\left(x-a_{1}\\right)+\\frac{m_{1}}{2}\\left(x-a_{1}\\right)^{2}",
+        "lineStyle": "DASHED",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "8",
+        "folderId": "2",
+        "color": "#c74440",
+        "latex": "a_{1}=1.1",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "min": "0.01"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "9",
+        "folderId": "2",
+        "color": "#c74440",
+        "latex": "\\left(a_{1},f_{1}\\left(a_{1}\\right)\\right)",
+        "pointStyle": "OPEN"
+      },
+      {
+        "type": "expression",
+        "id": "26",
+        "folderId": "2",
+        "color": "#c74440"
+      },
+      {
+        "type": "folder",
+        "id": "27",
+        "title": "Example 2",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "23",
+        "folderId": "27",
+        "color": "#000000",
+        "latex": "f_{2}\\left(x\\right)=\\frac{\\left(\\operatorname{abs}\\left(x\\right)+x^{2}+\\sqrt{1+x^{2}}\\right)}{2}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "28",
+        "folderId": "27",
+        "color": "#2d70b3",
+        "latex": "m_{2}\\ =\\ \\min\\left(f_{2}''\\left(X+0.001\\right)\\right)",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "29",
+        "folderId": "27",
+        "color": "#2d70b3",
+        "latex": "q_{2}\\left(x\\right)\\ =\\ f_{2}\\left(a_{2}\\right)+f_{2}'\\left(a_{2}\\right)\\left(x-a_{2}\\right)+\\frac{m_{2}}{2}\\left(x-a_{2}\\right)^{2}",
+        "lineStyle": "DASHED",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "30",
+        "folderId": "27",
+        "color": "#6042a6",
+        "latex": "a_{2}=1",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "31",
+        "folderId": "27",
+        "color": "#c74440",
+        "latex": "\\left(a_{2},f_{2}\\left(a_{2}\\right)\\right)",
+        "pointStyle": "OPEN"
+      },
+      {
+        "type": "folder",
+        "id": "33",
+        "title": "Example 3"
+      },
+      {
+        "type": "expression",
+        "id": "34",
+        "folderId": "33",
+        "color": "#000000",
+        "latex": "f_{3}\\left(x\\right)\\ =\\ \\cos\\left(x\\right)+\\frac{2x^{2}}{3}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "35",
+        "folderId": "33",
+        "color": "#388c46",
+        "latex": "m_{3}\\ =\\min\\left(f_{3}''\\left(X\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "37",
+        "folderId": "33",
+        "color": "#2d70b3",
+        "latex": "q_{3}\\left(x\\right)\\ =\\ f_{3}\\left(a_{3}\\right)+f_{3}'\\left(a_{3}\\right)\\left(x-a_{3}\\right)+\\frac{m_{3}}{2}\\left(x-a_{3}\\right)^{2}",
+        "lineStyle": "DASHED",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "39",
+        "folderId": "33",
+        "color": "#2d70b3",
+        "latex": "a_{3}=1.8",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "40",
+        "folderId": "33",
+        "color": "#c74440",
+        "latex": "\\left(a_{3},f_{3}\\left(a_{3}\\right)\\right)",
+        "pointStyle": "OPEN"
+      },
+      {
+        "type": "expression",
+        "id": "36",
+        "color": "#6042a6"
+      },
+      {
+        "type": "folder",
+        "id": "6",
+        "title": "Example 4",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "10",
+        "folderId": "6",
+        "color": "#000000",
+        "latex": "f_{4}\\left(x\\right)=\\max\\left(-x-1,0,x-1\\right)+kx^{2}",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "11",
+        "folderId": "6",
+        "color": "#6042a6",
+        "latex": "m_{4}\\ =\\min\\left(f_{4}''\\left(X+0.013\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "12",
+        "folderId": "6",
+        "color": "#2d70b3",
+        "latex": "q_{4}\\left(x\\right)=f_{4}\\left(a_{4}\\right)+f_{4}'\\left(a_{4}\\right)\\left(x-a_{4}\\right)+\\frac{m_{4}}{2}\\left(x-a_{4}\\right)^{2}",
+        "lineStyle": "DASHED",
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "25",
+        "folderId": "6",
+        "color": "#000000",
+        "latex": "k=0.24",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "4"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "13",
+        "folderId": "6",
+        "color": "#c74440",
+        "latex": "a_{4}=-0.69",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "14",
+        "folderId": "6",
+        "color": "#c74440",
+        "latex": "\\left(a_{4},f_{4}\\left(a_{4}\\right)\\right)",
+        "pointStyle": "OPEN"
+      },
+      {
+        "type": "expression",
+        "id": "38",
+        "color": "#c74440"
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrateMovablePointStyle": true
+}

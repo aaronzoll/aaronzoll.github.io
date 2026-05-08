@@ -8,7 +8,13 @@
 <loc>http://localhost:4000/CV/</loc>
 </url>
 <url>
+<loc>http://localhost:4000/desmos/L-smooth/</loc>
+</url>
+<url>
 <loc>http://localhost:4000/about/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/desmos/cocoercivity-demo/</loc>
 </url>
 <url>
 <loc>http://localhost:4000/contact/</loc>
@@ -50,6 +56,9 @@
 <loc>http://localhost:4000/research/</loc>
 </url>
 <url>
+<loc>http://localhost:4000/desmos/strongly-convex/</loc>
+</url>
+<url>
 <loc>http://localhost:4000/teaching/</loc>
 </url>
 <url>
@@ -61,7 +70,7 @@
 </url>
 <url>
 <loc>http://localhost:4000/DesmosGallery.html</loc>
-<lastmod>2026-05-07T16:38:14-04:00</lastmod>
+<lastmod>2026-05-08T17:16:00-04:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/assets/CV%202025.pdf</loc>

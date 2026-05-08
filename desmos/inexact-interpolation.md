@@ -1,6 +1,7 @@
 ---
 layout: desmos-graph
-title: "L(δ) Inexactly Smooth Interpolation"
+title: "L(delta) Inexactly Smooth Interpolation"
+title_math: '\(L(\delta)\)-Inexactly Smooth Interpolation'
 
 desmos_json: "L_delta_interpolation.json"
 desmos_url: "https://www.desmos.com/calculator/GRAPH_ID"

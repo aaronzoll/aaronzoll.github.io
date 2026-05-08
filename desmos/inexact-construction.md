@@ -1,6 +1,7 @@
 ---
 layout: desmos-graph
-title: "L(δ) Inexactly Smooth Construction"
+title: "L(delta) Inexactly Smooth Construction"
+title_math: '\(L(\delta)\)-Inexactly Smooth Construction'
 
 desmos_json: "inexact_construction.json"
 desmos_url: "https://www.desmos.com/calculator/kyh8g6t85a"

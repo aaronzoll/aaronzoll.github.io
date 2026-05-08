@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>L(delta) Inexactly Smooth Construction - Aaron Zoll Personal Website</title>
+<!-- begin _includes/seo.html --><title>(L)-smooth Functions - Aaron Zoll Personal Website</title>
 <meta name="description" content="An amazing website.">
 
 
@@ -20,8 +20,8 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Aaron Zoll Personal Website">
-<meta property="og:title" content="L(delta) Inexactly Smooth Construction">
-<meta property="og:url" content="http://localhost:4000/desmos/inexact-construction/">
+<meta property="og:title" content="(L)-smooth Functions">
+<meta property="og:url" content="http://localhost:4000/desmos/L-smooth/">
 
 
   <meta property="og:description" content="An amazing website.">
@@ -41,7 +41,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/desmos/inexact-construction/">
+<link rel="canonical" href="http://localhost:4000/desmos/L-smooth/">
 
 
 
@@ -240,10 +240,10 @@
 <div class="desmos-page-wrap">
 
   <div class="desmos-page-top">
-    <h1>\(L(\delta)\)-Inexactly Smooth Construction</h1>
+    <h1>\(L\)-smooth Functions</h1>
     <div class="desmos-page-links">
       <a href="/DesmosGallery">← Gallery</a>
-      <a href="https://www.desmos.com/calculator/kyh8g6t85a" target="_blank">Open in Desmos ↗</a>
+      <a href="https://www.desmos.com/calculator/hrk514df9m" target="_blank">Open in Desmos ↗</a>
     </div>
   </div>
 
@@ -270,7 +270,7 @@
               keypad: false,
             });
 
-            fetch('/assets/desmos/json_files/inexact_construction.json')
+            fetch('/assets/desmos/json_files/L_smooth.json')
               .then(function (r) {
                 if (!r.ok) throw new Error('HTTP ' + r.status);
                 return r.json();
@@ -298,28 +298,30 @@
 
     
       <div class="desmos-side-panel page__content">
-<div class="ic-stack">
+<div class="ls-stack">
 
-  <span class="ic-section-label">Nonsmooth parameters</span>
+  <button class="site-btn ls-toggle-btn" data-folder="9">
+    \(\sqrt{1+x^2}\)
+  </button>
 
-  <div class="ic-row">
+  <button class="site-btn site-btn--active ls-toggle-btn" data-folder="13">
+    \(\ln(\cosh(x))\)
+  </button>
+
+  <button class="site-btn ls-toggle-btn" data-folder="23">
+    \(3\!\left(\cos\!\left(\tfrac{x}{4}\right)+\sin(x)\right)\)
+  </button>
+
+  <button class="site-btn ls-toggle-btn" id="ls-softmax-btn" data-folder="30">
+    \(\text{soft-max}\)
+  </button>
+
+  <div id="ls-k-wrap" style="display:none">
+    <hr class="desmos-divider">
     <div class="desmos-param">
-      <span class="desmos-param-label">\(\beta\) = <strong id="ic-beta-val">1.00</strong></span>
-      <input class="site-slider" type="range" min="0" max="5" step="0.01" value="1" data-expr-id="5" data-latex-prefix="\beta=" data-val-id="ic-beta-val" data-decimals="2">
+      <span class="desmos-param-label">\(k\) = <strong id="ls-k-val">1.07</strong></span>
+      <input class="site-slider" type="range" min="0.02" max="4" step="0.01" value="1.07" data-expr-id="33" data-latex-prefix="k=" data-val-id="ls-k-val" data-decimals="2">
     </div>
-    <div class="desmos-param">
-      <span class="desmos-param-label">\(q\) = <strong id="ic-q-val">1.00</strong></span>
-      <input class="site-slider" type="range" min="0" max="1" step="0.01" value="1" data-expr-id="4" data-latex-prefix="q=" data-val-id="ic-q-val" data-decimals="2">
-    </div>
-  </div>
-
-  <hr class="desmos-divider">
-
-  <span class="ic-section-label">Smooth parameter</span>
-
-  <div class="desmos-param">
-    <span class="desmos-param-label">\(\beta_1\) = <strong id="ic-beta1-val">0.6</strong></span>
-    <input class="site-slider" type="range" min="0" max="3" step="0.1" value="0.6" data-expr-id="169" data-latex-prefix="\beta_{1}=" data-val-id="ic-beta1-val" data-decimals="1">
   </div>
 
 </div>
@@ -327,42 +329,55 @@
 <style>
   .desmos-page-wrap { max-width: 1350px; }
 
-  .ic-stack {
+  .ls-stack {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 
-  .ic-section-label {
-    font-weight: bold;
-    font-size: 0.82rem;
-    color: #4a5568;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  .ic-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+  .ls-toggle-btn {
+    width: 100%;
   }
 </style>
 
 <script>
   window.onDesmosReady = function(calc) {
-    document.querySelectorAll('.ic-stack .site-slider').forEach(function(input) {
-      input.addEventListener('input', function() {
-        var val = parseFloat(input.value);
-        var d = parseInt(input.getAttribute('data-decimals'), 10);
-        var decimals = isNaN(d) ? 3 : d;
-        var exprId = input.getAttribute('data-expr-id');
-        var prefix = input.getAttribute('data-latex-prefix');
-        var valId = input.getAttribute('data-val-id');
-        var el = document.getElementById(valId);
-        if (el) { el.textContent = val.toFixed(decimals); }
-        calc.setExpression({ id: exprId, latex: prefix + val });
+
+    calc.setExpression({ id: '9',  hidden: true });
+    calc.setExpression({ id: '13', hidden: false });
+    calc.setExpression({ id: '23', hidden: true });
+    calc.setExpression({ id: '30', hidden: true });
+    calc.setExpression({ id: '33', hidden: true });
+
+    var kInput = document.querySelector('#ls-k-wrap .site-slider');
+    if (kInput) {
+      kInput.addEventListener('input', function() {
+        var val = parseFloat(kInput.value);
+        var el = document.getElementById('ls-k-val');
+        if (el) { el.textContent = val.toFixed(2); }
+        calc.setExpression({ id: '33', latex: 'k=' + val });
+      });
+    }
+
+    document.querySelectorAll('.ls-toggle-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        if (btn.classList.contains('site-btn--active')) { return; }
+        document.querySelectorAll('.ls-toggle-btn').forEach(function(b) {
+          calc.setExpression({ id: b.getAttribute('data-folder'), hidden: true });
+          b.classList.remove('site-btn--active');
+        });
+        var kWrap = document.getElementById('ls-k-wrap');
+        if (kWrap) { kWrap.style.display = 'none'; }
+        calc.setExpression({ id: '33', hidden: true });
+        calc.setExpression({ id: btn.getAttribute('data-folder'), hidden: false });
+        btn.classList.add('site-btn--active');
+        if (btn.id === 'ls-softmax-btn') {
+          if (kWrap) { kWrap.style.display = ''; }
+          calc.setExpression({ id: '33', hidden: false });
+        }
       });
     });
+
   };
 </script>
 
