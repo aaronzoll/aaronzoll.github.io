@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.27.0 by Michael Rose
+  Copyright 2013-2025 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+--><html lang="en-US" class="no-js">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>L-smooth Interpolation - Aaron Zoll Personal Website</title>
+<meta name="description" content="An amazing website.">
+
+
+  <meta name="author" content="Aaron Zoll">
+  
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Aaron Zoll Personal Website">
+<meta property="og:title" content="L-smooth Interpolation">
+<meta property="og:url" content="http://localhost:4000/desmos/smooth-interpolation/">
+
+
+  <meta property="og:description" content="An amazing website.">
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/desmos/smooth-interpolation/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+  <body class="layout--desmos-graph" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Aaron Zoll Personal Website
+          
+        </a>
+        <ul class="visible-links">
+<li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/research/">Research</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/teaching/">Teaching</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/DesmosGallery.html">Desmos Gallery</a>
+            </li>
+</ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+<style>
+  .desmos-page-wrap {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  .desmos-page-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .desmos-page-top h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  .desmos-page-links {
+    font-size: 0.9rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  .desmos-controls {
+    margin-bottom: 0.5rem;
+  }
+
+  .desmos-toggle-btn {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: 1px solid #a67b5b;
+    background: #fdf6ee;
+    color: #3b1f00;
+    border-radius: 3px;
+    transition: background 0.15s;
+  }
+
+  .desmos-toggle-btn:hover {
+    background: #f0e0ca;
+  }
+
+  .desmos-embed-container {
+    width: 100%;
+    height: 650px;
+    border: 2px solid #a67b5b;
+    outline: 4px ridge #593302;
+    box-sizing: border-box;
+  }
+
+  .desmos-embed-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  #calculator {
+    width: 100%;
+    height: 100%;
+  }
+
+  .desmos-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #888;
+    font-style: italic;
+  }
+
+  .desmos-writeup {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #a67b5b;
+  }
+
+  /* Side-panel layout (opt-in via side_controls: true in front matter) */
+  .desmos-body--side {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .desmos-body--side .desmos-embed-section {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .desmos-side-panel {
+    width: 310px;
+    flex-shrink: 0;
+    border-left: 2px solid #d0d7de;
+    padding-left: 1.25rem;
+  }
+</style>
+
+<div class="desmos-page-wrap">
+
+  <div class="desmos-page-top">
+    <h1>\(L\)-smooth Interpolation</h1>
+    <div class="desmos-page-links">
+      <a href="/DesmosGallery">← Gallery</a>
+      <a href="https://www.desmos.com/calculator/ya2lhvqccr" target="_blank">Open in Desmos ↗</a>
+    </div>
+  </div>
+
+  <div class="desmos-body desmos-body--side">
+
+    <div class="desmos-embed-section">
+      
+
+        <div class="desmos-controls">
+          <button class="desmos-toggle-btn" id="toggle-btn" onclick="toggleExpressions()">Show Expressions</button>
+        </div>
+
+        <div class="desmos-embed-container">
+          <div id="calculator"></div>
+        </div>
+
+        <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=88d0c7b9a32a465da20a22e0e61756f3"></script>
+        <script>
+          (function () {
+            var expressionsVisible = false;
+            var calc = window.desmosCalc = Desmos.Calculator(document.getElementById('calculator'), {
+              expressions: false,
+              settingsMenu: false,
+              keypad: false,
+            });
+
+            fetch('/assets/desmos/json_files/smooth_interpolation.json')
+              .then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.json();
+              })
+              .then(function (state) {
+                calc.setState(state);
+                if (typeof window.onDesmosReady === 'function') window.onDesmosReady(calc);
+              })
+              .catch(function (err) {
+                document.getElementById('calculator').innerHTML =
+                  '<div class="desmos-error">Could not load graph state: ' + err.message + '</div>';
+              });
+
+            window.toggleExpressions = function () {
+              expressionsVisible = !expressionsVisible;
+              calc.updateSettings({ expressions: expressionsVisible });
+              document.getElementById('toggle-btn').textContent =
+                expressionsVisible ? 'Hide Expressions' : 'Show Expressions';
+            };
+          })();
+        </script>
+
+      
+    </div>
+
+    
+      <div class="desmos-side-panel page__content">
+<div class="si-stack">
+
+  <span class="si-section-label">Interpolation</span>
+
+  <button class="site-btn site-btn--active si-show-btn" data-folder="281" data-sub="si-min-sub">
+    Minimal Interpolation
+  </button>
+
+  <div id="si-min-sub">
+    <button class="site-btn site-btn--active si-sub-btn si-precond-btn">
+      Show Preconditioning
+    </button>
+  </div>
+
+  <button class="site-btn si-show-btn" data-folder="286" data-sub="si-max-sub">
+    Maximal Interpolation
+  </button>
+
+  <div id="si-max-sub" style="display:none">
+    <button class="site-btn site-btn--active si-sub-btn si-quads-btn">
+      Show Quadratics
+    </button>
+  </div>
+
+  <hr class="desmos-divider">
+
+  <span class="si-section-label">Parameters</span>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(L\) = <strong id="si-l-val">2.34</strong></span>
+    <input class="site-slider" type="range" min="0.25" max="8" step="0.01" value="2.34" data-expr-id="9" data-latex-prefix="L=" data-val-id="si-l-val" data-decimals="2">
+  </div>
+
+  <p id="si-not-interp" class="si-warning" style="display:none">Not interpolable! All \(Q_{i,j}\) must be nonnegative, but cocoercivity from<br>\((i,j)\) = <span id="si-qij-detail"></span></p>
+
+  <div id="si-q-latex" style="display:none" data-qmat="\left[F\left[i\right]-F\left[j\right]-G\left[j\right]\left(X\left[i\right]-X\left[j\right]\right)-\frac{1}{2L}\left(G\left[i\right]-G\left[j\right]\right)^{2}\operatorname{for}i=\left[1,...,N\right],j=\left[1,...,N\right]\right]" data-imat="\left[i\operatorname{for}i=\left[1,...,N\right],j=\left[1,...,N\right]\right]" data-jmat="\left[j\operatorname{for}i=\left[1,...,N\right],j=\left[1,...,N\right]\right]">
+  </div>
+
+  <hr class="desmos-divider">
+
+  <span class="si-section-label">Gradients</span>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(g_1\) = <strong id="si-g1-val">-0.60</strong></span>
+    <input class="site-slider" type="range" min="-2" max="2" step="0.01" value="-0.6" data-expr-id="39" data-latex-prefix="g_{1}=" data-val-id="si-g1-val" data-decimals="2">
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(g_2\) = <strong id="si-g2-val">0.00</strong></span>
+    <input class="site-slider" type="range" min="-2" max="2" step="0.01" value="0" data-expr-id="40" data-latex-prefix="g_{2}=" data-val-id="si-g2-val" data-decimals="2">
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(g_3\) = <strong id="si-g3-val">0.66</strong></span>
+    <input class="site-slider" type="range" min="-2" max="2" step="0.01" value="0.66" data-expr-id="41" data-latex-prefix="g_{3}=" data-val-id="si-g3-val" data-decimals="2">
+  </div>
+
+</div>
+
+<style>
+  .desmos-page-wrap { max-width: 1350px; }
+
+  .si-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .si-section-label {
+    font-weight: bold;
+    font-size: 0.82rem;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .si-show-btn {
+    width: 100%;
+  }
+
+  .si-sub-btn {
+    width: 100%;
+    font-size: 0.82rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .si-warning {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #c74440;
+  }
+</style>
+
+<script>
+  window.onDesmosReady = function(calc) {
+
+    calc.setExpression({ id: '281', hidden: false });
+    calc.setExpression({ id: '286', hidden: true });
+
+    var store = document.getElementById('si-q-latex');
+    var qMatHelper = calc.HelperExpression({ latex: store.getAttribute('data-qmat') });
+    var iMatHelper = calc.HelperExpression({ latex: store.getAttribute('data-imat') });
+    var jMatHelper = calc.HelperExpression({ latex: store.getAttribute('data-jmat') });
+
+    function updateInterpolable() {
+      var qList = qMatHelper.listValue;
+      var iList = iMatHelper.listValue;
+      var jList = jMatHelper.listValue;
+      if (qList === null) { return; }
+      if (iList === null) { return; }
+      if (jList === null) { return; }
+      if (qList.length === 0) { return; }
+      var minVal = Infinity;
+      var minI = 1;
+      var minJ = 1;
+      for (var idx = 0; idx < qList.length; idx++) {
+        if (qList[idx] < minVal) {
+          minVal = qList[idx];
+          minI = Math.round(iList[idx]);
+          minJ = Math.round(jList[idx]);
+        }
+      }
+      var notInterp = document.getElementById('si-not-interp');
+      var detailEl = document.getElementById('si-qij-detail');
+      if (minVal < 0) {
+        if (detailEl) {
+          detailEl.textContent = '(' + minI + ', ' + minJ + ') is ' + minVal.toFixed(3);
+        }
+        if (notInterp) { notInterp.style.display = ''; }
+      } else {
+        if (notInterp) { notInterp.style.display = 'none'; }
+      }
+    }
+
+    qMatHelper.observe('listValue', updateInterpolable);
+    iMatHelper.observe('listValue', updateInterpolable);
+    jMatHelper.observe('listValue', updateInterpolable);
+
+    document.querySelectorAll('.si-stack .site-slider').forEach(function(input) {
+      input.addEventListener('input', function() {
+        var val = parseFloat(input.value);
+        var d = parseInt(input.getAttribute('data-decimals'), 10);
+        var decimals = isNaN(d) ? 2 : d;
+        var exprId = input.getAttribute('data-expr-id');
+        var prefix = input.getAttribute('data-latex-prefix');
+        var valId = input.getAttribute('data-val-id');
+        var el = document.getElementById(valId);
+        if (el) { el.textContent = val.toFixed(decimals); }
+        calc.setExpression({ id: exprId, latex: prefix + val });
+      });
+    });
+
+    document.querySelectorAll('.si-show-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var folderId = btn.getAttribute('data-folder');
+        var subId = btn.getAttribute('data-sub');
+        var sub = subId ? document.getElementById(subId) : null;
+        if (btn.classList.contains('site-btn--active')) {
+          calc.setExpression({ id: folderId, hidden: true });
+          btn.classList.remove('site-btn--active');
+          if (sub) { sub.style.display = 'none'; }
+        } else {
+          calc.setExpression({ id: folderId, hidden: false });
+          btn.classList.add('site-btn--active');
+          if (sub) { sub.style.display = ''; }
+        }
+      });
+    });
+
+    document.querySelector('.si-precond-btn').addEventListener('click', function() {
+      var btn = this;
+      if (btn.classList.contains('site-btn--active')) {
+        calc.setExpression({ id: '7',   hidden: true });
+        calc.setExpression({ id: '310', hidden: true });
+        btn.classList.remove('site-btn--active');
+      } else {
+        calc.setExpression({ id: '7',   hidden: false });
+        calc.setExpression({ id: '310', hidden: false });
+        btn.classList.add('site-btn--active');
+      }
+    });
+
+    document.querySelector('.si-quads-btn').addEventListener('click', function() {
+      var btn = this;
+      if (btn.classList.contains('site-btn--active')) {
+        calc.setExpression({ id: '288', hidden: true });
+        btn.classList.remove('site-btn--active');
+      } else {
+        calc.setExpression({ id: '288', hidden: false });
+        btn.classList.add('site-btn--active');
+      }
+    });
+
+  };
+</script>
+
+</div>
+    
+
+  </div>
+
+  
+    <div class="desmos-writeup page__content">
+
+<p><em>Write-up coming soon.</em></p>
+</div>
+  
+
+</div>
+
+      
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">© 2026 <a href="http://localhost:4000">Aaron Zoll Personal Website</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
