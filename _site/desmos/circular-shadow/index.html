@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.27.0 by Michael Rose
+  Copyright 2013-2025 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+--><html lang="en-US" class="no-js">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Circular Shadows and Slices in p-norm Balls - Aaron Zoll Personal Website</title>
+<meta name="description" content="An amazing website.">
+
+
+  <meta name="author" content="Aaron Zoll">
+  
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Aaron Zoll Personal Website">
+<meta property="og:title" content="Circular Shadows and Slices in p-norm Balls">
+<meta property="og:url" content="http://localhost:4000/desmos/circular-shadow/">
+
+
+  <meta property="og:description" content="An amazing website.">
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/desmos/circular-shadow/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+  <body class="layout--desmos-graph" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Aaron Zoll Personal Website
+          
+        </a>
+        <ul class="visible-links">
+<li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/research/">Research</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/teaching/">Teaching</a>
+            </li>
+<li class="masthead__menu-item">
+              <a href="/DesmosGallery.html">Desmos Gallery</a>
+            </li>
+</ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+<style>
+  .desmos-page-wrap {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  .desmos-page-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .desmos-page-top h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  .desmos-page-links {
+    font-size: 0.9rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  .desmos-controls {
+    margin-bottom: 0.5rem;
+  }
+
+  .desmos-toggle-btn {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: 1px solid #a67b5b;
+    background: #fdf6ee;
+    color: #3b1f00;
+    border-radius: 3px;
+    transition: background 0.15s;
+  }
+
+  .desmos-toggle-btn:hover {
+    background: #f0e0ca;
+  }
+
+  .desmos-embed-container {
+    width: 100%;
+    height: 650px;
+    border: 2px solid #a67b5b;
+    outline: 4px ridge #593302;
+    box-sizing: border-box;
+  }
+
+  .desmos-embed-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  #calculator {
+    width: 100%;
+    height: 100%;
+  }
+
+  .desmos-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #888;
+    font-style: italic;
+  }
+
+  .desmos-writeup {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #a67b5b;
+  }
+
+  /* Side-panel layout (opt-in via side_controls: true in front matter) */
+  .desmos-body--side {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .desmos-body--side .desmos-embed-section {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .desmos-side-panel {
+    width: 310px;
+    flex-shrink: 0;
+    border-left: 2px solid #d0d7de;
+    padding-left: 1.25rem;
+  }
+</style>
+
+<div class="desmos-page-wrap">
+
+  <div class="desmos-page-top">
+    <h1>Circular Shadows and Slices in p-norm Balls</h1>
+    <div class="desmos-page-links">
+      <a href="/DesmosGallery">← Gallery</a>
+      <a href="https://www.desmos.com/3d/jtpsqln6wx" target="_blank">Open in Desmos ↗</a>
+    </div>
+  </div>
+
+  <div class="desmos-body desmos-body--side">
+
+    <div class="desmos-embed-section">
+      
+
+        <div class="desmos-controls">
+          <button class="desmos-toggle-btn" id="toggle-btn" onclick="toggleExpressions()">Show Expressions</button>
+        </div>
+
+        <div class="desmos-embed-container">
+          <div id="calculator"></div>
+        </div>
+
+        <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=88d0c7b9a32a465da20a22e0e61756f3"></script>
+        <script>
+          (function () {
+            var expressionsVisible = false;
+            var calc = window.desmosCalc = Desmos.Calculator3D(document.getElementById('calculator'), {
+              expressions: false,
+              settingsMenu: false,
+              keypad: false,
+            });
+
+            fetch('/assets/desmos/json_files/circular_p_norm_shadow.json')
+              .then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.json();
+              })
+              .then(function (state) {
+                calc.setState(state);
+                if (typeof window.onDesmosReady === 'function') window.onDesmosReady(calc);
+              })
+              .catch(function (err) {
+                document.getElementById('calculator').innerHTML =
+                  '<div class="desmos-error">Could not load graph state: ' + err.message + '</div>';
+              });
+
+            window.toggleExpressions = function () {
+              expressionsVisible = !expressionsVisible;
+              calc.updateSettings({ expressions: expressionsVisible });
+              document.getElementById('toggle-btn').textContent =
+                expressionsVisible ? 'Hide Expressions' : 'Show Expressions';
+            };
+          })();
+        </script>
+
+      
+    </div>
+
+    
+      <div class="desmos-side-panel page__content">
+<div class="cs-stack">
+
+  <span class="cs-section-label">Dual Norm Balls</span>
+  <p class="cs-hint">(Only \(p\) is interactive,  \(q =\tfrac{p}{p-1}\) automatically)</p>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(p\) = <strong id="cs-p-val">1.33</strong></span>
+    <input class="site-slider" type="range" min="1" max="2" step="0.01" value="1.33" id="cs-p-input" data-expr-id="3" data-latex-prefix="p=" data-val-id="cs-p-val" data-decimals="2">
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(q\) = <strong id="cs-q-val">4.00</strong></span>
+    <input class="site-slider cs-readonly-slider" type="range" min="2" max="10" step="0.01" value="4" id="cs-q-input">
+  </div>
+
+  <hr class="desmos-divider">
+
+  <button class="site-btn site-btn--active cs-toggle-btn" id="cs-pnorm-btn">
+    p-norm ball 
+  </button>
+
+  <div id="cs-shadow-sub">
+    <button class="site-btn cs-sub-btn" id="cs-shadow-btn">
+      Make Circular Shadow
+    </button>
+  </div>
+
+  <button class="site-btn cs-toggle-btn" id="cs-qnorm-btn">
+    q-norm ball
+  </button>
+
+  <div id="cs-slice-sub" style="display:none">
+    <button class="site-btn cs-sub-btn" id="cs-slice-btn">
+      Make Circular Slice
+    </button>
+  </div>
+
+  <hr class="desmos-divider">
+
+  <div id="cs-pnorm-wrap">
+    <span class="cs-section-label">Rotation Parameters</span>
+    <div class="desmos-param">
+      <span class="desmos-param-label">\(a\) = <strong id="cs-a-val">-0.26</strong></span>
+      <input class="site-slider" type="range" min="-3.14" max="3.14" step="0.01" value="-0.26" data-expr-id="18" data-latex-prefix="a=" data-val-id="cs-a-val" data-decimals="2">
+    </div>
+    <div class="desmos-param">
+      <span class="desmos-param-label">\(b\) = <strong id="cs-b-val">-0.62</strong></span>
+      <input class="site-slider" type="range" min="-3.14" max="3.14" step="0.01" value="-0.62" data-expr-id="20" data-latex-prefix="b=" data-val-id="cs-b-val" data-decimals="2">
+    </div>
+    <div class="desmos-param">
+      <span class="desmos-param-label">\(c\) = <strong id="cs-c-val">0.79</strong></span>
+      <input class="site-slider" type="range" min="-3.14" max="3.14" step="0.01" value="0.79" data-expr-id="21" data-latex-prefix="c=" data-val-id="cs-c-val" data-decimals="2">
+    </div>
+  </div>
+
+  <div id="cs-qnorm-wrap" style="display:none">
+    <span class="cs-section-label">Hyperplane Parameters</span>
+    <div class="desmos-param">
+      <span class="desmos-param-label">\(a_1\) = <strong id="cs-a1-val">0.78</strong></span>
+      <input class="site-slider" type="range" min="-3" max="3" step="0.01" value="0.78" data-expr-id="51" data-latex-prefix="a_{1}=" data-val-id="cs-a1-val" data-decimals="2">
+    </div>
+    <div class="desmos-param">
+      <span class="desmos-param-label">\(b_1\) = <strong id="cs-b1-val">2.02</strong></span>
+      <input class="site-slider" type="range" min="-3" max="3" step="0.01" value="2.02" data-expr-id="52" data-latex-prefix="b_{1}=" data-val-id="cs-b1-val" data-decimals="2">
+    </div>
+    <div class="desmos-param">
+      <span class="desmos-param-label">\(c_1\) = <strong id="cs-c1-val">1.00</strong></span>
+      <input class="site-slider" type="range" min="-3" max="3" step="0.01" value="1" data-expr-id="53" data-latex-prefix="c_{1}=" data-val-id="cs-c1-val" data-decimals="2">
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .cs-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .cs-section-label {
+    font-weight: bold;
+    font-size: 0.82rem;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .cs-toggle-btn {
+    width: 100%;
+  }
+
+  .cs-sub-btn {
+    width: 100%;
+    font-size: 0.82rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .cs-readonly-slider {
+    pointer-events: none;
+  }
+
+  .cs-hint {
+    margin: 0;
+    font-size: 0.78rem;
+    color: #718096;
+    font-style: italic;
+  }
+</style>
+
+<script>
+  window.onDesmosReady = function(calc) {
+
+    calc.setExpression({ id: '6',  hidden: false });
+    calc.setExpression({ id: '11', hidden: true });
+
+    function initSlider(exprLatex, exprId, displayId) {
+      var h = calc.HelperExpression({ latex: exprLatex });
+      h.observe('numericValue', function() {
+        var val = h.numericValue;
+        if (isNaN(val)) { return; }
+        var input = document.querySelector('[data-expr-id="' + exprId + '"]');
+        var display = document.getElementById(displayId);
+        if (input) { input.value = val; }
+        if (display) { display.textContent = val.toFixed(2); }
+        h.unobserve('numericValue');
+      });
+    }
+
+    initSlider('p',     '3',  'cs-p-val');
+    initSlider('a',     '18', 'cs-a-val');
+    initSlider('b',     '20', 'cs-b-val');
+    initSlider('c',     '21', 'cs-c-val');
+    initSlider('a_{1}', '51', 'cs-a1-val');
+    initSlider('b_{1}', '52', 'cs-b1-val');
+    initSlider('c_{1}', '53', 'cs-c1-val');
+
+    var qHelper = calc.HelperExpression({ latex: 'q' });
+    qHelper.observe('numericValue', function() {
+      var qVal = qHelper.numericValue;
+      if (isNaN(qVal)) { return; }
+      var display = document.getElementById('cs-q-val');
+      var qInput = document.getElementById('cs-q-input');
+      var finite = isFinite(qVal);
+      if (display) { display.textContent = finite ? qVal.toFixed(2) : '∞'; }
+      if (qInput) { qInput.value = finite ? Math.min(qVal, 10) : 10; }
+    });
+
+    document.querySelectorAll('.cs-stack .site-slider').forEach(function(input) {
+      input.addEventListener('input', function() {
+        var val = parseFloat(input.value);
+        var d = parseInt(input.getAttribute('data-decimals'), 10);
+        var decimals = isNaN(d) ? 2 : d;
+        var exprId = input.getAttribute('data-expr-id');
+        var prefix = input.getAttribute('data-latex-prefix');
+        var valId = input.getAttribute('data-val-id');
+        var el = document.getElementById(valId);
+        if (el) { el.textContent = val.toFixed(decimals); }
+        calc.setExpression({ id: exprId, latex: prefix + val });
+      });
+    });
+
+    document.getElementById('cs-pnorm-btn').addEventListener('click', function() {
+      if (this.classList.contains('site-btn--active')) { return; }
+      calc.setExpression({ id: '11', hidden: true });
+      calc.setExpression({ id: '6',  hidden: false });
+      document.getElementById('cs-qnorm-wrap').style.display = 'none';
+      document.getElementById('cs-pnorm-wrap').style.display = '';
+      document.getElementById('cs-slice-sub').style.display = 'none';
+      document.getElementById('cs-shadow-sub').style.display = '';
+      document.getElementById('cs-qnorm-btn').classList.remove('site-btn--active');
+      this.classList.add('site-btn--active');
+    });
+
+    document.getElementById('cs-qnorm-btn').addEventListener('click', function() {
+      if (this.classList.contains('site-btn--active')) { return; }
+      calc.setExpression({ id: '6',  hidden: true });
+      calc.setExpression({ id: '11', hidden: false });
+      document.getElementById('cs-pnorm-wrap').style.display = 'none';
+      document.getElementById('cs-qnorm-wrap').style.display = '';
+      document.getElementById('cs-shadow-sub').style.display = 'none';
+      document.getElementById('cs-slice-sub').style.display = '';
+      document.getElementById('cs-pnorm-btn').classList.remove('site-btn--active');
+      this.classList.add('site-btn--active');
+    });
+
+    function setPTo4over3() {
+      var pVal = 4 / 3;
+      calc.setExpression({ id: '3', latex: 'p=' + pVal });
+      var pInput = document.getElementById('cs-p-input');
+      if (pInput) { pInput.value = pVal; document.getElementById('cs-p-val').textContent = pVal.toFixed(2); }
+    }
+
+    document.getElementById('cs-shadow-btn').addEventListener('click', function() {
+      setPTo4over3();
+      var aVal = -Math.PI / 12;
+      var bVal = -Math.asin(1 / Math.sqrt(3));
+      var cVal = Math.PI / 4;
+      calc.setExpression({ id: '18', latex: 'a=' + aVal });
+      calc.setExpression({ id: '20', latex: 'b=' + bVal });
+      calc.setExpression({ id: '21', latex: 'c=' + cVal });
+      var aInput = document.querySelector('[data-expr-id="18"]');
+      var bInput = document.querySelector('[data-expr-id="20"]');
+      var cInput = document.querySelector('[data-expr-id="21"]');
+      if (aInput) { aInput.value = aVal.toFixed(2); document.getElementById('cs-a-val').textContent = aVal.toFixed(2); }
+      if (bInput) { bInput.value = bVal.toFixed(2); document.getElementById('cs-b-val').textContent = bVal.toFixed(2); }
+      if (cInput) { cInput.value = cVal.toFixed(2); document.getElementById('cs-c-val').textContent = cVal.toFixed(2); }
+    });
+
+    document.getElementById('cs-slice-btn').addEventListener('click', function() {
+      setPTo4over3();
+      calc.setExpression({ id: '51', latex: 'a_{1}=1' });
+      calc.setExpression({ id: '52', latex: 'b_{1}=1' });
+      calc.setExpression({ id: '53', latex: 'c_{1}=1' });
+      var a1Input = document.querySelector('[data-expr-id="51"]');
+      var b1Input = document.querySelector('[data-expr-id="52"]');
+      var c1Input = document.querySelector('[data-expr-id="53"]');
+      if (a1Input) { a1Input.value = '1'; document.getElementById('cs-a1-val').textContent = '1.00'; }
+      if (b1Input) { b1Input.value = '1'; document.getElementById('cs-b1-val').textContent = '1.00'; }
+      if (c1Input) { c1Input.value = '1'; document.getElementById('cs-c1-val').textContent = '1.00'; }
+    });
+
+  };
+</script>
+
+</div>
+    
+
+  </div>
+
+  
+    <div class="desmos-writeup page__content">
+</div>
+  
+
+</div>
+
+      
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">© 2026 <a href="http://localhost:4000">Aaron Zoll Personal Website</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

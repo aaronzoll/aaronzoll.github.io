@@ -20,5 +20,8 @@ custom_js: |
 
 ---
 
-I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank">The Johns Hopkins University</a> in the department of Applied Math and Statistics. My work primarily focuses in optimization, under the supervision of  <a href="https://www.ams.jhu.edu/~grimmer/" target="_blank">Benjamin Grimmer</a>. In particular, I work on expanding classical theory to apply universally to Lipschitz functions, functions with Lipschitz gradients, and everywhere in between. In a dual notion, my work also focuses on functions that are convex, strongly convex, and anywhere in between. 
+I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank">The Johns Hopkins University</a> in the department of Applied Math and Statistics. My work primarily focuses in optimization, under the supervision of <a href="https://www.ams.jhu.edu/~grimmer/" target="_blank">Benjamin Grimmer</a>. In particular, I work on expanding classical theory to apply universally to Lipschitz functions, functions with Lipschitz gradients, and everywhere in between. In a dual notion, my work also focuses on functions that are convex, strongly convex, and anywhere in between.
 
+More recent work has focused on the study and development of interpolation theory, performance estimation problems, and the design of optimized algorithms. These tools give rise to understanding two other dual notions: minimax optimal algorithm design and maximin hard problem instances, with families of functions and classes of algorithms playing dual roles.
+
+ 

@@ -24,7 +24,7 @@ My current research aims to construct and design universally optimal methods for
 
 Previous work has dealt with compositions of Hölder smooth functions, which interpolate the smoothness between Lipschitz functions and those with Lipschitz gradient (typically denoted as "$$L$$-smooth"). We performed further analysis to incorpate uniform convexity (ranging from plain convexity to strong convexity) into the components as well. Our main contirubutions included a universal sliding method for heterogeneous compositions, as well as two propsoed constants the capture the "aggregate dualized approximate" upper and lower curvature: $$L_{\varepsilon,r}^\mathtt{ADA}$$ and $$\mu_{\varepsilon}^\mathtt{ADA}$$.  
 
-Current work aims to further analyze the complexity of first-order algorithms on functions that may only attain an approximate notion of smoothness. Future work will propse two new universal optimized gradient methods, one which is uniformly optimal and paramater free. More to follow in the upcoming months!
+Current work aims to further analyze the complexity of first-order algorithms on functions that may only attain an approximate notion of smoothness. Future work will propse new optimized gradient methods, one which is uniformly optimized and paramater free. More to follow in the upcoming months!
 
 #### **Papers (preprints)**<br>
 - A Universally Optimal Primal-Dual Method for Minimizing Heterogeneous Compositions	<a href="https://arxiv.org/abs/2503.07566" target="_blank">arXiv</a>

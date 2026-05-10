@@ -1,0 +1,339 @@
+{
+  "version": 11,
+  "randomSeed": "7c253322eb39e22dcf550ed0041c8862",
+  "graph": {
+    "viewport": {
+      "xmin": -1.8844474143650016,
+      "ymin": -1.8844474143650016,
+      "zmin": -1.8844474143650016,
+      "xmax": 1.8844474143650016,
+      "ymax": 1.8844474143650016,
+      "zmax": 1.8844474143650016
+    },
+    "worldRotation3D": [
+      0.5196952833495201,
+      0.8258567337158479,
+      0.21880920419577135,
+      -0.7611439465407593,
+      0.5638800008659021,
+      -0.32046721715045795,
+      -0.38804214347019855,
+      2.2825432531029354e-13,
+      0.9216416304027242
+    ],
+    "axis3D": [
+      0,
+      0,
+      1.0000000000060831
+    ],
+    "product": "graphing-3d",
+    "threeDMode": true,
+    "__v12ViewportLatexStash": {
+      "xmin": "-1.8844474143650016",
+      "xmax": "1.8844474143650016",
+      "ymin": "-1.8844474143650016",
+      "ymax": "1.8844474143650016",
+      "zmin": "-1.8844474143650016",
+      "zmax": "1.8844474143650016"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "folder",
+        "id": "2",
+        "title": "Balls"
+      },
+      {
+        "type": "expression",
+        "id": "3",
+        "folderId": "2",
+        "color": "#2d70b3",
+        "latex": "p\\ =1.33333",
+        "slider": {
+          "hardMin": true,
+          "min": "1",
+          "max": "10"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "4",
+        "folderId": "2",
+        "color": "#388c46",
+        "latex": "q\\ =\\ \\frac{p}{p-1}"
+      },
+      {
+        "type": "folder",
+        "id": "6",
+        "title": "p-norm ball and shadow",
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "7",
+        "folderId": "6",
+        "color": "#aaaaaa",
+        "latex": "\\left(\\left|A_{1}\\left(x,y,z-R\\right)\\right|^{p}+\\left|A_{2}\\left(x,y,z-R\\right)\\right|^{p}+\\left|A_{3}\\left(x,y,z-R\\right)\\right|^{p}\\right)^{\\frac{1}{p}}=R"
+      },
+      {
+        "type": "expression",
+        "id": "8",
+        "folderId": "6",
+        "color": "#c74440",
+        "latex": "R=0.89",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "2"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "34",
+        "folderId": "6",
+        "color": "#388c46",
+        "latex": "z_{1}=\\left[0,k,...,2R\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "33",
+        "folderId": "6",
+        "color": "#2d70b3",
+        "latex": "f\\left(x,y,z\\right)=\\left(\\left|A_{1}\\left(x,y,z-R\\right)\\right|^{p}+\\left|A_{2}\\left(x,y,z-R\\right)\\right|^{p}+\\left|A_{3}\\left(x,y,z-R\\right)\\right|^{p}\\right)^{\\frac{1}{p}}"
+      },
+      {
+        "type": "text",
+        "id": "41",
+        "folderId": "6",
+        "text": "k and E effect the shadows number of level sets and resolution"
+      },
+      {
+        "type": "expression",
+        "id": "39",
+        "folderId": "6",
+        "color": "#388c46",
+        "latex": "k=0.034",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "\\frac{R}{100}",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "37",
+        "folderId": "6",
+        "color": "#c74440",
+        "latex": "E\\ =0.003",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "0.1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "43",
+        "folderId": "6",
+        "color": "#c74440",
+        "latex": "z\\ =0\\ \\left\\{\\operatorname{abs}\\left(f\\left(x,y,z_{1}\\right)-R\\right)<E\\right\\}"
+      },
+      {
+        "type": "text",
+        "id": "47",
+        "folderId": "6",
+        "text": "If p = 4/3, one may obtain a circular shadow with this rotation"
+      },
+      {
+        "type": "folder",
+        "id": "11",
+        "title": "q-norm ball and cross section",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "12",
+        "folderId": "11",
+        "color": "#6042a6",
+        "latex": "\\left(\\left|x\\right|^{q}+\\left|y\\right|^{q}+\\left|z-R\\right|^{q}\\right)^{\\frac{1}{q}}\\le R\\ \\left\\{a_{1}x+b_{1}y+c_{1}\\left(z-R\\right)\\ \\le d_{1}\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "56",
+        "folderId": "11",
+        "color": "#388c46",
+        "latex": "a_{1}x+b_{1}y+c_{1}\\left(z-R\\right)\\ =D\\ \\left\\{\\left(\\left|x\\right|^{q}+\\left|y\\right|^{q}+\\left|z-R\\right|^{q}\\right)^{\\frac{1}{q}}=R\\ \\right\\}",
+        "lineWidth": "0.3"
+      },
+      {
+        "type": "expression",
+        "id": "57",
+        "folderId": "11",
+        "color": "#388c46",
+        "latex": "D=\\left[d_{1},\\ d_{1}+k_{2},\\ ...,\\ 10\\right]",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "59",
+        "folderId": "11",
+        "color": "#aaaaaa",
+        "latex": "k_{2}=0.1",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "50",
+        "folderId": "11",
+        "color": "#aaaaaa",
+        "latex": "a_{1}x+b_{1}y+c_{1}\\left(z-R\\right)\\ =d_{1}\\ \\left\\{\\left(\\left|x\\right|^{q}+\\left|y\\right|^{q}+\\left|z-R\\right|^{q}\\right)^{\\frac{1}{q}}=R\\ \\right\\}"
+      },
+      {
+        "type": "folder",
+        "id": "14",
+        "title": "Rotation Functions",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "28",
+        "folderId": "14",
+        "color": "#388c46",
+        "latex": "R_{eset}=\\ a\\to0,\\ b\\to0,\\ c\\to0"
+      },
+      {
+        "type": "expression",
+        "id": "45",
+        "folderId": "14",
+        "color": "#388c46",
+        "latex": "C_{ircleShadow}\\ =\\ a\\to-\\frac{\\pi}{12},\\ b\\ \\to\\ -\\arcsin\\left(\\frac{1}{\\sqrt{3}}\\right),\\ c\\to\\frac{\\pi}{4}"
+      },
+      {
+        "type": "expression",
+        "id": "18",
+        "folderId": "14",
+        "color": "#6042a6",
+        "latex": "a=-0.2617993877991494",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-\\pi",
+          "max": "\\pi"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "20",
+        "folderId": "14",
+        "color": "#c74440",
+        "latex": "b=-0.6154797086703874",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-\\pi",
+          "max": "\\pi"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "21",
+        "folderId": "14",
+        "color": "#2d70b3",
+        "latex": "c=0.7853981633974483",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-\\pi",
+          "max": "\\pi"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "22",
+        "folderId": "14",
+        "color": "#388c46",
+        "latex": "A_{1}\\left(x,y,z\\right)=\\cos\\left(a\\right)\\cos\\left(b\\right)x\\ +\\ \\left(\\cos\\left(a\\right)\\sin\\left(b\\right)\\sin\\left(c\\right)-\\sin\\left(a\\right)\\cos\\left(c\\right)\\right)y+\\left(\\cos\\left(a\\right)\\sin\\left(b\\right)\\cos\\left(c\\right)+\\sin\\left(a\\right)\\sin\\left(c\\right)\\right)z"
+      },
+      {
+        "type": "expression",
+        "id": "23",
+        "folderId": "14",
+        "color": "#6042a6",
+        "latex": "A_{2}\\left(x,y,z\\right)=\\sin\\left(a\\right)\\cos\\left(b\\right)x+\\left(\\sin\\left(a\\right)\\sin\\left(b\\right)\\sin\\left(c\\right)+\\cos\\left(a\\right)\\cos\\left(c\\right)\\right)y+\\left(\\sin\\left(a\\right)\\sin\\left(b\\right)\\cos\\left(c\\right)-\\cos\\left(a\\right)\\sin\\left(c\\right)\\right)z"
+      },
+      {
+        "type": "expression",
+        "id": "24",
+        "folderId": "14",
+        "color": "#aaaaaa",
+        "latex": "A_{3}\\left(x,y,z\\right)=-\\sin\\left(b\\right)x+\\cos\\left(b\\right)\\sin\\left(c\\right)y+\\cos\\left(b\\right)\\cos\\left(c\\right)z"
+      },
+      {
+        "type": "folder",
+        "id": "49",
+        "title": "Hyperplane",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "63",
+        "folderId": "49",
+        "color": "#388c46",
+        "latex": "a_{1}x+b_{1}y+c_{1}z\\ =d_{1}\\ \\left\\{\\left(\\left|x\\right|^{q}+\\left|y\\right|^{q}+\\left|z\\right|^{q}\\right)^{\\frac{1}{q}}\\ge R\\ \\right\\}\\left\\{\\left(\\left|x\\right|^{2}+\\left|y\\right|^{2}+\\left|z\\right|^{2}\\right)^{\\frac{1}{2}}<2R\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "51",
+        "folderId": "49",
+        "color": "#2d70b3",
+        "latex": "a_{1}=1",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "52",
+        "folderId": "49",
+        "color": "#388c46",
+        "latex": "b_{1}=1",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "53",
+        "folderId": "49",
+        "color": "#6042a6",
+        "latex": "c_{1}=1",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "54",
+        "folderId": "49",
+        "color": "#aaaaaa",
+        "latex": "d_{1}=0",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "55",
+        "folderId": "49",
+        "color": "#c74440"
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrate3dLineWidthZero": true,
+  "doNotMigrateMovablePointStyle": true
+}

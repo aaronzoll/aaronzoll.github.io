@@ -137,7 +137,7 @@ layout: default
         <script>
           (function () {
             var expressionsVisible = false;
-            var calc = window.desmosCalc = Desmos.Calculator(document.getElementById('calculator'), {
+            var calc = window.desmosCalc = {% if page.graph_3d %}Desmos.Calculator3D{% else %}Desmos.Calculator{% endif %}(document.getElementById('calculator'), {
               expressions: false,
               settingsMenu: false,
               keypad: false,
@@ -168,9 +168,39 @@ layout: default
 
       {% elsif page.desmos_url %}
 
-        <div class="desmos-embed-container">
-          <iframe src="{{ page.desmos_url }}?embed" allowfullscreen></iframe>
-        </div>
+        {% if page.graph_3d %}
+
+          <div class="desmos-controls">
+            <button class="desmos-toggle-btn" id="toggle-btn">Show Expressions</button>
+          </div>
+
+          <div class="desmos-embed-container">
+            <iframe id="desmos-3d-frame"
+                    src="{{ page.desmos_url }}?embed&expressions=false&settingsMenu=false&keypad=false"
+                    allowfullscreen></iframe>
+          </div>
+
+          <script>
+            (function () {
+              var expressionsVisible = false;
+              var baseUrl = '{{ page.desmos_url }}';
+              var frame = document.getElementById('desmos-3d-frame');
+              var btn = document.getElementById('toggle-btn');
+              btn.addEventListener('click', function () {
+                expressionsVisible = !expressionsVisible;
+                frame.src = baseUrl + '?embed&expressions=' + expressionsVisible + '&settingsMenu=false&keypad=false';
+                btn.textContent = expressionsVisible ? 'Hide Expressions' : 'Show Expressions';
+              });
+            })();
+          </script>
+
+        {% else %}
+
+          <div class="desmos-embed-container">
+            <iframe src="{{ page.desmos_url }}?embed" allowfullscreen></iframe>
+          </div>
+
+        {% endif %}
 
       {% endif %}
     </div>
