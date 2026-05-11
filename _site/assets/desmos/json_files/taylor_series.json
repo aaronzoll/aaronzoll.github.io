@@ -1,0 +1,218 @@
+{
+  "version": 11,
+  "randomSeed": "df06a7966c908daefb184dd8a755df43",
+  "graph": {
+    "viewport": {
+      "xmin": -2.7719196520334917,
+      "ymin": -3.2088303225961097,
+      "xmax": 7.6035240773194515,
+      "ymax": 3.8412551651417495
+    },
+    "showGrid": false,
+    "__v12ViewportLatexStash": {
+      "xmin": "-2.7719196520334917",
+      "xmax": "7.6035240773194515",
+      "ymin": "-3.2088303225961097",
+      "ymax": "3.8412551651417495"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "folder",
+        "id": "8",
+        "title": "Function"
+      },
+      {
+        "type": "expression",
+        "id": "1",
+        "folderId": "8",
+        "color": "#000000",
+        "latex": "f\\left(x\\right)\\ =\\ \\sin\\left(x\\right)+\\frac{\\left(\\left(x-1\\right)^{3}-6\\left(x-1\\right)^{2}+8\\left(x-1\\right)-10\\right)}{600}\\cos\\left(3\\left(x-3\\right)\\right)",
+        "lineWidth": "5"
+      },
+      {
+        "type": "expression",
+        "id": "4",
+        "folderId": "8",
+        "color": "#6042a6",
+        "latex": "a=2.29",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "5",
+        "folderId": "8",
+        "color": "#c74440",
+        "latex": "\\left(a,f\\left(a\\right)\\right)",
+        "pointStyle": "OPEN",
+        "pointSize": "8",
+        "movablePointSize": "8"
+      },
+      {
+        "type": "expression",
+        "id": "9",
+        "folderId": "8",
+        "color": "#388c46"
+      },
+      {
+        "type": "folder",
+        "id": "10",
+        "title": "Taylor Series"
+      },
+      {
+        "type": "expression",
+        "id": "2",
+        "folderId": "10",
+        "color": "#2d70b3",
+        "latex": "P_{k}\\left(x\\right)\\ =\\ \\sum_{n=0}^{k}\\frac{d_{erivs}\\left(a\\right)\\left[n+1\\right]}{n!}\\left(x-a\\right)^{n}",
+        "hidden": true,
+        "lineWidth": "4"
+      },
+      {
+        "type": "expression",
+        "id": "16",
+        "folderId": "10",
+        "color": "#6042a6",
+        "latex": "P_{k}\\left(x\\right)\\ \\left\\{x_{min}\\le x\\le x_{max}\\right\\}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "6",
+        "folderId": "10",
+        "color": "#c74440",
+        "latex": "k=3",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "67",
+        "folderId": "10",
+        "color": "#6042a6",
+        "latex": "m\\ =\\ \\operatorname{length}\\left(d_{erivs}\\left(a\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "13",
+        "folderId": "10",
+        "color": "#c74440",
+        "latex": "E\\ =0.05",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "17",
+        "folderId": "10",
+        "color": "#2d70b3",
+        "latex": "y=P_{k}\\left(x\\right)\\left\\{\\left|y-f\\left(x\\right)\\right|\\le E\\right\\}\\ ",
+        "lineWidth": "T"
+      },
+      {
+        "type": "expression",
+        "id": "107",
+        "folderId": "10",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "expression",
+        "id": "18",
+        "folderId": "10",
+        "color": "#2d70b3",
+        "latex": "P_{k}\\left(x\\right)",
+        "lineStyle": "DASHED",
+        "lineOpacity": "0.4",
+        "lineWidth": "T"
+      },
+      {
+        "type": "expression",
+        "id": "21",
+        "folderId": "10",
+        "color": "#388c46",
+        "latex": "T=5",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0"
+        }
+      },
+      {
+        "type": "folder",
+        "id": "20",
+        "title": "Junk"
+      },
+      {
+        "type": "expression",
+        "id": "14",
+        "folderId": "20",
+        "color": "#2d70b3",
+        "latex": "x_{max}=\\max\\left(X\\left[\\left|f\\left(X\\right)-P_{k}\\left(X\\right)\\right|+I\\left(X-a\\right)<E\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "23",
+        "folderId": "20",
+        "color": "#000000",
+        "latex": "I\\left(x\\right)=\\left\\{\\left|x\\right|\\le E_{1}:0,\\left|x\\right|>E_{1}:100\\right\\}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "24",
+        "folderId": "20",
+        "color": "#c74440",
+        "latex": "E_{1}=2",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "2"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "12",
+        "folderId": "20",
+        "color": "#000000",
+        "latex": "X\\ =\\ \\left[-5,-4.95,...,-1\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "15",
+        "folderId": "20",
+        "color": "#388c46",
+        "latex": "a-X"
+      },
+      {
+        "type": "expression",
+        "id": "11",
+        "folderId": "20",
+        "color": "#6042a6",
+        "latex": "x_{min}=\\min\\left(X\\left[\\left|f\\left(X\\right)-P_{k}\\left(X\\right)\\right|+I\\left(X-a\\right)<E\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "3",
+        "folderId": "20",
+        "color": "#388c46",
+        "latex": "d_{erivs}\\left(a\\right)\\ =\\ \\left[f\\left(a\\right),f'\\left(a\\right),\\ f''\\left(a\\right),\\ f'''\\left(a\\right),\\ f''''\\left(a\\right),\\ f'''''\\left(a\\right),\\ f''''''\\left(a\\right),\\ f'''''''\\left(a\\right),\\ f''''''''\\left(a\\right),\\ f'''''''''\\left(a\\right),f''''''''''\\left(a\\right)\\right]",
+        "hidden": true
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrateMovablePointStyle": true
+}
