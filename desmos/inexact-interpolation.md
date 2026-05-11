@@ -4,7 +4,7 @@ title: "L(delta) Inexactly Smooth Interpolation"
 title_math: '\(L(\delta)\)-Inexactly Smooth Interpolation'
 
 desmos_json: "L_delta_interpolation.json"
-desmos_url: "https://www.desmos.com/calculator/GRAPH_ID"
+desmos_url: "https://www.desmos.com/calculator/ukg2b09eb0"
 side_controls: true
 ---
 

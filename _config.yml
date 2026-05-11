@@ -324,3 +324,7 @@ defaults:
       comments: # true
       share: true
       related: true
+
+# Disable all jekyll-spaceship processors; we use our own MathJax 3 setup.
+jekyll-spaceship:
+  processors: []

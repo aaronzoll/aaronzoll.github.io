@@ -1,12 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <!--
   Minimal Mistakes Jekyll Theme 4.27.0 by Michael Rose
   Copyright 2013-2025 Michael Rose - mademistakes.com | @mmistakes
   Free for personal and commercial use under the MIT license
   https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
---><html lang="en-US" class="no-js">
+-->
+
+<html lang="en-US" class="no-js">
   <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Fixed Point Methods - Aaron Zoll Personal Website</title>
@@ -77,10 +78,254 @@
 
 <!-- insert favicons. use https://realfavicongenerator.net/ -->
 
+<link rel="stylesheet" href="/assets/css/math-envs.css">
+<script>
+// ── LaTeX → HTML preprocessor ────────────────────────────────────────────────
+// Applied to every <div class="latex-body"> before MathJax runs.
+// Converts theorem environments, display math envs, headings, text commands,
+// lists, and paragraph breaks so raw Overleaf LaTeX renders correctly.
+
+(function () {
+  function preprocessLatex(el) {
+    var h = el.innerHTML;
+    var stash = [];
+
+    // Normalize LaTeX typographic double-quotes → Unicode
+    h = h.replace(/``/g, '“').replace(/''/g, '”');
+
+    // Strip block environments that have no web equivalent (figures, tikz)
+    h = h.replace(/\\begin\{figure\*?\}[\s\S]*?\\end\{figure\*?\}/g, '');
+    h = h.replace(/\\begin\{tikzpicture\}[\s\S]*?\\end\{tikzpicture\}/g, '');
+    h = h.replace(/\\begin\{algorithm\}[\s\S]*?\\end\{algorithm\}/g, '');
+
+    // Normalize \begin{env}{}{} / \begin{env}{} → \begin{env}
+    // (thmtools sometimes adds extra {} optional arguments)
+    h = h.replace(/\\begin\{(\w+)\}(\{\}){1,2}/g, '\\begin{$1}');
+
+    function save(s)    { var i = stash.length; stash.push(s); return '\x00' + i + '\x00'; }
+    function restoreAll(s) {
+      // Iteratively restore in case stashed blocks contain other stash markers
+      var prev;
+      do {
+        prev = s;
+        s = s.replace(/\x00(\d+)\x00/g, function (_, i) { return stash[+i]; });
+      } while (s !== prev);
+      return s;
+    }
+
+    // 1. Stash and wrap standalone LaTeX display environments in \[...\]
+    var displayEnvs = ['align', 'alignat', 'equation', 'gather', 'multline', 'flalign', 'split'];
+    displayEnvs.forEach(function (e) {
+      [e, e + '*'].forEach(function (env) {
+        var esc = env.replace('*', '\\*');
+        h = h.replace(
+          new RegExp('\\\\begin\\{' + esc + '\\}([\\s\\S]*?)\\\\end\\{' + esc + '\\}', 'g'),
+          function (m) { return save('\\[' + m + '\\]'); }
+        );
+      });
+    });
+
+    // 2. Stash existing \[...\] and $$...$$ display math
+    h = h.replace(/\\\[([\s\S]*?)\\\]/g,  function (m) { return save(m); });
+    h = h.replace(/\$\$([\s\S]*?)\$\$/g, function (m) { return save(m); });
+
+    // 3. Convert theorem environments to HTML, then stash
+    var envs = {
+      theorem:     ['Theorem',     false],
+      definition:  ['Definition',  false],
+      proposition: ['Proposition', false],
+      lemma:       ['Lemma',       false],
+      corollary:   ['Corollary',   false],
+      remark:      ['Remark',      false],
+      example:     ['Example',     false],
+      problem:     ['Problem',     false],
+      algo:        ['Algorithm',   false],
+      assumption:  ['Assumption',  false],
+      proof:       ['Proof',       true ],
+    };
+    function inlineFormat(s) {
+      s = s.replace(/\\textbf\{([^}]*)\}/g,    '<strong>$1</strong>');
+      s = s.replace(/\\textit\{([^}]*)\}/g,    '<em>$1</em>');
+      s = s.replace(/\\emph\{([^}]*)\}/g,      '<em>$1</em>');
+      s = s.replace(/\\texttt\{([^}]*)\}/g,    '<code>$1</code>');
+      s = s.replace(/\\underline\{([^}]*)\}/g, '<u>$1</u>');
+      return s;
+    }
+    Object.keys(envs).forEach(function (name) {
+      var label = envs[name][0], isProof = envs[name][1];
+      h = h.replace(
+        new RegExp('\\\\begin\\{' + name + '\\}(\\[([^\\]]*)\\])?([\\s\\S]*?)\\\\end\\{' + name + '\\}', 'g'),
+        function (_, _br, opt, body) {
+          body = inlineFormat(body);
+          var html;
+          if (isProof) {
+            var cleaned = body
+              .replace(/\\qed\b/g, '')
+              .replace(/\\hfill\s*\$\\square\$\s*/g, '');
+            html = '<div class="math-proof"><span class="math-env-title">Proof.</span> ' +
+                   cleaned +
+                   '<div class="proof-end">$\\square$</div></div>';
+          } else {
+            var t = opt ? label + ' (' + opt + ')' : label;
+            html = '<div class="math-env math-env-' + name + '">' +
+                   '<span class="math-env-title">' + t + '.</span> ' +
+                   body + '</div>';
+          }
+          return save(html);
+        }
+      );
+    });
+
+    // 4. Stash section headings
+    h = h.replace(/\\section\*?\{([^}]*)\}/g,       function (_, t) { return save('<h2>' + t + '</h2>'); });
+    h = h.replace(/\\subsection\*?\{([^}]*)\}/g,    function (_, t) { return save('<h3>' + t + '</h3>'); });
+    h = h.replace(/\\subsubsection\*?\{([^}]*)\}/g, function (_, t) { return save('<h4>' + t + '</h4>'); });
+
+    // 5. Stash list environments
+    h = h.replace(/\\begin\{itemize\}([\s\S]*?)\\end\{itemize\}/g, function (_, c) {
+      var items = c.split(/\\item/).slice(1).map(function (s) { return '<li>' + s.trim() + '</li>'; });
+      return save('<ul>' + items.join('') + '</ul>');
+    });
+    h = h.replace(/\\begin\{enumerate\}([\s\S]*?)\\end\{enumerate\}/g, function (_, c) {
+      var items = c.split(/\\item/).slice(1).map(function (s) { return '<li>' + s.trim() + '</li>'; });
+      return save('<ol>' + items.join('') + '</ol>');
+    });
+
+    // 6. Inline text formatting (simple, non-nested arguments)
+    h = h.replace(/\\textbf\{([^}]*)\}/g,    '<strong>$1</strong>');
+    h = h.replace(/\\textit\{([^}]*)\}/g,    '<em>$1</em>');
+    h = h.replace(/\\emph\{([^}]*)\}/g,      '<em>$1</em>');
+    h = h.replace(/\\texttt\{([^}]*)\}/g,    '<code>$1</code>');
+    h = h.replace(/\\underline\{([^}]*)\}/g, '<u>$1</u>');
+    h = h.replace(/\\medskip\b/g,  '<div style="margin:0.6rem 0"></div>');
+    h = h.replace(/\\bigskip\b/g,  '<div style="margin:1.2rem 0"></div>');
+    h = h.replace(/\\smallskip\b/g,'<div style="margin:0.3rem 0"></div>');
+    h = h.replace(/\\noindent\b/g, '');
+    h = h.replace(/\\newline\b|\\\\(?!\[)/g, '<br>');
+
+    // 7. Strip \label, resolve \ref / \eqref as placeholders
+    h = h.replace(/\\label\{[^}]*\}/g, '');
+    h = h.replace(/\\eqref\{([^}]*)\}/g, '(?)');
+    h = h.replace(/\\[Cc]ref\{[^}]*\}/g, '?');
+    h = h.replace(/\\ref\{[^}]*\}/g, '?');
+
+    // 8. Paragraph wrapping: split on blank lines
+    var chunks = h.split(/\n{2,}/);
+    h = chunks.map(function (chunk) {
+      chunk = chunk.trim();
+      if (!chunk) return '';
+      // Chunk that is purely a stash marker — restore as-is (block element)
+      if (/^\x00\d+\x00$/.test(chunk)) return chunk;
+      return '<p>' + chunk + '</p>';
+    }).filter(Boolean).join('\n');
+
+    el.innerHTML = restoreAll(h);
+  }
+
+  window._preprocessLatex = preprocessLatex;
+})();
+
+// ── MathJax 3 configuration ──────────────────────────────────────────────────
+window.MathJax = {
+  tex: {
+    inlineMath:  [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    tags: 'ams',
+    macros: {
+      // ── Trace / matrix ops ──────────────────────────────────────────────
+      tr:      '\\mathrm{Tr}',
+      trace:   '\\mathrm{Tr}',
+      vect:    '\\mathbf{vec}',
+      bvec:    ['{\\mathbf{#1}}', 1],
+      matrx:   ['\\begin{bmatrix}#1\\end{bmatrix}', 1],
+      diag:    '\\operatorname{diag}',
+      Diag:    '\\operatorname{Diag}',
+      rank:    '\\operatorname{rank}',
+      sign:    '\\operatorname{sign}',
+      // ── Calligraphic / script ────────────────────────────────────────────
+      cI:   '\\mathcal{I}',
+      cX:   '\\mathcal{X}',
+      cB:   '\\mathcal{B}',
+      cE:   '\\mathcal{E}',
+      cA:   '\\mathcal{A}',
+      cU:   '\\mathcal{U}',
+      cS:   '\\mathcal{S}',
+      Lcal: '\\mathcal{L}',
+      Fscr: '\\mathscr{F}',
+      // ── Blackboard bold ──────────────────────────────────────────────────
+      F:      '\\mathbb{F}',
+      C:      '\\mathbb{C}',
+      R:      '\\mathbb{R}',
+      N:      '\\mathbb{N}',
+      NN:     '\\mathbb{N}',
+      ZZ:     '\\mathbb{Z}',
+      Q:      '\\mathbb{Q}',
+      EE:     '\\mathbb{E}',
+      Expect: '\\mathbb{E}',
+      // ── Linear algebra / analysis operators ──────────────────────────────
+      Dim:    '\\operatorname{dim}',
+      spann:  '\\operatorname{span}',
+      im:     '\\operatorname{Im}',
+      gph:    '\\operatorname{gph}',
+      supp:   '\\operatorname{supp}',
+      lip:    '\\operatorname{lip}',
+      var:    '\\operatorname{var}',
+      Var:    '\\operatorname{Var}',
+      op:     '\\mathrm{op}',
+      dist:   '{\\mathbf{dist}}',
+      proj:   '\\operatorname{proj}',
+      prox:   '\\operatorname{prox}',
+      St:     '\\text{subject to}',
+      // ── Delimiters / paired macros ───────────────────────────────────────
+      norm:   ['\\left\\|#1\\right\\|', 1],
+      opnorm: ['\\left\\|#1\\right\\|_{\\mathrm{op}}', 1],
+      abs:    ['\\left|#1\\right|', 1],
+      inner:  ['\\left\\langle#1,\\,#2\\right\\rangle', 2],
+      Prob:   ['\\mathbb{P}\\!\\left(#1\\right)', 1],
+      Expec:  ['\\mathbb{E}\\!\\left(#1\\right)', 1],
+      dom:    ['\\operatorname{dom}(#1)', 1],
+      // ── Convex analysis ──────────────────────────────────────────────────
+      epi:      '\\operatorname{epi}',
+      hypo:     '\\operatorname{hypo}',
+      interior: '\\operatorname{int}',
+      bdry:     '\\operatorname{bdy}',
+      relint:   '\\operatorname{ri}',
+      argmin:   '\\operatorname*{argmin}',
+      argmax:   '\\operatorname*{argmax}',
+      mini:     '\\operatorname*{minimize}',
+      ls:       '\\operatorname*{limsup}',
+      // ── Misc ─────────────────────────────────────────────────────────────
+      bcdot:  '\\ \\mathbf{\\cdot}\\ ',
+      eps:    '\\varepsilon',
+      Holder: '\\text{Hölder}',
+    },
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+  },
+  startup: {
+    ready() {
+      function doPreprocess() {
+        document.querySelectorAll('.latex-body').forEach(function (el) {
+          window._preprocessLatex(el);
+        });
+        MathJax.startup.defaultReady();
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', doPreprocess);
+      } else {
+        doPreprocess();
+      }
+    },
+  },
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" defer></script>
+
+
 <!-- end custom head snippets -->
 
-  <script>MathJax={"tex":{"inlineMath":[["$","$"],["\\(","\\)"]],"displayMath":[["$$","$$"],["\\[","\\]"]]},"svg":{"fontCache":"global"}}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-</head>
+  </head>
 
   <body class="layout--desmos-graph" dir="ltr">
     <nav class="skip-links">
@@ -102,23 +347,37 @@
           Aaron Zoll Personal Website
           
         </a>
-        <ul class="visible-links">
-<li class="masthead__menu-item">
-              <a href="/">Home</a>
-            </li>
-<li class="masthead__menu-item">
-              <a href="/about/">About</a>
-            </li>
-<li class="masthead__menu-item">
-              <a href="/research/">Research</a>
-            </li>
-<li class="masthead__menu-item">
-              <a href="/teaching/">Teaching</a>
-            </li>
-<li class="masthead__menu-item">
-              <a href="/DesmosGallery.html">Desmos Gallery</a>
-            </li>
-</ul>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/"
+                
+                
+              >Home</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/research/"
+                
+                
+              >Research</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/teaching/"
+                
+                
+              >Teaching</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/DesmosGallery.html"
+                
+                
+              >Desmos Gallery</a>
+            </li></ul>
         
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">Toggle menu</span>
@@ -296,8 +555,7 @@
     </div>
 
     
-      <div class="desmos-writeup page__content">
-<p><em>Write-up coming soon.</em></p>
+      <div class="desmos-writeup page__content"><p><em>Write-up coming soon.</em></p>
 
 <div class="fp-section">
 
@@ -415,7 +673,7 @@
   </ul>
 </div>
 
-<div class="page__footer-copyright">© 2026 <a href="http://localhost:4000">Aaron Zoll Personal Website</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2026 <a href="http://localhost:4000">Aaron Zoll Personal Website</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>

@@ -1,0 +1,96 @@
+/* ── Theorem environment boxes ───────────────────────────────────────────────
+   Mirrors the mdframed color scheme from the LaTeX preamble.
+   Body text is italic (matching \slshape); titles are bold + sans-serif.
+   ────────────────────────────────────────────────────────────────────────── */
+
+.math-env {
+  margin: 1.25rem 0;
+  padding: 0.6rem 0.9rem 0.7rem;
+  border: 2px solid;
+  border-radius: 6px;
+}
+
+.math-env-title {
+  font-weight: bold;
+  font-family: sans-serif;
+  font-style: normal;
+}
+
+/* Theorem — Blue */
+.math-env-theorem   { border-color: #2E6CB5; background: #EEF4FF; }
+.math-env-theorem   .math-env-title { color: #2E6CB5; }
+
+/* Definition — BrickRed */
+.math-env-definition { border-color: #B7312C; background: #FFF0EF; }
+.math-env-definition .math-env-title { color: #B7312C; }
+
+/* Proposition — Fuchsia */
+.math-env-proposition { border-color: #88007F; background: #FEF0FE; }
+.math-env-proposition .math-env-title { color: #88007F; }
+
+/* Lemma — Bittersweet */
+.math-env-lemma   { border-color: #C94B00; background: #FFF4EE; }
+.math-env-lemma   .math-env-title { color: #C94B00; }
+
+/* Corollary — Periwinkle */
+.math-env-corollary { border-color: #6D72C3; background: #F2F2FF; }
+.math-env-corollary .math-env-title { color: #6D72C3; }
+
+/* Remark — OliveGreen */
+.math-env-remark  { border-color: #3C8031; background: #F3FBF1; }
+.math-env-remark  .math-env-title { color: #3C8031; }
+
+/* Example — WildStrawberry */
+.math-env-example { border-color: #EE2177; background: #FFF0F6; }
+.math-env-example .math-env-title { color: #EE2177; }
+
+/* Problem — black/gray */
+.math-env-problem { border-color: #444444; background: #F6F6F6; }
+.math-env-problem .math-env-title { color: #222222; }
+
+/* Algorithm — YellowOrange */
+.math-env-algo    { border-color: #E8900A; background: #FFFBF0; }
+.math-env-algo    .math-env-title { color: #E8900A; }
+
+/* Assumption — Brown */
+.math-env-assumption { border-color: #7B3B00; background: #FFF5EE; }
+.math-env-assumption .math-env-title { color: #7B3B00; }
+
+/* ── Proof ───────────────────────────────────────────────────────────────── */
+
+.math-proof {
+  margin: 1.25rem 0;
+  padding: 0.6rem 0.9rem 0.7rem;
+  border-left: 4px solid #c0c8d0;
+  background: #fafafa;
+  border-radius: 0 4px 4px 0;
+}
+
+.math-proof .math-env-title {
+  font-weight: bold;
+  font-family: sans-serif;
+  font-style: normal;
+}
+
+.proof-end {
+  text-align: right;
+}
+
+/* ── latex-body container ────────────────────────────────────────────────── */
+/* Content pasted from Overleaf goes inside <div class="latex-body">.        */
+
+.latex-body p {
+  margin-top: 0;
+  margin-bottom: 0.9rem;
+}
+
+.latex-body > .math-env,
+.latex-body > .math-proof,
+.latex-body > h2,
+.latex-body > h3,
+.latex-body > h4,
+.latex-body > ul,
+.latex-body > ol {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
