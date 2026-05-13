@@ -86,7 +86,7 @@ For a 0-degree Taylor approximation, we simply take the constant function $P_0(x
 
 
 \begin{theorem}
-    The $k$-degree Taylor polynomial approximation at $a$ for the function $f(x)$ is $$P_k(x) = f(a) + f'(a)(x-a) + \frac{f''(a)}{2}(x-a)^2 + ... + \frac{f^{(k)}(a)}{k!}(x-a)^k = \sum_{n=0}^k \frac{f^{(n)}(a)}{n!}(x-a)^n$$
+    The $k$-degree Taylor polynomial approximation at $a$ for the function $f(x)$ is $$P_k(x) = f(a) + f'(a)(x-a) + \frac{f^{''}(a)}{2}(x-a)^2 + ... + \frac{f^{(k)}(a)}{k!}(x-a)^k = \sum_{n=0}^k \frac{f^{(n)}(a)}{n!}(x-a)^n$$
 \end{theorem}
 
 \begin{proof}
