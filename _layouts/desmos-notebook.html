@@ -1,0 +1,242 @@
+---
+layout: default
+---
+
+<style>
+  /* === Page wrapper === */
+  .dnb-page-wrap {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  .dnb-page-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .dnb-page-top h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  .dnb-page-links {
+    font-size: 0.9rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  /* === Individual graph component === */
+  .dnb-graph {
+    margin: 1.5rem 0;
+  }
+
+  .dnb-toggle-btn {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: 1px solid #a67b5b;
+    background: #fdf6ee;
+    color: #3b1f00;
+    border-radius: 3px;
+    transition: background 0.15s;
+    margin-bottom: 0.4rem;
+    display: inline-block;
+  }
+
+  .dnb-toggle-btn:hover {
+    background: #f0e0ca;
+  }
+
+  .dnb-calc-wrap {
+    width: 100%;
+    border: 2px solid #a67b5b;
+    outline: 4px ridge #593302;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .dnb-caption {
+    font-size: 0.88rem;
+    color: #555;
+    font-style: italic;
+    margin-top: 0.4rem;
+    text-align: center;
+  }
+
+  .dnb-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #888;
+    font-style: italic;
+  }
+
+  /* === Side-by-side row === */
+  .dnb-row {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    margin: 1.5rem 0;
+  }
+
+  .dnb-row > .dnb-graph {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .dnb-row > .dnb-graph--two-thirds {
+    flex: 2;
+  }
+
+  .dnb-row > .dnb-graph--one-third {
+    flex: 1;
+  }
+
+  /* === Float variants for text-wrap === */
+  .dnb-graph--float-left {
+    float: left;
+    width: 45%;
+    margin: 0 1.5rem 1rem 0;
+  }
+
+  .dnb-graph--float-right {
+    float: right;
+    width: 45%;
+    margin: 0 0 1rem 1.5rem;
+  }
+
+  /* === Clearfix for ending a float section === */
+  .dnb-clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* === Responsive: stack on narrow screens === */
+  @media (max-width: 680px) {
+    .dnb-row {
+      flex-direction: column;
+    }
+
+    .dnb-graph--float-left,
+    .dnb-graph--float-right {
+      float: none;
+      width: 100%;
+      margin: 1.5rem 0;
+    }
+  }
+</style>
+
+<div class="dnb-page-wrap">
+
+  <div class="dnb-page-top">
+    <h1>{% if page.title_math %}{{ page.title_math }}{% else %}{{ page.title }}{% endif %}</h1>
+    <div class="dnb-page-links">
+      <a href="/DesmosGallery">← Gallery</a>
+    </div>
+  </div>
+
+  <div class="dnb-content page__content">
+    {{ content }}
+  </div>
+
+</div>
+
+<script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=88d0c7b9a32a465da20a22e0e61756f3"></script>
+<script>
+  (function () {
+    document.querySelectorAll('.dnb-graph').forEach(function (container, idx) {
+      var jsonFile = container.getAttribute('data-json');
+      var urlSrc   = container.getAttribute('data-url');
+      var height   = parseInt(container.getAttribute('data-height'), 10) || 480;
+      var is3d     = container.getAttribute('data-3d') === 'true';
+      var noToggle = container.getAttribute('data-no-toggle') === 'true';
+      var readyFn  = container.getAttribute('data-ready-fn');
+
+      /* --- build toggle button (inserted as first child) --- */
+      var toggleBtn = null;
+      if (!noToggle) {
+        toggleBtn = document.createElement('button');
+        toggleBtn.className = 'dnb-toggle-btn';
+        toggleBtn.textContent = 'Show Expressions';
+        container.insertBefore(toggleBtn, container.firstChild);
+      }
+
+      /* --- build calc wrapper (inserted after toggle button) --- */
+      var wrap = document.createElement('div');
+      wrap.className = 'dnb-calc-wrap';
+      wrap.style.height = height + 'px';
+      if (toggleBtn) {
+        toggleBtn.after(wrap);
+      } else {
+        container.insertBefore(wrap, container.firstChild);
+      }
+
+      /* --- iframe path: URL provided without a JSON file --- */
+      if (urlSrc && !jsonFile) {
+        var iframe = document.createElement('iframe');
+        iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+        iframe.setAttribute('allowfullscreen', '');
+        var iframeExpVisible = false;
+        iframe.src = urlSrc + '?embed&expressions=false&settingsMenu=false&keypad=false';
+        wrap.appendChild(iframe);
+        if (toggleBtn) {
+          toggleBtn.addEventListener('click', function () {
+            iframeExpVisible = !iframeExpVisible;
+            iframe.src = urlSrc + '?embed&expressions=' + iframeExpVisible + '&settingsMenu=false&keypad=false';
+            toggleBtn.textContent = iframeExpVisible ? 'Hide Expressions' : 'Show Expressions';
+          });
+        }
+        return;
+      }
+
+      /* --- Desmos API path --- */
+      var calcDiv = document.createElement('div');
+      calcDiv.style.cssText = 'width:100%;height:100%;';
+      wrap.appendChild(calcDiv);
+
+      var opts = { expressions: false, settingsMenu: false, keypad: false };
+      var calc = is3d
+        ? Desmos.Calculator3D(calcDiv, opts)
+        : Desmos.Calculator(calcDiv, opts);
+
+      container.desmosCalc = calc;
+
+      if (toggleBtn) {
+        var exprVisible = false;
+        toggleBtn.addEventListener('click', function () {
+          exprVisible = !exprVisible;
+          calc.updateSettings({ expressions: exprVisible });
+          toggleBtn.textContent = exprVisible ? 'Hide Expressions' : 'Show Expressions';
+        });
+      }
+
+      if (jsonFile) {
+        fetch('/assets/desmos/json_files/' + jsonFile)
+          .then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          })
+          .then(function (state) {
+            calc.setState(state);
+            if (readyFn && typeof window[readyFn] === 'function') {
+              window[readyFn](calc, container);
+            }
+          })
+          .catch(function (err) {
+            wrap.innerHTML = '<div class="dnb-error">Could not load graph: ' + err.message + '</div>';
+          });
+      } else if (readyFn && typeof window[readyFn] === 'function') {
+        window[readyFn](calc, container);
+      }
+    });
+  })();
+</script>

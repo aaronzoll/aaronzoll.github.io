@@ -10,7 +10,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Taylor Series - Aaron Zoll Personal Website</title>
+<!-- begin _includes/seo.html --><title>Notebook Title Here - Aaron Zoll Personal Website</title>
 <meta name="description" content="An amazing website.">
 
 
@@ -21,8 +21,8 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Aaron Zoll Personal Website">
-<meta property="og:title" content="Taylor Series">
-<meta property="og:url" content="http://localhost:4000/desmos/taylor-series/">
+<meta property="og:title" content="Notebook Title Here">
+<meta property="og:url" content="http://localhost:4000/desmos/notebook_test/">
 
 
   <meta property="og:description" content="An amazing website.">
@@ -42,7 +42,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/desmos/taylor-series/">
+<link rel="canonical" href="http://localhost:4000/desmos/notebook_test/">
 
 
 
@@ -327,7 +327,7 @@ window.MathJax = {
 
   </head>
 
-  <body class="layout--desmos-graph" dir="ltr">
+  <body class="layout--desmos-notebook" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -391,41 +391,41 @@ window.MathJax = {
 
 
     <div class="initial-content">
-      
-
-<style>
-  .desmos-page-wrap {
+      <style>
+  /* === Page wrapper === */
+  .dnb-page-wrap {
     max-width: 1100px;
     margin: 2rem auto;
     padding: 0 1.5rem;
   }
 
-  .desmos-page-top {
+  .dnb-page-top {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
   }
 
-  .desmos-page-top h1 {
+  .dnb-page-top h1 {
     margin: 0;
     font-size: 1.6rem;
   }
 
-  .desmos-page-links {
+  .dnb-page-links {
     font-size: 0.9rem;
     display: flex;
     gap: 1.2rem;
     align-items: center;
   }
 
-  .desmos-controls {
-    margin-bottom: 0.5rem;
+  /* === Individual graph component === */
+  .dnb-graph {
+    margin: 1.5rem 0;
   }
 
-  .desmos-toggle-btn {
+  .dnb-toggle-btn {
     padding: 0.35rem 1rem;
     font-size: 0.85rem;
     cursor: pointer;
@@ -434,33 +434,31 @@ window.MathJax = {
     color: #3b1f00;
     border-radius: 3px;
     transition: background 0.15s;
+    margin-bottom: 0.4rem;
+    display: inline-block;
   }
 
-  .desmos-toggle-btn:hover {
+  .dnb-toggle-btn:hover {
     background: #f0e0ca;
   }
 
-  .desmos-embed-container {
+  .dnb-calc-wrap {
     width: 100%;
-    height: 650px;
     border: 2px solid #a67b5b;
     outline: 4px ridge #593302;
     box-sizing: border-box;
+    overflow: hidden;
   }
 
-  .desmos-embed-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
+  .dnb-caption {
+    font-size: 0.88rem;
+    color: #555;
+    font-style: italic;
+    margin-top: 0.4rem;
+    text-align: center;
   }
 
-  #calculator {
-    width: 100%;
-    height: 100%;
-  }
-
-  .desmos-error {
+  .dnb-error {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -469,163 +467,81 @@ window.MathJax = {
     font-style: italic;
   }
 
-  .desmos-writeup {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 2px solid #a67b5b;
-  }
-
-  /* Side-panel layout (opt-in via side_controls: true in front matter) */
-  .desmos-body--side {
+  /* === Side-by-side row === */
+  .dnb-row {
     display: flex;
-    gap: 1.5rem;
+    gap: 1.25rem;
     align-items: flex-start;
+    margin: 1.5rem 0;
   }
 
-  .desmos-body--side .desmos-embed-section {
+  .dnb-row > .dnb-graph {
     flex: 1;
     min-width: 0;
+    margin: 0;
   }
 
-  .desmos-side-panel {
-    width: 310px;
-    flex-shrink: 0;
-    border-left: 2px solid #d0d7de;
-    padding-left: 1.25rem;
-  }
-</style>
-
-<div class="desmos-page-wrap">
-
-  <div class="desmos-page-top">
-    <h1>Taylor Series</h1>
-    <div class="desmos-page-links">
-      <a href="/DesmosGallery">← Gallery</a>
-      <a href="https://www.desmos.com/calculator/urd7pwhni3" target="_blank">Open in Desmos ↗</a>
-    </div>
-  </div>
-
-  <div class="desmos-body desmos-body--side">
-
-    <div class="desmos-embed-section">
-      
-
-        <div class="desmos-controls">
-          <button class="desmos-toggle-btn" id="toggle-btn" onclick="toggleExpressions()">Show Expressions</button>
-        </div>
-
-        <div class="desmos-embed-container">
-          <div id="calculator"></div>
-        </div>
-
-        <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=88d0c7b9a32a465da20a22e0e61756f3"></script>
-        <script>
-          (function () {
-            var expressionsVisible = false;
-            var calc = window.desmosCalc = Desmos.Calculator(document.getElementById('calculator'), {
-              expressions: false,
-              settingsMenu: false,
-              keypad: false,
-            });
-
-            fetch('/assets/desmos/json_files/taylor_series.json')
-              .then(function (r) {
-                if (!r.ok) throw new Error('HTTP ' + r.status);
-                return r.json();
-              })
-              .then(function (state) {
-                calc.setState(state);
-                if (typeof window.onDesmosReady === 'function') window.onDesmosReady(calc);
-              })
-              .catch(function (err) {
-                document.getElementById('calculator').innerHTML =
-                  '<div class="desmos-error">Could not load graph state: ' + err.message + '</div>';
-              });
-
-            window.toggleExpressions = function () {
-              expressionsVisible = !expressionsVisible;
-              calc.updateSettings({ expressions: expressionsVisible });
-              document.getElementById('toggle-btn').textContent =
-                expressionsVisible ? 'Hide Expressions' : 'Show Expressions';
-            };
-          })();
-        </script>
-
-      
-    </div>
-
-    
-      <div class="desmos-side-panel page__content"><div class="ts-stack">
-
-  <span class="ts-section-label">Degree</span>
-
-  <div class="desmos-param">
-    <span class="desmos-param-label">\(k\) = <strong id="ts-k-val">3</strong></span>
-    <input class="site-slider" type="range" min="0" max="10" step="1" value="3" data-expr-id="6" data-latex-prefix="k=" data-val-id="ts-k-val" data-decimals="0" />
-  </div>
-
-</div>
-
-<style>
-  .ts-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  .dnb-row > .dnb-graph--two-thirds {
+    flex: 2;
   }
 
-  .ts-section-label {
-    font-weight: bold;
-    font-size: 0.82rem;
-    color: #4a5568;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+  .dnb-row > .dnb-graph--one-third {
+    flex: 1;
   }
-</style>
 
-<script>
-  window.onDesmosReady = function(calc) {
+  /* === Float variants for text-wrap === */
+  .dnb-graph--float-left {
+    float: left;
+    width: 45%;
+    margin: 0 1.5rem 1rem 0;
+  }
 
-    function initSlider(exprLatex, exprId, displayId) {
-      var h = calc.HelperExpression({ latex: exprLatex });
-      h.observe('numericValue', function() {
-        var val = h.numericValue;
-        if (isNaN(val)) { return; }
-        var input = document.querySelector('[data-expr-id="' + exprId + '"]');
-        var display = document.getElementById(displayId);
-        var d = input ? parseInt(input.getAttribute('data-decimals'), 10) : 2;
-        var decimals = isNaN(d) ? 2 : d;
-        if (input) { input.value = val; }
-        if (display) { display.textContent = val.toFixed(decimals); }
-        h.unobserve('numericValue');
-      });
+  .dnb-graph--float-right {
+    float: right;
+    width: 45%;
+    margin: 0 0 1rem 1.5rem;
+  }
+
+  /* === Clearfix for ending a float section === */
+  .dnb-clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* === Responsive: stack on narrow screens === */
+  @media (max-width: 680px) {
+    .dnb-row {
+      flex-direction: column;
     }
 
-    initSlider('k', '6', 'ts-k-val');
+    .dnb-graph--float-left,
+    .dnb-graph--float-right {
+      float: none;
+      width: 100%;
+      margin: 1.5rem 0;
+    }
+  }
+</style>
 
-    document.querySelectorAll('.ts-stack .site-slider').forEach(function(input) {
-      input.addEventListener('input', function() {
-        var val = parseFloat(input.value);
-        var d = parseInt(input.getAttribute('data-decimals'), 10);
-        var decimals = isNaN(d) ? 2 : d;
-        var exprId = input.getAttribute('data-expr-id');
-        var prefix = input.getAttribute('data-latex-prefix');
-        var valId = input.getAttribute('data-val-id');
-        var el = document.getElementById(valId);
-        if (el) { el.textContent = val.toFixed(decimals); }
-        calc.setExpression({ id: exprId, latex: prefix + val });
-      });
-    });
+<div class="dnb-page-wrap">
 
-  };
-</script>
-
-</div>
-    
-
+  <div class="dnb-page-top">
+    <h1>Notebook Title Here</h1>
+    <div class="dnb-page-links">
+      <a href="/DesmosGallery">← Gallery</a>
+    </div>
   </div>
 
-  
-    <div class="desmos-writeup page__content">
+  <div class="dnb-content page__content">
+    <p>Write your introduction here. Full Markdown is supported, and LaTeX via MathJax —
+inline like (f(x) = x^2) or display:</p>
+
+\[\nabla f(x) = 0\]
+
+<hr />
+
+<h2 id="single-full-width-graph">Single Full-Width Graph</h2>
 
 <div class="latex-body">
  Taylor Series are perhaps the most (and for some, the only) useful result to come from Calc II. There are higher dimensional generalizations that utilize generalized versions of first, second, and so on derivatives. We will just focus on the one-dimensional case as it is easiest to visualize.
@@ -673,10 +589,257 @@ Solving for $r$ we get the following lemma.
     Suppose a function admits a power series $f(x) = \sum_{n=0}^\infty c_n(x-a)^n$, then the radius of convergence is $$r = \lim_{n \to \infty} \left|\frac{c_n}{c_{n+1}}\right|$$
 \end{lemma}
 </div>
+
+<div class="dnb-graph" data-json="taylor_series.json" data-height="480">
+  <p class="dnb-caption">Figure 1: Optional caption goes here.</p>
 </div>
-  
+
+<p>Continue writing below the graph. Markdown prose, equations, headers — all work normally.</p>
+
+<hr />
+
+<h2 id="two-graphs-side-by-side">Two Graphs Side by Side</h2>
+
+<p>Wrap <code class="language-plaintext highlighter-rouge">.dnb-graph</code> elements in a <code class="language-plaintext highlighter-rouge">.dnb-row</code> to place them in a flex row.
+Both graphs share equal width by default.</p>
+
+<div class="dnb-row">
+  <div class="dnb-graph" data-json="left_graph.json" data-height="400">
+    <p class="dnb-caption">Left: caption here.</p>
+  </div>
+  <div class="dnb-graph" data-json="right_graph.json" data-height="400">
+    <p class="dnb-caption">Right: caption here.</p>
+  </div>
+</div>
+
+<p>For unequal widths, add <code class="language-plaintext highlighter-rouge">dnb-graph--two-thirds</code> to the wider one and
+<code class="language-plaintext highlighter-rouge">dnb-graph--one-third</code> to the narrower one:</p>
+
+<div class="dnb-row">
+  <div class="dnb-graph dnb-graph--two-thirds" data-json="main_graph.json" data-height="420">
+  </div>
+  <div class="dnb-graph dnb-graph--one-third" data-json="detail_graph.json" data-height="420">
+  </div>
+</div>
+
+<hr />
+
+<h2 id="text-wrapping-around-a-graph">Text Wrapping Around a Graph</h2>
+
+<p>Add <code class="language-plaintext highlighter-rouge">dnb-graph--float-right</code> (or <code class="language-plaintext highlighter-rouge">--float-left</code>) so text flows around the graph.
+Always follow the wrapping section with <code class="language-plaintext highlighter-rouge">&lt;div class="dnb-clearfix"&gt;&lt;/div&gt;</code> to stop the float.</p>
+
+<div class="dnb-graph dnb-graph--float-right" data-json="your_file.json" data-height="380">
+</div>
+
+<p>Write text here and it will wrap to the left of the floating graph. Continue for as
+many paragraphs as you like — the graph stays anchored to the right. You can include
+inline math like (L)-smooth functions or (\mu)-strong convexity naturally.</p>
+
+<div class="dnb-clearfix"></div>
+
+<hr />
+
+<h2 id="3d-graphs-via-url-iframe">3D Graphs via URL (iframe)</h2>
+
+<p>The Desmos 3D API differs from the 2D API. Use <code class="language-plaintext highlighter-rouge">data-url</code> (pointing at a public
+Desmos 3D link) to embed via iframe instead. The Show/Hide Expressions toggle still works.</p>
+
+<div class="dnb-graph" data-url="https://www.desmos.com/3d/YOUR_GRAPH_ID" data-height="500">
+</div>
+
+<p>You can also use <code class="language-plaintext highlighter-rouge">data-url</code> for any 2D graph when you only have the public URL and
+not the JSON state file.</p>
+
+<hr />
+
+<h2 id="hiding-the-expressions-toggle">Hiding the Expressions Toggle</h2>
+
+<p>Add <code class="language-plaintext highlighter-rouge">data-no-toggle="true"</code> to remove the “Show Expressions” button for a cleaner look.</p>
+
+<div class="dnb-graph" data-json="clean_graph.json" data-height="400" data-no-toggle="true">
+</div>
+
+<hr />
+
+<h2 id="interactive-controls-sliders-buttons">Interactive Controls (Sliders, Buttons)</h2>
+
+<p>Use <code class="language-plaintext highlighter-rouge">data-ready-fn</code> to name a JavaScript callback that receives the Desmos calculator
+instance once its JSON is loaded. Put your slider/button HTML inside the <code class="language-plaintext highlighter-rouge">.dnb-graph</code>
+div — it renders below the calculator — and wire it up in the callback.</p>
+
+<div class="dnb-graph" data-json="interactive_graph.json" data-height="460" data-ready-fn="myGraphReady">
+
+  <div style="margin-top:0.75rem;">
+    <span>\(a\) = <strong id="my-a-val">1.00</strong></span><br />
+    <input type="range" min="0" max="3" step="0.01" value="1" id="my-slider-a" />
+  </div>
 
 </div>
+
+<script>
+  function myGraphReady(calc, container) {
+    document.getElementById('my-slider-a').addEventListener('input', function () {
+      var val = parseFloat(this.value);
+      document.getElementById('my-a-val').textContent = val.toFixed(2);
+      calc.setExpression({ id: 'EXPR_ID', latex: 'a=' + val });
+    });
+  }
+</script>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">'EXPR_ID'</code> with the actual expression ID from the Desmos JSON, and adjust
+the <code class="language-plaintext highlighter-rouge">data-latex-prefix</code> pattern to match your graph’s variable names.</p>
+
+<hr />
+
+<h2 id="quick-reference">Quick Reference</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Default</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">data-json="file.json"</code></td>
+      <td>—</td>
+      <td>Load graph state from <code class="language-plaintext highlighter-rouge">/assets/desmos/json_files/</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">data-url="https://..."</code></td>
+      <td>—</td>
+      <td>Embed as iframe (use when no JSON available)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">data-height="480"</code></td>
+      <td><code class="language-plaintext highlighter-rouge">480</code></td>
+      <td>Calculator height in pixels</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">data-3d="true"</code></td>
+      <td><code class="language-plaintext highlighter-rouge">false</code></td>
+      <td>Use <code class="language-plaintext highlighter-rouge">Desmos.Calculator3D</code> instead of <code class="language-plaintext highlighter-rouge">Desmos.Calculator</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">data-no-toggle="true"</code></td>
+      <td><code class="language-plaintext highlighter-rouge">false</code></td>
+      <td>Hide the Show/Hide Expressions button</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">data-ready-fn="fnName"</code></td>
+      <td>—</td>
+      <td>Callback <code class="language-plaintext highlighter-rouge">window.fnName(calc, container)</code> after JSON loads</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Layout helpers:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">.dnb-row</code> — flex row container for side-by-side graphs</li>
+  <li><code class="language-plaintext highlighter-rouge">.dnb-graph--two-thirds</code> / <code class="language-plaintext highlighter-rouge">.dnb-graph--one-third</code> — unequal widths inside a row</li>
+  <li><code class="language-plaintext highlighter-rouge">.dnb-graph--float-left</code> / <code class="language-plaintext highlighter-rouge">.dnb-graph--float-right</code> — float for text wrapping (45% wide)</li>
+  <li><code class="language-plaintext highlighter-rouge">.dnb-clearfix</code> — end a float section</li>
+  <li><code class="language-plaintext highlighter-rouge">.dnb-caption</code> — styled italic caption below a graph</li>
+</ul>
+
+  </div>
+
+</div>
+
+<script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=88d0c7b9a32a465da20a22e0e61756f3"></script>
+<script>
+  (function () {
+    document.querySelectorAll('.dnb-graph').forEach(function (container, idx) {
+      var jsonFile = container.getAttribute('data-json');
+      var urlSrc   = container.getAttribute('data-url');
+      var height   = parseInt(container.getAttribute('data-height'), 10) || 480;
+      var is3d     = container.getAttribute('data-3d') === 'true';
+      var noToggle = container.getAttribute('data-no-toggle') === 'true';
+      var readyFn  = container.getAttribute('data-ready-fn');
+
+      /* --- build toggle button (inserted as first child) --- */
+      var toggleBtn = null;
+      if (!noToggle) {
+        toggleBtn = document.createElement('button');
+        toggleBtn.className = 'dnb-toggle-btn';
+        toggleBtn.textContent = 'Show Expressions';
+        container.insertBefore(toggleBtn, container.firstChild);
+      }
+
+      /* --- build calc wrapper (inserted after toggle button) --- */
+      var wrap = document.createElement('div');
+      wrap.className = 'dnb-calc-wrap';
+      wrap.style.height = height + 'px';
+      if (toggleBtn) {
+        toggleBtn.after(wrap);
+      } else {
+        container.insertBefore(wrap, container.firstChild);
+      }
+
+      /* --- iframe path: URL provided without a JSON file --- */
+      if (urlSrc && !jsonFile) {
+        var iframe = document.createElement('iframe');
+        iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+        iframe.setAttribute('allowfullscreen', '');
+        var iframeExpVisible = false;
+        iframe.src = urlSrc + '?embed&expressions=false&settingsMenu=false&keypad=false';
+        wrap.appendChild(iframe);
+        if (toggleBtn) {
+          toggleBtn.addEventListener('click', function () {
+            iframeExpVisible = !iframeExpVisible;
+            iframe.src = urlSrc + '?embed&expressions=' + iframeExpVisible + '&settingsMenu=false&keypad=false';
+            toggleBtn.textContent = iframeExpVisible ? 'Hide Expressions' : 'Show Expressions';
+          });
+        }
+        return;
+      }
+
+      /* --- Desmos API path --- */
+      var calcDiv = document.createElement('div');
+      calcDiv.style.cssText = 'width:100%;height:100%;';
+      wrap.appendChild(calcDiv);
+
+      var opts = { expressions: false, settingsMenu: false, keypad: false };
+      var calc = is3d
+        ? Desmos.Calculator3D(calcDiv, opts)
+        : Desmos.Calculator(calcDiv, opts);
+
+      container.desmosCalc = calc;
+
+      if (toggleBtn) {
+        var exprVisible = false;
+        toggleBtn.addEventListener('click', function () {
+          exprVisible = !exprVisible;
+          calc.updateSettings({ expressions: exprVisible });
+          toggleBtn.textContent = exprVisible ? 'Hide Expressions' : 'Show Expressions';
+        });
+      }
+
+      if (jsonFile) {
+        fetch('/assets/desmos/json_files/' + jsonFile)
+          .then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json();
+          })
+          .then(function (state) {
+            calc.setState(state);
+            if (readyFn && typeof window[readyFn] === 'function') {
+              window[readyFn](calc, container);
+            }
+          })
+          .catch(function (err) {
+            wrap.innerHTML = '<div class="dnb-error">Could not load graph: ' + err.message + '</div>';
+          });
+      } else if (readyFn && typeof window[readyFn] === 'function') {
+        window[readyFn](calc, container);
+      }
+    });
+  })();
+</script>
 
       
     </div>
