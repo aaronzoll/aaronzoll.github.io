@@ -9,8 +9,9 @@
     var h = el.innerHTML;
     var stash = [];
 
-    // Normalize LaTeX typographic double-quotes → Unicode
-    h = h.replace(/``/g, '“').replace(/''/g, '”');
+    // Normalize LaTeX opening double-quotes → Unicode
+    // Note: '' is intentionally NOT converted — it appears in math as derivative notation (f'', f'''')
+    h = h.replace(/``/g, '“');
 
     // Strip block environments that have no web equivalent (figures, tikz)
     h = h.replace(/\\begin\{figure\*?\}[\s\S]*?\\end\{figure\*?\}/g, '');
