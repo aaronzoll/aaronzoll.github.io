@@ -167,8 +167,22 @@ I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank"
 
   <div class="featured-demo-row">
     <div class="demo-text">
+      <div class="demo-title"><a href="/desmos/runga-kutta-2" target="_blank">Second Order Runge-Kutta Methods</a></div>
+      <p class="demo-blurb">Runga Kutta Methods are efficient and practical ways to accurately model a trajectory given information about its underlying vector field. Here we demonstrate multiple classical two-step methods, as well as the general form supplying a class of provably convergent methods. Watch how increasing the number of steps (decreasing the step size) affects the stability of the iteratively built trajectory!</p>
+    </div>
+    <div class="demo-image">
+      <a href="/desmos/runga-kutta-2" target="_blank">
+        <div class="demo-picture">
+          <img src="/assets/desmos/images/rk2.png" alt="Second Order Runge-Kutta Methods">
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="featured-demo-row">
+    <div class="demo-text">
       <div class="demo-title"><a href="/desmos/lagrange-hermite-interpolation" target="_blank">Lagrange/Hermite Interpolation</a></div>
-      <p class="demo-blurb">Explore polynomial interpolation through both Lagrange and Hermite basis functions; the former interpolating points and function values, while the latter incorporates derivatives. Toggle between these methods and isolate individual basis polynomials to see how they sum to produce the full interpolant.</p>
+      <p class="demo-blurb">Interpolation theory has many applications in data science, optimization, and machine learning. Here, you may explore polynomial interpolation through both Lagrange and Hermite basis functions, the former interpolating points and function values while the latter incorporates derivatives. Toggle between these methods and isolate individual basis polynomials to see how they sum to produce the full interpolant. </p>
     </div>
     <div class="demo-image">
       <a href="/desmos/lagrange-hermite-interpolation" target="_blank">
@@ -182,7 +196,7 @@ I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank"
   <div class="featured-demo-row">
     <div class="demo-text">
       <div class="demo-title"><a href="/desmos/taylor-series" target="_blank">Taylor Series</a></div>
-      <p class="demo-blurb">Construct polynomials to approximate smooth functions using perhaps the most important results from calc II. Slide the degree up and watch the Taylor polynomial zero in around its radius of convergence.</p>
+      <p class="demo-blurb">Construct polynomials to approximate smooth functions using perhaps the most important results from calc II. As you increase the degree, you may notice the polynomial converge, but be wary that depending on the function, its radius of convergence may be finite. </p>
     </div>
     <div class="demo-image">
       <a href="/desmos/taylor-series" target="_blank">
@@ -196,7 +210,7 @@ I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank"
   <div class="featured-demo-row">
     <div class="demo-text">
       <div class="demo-title"><a href="/desmos/finite-diff" target="_blank">Finite Difference Interpolation</a></div>
-      <p class="demo-blurb">Visualize how finite difference methods approximate derivatives. Compare standard Order-2 and Order-4 central difference formulas, or interact with custom interpolation nodes to derive general finite difference rules.</p>
+      <p class="demo-blurb">Here you may visualize how finite difference methods approximate derivatives. Compare standard central difference formulas, or interact with custom interpolation nodes to derive general finite difference rules.</p>
     </div>
     <div class="demo-image">
       <a href="/desmos/finite-diff" target="_blank">

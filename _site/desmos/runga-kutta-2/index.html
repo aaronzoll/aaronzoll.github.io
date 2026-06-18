@@ -1,0 +1,965 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.27.0 by Michael Rose
+  Copyright 2013-2025 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Second Order Runge Kutta Methods - Aaron Zoll Personal Website</title>
+<meta name="description" content="An amazing website.">
+
+
+  <meta name="author" content="Aaron Zoll">
+  
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Aaron Zoll Personal Website">
+<meta property="og:title" content="Second Order Runge Kutta Methods">
+<meta property="og:url" content="http://localhost:4000/desmos/runga-kutta-2/">
+
+
+  <meta property="og:description" content="An amazing website.">
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/desmos/runga-kutta-2/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<link rel="stylesheet" href="/assets/css/math-envs.css">
+<script>
+// ── LaTeX → HTML preprocessor ────────────────────────────────────────────────
+// Applied to every <div class="latex-body"> before MathJax runs.
+// Converts theorem environments, display math envs, headings, text commands,
+// lists, and paragraph breaks so raw Overleaf LaTeX renders correctly.
+
+(function () {
+  function preprocessLatex(el) {
+    var h = el.innerHTML;
+    var stash = [];
+
+    // Normalize LaTeX opening double-quotes → Unicode
+    // Note: '' is intentionally NOT converted — it appears in math as derivative notation (f'', f'''')
+    h = h.replace(/``/g, '“');
+
+    // Strip block environments that have no web equivalent (figures, tikz)
+    h = h.replace(/\\begin\{figure\*?\}[\s\S]*?\\end\{figure\*?\}/g, '');
+    h = h.replace(/\\begin\{tikzpicture\}[\s\S]*?\\end\{tikzpicture\}/g, '');
+    h = h.replace(/\\begin\{algorithm\}[\s\S]*?\\end\{algorithm\}/g, '');
+
+    // Normalize \begin{env}{}{} / \begin{env}{} → \begin{env}
+    // (thmtools sometimes adds extra {} optional arguments)
+    h = h.replace(/\\begin\{(\w+)\}(\{\}){1,2}/g, '\\begin{$1}');
+
+    function save(s)    { var i = stash.length; stash.push(s); return '\x00' + i + '\x00'; }
+    function restoreAll(s) {
+      // Iteratively restore in case stashed blocks contain other stash markers
+      var prev;
+      do {
+        prev = s;
+        s = s.replace(/\x00(\d+)\x00/g, function (_, i) { return stash[+i]; });
+      } while (s !== prev);
+      return s;
+    }
+
+    // 1. Stash and wrap standalone LaTeX display environments in \[...\]
+    var displayEnvs = ['align', 'alignat', 'equation', 'gather', 'multline', 'flalign', 'split'];
+    displayEnvs.forEach(function (e) {
+      [e, e + '*'].forEach(function (env) {
+        var esc = env.replace('*', '\\*');
+        h = h.replace(
+          new RegExp('\\\\begin\\{' + esc + '\\}([\\s\\S]*?)\\\\end\\{' + esc + '\\}', 'g'),
+          function (m) { return save('\\[' + m + '\\]'); }
+        );
+      });
+    });
+
+    // 2. Stash existing \[...\] and $$...$$ display math
+    h = h.replace(/\\\[([\s\S]*?)\\\]/g,  function (m) { return save(m); });
+    h = h.replace(/\$\$([\s\S]*?)\$\$/g, function (m) { return save(m); });
+
+    // 3. Stash list environments (must precede theorem envs so lists inside them render)
+    // inlineFormat is a function declaration below and is hoisted, so safe to call here.
+    h = h.replace(/\\begin\{itemize\}([\s\S]*?)\\end\{itemize\}/g, function (_, c) {
+      var items = c.split(/\\item\b/).slice(1).map(function (s) {
+        return '<li>' + inlineFormat(s.replace(/^\s*\[[^\]]*\]\s*/, '').trim()) + '</li>';
+      });
+      return save('<ul>' + items.join('') + '</ul>');
+    });
+    h = h.replace(/\\begin\{enumerate\}(\[[^\]]*\])?([\s\S]*?)\\end\{enumerate\}/g, function (_, opt, c) {
+      var attr = '';
+      if (opt) {
+        var inner = opt.slice(1, -1).trim();
+        if      (/^[a-hj-z][).]*$/.test(inner)) attr = ' type="a"';
+        else if (/^i[).]*$/.test(inner))         attr = ' type="i"';
+        else if (/^[A-HJ-Z][).]*$/.test(inner)) attr = ' type="A"';
+        else if (/^I[).]*$/.test(inner))         attr = ' type="I"';
+      }
+      var items = c.split(/\\item\b/).slice(1).map(function (s) {
+        return '<li>' + inlineFormat(s.replace(/^\s*\[[^\]]*\]\s*/, '').trim()) + '</li>';
+      });
+      return save('<ol' + attr + '>' + items.join('') + '</ol>');
+    });
+
+    // 4. Convert theorem environments to HTML, then stash
+    var envs = {
+      theorem:     ['Theorem',     false],
+      definition:  ['Definition',  false],
+      proposition: ['Proposition', false],
+      lemma:       ['Lemma',       false],
+      corollary:   ['Corollary',   false],
+      remark:      ['Remark',      false],
+      example:     ['Example',     false],
+      problem:     ['Problem',     false],
+      algo:        ['Algorithm',   false],
+      assumption:  ['Assumption',  false],
+      proof:       ['Proof',       true ],
+    };
+    function inlineFormat(s) {
+      s = s.replace(/\\textbf\{([^}]*)\}/g,    '<strong>$1</strong>');
+      s = s.replace(/\\textit\{([^}]*)\}/g,    '<em>$1</em>');
+      s = s.replace(/\\emph\{([^}]*)\}/g,      '<em>$1</em>');
+      s = s.replace(/\\texttt\{([^}]*)\}/g,    '<code>$1</code>');
+      s = s.replace(/\\underline\{([^}]*)\}/g, '<u>$1</u>');
+      return s;
+    }
+    Object.keys(envs).forEach(function (name) {
+      var label = envs[name][0], isProof = envs[name][1];
+      h = h.replace(
+        new RegExp('\\\\begin\\{' + name + '\\}(\\[([^\\]]*)\\])?([\\s\\S]*?)\\\\end\\{' + name + '\\}', 'g'),
+        function (_, _br, opt, body) {
+          body = inlineFormat(body);
+          var html;
+          if (isProof) {
+            var cleaned = body
+              .replace(/\\qed\b/g, '')
+              .replace(/\\hfill\s*\$\\square\$\s*/g, '');
+            html = '<div class="math-proof"><span class="math-env-title">Proof.</span> ' +
+                   cleaned +
+                   '<div class="proof-end">$\\square$</div></div>';
+          } else {
+            var t = opt ? label + ' (' + opt + ')' : label;
+            html = '<div class="math-env math-env-' + name + '">' +
+                   '<span class="math-env-title">' + t + '.</span> ' +
+                   body + '</div>';
+          }
+          return save(html);
+        }
+      );
+    });
+
+    // 5. Stash section headings
+    h = h.replace(/\\section\*?\{([^}]*)\}/g,       function (_, t) { return save('<h2>' + t + '</h2>'); });
+    h = h.replace(/\\subsection\*?\{([^}]*)\}/g,    function (_, t) { return save('<h3>' + t + '</h3>'); });
+    h = h.replace(/\\subsubsection\*?\{([^}]*)\}/g, function (_, t) { return save('<h4>' + t + '</h4>'); });
+
+    // 6. Inline text formatting (simple, non-nested arguments)
+    h = h.replace(/\\textbf\{([^}]*)\}/g,    '<strong>$1</strong>');
+    h = h.replace(/\\textit\{([^}]*)\}/g,    '<em>$1</em>');
+    h = h.replace(/\\emph\{([^}]*)\}/g,      '<em>$1</em>');
+    h = h.replace(/\\texttt\{([^}]*)\}/g,    '<code>$1</code>');
+    h = h.replace(/\\underline\{([^}]*)\}/g, '<u>$1</u>');
+    h = h.replace(/\\medskip\b/g,  '<div style="margin:0.6rem 0"></div>');
+    h = h.replace(/\\bigskip\b/g,  '<div style="margin:1.2rem 0"></div>');
+    h = h.replace(/\\smallskip\b/g,'<div style="margin:0.3rem 0"></div>');
+    h = h.replace(/\\noindent\b/g, '');
+    h = h.replace(/\\newline\b|\\\\(?!\[)/g, '<br>');
+
+    // 7. Strip \label, resolve \ref / \eqref as placeholders
+    h = h.replace(/\\label\{[^}]*\}/g, '');
+    h = h.replace(/\\eqref\{([^}]*)\}/g, '(?)');
+    h = h.replace(/\\[Cc]ref\{[^}]*\}/g, '?');
+    h = h.replace(/\\ref\{[^}]*\}/g, '?');
+
+    // 8. Paragraph wrapping: split on blank lines
+    var chunks = h.split(/\n{2,}/);
+    h = chunks.map(function (chunk) {
+      chunk = chunk.trim();
+      if (!chunk) return '';
+      // Chunk that is purely a stash marker — restore as-is (block element)
+      if (/^\x00\d+\x00$/.test(chunk)) return chunk;
+      return '<p>' + chunk + '</p>';
+    }).filter(Boolean).join('\n');
+
+    el.innerHTML = restoreAll(h);
+  }
+
+  window._preprocessLatex = preprocessLatex;
+})();
+
+// ── MathJax 3 configuration ──────────────────────────────────────────────────
+window.MathJax = {
+  tex: {
+    inlineMath:  [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    tags: 'ams',
+    macros: {
+      // ── Trace / matrix ops ──────────────────────────────────────────────
+      tr:      '\\mathrm{Tr}',
+      trace:   '\\mathrm{Tr}',
+      vect:    '\\mathbf{vec}',
+      bvec:    ['{\\mathbf{#1}}', 1],
+      matrx:   ['\\begin{bmatrix}#1\\end{bmatrix}', 1],
+      diag:    '\\operatorname{diag}',
+      Diag:    '\\operatorname{Diag}',
+      rank:    '\\operatorname{rank}',
+      sign:    '\\operatorname{sign}',
+      // ── Calligraphic / script ────────────────────────────────────────────
+      cI:   '\\mathcal{I}',
+      cX:   '\\mathcal{X}',
+      cB:   '\\mathcal{B}',
+      cE:   '\\mathcal{E}',
+      cA:   '\\mathcal{A}',
+      cU:   '\\mathcal{U}',
+      cS:   '\\mathcal{S}',
+      Lcal: '\\mathcal{L}',
+      Fscr: '\\mathscr{F}',
+      // ── Blackboard bold ──────────────────────────────────────────────────
+      F:      '\\mathbb{F}',
+      C:      '\\mathbb{C}',
+      R:      '\\mathbb{R}',
+      N:      '\\mathbb{N}',
+      NN:     '\\mathbb{N}',
+      ZZ:     '\\mathbb{Z}',
+      Q:      '\\mathbb{Q}',
+      EE:     '\\mathbb{E}',
+      Expect: '\\mathbb{E}',
+      // ── Linear algebra / analysis operators ──────────────────────────────
+      Dim:    '\\operatorname{dim}',
+      spann:  '\\operatorname{span}',
+      im:     '\\operatorname{Im}',
+      gph:    '\\operatorname{gph}',
+      supp:   '\\operatorname{supp}',
+      lip:    '\\operatorname{lip}',
+      var:    '\\operatorname{var}',
+      Var:    '\\operatorname{Var}',
+      op:     '\\mathrm{op}',
+      dist:   '{\\mathbf{dist}}',
+      proj:   '\\operatorname{proj}',
+      prox:   '\\operatorname{prox}',
+      St:     '\\text{subject to}',
+      // ── Delimiters / paired macros ───────────────────────────────────────
+      norm:   ['\\left\\|#1\\right\\|', 1],
+      opnorm: ['\\left\\|#1\\right\\|_{\\mathrm{op}}', 1],
+      abs:    ['\\left|#1\\right|', 1],
+      inner:  ['\\left\\langle#1,\\,#2\\right\\rangle', 2],
+      Prob:   ['\\mathbb{P}\\!\\left(#1\\right)', 1],
+      Expec:  ['\\mathbb{E}\\!\\left(#1\\right)', 1],
+      dom:    ['\\operatorname{dom}(#1)', 1],
+      // ── Convex analysis ──────────────────────────────────────────────────
+      epi:      '\\operatorname{epi}',
+      hypo:     '\\operatorname{hypo}',
+      interior: '\\operatorname{int}',
+      bdry:     '\\operatorname{bdy}',
+      relint:   '\\operatorname{ri}',
+      argmin:   '\\operatorname*{argmin}',
+      argmax:   '\\operatorname*{argmax}',
+      mini:     '\\operatorname*{minimize}',
+      ls:       '\\operatorname*{limsup}',
+      // ── Misc ─────────────────────────────────────────────────────────────
+      bcdot:  '\\ \\mathbf{\\cdot}\\ ',
+      eps:    '\\varepsilon',
+      Holder: '\\text{Hölder}',
+    },
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+  },
+  startup: {
+    ready() {
+      function doPreprocess() {
+        document.querySelectorAll('.latex-body').forEach(function (el) {
+          window._preprocessLatex(el);
+        });
+        MathJax.startup.defaultReady();
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', doPreprocess);
+      } else {
+        doPreprocess();
+      }
+    },
+  },
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" defer></script>
+
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--desmos-graph" dir="ltr">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Aaron Zoll Personal Website
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/"
+                
+                
+              >Home</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/about/"
+                
+                
+              >About</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/research/"
+                
+                
+              >Research</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/teaching/"
+                
+                
+              >Teaching</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/DesmosGallery.html"
+                
+                
+              >Desmos Gallery</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+<style>
+  .desmos-page-wrap {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  .desmos-page-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .desmos-page-top h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  .desmos-page-links {
+    font-size: 0.9rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  .desmos-controls {
+    margin-bottom: 0.5rem;
+  }
+
+  .desmos-toggle-btn {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: 1px solid #a67b5b;
+    background: #fdf6ee;
+    color: #3b1f00;
+    border-radius: 3px;
+    transition: background 0.15s;
+  }
+
+  .desmos-toggle-btn:hover {
+    background: #f0e0ca;
+  }
+
+  .desmos-embed-container {
+    width: 100%;
+    height: 650px;
+    border: 2px solid #a67b5b;
+    outline: 4px ridge #593302;
+    box-sizing: border-box;
+  }
+
+  .desmos-embed-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  #calculator {
+    width: 100%;
+    height: 100%;
+  }
+
+  .desmos-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #888;
+    font-style: italic;
+  }
+
+  .desmos-writeup {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #a67b5b;
+  }
+
+  /* Side-panel layout (opt-in via side_controls: true in front matter) */
+  .desmos-body--side {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .desmos-body--side .desmos-embed-section {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .desmos-side-panel {
+    width: 310px;
+    flex-shrink: 0;
+    border-left: 2px solid #d0d7de;
+    padding-left: 1.25rem;
+  }
+</style>
+
+<div class="desmos-page-wrap">
+
+  <div class="desmos-page-top">
+    <h1>Second Order Runge Kutta Methods</h1>
+    <div class="desmos-page-links">
+      <a href="/DesmosGallery">← Gallery</a>
+      <a href="https://www.desmos.com/calculator/klapw9uire" target="_blank">Open in Desmos ↗</a>
+    </div>
+  </div>
+
+  <div class="desmos-body desmos-body--side">
+
+    <div class="desmos-embed-section">
+      
+
+        <div class="desmos-controls">
+          <button class="desmos-toggle-btn" id="toggle-btn" onclick="toggleExpressions()">Show Expressions</button>
+        </div>
+
+        <div class="desmos-embed-container">
+          <div id="calculator"></div>
+        </div>
+
+        <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=88d0c7b9a32a465da20a22e0e61756f3"></script>
+        <script>
+          (function () {
+            var expressionsVisible = false;
+            var calc = window.desmosCalc = Desmos.Calculator(document.getElementById('calculator'), {
+              expressions: false,
+              settingsMenu: false,
+              keypad: false,
+            });
+
+            fetch('/assets/desmos/json_files/second_order_RK_methods.json')
+              .then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.json();
+              })
+              .then(function (state) {
+                calc.setState(state);
+                if (typeof window.onDesmosReady === 'function') window.onDesmosReady(calc);
+              })
+              .catch(function (err) {
+                document.getElementById('calculator').innerHTML =
+                  '<div class="desmos-error">Could not load graph state: ' + err.message + '</div>';
+              });
+
+            window.toggleExpressions = function () {
+              expressionsVisible = !expressionsVisible;
+              calc.updateSettings({ expressions: expressionsVisible });
+              document.getElementById('toggle-btn').textContent =
+                expressionsVisible ? 'Hide Expressions' : 'Show Expressions';
+            };
+          })();
+        </script>
+
+      
+    </div>
+
+    
+      <div class="desmos-side-panel page__content"><div class="rk2-stack">
+
+  <span class="rk2-label">Method</span>
+
+  <button class="site-btn site-btn--active rk2-method-btn">Improved Euler</button>
+  <button class="site-btn rk2-method-btn">Modified Euler</button>
+  <button class="site-btn rk2-method-btn">Ralston Method</button>
+  <button class="site-btn rk2-method-btn">General Two Step</button>
+
+  <div id="rk2-alpha-wrap" style="display:none">
+    <div class="desmos-param">
+      <span class="desmos-param-label">\(\alpha\) = <strong id="rk2-alpha-val">0.64</strong></span>
+      <input class="site-slider" id="rk2-alpha-slider" type="range" min="0.01" max="1" step="0.01" value="0.643" data-val-id="rk2-alpha-val" data-decimals="2" />
+    </div>
+  </div>
+
+  <hr class="desmos-divider" />
+
+  <span class="rk2-label">Step Parameters</span>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(N\) = <strong id="rk2-n-val">10</strong></span>
+    <input class="site-slider" id="rk2-n-slider" type="range" min="1" max="20" step="1" value="10" data-val-id="rk2-n-val" data-decimals="0" />
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(i\) = <strong id="rk2-i-val">0</strong></span>
+    <input class="site-slider" id="rk2-i-slider" type="range" min="0" max="9" step="1" value="0" data-val-id="rk2-i-val" data-decimals="0" />
+  </div>
+
+  <hr class="desmos-divider" />
+
+  <span class="rk2-label">Visual Parameters</span>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">Arrow length = <strong id="rk2-arrow-val">0.40</strong></span>
+    <input class="site-slider" id="rk2-arrow-slider" type="range" min="0" max="1" step="0.01" value="0.4" data-val-id="rk2-arrow-val" data-decimals="2" />
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">Field opacity = <strong id="rk2-opacity-val">0.33</strong></span>
+    <input class="site-slider" id="rk2-opacity-slider" type="range" min="0" max="1" step="0.01" value="0.334" data-val-id="rk2-opacity-val" data-decimals="2" />
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">Grid points \(N_x\) = <strong id="rk2-nx-val">25</strong></span>
+    <input class="site-slider" id="rk2-nx-slider" type="range" min="1" max="100" step="1" value="25" data-val-id="rk2-nx-val" data-decimals="0" />
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">Grid spacing \(d_x\) = <strong id="rk2-dx-val">0.50</strong></span>
+    <input class="site-slider" id="rk2-dx-slider" type="range" min="0" max="2" step="0.01" value="0.5" data-val-id="rk2-dx-val" data-decimals="2" />
+  </div>
+
+</div>
+
+<style>
+  .rk2-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .rk2-label {
+    font-weight: bold;
+    font-size: 0.82rem;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .rk2-method-btn {
+    width: 100%;
+  }
+
+  #rk2-alpha-wrap {
+    padding-left: 0.25rem;
+  }
+</style>
+
+<script>
+  window.onDesmosReady = function(calc) {
+
+    // ── Expression IDs from second_order_RK_methods.json ─────────────────
+    var ID = {
+      N:     '119',
+      i:     '104',
+      alpha: '155',
+      c1:    '40',
+      a11:   '122',
+      b1:    '123',
+      b2:    '124',
+      arrow:   '200',
+      opacity: '90',
+      nx:      '79',
+      dx:      '81'
+    };
+
+    // ── Butcher tableau for each fixed method ─────────────────────────────
+    var PARAMS = {
+      'Improved Euler': { c1: '\\frac{1}{2}', a11: '\\frac{1}{2}', b1: '0',            b2: '1'            },
+      'Modified Euler': { c1: '1',            a11: '1',            b1: '\\frac{1}{2}',  b2: '\\frac{1}{2}' },
+      'Ralston Method': { c1: '\\frac{2}{3}', a11: '\\frac{2}{3}', b1: '\\frac{1}{4}', b2: '\\frac{3}{4}' }
+    };
+
+    // ── Helpers ───────────────────────────────────────────────────────────
+    function applyParams(p) {
+      calc.setExpression({ id: ID.c1,  latex: 'c_{1}='  + p.c1  });
+      calc.setExpression({ id: ID.a11, latex: 'a_{11}=' + p.a11 });
+      calc.setExpression({ id: ID.b1,  latex: 'b_{1}='  + p.b1  });
+      calc.setExpression({ id: ID.b2,  latex: 'b_{2}='  + p.b2  });
+    }
+
+    function applyAlpha(alpha) {
+      calc.setExpression({ id: ID.alpha, latex: '\\alpha=' + alpha });
+      calc.setExpression({ id: ID.c1,   latex: 'c_{1}='    + alpha });
+      calc.setExpression({ id: ID.a11,  latex: 'a_{11}='   + alpha });
+      calc.setExpression({ id: ID.b1,   latex: 'b_{1}='    + (1 - 1 / (2 * alpha)) });
+      calc.setExpression({ id: ID.b2,   latex: 'b_{2}='    + (1 / (2 * alpha))     });
+    }
+
+    // ── Stop the ticker (JSON has it playing by default) ──────────────────
+    // We drive G_{eneralTwoStep} manually via applyAlpha, so the ticker is
+    // never needed and would otherwise override fixed-method parameters.
+    function stopTicker() {
+      var state = calc.getState();
+      if (state.expressions && state.expressions.ticker) {
+        state.expressions.ticker.playing = false;
+        calc.setState(state, { allowUndo: false });
+      }
+    }
+
+    // ── Initialise: Improved Euler ────────────────────────────────────────
+    stopTicker();
+    applyParams(PARAMS['Improved Euler']);
+    calc.setExpression({ id: ID.N, latex: 'N=10' });
+    calc.setExpression({ id: ID.i, latex: 'i=0'  });
+
+    // ── Method toggle buttons ─────────────────────────────────────────────
+    var btns = document.querySelectorAll('.rk2-method-btn');
+    btns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        if (btn.classList.contains('site-btn--active')) { return; }
+        btns.forEach(function(b) { b.classList.remove('site-btn--active'); });
+        btn.classList.add('site-btn--active');
+
+        var label = btn.textContent.trim();
+        var alphaWrap = document.getElementById('rk2-alpha-wrap');
+
+        if (label === 'General Two Step') {
+          alphaWrap.style.display = '';
+          applyAlpha(parseFloat(document.getElementById('rk2-alpha-slider').value));
+        } else {
+          alphaWrap.style.display = 'none';
+          applyParams(PARAMS[label]);
+        }
+      });
+    });
+
+    // ── Alpha slider ──────────────────────────────────────────────────────
+    document.getElementById('rk2-alpha-slider').addEventListener('input', function() {
+      var alpha = parseFloat(this.value);
+      document.getElementById('rk2-alpha-val').textContent = alpha.toFixed(2);
+      applyAlpha(alpha);
+    });
+
+    // ── N slider ──────────────────────────────────────────────────────────
+    var nSlider = document.getElementById('rk2-n-slider');
+    var iSlider = document.getElementById('rk2-i-slider');
+
+    nSlider.addEventListener('input', function() {
+      var n = parseInt(this.value, 10);
+      document.getElementById('rk2-n-val').textContent = n;
+      calc.setExpression({ id: ID.N, latex: 'N=' + n });
+      iSlider.max = n - 1;
+      if (parseInt(iSlider.value, 10) > n - 1) {
+        iSlider.value = n - 1;
+        document.getElementById('rk2-i-val').textContent = n - 1;
+        calc.setExpression({ id: ID.i, latex: 'i=' + (n - 1) });
+      }
+    });
+
+    // ── i slider ──────────────────────────────────────────────────────────
+    iSlider.addEventListener('input', function() {
+      var i = parseInt(this.value, 10);
+      document.getElementById('rk2-i-val').textContent = i;
+      calc.setExpression({ id: ID.i, latex: 'i=' + i });
+    });
+
+    // ── Visual parameter sliders ──────────────────────────────────────────
+    [
+      { id: 'rk2-arrow-slider',   exprId: ID.arrow,   prefix: 'A_{rrow}=',   displayId: 'rk2-arrow-val',   decimals: 2 },
+      { id: 'rk2-opacity-slider', exprId: ID.opacity, prefix: 'O_{pacity}=', displayId: 'rk2-opacity-val', decimals: 2 },
+      { id: 'rk2-nx-slider',      exprId: ID.nx,      prefix: 'N_{x}=',      displayId: 'rk2-nx-val',      decimals: 0 },
+      { id: 'rk2-dx-slider',      exprId: ID.dx,      prefix: 'd_{x}=',      displayId: 'rk2-dx-val',      decimals: 2 }
+    ].forEach(function(s) {
+      document.getElementById(s.id).addEventListener('input', function() {
+        var val = s.decimals === 0 ? parseInt(this.value, 10) : parseFloat(this.value);
+        document.getElementById(s.displayId).textContent = s.decimals === 0 ? val : val.toFixed(s.decimals);
+        calc.setExpression({ id: s.exprId, latex: s.prefix + val });
+      });
+    });
+
+  };
+</script>
+
+</div>
+    
+
+  </div>
+
+  
+    <div class="desmos-writeup page__content">
+
+<div class="latex-body">
+
+\section{Runge Kutta methods}
+
+Runge Kutta methods are paradoxically straightforward and mathematically complicated to derived. In a sense, they are entirely algebraic tricks that, like creating finite difference methods, rely on Taylor expansion and cleverly chosen parameters to achieve the highest order of accuracy. Unlike the finite difference methods, there isn't as simple of a trick as polynomial interpolation, and constructing these methods requires some heavy mechanical work. Regardless, the idea is similar to other numerical tasks, and the result is similar as well: more nodes, more degrees of freedom, lead to higher convergence at the cost of increasingly complex (from the human side) methods.
+
+The following methods are all still technically one-step methods. We recall the definition below.
+
+\begin{definition}
+    A \textbf{one-step method} for an IVP is a formula of the form $$u_{i+1} = u_i + h\phi(t_i, u_i, h), \quad i = 0, ..., n-1$$
+\end{definition}
+
+Euler's method uses $\phi = f(t_i, u_i)$. While many other methods can be written in a one-step form, they often get very complicated and cluttered, so for ease of implementation, we often write them in what looks like many steps. Really, the idea is setting up many helper functions, or intermediaries, so that our single step is some weighted combination of them. This is analogous to finite difference methods in the sense of scaling and adding nodes.
+
+Recall that for Euler's method, we set the next step $u_{i+1}$, an approximation of the true trajectory, by taking the first-order Taylor approximation at our current point $(t_i, u_i)$ with the information that the true derivative follows some model $u'(t) = f(t, u(t))$. That is $$\hat{u}(t_{i+1}) \approx u_{i+1} = u_i + \underbrace{f(t_i, u_i)(t_{i+1}-t_i)}_{\text{Euler Step}} = u_i + hf(t_i, u_i)$$ whenever our nodes are equally spaced by $h$. If instead we look at a second order Taylor expansion then $$\hat{u}(t_{i+1}) \approx \hat{u}_i + h\hat{u}'(t_i) + \frac{1}{2}h^2 \hat{u}''(t_i)$$ up to an $O(h^3)$ term. With the approximations that $u_i \approx \hat{u}(t_i)$, we can then use the replacement that $u'(t_i)=f(t_i, u_i)$ to set $$u_{i+1} = u_i + hf(t_i, u_i) + \frac{1}{2}h^2 u''(t_i).$$
+The last term is simply $u'' = f'$ by definition. However, we have $$f' = \frac{\partial f(t, u(t))}{\partial t} = \frac{\partial f}{\partial t}  + \frac{\partial f}{\partial u} \frac{\partial u}{\partial t} $$
+by the chain rule. But $u$ is a single variable function of $t$, and $u' = f$ by again, our IVP, so this all collapses to $$u''(t) = \frac{\partial f}{\partial t}  + f(t,u)\frac{\partial f}{\partial u} .$$
+
+\begin{remark}
+    It is worth the few minutes to go back and make sure you understand everything we did above. It is a decent amount of calculus and notational movement, but we did nothing more than Taylor expansion and applying some chain rule and substitutions. Notably we have
+    \begin{itemize}
+        \item $\hat{u}(t_{i+1}) \approx u_i + hu'(t_i) + \frac{1}{2}h^2 u''(t_i)$
+        \item $u'(t_i) = f(t_i, u_i)$
+        \item $u''(t_i) = \frac{\partial f}{\partial t} + f(t_i, u_i)\frac{\partial f}{\partial u}$
+    \end{itemize}
+    All this together lets us define a decent approximation (with some notational abuse) $$u_{i+1} = u_i + h\left[f(t_i, u_i) + \frac{h}{2}\frac{\partial f(t_i, u_i)}{\partial t}+\frac{h}{2}f(t_i, u_i)\frac{\partial f(t_i, u_i)}{\partial u}\right].$$
+    We pull out the $h$ to get this in the form of a one-step method.
+\end{remark}
+
+Notably, that term in brackets also looks like a Taylor expansion (this time around the function $f$ with respect to both variables. We are not doing the same thing as the chain rule on $u''(t)$ above). We simply need to find what to center, and where to move from that center, that leads to a term that has the bracketed value as a decent approximation. That is, we wish to find $\alpha$ and $\beta$ such that $$f(t_i+\alpha, u_i +\beta) \approx f(t_i, u_i) + \alpha \frac{\partial f(t_i, u_i)}{\partial t}+\beta \frac{\partial f(t_i, u_i)}{\partial u}.$$
+If we pattern match with the bracketed term, we need to choose $$\alpha = \frac{h}{2}, \quad \beta = \frac{h}{2}f(t_i, u_i).$$
+Making this final substitution, we get $$u_{i+1} = u_i + hf\left(t_i + \frac{h}{2}, u_i + \frac{h}{2}f(t_i, u_i)\right).$$
+This is notably a bit of a weird method. We have this nested iteration of our function $f$. Regardless, it is technically a one-step method, but we can implement it easily as one that saves a few intermediaries. This is called a \textit{multistage method}.
+
+\textbf{Algorithm (Improved Euler Method).} Given the initial value problem $u' = f(t,u)$ for $a \leq t \leq b$, initial value $u_0$, and stepsize $h &gt; 0$, for $i = 0, 1, 2, \dots$
+\begin{align*}
+    k_1 &amp;= hf(t_i, u_i)\\
+    k_2 &amp;= hf(t_i + \tfrac{1}{2}h, u_i + \tfrac{1}{2}k_1)\\
+    u_{i+1} &amp;= u_i + k_2
+\end{align*}
+
+Note that another way we can write the last line, to incorporate a true ``summing and weighting the previous steps'' is to say $$u_{i+1} = u_i + \underbrace{0k_1+1k_2}_{\text{forward step}}.$$
+In fact, we can abstract away all the specific constants and write this out as
+\begin{align*}
+    k_1 &amp;= hf(t_i, u_i)\\
+    k_2 &amp;= hf(t_i + c_1h, u_i + a_{11}k_1)\\
+    u_{i+1} &amp;= u_i + \underbrace{b_1k_1+b_2k_2}_{\text{forward step}}
+\end{align*}
+where our first stage analyzes the slope at our current point, the second stage analyzes the slope at some future spot (not necessarily on the trajectory) and then the final step does some type of weighting of the two.
+
+\begin{remark}
+    The final iteration in these methods is the ``forward step,'' where we move from our current point onward. This forward step is a weighted sum of the previous stages, but it is not necessarily an average. We do in general want $b_1 + b_2 = 1$ or for higher order methods, $\sum_i b_i = 1$, so there is some notion of consistency, but notably we do not need $b_i \geq 0$. In fact, we can have methods that subtract some amount of $k_i$, while still being efficient and convergent.
+\end{remark}
+
+Recall that for Euler's method, we simply march along in the direction of our vector field. Improved Euler, and any two-phase method, behaves slightly differently. Instead, we track first our velocity at our current point, but instead of moving in that direction, we set up a hypothetical movement. We save an intermediary position that moves in that direction and mark the velocity at that new point. These two velocities are then saved as $k_1$ and $k_2$ respectively. Finally, we move in a direction that is some combination of these velocities. Improved Euler puts all the weight on the second, intermediary direction, but other methods create more nontrivial combinations.
+
+\textbf{Algorithm (Modified Euler Method).} Given the initial value problem $u' = f(t,u)$ for $a \leq t \leq b$, initial value $u_0$, and stepsize $h &gt; 0$, for $i = 0, 1, 2, \dots$
+\begin{align*}
+    k_1 &amp;= hf(t_i, u_i)\\
+    k_2 &amp;= hf(t_i + h, u_i + k_1)\\
+    u_{i+1} &amp;= u_i + \tfrac{1}{2}k_1 + \tfrac{1}{2}k_2
+\end{align*}
+
+This second method marches to an intermediary that is a full time step away, measures a velocity there and then averages the two for the true forward step.
+
+This third method does a more complex averaging. Note that more of the weight is on the forward intermediary, so this lies somewhere in between the two previous methods. That is, the forward step looks like it lies more in the intermediary's direction than the original. Regardless, all three methods have the same order of convergence, and all perform better than the basic Euler's method.
+
+\textbf{Algorithm (Heun's/Ralston's Method).} Given the initial value problem $u' = f(t,u)$ for $a \leq t \leq b$, initial value $u_0$, and stepsize $h &gt; 0$, for $i = 0, 1, 2, \dots$
+\begin{align*}
+    k_1 &amp;= hf(t_i, u_i)\\
+    k_2 &amp;= hf(t_i + \tfrac{2}{3}h, u_i + \tfrac{2}{3}k_1)\\
+    u_{i+1} &amp;= u_i + \tfrac{1}{4}k_1 + \tfrac{3}{4}k_2
+\end{align*}
+
+The existence of these three methods that all look similar, but with different parameters leads us to question if more exist. Further, since Heun's method looks as if it lies somewhere in between Improved and Modified Euler, we may seek some type of parameterization. Not too surprisingly, one exists, and its derivation once again comes from some Taylor expansion.
+
+\textbf{Algorithm (General Two-Phase Method).} Given the initial value problem $u' = f(t,u)$ for $a \leq t \leq b$, initial value $u_0$, and stepsize $h &gt; 0$, for $i = 0, 1, 2, \dots$
+\begin{align*}
+    k_1 &amp;= hf(t_i, u_i)\\
+    k_2 &amp;= hf(t_i + \alpha h, u_i + \alpha k_1)\\
+    u_{i+1} &amp;= u_i + \left(1-\tfrac{1}{2\alpha}\right)k_1 + \tfrac{1}{2\alpha}k_2
+\end{align*}
+where $\alpha \in (0,1]$.
+
+Notably, when $\alpha = \tfrac{1}{2}$, we recover Improved Euler, when $\alpha = 1$, we recover Modified Euler, and when $\alpha = \tfrac{2}{3}$, we recover Heun's/Ralston's Method.
+
+\begin{remark}
+    Note: there seems to be some contradiction on the naming of these methods in various literature, so the more important aspect is understanding how they work and why.
+\end{remark}
+
+\subsection{General $s$-stage Runge–Kutta Methods}
+
+A generic $s$-stage Runge–Kutta method will take the following form.
+
+\begin{definition}
+Given real numbers $c_1, ..., c_{s-1}$, $a_{i,j}$ for $1 \leq j \leq i \leq s-1$ and $b_1, ..., b_s$, an $s$-stage method follows
+    \begin{align*}
+    k_1 &amp;= hf(t_i, u_i)\\
+    k_2 &amp;= hf(t_i + c_1h, u_i + a_{11}k_1)\\
+    k_3 &amp;= hf(t_i + c_2h, u_i + a_{21}k_1+a_{22}k_2)\\
+     &amp;\;\;\vdots\\
+     k_s &amp;= hf(t_i + c_{s-1}h, u_i + a_{s-1, 1}k_1 + \dots + a_{s-1,s-1}k_{s-1})\\
+     u_{i+1} &amp;= u_i + b_1k_1 + \dots + b_sk_s
+\end{align*}
+\end{definition}
+
+We can interpret the method as one where each phase analyzes a velocity at some future time with some value perturbed by the previous phases. Then, our forward step is some weighted combination of all the velocities witnessed. Since these methods are so constrained to the recipe of ingredients being the values of $a_{i,j}, b_i, c_i$ we often write the method in a more compact form.
+
+$$
+\begin{array}{c|cccc}
+  0         &amp;           &amp;           &amp;           &amp;           \\
+  c_1       &amp; a_{11}    &amp;           &amp;           &amp;           \\
+  c_2       &amp; a_{21}    &amp; a_{22}    &amp;           &amp;           \\
+  c_3       &amp; a_{31}    &amp; a_{32}    &amp; a_{33}    &amp;           \\
+  \vdots    &amp; \vdots    &amp;           &amp; \ddots    &amp;           \\
+  c_{s-1}   &amp; a_{s-1, 1} &amp; a_{s-1, 2} &amp; \dots    &amp; a_{s-1, s-1}\\
+  \hline
+            &amp; b_1       &amp; b_2       &amp; \dots     &amp; b_s       \\
+\end{array}
+$$
+
+This \textit{Butcher's Tableau} completely defines the method and we can write out the algorithms above in these nice, compact forms.
+
+For the general two-step methods above, we have for any $\alpha \in (0,1]$, the Butcher's Tableau is 
+
+
+$$
+\begin{array}{c|cc}
+  0         &amp;           &amp;              \\
+  \alpha       &amp; \alpha    &amp;                 \\
+  \hline
+            &amp; 1-\frac{1}{2\alpha}       &amp;  \frac{1}{2\alpha}.    \\
+\end{array}
+$$
+where we reiterate that the choices of $\alpha = \tfrac{1}{2}$ recovers Improved Euler, $\alpha = 1$, recovers Modified Euler, and $\alpha = \tfrac{2}{3}$ recovers Heun's/Ralston's Method.
+
+</div>
+</div>
+  
+
+</div>
+
+      
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2026 <a href="http://localhost:4000">Aaron Zoll Personal Website</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
