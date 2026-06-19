@@ -8,21 +8,28 @@ side_controls: true
 
 <div class="rk2-stack">
 
-  <span class="rk2-label">Method</span>
+  <span class="rk2-label">Function <span style="text-transform:none">f(t, u)</span></span>
 
-  <button class="site-btn site-btn--active rk2-method-btn">Improved Euler</button>
-  <button class="site-btn rk2-method-btn">Modified Euler</button>
-  <button class="site-btn rk2-method-btn">Ralston Method</button>
-  <button class="site-btn rk2-method-btn">General Two Step</button>
-
-  <div id="rk2-alpha-wrap" style="display:none">
-    <div class="desmos-param">
-      <span class="desmos-param-label">\(\alpha\) = <strong id="rk2-alpha-val">0.64</strong></span>
-      <input class="site-slider" id="rk2-alpha-slider" type="range"
-             min="0.01" max="1" step="0.01" value="0.643"
-             data-val-id="rk2-alpha-val" data-decimals="2">
-    </div>
+  <div class="rk2-presets">
+    <button class="site-btn rk2-fn-btn" data-latex="u\sin\left(t\right)">u·sin(t)</button>
+    <button class="site-btn rk2-fn-btn" data-latex="u">u</button>
+    <button class="site-btn rk2-fn-btn" data-latex="-u">−u</button>
+    <button class="site-btn rk2-fn-btn" data-latex="t-u">t − u</button>
+    <button class="site-btn rk2-fn-btn" data-latex="\sin\left(t\right)">sin(t)</button>
+    <button class="site-btn rk2-fn-btn" data-latex="u\left(1-u\right)">u(1−u)</button>
   </div>
+
+  <div class="rk2-custom-section">
+    <span class="rk2-custom-label">Custom</span>
+    <div class="rk2-custom-row">
+      <input class="rk2-custom-input" id="rk2-custom-fn" type="text"
+             placeholder="u*\sin(t), t^2-u, …" autocomplete="off" spellcheck="false">
+      <button class="rk2-action-btn" id="rk2-apply-fn">Apply</button>
+    </div>
+    <span class="rk2-custom-note">Use LaTeX with variables t and u (e.g. u\sin(t), t^2+u, e^{-t}u).</span>
+  </div>
+
+  <button class="rk2-reset-btn" id="rk2-reset-fn">Reset to default</button>
 
   <hr class="desmos-divider">
 
@@ -98,10 +105,189 @@ side_controls: true
   #rk2-alpha-wrap {
     padding-left: 0.25rem;
   }
+
+  .rk2-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .rk2-presets .site-btn {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.8rem;
+    font-family: monospace;
+  }
+
+  .rk2-custom-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.5rem 0.6rem;
+    border: 1px dashed #c8c8c8;
+    border-radius: 4px;
+    background: #fafafa;
+  }
+
+  .rk2-custom-label {
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+  }
+
+  .rk2-custom-row {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .rk2-custom-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.28rem 0.5rem;
+    font-size: 0.82rem;
+    font-family: monospace;
+    border: 1px solid #a67b5b;
+    border-radius: 3px;
+    background: #fff;
+    color: #1a1a1a;
+  }
+
+  .rk2-custom-input:focus {
+    outline: 2px solid #a67b5b;
+    outline-offset: 1px;
+  }
+
+  .rk2-action-btn {
+    padding: 0.28rem 0.7rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border: 1px solid #a67b5b;
+    background: #fdf6ee;
+    color: #3b1f00;
+    border-radius: 3px;
+    white-space: nowrap;
+    transition: background 0.12s;
+  }
+
+  .rk2-action-btn:hover {
+    background: #f0e0ca;
+  }
+
+  .rk2-custom-note {
+    font-size: 0.72rem;
+    color: #888;
+    font-style: italic;
+  }
+
+  .rk2-reset-btn {
+    align-self: flex-start;
+    padding: 0.22rem 0.6rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+    color: #555;
+    border-radius: 3px;
+    transition: background 0.12s;
+  }
+
+  .rk2-reset-btn:hover {
+    background: #ececec;
+  }
+</style>
+
+<!--below-graph-->
+
+<div class="rk2-method-bar">
+
+  <span class="rk2-label">Method</span>
+
+  <div class="rk2-method-row">
+    <button class="site-btn site-btn--active rk2-method-btn">Improved Euler</button>
+    <button class="site-btn rk2-method-btn">Modified Euler</button>
+    <button class="site-btn rk2-method-btn">Ralston Method</button>
+    <button class="site-btn rk2-method-btn">General Two Step</button>
+  </div>
+
+  <div id="rk2-alpha-wrap" style="display:none">
+    <div class="desmos-param" style="max-width:320px">
+      <span class="desmos-param-label">\(\alpha\) = <strong id="rk2-alpha-val">0.64</strong></span>
+      <input class="site-slider" id="rk2-alpha-slider" type="range"
+             min="0.01" max="1" step="0.01" value="0.643"
+             data-val-id="rk2-alpha-val" data-decimals="2">
+    </div>
+    <p class="rk2-alpha-note">\(\alpha\) represents how far along the next step the second velocity is computed.</p>
+  </div>
+
+</div>
+
+<style>
+  .rk2-method-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.6rem 0 0.25rem;
+  }
+  .rk2-method-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .rk2-method-row .rk2-method-btn {
+    flex: 1;
+    width: auto;
+    min-width: 130px;
+  }
+  .rk2-alpha-note {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #555;
+    font-style: italic;
+  }
 </style>
 
 <script>
   window.onDesmosReady = function(calc) {
+
+    // ── Function f(t, u) selector ─────────────────────────────────────────
+    var RK2_DEFAULT_FN = 'f\\left(t,u\\right)\\ =u\\sin\\left(t\\right)';
+
+    function setRkFunction(latex) {
+      calc.setExpression({ id: '3', latex: 'f\\left(t,u\\right)=' + latex });
+    }
+
+    function setActiveFnBtn(btn) {
+      document.querySelectorAll('.rk2-fn-btn').forEach(function(b) {
+        b.classList.remove('site-btn--active');
+      });
+      if (btn) btn.classList.add('site-btn--active');
+    }
+
+    document.querySelectorAll('.rk2-fn-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        setRkFunction(btn.getAttribute('data-latex'));
+        document.getElementById('rk2-custom-fn').value = '';
+        setActiveFnBtn(btn);
+      });
+    });
+
+    var rkCustomInput = document.getElementById('rk2-custom-fn');
+    document.getElementById('rk2-apply-fn').addEventListener('click', function() {
+      var val = rkCustomInput.value.trim();
+      if (!val) return;
+      setRkFunction(val);
+      setActiveFnBtn(null);
+    });
+    rkCustomInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') document.getElementById('rk2-apply-fn').click();
+    });
+
+    document.getElementById('rk2-reset-fn').addEventListener('click', function() {
+      calc.setExpression({ id: '3', latex: RK2_DEFAULT_FN });
+      rkCustomInput.value = '';
+      setActiveFnBtn(null);
+    });
 
     // ── Expression IDs from second_order_RK_methods.json ─────────────────
     var ID = {

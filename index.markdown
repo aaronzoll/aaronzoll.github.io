@@ -167,11 +167,11 @@ I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank"
 
   <div class="featured-demo-row">
     <div class="demo-text">
-      <div class="demo-title"><a href="/desmos/runga-kutta-2" target="_blank">Second Order Runge-Kutta Methods</a></div>
+      <div class="demo-title"><a href="/desmos/runge-kutta-2" target="_blank">Second Order Runge-Kutta Methods</a></div>
       <p class="demo-blurb">Runga Kutta Methods are efficient and practical ways to accurately model a trajectory given information about its underlying vector field. Here we demonstrate multiple classical two-step methods, as well as the general form supplying a class of provably convergent methods. Watch how increasing the number of steps (decreasing the step size) affects the stability of the iteratively built trajectory!</p>
     </div>
     <div class="demo-image">
-      <a href="/desmos/runga-kutta-2" target="_blank">
+      <a href="/desmos/runge-kutta-2" target="_blank">
         <div class="demo-picture">
           <img src="/assets/desmos/images/rk2.png" alt="Second Order Runge-Kutta Methods">
         </div>

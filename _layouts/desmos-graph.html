@@ -3,9 +3,12 @@ layout: default
 ---
 
 {% if page.side_controls %}
-  {% assign _parts   = content | split: '<!--writeup-->' %}
-  {% assign _panel   = _parts[0] %}
-  {% assign _writeup = _parts[1] %}
+  {% assign _parts      = content | split: '<!--writeup-->' %}
+  {% assign _panel_raw  = _parts[0] %}
+  {% assign _writeup    = _parts[1] %}
+  {% assign _bg_parts   = _panel_raw | split: '<!--below-graph-->' %}
+  {% assign _panel      = _bg_parts[0] %}
+  {% assign _below_graph = _bg_parts[1] %}
 {% endif %}
 
 <style>
@@ -82,6 +85,10 @@ layout: default
     height: 100%;
     color: #888;
     font-style: italic;
+  }
+
+  .desmos-below-graph {
+    margin-top: 0.5rem;
   }
 
   .desmos-writeup {
@@ -202,6 +209,10 @@ layout: default
 
         {% endif %}
 
+      {% endif %}
+
+      {% if _below_graph %}
+        <div class="desmos-below-graph page__content">{{ _below_graph }}</div>
       {% endif %}
     </div>
 

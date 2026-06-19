@@ -483,6 +483,10 @@ window.MathJax = {
     font-style: italic;
   }
 
+  .desmos-below-graph {
+    margin-top: 0.5rem;
+  }
+
   .desmos-writeup {
     margin-top: 2rem;
     padding-top: 1.5rem;
@@ -566,10 +570,36 @@ window.MathJax = {
         </script>
 
       
+
+      
     </div>
 
     
       <div class="desmos-side-panel page__content"><div class="ts-stack">
+
+  <span class="ts-section-label">Function</span>
+
+  <div class="ts-presets">
+    <button class="ts-preset-btn" data-latex="\sin\left(x\right)">sin(x)</button>
+    <button class="ts-preset-btn" data-latex="\cos\left(x\right)">cos(x)</button>
+    <button class="ts-preset-btn" data-latex="e^{x}">e<sup>x</sup></button>
+    <button class="ts-preset-btn" data-latex="\ln\left(x\right)">ln(x)</button>
+    <button class="ts-preset-btn" data-latex="\frac{1}{1+x^{2}}">1/(1+x²)</button>
+    <button class="ts-preset-btn" data-latex="x^{3}">x³</button>
+  </div>
+
+  <button class="ts-reset-btn" id="ts-reset-fn">Reset to default</button>
+
+  <div class="ts-custom-section">
+    <span class="ts-custom-label">Custom</span>
+    <div class="ts-custom-row">
+      <input class="ts-custom-input" id="ts-custom-fn" type="text" placeholder="sin(x), x^2, e^x, …" autocomplete="off" spellcheck="false" />
+      <button class="ts-action-btn" id="ts-apply-fn">Apply</button>
+    </div>
+    <span class="ts-custom-note">Use LaTeX notation (e.g. \sin(x), x^2, e^{x+1}, \ln(x)).</span>
+  </div>
+
+  <hr class="ts-divider" />
 
   <span class="ts-section-label">Degree</span>
 
@@ -594,11 +624,198 @@ window.MathJax = {
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+
+  .ts-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .ts-preset-btn {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.8rem;
+    font-family: monospace;
+    cursor: pointer;
+    border: 1px solid #a67b5b;
+    background: #fdf6ee;
+    color: #3b1f00;
+    border-radius: 3px;
+    transition: background 0.12s;
+  }
+
+  .ts-preset-btn:hover {
+    background: #f0e0ca;
+  }
+
+  .ts-preset-btn.ts-active {
+    background: #a67b5b;
+    color: #fff;
+    border-color: #593302;
+  }
+
+  .ts-custom-row {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .ts-custom-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.28rem 0.5rem;
+    font-size: 0.82rem;
+    font-family: monospace;
+    border: 1px solid #a67b5b;
+    border-radius: 3px;
+    background: #fff;
+    color: #1a1a1a;
+  }
+
+  .ts-custom-input:focus {
+    outline: 2px solid #a67b5b;
+    outline-offset: 1px;
+  }
+
+  .ts-action-btn {
+    padding: 0.28rem 0.7rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border: 1px solid #a67b5b;
+    background: #fdf6ee;
+    color: #3b1f00;
+    border-radius: 3px;
+    white-space: nowrap;
+    transition: background 0.12s;
+  }
+
+  .ts-action-btn:hover {
+    background: #f0e0ca;
+  }
+
+  .ts-reset-btn {
+    align-self: flex-start;
+    padding: 0.22rem 0.6rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+    color: #555;
+    border-radius: 3px;
+    transition: background 0.12s;
+  }
+
+  .ts-reset-btn:hover {
+    background: #ececec;
+  }
+
+  .ts-custom-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.5rem 0.6rem;
+    border: 1px dashed #c8c8c8;
+    border-radius: 4px;
+    background: #fafafa;
+  }
+
+  .ts-custom-label {
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+  }
+
+  .ts-custom-note {
+    font-size: 0.72rem;
+    color: #888;
+    font-style: italic;
+  }
+
+  .ts-divider {
+    border: none;
+    border-top: 1px solid #d0d7de;
+    margin: 0.2rem 0;
+  }
 </style>
 
 <script>
   window.onDesmosReady = function(calc) {
 
+    var DEFAULT_LATEX = 'f\\left(x\\right)\\ =\\ \\sin\\left(x\\right)+\\frac{\\left(\\left(x-1\\right)^{3}-6\\left(x-1\\right)^{2}+8\\left(x-1\\right)-10\\right)}{600}\\cos\\left(3\\left(x-3\\right)\\right)';
+
+    /* ---- basic plain-text → Desmos-LaTeX conversion ---- */
+    var FN_MAP = [
+      ['arcsin', '\\arcsin'],
+      ['arccos', '\\arccos'],
+      ['arctan', '\\arctan'],
+      ['sinh',   '\\sinh'],
+      ['cosh',   '\\cosh'],
+      ['tanh',   '\\tanh'],
+      ['sin',    '\\sin'],
+      ['cos',    '\\cos'],
+      ['tan',    '\\tan'],
+      ['sec',    '\\sec'],
+      ['csc',    '\\csc'],
+      ['cot',    '\\cot'],
+      ['ln',     '\\ln'],
+      ['log',    '\\log'],
+      ['exp',    '\\exp'],
+      ['abs',    '\\left|'],
+      ['sqrt',   '\\sqrt'],
+    ];
+
+    function toDesmos(raw) {
+      var s = raw.trim();
+      FN_MAP.forEach(function(pair) {
+        var plain = pair[0], latex = pair[1];
+        /* replace fn( with \fn\left( — closing paren is left as-is and
+           Desmos is lenient enough about \left without explicit \right */
+        s = s.replace(new RegExp('(?<!\\\\)' + plain + '\\s*\\(', 'g'),
+                      latex + '\\left(');
+      });
+      return s;
+    }
+
+    function setF(latex) {
+      calc.setExpression({ id: '1', latex: 'f\\left(x\\right)=' + latex });
+    }
+
+    function setActivePreset(btn) {
+      document.querySelectorAll('.ts-preset-btn').forEach(function(b) {
+        b.classList.remove('ts-active');
+      });
+      if (btn) btn.classList.add('ts-active');
+    }
+
+    /* ---- preset buttons ---- */
+    document.querySelectorAll('.ts-preset-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        setF(btn.getAttribute('data-latex'));
+        document.getElementById('ts-custom-fn').value = '';
+        setActivePreset(btn);
+      });
+    });
+
+    /* ---- custom input ---- */
+    var customInput = document.getElementById('ts-custom-fn');
+    document.getElementById('ts-apply-fn').addEventListener('click', function() {
+      var val = customInput.value.trim();
+      if (!val) return;
+      setF(toDesmos(val));
+      setActivePreset(null);
+    });
+    customInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') document.getElementById('ts-apply-fn').click();
+    });
+
+    /* ---- reset ---- */
+    document.getElementById('ts-reset-fn').addEventListener('click', function() {
+      calc.setExpression({ id: '1', latex: DEFAULT_LATEX });
+      customInput.value = '';
+      setActivePreset(null);
+    });
+
+    /* ---- slider sync ---- */
     function initSlider(exprLatex, exprId, displayId) {
       var h = calc.HelperExpression({ latex: exprLatex });
       h.observe('numericValue', function() {

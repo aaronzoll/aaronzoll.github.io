@@ -483,6 +483,10 @@ window.MathJax = {
     font-style: italic;
   }
 
+  .desmos-below-graph {
+    margin-top: 0.5rem;
+  }
+
   .desmos-writeup {
     margin-top: 2rem;
     padding-top: 1.5rem;
@@ -566,10 +570,35 @@ window.MathJax = {
         </script>
 
       
+
+      
     </div>
 
     
       <div class="desmos-side-panel page__content"><div class="fd-stack">
+
+  <span class="fd-section-label">Function</span>
+
+  <div class="fd-presets">
+    <button class="site-btn fd-fn-btn" data-latex="\sin\left(2x\right)+\frac{1}{4}x">sin(2x)+x/4</button>
+    <button class="site-btn fd-fn-btn" data-latex="\sin\left(x\right)">sin(x)</button>
+    <button class="site-btn fd-fn-btn" data-latex="e^{x}">e<sup>x</sup></button>
+    <button class="site-btn fd-fn-btn" data-latex="x^{3}-x">x³−x</button>
+    <button class="site-btn fd-fn-btn" data-latex="\frac{1}{1+x^{2}}">1/(1+x²)</button>
+  </div>
+
+  <div class="fd-custom-section">
+    <span class="fd-custom-label">Custom</span>
+    <div class="fd-custom-row">
+      <input class="fd-custom-input" id="fd-custom-fn" type="text" placeholder="sin(x), x^2, e^x, …" autocomplete="off" spellcheck="false" />
+      <button class="fd-action-btn" id="fd-apply-fn">Apply</button>
+    </div>
+    <span class="fd-custom-note">Use LaTeX notation (e.g. \sin(x), x^2, e^{x+1}, \ln(x)).</span>
+  </div>
+
+  <button class="fd-reset-btn" id="fd-reset-fn">Reset to default</button>
+
+  <hr class="desmos-divider" />
 
   <div class="fd-method">
     <button class="site-btn site-btn--active fd-toggle-btn" data-folder="7" data-controls="fd1-controls">
@@ -675,10 +704,163 @@ window.MathJax = {
     padding: 0.4rem 0.6rem;
     font-size: 0.8rem;
   }
+
+  .fd-section-label {
+    font-weight: bold;
+    font-size: 0.82rem;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .fd-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .fd-presets .site-btn {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.8rem;
+    font-family: monospace;
+  }
+
+  .fd-custom-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.5rem 0.6rem;
+    border: 1px dashed #c8c8c8;
+    border-radius: 4px;
+    background: #fafafa;
+  }
+
+  .fd-custom-label {
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+  }
+
+  .fd-custom-row {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .fd-custom-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.28rem 0.5rem;
+    font-size: 0.82rem;
+    font-family: monospace;
+    border: 1px solid #a67b5b;
+    border-radius: 3px;
+    background: #fff;
+    color: #1a1a1a;
+  }
+
+  .fd-custom-input:focus {
+    outline: 2px solid #a67b5b;
+    outline-offset: 1px;
+  }
+
+  .fd-action-btn {
+    padding: 0.28rem 0.7rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border: 1px solid #a67b5b;
+    background: #fdf6ee;
+    color: #3b1f00;
+    border-radius: 3px;
+    white-space: nowrap;
+    transition: background 0.12s;
+  }
+
+  .fd-action-btn:hover {
+    background: #f0e0ca;
+  }
+
+  .fd-custom-note {
+    font-size: 0.72rem;
+    color: #888;
+    font-style: italic;
+  }
+
+  .fd-reset-btn {
+    align-self: flex-start;
+    padding: 0.22rem 0.6rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+    color: #555;
+    border-radius: 3px;
+    transition: background 0.12s;
+  }
+
+  .fd-reset-btn:hover {
+    background: #ececec;
+  }
 </style>
 
 <script>
   window.onDesmosReady = function(calc) {
+
+    var FD_DEFAULT_LATEX = 'f\\left(x\\right)\\ =\\ \\sin\\left(2x\\right)+\\frac{1}{4}x';
+
+    var FD_FN_MAP = [
+      ['arcsin','\\arcsin'],['arccos','\\arccos'],['arctan','\\arctan'],
+      ['sinh','\\sinh'],['cosh','\\cosh'],['tanh','\\tanh'],
+      ['sin','\\sin'],['cos','\\cos'],['tan','\\tan'],
+      ['sec','\\sec'],['csc','\\csc'],['cot','\\cot'],
+      ['ln','\\ln'],['log','\\log'],['exp','\\exp'],
+    ];
+
+    function fdToDesmos(raw) {
+      var s = raw.trim();
+      FD_FN_MAP.forEach(function(pair) {
+        s = s.replace(new RegExp('(?<!\\\\)' + pair[0] + '\\s*\\(', 'g'),
+                      pair[1] + '\\left(');
+      });
+      return s;
+    }
+
+    function setFdFunction(latex) {
+      calc.setExpression({ id: '3', latex: 'f\\left(x\\right)=' + latex });
+    }
+
+    function setActiveFnBtn(btn) {
+      document.querySelectorAll('.fd-fn-btn').forEach(function(b) {
+        b.classList.remove('site-btn--active');
+      });
+      if (btn) btn.classList.add('site-btn--active');
+    }
+
+    document.querySelectorAll('.fd-fn-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        setFdFunction(btn.getAttribute('data-latex'));
+        document.getElementById('fd-custom-fn').value = '';
+        setActiveFnBtn(btn);
+      });
+    });
+
+    var fdCustomInput = document.getElementById('fd-custom-fn');
+    document.getElementById('fd-apply-fn').addEventListener('click', function() {
+      var val = fdCustomInput.value.trim();
+      if (!val) return;
+      setFdFunction(fdToDesmos(val));
+      setActiveFnBtn(null);
+    });
+    fdCustomInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') document.getElementById('fd-apply-fn').click();
+    });
+
+    document.getElementById('fd-reset-fn').addEventListener('click', function() {
+      calc.setExpression({ id: '3', latex: FD_DEFAULT_LATEX });
+      fdCustomInput.value = '';
+      setActiveFnBtn(null);
+    });
 
     document.querySelectorAll('.fd-stack .site-slider').forEach(function(input) {
       input.addEventListener('input', function() {
