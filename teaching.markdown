@@ -189,7 +189,7 @@ A significant motivator in my pursuit of higher education aligns with pedagogy. 
 <div class="course-list">
   <div class="course-row">
     <span class="course-name">Data Analytics Workshop (AS.110.100)</span>
-    <span class="course-date">Summer 2023, 2024, 2025</span>
+    <span class="course-date">Summer 2023, 2024, 2025, 2026</span>
   </div>
 </div>
 
