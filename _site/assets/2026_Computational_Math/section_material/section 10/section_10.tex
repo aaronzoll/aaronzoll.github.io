@@ -1,0 +1,463 @@
+\documentclass[11pt]{article}
+
+\input{section material/preamble}
+% ── Header / footer ────────────────────────────────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small Intro to Computational Math}
+\lhead{\small Section 8}
+\cfoot{\thepage}
+
+\setlength{\fboxrule}{1.2pt}
+\setlength{\fboxsep}{2pt}
+
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Spring 2026\\
+Section 10, April 14 (not due or graded).\\
+}
+\end{center}
+
+\paragraph{TL;DR}
+
+
+A scalar first-order IVP is
+\[
+u'(t) = f(t,u(t)), \quad a \leq t \leq b, \quad u(a) = u_0.
+\]
+A \textbf{solution} is a function $u(t)$ satisfying both the equation and the initial condition. If we know where we are and the rule governing our velocity at every point, we can trace out the entire trajectory. Higher-order IVPs (involving $u'', u''',$ etc.) can always be reduced to a first-order system via substitution. The main result giving sufficient (but not necessary) conditions for existence of solutions is as follows.
+
+\begin{theorem*}[Existence and Uniqueness]
+If $\frac{\partial f}{\partial u}$ exists and $\left|\frac{\partial f}{\partial u}\right| \leq L$ for some constant $L$, for all $t \in [a,b]$ \textbf{and all} $u$, then the IVP has a unique solution.
+\end{theorem*}
+
+
+\begin{itemize}[nosep]
+    \item The bound must hold for \emph{all} $u$, not just all $t$. For example, $f(t,u) = -(1+t^2)u^2$ has $\frac{\partial f}{\partial u} = -2u(1+t^2)$, which is unbounded in $u$, so the theorem does not apply.
+    \item These conditions are \emph{sufficient}, not necessary: a problem can fail them and still have a solution.
+    \item The upper bound $L$ prevents super-exponential growth; without it, solutions can blow up in finite time.
+\end{itemize}
+
+\subsection*{Euler's Method}
+
+Even when existence and uniqueness hold, closed-form solutions are often impossible, so we approximate numerically. Given an IVP with equally spaced nodes $t_i = a + ih$, $h = \frac{b-a}{n}$, iteratively compute
+\[
+u_{i+1} = u_i + h\,f(t_i, u_i), \quad i = 0, 1, \ldots, n-1.
+\]
+
+
+This is simply the first-order Taylor expansion: $u(t_{i+1}) \approx u(t_i) + u'(t_i) h$, where we then substitute $u'(t_i) = f(t_i, u_i)$.
+
+\begin{itemize}[nosep]
+    \item Both local truncation error and global error are $O(h)$.
+    \item Global error depends on how far we are from the starting point (suppressed in big-$O$ notation), so accuracy degrades as we march forward.
+    \item Decreasing $h$ (more steps) improves accuracy but increases computation.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+
+% --- top row ---
+\begin{subfigure}[t]{0.22\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/euler6_true.png}}
+  \label{fig:img1}
+\end{subfigure}
+\hspace{0.4cm}
+\begin{subfigure}[t]{0.22\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/euler23_true.png}}
+  \label{fig:img1}
+
+\end{subfigure}
+\hspace{0.4cm}
+\begin{subfigure}[t]{0.22\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/euler50_true.png}}
+  \label{fig:img1}
+\end{subfigure}
+\caption*{{\color{blue}\href{https://www.desmos.com/calculator/st3gto0o4e}{Euler's Method}} Performed for Different Values of $h$}
+\end{figure}
+
+
+\newpage
+
+\section{Basics of IVPs}
+
+\begin{remark*}
+    \begin{quote}
+    \centering
+    \textit{``For reasons nobody understands, the universe is deeply mathematical... It's a mysterious and marvelous fact that our universe obeys laws of nature... as sentences called differential equations.''}
+   
+    \raggedleft — Steven Strogatz
+    \end{quote}
+\end{remark*}
+We begin this section by discussing \textit{initial value problems}. These are the fundamental ODE, and perhaps the fundamental understanding we have about how our universe works. Population change, market dynamics, and wave propagation all are modeled by differential equations, and solving them let's us analyze how they evolve. The idea behind these equations is relatively simple: \textbf{can we model where we will be, knowing where we are and where we are heading?}
+
+\begin{definition}[initial value problem]
+    A scalar first-order initial-value problem (IVP) is \begin{align}\label{IVP def scalar}
+        \begin{split}
+            u'(t) &= f(t,u(t)), \quad a\leq t\leq b\\
+            u(a) &= u_0
+        \end{split}
+    \end{align}
+A \textbf{solution} to the initial-value problem is a function $u(t)$ that satisfies both $u(a) = u_0$ and $u'(t) = f(t, u(t))$.
+\end{definition}
+
+We can visualize the above as follows. Each point in space has velocity associated to it. That is, each point has a direction in which propagation would occur. Therefore, we can plot a direction (here a small tangent line governed by the equation $y = u_i + u'(t_i)(t-t_i) = u_i + f(t_i, u_i)(t-t_i)$ is shown). Given a starting point, its trajectory is then entirely determined by the equation $$u'(t) = f(t, u(t)), \quad u(a) = u_0$$ assuming suitably well-structured function $f$. 
+
+\begin{figure}[htbp]
+\newlength{\subfigwidth}
+\setlength{\subfigwidth}{0.35\textwidth}
+\centering
+
+% --- top row ---
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/vector_field_empty.png}}
+  \label{fig:img1}
+  \caption*{Vector field for $f(t,u) = \sin((t+u)^2)$}
+\end{subfigure}
+\hspace{0.3cm}
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/vector_field_filled.png}}
+  \label{fig:img1}
+  \caption*{Trajectory for $(a,u_0) = (-0.17, -2.16)$}
+\end{subfigure}
+\end{figure}
+
+As mentioned these model many physical phenomena. You can find two models in the book representing population growth. Here is another example. 
+
+\begin{example}
+    Suppose the quantity of some system changes proportionally to two factors: \begin{enumerate}
+        \item The amount in that system
+        \item Some exterior periodic factor
+    \end{enumerate}
+    There are many examples in the real world: bacterial growth that depends on the amount of sunlight throughout the year, investments that dependent on periodic fluctuations in the stock market, etc. We model $$ u'(t) = f(t, u(t)) = u(t)\cos(t), \quad t \geq 0, \  u(0) = 1$$
+    We can solve this explicitly by using separation of variables $$\int \frac{u'}{u}du = \int \cos(t)dt$$
+    which gives the solution of the form $u(t) = Ae^{\sin(t)}$. After considering our initial value, we note that $A = 1$ and the solution is $$u(t) = e^{\sin(t)},$$ which may match some intuition of oscillatory growth and decay.
+\end{example}
+Note that we can have higher order IVPs as well, where we model a second, third, or higher order derivative in terms of the lower ones. However, since $u'' = (u')'$, we can always reduce to just modeling first-order problems with a system of equations and algebraic manipulations. 
+
+We note that many IVPs, even if we can solve them analytically and get some closed-form expression, may not have solutions at all possible times, \textit{or for all possible initial values.} We can see this illustrated below with a homework problem. Think about what is means for the different values of $u_0$ and why that may affect the existence of a solution. 
+\begin{example}
+    Recall the problem from exercise 6.1.1c) from the book. 
+    $$f(t,u) = -(1+t^2)u^2, \quad 1 \leq t \leq 3$$
+    You were asked to determine whether this problem satisfies the existence and uniqueness conditions. Here, we will simply run the code the book gives to solve the IVP and witness what happens when we change the initial value of $u$.
+\end{example}
+
+\begin{figure}[htbp]
+\setlength{\subfigwidth}{0.8\textwidth}
+\centering
+
+% --- top row ---
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/section_10_IVP_sol_plot.png}}
+  \label{fig:img1}
+  \caption*{Different initial values for $f(t,u) = -(1+t)^2u^2$ and their solutions (or lack thereof)}
+\end{subfigure}
+
+\end{figure}
+
+The main point to highlight above is that ``existence and uniqueness theorems'' give sufficient conditions, but not necessary ones. A problem can fail to hold these conditions and still have a solution exist. We see that for $u_0 > 0$, there exists a (unique) solution but for $u_0 < 0$, there is not. What do you think would happen at $u_0 = 0$? For completeness, we give the existence and uniqueness theorem below, without proof as it is beyond the scope of this course. Regardless, you should attempt to check out the proof. It is essentially an exercise in the fundamental theorem of calculus and integrability. 
+\begin{theorem}[Existence and uniqueness]\label{thm: existennce and uniqueness}
+    If the derivative $\frac{\partial f}{\partial u}$ exists and $\left|\frac{\partial f}{\partial u}\right|$ is bounded universally by some constant $L$ for all $a \leq t \leq b$ \textbf{and all $u$}, then the IVP has a unique solution for all $t$. 
+\end{theorem}
+The part about being bounded for all $u$ is essential here. There are many functions (like the one in the example above) that appear bounded if we only look at the values of $t$. When checking these conditions, make sure you look at both how the derivative behaves for considering values of $t$ and values of $u$. In the example above we have $$\frac{\partial f}{\partial u} = -2u(1+t^2).$$ Since $u$ can be any real number, this is not bounded uniformly. Some additional thought also explains the behavior we saw above. If $u_0 < 0$, then $u' = f(t,u) < 0$ so we move more negative each iteration, repeating until $u$ blows up (in the negative direction). This doesn't fully explain the phenomenon though, as $f(t,u) = -(1+t)^2u$ would also have this same affect of $u' < 0$ always. 
+
+\begin{remark}
+    One may ask then, even if $\left|\frac{\partial f}{\partial u}\right| \leq L$, could we still get some blow up? What if $$\left|\frac{\partial f}{\partial u}\right| \geq c > 0, \quad \forall t \in [a,b], \ \forall u$$ as well. Wouldn't some method that iterates by moving a bit in some direction related to the derivative just keep moving? 
+    
+    The short answer is no because this upper bound is really what does all the work. It bounds the worst case for being that $u' = L(t)u \Longrightarrow u(t) = Ae^{\int L(t)}$. If we don't have this bound, like in the above example, we can get super-exponential growth (i.e. $u(t) = \frac{1}{t-T}$ for some $T \in (a,b)$) which does actually reach infinity in our interval. Even if the partial with respect to $u$ is always bounded from zero, say $f(t,u) = (1+t^2)u$, we can still guarantee a unique solution because even though the solution grows, somewhat quickly, since $u_\star = e^{t+t^3/3}$, it doesn't blow up.
+\end{remark}
+
+We can then apply this theory to many examples and articulate when (unique) solutions are guaranteed to exist. To reiterate, these conditions are sufficient, not necessary, so if these conditions hold we get a solution, but they don't \textit{need} to hold for a solution to exist. 
+
+\begin{problem}
+    For each IVP, determine whether the problem satisfies the conditions of Theorem~\ref{thm: existennce and uniqueness}. If so, determine the smallest possible value for $L$.
+    \begin{enumerate}[1)]
+        \item $f(t,u) = 3tu, \quad  0\leq t \leq 3$
+        \item $f(t,u) = e^{-t^3}u, \quad t \geq 0$
+        \item $f(t,u) = \frac{\arctan{u}}{3-t}, \quad  0\leq t \leq 4$
+        \item $f(t,u)=\frac{\arctan{u}}{3-t}, \quad  0\leq t \leq 2$
+      \item $f(t,u) = t\cos(u), \quad 0 \leq t \leq 8$
+      \item $f(t,u) = t\cos(u^2), \quad 0 \leq t \leq 8$
+      \item $f(t,u) = u\cos(t^2), \quad 0 \leq t \leq 8$
+    \end{enumerate}
+\end{problem}
+
+\solution{
+    \begin{enumerate}[1)]
+    \item $f(t,u) = 3tu$. We have $\frac{\partial f}{\partial u} = 3t$. On $0 \leq t \leq 3$, we have $|3t| \leq 9$ for all $t$ and all $u$. The conditions are satisfied with $L = 9$.
+
+    \item $f(t,u) = e^{-t^3}u$. We have $\frac{\partial f}{\partial u} = e^{-t^3}$. For $t \geq 0$, $e^{-t^3} \leq 1$ for all $t$ and all $u$. The conditions are satisfied with $L = 1$.
+
+    \item $f(t,u) = \frac{\arctan u}{3-t}$, $0 \leq t \leq 4$. We have $\frac{\partial f}{\partial u} = \frac{1}{(1+u^2)(3-t)}$. Although $\left|\frac{1}{1+u^2}\right| \leq 1$ for all $u$, the factor $\frac{1}{3-t}$ is unbounded as $t \to 3^-$ and undefined at $t=3$, which lies in $[0,4]$. The bound $\left|\frac{\partial f}{\partial u}\right| \leq L$ cannot hold for any finite $L$ on this interval. The conditions are \textit{not satisfied}.
+
+    \item $f(t,u) = \frac{\arctan u}{3-t}$, $0 \leq t \leq 2$. We have $\frac{\partial f}{\partial u} = \frac{1}{(1+u^2)(3-t)}$. On $0 \leq t \leq 2$, we have $3-t \geq 1$, so $\frac{1}{|3-t|} \leq 1$. Since $\frac{1}{1+u^2} \leq 1$ for all $u$, we get $\left|\frac{\partial f}{\partial u}\right| \leq 1$ for all $t \in [0,2]$ and all $u$. The conditions are satisfied with $L = 1$.
+
+    \item $f(t,u) = t\cos(u)$, $0 \leq t \leq 8$. We have $\frac{\partial f}{\partial u} = -t\sin(u)$. On $0 \leq t \leq 8$, since $|\sin(u)| \leq 1$ for all $u$, we get $|{-t\sin(u)}| \leq 8$ for all $t$ and all $u$. The conditions are satisfied with $L = 8$.
+
+    \item $f(t,u) = t\cos(u^2)$, $0 \leq t \leq 8$. We have $\frac{\partial f}{\partial u} = -2tu\sin(u^2)$. As $u \to \infty$, the factor $|2tu|$ is unbounded (for any fixed $t > 0$). There is no finite constant $L$ such that $|{-2tu\sin(u^2)}| \leq L$ for all $u$. The conditions are \textit{not satisfied}.
+
+    \item $f(t,u) = u\cos(t^2)$, $0 \leq t \leq 8$. We have $\frac{\partial f}{\partial u} = \cos(t^2)$. For all $t$ and all $u$, $|\cos(t^2)| \leq 1$. The conditions are satisfied with $L = 1$.
+\end{enumerate}
+
+\vspace{0.5cm}
+Plots of solutions to these IVP. I apologize for how small they are, but if you are viewing online, you should be able to zoom in. Note that our theory is confirmed. When the conditions are satisfied we always get solutions. When they are not satisfied, then sometimes solutions exist, other times they don't.
+}
+\begin{figure}[h]
+\centering
+% --- Row 1: 2 plots ---
+\begin{subfigure}[t]{0.3\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/IVP_solution_1.png}}
+  \caption*{$f(t,u)=3tu$, \quad $L=9$}
+\end{subfigure}
+\hspace{0.2cm}
+\begin{subfigure}[t]{0.3\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/IVP_solution_2.png}}
+  \caption*{$f(t,u)=e^{-t^3}u$, \quad $L=1$}
+\end{subfigure}
+
+\vspace{0.5em}
+
+% --- Row 2: 3 plots ---
+\begin{subfigure}[t]{0.3\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/IVP_solution_3.png}}
+  \caption*{$f(t,u)=\frac{\arctan u}{3-t}$, \textit{not satisfied}}
+\end{subfigure}
+\hspace{0.2cm}
+\begin{subfigure}[t]{0.3\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/IVP_solution_4.png}}
+  \caption*{$f(t,u)=\frac{\arctan u}{3-t}$, \quad $L=1$}
+\end{subfigure}
+\hspace{0.2cm}
+\begin{subfigure}[t]{0.3\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/IVP_solution_5.png}}
+  \caption*{$f(t,u)=t\cos(u)$, \quad $L=8$}
+\end{subfigure}
+
+\vspace{0.5em}
+
+% --- Row 3: 2 plots ---
+\begin{subfigure}[t]{0.3\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/IVP_solution_6.png}}
+  \caption*{$f(t,u)=t\cos(u^2)$, \textit{not satisfied}}
+\end{subfigure}
+\hspace{0.2cm}
+\begin{subfigure}[t]{0.3\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/IVP_solution_7.png}}
+  \caption*{$f(t,u)=u\cos(t^2)$, \quad $L=1$}
+\end{subfigure}
+\end{figure}
+
+\section{Euler's Method}
+
+Given an IVP, $$u'(t) = f(t,u(t)), \quad a \leq t \leq b, \quad u(a) = u_0,$$ even with our existence and uniqueness conditions satisfied, we often have no analytical solutions. We cannot derive a closed form because integration is hard. If taking a derivative is tying a knot (or knots upon knots upon knots when applying chain rule), integration is untangling them. Therefore, we often use iterative methods to approximate solutions. 
+One way to approximate a solution is to take equally spaces nodes over our domain $$t_i = a+ih, \quad h = \frac{b-a}{n}, \quad i = 0, ..., n$$
+for stepsize $h$. If we denote $\hat{u}(t)$ as the true solution and our numerical method spits out $u_i$ at each node $t_i$ for which $u_i \approx \hat{u}(t_i)$ with $u_i \to \hat{u}(t_i)$ as $h \to 0$, we say the method is convergent. Regardless, from this definition alone, we can take our data from the iterative method $$(t_0, u_0), \ (t_2, u_1), \ (t_2, u_2), \ ... \ (t_n, u_n)$$ and apply an interpolation scheme. If we do the simplest piecewise interpolation then the slope from $t_i$ to $t_{i+1}$ is precisely $$\frac{u_{i+1}-u_i}{t_{i+1}-t_i} = \frac{u_{i+1}-u_i}{h} \approx u'(t_i) = f(t_i, u_i)$$ by considering the first order Taylor expansion. That is $$u_{i+1} \approx u_i + u'(t_i)(t_{i+1}-t_{i})$$ and $t_{i+1}-t_i = h$ by definition. Coupling all this information together, we derive the explicit Euler method. 
+\begin{definition}[Explicit/Forward Euler's Method]
+    Given IVP $f(t,u)$, $u(a) = u_0$ and node $t_i = a+ih$, iteratively compute $$u_{i+1} = u_i + hf(t_i,u_i), \quad i = 0, 1, ..., n-1$$
+\end{definition}
+Euler's method gives us a way to compute trajectory without solving the entire (often impossible) differential equation. Moreover, it gives us a way to automate solutions in real time. We of course need to be careful about error, both truncation and round off, which is discussed in the book in more detail. Specifically, it can be shown (through Taylor series of course) that the local truncation error is order $O(h)$, and the global error is the same. \textbf{However}, we need to be careful with noting these definitions because the global error inherently depends on the distance from the starting point, but that value gets suppressed in the big-O notation, so even though the order suggested convergence, as the propagation deviates more  from its starting point, the method can deviate further from the solution. 
+\newpage
+The idea here is rather simple. We use the given information that at any point $t_i$, its derivative is modeled as $u'(t_i)=f(t_i, u_i)$. Since we are given a starting point $(t_0, u_0)$, we can approximate the entire function with its first-order Taylor expansion. In fact, the equation that defines the method above is just the Taylor expansion. 
+
+
+\begin{figure}[htbp]
+\setlength{\subfigwidth}{0.25\textwidth}
+\centering
+
+% --- top row ---
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/euler1.png}}
+  \label{fig:img1}
+
+\end{subfigure}
+\hspace{0.2cm}
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/euler2.png}}
+  \label{fig:img1}
+
+\end{subfigure}
+\hspace{0.2cm}
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/euler3.png}}
+  \label{fig:img1}
+
+\end{subfigure}
+
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/euler4.png}}
+  \label{fig:img1}
+
+\end{subfigure}
+\hspace{0.2cm}
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/euler5.png}}
+  \label{fig:img1}
+
+\end{subfigure}
+\hspace{0.2cm}
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/euler6.png}}
+  \label{fig:img1}
+
+\end{subfigure}
+\caption*{6-step Euler's Method with $h \approx 0.82$}
+\end{figure}
+We can improve our accuracy of the solution by decreasing the step size $h$. Regardless, as we march forward, our error tends to increase. This is somewhat unavoidable for methods of this form because as we deviate from the solution, we accumulate error. Methods with more stability and higher orders of convergence are typically favored, but Euler's method has the beauty of simplicity and motivation. We can compare how the method performs for different values of $h$ below with the true solution marked in blue. You can also play around {\color{blue}\href{https://www.desmos.com/calculator/st3gto0o4e}{in the Desmos Graph}}.
+
+
+\begin{figure}[htbp]
+\setlength{\subfigwidth}{0.30\textwidth}
+\centering
+
+% --- top row ---
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/euler6_true.png}}
+  \label{fig:img1}
+    \caption*{$N = 6$}
+\end{subfigure}
+\hspace{0.2cm}
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/euler23_true.png}}
+  \label{fig:img1}
+    \caption*{$N = 23$}
+\end{subfigure}
+\hspace{0.2cm}
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/euler50_true.png}}
+  \label{fig:img1}
+\caption*{$N = 50$}
+\end{subfigure}
+
+\end{figure}
+For some extra practice, here are some problems. These are similar, but not the same as those from the book. 
+\begin{problem}
+    Do two steps of Euler’s method for the following problems using the given step size $h$. Then, compute the error using the given exact solution.
+
+    \begin{enumerate}[1)]
+        \item $u' = -3tu, \quad u_0(0) = 1, \quad h = 0.2; \quad \hat{u}(t) = e^{-\frac{3}{2}t^{2}} $
+        \item $u' = -\frac{3t}{u}, \quad u_0(0) = 1, \quad h = 0.2; \quad \hat{u}(t) = \sqrt{1-3t^{2}}$
+                \item $u' = -\frac{u}{t}, \quad u_0(0.5) = 1, \quad h = 0.2; \quad \hat{u}(t) = \frac{1}{2t}$
+    \end{enumerate}
+\end{problem}
+
+\solution{\begin{enumerate}[1)]
+
+% ---------------------------------------------------------------
+\item
+Here $f(t,u) = -3tu$. Applying Euler's method $u_{n+1} = u_n + h\,f(t_n, u_n)$:
+\[
+u_1 = u_0 + h(-3t_0 u_0) = 1 + 0.2(-3 \cdot 0 \cdot 1) = 1
+\]
+\[
+u_2 = u_1 + h(-3t_1 u_1) = 1 + 0.2(-3 \cdot 0.2 \cdot 1) = 1 - 0.12 = 0.88
+\]
+
+The exact solution at $t_2 = 0.4$ is
+$
+\hat{u}(0.4) = e^{-\frac{3}{2}(0.4)^2} = e^{-0.24} \approx 0.78663$, so the error is
+\[
+|e_1| = |u_2 - \hat{u}(0.4)| = |0.88 - 0.78663| = 0.09337
+\]
+\begin{figure}[h]
+\setlength{\subfigwidth}{0.30\textwidth}
+\centering
+
+% --- top row ---
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/problem_1_sol.png}}
+  \label{fig:img1}
+  
+\caption*{Solution Graph}
+\end{subfigure}
+
+\end{figure}
+% ---------------------------------------------------------------
+\item 
+Now $f(t,u) = -3t/u$. We agin apply Euler's method
+\[
+u_1 = u_0 + h\left(-\frac{3t_0}{u_0}\right) = 1 + 0.2\left(-\frac{3 \cdot 0}{1}\right) = 1
+\]
+\[
+u_2 = u_1 + h\left(-\frac{3t_1}{u_1}\right) = 1 + 0.2\left(-\frac{3 \cdot 0.2}{1}\right) = 1 - 0.12 = 0.88
+\]
+
+The exact solution at $t_2 = 0.4$ is
+$
+\hat{u}(0.4) = \sqrt{1 - 3(0.4)^2} = \sqrt{0.52} \approx 0.72111$, so the error is
+\[
+|e_2| = |u_2 - \hat{u}(0.4)| = |0.88 - 0.72111| = 0.15889
+\]
+\begin{figure}[h]
+\setlength{\subfigwidth}{0.30\textwidth}
+\centering
+
+% --- top row ---
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/problem_2_sol.png}}
+  \label{fig:img1}
+  
+\caption*{Solution Graph}
+\end{subfigure}
+
+\end{figure}
+% ---------------------------------------------------------------
+\item 
+Here $f(t,u) = -u/t$. Applying Euler's method:
+\[
+u_1 = u_0 + h\left(-\frac{u_0}{t_0}\right) = 1 + 0.2\left(-\frac{1}{0.5}\right) = 1 - 0.4 = 0.6
+\]
+\[
+u_2 = u_1 + h\left(-\frac{u_1}{t_1}\right) = 0.6 + 0.2\left(-\frac{0.6}{0.7}\right) = 0.6 - \frac{6}{35} \approx 0.42857
+\]
+
+The exact solution at $t_2 = 0.9$ is
+\[
+\hat{u}(0.9) = \frac{1}{2(0.9)} = \frac{1}{1.8} \approx 0.55556
+\]
+so the error is
+\[
+|e_3| = |u_2 - \hat{u}(0.9)| = |0.42857 - 0.55556| = 0.12698
+\]
+
+\begin{figure}[h]
+\setlength{\subfigwidth}{0.30\textwidth}
+\centering
+
+% --- top row ---
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 10/problem_3_sol.png}}
+  \label{fig:img1}
+  
+\caption*{Solution Graph}
+\end{subfigure}
+
+\end{figure}
+\end{enumerate}}
+\end{document}

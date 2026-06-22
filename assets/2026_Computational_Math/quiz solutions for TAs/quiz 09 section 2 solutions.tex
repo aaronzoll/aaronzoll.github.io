@@ -1,0 +1,77 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{Quiz 9, ICM, Spring 2026 \hspace{1ex} JHED: \underline{\hspace{20ex}} \hspace{2ex} Name: \underline{\hspace{40ex}}}}
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+\question
+  Consider the ordinary differential equation
+  \begin{align*}
+    u'(t) = \dfrac{1}{u - 4}.
+  \end{align*}
+  \begin{parts}
+    \part[4] Is the ODE guaranteed to have a unique solution on the time interval $0 \le t \le 1$ for all initial conditions? Justify your answer.
+    \part[4] Verify that the function $u(t) = 4 - \sqrt{1 + 2t}$ is a solution to the ODE with the initial condition $u(0) = 3$.
+    \part[2] Explain how part (b) does not contradict the conclusion from part (a).
+  \end{parts}
+
+  \begin{solution}
+    The ODE $u' = f(t, u)$ where $f(t, u) = \frac{1}{u-4}$ does not satisfy the theorem. The partial derivative
+    $$\frac{\partial f}{\partial u} = -\frac{1}{(u-4)^2}$$
+    is not bounded on $t \in [0, 1]$ for all $u$. Specifically, as $u \to 4$, $|\frac{\partial f}{\partial u}| \to \infty$, so a unique solution is not guaranteed.
+
+    Given $u(t) = 4 - \sqrt{1 + 2t}$ and $u(0) = 4 - \sqrt{1} = 3$:
+    \begin{align*}
+      u'(t)         & = -\frac{1}{2\sqrt{1+2t}}(2) = -\frac{1}{\sqrt{1+2t}}      \\
+      \frac{1}{u-4} & = \frac{1}{(4 - \sqrt{1+2t}) - 4} = \frac{1}{-\sqrt{1+2t}}
+    \end{align*}
+    Since LHS = RHS, the function is a solution.
+
+    Part (b) does not contradict (a) because the theorem provides a sufficient condition, not a necessary one. The failure of the Lipschitz bound means uniqueness is not guaranteed by this specific theorem, but it does not preclude a solution from existing.
+
+  \end{solution}
+
+  \newpage
+  \question[10]
+  Consider the initial differential equation
+  \begin{align*}
+    u'(t) = \dfrac{1}{u - 4}
+  \end{align*}
+  with initial condition $u(0) = 3$.
+
+  Run the forward Euler method with step size $h = 0.5$ to compute approximations to $u(0.5)$ and $u(1)$. Show your work.
+
+  \begin{solution}
+
+    Given $h = 0.5$, $t_0 = 0$, $u_0 = 3$, and $f(t, u) = \frac{1}{u-4}$:
+
+    \begin{align*}
+      u_1 & = u_0 + h \cdot f(t_0, u_0)                                                          \\
+      u_1 & = 3 + 0.5 \left( \frac{1}{3-4} \right) = 3 + 0.5(-1) = 2.5                           \\
+      u_2 & = u_1 + h \cdot f(t_1, u_1)                                                          \\
+      u_2 & = 2.5 + 0.5 \left( \frac{1}{2.5-4} \right) = 2.5 + 0.5 \left( -\frac{1}{1.5} \right) \\
+      u_2 & = 2.5 - \frac{1}{3} = \frac{15}{6} - \frac{2}{6} = \frac{13}{6}
+    \end{align*}
+
+    Therefore, $u(0.5) \approx 2.5$ and $u(1.0) \approx 2.1667$.
+  \end{solution}
+
+\end{questions}
+\end{document}

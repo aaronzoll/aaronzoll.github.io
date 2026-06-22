@@ -1,0 +1,54 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 8\\
+Due through gradescope before lecture starts, Thursday, Nov 6}
+\end{center}
+
+Your solutions should represent your own work and understanding of the material. You can discuss homework problems at a high level with other students or software systems like ChatGPT, but you should execute the details of any directions discussed independently of them. Results from class or the textbook can be used without proof. Otherwise, claims need to be well justified. You use any programming language you feel comfortable with (matlab, julia, or python are most reasonable). You must submit both your code and the requested output/plots from running your code. Grading will focus on the quality of outputs rather than the code itself.\\
+
+\noindent {\bf Q1.}
+(i) Do exercise 1 in Sections 5.5 of Driscoll and Braun (\url{https://fncbook.com/}).\\
+
+\noindent (ii) Continue halving the step size $h$ until second-order convergence eventually stop occurring. How does this compare to our theoretical prediction from class?
+
+\vskip0.5cm
+
+\noindent {\bf Q2.}
+(i) Do exercise 6 in Sections 5.5 of Driscoll and Braun (\url{https://fncbook.com/}).\\
+
+\noindent (ii) Use your resulting finite difference formula based on $f(-h), f(0), f(h), f(2h)$ to estimate the derivative $f'(0.001)$ of $f(x) = \sin(x^2+x)$. Plot the error of your estimate with $h$ varying from $10^{-1}$ to $10^{-12}$. Theoretically, based on the conditioning of your formula, what choice of $h$ should minimize the overall error? Does this align with your numerics?
+
+
+\vskip1cm
+
+\noindent {\bf Q3.} {\it Computing $\pi$ by (Increasingly Good) Numerical Integration Approaches.}\\
+Recall the area of the unit ball is $\pi$. So the integral below 
+$$ \frac{\pi}{2} = \int^1_{-1} \sqrt{1-x^2}\ \mathrm{dx} $$
+could be used to approximate $\pi$. Consider $n=200$ and $f(x) = \sqrt{1-x^2}$.
+Let $t_0, t_1, \dots, t_{n-1}, t_n = -1, 0.99, -0.98, \dots, 0.98, 0.99, 1$ and $y_k = f(t_k)$.\\
+
+\noindent (i) Approximate the integral by computing the associated Riemann sum. Report the resulting approximate $\pi$.\\
+Try this approach with other values of $n$. How does the accuracy scale numerically with respect to $n$?\\
+
+\noindent (ii) Approximate the integral by computing the piecewise linear interpolation of our observed data and then integrating that interpolant exactly. Report the resulting approximate $\pi$.\\
+Try this approach with other values of $n$. How does the accuracy scale numerically with respect to $n$?\\
+
+\noindent (iii) Approximate the integral by computing the (not-a-knot) cubic spline interpolation of our observed data and then integrating that interpolant exactly. Report the resulting approximate $\pi$.\\
+Try this approach with other values of $n$. How does the accuracy scale numerically with respect to $n$?\\
+
+\end{document} 

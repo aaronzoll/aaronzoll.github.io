@@ -1,0 +1,377 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 3 Sample Solutions}
+\end{center}
+
+{\bf Question 1.}
+
+% 2.2.1
+\paragraph{2.2.1}
+Let
+\[
+C=\begin{bmatrix} I & A \\ -I & B \end{bmatrix}.
+\]
+Using block multiplication,
+\[
+C^{2}=
+\begin{bmatrix}
+I\cdot I+A\cdot(-I) & I\cdot A+A\cdot B \\
+(-I)\cdot I+B\cdot(-I) & (-I)\cdot A+B\cdot B
+\end{bmatrix}
+=
+\begin{bmatrix}
+I-A & A+AB \\
+-(I+B) & -A+B^{2}
+\end{bmatrix}.
+\]
+Then
+\[
+C^{3}=C^{2}C=
+\begin{bmatrix}
+I-A & A+AB \\
+-(I+B) & -A+B^{2}
+\end{bmatrix}
+\begin{bmatrix}
+I & A \\
+-I & B
+\end{bmatrix}
+=
+\begin{bmatrix}
+I-2A-AB & A-A^{2}+AB+AB^{2} \\
+A-I-B-B^{2} & -A-BA-AB+B^{3}
+\end{bmatrix}.
+\]
+
+% 2.2.5
+\paragraph{2.2.5}
+Since $A$ and $B$ are invertible, $B^{-1}$ and $A^{-1}$ exist. Compute
+\[
+(AB)(B^{-1}A^{-1})=A(BB^{-1})A^{-1}=AIA^{-1}=I,
+\]
+and
+\[
+(B^{-1}A^{-1})(AB)=B^{-1}(A^{-1}A)B=B^{-1}IB=I.
+\]
+Thus $B^{-1}A^{-1}$ is both a left- and right-inverse of $AB$, hence
+\[
+(AB)^{-1}=B^{-1}A^{-1}.
+\]
+
+
+\newpage
+
+
+
+{\bf Question 2.}
+
+Using floating-point Gaussian elimination without pivoting, we obtain for the original ordering
+\[
+L=
+\begin{bmatrix}
+1&0&0&0&0\\
+0.25&1&0&0&0\\
+0&0.3333333333333333&1&0&0\\
+0&0&0.5&1&0\\
+0.25&0&0&1&1
+\end{bmatrix},\quad
+U=
+\begin{bmatrix}
+4&0&0&0&10^{8}\\
+0&3&0&0&-2.5\times 10^{7}\\
+0&0&2&0&8.333333333333333\times 10^{6}\\
+0&0&0&1&-4.166666666666667\times 10^{6}\\
+0&0&0&0&-2.0833333333333332\times 10^{7}
+\end{bmatrix}.
+\]
+Solving \(LUx=b\) gives
+\[
+x=
+\begin{bmatrix}
+0\\
+0.3333333333333333\\
+0.666666666045785\\
+1.0000000009313226\\
+1.3333333333333333
+\end{bmatrix},
+\qquad
+\frac{\lVert x-\hat x\rVert_{\infty}}{\lVert \hat x\rVert_{\infty}}\approx 7.0\times 10^{-10}.
+\]
+
+\emph{Subtractive cancellation in back substitution.}
+Let \(y\) denote the solution of \(Ly=b\). The last two back-substitution steps in this ordering are
+\[
+x_{5}=\frac{y_{5}}{U_{55}}=\frac{-2.7777777777777776\times 10^{7}}{-2.0833333333333332\times 10^{7}}=1.3333333333333333,
+\]
+\[
+x_{4}=\frac{y_{4}-U_{45}x_{5}}{U_{44}}=\bigl(-5.555554555555554\times 10^{6}\bigr)-\bigl(-4.166666666666667\times 10^{6}\bigr)\cdot 1.3333333333333333.
+\]
+The two terms being subtracted are each about \(5.56\times 10^{6}\) in magnitude, and their difference is about \(1.0000000009313226\). Thus roughly
+\[
+\text{digits lost}\approx \log_{10}\!\bigl(5.6\times 10^{6}\bigr)\approx 6.7,
+\]
+which explains why \(x_{4}\) carries only about \(9\) or \(10\) correct decimal digits even though arithmetic is in double precision. The same phenomenon occurs one step earlier:
+\begin{align*}
+x_{3}=\frac{y_{3}-U_{35}x_{5}}{U_{33}}&=\frac{1.1111112444444442\times 10^{7}-\bigl(8.333333333333333\times 10^{6}\bigr)\cdot 1.3333333333333333}{2}\\
+&\approx 0.666666666045785,
+\end{align*}
+again subtracting two nearly equal large quantities and losing about seven digits. This is a classic subtractive cancellation: small differences of large, nearly equal numbers are contaminated by rounding on the larger scale.
+
+By contrast, after swapping the first and last rows of \(A\) (and the corresponding entries of \(b\)), elimination yields
+\[
+U_{2}=
+\begin{bmatrix}
+1&0&0&1&0\\
+0&3&0&-1&0\\
+0&0&2&0.3333333333333333&0\\
+0&0&0&0.8333333333333334&0\\
+0&0&0&0&10^{8}
+\end{bmatrix},
+\]
+so back substitution uses only modest-sized intermediates until the final division by \(10^{8}\), and no nearly equal large terms are subtracted. The solution is
+\[
+x_{2}=
+\begin{bmatrix}
+1.1102230246251565\times 10^{-16}\\
+0.3333333333333333\\
+0.6666666666666666\\
+1.0000000000000000\\
+1.3333333333333333
+\end{bmatrix},
+\qquad
+\frac{\lVert x_{2}-\hat x\rVert_{\infty}}{\lVert \hat x\rVert_{\infty}}\approx 8.3\times 10^{-17}.
+\]
+
+\paragraph{Takeaway.}
+Both orderings face the same problem conditioning, with \(\kappa_{2}(A)\approx 2.34\times 10^{8}\), but the first ordering triggers subtractive cancellation during back substitution, inflating the forward error from machine-epsilon scale \(10^{-16}\) to about \(10^{-9}\). The swapped ordering avoids this cancellation, so the error remains near machine precision. The small factorization residuals in both cases indicate that the growth is not from \(LU\) itself but from cancellation in the triangular solve.
+
+\paragraph{Reproducible Python used}
+\begin{verbatim}
+import numpy as np
+np.set_printoptions(precision=16, suppress=True, linewidth=120)
+
+def lu_nopivot(A):
+    A = A.astype(np.float64).copy()
+    n = A.shape[0]
+    L = np.eye(n, dtype=np.float64)
+    U = A.copy()
+    for k in range(n-1):
+        if U[k, k] == 0.0:
+            raise ZeroDivisionError("zero pivot encountered")
+        for i in range(k+1, n):
+            L[i, k] = U[i, k] / U[k, k]
+            U[i, k:] = U[i, k:] - L[i, k] * U[k, k:]
+            U[i, k] = 0.0
+    return L, U
+
+def forward_sub(L, b):
+    n = L.shape[0]
+    y = np.zeros(n, dtype=np.float64)
+    for i in range(n):
+        y[i] = b[i] - L[i, :i] @ y[:i]
+    return y
+
+def back_sub(U, y):
+    n = U.shape[0]
+    x = np.zeros(n, dtype=np.float64)
+    for i in range(n-1, -1, -1):
+        x[i] = (y[i] - U[i, i+1:] @ x[i+1:]) / U[i, i]
+    return x
+
+A = np.array([[4,0,0,0,1e8],
+              [1,3,0,0,0],
+              [0,1,2,0,0],
+              [0,0,1,1,0],
+              [1,0,0,1,0]], dtype=np.float64)
+xhat = np.array([0, 1/3, 2/3, 1, 4/3], dtype=np.float64)
+b = A @ xhat
+
+# Original ordering
+L, U = lu_nopivot(A)
+y = forward_sub(L, b)
+x = back_sub(U, y)
+print("x =", x)
+
+# Show the two cancellations explicitly
+delta4 = y[3] - U[3,4]*x[4]
+delta3 = y[2] - U[2,4]*x[4]
+print("y4 =", y[3], " U45*x5 =", U[3,4]*x[4], "  difference =", delta4)
+print("y3 =", y[2], " U35*x5 =", U[2,4]*x[4], "  difference =", delta3)
+
+# Swapped ordering
+A2 = A.copy(); b2 = b.copy()
+A2[[0,4]] = A2[[4,0]]
+b2[[0,4]] = b2[[4,0]]
+L2, U2 = lu_nopivot(A2)
+y2 = forward_sub(L2, b2)
+x2 = back_sub(U2, y2)
+print("x2 =", x2)
+\end{verbatim}
+
+
+\newpage
+
+
+
+{\bf Question 3.}
+We will work with integer row operations so that no fractions are formed during elimination. Starting from \(A\), for column \(k\) and each \(i>k\) with current entries \(p=M_{kk}\) and \(a=M_{ik}\):
+
+\noindent 1. Scale the target row \(i\) by \(p\): \(M_{i\cdot}\leftarrow p\,M_{i\cdot}\). Record the scaling by \(D_{ii}\leftarrow p\,D_{ii}\).\\
+2. Eliminate with an integer combination: \(M_{i\cdot}\leftarrow M_{i\cdot}-a\,M_{k\cdot}\).
+
+Let \(U\) be the final upper triangular matrix \(M\). If we keep track of the associated elementary additions, there is a lower triangular integer matrix \(L\) such that
+\[
+LU=DA.
+\]
+For the given matrix
+\[
+A=
+\begin{bmatrix}
+4&0&0&0&10^{8}\\
+1&3&0&0&0\\
+0&1&2&0&0\\
+0&0&1&1&0\\
+1&0&0&1&0
+\end{bmatrix},
+\quad
+\hat x=
+\begin{bmatrix}
+0\\ 1/3\\ 2/3\\ 1\\ 4/3
+\end{bmatrix},
+\quad
+b=A\hat x,
+\]
+an exact integer run yields
+\[
+D=\mathrm{diag}(1,4,12,24,96),
+\]
+\[
+L=
+\begin{bmatrix}
+1&0&0&0&0\\
+1&1&0&0&0\\
+0&1&1&0&0\\
+0&0&1&1&0\\
+24&0&0&4&1
+\end{bmatrix},
+\qquad
+U=
+\begin{bmatrix}
+4&0&0&0&10^{8}\\
+0&12&0&0&-10^{8}\\
+0&0&24&0&10^{8}\\
+0&0&0&24&-10^{8}\\
+0&0&0&0&-2\cdot 10^{9}
+\end{bmatrix},
+\]
+and one checks exactly that \(LU=DA\).
+
+To solve \(Ax=b\), use \(LU=DA\) to rewrite as \(Ly=Db\) then \(Ux=y\). With exact rational arithmetic the solution is
+\[
+x=
+\begin{bmatrix}
+0\\ 1/3\\ 2/3\\ 1\\ 4/3
+\end{bmatrix}=\hat x,
+\]
+so \(\lVert x-\hat x\rVert=0\) exactly. Compared to Q2, the integer, fraction-free approach avoids roundoff and the subtractive cancellations that degraded a few digits there; the price is large intermediate integers (note the last pivot in \(U\) is \(2\cdot 10^{9}\)).
+
+\paragraph{Python (exact arithmetic) used}
+\begin{verbatim}
+from fractions import Fraction
+
+def integer_fraction_free_LU_DA(A):
+    # Returns integer D (diag list), integer lower-triangular L, integer upper-triangular U,
+    # satisfying L @ U = D*A, using the "scale-then-eliminate" rule.
+    n = len(A)
+    M = [row[:] for row in A]                 # working copy, kept integer
+    D = [1]*n                                 # diagonal scalings
+    L = [[1 if i==j else 0 for j in range(n)] for i in range(n)]  # starts as I
+
+    # Helpers to update L so that L*M = D*A is preserved after each step.
+    def conjugate_L_by_scale(i, p):
+        # L <- S_i(p) * L * S_i(p)^{-1}: scale row i of L by p, then divide column i by p
+        for j in range(n): L[i][j] *= p
+        for r in range(n): 
+            assert L[r][i] % p == 0
+            L[r][i] //= p
+
+    def right_mult_Einv(i, k, a):
+        # L <- L * (I + a e_{i,k}) : add a times column i of L into column k of L
+        for r in range(n):
+            L[r][k] += a * L[r][i]
+
+    for k in range(n):
+        p = M[k][k]
+        if p == 0:
+            raise ZeroDivisionError("zero pivot encountered (no pivoting allowed)")
+        for i in range(k+1, n):
+            a = M[i][k]
+            if a == 0:
+                continue
+            # 1) scale target row by p (record in D and maintain L via conjugation)
+            for j in range(n): M[i][j] *= p
+            D[i] *= p
+            conjugate_L_by_scale(i, p)
+            # 2) eliminate with an integer multiple
+            for j in range(n): M[i][j] -= a * M[k][j]
+            right_mult_Einv(i, k, a)
+
+    U = M
+    return D, L, U
+
+def forward_sub(L, b):
+    n = len(L)
+    y = [Fraction(0) for _ in range(n)]
+    for i in range(n):
+        s = sum(L[i][j]*y[j] for j in range(i))
+        y[i] = Fraction(b[i] - s, L[i][i])
+    return y
+
+def back_sub(U, y):
+    n = len(U)
+    x = [Fraction(0) for _ in range(n)]
+    for i in range(n-1, -1, -1):
+        s = sum(U[i][j]*x[j] for j in range(i+1, n))
+        x[i] = Fraction(y[i] - s, U[i][i])
+    return x
+
+# Data
+A = [
+    [4,0,0,0,10**8],
+    [1,3,0,0,0],
+    [0,1,2,0,0],
+    [0,0,1,1,0],
+    [1,0,0,1,0],
+]
+xhat = [Fraction(0,1), Fraction(1,3), Fraction(2,3), Fraction(1,1), Fraction(4,3)]
+b = [sum(A[i][j]*xhat[j] for j in range(5)) for i in range(5)]
+
+# Factorization and solve
+D, L, U = integer_fraction_free_LU_DA(A)
+Db = [D[i]*b[i] for i in range(5)]
+y = forward_sub(L, Db)
+x = back_sub(U, y)
+
+print("D =", D)
+print("L =", L)
+print("U =", U)
+print("x =", x)              # matches xhat exactly
+\end{verbatim}
+
+
+
+
+
+\end{document}

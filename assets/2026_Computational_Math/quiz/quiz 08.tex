@@ -1,0 +1,70 @@
+\documentclass[reqno]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{
+  JHED: \underline{\hspace{4cm}} \hspace{1em} Name: \underline{\hspace{9cm}}}
+   }
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+  \question
+
+  Let $T_f(n)$ denote the trapezoidal rule approximation to $\int_0^1 f(x) \, dx$ using $n$ equally spaced subintervals with step size $h = 1/n$. Assume that $f$ is sufficiently smooth.
+
+\begin{parts}
+\part[2] What is the order of accuracy of $T_f(n)$ as $h \to 0$? Express your answer in big-O notation.
+
+\part[8] Apply Richardson extrapolation using $T_f(n)$ and $T_f(3n)$ to construct a higher-order approximation $S_f(3n)$. Express $S_f(3n)$ in terms of $T_f(n)$ and $T_f(3n)$.
+
+\part[2] What is the order of accuracy of $S_f(3n)$ as $h \to 0$?
+
+\part[3] For the case $n = 1$, write $S_f(3)$ explicitly as a linear combination of $f(0)$, $f(1/3)$, $f(2/3)$, and $f(1)$.
+\end{parts}
+
+\begin{solution}
+\textbf{(a)} The trapezoidal rule has $O(h^2)$ accuracy.
+
+\textbf{(b)} The error expansion for the trapezoidal rule is $T_f(n) = I + c_2h^2 + O(h^4)$ where $I = \int_0^1 f(x)\,dx$. For $T_f(3n)$ with step size $h/3$:
+$$T_f(3n) = I + c_2(h/3)^2 + O(h^4) = I + \frac{c_2h^2}{9} + O(h^4).$$
+To eliminate the $h^2$ term, solve:
+$$9T_f(3n) - T_f(n) = 9I + c_2h^2 - I - c_2h^2 + O(h^4) = 8I + O(h^4).$$
+Therefore:
+$$S_f(3n) = \frac{9T_f(3n) - T_f(n)}{8}.$$
+
+\textbf{(c)} From part (b), $S_f(3n) = I + O(h^4)$, so the order of accuracy is $O(h^4)$.
+
+\textbf{(d)} For $n = 1$, we have $h = 1$ and:
+\begin{align*}
+T_f(1) &= \frac{1}{2}[f(0) + f(1)]\\
+T_f(3) &= \frac{1/3}{2}[f(0) + 2f(1/3) + 2f(2/3) + f(1)] = \frac{1}{6}[f(0) + 2f(1/3) + 2f(2/3) + f(1)].
+\end{align*}
+Substituting into $S_f(3) = \frac{9T_f(3) - T_f(1)}{8}$:
+\begin{align*}
+S_f(3) &= \frac{1}{8}\left[\frac{9}{6}[f(0) + 2f(1/3) + 2f(2/3) + f(1)] - \frac{1}{2}[f(0) + f(1)]\right]\\
+&= \frac{1}{8}\left[\frac{3}{2}f(0) + 3f(1/3) + 3f(2/3) + \frac{3}{2}f(1) - \frac{1}{2}f(0) - \frac{1}{2}f(1)\right]\\
+&= \frac{1}{8}[f(0) + 3f(1/3) + 3f(2/3) + f(1)].
+\end{align*}
+\end{solution}
+
+
+
+
+
+\end{questions}
+\end{document}

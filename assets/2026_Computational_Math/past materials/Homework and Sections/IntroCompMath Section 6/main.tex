@@ -1,0 +1,70 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Section 6, Oct 3 (not due or graded).\\
+}
+\end{center}
+
+\noindent {\it Section will give you time to work on/discuss questions in small groups and then present your solutions. The questions below are selected exercises from the textbook to help build comfort and expertise with the ideas we've been discussing. The last question is from a prior exam in this course.
+\\
+}
+
+\noindent {\bf Q1.} Attempt Exercises 1 and 2 in Section 4.2 and Exercise 4 in Section 4.3 of Driscoll and Braun (\url{https://fncbook.com/}).
+
+\vskip0.5cm
+
+\noindent {\bf Q2.}  Consider the system:
+$$ \begin{cases} 
+x_1 - x_2^2 &= 0\\
+x^2_1 \qquad & = 1\\
+\qquad x^3_2 & = -1.
+\end{cases}$$
+\begin{description}
+    \item[(a)] Write the linearization of this overdetermined system of equations at $x^{(0)} = \begin{bmatrix} -1 \\ -1\end{bmatrix}$.
+
+    \vskip0.5cm
+
+
+    \item[(b)] Write the normal equations of that overdetermined system of linear equations.
+
+    \vskip0.5cm
+
+
+    \item[(c)] Solving this normal equation may produce a better solution $x^{(1)}\in\mathbb{R}^2$ for the original nonlinear system. Repeating this process would produce a sequence of solutions $x^{(2)},x^{(3)},\dots$. Below is the output of doing 15 steps of this computationally. What kind of convergence rate (if any) is occurring here? Provide a clear and precise justification for your answer.
+    
+    \footnotesize
+    \begin{align*}
+        x^{(0)} &= [-1.0, -1.0]\\
+        x^{(1)} &= [-0.7049180327868853, -0.7377049180327869]\\
+        x^{(2)} &= [-0.5961544668329201, -0.5920469357858523]\\
+        x^{(3)} &= [-0.5734364939847171, -0.4880872534988298]\\
+        x^{(4)} &= [-0.6126630686880021, -0.352107237762428]\\
+        x^{(5)} &= [-0.7346652840213769, 0.0404284117274441]\\
+        x^{(6)} &= [-1.074077130433277, -13.962032818418985]\\
+        x^{(7)} &= [10.735886119334763, -9.305309168232425]\\
+        x^{(8)} &= [5.465161571969174, -6.200949238642323]\\
+        x^{(9)} &= [2.9069619580820376, -4.133405178953003]\\
+        x^{(10)} &= [1.7440552224433545, -2.7625015427373016]\\
+        x^{(11)} &= [1.2759307423154964, -1.8703138738001739]\\
+        x^{(12)} &= [1.0889095476973298, -1.3291002276683208]\\
+        x^{(13)} &= [1.0161436089776712, -1.0691454883430342]\\
+        x^{(14)} &= [1.0007883730394993, -1.0038797134696873]\\
+        x^{(15)} &= [1.0000024812781891, -1.0000130644033616]\\
+        x^{(16)} &= [1.0000000000278062, -1.0000000001486962]
+    \end{align*}
+\end{description}
+\end{document} 

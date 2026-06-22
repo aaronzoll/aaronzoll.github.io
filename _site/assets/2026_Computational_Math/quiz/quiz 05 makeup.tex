@@ -1,0 +1,99 @@
+\documentclass[reqno]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{
+  JHED: \underline{\hspace{4cm}} \hspace{1em} Name: \underline{\hspace{9cm}}}
+   }
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+
+\question 
+Find the line of best fit for the following data points: $(-1, 0), (0, 4), (1, 2), (2, 4)$.
+\begin{solution}
+Let
+\[
+A=\begin{bmatrix}
+-1 & 1\\
+0 & 1\\
+1 & 1\\
+2 & 1
+\end{bmatrix},
+\quad
+\mathbf y=\begin{bmatrix}
+0\\4\\2\\4
+\end{bmatrix},
+\quad
+\text{and } \mathbf y \approx A\begin{bmatrix}m\\c\end{bmatrix}.
+\]
+The normal equations are
+\[
+A^TA\begin{bmatrix}m\\c\end{bmatrix}=A^T\mathbf y.
+\]
+Compute:
+\[
+A^TA=\begin{bmatrix}6&2\\2&4\end{bmatrix},
+\qquad
+A^T\mathbf y=\begin{bmatrix}2\\6\end{bmatrix}.
+\]
+So
+\[
+\begin{bmatrix}m\\c\end{bmatrix}
+=(A^TA)^{-1}A^T\mathbf y
+=\begin{bmatrix}-\frac15\\[2pt]\frac85\end{bmatrix}.
+\]
+Hence, the line of best fit is
+\[
+y=-\frac15x+\frac85.
+\]
+\end{solution}
+
+\newpage
+\question
+\begin{parts}
+  \part Find two different orthogonal matrices in $Q_1$ and $Q_2$ that send the vector $\begin{bmatrix}
+    1 \\ 2
+  \end{bmatrix}$ to $\begin{bmatrix}
+    -2 \\ 1
+  \end{bmatrix}$.
+  
+  \begin{solution}
+    
+  \end{solution}
+
+  \part Find all vectors $\vec{v}$ such that $Q_1 \vec{v} = \vec{v}$.
+  
+  \begin{solution}
+  $Q_1$ is a rotation by $\pi/4$, which has no nonzero eigenvector with eigenvalue 1.
+
+  $\vec{v} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$ only.
+  \end{solution}
+
+  \part Find all vectors $\vec{v}$ such that $Q_2 \vec{v} = \vec{v}$.
+  
+  \begin{solution}
+  $Q_2$ is a reflection. Fixed vectors lie along the midpoint of $\vec{a}$ and $\vec{b}$:
+  
+  $\vec{a} + \vec{b} = \begin{bmatrix} 1 \\ 1 \end{bmatrix} + \begin{bmatrix} 0 \\ \sqrt{2} \end{bmatrix} = \begin{bmatrix} 1 \\ 1 + \sqrt{2} \end{bmatrix}$
+
+  $\vec{v} = t\begin{bmatrix} 1 \\ 1 + \sqrt{2} \end{bmatrix}$ for $t \in \mathbb{R}$.
+  \end{solution}
+\end{parts}
+\end{questions}
+\end{document}

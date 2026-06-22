@@ -1,0 +1,31 @@
+.DS_Store
+
+# LaTeX auxiliary and intermediate files
+*.aux
+*.bbl
+*.blg
+*.brf
+*.fls
+*.fdb_latexmk
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.nav
+*.snm
+*.vrb
+
+# Output files
+*.pdf
+*.dvi
+*.ps
+
+# Temporary files
+*.tmp
+*.bak
+*.sav
+*.swp
+*.bcf
+*.run.xml

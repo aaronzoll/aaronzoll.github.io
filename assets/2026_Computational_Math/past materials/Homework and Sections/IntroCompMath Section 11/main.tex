@@ -1,0 +1,52 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Section 11, Nov 14 (not due or graded).\\
+}
+\end{center}
+
+\noindent {\it Section will give you time to work on/discuss questions in small groups and then present your solutions. The questions below are selected exercises from the textbook to help build comfort and expertise with the ideas we've been discussing. The last question is from a prior exam in this course.
+\\
+}
+
+\noindent {\bf Q1.} Attempt Exercises 1, 2, and 7 in Section 6.1 of Driscoll and Braun (\url{https://fncbook.com/}).
+
+\vskip3cm
+
+\noindent {\bf Q2.} Consider numerically integrating a function $f\colon \mathbb{R}\rightarrow \mathbb{R}$ from $0$ to $1$, given the following:
+\begin{align*}
+    f(0) &= 1,\\
+    f(1/2) &= -1,\\
+    f(1) &= 5.    
+\end{align*}
+
+\noindent {\bf (a)} Given this, compute the best linear function $x\mapsto ax+b$ approximating $f$ via least squares.\\
+Estimate the value of the integral by integrating this approximation.
+
+\vskip3cm
+
+\noindent {\bf (b)} Compute the trapezoid integration approximation for this with $n=2$ and with $n=4$ given the additional function evaluations $f(1/4) = -1$ and $f(3/4) = 1$.
+
+\vskip3cm
+
+\noindent {\bf (c)} From these, compute the Simpson's Extrapolation approximation for this integral.
+
+\vskip3cm
+
+\noindent {\bf (d)} If in addition to $0,1/4,1/2,3/4,1$, you could evaluate $f$ at two more points in $[0,1]$ to give a more accurate estimate, where would you select? Why?
+
+\end{document} 

@@ -1,0 +1,53 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 9\\
+Due through gradescope before lecture starts, Thursday, Nov 13}
+\end{center}
+
+Your solutions should represent your own work and understanding of the material. You can discuss homework problems at a high level with other students or software systems like ChatGPT, but you should execute the details of any directions discussed independently of them. Results from class or the textbook can be used without proof. Otherwise, claims need to be well justified. You use any programming language you feel comfortable with (matlab, julia, or python are most reasonable). You must submit both your code and the requested output/plots from running your code. Grading will focus on the quality of outputs rather than the code itself.\\
+
+\noindent {\bf Q1.} Do exercise 9 in Sections 5.6 of Driscoll and Braun (\url{https://fncbook.com/}).
+
+
+\vskip1cm
+
+\noindent {\bf Q2.} {\it Making Adaptive Integration Fail.}\\
+When numerically evaluating $\int_a^b f(x)dx$, recall our adaptive integration methods would estimate the accuracy of an integral by $E= R_f(4n) - S_f(4n)$\footnote{This was done with the hope that it is similar to $\int_a^b f(x)dx - S_f(4n)$ since $R_f(4n) \approx \int_a^b f(x)dx$} to determine if more nodes are needed.\\
+Sadly, this is only a heuristic. Design an example integrating a function $f$ from $a=0$ to $b=1$ with $n=1$ where $E = 0$ (that is, perfect estimated accuracy) but $\int_a^b f(x)dx \neq S_f(4n)$.
+
+\vskip1cm
+
+\noindent {\bf Q3.} {\it Estimating a Skydiver's trajectory.}\\
+A reasonable model (although heavily simplifying) of the velocity of a skydiver is
+$$ \frac{dv}{dt} = -g + \frac{k}{m}v^2, \qquad v(0)=0 $$
+where $g=9.8$ is gravitational acceleration, $m$ is the mass of the skydiver with parachute, and $k$ quantifies the effect of air resistance. At the US Air Force Academy, a training jump starts at about $1200$ m and has $k=0.4875$
+ for $t<13$ 
+ and $k=29.16$
+ for $t\geq 13$. \\
+
+\noindent (i) Numerically solve the IVP for 
+ for an 80-kg cadet for $t\in [0,200]$, and plot the solution. (You can use any software/solving approach for this IVP you like.)\\
+
+\noindent (ii) The total distance fallen up to time $t$
+ is 
+ $\int_0^t v(s)ds.$
+ Plot the altitude of the cadet as a function of time. (You can use any software/solving approach for numerically evaluating this integral you like.)\\
+
+\noindent (iii) In part (b), you should have found that the altitude becomes negative. Determine when the cadet reaches the ground. (You can use any software/solving approach for numerically finding this root you like.)
+
+\end{document} 

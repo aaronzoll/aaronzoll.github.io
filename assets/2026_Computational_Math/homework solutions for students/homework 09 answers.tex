@@ -1,0 +1,98 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 09}
+\date{Due: Friday, Apr 03, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+    \item Textbook Exercise 5.6.2
+
+          \begin{solution}
+              \begin{align*}
+                  f'(t_0)                    & \approx \frac{-3f(t_0) + 4f(t_1) - f(t_2)}{2h}                                                       \\[1em]
+                  f'(t_n)                    & \approx \frac{3f(t_n) - 4f(t_{n-1}) + f(t_{n-2})}{2h}                                                \\[1em]
+                  \implies f'(t_n) - f'(t_0) & \approx \frac{1}{2h}\left[3(f(t_n) + f(t_0)) - 4(f(t_{n-1}) + f(t_1)) + (f(t_{n-2}) + f(t_2))\right]
+              \end{align*}
+          \end{solution}
+
+    \item Textbook Exercise 5.6.4
+
+          \begin{solution}
+
+              \noindent \textbf{(a) Verification of Interpolation} \\
+              \begin{align*}
+                  p(0)  & = \beta  \\
+                  p(-h) & = \alpha \\
+                  p(h)  & = \gamma
+              \end{align*}
+              \vspace{1em}
+              \noindent \textbf{(b) Integration of $p(s)$} \\
+              Integrating the quadratic polynomial over $[-h, h]$:
+              \begin{align*}
+                  \int_{-h}^{h} p(s) \, ds & =  \frac{h}{3}(\alpha + 4\beta + \gamma)
+              \end{align*}
+
+              \vspace{1em}
+              \noindent \textbf{(c) Local Simpson's Rule} \\
+              Using $s = x - t_i$, we map $[t_{i-1}, t_{i+1}]$ to $[-h, h]$. With $\alpha = f(t_{i-1})$, $\beta = f(t_i)$, and $\gamma = f(t_{i+1})$:
+              \begin{align*}
+                  \int_{t_{i-1}}^{t_{i+1}} f(x) \, dx \approx \frac{h}{3}[f(t_{i-1}) + 4f(t_i) + f(t_{i+1})]
+              \end{align*}
+          \end{solution}
+
+    \item Textbook Exercise 5.6.5
+
+          \begin{solution}
+            \begin{align*}
+                T_f(2n) &= \frac{h}{2} \left[ f(t_0) + 2\sum_{i=1}^{2n-1} f(t_i) + f(t_{2n}) \right] \\[1em]
+                T_f(n)  &= h \left[ f(t_0) + 2\sum_{j=1}^{n-1} f(t_{2j}) + f(t_{2n}) \right] \\[1em]
+                S_f(n)  &= \frac{4}{3}T_f(2n) - \frac{1}{3}T_f(n) \\
+                        &= \frac{4}{3} \cdot \frac{h}{2} \left[ f(t_0) + 2\sum_{i=1}^{2n-1} f(t_i) + f(t_{2n}) \right] - \frac{1}{3} h \left[ f(t_0) + 2\sum_{j=1}^{n-1} f(t_{2j}) + f(t_{2n}) \right] \\
+                        &= \frac{h}{3} \left[ f(t_0) + 4\sum_{j=1}^{n} f(t_{2j-1}) + 2\sum_{j=1}^{n-1} f(t_{2j}) + f(t_{2n}) \right]
+            \end{align*}
+          \end{solution}
+    \item Textbook Exercise 5.6.9
+          \begin{solution}
+              $\dfrac{\left( 64 R_f(8n) - R_f(4n) \right)}{63}$ is an $O(h^8)$ approximation to the integral.
+          \end{solution}
+
+    \item Jupyter Notebook
+
+\end{enumerate}
+
+
+\section*{Quiz Information}
+
+The quiz will be held on {\bf Tuesday, April 07, 2026} during the discussion section.
+
+Quiz questions will be modifications of the {\it homework problems and material discussed in class}.
+
+\textbf{Topics covered:}
+
+Chapters 5.6
+
+\begin{itemize}
+    \item Numerical integration: trapezoidal rule, Simpson's rule etc.
+    \item Convergence analysis of numerical integration methods
+\end{itemize}
+
+Please memorize the formulas for trapezoidal rule and Simpson's rule, and the general form of the Euler-Maclaurin formula for the error of numerical integration methods.
+
+
+
+
+\end{document}

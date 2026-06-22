@@ -1,0 +1,69 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage[shortlabels]{enumitem}
+\newcommand{\bvec}[1]{{\bf #1}}
+\newcommand{\solution}[1]{
+    \vspace{0.2cm}
+	\noindent\underline{\textit{Solution:}}\\
+
+    \noindent{\color{red} #1}\\ \\
+}
+
+\newcommand{\question}[1]{
+	\fbox{\parbox{\dimexpr\linewidth-4\fboxsep-2\fboxrule}{\small #1}}
+}
+
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+
+
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Spring 2026\\
+Section 4, Feb 17 (not due or graded).\\
+}
+\end{center}
+
+\noindent {\it Section will give you time to work on/discuss questions in small groups and then present your solutions. The questions below are selected exercises from the textbook to help build comfort and expertise with the ideas we've been discussing. %The last question is from a prior exam in this course.
+\\
+}
+
+\noindent {\bf Q1.} Attempt Exercises 4 in Section 2.4 of Driscoll and Braun (\url{https://fncbook.com/}).
+
+\question{Let $$\bvec{A} = \begin{bmatrix}
+    1 & 1 & 0 & 1 & 0 & 0\\
+    0 & 1 & 1 & 0 & 1 & 0\\
+    0 & 0 & 1 & 1 & 0 & 1\\
+    1 & 0 & 0 & 1 & 1 & 0\\
+    1 & 1 & 0 & 0 & 1 & 1\\
+    0 & 1 & 1 & 0 & 0 & 1\\
+\end{bmatrix}$$
+
+Verify computationally (you can use computer software) that if $\bvec{A}=\bvec{L}\bvec{U}$ then the elements of $\bvec{L}, \bvec{U}, \bvec{L}^{-1}, \bvec{U}^{-1}$ are all integers. Do not rely just on visual inspection of the numbers; perform a more definitive test.
+
+}
+
+\vskip1cm
+
+\noindent {\bf Q2.} Attempt Exercises 4 in Section 2.6 of Driscoll and Braun (\url{https://fncbook.com/}).
+
+\question{ An $n \times n$ permutation matrix $\bvec{P}$ is a reordering of the rows an identity matrix such that $\bvec{P}\bvec{A}$ has the effect of moving rows $1, 2, ..., n$ of $\bvec{A}$ to new positions $i_1, i_2, ..., i_n$. Then $\bvec{P}$ can be expression as $$\bvec{P} = \bvec{e}_{i_1}\bvec{e}_{1}^T+\bvec{e}_{i_2}\bvec{e}_{2}^T+...+\bvec{e}_{i_n}\bvec{e}_{n}^T = \sum_{k=1}^n \bvec{e}_{i_k}\bvec{e}_{k}^T.$$
+
+\begin{enumerate}[a)]
+    \item For the case $n = 4$ and $i_1 = 3, i_2 = 2, i+3 = 4, i_1 = 1$, write out separately as matrices, all four terms in the sum. Then add them together to find $\bvec{P}$
+    \item  Use the formula in the general case to show that $\bvec{P}^{-1} = \bvec{P}^T$ and discuss any algebraic or geometric interpretations.
+\end{enumerate}
+}
+
+\end{document} 

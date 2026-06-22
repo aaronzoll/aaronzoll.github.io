@@ -1,0 +1,110 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 04}
+\date{Due: Friday, Feb 20, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{questions}
+
+\question Textbook Exercise 2.7.3
+
+Prove that for all vectors $\mathbf{x} \in \mathbb{R}^n$:
+\begin{parts}
+\part $\|\mathbf{x}\|_\infty \leq \|\mathbf{x}\|_2$
+\part $\|\mathbf{x}\|_2 \leq \|\mathbf{x}\|_1$
+\end{parts}
+
+\begin{solution}
+\textbf{(b) Prove $\|\mathbf{x}\|_2 \leq \|\mathbf{x}\|_1$:}
+
+Squaring both sides, we want to show 
+\[
+\left(\sum_{i=1}^n |x_i|\right)^2 = \sum_{i=1}^n x_i^2 + 2\sum_{i < j} |x_i||x_j|
+\]
+
+\end{solution}
+
+\question Textbook Exercise 2.7.6
+
+Let $A = \begin{bmatrix} -1 & 1 \\ 2 & 2 \end{bmatrix}$.
+\begin{parts}
+\part Find all vectors satisfying $\|\mathbf{x}\|_\infty = 1$ and $\|A\mathbf{x}\|_\infty = \|A\|_\infty$.
+\part Find a vector satisfying $\|\mathbf{x}\|_1 = 1$ and $\|A\mathbf{x}\|_1 = \|A\|_1$.
+\part Find a vector satisfying $\|\mathbf{x}\|_2 = 1$ such that $\|A\mathbf{x}\|_2 = \|A\|_2$. (Hint: Use the definition of $\|A\|_2$ as the maximum of $\|A\mathbf{x}\|_2$ over unit vectors, and parameterize the unit vectors as $(\cos\theta, \sin\theta)$. Then $\|A\mathbf{x}\|_2^2$ is a function of $\theta$ that is easy to maximize.)
+\end{parts}
+
+\begin{solution}
+\textbf{(a)}
+
+\textbf{Answer:} $\mathbf{x} = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$ and $\mathbf{x} = \begin{bmatrix} -1 \\ -1 \end{bmatrix}$.
+
+\textbf{(b)}
+
+\textbf{Answer:} $\mathbf{x} = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$ (or $\begin{bmatrix} 0 \\ 1 \end{bmatrix}$).
+
+\textbf{(c)}
+
+\textbf{Answer:} $\mathbf{x} = \begin{bmatrix} \cos(\pi/4) \\ \sin(\pi/4) \end{bmatrix} = \begin{bmatrix} \frac{\sqrt{2}}{2} \\ \frac{\sqrt{2}}{2} \end{bmatrix} = \frac{\pm 1}{\sqrt{2}}\begin{bmatrix} 1 \\ 1 \end{bmatrix}$.
+\end{solution}
+
+\question Textbook Exercise 2.8.6
+
+Define $A_n$ as the $n \times n$ matrix
+\[
+A_n = \begin{bmatrix} 1 & -2 & & \\ & 1 & -2 & \\ & & \ddots & \ddots \\ & & & 1 \end{bmatrix}.
+\]
+\begin{parts}
+\part Write out $A_2^{-1}$ and $A_3^{-1}$.
+\part Write out $A_n^{-1}$ in the general case $n > 1$. Make a clear argument why it is correct.
+\part Using the $\infty$-norm, find $\kappa(A_n)$.
+\end{parts}
+
+\begin{solution}
+\textbf{(b)}
+
+$A_n^{-1}$ is an upper triangular matrix with:
+\[
+(A_n^{-1})_{ij} = \begin{cases} 2^{j-i} & \text{if } j \geq i \\ 0 & \text{if } j < i \end{cases}
+\]
+
+\textbf{(c)}
+
+\textbf{Answer:} 
+\[
+\boxed{\kappa(A_n) = \|A_n\|_\infty \cdot \|A_n^{-1}\|_\infty = 3(2^n - 1)}
+\]
+\end{solution}
+
+\question Textbook Exercise 2.8.8
+
+Let $D$ be a diagonal $n \times n$ matrix, not necessarily invertible. Prove that in the 1-norm,
+\[
+\kappa(D) = \frac{\max_i |D_{ii}|}{\min_i |D_{ii}|}
+\]
+
+\begin{solution}
+\[
+\|D\|_1 = \max_j \sum_i |D_{ij}| = \max_j |d_j| = \max_i |d_i|
+\]
+
+\[
+\|D^{-1}\|_1 = \max_i |1/d_i| = \frac{1}{\min_i |d_i|}
+\]
+\end{solution}
+
+\end{questions}
+
+\end{document}

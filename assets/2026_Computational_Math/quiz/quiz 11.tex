@@ -1,0 +1,103 @@
+\documentclass[reqno]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{Quiz 11, ICM, Spring 2026 \hspace{1ex} JHED: \underline{\hspace{20ex}} \hspace{2ex} Name: \underline{\hspace{40ex}}}}
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+  \question[10]
+  Consider the differential equation
+  \begin{align*}
+    u' = -u^2,
+  \end{align*}
+  where $K > 0$ is a constant.
+
+  \begin{parts}
+    \part[5] For the {\bf implicit} Euler method, find the formula for $u_{i+1}$ in terms of $u_i$ and $K$. Simplify your answer as much as possible. Call the two possible updates $u_{i+1}^+$ and $u_{i+1}^-$.
+    
+    \begin{solution}
+      The implicit Euler method is given by:
+      \begin{align*}
+        u_{i+1} = u_i - h u_{i+1}^2.
+      \end{align*}
+      
+      Rearranging gives:
+      \begin{align*}
+        h u_{i+1}^2 + u_{i+1} - u_i = 0 \\
+        \implies u_{i+1} = \frac{-1 \pm \sqrt{1 + 4 h u_i}}{2 h}.
+      \end{align*}
+    \end{solution}
+
+    \part[5] Simplify the update formulas $u_{i+1}^\pm$ using the Taylor expansion of $\sqrt{1 + x}$ around $x = 0$:
+    \begin{align*}
+      \sqrt{1 + x} = 1 + \frac{x}{2} - \frac{x^2}{8} + O(x^3).
+    \end{align*}
+    \begin{solution}
+      For $u_{i+1}^+$:
+      \begin{align*}
+        u_{i+1}^+ &= \frac{-1 + \sqrt{1 + 4 h u_i}}{2 h} \\
+        &= \frac{-1 + 1 + 2 h u_i - 2 h^2 u_i^2 + O(h^3)}{2 h} \\
+        &= \frac{2 h u_i - 2 h^2 u_i^2 + O(h^3)}{2 h} \\
+        &= u_i - h u_i^2 + O(h^2).
+      \end{align*}
+      
+      For $u_{i+1}^-$:
+      \begin{align*}
+        u_{i+1}^- &= \frac{-1 - \sqrt{1 + 4 h u_i}}{2 h} \\
+        &= \frac{-1 - (1 + 2 h u_i - 2 h^2 u_i^2 + O(h^3))}{2 h} \\
+        &= \frac{-2 - 2 h u_i + 2 h^2 u_i^2 + O(h^3)}{2 h} \\
+        &= -\frac{1}{h} - u_i + h u_i^2 + O(h^2).
+      \end{align*}
+    \end{solution}
+
+    \newpage 
+    \part[3] Which of the two update formulas $u_{i+1}^+$ and $u_{i+1}^-$ is the correct one to use for the implicit Euler method? Justify your answer.
+    \begin{solution}
+      The correct update formula is $u_{i+1}^+$ as we want $u_{i+1}$ to be close to $u_i$ as $h \to 0$, which is the case for $u_{i+1}^+$ but not for $u_{i+1}^-$.
+    \end{solution}
+
+    \part[2] Find the formula for $u_{i+1}$ in terms of $u_i$ and $K$ for the {\bf explicit} Euler method. Call this $u_{i+1}^{\text{EE}}$. Explain how does the implicit Euler method correct the error of the explicit Euler method.
+    \begin{solution}
+      The explicit Euler method is given by:
+      \begin{align*}
+        u_{i+1}^{\text{EE}} = u_i - h u_i^2.
+      \end{align*}
+      $u_{i+1}^{\text{EE}}$ is the same as the leading order term of $u_{i+1}^+$, but $u_{i+1}^+$ has additional higher order terms in $h$ that make it more accurate than $u_{i+1}^{\text{EE}}$.
+    \end{solution}
+
+    % \part[5] Use step size $h = 0.01$ and initial condition $u_0 = 11$. Compute $u_1^+$, $u_1^-$, and $u_1^{\text{EE}}$.
+    % \begin{solution}
+    %   For implicit Euler:
+    %   \begin{align*}
+    %     u_1^+ = \frac{-1 + \sqrt{1 + 4(0.01)(11)}}{2(0.1)} = \frac{-1 + \sqrt{1 + 0.44}}{0.02} = \frac{-1 + \sqrt{1.44}}{0.02} = \frac{-1 + 1.2}{0.02} = 10.
+    %   \end{align*}
+
+    %   \begin{align*}
+    %     u_1^- = \frac{-1 - \sqrt{1 + 4(0.01)(11)}}{2(0.01)} = \frac{-1 - 1.2}{0.02} = -110.
+    %   \end{align*}
+      
+    %   For explicit Euler:
+    %   \begin{align*}
+    %     u_1^{\text{EE}} = 11 - 0.01 \cdot 11^2 = 11 - 0.01 \cdot 121 = 11 - 1.21 = 9.79.
+    %   \end{align*}
+    % \end{solution}
+      
+  \end{parts}
+\end{questions}
+\end{document}

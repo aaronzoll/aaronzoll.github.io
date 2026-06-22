@@ -1,0 +1,74 @@
+\documentclass[reqno]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 12}
+\date{Due: Friday, Apr 24, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+  \item Textbook Exercise 6.3.1c
+  \item Textbook Exercise 6.3.2c
+  \item Textbook Exercise 6.6.2a
+  \item Textbook Exercise 6.6.3a
+
+
+  \item Consider the IVP 
+  \begin{align*}
+    u' = -16u, \hspace{2em}
+    u(0) = 1,
+  \end{align*}
+  with exact solution $\widehat{u}(t) = e^{-16t}$. We'll compare the local truncation errors of modified Euler which has the Butcher tableau 
+  \begin{equation*}
+  \begin{array}{c|cc}
+  0 & 0 & 0 \\
+  1 & 1 & 0 \\
+  \hline
+  & \frac{1}{2} & \frac{1}{2}
+  \end{array}
+  \end{equation*}
+  and trapezoidal rule.
+  \begin{parts}
+    \part Write down the formula for $u_1$ for the modified Euler method. Call this $u_1^{\text{ME}}$.
+    \part Write down the formula for $u_1$ for the trapezoidal rule. Call this $u_1^{\text{TR}}$.
+    \part Compute the local truncation error for the modified Euler method, i.e. compute $\widehat{u}(h) - u_1^{\text{ME}}$. Simplify all the way to a power series in $h$. Express your final answer as $ch^p + O(h^{p+1})$ for some constant $c$ and integer $p$.
+    \part Compute the local truncation error for the trapezoidal rule, i.e. compute $\widehat{u}(h) - u_1^{\text{TR}}$. Simplify all the way to a power series in $h$. Express your final answer as $ch^p + O(h^{p+1})$ for some constant $c$ and integer $p$.
+    \part Which method has a smaller local truncation error for this problem?
+  \end{parts}
+
+  \item Jupyter Notebook
+
+\end{enumerate}
+
+\newpage
+\section*{Quiz Information}
+
+The quiz will be held on \fbox{\bf \color{red} Monday, April 27, 2026} instead of the usual lecture.
+
+Quiz questions will be modifications of the {\it homework problems and material discussed in class}.
+
+\textbf{Topics covered:}
+
+Chapters 6.2 and 6.6
+
+\begin{itemize}
+  \item System of ODEs
+  \item Implicit methods (not general multi-step methods, just the implicit Euler method and trapezoidal rule)
+\end{itemize}
+
+You should memorize the backward Euler method and trapezoidal rule. I'll provide a Butcher tableau for any explicit methods that I ask about on the quiz.
+
+
+
+\end{document}

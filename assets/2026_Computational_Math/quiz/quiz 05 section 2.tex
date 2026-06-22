@@ -1,0 +1,96 @@
+\documentclass[reqno]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{
+  JHED: \underline{\hspace{4cm}} \hspace{1em} Name: \underline{\hspace{9cm}}}
+   }
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+
+\question 
+Find the line of best fit for the following data points: $(-1, 2), (0, 4), (1, 0)$ using ordinary least squares.
+\begin{solution}
+Converting to matrix form, we have
+\[\begin{bmatrix}
+-1 & 1 \\
+0 & 1 \\
+1 & 1
+\end{bmatrix}
+\begin{bmatrix}m \\ c
+\end{bmatrix} =
+\begin{bmatrix}2 \\ 4 \\ 0
+\end{bmatrix}\].
+
+\begin{align*}
+  A^T A &= \begin{bmatrix}2 & 0 \\ 0 & 3
+\end{bmatrix}, \quad
+A^T \mathbf{y} = \begin{bmatrix}-2 \\ 6
+\end{bmatrix} \\
+\Rightarrow \begin{bmatrix}m \\ c
+\end{bmatrix} &= (A^T A)^{-1} A^T \mathbf{y} = \begin{bmatrix}-1 \\ 2  \end{bmatrix}
+\end{align*}
+Thus, the line of best fit is $y = -x + 2$.
+\end{solution}
+
+\newpage
+\question
+\begin{parts}
+  \part Find two different orthogonal matrices, $Q_1$ and $Q_2$, that send the vector $\begin{bmatrix}
+    1 \\ 1
+  \end{bmatrix}$ to $\begin{bmatrix}
+    \sqrt{2} \\ 0 
+  \end{bmatrix}$.
+  
+  \begin{solution}
+  \textbf{For $Q_1$ (rotation by $-\pi/4$):}
+  
+  $Q_1 = \begin{bmatrix} \cos(-\pi/4) & -\sin(-\pi/4) \\ \sin(-\pi/4) & \cos(-\pi/4) \end{bmatrix} = \begin{bmatrix} \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\ -\frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \end{bmatrix}$
+
+  \textbf{For $Q_2$ (Householder reflection):}
+  
+  Let $\vec{a} = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$ and $\vec{b} = \begin{bmatrix} \sqrt{2} \\ 0 \end{bmatrix}$.
+
+  $\vec{w} = \vec{a} - \vec{b} = \begin{bmatrix} 1 - \sqrt{2} \\ 1 \end{bmatrix}$
+
+  $\|\vec{w}\|^2 = (1-\sqrt{2})^2 + 1 = 4 - 2\sqrt{2}$
+
+  $Q_2 = I - 2\frac{\vec{w}\vec{w}^T}{\vec{w}^T\vec{w}} = I - \frac{1}{2-\sqrt{2}}\begin{bmatrix} (1-\sqrt{2})^2 & 1-\sqrt{2} \\ 1-\sqrt{2} & 1 \end{bmatrix} = \begin{bmatrix} \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} \\ -\frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} \end{bmatrix}$
+  \end{solution}
+
+  \part Find {\it all} vectors $\vec{v}$ such that $Q_1 \vec{v} = \vec{v}$.
+  
+  \begin{solution}
+  $Q_1$ is a rotation by $-\pi/4$, which has no nonzero eigenvector with eigenvalue 1.
+
+  $\vec{v} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$ only.
+  \end{solution}
+
+  \part Find {\it all} vectors $\vec{v}$ such that $Q_2 \vec{v} = \vec{v}$.
+  
+  \begin{solution}
+  $Q_2$ is a reflection. Fixed vectors lie along the midpoint of $\vec{a}$ and $\vec{b}$:
+  
+  $\vec{a} + \vec{b} = \begin{bmatrix} 1 \\ 1 \end{bmatrix} + \begin{bmatrix} \sqrt{2} \\ 0 \end{bmatrix} = \begin{bmatrix} 1 + \sqrt{2} \\ 1 \end{bmatrix}$
+
+  $\vec{v} = t\begin{bmatrix} 1 + \sqrt{2} \\ 1 \end{bmatrix}$ for $t \in \mathbb{R}$.
+  \end{solution}
+\end{parts}
+\end{questions}
+\end{document}

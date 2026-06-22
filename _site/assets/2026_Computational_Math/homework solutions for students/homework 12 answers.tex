@@ -1,0 +1,146 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 12}
+\date{Due: Friday, Apr 24, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+  \item Textbook Exercise 6.3.1c
+  \begin{solution}
+
+\begin{parts}
+\setcounter{partno}{2}
+\part Let $u_1 = x$, $u_2 = x'$, $u_3 = y$, $u_4 = y'$. Then:
+$$\mathbf{u}' = \begin{bmatrix} u_2 \\ -\frac{au_1}{(u_1^2+u_3^2)^{3/2}} \\ u_4 \\ -\frac{au_3}{(u_1^2+u_3^2)^{3/2}} \end{bmatrix}, \quad \mathbf{u}(0) = \begin{bmatrix} 1 \\ 0 \\ 0 \\ 3 \end{bmatrix}$$
+
+\end{parts}
+
+\end{solution}
+
+  \item Textbook Exercise 6.3.2c
+\begin{solution}
+
+\begin{parts}
+\setcounter{partno}{2}
+\part Let $u_1 = y$, $u_2 = y'$. 
+$$\mathbf{u}^{(1)} = \begin{bmatrix} 1 \\ -1/2 \end{bmatrix} + \frac{1}{8}\begin{bmatrix} -1/2 \\ 1/2 \end{bmatrix} = \begin{bmatrix} 15/16 \\ -7/16 \end{bmatrix}$$
+$$\mathbf{u}^{(2)} = \begin{bmatrix} 15/16 \\ -7/16 \end{bmatrix} + \frac{1}{8}\begin{bmatrix} -7/16 \\ 477/1156 \end{bmatrix} = \begin{bmatrix} 113/128 \\ -7/16 + 477/9248 \end{bmatrix}$$
+
+At $x_2 = 9/4$: $\widehat{y}(9/4) = 8/9 \approx 0.8889$
+
+Numerical approximation: $u_1^{(2)} = 113/128 \approx 0.8828$
+
+$$\text{Error} = \left|\frac{8}{9} - \frac{113}{128}\right| = \frac{7}{1152} \approx 0.0061$$
+
+\end{parts}
+
+\end{solution}
+
+  \item Textbook Exercise 6.6.2a
+  \begin{solution}
+
+\begin{parts}
+\part
+$$u_1 = \frac{2}{1.08} = \frac{200}{108} = \frac{50}{27} \approx 1.852$$
+
+\end{parts}
+
+\end{solution}
+  \item Textbook Exercise 6.6.3a
+\begin{solution}
+
+\begin{parts}
+\part 
+$$u_1 = \frac{2}{1.04} = \frac{200}{104} = \frac{50}{26} = \frac{25}{13} \approx 1.923$$
+
+\end{parts}
+
+\end{solution}
+
+  \item Consider the IVP 
+  \begin{align*}
+    u' = -16u, \hspace{2em}
+    u(0) = 1,
+  \end{align*}
+  with exact solution $\widehat{u}(t) = e^{-16t}$. We'll compare the local truncation errors of modified Euler which has the Butcher tableau 
+  \begin{equation*}
+  \begin{array}{c|cc}
+  0 & 0 & 0 \\
+  1 & 1 & 0 \\
+  \hline
+  & \frac{1}{2} & \frac{1}{2}
+  \end{array}
+  \end{equation*}
+  and trapezoidal rule.
+  \begin{parts}
+    \part Write down the formula for $u_1$ for the modified Euler method. Call this $u_1^{\text{ME}}$.
+    \part Write down the formula for $u_1$ for the trapezoidal rule. Call this $u_1^{\text{TR}}$.
+    \part Compute the local truncation error for the modified Euler method, i.e. compute $\widehat{u}(h) - u_1^{\text{ME}}$. Simplify all the way to a power series in $h$. Express your final answer as $ch^p + O(h^{p+1})$ for some constant $c$ and integer $p$.
+    \part Compute the local truncation error for the trapezoidal rule, i.e. compute $\widehat{u}(h) - u_1^{\text{TR}}$. Simplify all the way to a power series in $h$. Express your final answer as $ch^p + O(h^{p+1})$ for some constant $c$ and integer $p$.
+    \part Which method has a smaller local truncation error for this problem?
+    \begin{solution}
+
+\begin{parts}
+\part 
+\begin{align*}
+u_1^{\text{ME}} &= 1 + \frac{h}{2}(-32 + 256h) = 1 - 16h + 128h^2
+\end{align*}
+
+\part 
+$$u_1^{\text{TR}} = \frac{1-8h}{1+8h}$$
+
+\part 
+\begin{align*}
+\widehat{u}(h) - u_1^{\text{ME}} &= -\frac{2048h^3}{3} + O(h^4)
+\end{align*}
+
+\part 
+\begin{align*}
+\widehat{u}(h) - u_1^{\text{TR}} &= \frac{1024h^3}{3} + O(h^4)
+\end{align*}
+
+\part The trapezoidal rule has smaller local truncation error since $\left|\frac{1024}{3}\right| < \left|\frac{2048}{3}\right|$.
+
+\end{parts}
+
+\end{solution}
+  \end{parts}
+
+  \item Jupyter Notebook
+
+\end{enumerate}
+
+\newpage
+\section*{Quiz Information}
+
+The quiz will be held on \fbox{\bf \color{red} Monday, April 27, 2026} instead of the usual lecture.
+
+Quiz questions will be modifications of the {\it homework problems and material discussed in class}.
+
+\textbf{Topics covered:}
+
+Chapters 6.2 and 6.6
+
+\begin{itemize}
+  \item System of ODEs
+  \item Implicit methods (not general multi-step methods, just the implicit Euler method and trapezoidal rule)
+\end{itemize}
+
+You should memorize the backward Euler method and trapezoidal rule. I'll provide a Butcher tableau for any explicit methods that I ask about on the quiz.
+
+
+
+\end{document}

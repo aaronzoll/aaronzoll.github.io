@@ -1,0 +1,38 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 1\\
+Due through gradescope before lecture starts, Thursday, Sept 4}
+\end{center}
+
+Your solutions should represent your own work and understanding of the material. You can discuss homework problems at a high level with other students or software systems like ChatGPT, but you should execute the details of any directions discussed independently of them. Results from class or the textbook can be used without proof. Otherwise, claims need to be well justified. You use any programming language you feel comfortable with (matlab, julia, or python are most reasonable). You must submit both your code and the requested output/plots from running your code. Grading will focus on the quality of outputs rather than the code itself.\\
+
+\noindent {\bf Q1.} Do exercise 1 in Section 1.1 of Driscoll and Braun (\url{https://fncbook.com/}) twice, once with $d=2$ and once with $d=4$.\\
+(The floating point ruler with both of these scales handed out in class may be a useful reference.) 
+
+\vskip1cm
+
+\noindent {\bf Q2.} Recall $\pi$ is defined as the ratio of a circle's circumference to its diameter. Write a computer program that approximates $\pi$ by approximately measuring the circumference of the unit circle (that is, the circle with radius one) as follows:
+First, let's restrict to measuring the circumference of the top right quarter of the circle given by $y(x) = \sqrt{1-x^2}$ for $0\leq x\leq 1$\footnote{This is fine since we can quadruple it after our calculation.}. Then, let's approximate the curve by $T$ line segments (a number your program should take as input). For each $i=0,\dots T-1$ let $x_i = i/T$ and compute the sum of the lengths of the line segments from $(x_i,y(x_i))$ to $(x_{i+1},y(x_{i+1})$,
+$$ \mathrm{ApproximateCircumference}(T) = 4\sum_{i=0}^{T-1} \mathrm{LineSegmentLength}((x_i,y(x_i)),(x_{i+1},y(x_{i+1}))) \ . $$
+Use this to compute an approximate value of $\pi$ for $T=1,\ 2,\ 3, \ 10,\ 10^3,\ 10^6$ in standard double-precision floating point arithmetic. Print out each approximation along with its absolute accuracy and relative accuracy, and number of accurate digits (as defined by (1.1.6) in Driscoll and Braun). What do you think the main limitations are on the quality of approximation of $\pi$ here?\\
+
+\noindent {\bf Q3.} There are many other algorithms for computing $\pi$, one exceptionally strange way comes from the famous Mathematician Ramanujan, who proved the formula that
+$$ \frac {1}{\pi }= \lim_{T\rightarrow \infty} \ {\frac {2{\sqrt {2}}}{9801}}\sum _{k=0}^{T-1}{\frac {(4k)!(1103+26390k)}{(k!)^{4}396^{4k}}} \ , $$
+where $k!$ denotes the factorial of $k$. Use this formula to (attempt to) compute an approximation of $\pi$ for $T=1,\ 2,\ 3, \ 10,\ 10^3,\ 10^6$ in standard double-precision floating point arithmetic. For each that works, print out the approximation and its absolute accuracy, relative accuracy, and number of accurate digits (as defined by (1.1.6) in Driscoll and Braun). What do you think the main limitations are on the quality of approximation of $\pi$ here?
+
+
+\end{document} 

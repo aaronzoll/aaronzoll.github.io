@@ -1,0 +1,346 @@
+\documentclass[11pt]{article}
+\usepackage[margin =1in]{geometry}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+\usepackage{amssymb,amsthm,amsmath}
+\usepackage{enumerate}
+\usepackage{ragged2e}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
+\usepackage[capitalize]{cleveref}
+\usepackage{color}
+\usepackage{cancel}
+\usepackage{pgf}
+\usepackage{svg}
+\usepackage{pgfplots}
+\usepackage{array}
+\usepackage{import}
+\usepackage{comment}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{mathrsfs}       % cursive letters
+
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+% \usepackage{tikz}
+
+\usepackage{microtype}
+\usepackage{multirow}
+\usepackage{xfrac}
+\usepackage{todonotes}
+\usepackage{titlesec}
+\usepackage{caption}
+\usepackage{subcaption}
+%algorithm packages
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{varwidth}
+\titleformat{\subsubsection}[runin]
+{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+\usepackage{appendix}
+\numberwithin{equation}{section}
+
+
+
+
+
+%%%%%%%%%% Math %%%%%%%%%%%%%%%
+
+\newcommand{\tr}{\mathrm{Tr}}
+\newcommand{\vect}{\mathbf{vec}}
+\newcommand{\cI}{\mathcal{I}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\bcdot}{\ {\bf \cdot} \ }
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\norm}[1]{\left \| #1 \right \|}
+\newcommand{\opnorm}[1]{\norm{#1}_{\mathrm{op}}}
+\newcommand{\inclu}[0] {\ar@{^{(}->}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Lcal}{\mathcal{L}}
+\newcommand{\Fscr}{\mathscr{F}}
+\newcommand{\Holder}{H\"older }
+\newcommand{\inner}[2]{\left\langle {#1}, {#2} \right\rangle}
+\newcommand{\Dim}{\text{dim }}
+\newcommand{\spann}{\text{span}}
+\newcommand{\im}{\text{Im }}
+\newcommand{\gph}{{\rm gph}\,}
+\newcommand{\diag}{{\rm diag}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\trace}{\mathrm{Tr}}
+\newcommand{\sign}{\mathrm{sign}}
+\newcommand{\lip}{\mathrm{lip}}
+\newcommand{\var}{\mathrm{var}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\supp}{{\mathrm{supp}}} % support
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\eps}{\varepsilon}
+
+%%%%%%%%% Convex Analysis %%%%%%%%%
+\newcommand{\prox}{\text{prox}}
+\newcommand{\proj}{\mathrm{proj}}
+\newcommand{\dom}[1]{\mathrm{dom }(#1)}
+\newcommand{\epi}{\text{epi }}
+\newcommand{\hypo}{\text{hypo }}
+\newcommand{\interior}{\text{int }}
+\newcommand{\bdry}{\text{bdy }}
+\newcommand{\relint}{\text{ri }}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+\newcommand{\mini}{\operatornamewithlimits{minimize}}
+\newcommand{\ls}{\operatornamewithlimits{limsup}}
+\newcommand{\Diag}{{\rm Diag}}
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\St}{{\mathrm{subject~to}}} % subject to
+%%%% Probability %%%%%%%%%%%%%%%%%
+\newcommand{\Expect}{\mathbb{E}}
+\newcommand{\Prob}[1]{\mathbb{P}\left( #1 \right)}
+\newcommand{\Expec}[1]{\mathbb{E}\left( #1 \right)}
+\newcommand{\matrx}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+
+
+%%%%%%%% Environments %%%%%%%%%%%%%
+\newtcbtheorem[no counter,crefname={Theorem}{Theorems}]{theorem}%
+  {Theorem}{fonttitle=\bfseries\upshape, fontupper=\slshape,
+   separator sign dash,
+     arc=1mm, colback=blue!5!white,colframe=blue!75!black}{theorem}
+\newtcbtheorem[no counter,crefname={Definition}{Definitions}]{definition}%
+  {Definition}{fonttitle=\bfseries\upshape, fontupper=\slshape,
+  breakable,pad at break*=1mm,
+   separator sign dash,
+     arc=1mm, colback=red!5!white,colframe=red!75!black}{Definition}
+\newtcbtheorem[no counter,crefname={Proposition}{Propositions}]{prop}%
+  {Proposition}{fonttitle=\bfseries\upshape, fontupper=\slshape,
+   separator sign dash,
+     arc=1mm, colback=magenta!5!white,colframe=magenta!75!black}{theorem}
+\newtcbtheorem[no counter,crefname={Lemma}{Lemmas}]{lemma}%
+  {Lemma}{fonttitle=\bfseries\upshape, fontupper=\slshape,
+   separator sign dash,
+     arc=1mm, colback=orange!5!white,colframe=orange!95!black}{theorem}
+\newtcbtheorem[no counter,crefname={Corollary}{Corollaries}]{cor}%
+  {Corollary}{fonttitle=\bfseries\upshape, fontupper=\slshape,
+  separator sign dash,
+     arc=1mm, colback=cyan!5!white,colframe=cyan!75!black}{Corollary}
+\newtcbtheorem[no counter,number within=subsection,crefname={Remark}{Remarks}]{remark}%
+  {Remark}{fonttitle=\bfseries\upshape, fontupper=\slshape,
+   separator sign dash,
+     arc=1mm, colback=green!5!white,colframe=green!55!black}{Remark}
+\newtcbtheorem[no counter,crefname={Problem}{Problems}]{prob}%
+  {Problem}{fonttitle=\bfseries\upshape, fontupper=\slshape,
+   separator sign dash,
+     arc=1mm, colback=black!5!white,colframe=black!55!black}{Problem}
+\newtcbtheorem[no counter,crefname={Algorithm}{Algorithms}]{algo}%
+  {Algorithm}{fonttitle=\bfseries\upshape, fontupper=\slshape,
+   separator sign dash,
+     arc=1mm, colback=yellow!5!white,colframe=yellow!80!black}{Algorithm}
+\newtcbtheorem[no counter,crefname={Example}{Example}]{example}%
+  {Example}{fonttitle=\bfseries\upshape, fontupper=\slshape,
+   separator sign dash,
+     arc=1mm, colback=pink!5!white,colframe=pink!80!black}{Exercise}
+ \newtcbtheorem[no counter,crefname={Assumption}{Assumptions}]{assumption}%
+  {Assumption}{fonttitle=\bfseries\upshape, fontupper=\slshape,
+   separator sign dash,
+     arc=1mm, colback=violet!5!white,colframe=violet!80!black}{Assumption}
+
+\usepackage{mathtools}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\newcommand{\bvec}[1]{{\bf #1}}
+\newcommand{\solution}[1]{
+    \vspace{0.2cm}
+	\noindent\underline{\textit{Solution:}}\\
+
+    \noindent{\color{red} #1}\\ \\
+}
+
+\newcommand{\question}[1]{
+	\fbox{\parbox{\dimexpr\linewidth-4\fboxsep-2\fboxrule}{\small #1}}
+}
+
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+\setlength{\fboxrule}{1.2pt} % try 1pt–1.5pt
+\setlength{\fboxsep}{2pt} 
+
+\usepackage{subcaption}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Spring 2026\\
+Section 6, March 3 (not due or graded).\\
+}
+\end{center}
+
+\noindent {\it Section will give you time to work on/discuss questions in small groups and then present your solutions. The information below is more of a summary of useful topics. There are no problems this week, but the following may be useful to better understand least squares, normal equations, and Householder matrices.
+}
+
+\paragraph{TL;DR:} This section is meant to give a constructive way to solve fitting a function that hopefully requires very little memorization. Solving the problem of fitting data often resolves to minimizing the difference between the output data and some matrix-vector multiplication based on the input data. That is, we solve $$\min_v \|Av-b\|_2^2$$ where the vector $v$ here parameterized some type of function (i.e. a polynomial). The solution to this minimization problem must satisfies $$A^T(Av-b)=0$$ by optimality conditions, which gives rise to solving the linear problem (a.k.a the ``Normal Equations'') $$A^TAv = A^Tb.$$
+This technique is called linear regression and surprisingly has very little to do with fitting a linear function. We can solve fitting a polynomial, a power law, and exponential, and many more via these techniques. Finally, by decomposing $A = QR$ into an orthogonal matrix and an upper triangular one, this problem can be converted into one that is solved with simple backwards substitution. Computing $A = QR$ can rely on applications relating to Householder Matrices with are seen as reflections over a plane. That is, for a plane defined as the orthogonal space to a vector $v$, the Householder reflection is $$P = I-2v^Tv, \quad Px = (I-2vv^T)x = x-2v(v^Tx) = x-2(v^Tx)v$$.
+\begin{figure}[htbp]
+\centering
+% --- bottom centered ---
+\begin{subfigure}[t]{0.38\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/householder-matrix.jpg}}
+  \caption{Reflecting a vector over a plane}
+  \label{fig:img3}
+\end{subfigure}
+
+\end{figure}
+
+
+\newpage
+\paragraph{Least squares and linear regression}
+
+Very often in data analysis, signal processing, and machine learning, we wish to approximate data with a structures function (i.e. a low degree polynomial). Instead of interpolating to have the function go through the points exactly (which can be unstable), we want to ``fit'' the data as best as possible. We measure this fit by considering the (squared) distances from the data to the function.
+
+\begin{figure}[htbp]
+\centering
+
+% --- top row ---
+\begin{subfigure}[t]{0.38\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/data_least_squares.png}}
+  \caption{Data we wish to fit}
+  \label{fig:img1}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{0.38\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/function_least_squares.png}}
+  \caption{Example of a fitting line}
+  \label{fig:img2}
+\end{subfigure}
+
+\vspace{0.6em}
+
+% --- bottom centered ---
+\begin{subfigure}[t]{0.38\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/distances_least_squares.png}}
+  \caption{Plotted distances to sample function}
+  \label{fig:img3}
+\end{subfigure}
+
+\label{fig:three_images}
+\end{figure}
+Formulating this exactly, if we have (possibly vector-valued) data $(x_i,f_i)$ for $i = 1, ..., n$ then for a function $f(x)$, we can describe the sum of squares to be $$\sum_{i=1}^m (f_i - f(x_i))^2.$$ Note that we could have considered just $|f_i-f(x_i)|$ instead, but the lack of differentiability will prove to be a difficulty for us. Further note that really we are trying to solve a problem here. We really want to solve $$\min_{f \in \mathcal{F}} \sum_{i=1}^m (f_i-f(x_i))^2, \quad \mathcal{F} \text{ is some structured function class}.$$
+In the case where we want to find the line of best fit, $\mathcal{F} = \{f(x) = a_1x+a_0\}$. In the case where we find a best fitting cubic, $\mathcal{F} = \{f(x) = a_3x^3+x_2x^2+x_1x+x_0\}$. In the case where we are finding the best fitting power law, $\mathcal{F}= \{f(x) = mx^b\}$. Since we can often parameterize these function classes with a finite number of parameters (i.e, $a_0, a_1, ..., a_k$) we can turn this into a tractable optimization problem! 
+\begin{figure}[htbp]
+\centering
+% --- bottom centered ---
+\begin{subfigure}[t]{0.38\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/distances_least_squares_quadratic.png}}
+  \caption{Plotted distances to a cubic}
+  \label{fig:img3}
+\end{subfigure}
+
+\end{figure}
+
+
+\begin{example}{}{}In the case of fitting a cubic, the problem now becomes $$\min_{a_0, a_1, a_2, a_3} \sum_{i=1}^m (f_i - (a_3x_i^3+a_2x_i^2+a_1x_i+a_0))^2,$$
+Recall the data $(x_i, f_i)$ is fixed beforehand. These are now just number we have access to. Then, because our variable we are optimizing are $a_0, a_1, a_2, a_3$, and they are just weighted linearly by some numbers (i.e. $x_i^3, x_i^2, ...$) we can write these values $(a_3x_i^3+a_2x_i^2+a_1x_i+a_0)$ as the components of a matrix vector multiplication. That is, we can rewrite $$\underbrace{\begin{bmatrix}
+ x_1^3 & x_1^2 & x_1 & 1\\
+  x_2^3 & x_2^2 & x_2 & 1\\
+\vdots & \vdots & \vdots  & \vdots\\
+ x_m^3 & x_m^2 & x_m & 1
+\end{bmatrix}}_{A}\underbrace{\begin{bmatrix}
+    a_3 \\ a_2 \\ a_1 \\ a_0
+\end{bmatrix}}_{v} = \begin{bmatrix}
+    a_3x_1^3+a_2x_1^2+a_1x_1+a_0\\
+    a_3x_2^3+a_2x_2^2+a_1x_2+a_0\\
+    \vdots \\
+    a_3x_m^3+a_2x_m^2+a_1x_m+a_0
+\end{bmatrix}$$
+Now if we let the vector $b = [f_1, ..., f_m]^T$ our problem looks like $$\min_v \sum_{i=1}^m (f_i - [Av]_i)^2= \min_v \|Av-b\|_2^2.$$
+\end{example}
+Note that this representation had nothing to do with the function we are fitting being a linear function, nor is it unique to cubics. All that matters is \textit{the optimizing variables are weighted linearly}. Recall, the optimizing variables are the parameters of the function we are trying to fit, not anything to do with the data itself. This is why polynomial fits can be solved with linear regression. Power law fits can also be solved with linear regression via a change of variables (log-log). Exponential fits can be solved with linear regression too. 
+
+\paragraph{Normal Equations}
+Now that we have set up the problem, we can solve it. Given data and a function class to which we are trying to find a best fit, we set up our suitable matrix and vector. In general, if a function is parametrized by $n$ variables and we have $m$ data points, then $A$ will be an $m$ by $n$ matrix and $b \in \R^m$. Furthermore, the $A_{ij}$ component of the matrix (i.e. row i, column j) will consist of $i^{th}$ data that weights the $j^{th}$ optimizing variable. Generality can often be confusing, so relate this to the example of fitting a cubic above. For example, $A_{21}=x_2^3$ because $f(x_2) = a_3x_2^3+ a_2x_2^2+a_1x_2+a_0$, and the weight on $a_3$ (here this is the first variable because of how we typically write polynomials) is precisely $x_2^3$. Regardless, the important note is that \textbf{both the matrix $A$ and the vector $b$ rely solely on the fixed data}.
+
+
+In order to solve this problem, we first outline perhaps the most fundamental result from optimization.
+\begin{theorem}{}{}
+    Let $v_\star$ be the minimizer of a differentiable function $f : \R^d \to \R$. Then $\nabla f(v_\star) = 0$.  
+\end{theorem}
+Under certain conditions, it is sufficient to have a zero gradient. This problem we are considering fits into these conditions. Therefore, we can solve $$v_\star = \arg \min_v \|Av-b\|_2^2 \ \ \Longleftrightarrow  \ \ \nabla f(v_\star) = 0, \quad f(x) = \|Ax-b\|_2^2$$
+
+\begin{remark}{}{}
+    The problem of least squares is morally about finding an $x$ such that $Ax$ is ``as close to'' $b$ as possible. There are many ways to measure this distance, as there are many norms $$\|Ax-b\|_1, \quad \|Ax-b\|_2, \quad \|Ax-b\|_\infty.$$
+    We choose the 2-norm because of its differentiability when squared. This is also why we square it instead of just minimizing the norm itself, even though the resulting minimizer would be the same. Using techniques that don't need differentiability, we can instead solve problems like $\min_v \|Av-b\|_p$, which yields different solutions, with perhaps different but desirable properties. Choosing the $p=1$ norm, for example, permits the minimizer to be ``sparse'' meaning that most components are pushed to being $0$.
+\end{remark}
+
+Solving our problem now just accounts to setting a gradient equal to $0$. For those particularly comfortable with multi variable calculus and its associated chain rule, it is clear that $$f(x) = \|Ax-b\|^2 \Longrightarrow \nabla f(x) = 2A^T(Ax-b).$$  
+However, this is not particularly trivial. Personally, I find it easier to just ``pattern-match'' and not that if instead we wanted to find the \textit{derivative} of a function $f: \R \to \R$ where $a$ and $b$ are just scalars then $$f(x) = (ax-b)^2 \Longrightarrow f'(x) = 2a(ax-b).$$
+The jump then to $A$ being an $m \times n$ matrix, $b \in \R^m$ and considering how to make compatible matrix-vector multiplication isn't too far to derive the more general result. Regardless, setting $\nabla f(v) = 0$ exactly results in the normal equations.
+
+\paragraph{Householder Matrices}
+If we can decompose $A = QR$ where $Q$ is an orthogonal matrix and $R$ is upper triangular then $$A^TA x = A^Tb \Longrightarrow R^TQ^TQRx = R^TQ^Tb \Longrightarrow Rx = Q^Tb$$
+when $R$ is invertible (typical for problems with enough data). Now solving the problem is extremely quick because we can just use backward substitution (solve for $x_m$ then $x_{m-1}$ ...) which only requires simple subtraction and division. The task of computing a $QR$ can be difficult, but one tool that is used are these Householder matrices. Note that given a vector $v \in \R^n$, there is an $(n-1)$ dimensional subspace \textit{orthogonal} to this vector. We outline some important results from linear algebra. 
+\begin{lemma}{}{}
+Given $v \in \R^n$, there exist $n-1$ pair-wise orthogonal vectors $w_1, w_2, ..., w_{n-1}$ such that $w_i^T v = 0$. 
+\end{lemma}
+\begin{definition}{}{}
+    Given a vector $v \in \R^n$, denote the $n-1$ dimensional subspace orthogonal to $v$ as the \textbf{hyperplane} generated by $v$ $$H(v) = \{w : w^Tv = 0\} = \mathrm{span}(w_1, w_2, ..., w_{n-1})$$
+\end{definition}
+We can also go in the reverse direction. Given an $n-1$ dimensional subspace, a hyperplane in $\R^n$, there exists a vector $v$ such that $v$ is orthogonal to every vector in the hyperplane. 
+
+We can also (orthogonally) project onto a hyperplane and decompose any vector $x \in \R^n$ into the sum of two vectors: one in the direction of $v$ and another that is orthogonal to $v$. This first construction is rather length, but we will show very soon that there is an easier approach.
+
+\begin{lemma}{Projection on a hyperplane}{}
+    Let $v \in \R^n$ and let $w_1, ..., w_{n-1}$ be the $n-1$ orthogonal vectors to $v$ (and each other). Then we define the projection onto the hyperplane as $$\proj_H(x) = \sum_{i=1}^{n-1} \frac{x^Tw_{i}}{w_i^Tw_i}w_i \in H(v)$$
+\end{lemma}
+\begin{lemma}{Orthogonal Decomposition}{}
+    For any $x \in \R^n$ and given $v \in \R^n$ with associated hyperplane $H(v)$. One may decompose $$x = \tilde{v} + w, \quad \tilde{v} \in \mathrm{span}(v), \  w \in H(v)$$
+   Specifically, one may write this as $$x = \tilde{v}+w, \quad \tilde{v} = \proj_v(x)=\frac{x^T v}{v^Tv}v, \ w = \proj_H(x)$$
+\end{lemma}
+
+Instead of finding the $n-1$ orthogonal vectors to $v$ and projecting onto each of those and summing them, one may simply project onto the hyperplane with the orthogonal vector itself. 
+\begin{cor}{}{}
+    Given a hyperplane $H$ and a unit vector $v$ orthogonal to $H$, then $$\proj_H(x) = x - \proj_v(x) = x-(v^Tx)v$$ 
+\end{cor}
+Reflecting over a hyperplane is then continuing this movement. That is, if \textit{projecting} to the hyperplane takes the vector $x$ and moves it orthogonally until it is on the plane, \textit{reflecting} over the hyperplane is repeating this movement twice. 
+\begin{definition}{}{}
+    We define a \textbf{Householder Transformation} to be the reflection of a vector $x$ over a hyperplane generated by unit vector $v$: $$\tilde{x} = x - 2(v^Tx)v$$
+   We call the \textbf{Householder Matrix} of a vector, $$P_v = I-2vv^T \Longleftrightarrow P_vx = x-2(v^Tx)v$$
+\end{definition}
+We note that this matrix then inherits many nice properties being defined as a reflection. For example, reflecting something twice sends the object back to where it started. Therefore, for any unit vector $v$ and $P_v$ as defined above $$P_v^2 = I.$$
+
+\begin{figure}[htbp]
+\centering
+% --- bottom centered ---
+\begin{subfigure}[t]{0.38\textwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/householder-matrix.jpg}}
+  \caption{Reflecting a vector over a plane}
+  \label{fig:img3}
+\end{subfigure}
+
+\end{figure}
+This can be shown algebraically as well \begin{align*}
+    P_v^2 &= (I-2vv^T)^2\\
+    &= I^2 - 2vv^T - 2vv^T +4vv^Tvv^T\\
+    &= I - 4vv^T + 4vv^T\\&=I
+\end{align*}
+Another property that comes immediately from the geometric understanding is that $$P_v v = -v, \quad P_v w = w, \quad \forall w \in H(v)$$
+That is, $v$ is an eigenvector with eigenvalue $-1$, and any $w$ orthogonal to $v$ is an eigenvector with eigenvalue $1$.
+\end{document}

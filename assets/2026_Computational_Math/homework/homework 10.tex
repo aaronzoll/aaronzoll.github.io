@@ -1,0 +1,311 @@
+\documentclass[reqno]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 10}
+\date{Due: Friday, Apr 10, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+  \item Textbook Exercise 6.1.1 b, c
+
+        \begin{solution}
+          For each problem, I need to check if $\frac{\partial f}{\partial u}$ exists and is bounded, then find the smallest constant $L$ such that $\left|\frac{\partial f}{\partial u}\right| \leq L$.
+
+          \medskip
+
+          \textbf{(b) $f(t,u) = -t\sin(u)$, $0 \leq t \leq 5$}
+
+          Finding the partial derivative:
+          \begin{align*}
+            \frac{\partial f}{\partial u} & = -t\cos(u)
+          \end{align*}
+
+          Analysis:
+          \begin{itemize}
+            \item $\frac{\partial f}{\partial u}$ exists for all $t$ and $u$
+            \item $\left|\frac{\partial f}{\partial u}\right| = |t||\cos(u)| \leq |t| \cdot 1$
+            \item For $t \in [0,5]$: $\left|\frac{\partial f}{\partial u}\right| \leq 5$
+          \end{itemize}
+
+          Conclusion: Satisfies Theorem 6.1.2 with $\boxed{L = 5}$
+
+          \medskip
+
+          \textbf{(c) $f(t,u) = -(1+t^2)u^2$, $1 \leq t \leq 3$}
+
+          Finding the partial derivative:
+          \begin{align*}
+            \frac{\partial f}{\partial u} & = -2(1+t^2)u
+          \end{align*}
+
+          Analysis:
+          \begin{itemize}
+            \item $\frac{\partial f}{\partial u}$ exists for all $t$ and $u$
+            \item $\left|\frac{\partial f}{\partial u}\right| = 2(1+t^2)|u|$
+            \item This grows without bound as $|u| \to \infty$
+          \end{itemize}
+
+          Conclusion: Does \textbf{NOT} satisfy Theorem 6.1.2 because $\frac{\partial f}{\partial u}$ is unbounded (no finite $L$ exists)
+
+        \end{solution}
+
+
+  \item Textbook Exercise 6.1.4
+        \begin{solution}
+          Consider the IVP $u' = u^2$, $u(0) = \alpha$.
+
+          \medskip
+
+          \textbf{(a) Does Theorem 6.1.1 apply to this problem?}
+
+          Here $f(t,u) = u^2$, so:
+          \begin{align*}
+            \frac{\partial f}{\partial u} = 2u
+          \end{align*}
+
+          Since $\left|\frac{\partial f}{\partial u}\right| = 2|u|$ is unbounded as $|u| \to \infty$, Theorem 6.1.1 does \textbf{NOT} apply.
+
+          \medskip
+
+          \textbf{(b) Show that $u(t) = \frac{\alpha}{1-\alpha t}$ is a solution of the IVP.}
+
+          Check initial condition: $u(0) = \frac{\alpha}{1} = \alpha$ \quad $\checkmark$
+
+          Check differential equation:
+          \begin{align*}
+            u'(t)  & = \alpha(-1)(1-\alpha t)^{-2}(-\alpha) = \frac{\alpha^2}{(1-\alpha t)^2}     \\
+            u^2(t) & = \left(\frac{\alpha}{1-\alpha t}\right)^2 = \frac{\alpha^2}{(1-\alpha t)^2}
+          \end{align*}
+
+          Therefore $u'(t) = u^2(t)$ \quad $\checkmark$
+
+          \medskip
+
+          \textbf{(c) Does this solution necessarily exist for all $t \in [0,1]$?}
+
+          The solution $u(t) = \frac{\alpha}{1-\alpha t}$ has a singularity when $1 - \alpha t = 0$, i.e., at $t = \frac{1}{\alpha}$.
+
+          \begin{itemize}
+            \item If $\alpha \geq 1$: singularity at $t = \frac{1}{\alpha} \in (0,1]$, solution blows up in $[0,1]$
+            \item If $\alpha < 1$: singularity at $t = \frac{1}{\alpha}$ is outside $[0,1]$ (or at $-\infty$ if $\alpha \leq 0$)
+          \end{itemize}
+
+          \textbf{Conclusion:} No, the solution does NOT necessarily exist for all $t \in [0,1]$. It exists on $[0,1]$ if and only if $\alpha < 1$.
+
+        \end{solution}
+  \item Textbook Exercise 6.2.1 b, c
+        \begin{solution}
+
+          \textbf{(b) $u' = u + t$, $u(0) = 2$; $h = 0.2$; $\hat{u}(t) = -1 - t + 3e^t$}
+
+          Euler's method with $f(t,u) = u + t$.
+
+          \textit{Step 1:} $t_0 = 0$, $u_0 = 2$
+          \begin{align*}
+            u_1 & = u_0 + h(u_0 + t_0) = 2 + 0.2(2 + 0) = 2 + 0.4 = 2.4
+          \end{align*}
+
+          \textit{Step 2:} $t_1 = 0.2$, $u_1 = 2.4$
+          \begin{align*}
+            u_2 & = u_1 + h(u_1 + t_1) = 2.4 + 0.2(2.4 + 0.2) = 2.4 + 0.52 = 2.92
+          \end{align*}
+
+          \textit{Exact solution at $t_2 = 0.4$:}
+          \begin{align*}
+            \hat{u}(0.4) = -1 - 0.4 + 3e^{0.4} = -1.4 + 3e^{0.4} \approx 3.0918
+          \end{align*}
+
+          \textit{Error:} $|u_2 - \hat{u}(0.4)| = |2.92 - 3.0918| = 0.1718$
+
+          \medskip
+
+          \textbf{(c) $tu' + u = 1$, $u(1) = 6$, $h = 0.25$; $\hat{u}(t) = 1 + 5/t$}
+
+          Rewrite as $u' = \frac{1-u}{t}$, so $f(t,u) = \frac{1-u}{t}$.
+
+          \textit{Step 1:} $t_0 = 1$, $u_0 = 6$
+          \begin{align*}
+            u_1 & = u_0 + h \cdot \frac{1-u_0}{t_0} = 6 + 0.25 \cdot \frac{1-6}{1} = 6 - 1.25 = 4.75
+          \end{align*}
+
+          \textit{Step 2:} $t_1 = 1.25$, $u_1 = 4.75$
+          \begin{align*}
+            u_2 & = u_1 + h \cdot \frac{1-u_1}{t_1} = 4.75 + 0.25 \cdot \frac{1-4.75}{1.25} = 4.75 - 0.75 = 4.0
+          \end{align*}
+
+          \textit{Exact solution at $t_2 = 1.5$:}
+          \begin{align*}
+            \hat{u}(1.5) = 1 + \frac{5}{1.5} = 1 + 3.333... \approx 4.3333
+          \end{align*}
+
+          \textit{Error:} $|u_2 - \hat{u}(1.5)| = |4.0 - 4.3333| = 0.3333$
+
+        \end{solution}
+
+
+  \item Textbook Exercise 6.2.3
+
+        You can use the following theorem without proof: $$f(t_i + h, u(t_i) + h f(t_i, u(t_i))) = f(t_i, u(t_i)) + O(h)$$
+        \begin{solution}
+          \textbf{(a) Write out the method explicitly in the general one-step form (6.2.7)}
+
+          Given the method:
+          \begin{align*}
+            v_{i+1} & = u_i + h f(t_i, u_i)         \\
+            u_{i+1} & = u_i + h f(t_i + h, v_{i+1})
+          \end{align*}
+
+          Substituting the first equation into the second:
+          \begin{align*}
+            u_{i+1} & = u_i + h f(t_i + h, u_i + h f(t_i, u_i))
+          \end{align*}
+
+          Comparing with the general form $u_{i+1} = u_i + h\phi(t_i, u_i, h)$, we have:
+          \begin{align*}
+            \boxed{\phi(t, u, h) = f(t + h, u + h f(t, u))}
+          \end{align*}
+
+          \medskip
+
+          \textbf{(b) Show that the method is consistent}
+
+          A method is consistent if $\phi(t, u, 0) = f(t, u)$.
+
+          Evaluate $\phi(t, u, h)$ as $h \to 0$:
+          \begin{align*}
+            \phi(t, u, 0) & = f(t + 0, u + 0 \cdot f(t, u)) \\
+                          & = f(t, u)
+          \end{align*}
+
+          Therefore, the method is \textbf{consistent}. $\checkmark$
+
+          \textit{Alternative verification:} We can also verify consistency by checking that the local truncation error is $O(h)$.
+
+          Let $u(t)$ be the exact solution satisfying $u'(t) = f(t, u(t))$. The local truncation error is:
+          \begin{align*}
+            \tau_i & = \frac{u(t_{i+1}) - u(t_i)}{h} - \phi(t_i, u(t_i), h)                  \\
+                   & = \frac{u(t_i + h) - u(t_i)}{h} - f(t_i + h, u(t_i) + h f(t_i, u(t_i)))
+          \end{align*}
+
+          Using Taylor expansion: $u(t_i + h) = u(t_i) + h u'(t_i) + O(h^2) = u(t_i) + h f(t_i, u(t_i)) + O(h^2)$
+
+          And: $f(t_i + h, u(t_i) + h f(t_i, u(t_i))) = f(t_i, u(t_i)) + O(h)$
+
+          Thus:
+          \begin{align*}
+            \tau_i & = \frac{u(t_i) + h f(t_i, u(t_i)) + O(h^2) - u(t_i)}{h} - f(t_i, u(t_i)) - O(h) \\
+                   & = f(t_i, u(t_i)) + O(h) - f(t_i, u(t_i)) - O(h)                                 \\
+                   & = O(h)
+          \end{align*}
+
+          Since $\tau_i \to 0$ as $h \to 0$, the method is consistent.
+        \end{solution}
+
+
+  \item Textbook Exercise 6.2.4
+        \begin{solution}
+          Consider the problem $u' = ku$, $u(0) = 1$ for a real constant $k$ and $t > 0$.
+
+          \medskip
+
+          \textbf{(a) Find an explicit formula for the Euler solution $u_i$ at $t = ih$}
+
+          Euler's method gives:
+          \begin{align*}
+            u_{i+1} & = u_i + h f(t_i, u_i) = u_i + h(ku_i) = u_i(1 + hk)
+          \end{align*}
+
+          This is a geometric sequence with ratio $(1 + hk)$.
+
+          Starting with $u_0 = 1$:
+          \begin{align*}
+            u_1 & = u_0(1 + hk) = 1 + hk     \\
+            u_2 & = u_1(1 + hk) = (1 + hk)^2 \\
+            u_3 & = u_2(1 + hk) = (1 + hk)^3 \\
+                & \vdots                     \\
+            u_i & = (1 + hk)^i
+          \end{align*}
+
+          \boxed{u_i = (1 + hk)^i}
+
+          \medskip
+
+          \textbf{(b) Find values of $k$ and $h$ such that $|u_i| \to \infty$ as $i \to \infty$ while $\hat{u}(t)$ is bounded as $t \to \infty$}
+
+          The exact solution is:
+          \begin{align*}
+            \hat{u}(t) = e^{kt}
+          \end{align*}
+
+          For the exact solution to be bounded as $t \to \infty$:
+          \begin{itemize}
+            \item We need $k < 0$ (so $e^{kt} \to 0$ as $t \to \infty$)
+          \end{itemize}
+
+          For the Euler solution to diverge as $i \to \infty$:
+          \begin{itemize}
+            \item We need $|1 + hk| > 1$
+          \end{itemize}
+
+          Since $k < 0$, write $k = -|k|$. Then:
+          \begin{align*}
+            |1 + hk| = |1 - h|k|| > 1
+          \end{align*}
+
+          This inequality holds when:
+          \begin{align*}
+            1 - h|k| < -1 \quad & \text{or} \quad 1 - h|k| > 1      \\
+            -h|k| < -2 \quad    & \text{or} \quad -h|k| > 0         \\
+            h|k| > 2 \quad      & \text{(the second is impossible)}
+          \end{align*}
+
+          Therefore: $h|k| > 2$, or equivalently, $h > \frac{2}{|k|}$.
+
+          \textbf{Example:} Choose $\boxed{k = -1}$ and $\boxed{h = 3}$.
+
+          Then:
+          \begin{itemize}
+            \item $\hat{u}(t) = e^{-t} \to 0$ as $t \to \infty$ (bounded)
+            \item $u_i = (1 + 3(-1))^i = (-2)^i$, so $|u_i| = 2^i \to \infty$ as $i \to \infty$
+          \end{itemize}
+
+          \textbf{General answer:} Any $k < 0$ and $h > \frac{2}{|k|}$ will work.
+        \end{solution}
+
+  \item Jupyter Notebook
+
+\end{enumerate}
+
+
+\section*{Quiz Information}
+
+The quiz will be held on {\bf Tuesday, April 17, 2026} during the discussion section.
+
+Quiz questions will be modifications of the {\it homework problems and material discussed in class}.
+
+\textbf{Topics covered:}
+
+Chapters 6.1 and 6.2
+
+\begin{itemize}
+  \item Conditioning of first-order IVPs
+  \item Euler's method for solving first-order IVPs
+  \item Various definitions: Local truncation error, convergence metrics
+\end{itemize}
+
+
+
+\end{document}

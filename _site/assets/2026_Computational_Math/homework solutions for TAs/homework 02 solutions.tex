@@ -1,0 +1,178 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 02}
+\date{Due: Friday, Feb 06, 2025, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+\item Textbook Exercise 1.2.3
+
+\begin{solution}
+
+\textbf{You can do all of these using L'Hôpital's rule, but I've given solutions here using Taylor series expansions. Both methods are correct.}
+
+The relative condition number of a function $f(x)$ is defined as:
+$$\kappa_f(x) = \left|\frac{xf'(x)}{f(x)}\right|$$
+
+We find $\kappa_f(x) \to \infty$ when either $|xf'(x)| \to \infty$ or $f(x) \to 0$ (or both).
+
+\textbf{(a)} $f(x) = \tanh(x)$
+
+We have $f'(x) = \operatorname{sech}^2(x) = 1 - \tanh^2(x)$.
+
+Using the exponential form:
+$$f(x) = \tanh(x) = \frac{e^{2x} - 1}{e^{2x} + 1}, \quad f'(x) = \frac{4e^{2x}}{(e^{2x} + 1)^2}$$
+
+Therefore:
+$$\kappa_f(x) = \left|\frac{x \cdot \frac{4e^{2x}}{(e^{2x} + 1)^2}}{\frac{e^{2x} - 1}{e^{2x} + 1}}\right| = \left|\frac{4xe^{2x}}{(e^{2x} + 1)(e^{2x} - 1)}\right|$$
+
+\textit{Finding where $\kappa_f(x) \to \infty$:}
+
+- At $x = 0$: Both $e^{2x} - 1 \to 0$ and $x \to 0$. Using L'Hôpital's rule or Taylor series with $e^{2x} - 1 \approx 2x$ and $e^{2x} + 1 \approx 2$ as $x \to 0$:
+$$\lim_{x \to 0} \kappa_f(x) = \lim_{x \to 0} \left|\frac{4x \cdot 1}{2 \cdot 2x}\right| = 1$$
+So $\kappa_f(0) = 1$ is finite.
+
+- As $x \to +\infty$: $\tanh(x) \to 1$, so $f(x) \to 1$ (not zero), and $\kappa_f(x) \to 0$.
+
+- As $x \to -\infty$: $\tanh(x) \to -1$, so $f(x) \to -1$ (not zero), and $\kappa_f(x) \to 0$.
+
+Therefore, $\boxed{\kappa_f(x) \text{ never approaches } \infty}$.
+
+\textbf{(b)} $f(x) = \frac{e^x - 1}{x}$
+
+Using the quotient rule: $f'(x) = \frac{xe^x - (e^x - 1)}{x^2}$
+
+$$\kappa_f(x) = \left|\frac{x \cdot \frac{xe^x - e^x + 1}{x^2}}{\frac{e^x - 1}{x}}\right| = \left|\frac{xe^x - e^x + 1}{(e^x - 1)}\right|$$
+
+\textit{Finding where $\kappa_f(x) \to \infty$:}
+
+- At $x = 0$: Using Taylor series:
+$$e^x - 1 \approx x + \frac{x^2}{2}, \quad xe^x - e^x + 1 \approx \frac{x^2}{2}$$
+$$\kappa_f(x) \approx \left|\frac{x^2/2}{x^2}\right| = \frac{1}{2}$$
+So $\kappa_f(0) = \frac{1}{2}$ is finite.
+
+
+- As $x \to +\infty$: 
+$$\kappa_f(x) = \left|\frac{xe^x - e^x + 1}{e^x - 1}\right| = \left|\frac{e^x(x - 1) + 1}{e^x - 1}\right| \to |x - 1| \to \infty$$
+
+- As $x \to -\infty$: $e^x \to 0$, so 
+$$\kappa_f(x) = \left|\frac{0 - 0 + 1}{0 - 1}\right| = 1$$
+
+Therefore, $\boxed{\kappa_f(x) \to \infty \text{ as } x \to +\infty}$.
+
+\textbf{(c)} $f(x) = \frac{1 - \cos(x)}{x}$
+
+Using the quotient rule: $f'(x) = \frac{x\sin(x) - (1-\cos(x))}{x^2}$
+
+$$\kappa_f(x) = \left|\frac{xf'(x)}{f(x)}\right| = \left|\frac{x \cdot \frac{x\sin(x) - (1-\cos(x))}{x^2}}{\frac{1-\cos(x)}{x}}\right| = \left|\frac{x\sin(x) - (1-\cos(x))}{1-\cos(x)}\right|$$
+
+\textit{Finding where $\kappa_f(x) \to \infty$:}
+
+- At $x = 0$: Using Taylor series:
+$$\sin(x) = x - \frac{x^3}{6} + \cdots, \quad 1 - \cos(x) = \frac{x^2}{2} - \frac{x^4}{24} + \cdots$$
+$$x\sin(x) = x^2 - \frac{x^4}{6} + \cdots$$
+$$x\sin(x) - (1-\cos(x)) = x^2 - \frac{x^4}{6} - \frac{x^2}{2} + \frac{x^4}{24} + \cdots = \frac{x^2}{2} - \frac{x^4}{8} + \cdots$$
+
+$$\kappa_f(x) = \left|\frac{\frac{x^2}{2} - \frac{x^4}{8} + \cdots}{\frac{x^2}{2} - \frac{x^4}{24} + \cdots}\right| = \left|\frac{x^2(\frac{1}{2} - \frac{x^2}{8} + \cdots)}{x^2(\frac{1}{2} - \frac{x^4}{24} + \cdots)}\right| = \left|\frac{\frac{1}{2} - \frac{x^2}{8} + \cdots}{\frac{1}{2} - \frac{x^2}{24} + \cdots}\right| \to 1$$
+
+So $\kappa_f(0) = 1$ is finite.
+
+- At $x = 2\pi n$ for nonzero integer $n$: We have $1 - \cos(2\pi n) = 0$, so the denominator goes to zero. Near $x = 2\pi n + h$:
+$$1 - \cos(2\pi n + h) = 1 - \cos(h) \approx \frac{h^2}{2}$$
+$$\sin(2\pi n + h) = \sin(h) \approx h$$
+$$(2\pi n + h)\sin(2\pi n + h) \approx 2\pi n \cdot h + h^2 = h(2\pi n + h)$$
+$$x\sin(x) - (1-\cos(x)) \approx h(2\pi n + h) - \frac{h^2}{2} = 2\pi nh + \frac{h^2}{2}$$
+
+$$\kappa_f(x) \approx \left|\frac{2\pi nh + \frac{h^2}{2}}{\frac{h^2}{2}}\right| = \left|\frac{4\pi n}{h} + 1\right| \to \infty$$
+
+Therefore, $\boxed{\kappa_f(x) \to \infty \text{ as } x \to 2\pi n \text{ for all nonzero integers } n}$.
+\end{solution}
+
+\item Textbook Exercise 1.2.6
+\begin{solution}
+
+Consider the quadratic equation $ax^2 + bx + c = 0$ with roots $r_1$ and $r_2$.
+
+We want to find the condition number of a root $r$ with respect to $b$:
+$$\kappa = \left|\frac{b}{r} \cdot \frac{\partial r}{\partial b}\right|$$
+
+
+Starting with the equation $ax^2 + bx + c = 0$, where $x = r$ is a root that depends on $b$.
+
+Differentiating implicitly with respect to $b$:
+$$a \cdot 2r \cdot \frac{\partial r}{\partial b} + b \cdot \frac{\partial r}{\partial b} + r \cdot 1 + 0 = 0$$
+
+$$2ar \cdot \frac{\partial r}{\partial b} + b \cdot \frac{\partial r}{\partial b} + r = 0$$
+
+$$(2ar + b) \frac{\partial r}{\partial b} = -r$$
+
+$$\frac{\partial r}{\partial b} = \frac{-r}{2ar + b}$$
+
+
+$$\kappa = \left|\frac{b}{r} \cdot \frac{\partial r}{\partial b}\right| = \left|\frac{b}{r} \cdot \frac{-r}{2ar + b}\right| = \left|\frac{-b}{2ar + b}\right| = \left|\frac{b}{2ar + b}\right|$$
+
+
+Plugging in $r_1 = \frac{-b + \sqrt{b^2 - 4ac}}{2a}$ this simplifies to:
+
+$$\kappa = \left|\frac{b}{\sqrt{b^2 - 4ac}}\right|$$
+
+Finally, plugging in $\sqrt{b^2 - 4ac} = a(r_1 - r_2)$ gives the result:
+
+$$\kappa = \left|\frac{b}{a(r_1 - r_2)}\right|$$
+
+The other root has the same condition number with respect to $b$.
+
+\end{solution}
+
+\item Textbook Exercise 1.2.8
+
+\begin{solution}
+The relative condition number is:
+$$\kappa_r(a_k) = \left|\frac{a_k}{r} \cdot \frac{\partial r}{\partial a_k}\right|$$
+
+
+Since $r$ is a root, we have:
+$$p(r) = a_n r^n + a_{n-1} r^{n-1} + \cdots + a_k r^k + \cdots + a_1 r + a_0 = 0$$
+
+Treating $r$ as a function of $a_k$ and differentiating implicitly with respect to $a_k$:
+$$a_n \cdot n r^{n-1} \frac{\partial r}{\partial a_k} + a_{n-1} \cdot (n-1) r^{n-2} \frac{\partial r}{\partial a_k} + \cdots + a_k \cdot k r^{k-1} \frac{\partial r}{\partial a_k} + r^k + \cdots + a_1 \frac{\partial r}{\partial a_k} = 0$$
+
+Notice that all terms containing $\frac{\partial r}{\partial a_k}$ sum to:
+$$\left(a_n \cdot n r^{n-1} + a_{n-1} \cdot (n-1) r^{n-2} + \cdots + a_1\right) \frac{\partial r}{\partial a_k} = p'(r) \frac{\partial r}{\partial a_k}$$
+
+The only term without $\frac{\partial r}{\partial a_k}$ is $r^k$ (from differentiating $a_k r^k$ with respect to $a_k$).
+
+Therefore:
+$$p'(r) \frac{\partial r}{\partial a_k} + r^k = 0$$
+
+$$\frac{\partial r}{\partial a_k} = -\frac{r^k}{p'(r)}$$
+
+
+$$\kappa_r(a_k) = \left|\frac{a_k}{r} \cdot \frac{\partial r}{\partial a_k}\right| = \left|\frac{a_k}{r} \cdot \left(-\frac{r^k}{p'(r)}\right)\right|$$
+
+$$= \left|\frac{-a_k r^k}{r \cdot p'(r)}\right| = \left|\frac{-a_k r^{k-1}}{p'(r)}\right|$$
+
+$$= \boxed{\left|\frac{a_k r^{k-1}}{p'(r)}\right|}$$
+
+\end{solution}
+
+
+\item \sout{Textbook Exercise 1.4.1}
+
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,99 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 01}
+\date{Due: Friday, January 30, 2025, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+\item Suppose you have a machine that works in \textit{base 10} instead of \textit{base 2}. In this case, the floating point representation of a non-zero real number would be of the form
+\begin{align*}
+  \pm(a + f) \times 10^n,
+\end{align*}
+where $f \in [0, 1)$ is the fractional part. This is nothing but the standard scientific notation. Note that this representation is unique for every non-zero real number.
+
+\begin{enumerate}
+  \item What values can the integer $a$ take?
+  \item What values can each $b_i$ take in the fractional part $f = 0.b_1 b_2 b_3 \ldots$?
+\end{enumerate}
+
+Suppose the machine has precision $d = 3$, so that $f = 0.b_1 b_2 b_3$. Let $\mathbb{F}$ denote the set of all floating point numbers representable on this machine.
+
+\begin{enumerate}[resume]
+  \item What is the machine epsilon $\epsilon_{\text{mach}}$?
+  \item How many elements of $\mathbb{F}$ are there in the real interval $[1, 100]$, including the endpoints? (Hint: Consider how many representable numbers exist for each exponent $n$.)
+  \item What is the element of $\mathbb{F}$ closest to the real number $1/3$? 
+  \item What is the smallest positive integer not in $\mathbb{F}$? (Hint: For what value of the exponent does the spacing between consecutive floating point numbers become larger than 1?)
+\end{enumerate}
+
+Suppose any information beyond the $d=3$ precision is simply lost (truncated rather than rounded). Let $a = 823.42$, $b = 723.45234$, and $c = 723.45$. Compute the following, showing intermediate steps:
+
+\begin{enumerate}[resume]
+  \item $a + (b - c)$
+  \item $(a + b) - c$
+\end{enumerate}
+
+\begin{solution}
+\begin{enumerate}
+  \item $a \in \{1, 2, 3, 4, 5, 6, 7, 8, 9\}$
+  
+  \item $b_i \in \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}$
+  
+  \item $\epsilon_{\text{mach}} = 0.001$
+  
+  \item $18001$
+  
+  \item $3.333 \times 10^{-1}$
+  
+  \item $10001$
+  
+  \item $8.234 \times 10^{2}$
+  
+  \item $8.226 \times 10^{2}$
+
+\end{enumerate}
+\end{solution}
+
+
+\item Textbook Exercise 1.1.1
+
+\begin{solution}
+  \begin{enumerate}
+    \item $49$
+    \item $13/128$
+    \item $33$
+\end{enumerate}
+
+\end{solution}
+
+\item Textbook Exercise 1.1.4 (Express your answer using powers of 2. No need to write out all the digits.)
+\begin{solution}
+\begin{enumerate}
+  \item $1 + \epsilon_{\text{mach}} = 1 + 2^{-23}$
+  
+  \item $2^{24} + 1$
+\end{enumerate}
+
+\end{solution}
+
+\item
+
+Jupyter notebook.
+
+\end{enumerate}
+
+
+\end{document}

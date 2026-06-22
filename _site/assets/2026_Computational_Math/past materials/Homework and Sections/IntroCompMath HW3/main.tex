@@ -1,0 +1,52 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 3\\
+Due through gradescope before lecture starts, Thursday, Sept 18}
+\end{center}
+
+Your solutions should represent your own work and understanding of the material. You can discuss homework problems at a high level with other students or software systems like ChatGPT, but you should execute the details of any directions discussed independently of them. Results from class or the textbook can be used without proof. Otherwise, claims need to be well justified. You use any programming language you feel comfortable with (matlab, julia, or python are most reasonable). You must submit both your code and the requested output/plots from running your code. Grading will focus on the quality of outputs rather than the code itself.\\
+
+
+\noindent {\bf Q1.} Do exercises 1 and 5 in Section 2.2 of Driscoll and Braun (\url{https://fncbook.com/}).\\
+
+\noindent {\bf Q2.} {\it Floating Point Inexact Gaussian Elimination and LU Factorizations.}\\
+Solve the following linear system of equations $Ax=b$ by constructing an $LU$ factorization without pivoting and then doing forward and backward substitutions, all with IEEE standard (64bit) floating point arithmetic:
+\begin{align*}
+    A = \begin{bmatrix}
+        4 & 0 & 0 & 0 & 10^{8} \\
+        1 & 3 & 0 & 0 & 0 \\
+        0 & 1 & 2 & 0 & 0 \\
+        0 & 0 & 1 & 1 & 0 \\
+        1 & 0 & 0 & 1 & 0 
+    \end{bmatrix}\quad , \quad \hat x = \begin{bmatrix} 0 \\ 1/3 \\ 2/3 \\ 1 \\ 4/3\end{bmatrix} \quad , \quad b = A\hat x
+\end{align*}
+Print out the associated $L$ and $U$ factors of $A$ and the final value for $x$ produced. Explain the root cause of any noticeable differences in $\hat x - x$ and $LU-A$?\\[6pt]
+Swap the first row and last row in $A$ and the first and last entry in $b$. Again compute and print out the $L,U,x$ and explain the root cause of any differences (or lack thereof) in solutions.
+
+\vskip0.5cm
+
+\noindent {\bf Q3.} {\it Integer-Valued Exact Gaussian Elimination and Factorizations.}\\
+Write a program computing a LU factorization without pivoting of the system above using exact integer arithmetic instead of (64bit) floating point. That is, store the matrix $A$ as an integer matrix and maintain any intermediate matrices and vectors used as integers as you conduct your row operations.\\
+(For example, as you are constructing your $LU$ factorization, suppose you would need to add a fraction amount, say $p/q$, of one row to another. Instead, first, replace the target row of $A$ by $q$ times itself. Note this is a valid row operation. Then, continue with the planned elimination step previously being attempted, which will now just require adding $p$ copies of one row to another (preserving everything being integer).)
+
+The result of this should be a factorization of the form $LU=DA$ where $L$ is an integer lower triangular matrix, $U$ is an integer upper triangular matrix, and $D$ is an integer diagonal matrix (capturing exactly how we rescaled the rows of $A$).
+Print out the associated factorization $D, L, U$ of $A$ being computed by your code for the original system of equations. Use your integer factorization to compute a solution $x$ for $Ax=b$ How does the error $\hat x - x$ compare to Q2?
+
+
+\end{document} 

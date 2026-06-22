@@ -1,0 +1,55 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 4\\
+Due through gradescope before lecture starts, Thursday, Sept 25}
+\end{center}
+
+Your solutions should represent your own work and understanding of the material. You can discuss homework problems at a high level with other students or software systems like ChatGPT, but you should execute the details of any directions discussed independently of them. Results from class or the textbook can be used without proof. Otherwise, claims need to be well justified. You use any programming language you feel comfortable with (matlab, julia, or python are most reasonable). You must submit both your code and the requested output/plots from running your code. Grading will focus on the quality of outputs rather than the code itself.\\
+
+\noindent {\bf Q1.} Do exercise 1 in Section 2.7 of Driscoll and Braun (\url{https://fncbook.com/}).
+
+\vskip1cm
+
+
+\noindent {\bf Q2.} {\it Proving some functions are norms.}\\
+Recall a norm is defined by (2.7.1a)-(2.7.1d) in Driscoll and Braun. Prove the following are norms\\
+(i) $\|x\|_1 = \sum_{i=1}^n|x_i|$\\
+(ii) $\|x\|_\infty = \max_{i=1\dots n} |x_i|$\\
+(iii) $\|A\|_{1} = \max_{\|x\|_1\leq 1} \|Ax\|_1$\\
+for vectors $x\in\mathbb{R}^n$ and matrices $A\in\mathbb{R}^{n\times n}$.\\
+(The facts that absolute values have $|ab| = |a||b|$ and $|a+b|\leq |a|+|b|$ for any real numbers $a$ and $b$ may be useful and can be used without proof.)\\
+
+
+\vskip0.5cm
+
+\noindent {\bf Q3.} {\it Conditioning of Linear Systems.}\\
+    Consider the system of equations defined by the following matrix and vector:
+    $$ A = \begin{bmatrix}
+        \pi & 1 \\
+        355/113 & 1
+    \end{bmatrix} \qquad \text{and} \qquad b=\begin{bmatrix} 0  \\ 1 \end{bmatrix} \ .
+    $$ 
+    
+    \noindent (i) {\it By Hand,} compute an $LU$ factorization of the matrix $A$ below (without pivoting) and then do forward/backward substitutions to solve the system $Ax = b$. Clearly state the matrices $L,U$ and vectors $z,x$ you compute. If a bad subtractive cancellation would occur during your arithmetic if done on a computer in floating point, clearly label it.\\
+
+    \noindent (ii) {\it Using a computer,} compute the same $L,U,z,x$ values. Note any where they notably differ.\\
+
+    \noindent (iii) {\it Using a computer,} compute the condition number of $A$ in the infinity norm. Explain how this can be used to explain or bound the magnitude of differences seen above.
+
+    
+\end{document} 

@@ -1,0 +1,70 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 06}
+\date{Due: Friday, Mar 06, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+\item Textbook Exercise 4.1.7 a, d
+\begin{solution}
+\textbf{(a)} Multiplicity 1, $\kappa_{abs} = \frac{2}{5}$
+
+\textbf{(d)} Multiplicity 2 (since $f'(1) = 0$ and $f''(1) = 2 \neq 0$)
+\end{solution}
+
+\item Textbook Exercise 4.2.3 a, d
+\begin{solution}
+\textbf{(a)} Will NOT converge since $|g'(\sqrt{3})| = 2\sqrt{3} - 1 \approx 2.464 > 1$
+
+\textbf{(d)} Will NOT converge since $|g'(1/4)| = 2\pi - 1 \approx 5.283 > 1$
+\end{solution}
+
+\item Textbook Exercise 4.2.5
+\begin{solution}
+$g'(p) = -(m-1)$, so convergence requires $|m-1| < 1$, i.e., $0 < m < 2$.
+
+No integer values of $m > 1$ satisfy this condition.
+\end{solution}
+
+\item Textbook Exercise 4.2.7
+\begin{solution}
+$g'(p) = 1 - \frac{f'(p)}{c}$, and convergence requires $|g'(p)| < 1$.
+
+$$c > \frac{f'(p)}{2}$$
+\end{solution}
+
+\item Textbook Exercise 4.5.1
+\begin{solution}
+$$x_2 = \begin{bmatrix} 0 \\ 5/2 \end{bmatrix}$$
+\end{solution}
+
+\item Suppose $f$ is a root of $f(x)$ with $f''(r) = 0$. Derive the convergence rate of Newton's method in this case near the root $r$. Your answer cannot be that the error is 0.
+
+\begin{solution}
+$$e_{k+1} = \frac{f'''(r)}{3!f'(r)} e_k^3$$
+
+Cubic convergence (order 3).
+\end{solution}
+
+\item Jupyter notebook
+
+\end{enumerate}
+
+
+
+
+\end{document}

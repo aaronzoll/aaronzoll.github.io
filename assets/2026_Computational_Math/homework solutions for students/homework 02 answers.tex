@@ -1,0 +1,71 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 02}
+\date{Due: Friday, Feb 06, 2025, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+\item Textbook Exercise 1.2.3
+
+\begin{solution}
+
+\textbf{(a)} $f(x) = \tanh(x)$
+
+$$\kappa_f(x) = \left|\frac{4xe^{2x}}{(e^{2x} + 1)(e^{2x} - 1)}\right|$$
+
+$\kappa_f(x) \to \infty$ at no values of $x$.
+
+\textbf{(b)} $f(x) = \frac{e^x - 1}{x}$
+
+$$\kappa_f(x) = \left|\frac{xe^x - e^x + 1}{(e^x - 1)}\right|$$
+
+$\kappa_f(x) \to \infty$ as $x \to \infty$ and is finite everywhere else.
+
+\textbf{(c)} $f(x) = \frac{1 - \cos(x)}{x}$
+
+$$\kappa_f(x) = \left|\frac{x\sin(x) - (1-\cos(x))}{(1-\cos(x))}\right|$$
+
+$\kappa_f(x) \to \infty \text{ as } x \to 2\pi n \text{ for all nonzero integers } n$
+
+\end{solution}
+
+\item Textbook Exercise 1.2.6
+\begin{solution}
+  
+  $$\kappa_r(b) = \left|\frac{b}{a(r_1 - r_2)}\right|$$
+  
+\end{solution}
+
+\item Textbook Exercise 1.2.8
+
+\begin{solution}
+
+Since $r$ is a root of $p(r) = a_n r^n + a_{n-1} r^{n-1} + \cdots + a_k r^k + \cdots + a_0 = 0$, differentiate implicitly with respect to $a_k$:
+
+$$p'(r) \frac{\partial r}{\partial a_k} + r^k = 0 \implies \frac{\partial r}{\partial a_k} = -\frac{r^k}{p'(r)}$$
+
+Therefore:
+$$\kappa_r(a_k) = \left|\frac{a_k}{r} \cdot \left(-\frac{r^k}{p'(r)}\right)\right| = \left|\frac{a_k r^{k-1}}{p'(r)}\right|$$
+
+\end{solution}
+
+\item \sout{Textbook Exercise 1.4.1}
+
+
+\end{enumerate}
+
+\end{document}

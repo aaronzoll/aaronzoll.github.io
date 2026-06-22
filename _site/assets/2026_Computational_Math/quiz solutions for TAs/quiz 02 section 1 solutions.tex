@@ -1,0 +1,73 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{
+  JHED: \underline{\hspace{4cm}} \hspace{1em} Name: \underline{\hspace{9cm}}}
+   }
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\rhead{Computational Math, Spring 2026 - Practice Quiz}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+
+  \question Let $f(x) = 1 - \cos x$. Find the condition number $\kappa_f(x)$. Determine the behavior of $\kappa_f(x)$ as $x \to 0$.
+  \begin{solution}
+    For $f(x) = 1 - \cos x$ with $f'(x) = \sin x$:
+    $$\kappa_f(x) = \left|\frac{x \sin x}{1 - \cos x}\right|$$
+
+    \textbf{As $x \to 0$:} We have the indeterminate form $\frac{0}{0}$. Applying L'Hôpital's rule:
+    $$\lim_{x \to 0} \frac{x \sin x}{1 - \cos x} = \lim_{x \to 0} \frac{\sin x + x \cos x}{\sin x}$$
+
+    This is still $\frac{0}{0}$. Applying L'Hôpital's rule again:
+    $$\lim_{x \to 0} \frac{\sin x + x \cos x}{\sin x} = \lim_{x \to 0} \frac{\cos x + \cos x - x \sin x}{\cos x} = \frac{2}{1} = 2$$
+
+    \textbf{Conclusion:} $\kappa_f(x) \to 2$ as $x \to 0$ (finite).
+    
+    \textbf{Note:} It is also possible to directly compute the limit without L'Hôpital's rule by using the Taylor expansion of $\cos x$ around $0$: $\cos x = 1 - \frac{x^2}{2} + \cdots$. Substituting this into the expression for $\kappa_f(x)$ and simplifying will yield the same result.
+  \end{solution}
+
+
+
+  \newpage
+  \question
+  Let $r_1$ and $r_2$ be the roots of the polynomial $p(x) = x^2 + (2 + \epsilon)x^2 + 1$. Compute the condition number $\kappa_{r_1}(\epsilon)$. Simplify the denominator so that it's expressed entirely in terms of $r_1$ and $r_2$.
+
+  \begin{solution}
+    The polynomial is $p(x) = x^2 + (2 + \epsilon)x + 1$.
+
+    Differentiating $r_1^2 + (2 + \epsilon)r_1 + 1 = 0$ with respect to $\epsilon$:
+    $$2r_1\frac{\partial r_1}{\partial \epsilon} + r_1 + (2 + \epsilon)\frac{\partial r_1}{\partial \epsilon} = 0$$
+    $$\frac{\partial r_1}{\partial \epsilon} = -\frac{r_1}{2r_1 + (2 + \epsilon)}$$
+
+    Using quadratic formula,
+    \begin{align*}
+      r_1                                             & = \frac{-(2 + \epsilon) + \sqrt{(2 + \epsilon)^2 - 4}}{2} \\
+      r_2                                             & = \frac{-(2 + \epsilon) - \sqrt{(2 + \epsilon)^2 - 4}}{2} \\
+      \implies
+      (2 + \epsilon)                                  & = -(r_1 + r_2)                                            \\
+      \implies \frac{\partial r_1}{\partial \epsilon} & = -\frac{r_1}{r_1 - r_2}.
+    \end{align*}
+
+
+    Therefore:
+    $$\kappa_{r_1}(\epsilon) = \left|\frac{\epsilon}{r_1} \cdot \frac{\partial r_1}{\partial \epsilon}\right| = \left|\frac{\epsilon}{r_1} \cdot \left(-\frac{r_1}{r_1-r_2}\right)\right| = \left|\frac{\epsilon}{r_1-r_2}\right|.$$
+  \end{solution}
+
+
+\end{questions}
+\end{document}

@@ -1,0 +1,370 @@
+
+
+% ── Page geometry ──────────────────────────────────────────────────────────────
+\usepackage[margin=1in]{geometry}
+
+% ── Fonts & encoding ───────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% ── Math ───────────────────────────────────────────────────────────────────────
+\usepackage{amsmath, amssymb, amsthm, amsfonts}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{nicefrac}
+\usepackage{xfrac}
+\usepackage{cancel}
+
+% ── Theorem environments ───────────────────────────────────────────────────────
+\usepackage{thmtools}
+\usepackage[framemethod=TikZ]{mdframed}
+
+% ── Colors ─────────────────────────────────────────────────────────────────────
+\usepackage[dvipsnames]{xcolor}
+
+% ── Graphics & figures ─────────────────────────────────────────────────────────
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{caption}
+\usepackage{tikz}
+\usepackage{pgf}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% ── Tables ─────────────────────────────────────────────────────────────────────
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+
+% ── Layout & formatting ────────────────────────────────────────────────────────
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{ragged2e}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{appendix}
+\usepackage{comment}
+\usepackage{import}
+\usepackage{todonotes}
+\usepackage{changepage}
+% ── Algorithms ─────────────────────────────────────────────────────────────────
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{varwidth}
+
+% ── References & links ─────────────────────────────────────────────────────────
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{cite}
+\usepackage[capitalize]{cleveref}
+
+% ── Misc ───────────────────────────────────────────────────────────────────────
+\usepackage{svg}
+
+\titleformat{\subsubsection}[runin]
+  {\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\numberwithin{equation}{section}
+
+% ==============================================================================
+%  Theorem styles  (thmtools + mdframed)
+% ==============================================================================
+
+%% ── Blue box — Theorem ────────────────────────────────────────────────────────
+\newcommand{\envLineWidth}{1.5pt}
+
+\mdfdefinestyle{mdbluebox}{
+  roundcorner=6pt, linewidth=\envLineWidth,
+  skipabove=10pt, skipbelow=4pt,
+  innertopmargin=6pt, innerbottommargin=8pt,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  linecolor=Blue!80, backgroundcolor=blue!5, nobreak=false,
+}
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{Blue!80},
+  bodyfont=\slshape,
+  mdframed={style=mdbluebox},
+  headpunct={\\[3pt]}, postheadspace=0pt,
+]{thmbluebox}
+
+%% ── Red box — Definition ──────────────────────────────────────────────────────
+\mdfdefinestyle{mdredbox}{
+  roundcorner=6pt, linewidth=\envLineWidth,
+  skipabove=10pt, skipbelow=4pt,
+  innertopmargin=6pt, innerbottommargin=8pt,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  linecolor=BrickRed, backgroundcolor=red!5, nobreak=false,
+}
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{BrickRed},
+  bodyfont=\slshape,
+  mdframed={style=mdredbox},
+  headpunct={\\[3pt]}, postheadspace=0pt,
+]{thmredbox}
+
+%% ── Magenta box — Proposition ─────────────────────────────────────────────────
+\mdfdefinestyle{mdmagentabox}{
+  roundcorner=6pt, linewidth=\envLineWidth,
+  skipabove=10pt, skipbelow=4pt,
+  innertopmargin=6pt, innerbottommargin=8pt,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  linecolor=Fuchsia, backgroundcolor=RedViolet!5, nobreak=false,
+}
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{Fuchsia!100},
+  bodyfont=\slshape,
+  mdframed={style=mdmagentabox},
+  headpunct={\\[3pt]}, postheadspace=0pt,
+]{thmmagentabox}
+
+%% ── Orange box — Lemma ────────────────────────────────────────────────────────
+\mdfdefinestyle{mdorangebox}{
+  roundcorner=6pt, linewidth=\envLineWidth,
+  skipabove=10pt, skipbelow=4pt,
+  innertopmargin=6pt, innerbottommargin=8pt,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  linecolor=Bittersweet, backgroundcolor=RedOrange!5, nobreak=false,
+}
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{Bittersweet},
+  bodyfont=\slshape,
+  mdframed={style=mdorangebox},
+  headpunct={\\[3pt]}, postheadspace=0pt,
+]{thmorangebox}
+
+%% ── Cyan box — Corollary ──────────────────────────────────────────────────────
+\mdfdefinestyle{mdcyanbox}{
+  roundcorner=6pt, linewidth=\envLineWidth,
+  skipabove=10pt, skipbelow=4pt,
+  innertopmargin=6pt, innerbottommargin=8pt,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  linecolor=Periwinkle, backgroundcolor=cyan!5, nobreak=false,
+}
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{Periwinkle},
+  bodyfont=\slshape,
+  mdframed={style=mdcyanbox},
+  headpunct={\\[3pt]}, postheadspace=0pt,
+]{thmcyanbox}
+
+%% ── Green box — Remark ────────────────────────────────────────────────────────
+\mdfdefinestyle{mdgreenbox}{
+  roundcorner=6pt, linewidth=\envLineWidth,
+  skipabove=10pt, skipbelow=4pt,
+  innertopmargin=6pt, innerbottommargin=8pt,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  linecolor=OliveGreen, backgroundcolor=green!3, nobreak=false,
+}
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{OliveGreen},
+  bodyfont=\slshape,
+  mdframed={style=mdgreenbox},
+  headpunct={\\[3pt]}, postheadspace=0pt,
+]{thmgreenbox}
+
+%% ── Gray box — Problem ────────────────────────────────────────────────────────
+\mdfdefinestyle{mdgraybox}{
+  roundcorner=6pt, linewidth=\envLineWidth,
+  skipabove=10pt, skipbelow=4pt,
+  innertopmargin=6pt, innerbottommargin=8pt,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  linecolor=black, backgroundcolor=black!5, nobreak=false,
+}
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{black!90},
+  bodyfont=\slshape,
+  mdframed={style=mdgraybox},
+  headpunct={\\[3pt]}, postheadspace=0pt,
+]{thmgraybox}
+
+%% ── Yellow box — Algorithm ────────────────────────────────────────────────────
+\mdfdefinestyle{mdyellowbox}{
+  roundcorner=6pt, linewidth=\envLineWidth,
+  skipabove=10pt, skipbelow=4pt,
+  innertopmargin=6pt, innerbottommargin=8pt,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  linecolor=YellowOrange, backgroundcolor=yellow!4, nobreak=false,
+}
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{YellowOrange},
+  bodyfont=\slshape,
+  mdframed={style=mdyellowbox},
+  headpunct={\\[3pt]}, postheadspace=0pt,
+]{thmyellowbox}
+
+%% ── Pink box — Example ────────────────────────────────────────────────────────
+\mdfdefinestyle{mdpinkbox}{
+  roundcorner=6pt, linewidth=\envLineWidth,
+  skipabove=10pt, skipbelow=4pt,
+  innertopmargin=6pt, innerbottommargin=8pt,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  linecolor=WildStrawberry, backgroundcolor=CarnationPink!5, nobreak=false,
+}
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{WildStrawberry},
+  bodyfont=\slshape,
+  mdframed={style=mdpinkbox},
+  headpunct={\\[3pt]}, postheadspace=0pt,
+]{thmpinkbox}
+
+%% ── Violet box — Assumption ───────────────────────────────────────────────────
+\mdfdefinestyle{mdvioletbox}{
+  roundcorner=6pt, linewidth=\envLineWidth,
+  skipabove=10pt, skipbelow=4pt,
+  innertopmargin=6pt, innerbottommargin=8pt,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  linecolor=Brown, backgroundcolor=Brown!5, nobreak=false,
+}
+\declaretheoremstyle[
+  headfont=\bfseries\sffamily\color{Brown},
+  bodyfont=\slshape,
+  mdframed={style=mdvioletbox},
+  headpunct={\\[3pt]}, postheadspace=0pt,
+]{thmvioletbox}
+
+%% ── Declare all environments ──────────────────────────────────────────────────
+% ── Main theorem-class environments ──────────────────────────────────────────
+% numberwithin=subsection makes thmtools reset the shared counter on each new
+% subsection (and, because \subsection is itself reset by \section, also
+% implicitly on section changes — but see the explicit fix below).
+\declaretheorem[style=thmbluebox,    name=Theorem,     numberwithin=section]{theorem}
+\declaretheorem[style=thmmagentabox, name={}, numbered=no]{theorem*}
+\declaretheorem[style=thmredbox,     name=Definition,  numberlike=theorem]{definition}
+\declaretheorem[style=thmredbox, name={}, numbered=no]{definition*}
+\declaretheorem[style=thmmagentabox, name=Proposition, numberlike=theorem]{proposition}
+\declaretheorem[style=thmorangebox,  name=Lemma,       numberlike=theorem]{lemma}
+\declaretheorem[style=thmcyanbox,    name=Corollary,   numberlike=theorem]{corollary}
+
+
+\declaretheorem[style=thmvioletbox,  name=Assumption,  numberlike=theorem]{assumption}
+
+% thmtools' numberwithin=subsection only registers a reset hook on \subsection,
+% NOT on \section itself.  When an entire section has no subsections the counter
+% would never reset.  This line adds the missing section-level reset.
+\makeatletter
+  \@addtoreset{theorem}{section}
+\makeatother
+
+% thmtools also sets \thetheorem to \thesubsection.\arabic{theorem}.
+% We override it: show <sec>.<subsec>.<n> inside a subsection, else <sec>.<n>.
+% Because all other environments use numberlike=theorem they share this counter
+% and automatically inherit this display format — no further changes needed.
+\renewcommand{\thetheorem}{%
+  \ifnum\value{subsection}>0\relax
+    \thesection.\arabic{theorem}%
+  \else
+    \thesection.\arabic{theorem}%
+  \fi
+}
+
+% ── Remark & Example ─────────────────────────────────────────────────────────
+% Shared counter, resets each section, displayed as a bare ordinal (1, 2, …).
+\declaretheorem[style=thmgreenbox, name=Remark,  numberwithin=section]{remark}
+\declaretheorem[style=thmgreenbox, name={}, numbered=no]{remark*}
+
+\declaretheorem[style=thmpinkbox,  name=Example, numberwithin=section]{example}
+\declaretheorem[style=thmgraybox,    name=Problem,     numberwithin=section]{problem}
+\declaretheorem[style=thmyellowbox,  name=Algorithm,   numberwithin=section]{algo}
+% numberwithin=section sets \theremark to \thesection.\arabic{remark}.
+% Strip the section prefix so only the plain number is shown.
+\renewcommand{\theremark}{\arabic{remark}}
+
+% ==============================================================================
+%  Math macros
+% ==============================================================================
+\newcommand{\tr}{\mathrm{Tr}}
+\newcommand{\vect}{\mathbf{vec}}
+\newcommand{\cI}{\mathcal{I}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\bcdot}{\ {\bf \cdot} \ }
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\norm}[1]{\left\| #1 \right\|}
+\newcommand{\opnorm}[1]{\norm{#1}_{\mathrm{op}}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Lcal}{\mathcal{L}}
+\newcommand{\Fscr}{\mathscr{F}}
+\newcommand{\Holder}{H\"older }
+\newcommand{\inner}[2]{\left\langle {#1}, {#2} \right\rangle}
+\newcommand{\Dim}{\text{dim }}
+\newcommand{\spann}{\text{span}}
+\newcommand{\im}{\text{Im }}
+\newcommand{\gph}{{\rm gph}\,}
+\newcommand{\diag}{{\rm diag}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\trace}{\mathrm{Tr}}
+\newcommand{\sign}{\mathrm{sign}}
+\newcommand{\lip}{\mathrm{lip}}
+\newcommand{\var}{\mathrm{var}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\supp}{{\mathrm{supp}}}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\eps}{\varepsilon}
+% Convex analysis
+\newcommand{\prox}{\text{prox}}
+\newcommand{\proj}{\mathrm{proj}}
+\newcommand{\dom}[1]{\mathrm{dom}(#1)}
+\newcommand{\epi}{\text{epi }}
+\newcommand{\hypo}{\text{hypo }}
+\newcommand{\interior}{\text{int }}
+\newcommand{\bdry}{\text{bdy }}
+\newcommand{\relint}{\text{ri }}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+\newcommand{\mini}{\operatornamewithlimits{minimize}}
+\newcommand{\ls}{\operatornamewithlimits{limsup}}
+\newcommand{\Diag}{{\rm Diag}}
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\St}{{\mathrm{subject~to}}}
+% Probability
+\newcommand{\Expect}{\mathbb{E}}
+\newcommand{\Prob}[1]{\mathbb{P}\left( #1 \right)}
+\newcommand{\Expec}[1]{\mathbb{E}\left( #1 \right)}
+\newcommand{\matrx}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+% Misc
+\newcommand{\bvec}[1]{{\bf #1}}
+\newcommand{\dist}{\mathrm{\bf dist}}
+
+% Adjust these lengths to taste
+\newlength{\solutionindent}
+\setlength{\solutionindent}{0.5cm}
+
+\newlength{\questionboxrule}
+\setlength{\questionboxrule}{0.8pt} % thinner border (default fboxrule is 0.4pt, go lower for thinner)
+
+\newcommand{\solution}[1]{%
+    \vspace{0.2cm}
+    \noindent\underline{\textit{Solution:}}\\[2pt]
+    \begin{adjustwidth}{\solutionindent}{\solutionindent}
+        {\color{red} #1}
+    \end{adjustwidth}
+    \vspace{0.2cm}
+}
+
+\newcommand{\question}[1]{%
+    \begin{center}
+        \begin{tikzpicture}
+            \node[
+                draw=red,
+                line width=\questionboxrule,
+                rounded corners=6pt,        % adjust for more/less rounding
+                fill=white,
+                inner sep=8pt,              % controls padding inside the box
+                text width=\dimexpr\linewidth-4\fboxsep-2\solutionindent\relax,
+                align=center,
+            ] {\large\color{black} #1};
+        \end{tikzpicture}
+    \end{center}
+}

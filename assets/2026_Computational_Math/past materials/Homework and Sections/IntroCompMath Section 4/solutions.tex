@@ -1,0 +1,349 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,multirow}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}
+%\usepackage{enumerate}
+\usepackage[shortlabels, inline]{enumitem}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{comment}
+
+\usepackage{listings}
+\lstset{language=Python, numbers=left, basicstyle=\ttfamily, keywordstyle=\color{blue}, showstringspaces=false}
+
+\usepackage[style=alphabetic-verb]{biblatex}
+% \bibliography{Problems/ref.bib}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\K}{\mathbb{K}}
+\renewcommand{\div}{\mid}
+\newcommand{\ndiv}{\nmid}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\F}{\mathcal{F}}
+
+\DeclareMathOperator{\id}{Id}
+\DeclareMathOperator{\tr}{Tr}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\acosh}{acosh}
+
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\newcommand{\subtag}[1]{\tag{\theparentequation#1}}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\usepackage{subfiles}
+\usepackage{subcaption}
+\makeatletter
+\newcommand\nocaption{
+    \renewcommand\p@subfigure{}
+    \renewcommand{\thesubfigure}{\arabic{figure}\alph{subfigure}}
+}
+\makeatother
+
+
+\newenvironment{problem}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{solution}{%
+  \begin{proof}[\textbf{Solution}]$ $\par\nobreak\ignorespaces
+}{%
+  \end{proof}
+}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+
+
+\title{Intro to Computational Mathematics: Section 4}
+\date{September 2025}
+
+\begin{document}
+\maketitle
+
+\begin{problem}{2.6.4}
+An $n \times n$ \textit{permutation matrix} $\vec{P}$ is a reordering of the rows of an identity matrix such that $\vec{P}\vec{A}$ has the effect of moving rows $1, 2, \ldots ,n$ of $\vec{A}$ to new positions $i_1, i_2, \ldots, i_n$. Then $\vec{P}$ can be expressed as $$\vec{P} = \vec{e}_{i_1}\vec{e}_{1}^T + \vec{e}_{i_2}\vec{e}_{2}^T + \cdots + \vec{e}_{i_n}\vec{e}_{n}^T.$$
+
+\begin{enumerate}[(a)]
+    \item For the case $n = 4$ and $i_1 = 3$, $i_2 = 2$, $i_3 = 4$, $i_4 = 1$, write out separately, as matrices, all four of the terms in the sum. Then add them together to find $\vec{P}$.
+
+    \item Use the formula in the general case to show that $\vec{P}^{-1} = \vec{P}^T$. (Hint: To show that $\vec{Z}$ is the inverse of $\vec{P}$, show that $\vec{P}\vec{Z} = \vec{I}$ or $\vec{Z}\vec{P} = \vec{I}$.)
+\end{enumerate}
+\end{problem}
+\begin{solution}
+\begin{enumerate}[(a)]
+    \item \begin{align*}
+        \vec{P} &= \begin{bmatrix*}0 \\ 0 \\ 1 \\ 0\end{bmatrix*}\cdot [1, 0, 0, 0]
+        + \begin{bmatrix*}0 \\ 1 \\ 0 \\ 0\end{bmatrix*} \cdot [0, 1, 0, 0]
+        + \begin{bmatrix*}0 \\ 0 \\ 0 \\ 1\end{bmatrix*} \cdot [0, 0, 1, 0]
+        + \begin{bmatrix*}1 \\ 0 \\ 0 \\ 0\end{bmatrix*} \cdot [0, 0, 0, 1] \\
+        &= \begin{bmatrix*}
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            1 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            \end{bmatrix*} 
+            + \begin{bmatrix*}
+            0 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            \end{bmatrix*}
+            + \begin{bmatrix*}
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
+            \end{bmatrix*}
+            + \begin{bmatrix*}
+            0 & 0 & 0 & 1 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            \end{bmatrix*} \\
+        &= \begin{bmatrix*}
+            0 & 0 & 0 & 1 \\
+            0 & 1 & 0 & 0 \\
+            1 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
+            \end{bmatrix*}
+    \end{align*}
+    \item \begin{align*}
+        \vec{P}\vec{P}^{T} &= (\vec{e}_{i_1}\vec{e}_{1}^T + \vec{e}_{i_2}\vec{e}_{2}^T + \cdots + \vec{e}_{i_n}\vec{e}_{n}^T) \cdot (\vec{e}_{i_1}\vec{e}_{1}^T + \vec{e}_{i_2}\vec{e}_{2}^T + \cdots + \vec{e}_{i_n}\vec{e}_{n}^T)^{T} \\
+        &= (\vec{e}_{i_1}\vec{e}_{1}^T + \vec{e}_{i_2}\vec{e}_{2}^T + \cdots + \vec{e}_{i_n}\vec{e}_{n}^T) \cdot (\vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{n}\vec{e}_{i_n}^T) \\
+        &= \vec{e}_{i_1}\vec{e}_{1}^T \cdot (\vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{n}\vec{e}_{i_n}^T) + \vec{e}_{i_2}\vec{e}_{2}^T \cdot (\vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{n}\vec{e}_{i_n}^T) + \cdots \\
+        &\quad + \vec{e}_{i_n}\vec{e}_{n}^T \cdot (\vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{n}\vec{e}_{i_n}^T) \\    
+        &= \vec{e}_{i_1}\vec{e}_{1}^T \cdot \vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{i_1}\vec{e}_{1}^T \cdot \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{i_1}\vec{e}_{1}^T \cdot + \vec{e}_{n}\vec{e}_{i_n}^T \\
+        &\quad + \vec{e}_{i_2}\vec{e}_{2}^T \cdot \vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{i_2}\vec{e}_{2}^T \cdot \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{i_2}\vec{e}_{2}^T \cdot \vec{e}_{n}\vec{e}_{i_n}^T \\
+        &\quad + \vdots \\
+        &\quad + \vec{e}_{i_n}\vec{e}_{n}^T \cdot \vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{i_n}\vec{e}_{n}^T \cdot \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{i_n}\vec{e}_{n}^T \cdot \vec{e}_{n}\vec{e}_{i_n}^T \\
+        &= \vec{e}_{i_1}\vec{e}_{i_1}^T + \vec{0} \cdot \vec{0} + \cdots + \vec{0} \\
+        &\quad + \vec{0} + \vec{e}_{i_2}\vec{e}_{i_2}^T + \cdots + \vec{0} \\
+        &\quad + \vdots \\
+        &\quad + \vec{0} + \vec{0} + \cdots + \vec{e}_{i_n}\vec{e}_{i_n}^T \\
+        &= \vec{e}_{i_1}\vec{e}_{i_1}^{T} + \vec{e}_{i_2}\vec{e}_{i_2}^{T} + \ldots + \vec{e}_{i_n}\vec{e}_{i_n}^{T} \\
+        &= \vec{I}
+    \end{align*}
+    Note: in section, we collapsed this large wall of summations using summation notation as follows:
+    \begin{align*}
+        \vec{P}\vec{P}^T &= \left(\sum_{j = 1}^{n} \vec{e}_{i_j}\vec{e}_j^T \right)\left(\sum_{k = 1}^{n} \vec{e}_{i_k}\vec{e}_k^T \right)^T \\
+        &= \left(\sum_{j = 1}^{n} \vec{e}_{i_j}\vec{e}_j^T \right) \left(\sum_{k = 1}^{n} \vec{e}_{k}\vec{e}_{i_k}^T \right) \\
+        &= \sum_{j = 1}^{n} \sum_{k = 1}^{n} (\vec{e}_{i_j}\vec{e}_j^{T})(\vec{e}_k\vec{e}_{i_k}^T) \\
+        &= \sum_{j = 1}^{n} \sum_{k = 1}^{n} \vec{e}_{i_j}(\vec{e}_j^{T}\vec{e}_k)\vec{e}_{i_k}^T \\
+        &= \sum_{j = 1}^{n} \vec{e}_{i_j}\vec{e}_{i_k}^T \\
+        &= \vec{I}
+    \end{align*}
+    where the second last step follows since $\vec{e}_j^{T}\vec{e}_k = \begin{cases}1,\quad j = k\\0,\quad j \neq k\end{cases}$.
+
+    We note that this technically only establishes that $\vec{P}^T$ is a right inverse of $\vec{P}$. A similar argument shows that $\vec{P}^T$ is a left inverse of $\vec{P}$, but the cancellation will occur on $\vec{e}_{i_j}^T\vec{e}_{i_k}$ instead.
+\end{enumerate}
+\end{solution}
+
+
+
+\begin{problem}{2.7.11}
+Suppose that $\vec{A}$ is $n \times n$ and that $\|A\| < 1$ in some induced matrix norm.
+
+\begin{enumerate}[(a)]
+    \item Show that $(\vec{I} - \vec{A})$ is nonsingular. (Hint: Use the definition of an induced matrix norm to show that if $(\vec{I} - \vec{A})\vec{x} = \vec{0}$ for all nonzero $\vec{x}$, then $\|A\| \geq 1$.)
+
+    \item Show that $\lim_{m \rightarrow \infty} \vec{A}^m = \vec{0}$. (For matrices as with vectors, we say $\vec{B}_m \rightarrow \vec{L}$ if $\|\vec{B}_m - \vec{L}\| \rightarrow 0$.)
+
+    \item Use (a) and (b) to show that we may obtain the geometric series
+    \begin{align}
+        (\vec{I} - \vec{A})^{-1} &= \sum_{k = 0}^{\infty} \vec{A}^k. \tag{2.7.15}
+    \end{align}
+    (Hint: Start with $\sum_{k = 0}^m \vec{A}^k(\vec{I} - \vec{A})$ and take the limit.)
+\end{enumerate}
+\end{problem}
+\begin{solution}
+\begin{enumerate}[(a)]
+    \item The hint on this question points you in the right direction, but it has quantifiers wrong. The hint sets up proof by contradiction via showing the contrapositive to be true. In this case, the condition we really care about is really the negation of: ``for all $\vec{x} \neq \vec{0}$, $(\vec{I} - \vec{A})\vec{x} \neq \vec{0}$.'' The proper negation should then be: ``there exists an $\vec{x} \neq \vec{0}$ such that $(\vec{I} - \vec{A})\vec{x} = \vec{0}$.''
+
+    To that end, suppose for contradiction that there exists an $\vec{x} \neq \vec{0}$ such that $(\vec{I} - \vec{A})\vec{x} = \vec{0}$. By expanding we have $\vec{x} - \vec{A}\vec{x} = \vec{0}$ and thus $\vec{x} = \vec{A}\vec{x}$. We derive our contradiction by observing that $\|\vec{A}\| = \sup_{\vec{y} \neq \vec{0}}\frac{\|\vec{A}\vec{y}\|}{\|\vec{y}\|} \geq \frac{\|\vec{A}\vec{x}\|}{\|\vec{x}\|} = 1$. Thus for all $\vec{x} \neq \vec{0}$, $(\vec{I} - \vec{A})\vec{x} \neq \vec{0}$ and thus $(\vec{I} - \vec{A})$ is nonsingular.
+    \item By induction on $m$, we observe that $\|\vec{A}^m\| \leq \|\vec{A}\|^m$. The base case is $m = 1$ which is trivial. Now suppose it holds that $\|\vec{A}^{m-1}\| \leq \|\vec{A}\|^{m-1}$. Then we have
+    \begin{align*}
+        \|\vec{A}^m\| &= \sup_{\vec{x} \neq \vec{0}} \frac{\|\vec{A}^m\vec{x}\|}{\|\vec{x}\|} \\
+        &= \sup_{\vec{x} \neq \vec{0}} \frac{\|\vec{A}^{m-1} \cdot \vec{A}\vec{x}\|}{\|\vec{x}\|} \\
+        &\leq \sup_{\vec{x} \neq \vec{0}} \frac{\|\vec{A}^{m-1}\| \cdot \|\vec{A}\vec{x}\|}{\|\vec{x}\|} \\
+        &= \|\vec{A}^{m-1}\| \cdot \sup_{\vec{x} \neq \vec{0}} \frac{\|\vec{A}\vec{x}\|}{\|\vec{x}\|} \\
+        &= \|\vec{A}^{m-1}\| \cdot \|\vec{A}\|
+    \end{align*}
+    Now taking the limit we have that $0 \leq \lim_{m \rightarrow \infty} \|\vec{A}^m - \vec{0}\| = \lim_{m \rightarrow \infty} \|\vec{A}^m\| \leq \lim_{m \rightarrow \infty} \|\vec{A}\|^m < \lim_{m \rightarrow \infty} (1 - \epsilon)^m = 0$ for some fixed value $\epsilon > 0$ dependent on $\vec{A}$.
+    \item Consider the limiting sum:
+    \begin{align*}
+        \lim_{m \rightarrow \infty} \sum_{k = 0}^{m} \vec{A}^k(\vec{I} - \vec{A}) &= \lim_{m \rightarrow \infty} \sum_{k = 0}^{m} (\vec{A}^k - \vec{A}^{k+1}) \\
+        &= \lim_{m \rightarrow \infty} \vec{A}^0 - \vec{A}^{m+1} \\
+        &= \lim_{m \rightarrow \infty} \vec{I} - \vec{A}^{m+1} \\
+        &= \vec{I}
+    \end{align*}
+    Thus $(\vec{I} - \vec{A})^{-1} = \sum_{k = 0}^{\infty} \vec{A}^k$.
+    As before, this technically only shows that $(\vec{I} - \vec{A})$ is a right inverse of $\sum_{k = 0}^{\infty} \vec{A}^k$. However, in this case we see that the two matrices commute:
+    \begin{align*}
+        \left(\sum_{k = 0}^{\infty} \vec{A}^k\right)(\vec{I} - \vec{A}) &= \sum_{k = 0}^{\infty} \vec{A}^k(\vec{I} - \vec{A}) \\
+        &= \sum_{k = 0}^{\infty} \vec{A}^k - \vec{A}^{k+1} \\
+        &= \sum_{k = 0}^{\infty} (\vec{I} - \vec{A})\vec{A}^k \\
+        &= (\vec{I} - \vec{A})\left(\sum_{k = 0}^{\infty} \vec{A}^k\right)
+    \end{align*}
+\end{enumerate}
+\end{solution}
+
+
+
+\begin{problem}{2.8.4}
+Let $\vec{A}_n$ denote the $(n+1) \times (n+1)$ version of the Vandermonde matrix in \href{https://fncbook.com/polyinterp#vandersystem}{(2.1.3)} based on the equally spaced interpolation nodes $t_i = i/n$ for $i = 0, \ldots, n$. Using the 1-norm, plot $\kappa(\vec{A}_n)$ as a function of $n$ for $n = 4, 5, 6, \ldots, 20$, using a log scale on the $y$-axis. (The graph is nearly a straight line.)
+\end{problem}
+\begin{solution}
+The following code produces the desired plot of Vandermonde condition numbers:
+\begin{lstlisting}[frame=tlrb]
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def vander(x):
+    return np.array([[x_i**j for j in range(len(x))] for x_i in x])
+
+
+kappa = []
+n_ = range(4, 21)
+for n in n_:
+    t_i = [i/n for i in range(n+1)]
+    v = vander(t_i)
+    kappa.append(np.linalg.norm(v) * np.linalg.norm(np.linalg.inv(v)))
+
+plt.plot(n_, kappa)
+plt.yscale('log')
+plt.title('Number of Points vs Vandermonde Condition Number')
+plt.xlabel('n')
+plt.ylabel('Kappa(V_n)')
+plt.show()
+\end{lstlisting}
+\end{solution}
+
+
+
+
+\begin{problem}{2}
+Recall, when computing an $LU$-factorization, we saw that numerical instabilities (or worse, division by zero errors) could occur whenever we encounter a diagonal $U_{ii}$ is small (or worse, zero) to divide by. Our solution was to swap the $i$th row with a later row $j>i$ having the largest $|U_{ji}|$ and then continue factorizing. Such a factorization is described by the equation $LU = PA$.\\
+
+\noindent Consider instead pivoting columns: Whenever we encounter a small diagonal $U_{ii}$, swap the $i$th column with a column $j>i$ having the largest value of $|U_{ij}|$, yielding a factorization $LU = AP^T$.\\
+
+    Walk through computing this factorization and then doing forward/backward substitutions to solve the example below with no pivoting and with column pivoting.
+    Clearly state the matrices $L,U,P$ you compute in both cases.
+    Label anywhere in these two calculations where bad subtractive cancellations would occur if done on a computer in floating point arithmetic.
+    
+    $$ Ax=b \qquad \text{ with } \qquad A = \begin{bmatrix}
+        10^{-8} & 2 \\
+        1 & 3
+    \end{bmatrix},\qquad b = \begin{bmatrix} 4 \\ 6+10^{-8} \end{bmatrix}.
+    $$
+\end{problem}
+\begin{solution}
+When switching from row-pivoting to column-pivoting, we have to swap the effective roles that $\vec{L}$ and $\vec{U}$ play in the algorithm for $LU$ factorization. We start by looking at the first row and find the column with the largest absolute value to pivot around. Note for this question, the solution is 0-indexed in line with Python code for the algorithm.
+
+The first pivot $p[0] = 1$ is chosen by the $2$ in the first row, and thus we set the first column of $\vec{L}$ to be $\begin{bmatrix*}2 \\ 3\end{bmatrix*}$. We then set the first row of $\vec{U}$ to be the first row of $\vec{A}$ divided by the first diagonal entry of $\vec{L}$: $L[0, 0] = 2$. Thus the first row of $\vec{U}$ is set to $[10^{-8}/2, 1]$. As with row-pivoting, we can again subtract off the outer product of these two vectors from $\vec{A}$ to yield: $\vec{A}_0 = \begin{bmatrix*}0 & 0 \\1 - \frac{3(10^{-8})}{2} & 0\end{bmatrix*}$
+
+Picking the second pivot, there is only one nonzero entry in the second row, so $p[1] = 0$. We set the second column of $\vec{L}$ to be $\begin{bmatrix*}0 \\ 1 - \frac{3(10^{-8})}{2}\end{bmatrix*}$ and the second row of $\vec{U}$ to be $[1, 0]$.
+
+We then verify that $\vec{L}(\vec{UP}) = \vec{A}$ by checking:
+\begin{align*}
+    \begin{bmatrix*}2 & 0 \\3 & 1 - \frac{3(10^{-8})}{2}\end{bmatrix*}\begin{bmatrix*}10^{-8}/2 & 1 \\ 1 & 0\end{bmatrix*} &= \begin{bmatrix*}10^{-8} & 2 \\ \frac{3(10^{-8})}{2} + 1 - \frac{3(10^{-8})}{2} & 3\end{bmatrix*} \\
+    &= \begin{bmatrix*}10^{-8} & 2 \\ 1 & 3\end{bmatrix*} \\
+    &= A
+\end{align*}
+
+Rewriting the permutation matrix more explicitly, we have $\begin{bmatrix*}2 & 0 \\3 & 1 - \frac{3(10^{-8})}{2}\end{bmatrix*}\begin{bmatrix*}1 & 10^{-8}/2 \\ 0 & 1\end{bmatrix*} = \begin{bmatrix*}10^{-8} & 2 \\ 1 & 3\end{bmatrix*}\begin{bmatrix*}0 & 1 \\ 1 & 0\end{bmatrix*}^{T}$.
+
+We now solve the equation $\vec{A}\vec{x} = \vec{LUPx} = \vec{b}$ using the substitutions $\vec{UPx} = \vec{y}$ and $\vec{Px} = \vec{z}$.
+\begin{align*}
+    \vec{Ly} &= \vec{b} \\
+    \begin{bmatrix*}2 & 0 \\3 & 1 - \frac{3(10^{-8})}{2}\end{bmatrix*}\begin{bmatrix*}y_0 \\ y_1\end{bmatrix*} &= \begin{bmatrix*} 4 \\ 6+10^{-8} \end{bmatrix*} \\
+\end{align*}
+Using forward substitution, we compute $2y_0 = 4$ so $y_0 = 2$. Then $y_2 = \frac{(6 + 10^{-8}) - 3(y_0)}{1 - \frac{3(10^{-8})}{2}} = \frac{10^{-8}}{1 - \frac{3(10^{-8})}{2}}$. We note that this step has bad subtractive cancellation as $6 + 10^{-8} - 6$ is likely to lose precision.
+
+Next we use backwards substitution to solve for $\vec{z}$.
+\begin{align*}
+    \vec{Uz} &= \vec{y} \\
+    \begin{bmatrix*}1 & 10^{-8}/2 \\ 0 & 1\end{bmatrix*}\begin{bmatrix*}z_0 \\ z_1 \end{bmatrix*} &= \begin{bmatrix*}2 \\ \frac{10^{-8}}{1 - \frac{3(10^{-8})}{2}}\end{bmatrix*}
+\end{align*}
+We then have that $z_1 = \frac{10^{-8}}{1 - \frac{3(10^{-8})}{2}}$ and $z_0 = \frac{2 - \left(\frac{10^{-8}}{2} \cdot \frac{10^{-8}}{1 - \frac{3(10^{-8})}{2}}\right)}{1} = 2 - \frac{10^{-16}}{2 - 3(10^{-8})}$.
+
+Lastly, we apply the inverse permutation matrix $\vec{P}^{-1} = \vec{P}^T$ to solve for $\vec{x}$.
+\begin{align*}
+    \vec{Px} = \vec{z} \\
+    \vec{x} = \vec{P}^{T}\vec{z} \\
+    \vec{x} = \begin{bmatrix*}0 & 1 \\ 1 & 0\end{bmatrix*}^T \begin{bmatrix*}2 - \frac{10^{-16}}{2 - 3(10^{-8})} \\ \frac{10^{-8}}{1 - \frac{3(10^{-8})}{2}}\end{bmatrix*} \\
+    \vec{x} = \begin{bmatrix*}\frac{10^{-8}}{1 - \frac{3(10^{-8})}{2}} \\ 2 - \frac{10^{-16}}{2 - 3(10^{-8})}\end{bmatrix*}
+\end{align*}
+\end{solution}
+
+While you will not have access to computers on the exam, it can still be helpful to visualize the differences between row-pivoting and column pivoting side by side.
+
+\begin{lstlisting}[frame=tlrb]
+def plufact(A):
+    """
+    Compute an LU factorization using Row Pivoting.
+    """
+    n = A.shape[0]
+    L = np.zeros((n, n))
+    U = np.zeros((n, n))
+    p = np.zeros(n, dtype=int)
+    A_k = np.copy(A.astype(float))
+
+    # Reduction by outer products
+    for k in range(n):
+        p[k] = np.argmax(abs(A_k[:, k]))
+        U[k, :] = A_k[p[k], :]
+        L[:, k] = A_k[:, k] / U[k, k]
+        if k < n-1:
+            A_k -= np.outer(L[:, k], U[k, :])
+    return L[p, :], U, p
+\end{lstlisting}
+\begin{lstlisting}[frame=tlrb]
+def plufact_col(A):
+    """
+    Compute an LU factorization using Col Pivoting.
+    """
+    n = A.shape[0]
+    L = np.zeros((n, n))
+    U = np.zeros((n, n))
+    p = np.zeros(n, dtype=int)
+    A_k = np.copy(A.astype(float))
+
+    # Reduction by outer products
+    for k in range(n):
+        p[k] = np.argmax(abs(A_k[k, :]))
+        L[:, k] = A_k[:, p[k]]
+        U[k, :] = A_k[k, :] / L[k, k]
+        # U[k, :] = A_k[p[k], :]
+        # L[:, k] = A_k[:, k] / U[k, k]
+        if k < n-1:
+            A_k -= np.outer(L[:, k], U[k, :])
+    return L, U[:, p], p
+\end{lstlisting}
+
+
+\end{document}

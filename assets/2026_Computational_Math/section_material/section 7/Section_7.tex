@@ -1,0 +1,389 @@
+\documentclass[11pt]{article}
+
+\input{section material/preamble}
+% ── Header / footer ────────────────────────────────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small Intro to Computational Math}
+\lhead{\small Section 7}
+\cfoot{\thepage}
+
+\setlength{\fboxrule}{1.2pt}
+\setlength{\fboxsep}{2pt}
+
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Spring 2026\\
+Section 7, March 10 (not due or graded).\\
+}
+\end{center}
+
+
+
+\paragraph{TL;DR:} The first section motivates the root finding problem and explains conditioning. If you feel particularly motivated already, feel free to skip. The second section gives some more information on Taylor series. If this is a strong suit, feel free to skip as well.
+
+The main aspects of this section focus on two methods for finding roots: Fixed point and Newton's. Fixed point is motivated by noting that $$f(r) = 0 \Longleftrightarrow g(r) = r, \text{ with } g(x) := x-f(x).$$
+Therefore, we may transform out function and look for fixed points. The method for finding fixed points is simple. Start with an initial guess $x_0$ and take the next iterative to be the function evaluate at the current one.  
+This method can be shown to exhibit linear convergence, where  $$\eps_k = x_k - r, \quad |\eps_{k+1}| \approx g'(r) |\eps_{k}|.$$
+In order for convergence to hold, we expect that $g'(r)< 1$.
+
+
+As far as Newton's method goes, we solve the root finding problem by taking linear approximations at a point, and finding the root of our approximation. This method is typically has better convergence, in that more cases have convergence and the rate is faster (by an order of magnitude). Under certain conditions, we may expect $$|\eps_{k+1}| \approx \frac{1}{2}\frac{f''(r)}{f'(r)}|\eps_k|^2.$$
+
+\begin{figure}[htbp]
+
+\centering
+
+% --- top row ---
+\begin{subfigure}[t]{0.3\linewidth}
+  \centering
+    \href{https://www.desmos.com/calculator/621dec8bb7}{\textbf{Fixed Point Method}}\\
+  \vspace{0.1cm}
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/fixed_point_5.png}}
+  \caption*{$x_{k+1} = g(x_k)$}
+  \label{fig:img1}
+\end{subfigure}\hspace{1cm}
+\begin{subfigure}[t]{0.3\linewidth}
+  \centering
+  \href{https://www.desmos.com/calculator/8e801f94b5}{\textbf{Newton's Method}}\\
+  \vspace{0.1cm}
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/newton_step.png}}
+  \caption*{$x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}$}
+\end{subfigure}
+\end{figure}
+
+Click on the titles of the graphs to pull up an interactive Desmos where you can apply each method on a generic function!
+
+For the generalization of Newton's method to the multivariate setting i.e. $f : \R^n \to \R^m$, we want $$x_{k+1} \text{ ``solves'' } \quad 0 = f(x_k) + J_f(x_k)(x-x_k)$$ in the sense of least squares/utilizing normal equations,
+meaning $x_{k+1} = x_k + \argmin \|Ax - b\|_2^2$ with $A = J_f(x_k)$ and $b = -f(x_k)$
+\newpage
+\section{The root finding problem:} Often in both applied and theoretical mathematics, we may benefit from finding the roots of a function. Everything from representing a polynomial in its factored form, to solving to eigenvalue problem, to finding stationary points in the framework of optimization benefit from root finding. 
+\begin{definition}
+    Let $f : \R^d \to \R$ be a continuous function. Then $r \in \R^d$ is a \textbf{root} of the function $f$ if $$f(r) = 0.$$
+    If $f : \R \to \R$ is $k$ times differentiable, then $r$ is a root of multiplicity $m \leq k$ if $$f(r) = 0, \ f'(r) = 0, \ f''(r) = 0,\  ..., \ f^{(m-1)}(r) = 0, \ f^{(m)}(r) \ne 0$$
+    If $ m = 1$, we call $r$ a \textbf{simple root}
+\end{definition}
+
+Typically, finding these roots is difficult. At the very least, if $f$ is nonlinear, then there rarely exists a closed form solution for $r$. When there are multiple roots or when roots are not simple (have multiplicity greater than 1), then even more challenges arise. Like all computational math, computers further have the challenge of conditioning.  
+\begin{proposition}[Conditioning of root finding]
+    Let $f : \R \to \R$ be differentiable at a root $r$. The \textbf{condition number} of the root finding problem is $$\kappa_r = |f'(r)|^{-1}$$
+    If $f'(r) = 0$ (i.e. $r$ is not a simple root), then $\kappa_r = \infty$.
+\end{proposition}
+\begin{proof}
+    Recall that the condition number is the  change of the output relative  to the change in input with respect to some small perturbation. We need to be careful what we are perturbing here. Recall the input here is a \textit{function} and the output is a \textit{root}. That is, suppose we perturb the function by some small $\epsilon > 0$, so $$f(x) \mapsto \tilde{f}(x) = x+\epsilon.$$
+    Assuming a root of $\tilde{f}$ exists, call it $\tilde{r} = r+\delta$. By definition $\tilde{f}(\tilde{r}) = 0$. Furthermore, since the function $f$ is assumed to be differentiable, \begin{align}
+    0 = \tilde{f}(\tilde{r})&=\tilde{f}(r+\delta) \nonumber\\
+    &=f(r+\delta) + \eps \nonumber\\
+    &= f(r) +\delta f'(r) + \eps + o(\eps^2) \nonumber\\ &= \delta f'(r) +\eps+o(\eps^2) \label{condition-number-derivation}\end{align}
+    where the first equality considers that $\tilde{r}$ is a root of $\tilde{f}$, the second equality considers the perturbation on $r$, the next equality considers the perturbation on $f$, the penultimate equality applies Taylor's theorem, and the last equality considers that $r$ is a root of $f$.   
+
+    If we recall the absolute condition number is $$\kappa_r = \lim_{\eps \to 0}\frac{|f-\tilde{f}|}{|r-\tilde{r}|}=\lim_{\eps \to 0}\left|\frac{\delta}{\eps}\right|$$
+    where we note that $\delta$ is implicitly defined by $\eps$. In fact, we can use the formula \labelcref{condition-number-derivation} to deduce that $$\kappa_r = \lim_{\eps \to 0}\left|\frac{\eps - o(\eps^2)}{f'(r)\eps}\right| = \left|\frac{1}{f'(r)}\right|$$
+    where we note that by definition of little-o notation $\lim_{\eps \to 0} o(\eps^2)/\eps = 0$.
+\end{proof}
+
+Note that this result is similar to something we have seen before. 
+\begin{example}
+Suppose $f(x) = (x-1)(x-a)$ for some $a \in \R$. We have already seen from chapter 1 that the condition number (on the coefficients of the quadratic) for finding roots via the quadratic formula was closely tied to $|r_1-r_2|$. Considering a general problem of root finding, we note that $1$ is always a root, and $|f'(1)| = |1-a|$. Therefore, the conditioning number is $$\kappa_r = \frac{1}{|1-a|}$$ which blows up at $a \to 1$, or as $f(x) \to (x-1)^2$. This is precisely when $f$ goes from having only simple roots to having repeated ones. 
+
+
+\end{example}
+Finally, we give examples of applications that may require some form of root finding.
+\begin{itemize}
+    \item \textbf{Null states of harmonic oscillators:} If $f$ is periodic with period $m$ i.e. $f(x) = f(x+m)$ then finding a single root gives rise to infinity many
+    \item \textbf{Grounding of planes, ships, projectiles, etc:} knowing a trajectory and finding when its position or height is zero.
+    \item \textbf{Eigenvalue problems:} Anything from solving $$Av = \lambda v \Longleftrightarrow (A-\lambda I)v = 0$$
+    to something more complex like solving Schr\"odinger's equation $$i\hbar \frac{\partial \psi}{\partial t}= -\frac{\hbar^2}{2m}\frac{\partial^2 \psi}{\partial x^2}+V\psi$$
+    requires finding a particular vector or function that when operated on, evaluates to zero.
+    \item \textbf{Optimization} that (for suitably structures functions) $$x_\star \text{is a minimizer} \Longleftrightarrow \nabla f(x_\star) = 0$$ so we look for roots of the gradient or derivative, but the idea is the same.
+\end{itemize}
+
+\section{Taylor's Theorem} One tool we already used for deriving the condition number of the root finding problem is Taylor's Theorem. This tool will be used again and again throughout this course and many others. It is the most (and for some, the only) useful result to come from Calc II. There are higher dimensional generalizations that utilizes generalize versions of first, second, and so on derivatives. We will just focus on the one-dimensional case as it is easiest to visualize.
+
+The story goes like this. Suppose you have a function $f(x)$ and you want to approximate it with a $k$-degree polynomial at a point $a$. Notice that a $k$-degree polynomial admits $k$ derivatives before it becomes constant. We wish for our approximate $P_k(x)$ to match $f(x)$ at all these derivatives. 
+\begin{definition}[Taylor Polynomial]
+    Let $f(x) : \R \to \R$ be at least $k$-times differentiable. We say $P_k(x)$ is a \textbf{$k$-degree Taylor polynomial approximation at $a$} if $$f(a) = P_k(a), \ f'(a) = P_k'(a), \ ..., \ f^{(k)}(a) = P_k^{(k)}(a) $$
+\end{definition}
+
+\begin{figure}[htbp]
+\newlength{\subfigwidth}
+\setlength{\subfigwidth}{0.3\textwidth}
+\centering
+
+% --- top row ---
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/0_degree_approx.png}}
+  \caption{degree 0}
+  \label{fig:img1}
+\end{subfigure}\hspace{1cm}
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/1_degree_approx.png}}
+  \caption{degree 1}
+  \label{fig:img2}
+\end{subfigure}
+
+\vspace{0.6cm}
+
+% --- bottom centered ---
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/4_degree_approx.png}}
+  \caption{degree 4}
+  \label{fig:img1}
+\end{subfigure}\hspace{1cm}
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/7_degrre_approx.png}}
+  \caption{degree 7}
+  \label{fig:img2}
+\end{subfigure}
+\caption{k-degree Taylor Polynomials}
+\end{figure}
+
+For a 0-degree Taylor approximation, we simply take the constant function $P_0(x) = f(a)$. It is well known that the 1-degree approximation, the ``linear approximation,'' is $P_1(x) = f(a) + f'(a)(x-a).$ This is simply a rewrite of the classic ``point-slope'' form. We can derive an expression for any Taylor approximation constructively. 
+
+\begin{theorem}{}{}
+    The $k$-degree Taylor polynomial approximation at $a$ for the function $f(x)$ is $$P_k(x) = f(a) + f'(a)(x-a) + \frac{f''(a)}{2}(x-a)^2 +  ... + \frac{f^{(k)}(a)}{k!}(x-a)^k = \sum_{n=0}^k \frac{f^{(n)}(a)}{n!}(x-a)^n$$
+\end{theorem}
+\begin{proof}
+    We can show this completely constructive. We know that $P_k(x)$ is a $k$-degree polynomial, so we aim to just find the coefficients. Furthermore, we can ``center'' the polynomial at any point, and the only adjustment would be to the constant addition at the end. That is, without loss of generality, we have $$P_k(x) = c_0 + c_1(x-a) + c_2(x-a)^2 + ... + c_k(x-a)^k$$
+    where if $a$ above were replaced with any other number, only $c_0$ would be changed. We can then solve for each $c_j$ by considering the requirements $$P_k^{(m)}(a) = f^{(m)}(a), \quad m = 0, 1, ..., k$$
+    For $m  = 0$, $P_k(a) = c_0$ as all the terms with $(x-a)^m$ go away. This forces $c_0 = f(a).$ The process is similar for any other $m$ as well. It is not hard to show that $$P_k^{(m)}(a) = m!c_m = f^{(m)}(a)$$ by the requirements of the approximation. The powers of $(x-a)^n$ with $n < m$ go away by taking the $m^{th}$ derivative. If $n > m$, then terms of $(x-a)^{n-m}$ remain, and plugging in $x=a$ vanishes them. 
+\end{proof}
+
+We can note from the visual above that a higher degree polynomial will approximate a function better and better. We may ask ourselves two questions. How good is this approximation? Where do $k$-degree polynomials converge as $k \to \infty$? Note that the first question can be answered as an immediate corollary of the theorem. 
+\begin{corollary}{}{}
+    Let $f : \R \to \R$ be a function that is $k+1$ times differentiable on an interval $I$. For any $a \in I$ it holds that $$f(x) = f(a) + f'(a)(x-a) + ... \frac{f^{(k)}(a)}{k!}(x-a)^k + R_k(x) $$
+    where $$|R_k(x)| \leq \frac{\displaystyle\max_{z \in I}|f^{(k+1)}(z)|}{(k+1)!}|(x-a)|^{k+1} $$ 
+\end{corollary}
+
+The residual between the function and approximation is then bounded by two factors. First, the distance away from the center and second, the size of the subsequent derivative nearby. If the derivatives start to blow up, it may be that no approximation gets close to convergence. If we consider the extreme case at $k \to \infty$ we no longer have a polynomial, but we may have that we get convergence on some interval. 
+\begin{definition}{}{}
+    The power series of a function on an interval $I$, centered at $a \in I$, is defined by a sequence $\{c_0, c_1, ...\}$ such that $$f(x) = \sum_{n=0}^\infty c_n(x-a)^n, \quad \forall x \in I.$$
+    For a given $a \in \R$, we define the \textit{radius of convergence} to be the largest distance from $a$ in which the above series converges.
+\end{definition}
+
+Finding the radius of convergence is then relatively simple if we consider all the insight above. We should expect each $c_n = f^{(n)}(a)$ and to converge, we certainly need $c_n$ to converge as a sequence. In fact, by considering $(x-a) = r$, it must hold that $$\sum_{n=0}^\infty c_n(x-a)^n \text{ converges } \Longleftrightarrow \sum_{n=0}^\infty c_n r^n \text{ converges}.$$
+Therefore, we can do any series convergence test, like the ratio test, to determine $r$. That is, we need for the ration of the terms in the series to converge. If $a_n = c_nr^n$ then we need $$\text{The series converges} \Longleftrightarrow \lim_{n \to \infty}\left|\frac{a_{n+1}}{a_n}\right| < 1 \Longleftrightarrow \lim_{n \to \infty}\left|\frac{c_{n+1}r}{c_n}\right| < 1$$
+Solving for $r$ we get the following lemma. 
+\begin{lemma}{}{}
+    Suppose a function admits a power series $f(x) = \sum_{n=0}^\infty c_n(x-a)^n$
+    then the radius of convergence is $$r = \lim_{n \to \infty} \left|\frac{c_n}{c_{n+1}}\right|$$
+\end{lemma}
+\section{Fixed Points Iteration:}
+One method to find a root is to use fixed point iteration. 
+\begin{definition}{}{}
+    For a function $g : \R \to \R$, a value $p \in \R$ is called a\textbf{ fixed point of $f$} if $$g(p) = p$$
+\end{definition}
+
+Root finding is very closely related to finding a fixed point. If $f$ is a function we wish to find a root of, then $g(x) = f(x) - x$ has the property that $$f(r) = 0 \Longleftrightarrow g(r) = r$$
+
+\begin{figure}[htbp]
+\centering
+
+% --- top row ---
+
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=0.34\linewidth]{section material/fixed_point_and_roots.png}}
+  \caption{Roots of $f(x)$ are fixed points of $g(x)$}
+\end{figure}
+With the goal of finding a fixed point in mind, we can define the fixed point iteration. Like many iterative algorithms, we start with an \textit{initial guess} and move from there.
+\begin{algo}[Fixed Point Iteration]{}
+    Given a continuous function $g$ and initial guess $x_0$, define  $$x_{k+1} = g(x_k), \quad k = 0, 1, 2, ... $$
+    If the sequence $x_{k}$ converges, then it convergence to a fixed point of $g$.
+\end{algo}
+
+The idea behind a fixed point iteration is to take the next ``$x$ value'' to be the current ``$y$-value.'' This looks exactly like taking the current point on the graph, projecting it only the $y=x$ line, and then dropping it back on the graph and repeating. We get this ``staircase'' pattern emerging. 
+\begin{figure}[htbp]
+\setlength{\subfigwidth}{0.3\textwidth}
+\centering
+
+% --- top row ---
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/fixed_point_1.png}}
+  \label{fig:img1}
+\end{subfigure}\hspace{1cm}
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/fixed_point_2.png}}
+  \label{fig:img2}
+\end{subfigure}
+
+\vspace{0.6cm}
+
+% --- bottom centered ---
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/fixed_point_3.png}}
+  \label{fig:img1}
+\end{subfigure}\hspace{0.5cm}
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/fixed_point_4.png}}
+  \label{fig:img2}
+\end{subfigure}\hspace{0.5cm}
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/fixed_point_5.png}}
+  \label{fig:img2}
+\end{subfigure}
+\caption{5 steps of Fixed Point Iteration, $x_0 = 0.1$}
+\end{figure}
+Note that we can directly conclude convergence by looking at the error term-by-term. Suppose $\eps_k = x_k - p$ where $p = g(p)$. That is, $p$ is a fixed point. Then, by considering a Taylor approximation $$\eps_{k+1} + p = x_{k+1} = g(x_k) = g(\eps_k + p) = g(p)+g'(p)\eps_k + o(\eps_k^2) $$
+Since $g(p) = 0$ we get that for small enough $\eps_{k+1} \approx g'(p)\eps_k$ 
+\begin{remark}{}{}
+    If $p$ is a fixed point of $g$. Let $x_0$ be an initial point for a fixed point iteration method. If the initial error is small enough and $g'(p) < 1$, then the method converges.
+
+    Furthermore, we say the convergence is \textbf{linear} as we have $$\lim_{k \to \infty} \left|\frac{\eps_{k+1}}{\eps_k}\right| = \sigma < 1.$$
+\end{remark}
+
+\begin{remark}{}{}
+    Note that linear convergence looks like exponential decay when plotted. That is $|\eps_k| \approx C\sigma^k$. We typically call this linear convergence for two reasons. First, \textbf{the next iterate is a linear function of the current one}. Second, when plotted on a log plot, the actually now looks like a line because renaming $$y = \log(\eps_k) = \log(a\sigma^k) = \log(C)+ k\log(\sigma) = \alpha k + \beta$$
+\end{remark}
+
+
+Suppose we want to see this in action. We can explicitly compute the rate of convergence by looking at the residuals and see if it matches our theorem. 
+\begin{example}{}{}
+    Let $g(x) =\sin\left(x\right)+\frac{5}{4}x-\frac{\pi}{4}$ with $x_0 = 2$. It is not hard to see that $g(\pi) = \pi$ and $g'(\pi) = 0.25 < 1$, so $\pi$ is a fixed point. Let's hope that $2$ is close enough to $\pi$ for convergence. Doing the explicit calculations gives \begin{align*}
+        x_1 = g(x_0) &= \sin(2) + \frac{5}{4}(2) - \frac{\pi}{4} \approx 2.6239\\
+         x_2 = g(x_1) &= \sin(x_1)+\frac{5}{4}(x_1)-\frac{\pi}{4} \approx 2.9894\\
+           x_3 = g(x_2) &= \sin(x_2)+\frac{5}{4}(x_2)-\frac{\pi}{4} \approx 3.1029\\
+           & \hspace{1.6cm}\vdots
+    \end{align*} 
+    We can then look at all the residuals to get the sequence $$ (1.1416, 0.5177, 0.1522, 0.03864, 0.009671, 0.002418, 0.000605, 0.000151, 0.0000377...)$$
+    If we took all the ratios of $|\eps_{k+1}|/|\eps_k|$, we would see this series approaches $0.25 = g'(\pi)$ rather quickly as expected.
+\end{example}
+
+\section{Newtons Method:}
+While fixed point iteration has its uses, as far as root finding goes, there is a much more common and powerful method. Root finding has linear convergence, but requires a (rather tight) bound on the first derivative, It would be nice if a less restrictive method exists and convergence faster. Newton's method will satisfy both. The idea is simple: \textbf{take a linear approximation, solve for that root, repeat.}
+
+\begin{algo}[Newton's Method]{}
+    Given a differentiable  $f : \R \to \R$ and initial value $x_0 \in \R$, define $$x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}, \quad k = 0, 1, ... $$
+\end{algo}
+Recall that applying Taylor's theorem, we have at any point $x_k \in \R$ $$f(x) \approx f(x_k)+f'(x_k)(x-x_k)$$ where the approximation is better the closer $x$ is to $x_k$. We can then easily solve for when the right hand side is 0. We set this value to be $x_{k+1}$. That is, $$f(x_k) + f'(x_k)(x-x_k) = 0 \Longleftrightarrow x = x_k - \frac{f(x_k)}{f'(x_k)}$$
+
+\begin{figure}[htbp]
+\centering
+
+% --- top row ---
+
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=0.41\linewidth]{section material/section 7/newton_step.png}}
+  \caption{Newton Step}
+\end{figure}
+
+Note that both the convergence and its rate are very nontrivial at this point. In fact, it can be rather hard to find initial point that are guaranteed to converge for a generic function. Furthermore, it can be rather tricky to even characterize when convergence is guaranteed. Typically, we can guarantee convergence to a root $r$ if $f'(r) \ne 0$, but that is unfortunately not always the case. Some exact criteria are shown below.
+
+\begin{theorem}[Convergence of Newton's Method]{}
+    Let $f: \R \to \R$ is a function with $x_0 \in [a,b]$ as an initial point and $r \in [a,b]$ is a root: $f(r) = 0$. Suppose the following hold \begin{enumerate}
+        \item $f(x_1)f(x_2)< 0$ for all $x_1 \in [a,r)$, $x_2 \in (r,b]$. That is, the function takes opposite signs on opposite sides of the root
+        \item $f'(r) \ne 0$
+        \item $f''$ does not change signs on $[a,b]$ 
+        \item $f(x)f''(x) \geq 0$
+    \end{enumerate}
+    then $x_k \to r$ where $x_{k+1} = x_{k} - f(x_k)/f'(x_{k})$
+\end{theorem}
+
+First note is that when this convergence is guaranteed, it happens very quickly. In fact, we say newtons method converges quadratically because we can show that the residual $\eps_k = x_k - r$ behaves such that $$|\eps_{k+1}| \leq C|\eps_k|^2, \quad C> 0$$
+This is called quadratic convergence because the subsequent error is related quadratically to the current one. The proof is rather complex, but it truly relies on nothing other than Taylor's theorem and some algebra. The implication of quadratic converge is that the iterates nearly double their precision each step. With linear convergence, we say near one digit was gained each step. Note that this is just a heuristic, and really the coefficients (i.e. $C$ above, and $g'(p)$ for fixed point) have a lot of effect on exactly how many digits are gained.
+
+\begin{example}{}{}
+    Let $f(x) = (x-3)(x-1)$. Let $x_0 = 4$. Note that $f'(x) = 2x-4$. We can then explicitly compute the first few iterates of Newton's method. 
+    \begin{align*}
+        x_1 = x_0 - \frac{f(x_0)}{f'(x_0)} &= 4- \frac{3}{4} = 3.25\\
+        x_2 = x_1 - \frac{f(x_1)}{f'(x_1)} &= 3.25-\frac{9}{40}= 3.025\\
+         x_3 = x_2 - \frac{f(x_2)}{f'(x_2)} &= 3.025-\frac{81}{3280}= 3.00030487805\\
+         x_4 = x_3 - \frac{f(x_3)}{f'(x_3)} &= ... = 3.00000004646
+    \end{align*}
+    We very quickly converge, nearly doubling the number of digits each time. Furthermore, $$\eps_{k+1} \approx \frac{1}{2}\frac{f''(r)}{f'(r)}\eps_k^2 \Longleftrightarrow \frac{\eps_{k+1}}{\eps_k^2} \approx \frac{1}{2}\frac{f''(r)}{f'(r)}$$ which we see by direct calculation. 
+\end{example}
+
+Note, there are many generalizations to Newton's method, one of them using Normal equations to solve the linear approximation in the higher-dimensional setting. Really, one ``solves'' the same problem of taking a linear approximation and looking for a point that gives the closest evaluation to zero.
+\begin{definition}{}{}
+    Given $f : \R^n \to \R^m$ and initial value $x_0 \in \R^n$ define $$x_{k+1} = x_k + \argmin_{x} \|A_kx-b_k\|_2^2, \quad k = 0, 1, ... $$ with $A_k = J_f(x_k)$ and $b_k = -f(x_k).$
+\end{definition}
+Rearranging the above definition gives $$0 \approx f(x_k) + J_f(x_k)(x_{k+1}-x_k) \approx f(x_{k+1}).$$
+\begin{example}{}{}
+    Suppose we want to find a solution to $\begin{cases}
+        x^2 + y = 1\\
+        10x+y^3 = -7\\
+        x-y = 5
+    \end{cases}$ with initial point $x_0 = (0,0)$. We first rewrite the system of equations as a single multivariate function to find a zero $$f(x,y) = \begin{bmatrix}
+        x^2+y-1\\
+        10x+y^3+7\\
+        x-y-5\\
+    \end{bmatrix}, \quad J_f(x,y) = \begin{bmatrix}
+        2x & 1\\
+        10 & 3y^2\\
+        1 & -1\\
+    \end{bmatrix}$$ where $f(x_k,y_k) = 0 \Longleftrightarrow (x_k, y_k)$ solves the system. Then by taking the linear approximation of $f(x,y)$ centered at $(x_k, y_k)$ we get $$f(x,y) \approx f(x_k, y_k) + J_f(x_k, y_k) (x-x_k).$$
+    ``Solving'' this for a root reduces to finding an $x$ such that this is as close to zero as possible. In other words, finding $$\underbrace{J_f(x_k, y_k)}_{A_k}(x-x_k) \approx \underbrace{-f(x_k, y_k)}_{b_k}.$$ With $A_k$ and $b_k$ taking the roles above, we use the normal equations to solve for $x-x_k = (A_k^T A_k)^{-1}(A_k^T b_k)$ (this is directly from the optimality conditions used in least squares, see previous notes). Therefore, we get that $$A_k^TA_k = J_f(x,y)^T J_f(x,y) = \begin{bmatrix}
+        4x^2 + 101 & 2x+30y^2-1\\
+        2x+30y^2-1 & 9y^4+2
+    \end{bmatrix}$$
+    Call the $\det_k := \det(A_k^TA_k) =  (4x^2+101)(9y^4+2)-(2x+30y^2-1)^2$.
+    We can see that the expressions get messy quickly, but for completion here is the full result for $(A_k^T A_k)^{-1}A_k$ $$ \frac{1}{\det_k}
+\begin{bmatrix}
+18xy^4+2x-30y^2+1 &
+20-6xy^2+3y^2 &
+9y^4+2x+30y^2+1
+\\[6pt]
+101+2x-60xy^2 &
+12x^2y^2-20x+3y^2+10 &
+4x^2+2x+30y^2-100
+\end{bmatrix}$$
+Regardless of the visual complexity for us, computers (i.e. Desmos or any other program) have no problem handling these expressions.
+Noting that $$b_k = -f(x_k,y_k) = \begin{bmatrix}
+    -x_k^2+y_k+1\\
+    -10x_k-y_k^3-7\\
+    -x_k+y_k+5\\
+\end{bmatrix}$$
+we can fully write out the iterates. With $(x_0, y_0) = (0,0)$ then $$(A_0^T A_0)^{-1}A_0 = \frac{1}{201}\begin{bmatrix}
+    1 & 20  & 1\\
+    101 & 10 & -100\\
+\end{bmatrix}, \quad b_0 = \begin{bmatrix}
+    1 \\ -7 \\ 5
+\end{bmatrix}$$
+Therefore, $$x_1 = x_0 + (A_0^T A_0)^{-1}A_0 b_0 = \begin{bmatrix}
+    \frac{-134}{201}\\ 
+    \frac{-469}{201}
+\end{bmatrix}=\begin{bmatrix}
+    -2/3\\-7/3
+\end{bmatrix}$$
+Continuing onward gives the following plot. Click \href{https://www.desmos.com/calculator/srdsnfelex}{here} for an interactive graph.
+
+\end{example}
+\begin{figure}[htbp]
+\setlength{\subfigwidth}{0.4\textwidth}
+\centering
+
+% --- top row ---
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/multi_newtons.png}}
+  \caption*{Intersection of 3 Graphs}
+  \label{fig:img1}
+\end{subfigure}\hspace{1cm}
+\begin{subfigure}[t]{\subfigwidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/multi_newtons_iterates.png}}
+  \caption*{Iterations of Newtons }
+  \label{fig:img2}
+\end{subfigure}
+
+\vspace{0.6cm}
+
+% --- bottom centered ---
+\begin{subfigure}[t]{0.45\linewidth}
+  \centering
+  \fcolorbox{black}{white}{\includegraphics[width=\linewidth]{section material/section 7/multi_newtons_iterates_zoom.png}}
+  \caption*{Zoomed in Iterates N = 5}
+  \label{fig:img1}
+\end{subfigure}
+\end{figure}
+\end{document}

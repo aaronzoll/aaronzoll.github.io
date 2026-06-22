@@ -1,0 +1,102 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 08}
+\date{Due: Friday, Mar 27, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+\item Textbook Exercise 5.4.6
+
+\begin{solution}
+$$\boxed{f''(0) \approx \frac{f(-h) - 2f(0) + f(h)}{h^2}}$$
+\end{solution}
+
+\item Textbook Exercise 5.4.7
+\begin{solution}
+\textbf{(a)} The centered difference formula converges to $f'(x)$ as $h \to 0$.
+
+\textbf{(b)} For convergence of a general finite-difference formula $f'(x) \approx \frac{1}{h}\sum_{k=-p}^{q} a_k f(x+kh)$:
+
+$$\boxed{\sum_{k=-p}^{q} a_k = 0}$$
+
+$$\boxed{\sum_{k=-p}^{q} k a_k = 1}$$
+\end{solution}
+
+\item Textbook Exercise 5.5.2
+
+\begin{solution}
+$$\boxed{\tau_f(h) = -\frac{h^2}{6}f'''(x) + O(h^4)}$$
+\end{solution}
+
+\item Textbook Exercise 5.5.3
+\begin{solution}
+$$\boxed{\tau_f(h) = \frac{h^2}{3}f'''(x) + O(h^3)}$$
+\end{solution}
+
+\item Textbook Exercise 5.5.5
+
+\begin{solution}
+$$\boxed{\tau_f(h) = -\frac{h^2}{12}f^{(4)}(0) + O(h^3)}$$
+
+The formula is \textbf{second-order accurate}.
+\end{solution}
+
+\item Richardson extrapolation. Let $D(h)$ be a finite difference approximation to $f'(a)$ with truncation error $O(h^p)$. Construct the combined estimate:
+\[
+R(h) = x D(h) + y D(2h)
+\]
+
+\begin{solution}
+\textbf{Part 1.} Convergence condition: $\boxed{x + y = 1}$
+
+\textbf{Part 2.} For improved convergence:
+\[
+\boxed{x = \frac{2^p}{2^p - 1}, \quad y = \frac{-1}{2^p - 1}}
+\]
+Order of convergence: $\boxed{O(h^{p+1})}$
+
+\textbf{Part 3.} For forward difference ($p = 1$):
+\[
+\boxed{R(h) = \frac{4f(a+h) - f(a+2h) - 3f(a)}{2h}, \quad \text{Order: } O(h^2)}
+\]
+
+\end{solution}
+
+\item Jupyter notebook
+
+\end{enumerate}
+
+
+\section*{Quiz Information}
+
+The quiz will be held on {\bf Tuesday, March 30, 2026} during the discussion section.
+
+Quiz questions will be modifications of the homework problems and material discussed in class.
+
+\textbf{Topics covered:} 
+
+Chapters 5.4 and 5.5.
+
+\begin{itemize}
+    \item Finite difference approximations for derivatives
+    \item Big O notation, error analysis and convergence rates of sequences
+\end{itemize}
+
+
+
+
+\end{document}

@@ -1,0 +1,104 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{
+  JHED: \underline{\hspace{4cm}} \hspace{1em} Name: \underline{\hspace{9cm}}}
+   }
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+
+\question 
+Let $A = \begin{bmatrix} 0 & -1 \\ 2 & 0 \end{bmatrix}$.
+\begin{parts}
+\part[2] Find a vector satisfying $\|\mathbf{x}\|_\infty = 1$ and $\|A\mathbf{x}\|_\infty = \|A\|_\infty$.
+\part[2] Find a vector satisfying $\|\mathbf{x}\|_1 = 1$ and $\|A\mathbf{x}\|_1 = \|A\|_1$.
+\part[6] Find a vector satisfying $\|\mathbf{x}\|_2 = 1$ such that $\|A\mathbf{x}\|_2 = \|A\|_2$. 
+\end{parts}
+
+\begin{solution}
+\textbf{(a)} $\|A\|_\infty = \max\{1, 2\} = 2$ (maximum absolute row sum).
+
+For $\mathbf{x} = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}$, we have $A\mathbf{x} = \begin{bmatrix} x_2 \\ -2x_1 \end{bmatrix}$.
+
+We need $\max\{|x_2|, 2|x_1|\} = 2$ with $\max\{|x_1|, |x_2|\} = 1$. This requires $|x_1| = 1$.
+
+\textbf{Answer:} $\mathbf{x} = \begin{bmatrix} \pm 1 \\ x_2 \end{bmatrix}$ where $|x_2| \leq 1$.
+
+\textbf{(b)} $\|A\|_1 = \max\{2, 1\} = 2$ (maximum absolute column sum).
+
+For $\mathbf{x} = \mathbf{e}_1 = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$: $A\mathbf{e}_1 = \begin{bmatrix} 0 \\ -2 \end{bmatrix}$, so $\|A\mathbf{e}_1\|_1 = 2$.
+
+\textbf{Answer:} $\mathbf{x} = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$.
+
+\textbf{(c)} Parameterize $\mathbf{x} = \begin{bmatrix} \cos\theta \\ \sin\theta \end{bmatrix}$. Then $A\mathbf{x} = \begin{bmatrix} \sin\theta \\ -2\cos\theta \end{bmatrix}$.
+
+\[
+\|A\mathbf{x}\|_2^2 = \sin^2\theta + 4\cos^2\theta = 4 - 3\sin^2\theta
+\]
+
+This is maximized when $\sin\theta = 0$, giving $\|A\|_2 = 2$.
+
+\textbf{Answer:} $\mathbf{x} = \begin{bmatrix} \pm 1 \\ 0 \end{bmatrix}$.
+
+Note: Another way to find the norm is to find the $L^2$-norm is to find the square root of eigenvalues of $A^T A$ or $A A^T$.
+\end{solution}
+
+\newpage 
+\question[10] Find condition number of $A_3 = \begin{bmatrix} 1 & 1 & 1 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{bmatrix}$ in $\infty$-norm and 1-norm.
+
+\begin{solution}
+\textbf{Computing $\|A_3\|_\infty$:}
+
+Maximum absolute row sum: $\|A_3\|_\infty = \max\{2, 2, 1\} = 2$.
+
+\textbf{Computing $A_3^{-1}$:}
+
+Since $A_3$ is upper triangular with ones on the diagonal, we compute the inverse:
+\[
+A_3^{-1} = \begin{bmatrix} 1 & 1 & 1 \\ 0 & 1 & 1 \\ 0 & 0 & 1 \end{bmatrix}
+\]
+
+\textbf{Computing $\|A_3^{-1}\|_\infty$:}
+
+Maximum absolute row sum: $\|A_3^{-1}\|_\infty = \max\{3, 2, 1\} = 3$.
+
+\textbf{Condition number in $\infty$-norm:}
+\[
+\kappa_\infty(A_3) = \|A_3\|_\infty \|A_3^{-1}\|_\infty = 2 \cdot 3 = 6
+\]
+
+\textbf{Computing $\|A_3\|_1$:}
+
+Maximum absolute column sum: $\|A_3\|_1 = \max\{1, 2, 2\} = 2$.
+
+\textbf{Computing $\|A_3^{-1}\|_1$:}
+
+Maximum absolute column sum: $\|A_3^{-1}\|_1 = \max\{1, 2, 3\} = 3$.
+
+\textbf{Condition number in 1-norm:}
+\[
+\kappa_1(A_3) = \|A_3\|_1 \|A_3^{-1}\|_1 = 2 \cdot 3 = 6
+\]
+
+\textbf{Answer:} $\kappa_\infty(A_3) = \kappa_1(A_3) = 6$.
+\end{solution}
+
+\end{questions}
+\end{document}

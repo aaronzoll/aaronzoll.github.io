@@ -1,0 +1,50 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Section 10, Nov 7 (not due or graded).\\
+}
+\end{center}
+
+\noindent {\it Section will give you time to work on/discuss questions in small groups and then present your solutions. The questions below are selected exercises from the textbook to help build comfort and expertise with the ideas we've been discussing. The last question is from a prior exam in this course.
+\\
+}
+
+\noindent {\bf Q1.} Attempt Exercises 1 and 8 in Section 5.6 of Driscoll and Braun (\url{https://fncbook.com/}).
+
+\vskip3cm
+
+\noindent {\bf Q2.}  As seen on the midterm \texttt{(i.e., Section \#2)}, consider
+$$ 
+f(x) = \log(\exp(x) + \exp(-x)) \ .  $$
+Evaluating this function directly can be unstable. This time, let's evaluate its derivatives.\\
+
+\noindent {\bf (a)} The derivative of $f$ is given by $f'(x) = \frac{\exp(x) - \exp(-x)}{\exp(x) + \exp(-x)}$. \\
+Is $f'$ reasonably well-conditioned at $x = 1.23$? \\
+
+\vskip2cm
+
+\noindent {\bf (b)} Consider numerically approximating $f'(1.23)$ for a given stepsize $h>0$ via the formula 
+$$ \frac{f(1.23 + h) - f(1.23)}{h} .$$
+If implemented in standard floating point arithmetic, what value of $h$ would you recommend using to minimize the difference from the true answer $f'(1.23)$?
+
+
+\vskip 2cm
+
+\noindent {\bf (c)} What values of $a,b,c\in\mathbb{R}$ maximize the order of accuracy for approximating $f'(0)$ below? 
+$$ \frac{a f(-h) + bf(0) + cf(2h)}{h} $$
+
+\end{document} 

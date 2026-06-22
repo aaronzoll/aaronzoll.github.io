@@ -1,0 +1,277 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,multirow}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}
+%\usepackage{enumerate}
+\usepackage[shortlabels, inline]{enumitem}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{comment}
+
+\usepackage{listings}
+\lstset{language=Python, numbers=left, basicstyle=\ttfamily, keywordstyle=\color{blue}, showstringspaces=false}
+
+\usepackage[style=alphabetic-verb]{biblatex}
+% \bibliography{Problems/ref.bib}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\K}{\mathbb{K}}
+\renewcommand{\div}{\mid}
+\newcommand{\ndiv}{\nmid}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\F}{\mathcal{F}}
+
+\DeclareMathOperator{\id}{Id}
+\DeclareMathOperator{\tr}{Tr}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\acosh}{acosh}
+
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\newcommand{\subtag}[1]{\tag{\theparentequation#1}}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\usepackage{subfiles}
+\usepackage{subcaption}
+\makeatletter
+\newcommand\nocaption{
+    \renewcommand\p@subfigure{}
+    \renewcommand{\thesubfigure}{\arabic{figure}\alph{subfigure}}
+}
+\makeatother
+
+
+\newenvironment{problem}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{solution}{%
+  \begin{proof}[\textbf{Solution}]$ $\par\nobreak\ignorespaces
+}{%
+  \end{proof}
+}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 2 Sample Solutions}
+\end{center}
+
+\begin{problem}{1}
+Use the chain rule \href{https://fncbook.com/conditioning/#condition-chain}{(1.2.9)} to find the relative condition number of the given function. Then check your result by applying \href{https://fncbook.com/conditioning/#conditionderiv}{(1.2.6)} directly.
+\begin{enumerate*}[(a),itemjoin=\qquad]
+    \item $f(x) = x +5$
+    \item $f(x) = \cos(2\pi x)$
+    \item $f(x) = e^{-x^2}$.
+\end{enumerate*}
+\end{problem}
+\begin{solution}
+\begin{enumerate}[(a)]
+    \item Using (1.2.9) with $g(x)=x+5$ and $F(u)=u^{1/2}$,
+    \[
+    \kappa_{F}(u)=\left|\frac{u F'(u)}{F(u)}\right|=\left|\frac{u \cdot \frac12 u^{-1/2}}{u^{1/2}}\right|=\frac12,\qquad
+    \kappa_{g}(x)=\left|\frac{x g'(x)}{g(x)}\right|=\left|\frac{x}{x+5}\right|.
+    \]
+    Hence
+    \[
+    \kappa_{f}(x)=\kappa_{F}(g(x))\,\kappa_{g}(x)=\frac12\left|\frac{x}{x+5}\right|,
+    \]
+    valid for $x>-5$ (undefined at $x=-5$ where $f(x)=0$). Directly from (1.2.6),
+    \[
+    f'(x)=\frac{1}{2\sqrt{x+5}},\qquad
+    \kappa_{f}(x)=\left|\frac{x f'(x)}{f(x)}\right|
+    =\left|\frac{x \cdot \frac{1}{2\sqrt{x+5}}}{\sqrt{x+5}}\right|
+    =\frac12\left|\frac{x}{x+5}\right|.
+    \]
+    \item Let $g(x)=2\pi x$ and $F(u)=\cos u$. Then
+    \[
+    \kappa_{F}(u)=\left|\frac{u F'(u)}{F(u)}\right|=\left|\frac{u (-\sin u)}{\cos u}\right|=\left|u \tan u\right|,\qquad
+    \kappa_{g}(x)=\left|\frac{x g'(x)}{g(x)}\right|=\left|\frac{x \cdot 2\pi}{2\pi x}\right|=1\ (x\ne 0).
+    \]
+    Therefore
+    \[
+    \kappa_{f}(x)=\left|2\pi x \tan(2\pi x)\right|,
+    \]
+    defined where $\cos(2\pi x)\ne 0$ and extending to $\kappa_f(0)=0$ by continuity. Directly,
+    \[
+    f'(x)=-2\pi \sin(2\pi x),\qquad
+    \kappa_{f}(x)=\left|\frac{x f'(x)}{f(x)}\right|
+    =\left|\frac{x (-2\pi \sin(2\pi x))}{\cos(2\pi x)}\right|
+    =\left|2\pi x \tan(2\pi x)\right|.
+    \]
+    \item Take $g(x)=x^2$ and $F(u)=e^{-u}$. Then
+    \[
+    \kappa_{F}(u)=\left|\frac{u F'(u)}{F(u)}\right|=\left|\frac{u (-e^{-u})}{e^{-u}}\right|=|u|,\qquad
+    \kappa_{g}(x)=\left|\frac{x g'(x)}{g(x)}\right|=\left|\frac{x \cdot 2x}{x^2}\right|=2\ (x\ne 0).
+    \]
+    Thus
+    \[
+    \kappa_{f}(x)=2 x^2,
+    \]
+    and this holds at $x=0$ by continuity. Directly,
+    \[
+    f'(x)=-2x e^{-x^2},\qquad
+    \kappa_{f}(x)=\left|\frac{x f'(x)}{f(x)}\right|
+    =\left|\frac{x (-2x e^{-x^2})}{e^{-x^2}}\right|
+    =2 x^2.
+    \]
+\end{enumerate}
+\end{solution}
+
+
+
+
+\newpage
+
+
+
+\begin{problem}{2}
+Let $f(x) = \frac{e^x - 1}{x}$.
+\begin{enumerate}[(a)]
+    \item Find the condition number $\kappa_f(x)$. What is the maximum of $\kappa_f(x)$ over $-1 \leq x \leq 1$?
+    \item Use the ``obvious'' algorithm
+    \begin{verbatim}
+(\exp(x) - 1) / x
+    \end{verbatim}
+    to compute $f(x)$ at $x = 10^{-2}$, $10^{-3}$, $10^{-4}$, \ldots, $10^{-11}$.
+    \item Create a second algorithm from the first $8$ terms of the Maclaurin series, i.e.,
+    $$p(x) = \sum_{j = 0}^7 \frac{x^j}{(j+1)!} = 1 + \frac{x}{2!} + \frac{x^2}{3!} + \cdots + \frac{x^7}{8!}.$$ Evaluate it at the same values as in part (b).
+    \item Make a table of the relative difference between the two algorithms as a function of $x$. Which algorithm is more accurate, and why?
+\end{enumerate}
+\end{problem}
+\begin{solution}
+
+% Draft solution for Exercise 1.4.2
+% Course notes reference (relative conditioning): :contentReference[oaicite:0]{index=0}
+
+\noindent (a) Consider \[
+f(x)=\frac{e^{x}-1}{x},\qquad f(0):=\lim_{x\to 0}\frac{e^{x}-1}{x}=1.
+\]
+
+We use the (relative) condition number for a scalar function
+\[
+\kappa_f(x)=\left|\frac{x f'(x)}{f(x)}\right|.
+\]
+With
+\[
+f'(x)=\frac{x e^{x}-(e^{x}-1)}{x^2}=\frac{(x-1)e^{x}+1}{x^2},
+\]
+we obtain, for $x\neq 0$,
+\[
+\boxed{\;\kappa_f(x)=\left|\frac{1+(x-1)e^{x}}{e^{x}-1}\right|\;}
+\]
+
+To locate the maximum on $-1\le x\le 1$, note that for $x\neq 0$,
+\[
+\kappa_f'(x)=\frac{e^{x}\bigl(e^{x}-x-1\bigr)}{(e^{x}-1)^{2}}\ge 0,
+\]
+since $e^{x}\ge 1+x$ with equality only at $x=0$. Thus $\kappa_f$ is nondecreasing on $\mathbb{R}$, and the maximum on $[-1,1]$ occurs at $x=1$:
+\[
+\boxed{\;\max_{-1\le x\le 1}\kappa_f(x)=\kappa_f(1)=\frac{1}{e-1}\approx 5.8198\times 10^{-1}\;}
+\]
+(while $\kappa_f(-1)=\frac{1-2/e}{1/e-1}\approx 4.1802\times 10^{-1}$ and $\kappa_f(0)=0$). 
+Hence the problem is well-conditioned on $[-1,1]$ (in fact $\kappa_f(x)\le 0.582$), so any loss of accuracy we observe will be due to the \emph{algorithm}, not the conditioning.
+
+\noindent (b)-(d). From the Maclaurin expansion
+\[
+\frac{e^{x}-1}{x}=\sum_{j=0}^{\infty}\frac{x^{\,j}}{(j+1)!},
+\]
+use the first eight terms (degree $7$ polynomial)
+\[
+\boxed{\;p_7(x)=\sum_{j=0}^{7}\frac{x^{\,j}}{(j+1)!}
+=1+\frac{x}{2!}+\frac{x^{2}}{3!}+\cdots+\frac{x^{7}}{8!}\;}
+\]
+(The truncation error satisfies $|R_8(x)|=\left|\sum_{j=8}^\infty \frac{x^{j}}{(j+1)!}\right|
+\le \dfrac{e^{|x|}\,|x|^{8}}{9!}$, which is $<10^{-21}$ already at $|x|=10^{-2}$.)
+The table below lists, for $x=10^{-2},10^{-3},\dots,10^{-11}$, the value from the obvious algorithm
+$f_{\text{obv}}(x)=\frac{e^x-1}{x}$, the series approximation $p_7(x)$, and their
+relative difference
+\[
+\mathrm{RelDiff}(x)=\frac{|f_{\text{obv}}(x)-p_7(x)|}{\bigl|\,(e^x-1)/x\,\bigr|}.
+\]
+(Reference values were evaluated with high precision to form the denominator.)
+
+\medskip
+\begin{tabular}{c c c c}
+\hline
+$x$ & $f_{\text{obv}}(x)$ & $p_7(x)$ & $\mathrm{RelDiff}(x)$\\
+\hline
+$1\mathrm{e}{-2}$ & $1.005016708416795$ & $1.005016708416806$ & $1.060\times 10^{-14}$\\
+$1\mathrm{e}{-3}$ & $1.000500166708385$ & $1.000500166708342$ & $4.283\times 10^{-14}$\\
+$1\mathrm{e}{-4}$ & $1.000050001667141$ & $1.000050001666708$ & $4.325\times 10^{-13}$\\
+$1\mathrm{e}{-5}$ & $1.000005000006965$ & $1.000005000016667$ & $9.702\times 10^{-12}$\\
+$1\mathrm{e}{-6}$ & $1.000000499962184$ & $1.000000500000167$ & $3.798\times 10^{-11}$\\
+$1\mathrm{e}{-7}$ & $1.000000049433680$ & $1.000000050000002$ & $5.663\times 10^{-10}$\\
+$1\mathrm{e}{-8}$ & $0.999999993922529$ & $1.000000005000000$ & $1.108\times 10^{-8}$\\
+$1\mathrm{e}{-9}$ & $1.000000082740371$ & $1.000000000500000$ & $8.224\times 10^{-8}$\\
+$1\mathrm{e}{-10}$ & $1.000000082740371$ & $1.000000000050000$ & $8.269\times 10^{-8}$\\
+$1\mathrm{e}{-11}$ & $1.000000082740371$ & $1.000000000005000$ & $8.274\times 10^{-8}$\\
+\hline
+\end{tabular}
+\par\medskip
+
+\textbf{Which algorithm is more accurate, and why?}  
+For $x\lesssim 10^{-8}$ the “obvious” formula catastrophically subtracts two nearly equal numbers ($e^x\approx 1+x$), losing most of the significant digits in $e^x-1$ before the division by $x$. The series algorithm avoids this subtraction and, on our interval, its truncation error is far below double-precision roundoff; hence it is uniformly (and dramatically) more accurate.
+\end{solution}
+
+
+\newpage
+
+
+
+\begin{problem}{3}
+{\it Generalizing condition numbers to other problem types.}\\
+The ideas of condition numbers and stability of algorithms defined in class only apply to functions mapping $\mathbb{R}\rightarrow \mathbb{R}$. Propose definitions (be as formal as you can) for new ways of measuring these properties for the following other types of computational processes. There are many possible good answers here; your answer only needs to be reasonable and precise.\\[6pt]
+(a) {\it Programs that map functions to real numbers}, for example, a program that takes $f$ as input and outputs its derivative at zero, $f\mapsto \lim_{\epsilon\rightarrow 0}\frac{f(\epsilon)-f(0)}{\epsilon-0}$, or outputs the integral $f\mapsto \int^1_0 f(x)\ \mathrm{dx}$ \\
+(later in the term, we will develop some very good approaches for both of these computations).\\[6pt]
+(b) {\it Integer functions} mapping $\mathbb{N} \rightarrow \mathbb{R}$, for example, $\pi$ approximations as a function of $T$ from HW1.\\[6pt]
+(c) {\it Programs with text input and output}, for example systems like ChatGPT.
+\end{problem}
+\begin{solution}
+There are many good answers to this question, which is intentionally ill-defined. One example of a plausible answer for each are given below:\\
+
+\noindent (a) One could define a norm measuring the difference between two functions $f,g\colon [0,1]\rightarrow \mathbb{R}$ by
+$$ \|f-g\| = \int_0^1 |f(x)-g(x)| \mathrm{dx} \ . $$
+Given this as a way of measuring changes in functions, we could define a condition number of such a mapping $M(f)$ in the ``regular'' way as bounding the ratio of relative output accuracy to input accuracy as $\tilde f \rightarrow f$ of
+$$ \limsup_{\tilde f \rightarrow f} \frac{\frac{|M(\tilde f) - M(f)|}{|M(f)|}}{\frac{\|\tilde f - f\|}{\|f\|}} \ . $$
+Two other sensible norms you could use, paralleling two-norms and infinity norms for vectors would be
+$$ \|f-g\|_2 = \int_0^1 |f(x)-g(x)|^2 \mathrm{dx}$$
+and
+$$ \|f-g\|_\infty = \max_{x\in [0,1]} |f(x)-g(x)| \ . $$
+
+\noindent (b) Given that the inputs to a function $f\colon \mathbb{N} \rightarrow \mathbb{R}$ are integers, we cannot take a traditional limit as they get closer together. We could still define a condition number that is valid only for describing the stability of the function $f$ for large inputs $n$. In particular, we could define a limiting condition number as
+$$ \lim_{n\rightarrow \infty} \frac{\frac{|f(n+1)-f(n)|}{|f(n)|}}{\frac{(n+1) - n}{n}} \ . $$
+Alternatively, omitting the limit above, this could be a reasonable definition for a condition number at a fixed $n$.\\
+
+\noindent (c) This one is very speculative. One could consider something similar to the above integer idea, making small variations in the input to such a function (changing just one letter or adding just one letter) and measuring the level of change in the output. Some notion of how different two strings are would be needed. Counting the number of characters changed would work, but much more complex measures could be developed. Given any notion of change in a string, one could fill in the role of norm for use in a condition number-like formula.
+\end{solution}
+
+\end{document}

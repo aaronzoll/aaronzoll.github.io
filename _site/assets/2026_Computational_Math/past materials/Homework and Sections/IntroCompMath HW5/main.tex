@@ -1,0 +1,47 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 5\\
+Due through gradescope before lecture starts, Thursday, Oct 2}
+\end{center}
+
+Your solutions should represent your own work and understanding of the material. You can discuss homework problems at a high level with other students or software systems like ChatGPT, but you should execute the details of any directions discussed independently of them. Results from class or the textbook can be used without proof. Otherwise, claims need to be well justified. You use any programming language you feel comfortable with (matlab, julia, or python are most reasonable). You must submit both your code and the requested output/plots from running your code. Grading will focus on the quality of outputs rather than the code itself.\\
+
+\noindent {\bf Q1.} Do exercises 3 and 7 in Section 3.1 of Driscoll and Braun (\url{https://fncbook.com/}).\\
+
+\vskip1cm
+
+\noindent {\bf Q2.} Do exercise 1 in Section 3.2 of Driscoll and Braun (\url{https://fncbook.com/}).\\
+
+\vskip1cm
+
+\noindent {\bf Q3.} {\it Some stable and unstable possibilities when computing a QR factorization.}\\
+When computing a Householder reflection aiming to map a vector $z$ onto $\|z\|e_1$, in class, we computed $v = \|z\|e_1 - z$ which gave a reflector matrix of
+$$ P = I - 2\frac{vv^T}{v^Tv}. $$
+
+\noindent (i) Calculate the Householder reflector matrix $P$ such that
+$$ P \begin{bmatrix} 6\\ -2\\ 9\end{bmatrix} = \begin{bmatrix} 11\\ 0\\ 0\end{bmatrix}.$$
+
+\noindent (ii) Prove the claim in lecture that for any $z\in \mathbb{R}^n$, this $P$ will always symmetric and orthogonal.\\
+
+\noindent (iii) Devise an example $z$ where $v = \|z\|e_1 - z$ has a subtractive cancellation occur.\\
+
+\noindent (iv) In such a case, QR-factorization implementations typically will map $z$ onto $-\|z\|e_1$ instead (giving $v = -\|z\|e_1-z$). Prove at least one of these two options will avoid having a bad subtractive cancellation occur. That is, show that either
+$$ \frac{\|\|z\|e_1 - z\|_2}{\|z\|_2} \geq 1 \qquad \text{or} \qquad \frac{\|-\|z\|e_1 - z\|_2}{\|z\|_2} \geq 1 \ . $$
+
+
+\end{document} 

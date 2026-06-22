@@ -1,0 +1,136 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 11}
+\date{Due: Friday, Apr 17, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+  \item Textbook Exercise 6.4.1a
+        \begin{solution}
+          $u_1 = \boxed{1.92}$ at $t_1 = 0.2$.
+
+          Exact: $\hat{u}(0.2) = 2e^{-0.04} \approx 1.9216$; error $\approx 0.0016$.
+        \end{solution}
+  \item Textbook Exercise 6.4.2a
+        \begin{solution}
+          $u_1 = \boxed{1.92}$ at $t_1 = 0.2$.
+
+          Exact: $\hat{u}(0.2) = 2e^{-0.04} \approx 1.9216$; error $\approx 0.0016$.
+        \end{solution}
+  \item Textbook Exercise 6.4.6a
+        \begin{solution}
+          $k_1 = 0$, $k_2 = -0.4$, $k_3 = -0.392$, $k_4 = -0.76864$.
+
+          $u_1 = \boxed{1.9216}$ at $t_1 = 0.2$ (essentially exact; error $\approx 0$).
+        \end{solution}
+  \item Textbook Exercise 6.4.11
+        \begin{solution}
+          \textbf{(a)}
+          \[
+            \frac{u_{i+1}}{u_i} = 1 + ch + \frac{(ch)^2}{2}
+          \]
+
+          \textbf{(b)} When $ch = -3$: $\dfrac{u_{i+1}}{u_i} = 1 - 3 + \dfrac{9}{2} = 2.5$, so $u_i = (2.5)^i \to \infty$.
+          The exact solution is $\hat{u}(t) = e^{ct} \to 0$ since $c < 0$.
+          The method is unstable for $ch = -3$.
+        \end{solution}
+
+
+  \item It is possible to generalize Euler's method using any finite difference approximation to $u''(t)$.
+        \begin{parts}
+          \part Let $k \in (0, 1)$ be a constant. Construct a FD approximation for $u''(t)$ using $u'(t)$ and $u'(t+kh)$.
+          \part Derive a new one-step method for solving $u' = f(t,u)$.
+          \part What is the order of accuracy of this method?
+          \part Write the Butcher tableau for this method.
+        \end{parts}
+
+        \begin{solution}
+          \begin{parts}
+            \part $\displaystyle u''(t) = \frac{u'(t+kh) - u'(t)}{kh} + O(h)$
+            \part
+            \begin{align*}
+              k_1     & = hf(t_i, u_i) \\
+              k_2     & = hf(t_i + kh,\, u_i + k\, k_1) \\
+              u_{i+1} & = u_i + \left(1 - \frac{1}{2k}\right) k_1 + \frac{1}{2k} k_2
+            \end{align*}
+            \part Order 2.
+            \part
+            \[
+              \begin{array}{c|cc}
+                0 &                  &              \\[0.5em]
+                k & k                &              \\[0.5em]
+                \hline
+                  & 1 - \frac{1}{2k} & \frac{1}{2k} \\
+              \end{array}
+            \]
+          \end{parts}
+        \end{solution}
+  \item The classic Runge-Kutta method (called the 3/8th rule) uses a slightly different Butcher tableau than the one we discussed in class:
+        \[
+          \begin{array}{c|cccc}
+            0   &      &     &           \\[0.5em]
+            1/3 & 1/3  &     &           \\[0.5em]
+            2/3 & -1/3 & 1   &           \\[0.5em]
+            1   & 1    & -1  & 1         \\[0.5em]
+            \hline
+                & 1/8  & 3/8 & 3/8 & 1/8 \\
+          \end{array}
+        \]
+        Note that any \emph{missing} entries in the Butcher tableau are assumed to be zero.
+        \begin{parts}
+          \part Explicitly write out the update formula for this method.
+          \part What integration method does this correspond to when applied to the integral form of the IVP? (This is in fact another numerical integration method called Simpson's 3/8th rule.)
+        \end{parts}
+        \begin{solution}
+          \begin{parts}
+            \part
+            \begin{align*}
+              k_1     & = hf(t_i, u_i) \\
+              k_2     & = hf\!\left(t_i + \tfrac{h}{3},\, u_i + \tfrac{1}{3}k_1\right) \\
+              k_3     & = hf\!\left(t_i + \tfrac{2h}{3},\, u_i - \tfrac{1}{3}k_1 + k_2\right) \\
+              k_4     & = hf\!\left(t_i + h,\, u_i + k_1 - k_2 + k_3\right) \\
+              u_{i+1} & = u_i + \tfrac{1}{8}k_1 + \tfrac{3}{8}k_2 + \tfrac{3}{8}k_3 + \tfrac{1}{8}k_4
+            \end{align*}
+            \part Simpson's 3/8th rule:
+            \[
+              \int_{t_i}^{t_{i+1}} u'(t)\,dt \approx \frac{h}{8}\left[f(t_i) + 3f\!\left(t_i+\tfrac{h}{3}\right) + 3f\!\left(t_i+\tfrac{2h}{3}\right) + f(t_{i+1})\right]
+            \]
+          \end{parts}
+        \end{solution}
+
+  \item Jupyter Notebook
+
+\end{enumerate}
+
+\section*{Quiz Information}
+
+The quiz will be held on {\bf Tuesday, April 21, 2026} during the discussion section.
+
+Quiz questions will be modifications of the {\it homework problems and material discussed in class}.
+
+\textbf{Topics covered:}
+
+Chapters 6.4
+
+\begin{itemize}
+  \item Runge-Kutta methods for solving IVPs
+\end{itemize}
+
+You should also review Chapter 5.4 on finite difference approximations for derivatives.
+You should memorize the basic Euler's method. I'll provide a Butcher tableau for any other methods that I ask about on the quiz.
+
+
+
+\end{document}

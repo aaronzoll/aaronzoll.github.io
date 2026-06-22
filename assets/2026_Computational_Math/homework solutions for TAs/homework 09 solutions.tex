@@ -1,0 +1,178 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 08}
+\date{Due: Friday, Apr 03, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+    \item Textbook Exercise 5.6.2
+
+          \begin{solution}
+              The Euler--Maclaurin expansion for the trapezoid formula is:
+              \[
+                  T_f(h) = I_f + \frac{h^2}{12}[f'(b) - f'(a)] + O(h^4)
+              \]
+
+              To cancel the $h^2$ term, we approximate the derivatives using finite differences.
+
+              \textbf{Forward difference at $t_0 = a$:}
+              \[
+                  f'(t_0) \approx \frac{-3f(t_0) + 4f(t_1) - f(t_2)}{2h}
+              \]
+
+              \textbf{Backward difference at $t_n = b$:}
+              \[
+                  f'(t_n) \approx \frac{3f(t_n) - 4f(t_{n-1}) + f(t_{n-2})}{2h}
+              \]
+
+              Therefore:
+              \[
+                  f'(t_n) - f'(t_0) \approx \frac{1}{2h}\left[3(f(t_n) + f(t_0)) - 4(f(t_{n-1}) + f(t_1)) + (f(t_{n-2}) + f(t_2))\right]
+              \]
+
+              The correction term is:
+              \[
+                  \frac{h^2}{12}[f'(t_n) - f'(t_0)] \approx \frac{h^2}{12} \cdot \frac{1}{2h}\left[3(f(t_n) + f(t_0)) - 4(f(t_{n-1}) + f(t_1)) + (f(t_{n-2}) + f(t_2))\right]
+              \]
+              \[
+                  = \frac{h}{24}\left[3(f(t_n) + f(t_0)) - 4(f(t_{n-1}) + f(t_1)) + (f(t_{n-2}) + f(t_2))\right]
+              \]
+
+              Subtracting this correction from $T_f(h)$ gives:
+              \[
+                  G_f(h) = T_f(h) - \frac{h}{24}\left[3(f(t_n) + f(t_0)) - 4(f(t_{n-1}) + f(t_1)) + (f(t_{n-2}) + f(t_2))\right]
+              \]\end{solution}
+
+    \item Textbook Exercise 5.6.4
+
+          \begin{solution}
+
+              \noindent \textbf{(a) Verification of Interpolation} \\
+              To show that $p(x)$ interpolates the points $(-h, \alpha)$, $(0, \beta)$, and $(h, \gamma)$, we evaluate:
+              \begin{align*}
+                  p(0)  & = \beta + \frac{\gamma - \alpha}{2h}(0) + \frac{\alpha - 2\beta + \gamma}{2h^2}(0)^2 = \beta \\
+                  p(-h) & = \beta + \frac{\gamma - \alpha}{2h}(-h) + \frac{\alpha - 2\beta + \gamma}{2h^2}(-h)^2       \\
+                        & = \beta - \frac{\gamma - \alpha}{2} + \frac{\alpha - 2\beta + \gamma}{2} = \alpha            \\
+                  p(h)  & = \beta + \frac{\gamma - \alpha}{2h}(h) + \frac{\alpha - 2\beta + \gamma}{2h^2}(h)^2         \\
+                        & = \beta + \frac{\gamma - \alpha}{2} + \frac{\alpha - 2\beta + \gamma}{2} = \gamma
+              \end{align*}
+
+              \vspace{1em}
+              \noindent \textbf{(b) Integration of $p(s)$} \\
+              Integrating the quadratic polynomial over $[-h, h]$:
+              \begin{align*}
+                  \int_{-h}^{h} p(s) \, ds & = \int_{-h}^{h} \left( \beta + \frac{\gamma - \alpha}{2h}s + \frac{\alpha - 2\beta + \gamma}{2h^2}s^2 \right) ds                                                                         \\
+                                           & = \left[ \beta s + \frac{\gamma - \alpha}{4h}s^2 + \frac{\alpha - 2\beta + \gamma}{6h^2}s^3 \right]_{-h}^{h}                                                                             \\
+                                           & = \left( \beta h + \frac{\gamma - \alpha}{4}h + \frac{\alpha - 2\beta + \gamma}{6}h \right) - \left( -\beta h + \frac{\gamma - \alpha}{4}h - \frac{\alpha - 2\beta + \gamma}{6}h \right) \\
+                                           & = 2\beta h + \frac{\alpha - 2\beta + \gamma}{3}h                                                                                                                                         \\
+                                           & = \frac{h}{3}(6\beta + \alpha - 2\beta + \gamma) = \frac{h}{3}(\alpha + 4\beta + \gamma)
+              \end{align*}
+
+              \vspace{1em}
+              \noindent \textbf{(c) Local Simpson's Rule} \\
+              Using $s = x - t_i$, we map $[t_{i-1}, t_{i+1}]$ to $[-h, h]$. With $\alpha = f(t_{i-1})$, $\beta = f(t_i)$, and $\gamma = f(t_{i+1})$:
+              \begin{align*}
+                  \int_{t_{i-1}}^{t_{i+1}} f(x) \, dx \approx \frac{h}{3}[f(t_{i-1}) + 4f(t_i) + f(t_{i+1})]
+              \end{align*}
+
+              \vspace{1em}
+              \noindent \textbf{(d) Composite Simpson's Rule} \\
+              Summing over $m$ subintervals where $n=2m$:
+              \begin{align*}
+                  \int_{a}^{b} f(x) \, dx & = \sum_{j=1}^{m} \int_{t_{2j-2}}^{t_{2j}} f(x) \, dx                                \\
+                                          & \approx \sum_{j=1}^{m} \frac{h}{3} [f(t_{2j-2}) + 4f(t_{2j-1}) + f(t_{2j})]         \\
+                                          & = \frac{h}{3} [f(t_0) + 4f(t_1) + 2f(t_2) + 4f(t_3) + \dots + 4f(t_{n-1}) + f(t_n)]
+              \end{align*}
+
+          \end{solution}
+
+    \item Textbook Exercise 5.6.5
+
+          \begin{solution}
+              \noindent \textbf{Equivalence of Simpson's Rule and Trapezoidal Extrapolation} \\
+
+              Let $h$ be the step size for $2n$ intervals, with nodes $t_0, t_1, \dots, t_{2n}$.
+
+              The composite trapezoidal rule with $2n$ intervals:
+              \[
+                  T_f(2n) = \frac{h}{2} \left[ f(t_0) + 2\sum_{i=1}^{2n-1} f(t_i) + f(t_{2n}) \right]
+              \]
+
+              With $n$ intervals (step $2h$, even nodes):
+              \[
+                  T_f(n) = h \left[ f(t_0) + 2\sum_{j=1}^{n-1} f(t_{2j}) + f(t_{2n}) \right]
+              \]
+
+              Simpson's rule via extrapolation:
+              \[
+                  S_f(n) = \frac{4}{3}T_f(2n) - \frac{1}{3}T_f(n)
+              \]
+
+              Substitute and combine terms:
+              \begin{align*}
+                  S_f(n) & = \frac{4}{3} \cdot \frac{h}{2} \left[ f(t_0) + 2\sum_{i=1}^{2n-1} f(t_i) + f(t_{2n}) \right] - \frac{1}{3} h \left[ f(t_0) + 2\sum_{j=1}^{n-1} f(t_{2j}) + f(t_{2n}) \right] \\
+                         & = \frac{h}{3} \left[ f(t_0) + 4\sum_{j=1}^{n} f(t_{2j-1}) + 2\sum_{j=1}^{n-1} f(t_{2j}) + f(t_{2n}) \right]
+              \end{align*}
+
+              This is the standard composite Simpson's rule.
+              \[
+                  S_f(n) = \frac{h}{3} \left[ f(t_0) + 4f(t_1) + 2f(t_2) + \cdots + 4f(t_{2n-1}) + f(t_{2n}) \right]
+              \]
+          \end{solution}
+
+    \item Textbook Exercise 5.6.9
+          \begin{solution}
+              Using Richardson extrapolation on the Romberg method, we have:
+              \begin{align*}
+                  \int_{a}^{b} f(x) \, dx   & = R_f(4n) + Ch^6 + O\left(h^8\right)                                  \\
+                  \implies
+                  \int_{a}^{b} f(x) \, dx   & = R_f(8n) + C\frac{h^6}{2^6} + O\left(h^8\right)                      \\
+                  \implies
+                  63\int_{a}^{b} f(x) \, dx & = 64 R_f(8n) - R_f(4n) + O\left(h^8\right)                            \\
+                  \implies
+                  \int_{a}^{b} f(x) \, dx   & = \frac{\left( 64 R_f(8n) - R_f(4n) \right)}{63}  + O\left(h^8\right)
+              \end{align*}
+              So,
+              $\dfrac{\left( 64 R_f(8n) - R_f(4n) \right)}{63}$ is an $O(h^8)$ approximation to the integral.
+          \end{solution}
+
+    \item Jupyter Notebook
+
+\end{enumerate}
+
+
+\section*{Quiz Information}
+
+The quiz will be held on {\bf Tuesday, April 07, 2026} during the discussion section.
+
+Quiz questions will be modifications of the {\it homework problems and material discussed in class}.
+
+\textbf{Topics covered:}
+
+Chapters 5.6
+
+\begin{itemize}
+    \item Numerical integration: trapezoidal rule, Simpson's rule etc.
+    \item Convergence analysis of numerical integration methods
+\end{itemize}
+
+Please memorize the formulas for trapezoidal rule and Simpson's rule, and the general form of the Euler-Maclaurin formula for the error of numerical integration methods.
+
+
+
+
+\end{document}

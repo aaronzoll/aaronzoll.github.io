@@ -1,0 +1,158 @@
+\documentclass[reqno]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 01}
+\date{Due: Friday, January 30, 2025, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+\item Suppose you have a machine that works in \textit{base 10} instead of \textit{base 2}. In this case, the floating point representation of a non-zero real number would be of the form
+\begin{align*}
+  \pm(a + f) \times 10^n,
+\end{align*}
+where $f \in [0, 1)$ is the fractional part. This is nothing but the standard scientific notation. Note that this representation is unique for every non-zero real number.
+
+\begin{enumerate}
+  \item What values can the integer $a$ take?
+  \item What values can each $b_i$ take in the fractional part $f = 0.b_1 b_2 b_3 \ldots$?
+\end{enumerate}
+
+Suppose the machine has precision $d = 3$, so that $f = 0.b_1 b_2 b_3$. Let $\mathbb{F}$ denote the set of all floating point numbers representable on this machine.
+
+\begin{enumerate}[resume]
+  \item What is the machine epsilon $\epsilon_{\text{mach}}$?
+  \item How many elements of $\mathbb{F}$ are there in the real interval $[1, 100]$, including the endpoints? (Hint: Consider how many representable numbers exist for each exponent $n$.)
+  \item What is the element of $\mathbb{F}$ closest to the real number $1/3$? 
+  \item What is the smallest positive integer not in $\mathbb{F}$? (Hint: For what value of the exponent does the spacing between consecutive floating point numbers become larger than 1?)
+\end{enumerate}
+
+Suppose any information beyond the $d=3$ precision is simply lost (truncated rather than rounded). Let $a = 823.42$, $b = 723.45234$, and $c = 723.45$. Compute the following, showing intermediate steps:
+
+\begin{enumerate}[resume]
+  \item $a + (b - c)$
+  \item $(a + b) - c$
+\end{enumerate}
+
+\begin{solution}
+\begin{enumerate}
+  \item Since $f \in [0,1)$, we require $a + f \in [1, 10)$ for a unique representation. Thus $a \in \{1, 2, 3, 4, 5, 6, 7, 8, 9\}$.
+  
+  \item Each $b_i$ is a base-10 digit, so $b_i \in \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}$.
+  
+  \item Machine epsilon is the smallest $\epsilon$ such that $1 + \epsilon > 1$ in $\mathbb{F}$. The next representable number after $1.000 \times 10^0$ is $1.001 \times 10^0$. Hence $\epsilon_{\text{mach}} = 10^{-d} = 10^{-3} = 0.001$.
+  
+  \item The set $[1, 100]$ is the union of $[10^0, 10^1)$, $[10^1, 10^2)$, and the endpoint $100$. Each half-open interval $[10^n, 10^{n+1})$ contains $9 \times 10^d$ numbers, since the mantissa $a + f$ ranges over $[1, 10)$ with $10^d$ choices for each leading digit $a \in \{1, \ldots, 9\}$. Hence the count is $2 \cdot 9 \times 10^3 + 1 = 18001$.
+  
+  \item Since $1/3 \approx 0.333\ldots \in [10^{-1}, 10^0)$, take $n = -1$. Elements there have the form $10^{-1}(a + f)$ with $a \in \{1, \ldots, 9\}$ and $f = 0.b_1 b_2 b_3$. We need $a = 3$ and $f$ close to $0.333$. Candidates are $3.333 \times 10^{-1} = 0.3333$ and $3.334 \times 10^{-1} = 0.3334$. Since $1/3 = 0.333\ldots$, the nearer value is $3.333 \times 10^{-1}$.
+  
+  \item In $[10^n, 10^{n+1})$ the spacing between consecutive numbers is $10^{n-d}$. At $n = d = 3$, the spacing equals $10^0 = 1$, so all integers from $10^3$ to $10^4 - 1$ appear. At $n = d + 1 = 4$, the spacing is $10^1 = 10$, so only multiples of 10 appear. The smallest missing positive integer is therefore $10^{d+1} + 1 = 10001$.
+  
+\item Computing $a + (b - c)$:
+  \begin{align*}
+    b &= 723.45234 = 7.2345234 \times 10^{2} \quad \text{truncated:} \quad 7.234 \times 10^{2} \\
+    c &= 723.45 = 7.2345 \times 10^{2} \quad \text{truncated:} \quad 7.234 \times 10^{2} \\
+    b - c &= 7.234 \times 10^{2} - 7.234 \times 10^{2} = 0 \\
+    a + (b - c) &= 823.4 + 0 = 8.234 \times 10^{2} \\
+    \text{truncated:} & \quad \boxed{8.234 \times 10^{2}}
+  \end{align*}
+  
+  \item Computing $(a + b) - c$:
+  \begin{align*}
+    a &= 823.4 = 8.234 \times 10^{2} \quad \text{truncated:} \quad 8.234 \times 10^{2} \\
+    b &= 723.45234 = 7.2345234 \times 10^{2} \quad \text{truncated:} \quad 7.234 \times 10^{2} \\
+    a + b &= 8.234 \times 10^{2} + 7.234 \times 10^{2} = 1546.8 = 1.5468 \times 10^3 \\
+    \text{truncated:} & \quad 1.546 \times 10^3 \\
+    (a + b) - c &= 1.546 \times 10^{3} - 7.234 \times 10^{2} = 822.6 = 8.226 \times 10^{2} \\
+    \text{truncated:} & \quad \boxed{8.226 \times 10^{2}}
+  \end{align*}
+
+\end{enumerate}
+\end{solution}
+
+
+\item Textbook Exercise 1.1.1
+
+\begin{solution}
+  \begin{enumerate}
+    \item The set $[1/2,4]$ is the union of $[2^{-1},1)$, $[1,2)$, $[2,4)$ and the endpoint $4$. Each half-open interval $[2^n,2^{n+1})$ contains $2^d$ numbers. Hence the count is $3\cdot 2^4 + 1 = 48$.
+    \item Since $1/10 \in [2^{-4},2^{-3})$, take $n=-4$. Elements there have the form $2^{-4}(1+z/2^d)$ with $z\in\{0,\dots,2^d-1\}$. Now use $2^{-4}(1+z/16)$; taking $z\in\{9,10\}$ gives $25/256=0.09765625$ and $13/128=0.1015625$. The nearer to $0.1$ is $13/128$.
+    \item In $[2^n,2^{n+1})$ the spacing is $2^{n-d}$. At $n=d$ the spacing equals $1$, so all integers from $2^d$ to $2^{d+1}-1$ appear. At $n=d+1$ the spacing is $2$ and only even integers appear, so the smallest missing positive integer is $2^{d+1}+1$. With $d=4$ this is $33$.
+\end{enumerate}
+
+\end{solution}
+
+\item Textbook Exercise 1.1.4 (Express your answer using powers of 2. No need to write out all the digits.)
+\begin{solution}
+\begin{enumerate}
+  \item The first single-precision number greater than 1 has the form $1 + 2^{-d} = 1 + 2^{-23}$. This also gives us $\epsilon_{\text{mach}} = 2^{-23}$.
+  
+  \item In $[2^n, 2^{n+1})$ the spacing between consecutive numbers is $2^{n-d} = 2^{n-23}$. At $n = d = 23$, the spacing equals $2^0 = 1$, so all integers from $2^{23}$ to $2^{24} - 1$ appear. At $n = d + 1 = 24$, the spacing is $2^1 = 2$, so only even integers appear. The smallest missing positive integer is therefore $2^{24} + 1$.
+\end{enumerate}
+
+\end{solution}
+
+\item
+
+Jupyter notebook.
+
+\end{enumerate}
+
+
+\newpage
+\section*{Homework Grading Policy}
+
+Your homework will be graded based on ``honest attempts''.
+This means that you will not lose points for mistakes as long as you have attempted each problem with sufficient detail and effort.
+The purpose of this policy is to:
+\begin{enumerate}
+  \item Encourage you to solve problems independently without relying on AI tools for the mathematical work.
+  \item Avoid penalizing students who work without artificial assistance and may make more mistakes as part of the learning process.
+\end{enumerate}
+
+\section*{Quiz Information}
+
+The quiz will be held on {\bf Tuesday, February 3, 2026} during the discussion section.
+
+Quiz questions will be modifications of the homework problems and will cover all topics discussed in class related to this material. Students who rely on automated solutions to complete this homework will likely struggle on the quiz, as it requires genuine understanding of the concepts.
+
+\textbf{Topics covered:} Section 1.1 
+
+
+\section*{Submission Instructions}
+
+\begin{itemize}
+  \item All homework (written and coding) must be submitted on Gradescope as a \textbf{single PDF} file.
+
+  \item For the Jupyter Notebook component:
+        \begin{itemize}
+          \item Follow all instructions in the notebook.
+          \item Include relevant lines of code, outputs, and any requested plots.
+          \item Respond to questions using markdown cells where applicable.
+          \item \textbf{Note:} You are welcome to use AI tools (such as HopGPT or Copilot) for programming tasks, as coding proficiency is not being tested in this course. However, ensure you understand the outputs and can interpret the results.
+        \end{itemize}
+
+  \item Converting your notebook to PDF:
+        \begin{itemize}
+          \item \textbf{Jupyter:} Open your notebook in a web browser and use the browser's ``Print to PDF'' function.
+
+          \item \textbf{VS Code:} Export your finished notebook to HTML, open it in a browser, and use ``Print to PDF.''
+
+          \item \textbf{Quarto:} Use the command \texttt{quarto render notebook.ipynb --to pdf} to directly convert your notebook to PDF.
+        \end{itemize}
+
+  \item Ensure your PDF is properly formatted and not excessively tall or narrow. Check that all content is clearly visible before submitting.
+\end{itemize}
+\end{document}

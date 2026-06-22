@@ -1,0 +1,303 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}
+%\usepackage{enumerate}
+\usepackage[shortlabels, inline]{enumitem}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{comment}
+
+\usepackage{listings}
+\lstset{language=Python, numbers=left, basicstyle=\ttfamily, keywordstyle=\color{blue}, showstringspaces=false}
+
+\usepackage[style=alphabetic-verb]{biblatex}
+% \bibliography{Problems/ref.bib}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\K}{\mathbb{K}}
+\renewcommand{\div}{\mid}
+\newcommand{\ndiv}{\nmid}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\F}{\mathcal{F}}
+
+
+\DeclareMathOperator{\id}{Id}
+\DeclareMathOperator{\tr}{Tr}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\acosh}{acosh}
+
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\newcommand{\subtag}[1]{\tag{\theparentequation#1}}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\usepackage{subfiles}
+\usepackage{subcaption}
+\makeatletter
+\newcommand\nocaption{
+    \renewcommand\p@subfigure{}
+    \renewcommand{\thesubfigure}{\arabic{figure}\alph{subfigure}}
+}
+\makeatother
+
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+
+\title{Intro to Computational Mathematics: Section 1}
+\date{August 2025}
+
+\begin{document}
+\maketitle
+
+
+
+\begin{problem}{1.2.1}
+    Use \href{https://fncbook.com/conditioning/#conditionderiv}{(1.2.6)} to derive the relative condition numbers of the following functions appearing in \href{https://fncbook.com/conditioning/#table-condition-functions}{Table 1.2.1}.
+
+\begin{center}
+\begin{enumerate*}[(a),itemjoin=\qquad]
+    \item $f(x) = x^p$,
+    \item $f(x) = \log(x)$, 
+    \item $f(x) = \cos(x)$,
+    \item $f(x) = e^x$.
+\end{enumerate*}
+\end{center}
+\end{problem}
+\begin{proof}[Solution]
+The condition number of a function $f(x)$ is given by: $\kappa_f = \abs{\frac{xf'(x)}{f(x)}}$
+\begin{enumerate}[(a)]
+    \item $\kappa_{x^p}(x) = \abs{\frac{(x)(px^{p-1})}{x^p}} = \abs{p}$
+    \item $\kappa_{\log(x)}(x) = \abs{\frac{(x)(\frac{1}{x})}{\log(x)}} = \abs{\frac{1}{\log(x)}}$
+    \item $\kappa_{\cos(x)}(x) = \abs{\frac{(x)(-\sin(x))}{\cos(x)}} = \abs{x\tan(x)}$
+    \item $\kappa_{e^x}(x) = \abs{\frac{(x)(e^x)}{e^x}} = \abs{x}$
+\end{enumerate}
+\end{proof}
+
+
+
+\begin{problem}{1.2.5}
+    Suppose that $f$ is a function with relative condition number $\kappa_f$, and that $f^{-1}$ is its inverse function. Show that the relative condition number of $f^{-1}$ satisfies 
+    \begin{align}
+        \kappa_{f^{-1}}(x) = \frac{1}{\kappa_f\left(f^{-1}(x)\right)},\tag{1.2.15}
+    \end{align}
+    provided the denominator is nonzero.
+\end{problem}
+\begin{proof}[Solution]
+We first compute the derivative of $f^{-1}(x)$ using the chain rule as follows:
+\begin{align*}
+    f(f^{-1}(x)) &= x \\
+    \frac{d}{dx}[f(f^{-1}(x)] &= \frac{d}{dx}[x] \\
+    f'(f^{-1}(x)) \cdot (f^{-1})'(x) &= 1 \\
+    (f^{-1})'(x) &= \frac{1}{f'(f^{-1}(x))}
+\end{align*}
+We use this to compute $\kappa_{f^{-1}}(x)$ as:
+\begin{align*}
+    \kappa_{f^{-1}}(x) &= \abs*{\frac{x(f^{-1})'(x)}{f^{-1}(x)}} \\
+    &= \abs*{\frac{x}{(f'(f^{-1}(x))) \cdot (f^{-1}(x))}} \\
+    &= \abs*{\frac{f(y)}{f'(y) \cdot y}} \hspace{1cm} \text{by setting $y = f^{-1}(x)$} \\
+    &= \frac{1}{\kappa_f(y)} \\
+    &= \frac{1}{\kappa_f(f^{-1}(x))}
+\end{align*}
+\end{proof}
+
+
+
+\begin{problem}{1.4.1}
+    The formulas
+    \begin{align*}
+        f(x) = \frac{1 - \cos(x)}{\sin(x)}, &\qquad g(x) = \frac{2\sin^2(x/2)}{\sin(x)},
+    \end{align*}
+    are mathematically equivalent, but they suggest evaluation algorithms that can behave quite differently in floating point.
+    \begin{enumerate}[(a)]
+        \item Using \href{https://fncbook.com/conditioning#conditionderiv}{(1.2.6)}, find the relative condition number of $f$. (Because $f$ and $g$ are equivalent, the condition number of $g$ is the same.) Show that it approaches $1$ as $x \rightarrow 0$. (Hence it should be possible to compute the function accurately near zero.)
+        \item Compute $f(10^{-6})$ using a sequence of four elementary operations. Using \href{https://fncbook.com/conditioning#table-condition-functions}{Table 1.2.1}, make a table like the one in \href{https://fncbook.com/stability/#demo-stability-quadbad}{Example 1.4.1} that shows the result of each elementary result and the numerical value of the condition number of that step.
+        \item Repeat part (b) for $g(10^{-6})$, which has six elementary steps.
+        \item Based on parts (b) and (c), is the numerical value of $f(10^{-6})$ more accurate or is $g(10^{-6})$ more accurate?
+    \end{enumerate}
+\end{problem}
+\begin{proof}{Solution}
+\begin{enumerate}[(a)]
+\item We first compute $\kappa_f(x)$:
+\begin{align*}
+    \kappa_f(x) &= \abs*{\frac{x\left(\frac{\sin^2(x) - (\cos(x) - \cos^2(x))}{\sin^2(x)}\right)}{\frac{1 - \cos(x)}{\sin(x)}}} \\
+    &= \abs*{\frac{x\left(\frac{1-\cos(x)}{\sin^2(x)}\right)}{\frac{1 - \cos(x)}{\sin(x)}}} \\
+    &= \abs*{x \cdot \frac{1-\cos(x)}{\sin^2(x)} \cdot \frac{\sin(x)}{1 - \cos(x)}} \\
+    &= \abs*{\frac{x}{\sin(x)}}
+\end{align*}
+We then compute $\lim_{x \rightarrow 0} \kappa_f(x)$:
+\begin{align*}
+    \lim_{x \rightarrow 0} \kappa_f(x) &= \lim_{x \rightarrow 0} \abs*{\frac{x}{\sin(x)}} \\
+    &= \lim_{x \rightarrow 0} \abs*{\frac{1}{\cos(x)}} & \text{By L'Hospital Rule}\\
+    &= 1
+\end{align*}
+\item
+\begin{tabular}{c | c | c}
+    Calculation & Result & $\kappa$ \\\hline
+    $u_1 = \cos(x)$ & 0.9999999999995 & $\approx 10^{-12}$ \\
+    $u_2 = \sin(x)$ & 9.999999999998333e-07 & $\approx 1$ \\
+    $u_3 = 1 - u_1$ & 5.000444502911705e-13 & $\approx 10^{12}$ \\
+    $u_4 = u_3/u_2$ & 5.000444502912538e-07 & 1
+\end{tabular}
+\item \begin{tabular}{c | c | c}
+    Calculation & Result & $\kappa$ \\\hline
+    $v_1 = x/2$ & 5e-07 & 1 \\
+    $v_2 = \sin(v_1)$ & 4.999999999999791e-07 & $\approx 1$ \\
+    $v_3 = v_2^2$ & 2.4999999999997914e-13 & 2 \\
+    $v_4 = 2v_3$ & 4.999999999999583e-13 & 1 \\
+    $v_5 = \sin(x)$ & 9.999999999998333e-07 & $\approx 1$ \\
+    $v_6 = v_4/v_5$ & 5.000000000000416e-07 & 1
+\end{tabular}
+\item Based on parts (b) and (c), we should expect numerical value of $g(10^{-6})$ to be much more accurate than that of $f(10^{-6})$.
+\end{enumerate}
+
+\begin{lstlisting}
+import math
+
+x = 10**-6
+
+# Calculating f(x)
+u1 = math.cos(x)
+print("u1 = " + str(u1))
+print("K_cos(x) = " + str(x * math.tan(x)))
+print()
+
+u2 = 1 - u1
+print("u2 = " + str(u2))
+print("K_{1 - u1}(u1) = " + str(abs(u1)/(abs(u1 - 1))))
+print()
+
+u3 = math.sin(x)
+print("u3 = " + str(u3))
+print("K_sin(x) = " + str(abs(x/math.tan(x))))
+print()
+
+f = u2/u3
+print("f = " + str(f))
+print("K_{u2/u3} = 1")
+print()
+print("--------------------------------------")
+
+
+# Calculating g(x)
+v1 = x/2
+print("v1 = " + str(v1))
+print("K_{x/2}(x) = 1")
+print()
+
+v2 = math.sin(v1)
+print("v2 = " + str(v2))
+print("K_sin(v1) " + str(abs(v1/math.tan(v1))))
+print()
+
+v3 = v2**2
+print("v3 = " + str(v3))
+print("K_{x^2}(v2) = 2")
+print()
+
+v4 = 2*v3
+print("v4 = " + str(v4))
+print("K_{2*v3}(v3) = 1")
+print()
+
+v5 = math.sin(x)
+print("v5 = " + str(v5))
+print("K_sin(x) " + str(abs(x/math.tan(x))))
+print()
+
+g = v4/v5
+print("g = " + str(g))
+print("K_{v4/v5}(x) = 1")
+print()
+\end{lstlisting}
+
+\end{proof}
+
+
+
+\begin{problem}{1.4.3}
+    The function $$x = \cosh(y) = \frac{e^y + e^{-y}}{2}$$ can be inverted to yield a formula for $\acosh(x)$: 
+    \begin{align}
+        y = \acosh(x) = -\log(x - \sqrt{x^2 - 1}).\tag{1.4.4}
+    \end{align}
+    For the steps below, define $y_i = -4i$ and $x_i = \cosh(y_i)$ for $i = 1, \ldots, 4$. Hence $y_i = \acosh(x_i)$.
+
+    \begin{enumerate}[(a)]
+        \item Find the relative condition number of evaluating $f(x) = \acosh(x)$. (You can use \href{https://fncbook.com/stability/#acosh}{(1.4.4)} or look up a formula for $f'$ in a calculus book.) Evaluate $\kappa_f$ at all the $x_i$. (You will find that $\kappa$ is less than 20 at these inputs, so the conditioning is fine.)
+        \item Use \href{https://fncbook.com/stability/#acosh}{(1.4.4)} to approximate $f(x_i)$ for all $i$. Compute the relative accuracy of the results. Why are some of the results so inaccurate?
+        \item An alternative formula is
+        \begin{align}
+            y = 2\log\left(\sqrt{\frac{x+1}{2}} + \sqrt{\frac{x-1}{2}}\right).\tag{1.4.5}
+        \end{align}
+        Apply \href{https://fncbook.com/stability/#acosh2}{(1.4.5)} to approximate $f(x_i)$ for all $i$, again computing the relative accuracy of the results.
+    \end{enumerate}
+\end{problem}
+\begin{proof}{Solution}
+\begin{enumerate}[(a)]
+\item
+\begin{align*}
+    \kappa_{\acosh}(x) &= \abs*{\frac{x \acosh'(x)}{\acosh(x)}} \\
+    &= \abs*{\frac{x\frac{d}{dx}[-\log(x - \sqrt{x^2 - 1})]}{-\log(x - \sqrt{x^2 - 1})}} \\
+    &= \abs*{\frac{x\left(\frac{-1}{x - \sqrt{x^2 - 1}}\right)\left(1 - \frac{2x}{2\sqrt{x^2 - 1}}\right)}{-\log(x - \sqrt{x^2 - 1})}}
+\end{align*}
+$\kappa_f([x_i])$ = [0.25016778760044417, 0.125000028160879, 0.08333337063357761, 0.062381905409054986]
+\item $f([x_i])$ = [4.000000000000046, 8.00000000017109, 12.000000137072186, 15.998624871201619]
+The inaccuracy in these results stems from subtractive cancellation (in computing $x - \sqrt{x^2 - 1}$).
+\item Following along with the code below, $g([x_i])$ = [4.0, 8.0, 12.0, 16.0].
+\end{enumerate}
+
+\begin{lstlisting}
+import math
+
+def k(x):
+    a = -1/(x - math.sqrt(x**2 - 1))
+    b = 1 - (2*x)/(2*math.sqrt(x**2 - 1))
+    c = -math.log(x - math.sqrt(x**2 - 1))
+    return abs(x * a * b/c)
+
+
+y = [-4*i for i in range(1,5)]
+x = [math.cosh(i) for i in y]
+print(x)
+
+k_x = [k(i) for i in x]
+print(k_x)
+
+f_approx = [-math.log(i - math.sqrt(i**2 - 1)) for i in x]
+print(f_approx)
+
+g_approx = [2*math.log(math.sqrt((i+1)/2) + math.sqrt((i-1)/2)) for i in x]
+print(g_approx)
+\end{lstlisting}
+\end{proof}
+
+\end{document}
+

@@ -1,0 +1,383 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}
+%\usepackage{enumerate}
+\usepackage[shortlabels, inline]{enumitem}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{comment}
+
+\usepackage{listings}
+\lstset{language=Python, numbers=left, basicstyle=\ttfamily, keywordstyle=\color{blue}, showstringspaces=false}
+
+\usepackage[style=alphabetic-verb]{biblatex}
+% \bibliography{Problems/ref.bib}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\K}{\mathbb{K}}
+\renewcommand{\div}{\mid}
+\newcommand{\ndiv}{\nmid}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\F}{\mathcal{F}}
+
+
+\DeclareMathOperator{\id}{Id}
+\DeclareMathOperator{\tr}{Tr}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\acosh}{acosh}
+
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\newcommand{\subtag}[1]{\tag{\theparentequation#1}}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\usepackage{subfiles}
+\usepackage{subcaption}
+\makeatletter
+\newcommand\nocaption{
+    \renewcommand\p@subfigure{}
+    \renewcommand{\thesubfigure}{\arabic{figure}\alph{subfigure}}
+}
+\makeatother
+
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+
+\title{Intro to Computational Mathematics: Section 3}
+\date{September 2025}
+
+\begin{document}
+\maketitle
+
+
+
+\begin{problem}{2.4.2}
+    The matrices:
+    $$\mathbf{T}(x, y) = \begin{bmatrix*}1 & 0 & 0\\0 & 1 & 0\\x & y & 1\end{bmatrix*},\qquad \mathbf{R}(\theta) = \begin{bmatrix*}\cos\theta & \sin\theta & 0\\-\sin\theta & \cos\theta & 0\\0 & 0 & 1\end{bmatrix*}$$
+    are used to represent translations and rotations of plane points in computer graphics. For the following, let
+    $$\mathbf{A} = \mathbf{T}(3, -1)\mathbf{R}(\pi/5)\mathbf{T}(-3, 1), \qquad \vec{z} = \begin{bmatrix*}2\\2\\1\end{bmatrix*}.$$
+    \begin{enumerate}[(a)]
+        \item Find $\vec{b} = \mathbf{A}\vec{z}$.
+        \item Use \href{https://fncbook.com/lu/#function-lufact}{Function 2.4.1} to find the LU factorization of $\mathbf{A}$.
+        \item Use the factors with triangular substitutions in order to solve $\mathbf{A}\vec{x} = \vec{b}$, and find $\vec{x} - \vec{z}$.
+    \end{enumerate}
+\end{problem}
+\begin{proof}[Solution]
+    The following code computes $\vec{b}$, $(\mathbf{L}, \mathbf{U})$, and $\vec{x}$ respectively. The functions \href{https://fncbook.com/linear-systems/#function-forwardsub}{forwardsub}, \href{https://fncbook.com/linear-systems/#function-backsub}{backsub}, and \href{https://fncbook.com/lu/#function-lufact}{lufact} are taken verbatim from the textbook.
+
+    The most notable step in the computation is solving $\mathbf{A}\vec{x} = \mathbf{L}\mathbf{U}\vec{x}= \vec{b}$ by using the substitution $\vec{y} = \mathbf{U}\vec{x}$ and then solving that equation separately (lines 76, 78 resp.).
+\begin{lstlisting}
+import numpy as np
+
+
+def T(x, y):
+    return np.array([[1, 0, 0], [0, 1, 0], [x, y, 1]])
+
+
+def R(theta):
+    return np.array([[np.cos(theta), np.sin(theta), 0],
+        [-np.sin(theta), np.cos(theta), 0], [0, 0, 1]])
+
+
+def lufact(A):
+    """
+    lufact(A)
+
+    Compute the LU factorization of square matrix A, returning the
+    factors.
+    """
+    n = A.shape[0]     # detect the dimensions from the input
+    L = np.eye(n)      # ones on main diagonal, zeros elsewhere
+    U = np.zeros((n, n))
+    A_k = np.copy(A.astype(float))    # make a working copy
+
+    # Reduction by np.outer products
+    for k in range(n-1):
+        U[k, :] = A_k[k, :]
+        L[:, k] = A_k[:, k] / U[k,k]
+        A_k -= np.outer(L[:,k], U[k,:])
+    U[n-1, n-1] = A_k[n-1, n-1]
+    return L, U
+
+
+def forwardsub(L, b):
+    """
+     forwardsub(L,b)
+
+    Solve the lower-triangular linear system with matrix L and right-hand side
+    vector b.
+    """
+
+    n = len(b)
+    x = np.zeros(n)
+    for i in range(n):
+        s = L[i,:i] @ x[:i]
+        x[i] = (b[i] - s) / L[i, i]
+    return x
+
+
+def backsub(U, b):
+    """
+    backsub(U,b)
+
+    Solve the upper-triangular linear system with matrix U and right-hand side
+    vector b.
+    """
+    n = len(b)
+    x = np.zeros(n)
+    for i in range(n-1, -1, -1):
+        s = U[i, i+1:] @ x[i+1:]
+        x[i] = (b[i] - s) / U[i, i]
+    return x
+
+
+theta = np.pi/5
+A = T(3, -1) @ R(theta) @ T(-3, 1)
+z = np.array([2, 2, 1])
+
+b = A@z
+print('b: ' + str(b) + '\n')
+
+L, U = lufact(A)
+print("L:\n" + str(L) + "\n\n U:\n" + str(U) + '\n')
+
+# Let y = Ux so that LUx = b --> Ly = b.
+# We solve this in two steps then: (i) Ly = b, (ii) Ux = y
+y = forwardsub(L, b)
+print('y: ' + str(y) + '\n')
+x = backsub(U, y)
+print('x: ' + str(x) + '\n')
+
+print('x - z: ' + str(x - z) + '\n')
+
+\end{lstlisting}
+Output:
+\begin{verbatim}
+b: [1.61803399 1.61803399 1.        ]
+
+L:
+[[ 1.  0.  0.]
+ [-0.  1.  0.]
+ [-0.  0.  1.]]
+
+ U:
+[[0.80901699 0.         0.        ]
+ [0.         0.80901699 0.        ]
+ [0.         0.         1.        ]]
+
+y: [1.61803399 1.61803399 1.        ]
+
+x: [2. 2. 1.]
+
+x - z: [0. 0. 0.]
+\end{verbatim}
+\end{proof}
+
+
+
+\begin{problem}{2.4.4}
+    Let
+    $$A = \begin{bmatrix*}
+        1 & 1 & 0 & 1 & 0 & 0 \\
+        0 & 1 & 1 & 0 & 1 & 0 \\
+        0 & 0 & 1 & 1 & 0 & 1 \\
+        1 & 0 & 0 & 1 & 1 & 0 \\
+        1 & 1 & 0 & 0 & 1 & 1 \\
+        0 & 1 & 1 & 0 & 0 & 1
+    \end{bmatrix*}.$$
+    Verify computationally that if $\mathbf{A} = \mathbf{L}\mathbf{U}$ is the LU factorization, then the elements of $\mathbf{L}$, $\mathbf{U}$, $\mathbf{L^{-1}}$, and $\mathbf{U}^{-1}$ are all integers. Do \textbf{not} rely just on visual inspection of the numbers; perform a more definitive test.
+\end{problem}
+\begin{proof}[Solution]
+    The following code computes $\mathbf{L}$, $\mathbf{U}$, $\mathbf{L}^{-1}$, and $\mathbf{U}^{-1}$ and checks them each for integrality:
+
+\begin{lstlisting}
+    import numpy as np
+
+
+def matrix_is_integral(A):
+    """
+    matrix_is_integral(A)
+
+    Returns True if all entries of A are integers.
+    """
+    (m, n) = np.shape(A)
+    return all([[A[i, j].is_integer() for j in range(n)] for i in range(m)])
+
+
+def lufact(A):
+    """
+    lufact(A)
+
+    Compute the LU factorization of square matrix A, returning the
+    factors.
+    """
+    n = A.shape[0]     # detect the dimensions from the input
+    L = np.eye(n)      # ones on main diagonal, zeros elsewhere
+    U = np.zeros((n, n))
+    A_k = np.copy(A.astype(float))    # make a working copy
+
+    # Reduction by np.outer products
+    for k in range(n-1):
+        U[k, :] = A_k[k, :]
+        L[:, k] = A_k[:, k] / U[k,k]
+        A_k -= np.outer(L[:,k], U[k,:])
+    U[n-1, n-1] = A_k[n-1, n-1]
+    return L, U
+
+
+A = np.array([[1, 1, 0, 1, 0, 0],
+              [0, 1, 1, 0, 1, 0],
+              [0, 0, 1, 1, 0, 1],
+              [1, 0, 0, 1, 1, 0],
+              [1, 1, 0, 0, 1, 1],
+              [0, 1, 1, 0, 0, 1]])
+
+L, U = lufact(A)
+L_inv = np.linalg.inv(L)
+U_inv = np.linalg.inv(U)
+print('L:\n' + str(L) + '\n\n')
+print('U:\n' + str(U) + '\n\n')
+print('L_inv:\n' + str(L_inv) + '\n\n')
+print('U_inv:\n' + str(U_inv) + '\n\n')
+
+# Now to verify that all elements in the array are integers:
+# For each element (LU)[i, j] we are calling the float class's .is_integer()
+# The resulting array is combined using "all()" which returns true iff all elements are True
+print('Integrality Checks:')
+print('L: ' + str(matrix_is_integral(L)))
+print('U: ' + str(matrix_is_integral(U)))
+print('L_inv: ' + str(matrix_is_integral(L_inv)))
+print('U_inv: ' + str(matrix_is_integral(U_inv)))
+
+\end{lstlisting}
+Output:
+\begin{verbatim}
+L:
+[[ 1.  0.  0. -0. -0.  0.]
+ [ 0.  1.  0. -0. -0.  0.]
+ [ 0.  0.  1. -0. -0.  0.]
+ [ 1. -1.  1.  1. -0.  0.]
+ [ 1.  0.  0.  1.  1.  0.]
+ [ 0.  1.  0. -0.  1.  1.]]
+
+
+U:
+[[ 1.  1.  0.  1.  0.  0.]
+ [ 0.  1.  1.  0.  1.  0.]
+ [ 0.  0.  1.  1.  0.  1.]
+ [ 0.  0.  0. -1.  2. -1.]
+ [ 0.  0.  0.  0. -1.  2.]
+ [ 0.  0.  0.  0.  0. -1.]]
+
+
+L_inv:
+[[ 1.  0.  0.  0.  0.  0.]
+ [ 0.  1.  0.  0.  0.  0.]
+ [ 0.  0.  1.  0.  0.  0.]
+ [-1.  1. -1.  1.  0.  0.]
+ [ 0. -1.  1. -1.  1.  0.]
+ [ 0.  0. -1.  1. -1.  1.]]
+
+
+U_inv:
+[[ 1. -1.  1.  2.  3.  5.]
+ [ 0.  1. -1. -1. -1. -2.]
+ [ 0.  0.  1.  1.  2.  4.]
+ [-0. -0. -0. -1. -2. -3.]
+ [-0. -0. -0. -0. -1. -2.]
+ [-0. -0. -0. -0. -0. -1.]]
+
+
+Integrality Checks:
+L: True
+U: True
+L_inv: True
+U_inv: True
+\end{verbatim}
+\end{proof}
+
+
+
+\begin{problem}{2.5.1}
+    The following are asymptotic assertions about the limit $n \rightarrow \infty$. In each case, prove the statement true or false.
+    
+    \begin{enumerate*}[(a),itemjoin=\qquad]
+        \item $n^2 = O(\log n)$,
+        \item $n^a = O(n^b)$ if $a \leq b$,
+        \item $e^n \sim e^{2n}$,
+        \item $n + \sqrt{n} \sim n + 2\sqrt{n}$.
+    \end{enumerate*}
+\end{problem}
+\begin{proof}{Solution}
+\begin{enumerate}[(a)]
+    \item False: $$\lim_{n \rightarrow \infty} \frac{n^2}{\log n} = \lim_{n \rightarrow \infty} \frac{2n}{\frac{1}{n}} = \lim_{n \rightarrow \infty} 2n^2 = \infty.$$ Since this is not bounded above, $n^2 \neq O(\log n)$.
+    \item True: $$\lim_{n \rightarrow \infty} \frac{n^a}{n^b} = \lim_{n \rightarrow \infty}\frac{1}{n^{b-a}} = 0$$ since $b - a > 0$. Thus $n^a = O(n^b)$.
+    \item False: $$\lim_{n \rightarrow \infty}\frac{e^n}{e^{2n}} = \lim_{n \rightarrow \infty}\frac{1}{e^n} = 0 \neq 1$$. Thus $e^n = O(e^{2n})$ but $e^n \nsim e^{2n}$.
+    \item True: $$\lim_{n \rightarrow \infty}\frac{n + \sqrt{n}}{n + 2\sqrt{n}} = \lim_{n \rightarrow \infty}\frac{1 + \frac{1}{2\sqrt{n}}}{1 + \frac{1}{\sqrt{n}}} = 1.$$ Thus $n + \sqrt{n} \sim n + 2\sqrt{n}$.
+\end{enumerate}
+\end{proof}
+
+
+
+\begin{problem}{2.5.7}
+    Show that for any nonnegative constant integer $m$, $$\sum_{k = 0}^{n - m}k^p \sim \frac{n^{p+1}}{p+1}.$$
+\end{problem}
+\begin{proof}
+    For this problem, we wish to show that:
+    \begin{align}
+        \lim_{n \rightarrow \infty} \frac{\sum_{k = 0}^{n - m}k^p}{\frac{n^{p+1}}{p+1}} &= 1 \label{eq:1}
+    \end{align}
+    To this end, we will start by noticing that since $k^p$ is monotonic increasing. This can be used to bound the relationship of the $\sum_{k=0}^{n-m} k^p$ and $\int_0^{n-m} k^p \, dk$.
+    
+    Using the left Riemann sum (drawing boxes from $(k, 0)$ to $(k+1, k^p)$, we have that $$\sum_{k = 0}^{n-m} k^p \leq \int_0^{n-m} k^p \,dk.$$
+    
+    At the same time, we can compute an upper bound on the integral using the right Riemann sum (drawing boxes from $(k, 0)$ to $(k+1, (k+1)^p)$:
+    \begin{align*}
+        \sum_{k = 0}^{n-m} (k + 1)^p &\geq \int_0^{n-m}k^p \, dk \\
+        0 + \sum_{\ell = 1}^{n+1-m} \ell^p &\geq \int_0^{n-m}k^p \, dk \\
+        \sum_{\ell = 0}^{n+1-m} \ell^p &\geq \int_0^{n-m}k^p \, dk
+    \end{align*}
+
+    Thus in the the limit we have $\sum_{k = 0}^{n-m} k^p \sim \int_0^{n-m}k^p \, dk$. We now compute:
+
+    \begin{align*}
+        \lim_{n \rightarrow \infty} \frac{\sum_{k = 0}^{n - m}k^p}{\frac{n^{p+1}}{p+1}} &= \lim_{n \rightarrow \infty} \frac{\int_{k = 0}^{n - m}k^p \, dk}{\frac{n^{p+1}}{p+1}} \\
+        &= \lim_{n \rightarrow \infty} \frac{\frac{k^{p+1}}{p+1}\bigg\rvert_0^{n-m}}{\frac{n^{p+1}}{p+1}} \\
+        &= \lim_{n \rightarrow \infty} \frac{(n-m)^{p+1}}{n^{p+1}} \\
+        &= \lim_{n \rightarrow \infty} (\frac{n-m}{n})^{p+1} \\
+        &= \lim_{n \rightarrow \infty} (1 - \frac{m}{n})^{p+1} \\
+        &= 1
+    \end{align*}
+\end{proof}
+
+\end{document}
+

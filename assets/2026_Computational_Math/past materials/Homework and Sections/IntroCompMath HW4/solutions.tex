@@ -1,0 +1,214 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 4 Sample Solutions}
+\end{center}
+
+{\bf Question 1.}
+\paragraph{2.7.3}
+
+Since each term $x_i^2$ is nonnegative,
+\[
+\|x\|_2^2=\sum_{i=1}^n x_i^2 \ge \max_{1\le i\le n} x_i^2=\|x\|_\infty^2,
+\]
+and taking square roots gives \(\|x\|_\infty\le \|x\|_2\).\\
+
+\noindent By expanding a square with nonnegative cross terms,
+\[
+\Big(\sum_{i=1}^n |x_i|\Big)^2
+=\sum_{i=1}^n x_i^2+2\sum_{1\le i<j\le n} |x_i||x_j|
+\ge \sum_{i=1}^n x_i^2
+=\|x\|_2^2,
+\]
+so \(\|x\|_2\le \|x\|_1\).
+
+\paragraph{2.7.4}
+Using properties of absolute value and maxima,
+\[
+|x^T y|
+=\Big|\sum_{i=1}^n x_i y_i\Big|
+\le \sum_{i=1}^n |x_i||y_i|
+\le \Big(\max_{1\le i\le n} |y_i|\Big)\sum_{i=1}^n |x_i|
+=\|x\|_1 \|y\|_\infty.
+\]
+
+
+\newpage
+
+
+
+{\bf Question 2.}
+% ---------- Q2 Solutions: Norm proofs ----------
+
+\paragraph{(i)} The 1-norm on vectors.\\
+Nonnegativity: \(\|x\|_1=\sum_{i=1}^n |x_i|\ge 0\).\\
+Definiteness: if \(\|x\|_1=0\) then each \(|x_i|=0\), hence \(x=0\), and the converse is immediate.\\
+Absolute homogeneity: \(\|\alpha x\|_1=\sum_{i=1}^n |\alpha x_i|=|\alpha|\sum_{i=1}^n |x_i|=|\alpha|\,\|x\|_1\).\\
+Triangle inequality:
+\[
+\|x+y\|_1=\sum_{i=1}^n |x_i+y_i|\le \sum_{i=1}^n \big(|x_i|+|y_i|\big)=\|x\|_1+\|y\|_1.
+\]
+Thus \(\|\cdot\|_1\) is a norm.
+
+\paragraph{(ii)} The infinity norm on vectors.\\
+Nonnegativity: \(\|x\|_\infty=\max_{1\le i\le n} |x_i|\ge 0\).\\
+Definiteness: \(\|x\|_\infty=0\) implies \(|x_i|=0\) for all \(i\), so \(x=0\), and the converse is immediate.\\
+Absolute homogeneity: \(\|\alpha x\|_\infty=\max_i |\alpha x_i|=|\alpha|\max_i |x_i|=|\alpha|\,\|x\|_\infty\).\\
+Triangle inequality: for each \(i\),
+\[
+|x_i+y_i|\le |x_i|+|y_i|\le \|x\|_\infty+\|y\|_\infty,
+\]
+so taking a maximum over \(i\) gives \(\|x+y\|_\infty\le \|x\|_\infty+\|y\|_\infty\).
+Thus \(\|\cdot\|_\infty\) is a norm.
+
+\paragraph{(iii)} The induced 1-norm on matrices.
+Define \(\|A\|_1=\max_{\|x\|_1\le 1}\|Ax\|_1\). The maximum exists because \(x\mapsto \|Ax\|_1\) is continuous and the set \(\{x:\|x\|_1\le 1\}\) is compact.\\
+Nonnegativity: \(\|Ax\|_1\ge 0\) for all \(x\), hence \(\|A\|_1\ge 0\).\\
+Definiteness: if \(\|A\|_1=0\) then \(\|Ax\|_1=0\) for all \(\|x\|_1\le 1\). For any \(y\neq 0\), let \(x=y/\|y\|_1\). Then \(\|x\|_1=1\) and \(\|Ax\|_1=0\), so \(Ay=0\). Thus \(Ay=0\) for every \(y\) and \(A=0\). The converse is immediate.\\
+Absolute homogeneity:
+\[
+\|\alpha A\|_1=\max_{\|x\|_1\le 1}\|\alpha Ax\|_1
+=\max_{\|x\|_1\le 1} |\alpha|\,\|Ax\|_1
+=|\alpha|\,\|A\|_1.
+\]
+Triangle inequality: for any \(x\) with \(\|x\|_1\le 1\),
+\[
+\|(A+B)x\|_1\le \|Ax\|_1+\|Bx\|_1\le \|A\|_1+\|B\|_1.
+\]
+Taking the maximum over all such \(x\) yields \(\|A+B\|_1\le \|A\|_1+\|B\|_1\).
+
+Therefore \(\|\cdot\|_1\) as defined is a norm on matrices.
+
+
+\newpage
+
+
+
+{\bf Question 3.}
+
+% ---------- Q3 Solutions: Conditioning of Linear Systems ----------
+
+\paragraph{(i) By-Hand LU, forward/back substitution.}
+With no pivoting, the multiplier is
+\[
+\ell_{21}=\frac{355/113}{\pi}.
+\]
+Hence
+\[
+L=\begin{bmatrix}1&0\\ \ell_{21}&1\end{bmatrix},
+\quad
+U=\begin{bmatrix}\pi&1\\ 0&1-\ell_{21}\end{bmatrix}.
+\]
+Note
+\[
+U_{22}=1-\frac{355/113}{\pi}=\frac{\pi-355/113}{\pi},
+\]
+which is a subtraction of nearly equal numbers, i.e. a bad subtractive cancellation if evaluated in floating point.
+
+Solve \(Lz=b\) with \(b=(0,1)^T\):
+\[
+z_1=0,\quad z_2=1,
+\quad z=\begin{bmatrix}0\\1\end{bmatrix}.
+\]
+Then solve \(Ux=z\):
+\[
+(1-\ell_{21})x_2=1
+\quad\Rightarrow\quad
+x_2=\frac{1}{1-\ell_{21}}=\frac{\pi}{\pi-355/113},
+\]
+\[
+\pi x_1+x_2=0
+\quad\Rightarrow\quad
+x_1=-\frac{x_2}{\pi}=-\frac{1}{\pi-355/113}.
+\]
+Numerically,
+\[
+\ell_{21}\approx1.0000000849136788,\quad
+U_{22}\approx-8.4913678755\times10^{-8},
+\]
+\[
+x_1\approx3.7486290884\times10^{6},\quad
+x_2\approx-1.1776665605\times10^{7}.
+\]
+
+\paragraph{(ii) Computer evaluation of the same \(L,U,z,x\).}
+A direct float64 implementation (no pivoting) yields essentially the same structures but exposes the cancellation in \(U_{22}\).
+
+\begin{verbatim}
+import numpy as np, math
+
+pi = math.pi
+A  = np.array([[pi, 1.0], [355/113, 1.0]], float)
+b  = np.array([0.0, 1.0])
+
+# 2x2 LU without pivoting (Doolittle)
+l21 = (355/113)/pi
+L = np.array([[1.0, 0.0], [l21, 1.0]])
+U = np.array([[pi, 1.0], [0.0, 1.0 - l21]])
+
+# forward/back substitution
+z = np.array([b[0], b[1] - l21*b[0]])
+x2 = z[1] / U[1,1]
+x1 = (z[0] - U[0,1]*x2) / U[0,0]
+x  = np.array([x1, x2])
+
+print("L=\n",L)
+print("U=\n",U)
+print("z=",z)
+print("x=",x)
+\end{verbatim}
+
+Typical float64 results:
+\[
+L=\begin{bmatrix}1&0\\ 1.0000000849136788&1\end{bmatrix},
+\quad
+U=\begin{bmatrix}\pi&1\\ 0&-8.4913678755\times10^{-8}\end{bmatrix},
+\]
+\[
+z=\begin{bmatrix}0\\1\end{bmatrix},
+\quad
+x=\begin{bmatrix}3.7486290884\times10^{6}\\-1.1776665605\times10^{7}\end{bmatrix}.
+\]
+If one instead forms \(U_{22}=(\pi-355/113)/\pi\), the two float64 evaluations of \(U_{22}\) differ by about \(1.2\times10^{-17}\) in absolute value due to the near cancellation. This propagates to about \(1.2\times10^{-9}\) relative differences in the entries of \(x\), consistent with division by the tiny \(|U_{22}|\).
+
+\paragraph{(iii) Condition number \(\kappa_\infty(A)\) and interpretation.}
+By definition \(\kappa_\infty(A)=\|A\|_\infty\|A^{-1}\|_\infty\). In 2×2, \(A^{-1}=(\det A)^{-1}\begin{bmatrix}1&-1\\ -355/113&\pi\end{bmatrix}\) with \(\det A=\pi-355/113\).
+
+\begin{verbatim}
+import numpy as np, math
+A = np.array([[math.pi, 1.0],[355/113, 1.0]], float)
+normA_inf = np.max(np.sum(np.abs(A), axis=1))
+Ainv = np.linalg.inv(A)
+normAinv_inf = np.max(np.sum(np.abs(Ainv), axis=1))
+kappa_inf = normA_inf * normAinv_inf
+print(normA_inf, normAinv_inf, kappa_inf)
+\end{verbatim}
+
+Float64 values:
+\[
+\|A\|_\infty=\max\{\pi+1,\,355/113+1\}\approx4.1415929204,
+\]
+\[
+\|A^{-1}\|_\infty\approx2.3553332181\times10^{7},
+\quad
+\kappa_\infty(A)\approx9.7548313812\times10^{7}.
+\]
+
+We expect a relative error of order \(\kappa_\infty(A)\epsilon_{\text{mach}}\). With float64 \(\epsilon_{\text{mach}}\approx2.2\times10^{-16}\), the estimate is about \(2\times10^{-8}\), i.e. roughly 8 digits lost. The observed \(10^{-9}\)-level relative differences between two algebraically equivalent computations of \(U_{22}\) and of \(x\) are consistent with this bound.
+
+
+
+
+\end{document}

@@ -1,0 +1,132 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{
+  JHED: \underline{\hspace{4cm}} \hspace{1em} Name: \underline{\hspace{9cm}}}
+   }
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+  \question[8]
+Consider a hypothetical machine using \textit{base 10} arithmetic with precision $d = 2$ (two digits in the fractional part). Let $\mathbb{F}$ be the set of floating point numbers representable on this machine.
+
+\begin{parts}
+  \part State the machine epsilon $\epsilon_{\text{mach}}$ for this system.
+  \begin{solution}
+  $\epsilon_{\text{mach}} = \beta^{-d} = 10^{-2} = \boxed{0.01}$.
+  \end{solution}
+  \vfill
+  \part Count the elements of $\mathbb{F}$ in the interval $[40, 4000]$, including both endpoints.
+  \begin{solution}
+  With base 10 and $d=2$, normalized numbers have the form $a.bc\times 10^n$, with $a\in\{1,\dots,9\}$ and $b,c\in\{0,\dots,9\}$. Within $[40,4000]$ at integer granularity:
+
+  In $[40, 99]$: $40, 41, \ldots, 99$ $\rightarrow$ 60 elements.
+
+  In $[100, 999]$: $100, 101, \ldots, 999$ $\rightarrow$ 900 elements.
+
+  In $[1000, 4000]$: $1000, 1001, \ldots, 4000$ $\rightarrow$ 3001 elements.
+
+  Total: $60 + 900 + 3001 = \boxed{3961}$ elements.
+  \end{solution}
+  \vfill
+  \part Identify the element of $\mathbb{F}$ that is nearest to the real number $e \approx 2.71828$.
+  \begin{solution}
+    With $d=2$, the nearest is $\boxed{2.72}$.
+  \end{solution}
+  \vfill
+  \part Provide an example of 10 consecutive positive integers that do not belong to $\mathbb{F}$ at some larger magnitude.
+  \begin{solution}
+   One valid example: $\boxed{100001, 100002, 100003, 100004, 100005, 100006, 100007, 100008, 100009, 100010}$.
+  \end{solution}
+  \vfill
+\end{parts}
+
+  \newpage
+  Let $a = 8.4367$, $b = 5.2794$, $c = 1.8649$.
+
+  \question[6]
+  Suppose $\mathrm{fl}(x)$ denotes the element of $\mathbb{F}$ \textbf{closest} to the real number $x$ (round half up) under $d=2$ precision.
+  Compute the following, and show intermediate steps:
+
+\begin{parts}
+  \part $a + (b - c)$
+  \begin{solution}
+  \textbf{Step 0:} Round inputs to $d=2$: $\mathrm{fl}(a) = 8.44$, $\mathrm{fl}(b) = 5.28$, $\mathrm{fl}(c) = 1.86$.
+  
+  \textbf{Step 1:} Compute $b - c = 5.28 - 1.86 = 3.42$ (already $d=2$).
+  
+  \textbf{Step 2:} Compute $a + 3.42 = 8.44 + 3.42 = 11.86$.
+  
+  \textbf{Step 3:} Round to $d=2$: $\mathrm{fl}(11.86) = 11.86$.
+  
+  $$\boxed{11.86}$$
+  \end{solution}
+  \vfill
+  \part $(a + b) - c$
+  \begin{solution}
+  \textbf{Step 0:} Round inputs to $d=2$: $\mathrm{fl}(a) = 8.44$, $\mathrm{fl}(b) = 5.28$, $\mathrm{fl}(c) = 1.86$.
+  
+  \textbf{Step 1:} Compute $a + b = 8.44 + 5.28 = 13.72$.
+  
+  \textbf{Step 2:} Round to $d=2$: $\mathrm{fl}(13.72) = 13.72$.
+  
+  \textbf{Step 3:} Compute $13.72 - c = 13.72 - 1.86 = 11.86$.
+  
+  \textbf{Step 4:} Round to $d=2$: $\mathrm{fl}(11.86) = 11.86$.
+  
+  $$\boxed{11.86}$$
+  \end{solution}
+  \vfill
+\end{parts}
+
+  \question[6]
+  Now suppose $\mathrm{fl}(x)$ is obtained by truncation (chopping) to $d=2$ precision, i.e., remove all digits beyond two fractional digits.
+  Compute the following, and show intermediate steps:
+
+\begin{parts}
+  \part $a + (b - c)$
+  \begin{solution}
+  \textbf{Step 0:} Truncate inputs to $d=2$: $\mathrm{fl}(a) = 8.43$, $\mathrm{fl}(b) = 5.27$, $\mathrm{fl}(c) = 1.86$.
+  
+  \textbf{Step 1:} Compute $b - c = 5.27 - 1.86 = 3.41$ (already $d=2$).
+  
+  \textbf{Step 2:} Compute $a + 3.41 = 8.43 + 3.41 = 11.84$.
+  
+  \textbf{Step 3:} Truncate to $d=2$: $\mathrm{fl}(11.84) = 11.84$.
+  
+  $$\boxed{11.84}$$
+  \end{solution}
+  \vfill
+  \part $(a + b) - c$
+  \begin{solution}
+  \textbf{Step 0:} Truncate inputs to $d=2$: $\mathrm{fl}(a) = 8.43$, $\mathrm{fl}(b) = 5.27$, $\mathrm{fl}(c) = 1.86$.
+  
+  \textbf{Step 1:} Compute $a + b = 8.43 + 5.27 = 13.70$.
+  
+  \textbf{Step 2:} Truncate to $d=2$: $\mathrm{fl}(13.70) = 13.70$.
+  
+  \textbf{Step 3:} Compute $13.70 - c = 13.70 - 1.86 = 11.84$ (already $d=2$).
+  
+  $$\boxed{11.84}$$
+  \end{solution}
+  \vfill
+\end{parts}
+
+\end{questions}
+\end{document}

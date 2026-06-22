@@ -1,0 +1,134 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 05}
+\date{Due: Friday, Feb 27, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+There are more problems in this homework than the previous one, but they are shorter and more conceptual.
+
+
+\begin{enumerate}
+
+%% Exercise 3.2.1
+\item Textbook Exercise 3.2.1: Work out the least-squares solution when
+\[
+A = \begin{bmatrix} 2 & -1 \\ 0 & 1 \\ -2 & 2 \end{bmatrix}, \quad b = \begin{bmatrix} 1 \\ -5 \\ 6 \end{bmatrix}.
+\]
+
+\begin{solution}
+$x = \begin{bmatrix} -2 \\ -1 \end{bmatrix}$
+\end{solution}
+
+%% Exercise 3.2.2
+\item Textbook Exercise 3.2.2: Use equation (3.2.4) to find the pseudoinverse $A^+$ of the matrix $A = \begin{bmatrix} 1 & -2 & 3 \end{bmatrix}^T$.
+
+\begin{solution}
+$A^+ = \begin{bmatrix} \frac{1}{14} & -\frac{1}{7} & \frac{3}{14} \end{bmatrix}$
+\end{solution}
+
+%% Exercise 3.2.3
+\item Textbook Exercise 3.2.3: Prove the first statement of Theorem 3.2.2: $A^T A$ is symmetric for any $m \times n$ matrix $A$ with $m \geq n$.
+
+\begin{solution}
+$(A^T A)^T = A^T (A^T)^T = A^T A$
+\end{solution}
+
+%% Exercise 3.2.5a
+\item Textbook Exercise 3.2.5a: Show that for any $m \times n$ matrix $A$ with $m > n$ for which $A^T A$ is nonsingular, $A^+ A$ is the $n \times n$ identity.
+
+\begin{solution}
+$A^+ A = (A^T A)^{-1} A^T A = (A^T A)^{-1} (A^T A) = I_n$
+\end{solution}
+
+%% Exercise 3.4.1
+\item Textbook Exercise 3.4.1: Find a Householder reflector $P$ such that
+\[
+P \begin{bmatrix} 2 \\ 9 \\ -6 \end{bmatrix} = \begin{bmatrix} 11 \\ 0 \\ 0 \end{bmatrix}.
+\]
+
+\begin{solution}
+$P = \frac{1}{11} \begin{bmatrix} 2 & 9 & -6 \\ 9 & 2 & 6 \\ -6 & 6 & 7 \end{bmatrix}$
+\end{solution}
+
+%% Exercise 3.4.2
+\item Textbook Exercise 3.4.2: Prove the unfinished items in Theorem 3.4.1, namely, that a Householder reflector $P$ is symmetric and orthogonal.
+
+To show that a square matrix $Q$ is orthogonal, it is enough to show that $Q^T Q = I$.
+
+\begin{solution}
+$P^T = (I - 2\frac{vv^T}{v^T v})^T = I - 2\frac{vv^T}{v^T v} = P$ (symmetric). 
+
+$P^2 = (I - 2\frac{vv^T}{v^T v})^2 = I - 4\frac{vv^T}{v^T v} + 4\frac{vv^T}{v^T v} = I$ (orthogonal).
+\end{solution}
+
+%% Exercise 3.4.3
+\item Textbook Exercise 3.4.3: Let $P$ be a Householder reflector as in (3.4.1).
+\begin{enumerate}
+\item[(a)] Find a vector $u$ such that $Pu = -u$.
+\item[(b)] What algebraic condition is necessary and sufficient for a vector $x$ to satisfy $Px = x$? In $n$ dimensions, how many such linearly independent vectors are there?
+\end{enumerate}
+
+\begin{solution}
+\textbf{(a)} $u = v$ (or any scalar multiple of $v$), since $Pv = v - 2v = -v$.
+
+\textbf{(b)} Condition: $v^T x = 0$ (i.e., $x$ orthogonal to $v$). In $n$ dimensions, there are $n-1$ linearly independent such vectors.
+\end{solution}
+
+%% Exercise 3.4.7a
+\item Textbook Exercise 3.4.7a: Given a 2-vector $[\alpha, \beta]^T$, a Givens rotation defines an angle $\theta$ such that
+\[
+\begin{bmatrix} \cos\theta & \sin\theta \\ -\sin\theta & \cos\theta \end{bmatrix} \begin{bmatrix} \alpha \\ \beta \end{bmatrix} = \begin{bmatrix} \sqrt{\alpha^2 + \beta^2} \\ 0 \end{bmatrix}.
+\]
+Given $\alpha$ and $\beta$, show how to compute $\cos\theta$ and $\sin\theta$ without evaluating any trig functions.
+
+This question is asking you to find $\theta$ in terms of $\alpha$ and $\beta$. Your answer will involve a trigonometric function.
+
+\begin{solution}
+Let $r = \sqrt{\alpha^2 + \beta^2}$. Then:
+\[
+\cos\theta = \frac{\alpha}{r}, \quad \sin\theta = \frac{\beta}{r}
+\]
+\end{solution}
+
+\end{enumerate}
+
+No Jupyter notebook this week.
+
+
+
+\section*{Quiz Information}
+
+The quiz will be held on {\bf Tuesday, March 03, 2026} during the discussion section.
+
+Quiz questions will be modifications of the homework problems and material discussed in class.
+
+\textbf{Topics covered:} 
+
+Chapters 3.2 and 3.4. 
+
+You will need memorize 
+\begin{itemize}
+    \item The normal equations for least squares problems,
+    \item The formula for the Householder reflector.
+\end{itemize}
+
+You should expect both computational and conceptual questions on the quiz.
+
+There won't be any questions about using the normal equations in terms of $QR$ factorization, but you should know how to use the normal equations in terms of the $A^T A$ matrix.
+
+
+
+\end{document}

@@ -1,0 +1,115 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,multirow}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}
+%\usepackage{enumerate}
+\usepackage[shortlabels, inline]{enumitem}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{comment}
+
+\usepackage{listings}
+\lstset{language=Python, numbers=left, basicstyle=\ttfamily, keywordstyle=\color{blue}, showstringspaces=false}
+
+\usepackage[style=alphabetic-verb]{biblatex}
+% \bibliography{Problems/ref.bib}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\K}{\mathbb{K}}
+\renewcommand{\div}{\mid}
+\newcommand{\ndiv}{\nmid}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\F}{\mathcal{F}}
+
+\DeclareMathOperator{\id}{Id}
+\DeclareMathOperator{\tr}{Tr}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\acosh}{acosh}
+
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\newcommand{\subtag}[1]{\tag{\theparentequation#1}}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\usepackage{subfiles}
+\usepackage{subcaption}
+\makeatletter
+\newcommand\nocaption{
+    \renewcommand\p@subfigure{}
+    \renewcommand{\thesubfigure}{\arabic{figure}\alph{subfigure}}
+}
+\makeatother
+
+
+\newenvironment{problem}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{spacedproof}[1][\proofname]{%
+  \begin{proof}[\textbf{#1}]$ $\par\nobreak\ignorespaces
+}{%
+  \end{proof}
+}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 2\\
+Due through gradescope before lecture starts, Thursday, Sept 11}
+\end{center}
+
+Your solutions should represent your own work and understanding of the material. You can discuss homework problems at a high level with other students or software systems like ChatGPT, but you should execute the details of any directions discussed independently of them. Results from class or the textbook can be used without proof. Otherwise, claims need to be well justified. You use any programming language you feel comfortable with (matlab, julia, or python are most reasonable). You must submit both your code and the requested output/plots from running your code. Grading will focus on the quality of outputs rather than the code itself.\\
+
+\noindent {\bf Q1.}
+ Do exercise 2 in Section 1.2 of Driscoll and Braun (\url{https://fncbook.com/}).
+
+
+\vskip1cm
+
+\noindent {\bf Q2.}
+ Do exercise 2 in Section 1.4 of Driscoll and Braun (\url{https://fncbook.com/}). \\
+ There is a typo in the textbook here, the series approximation you should use is:
+ $$ p(x)=\sum_{j=0}^{7}\frac{x^{\,j}}{(j+1)!}
+=1+\frac{x}{2!}+\frac{x^{2}}{3!}+\cdots+\frac{x^{7}}{8!} . $$
+
+
+\vskip1cm
+
+
+\noindent {\bf Q3.} {\it Generalizing condition numbers to other problem types.}\\
+The ideas of condition numbers and stability of algorithms defined in class only apply to functions mapping $\mathbb{R}\rightarrow \mathbb{R}$. Propose definitions (be as formal as you can) for new ways of measuring these properties for the following other types of computational processes. There are many possible good answers here; your answer only needs to be reasonable and precise.\\[6pt]
+(a) {\it Programs that map functions to real numbers}, for example, a program that takes $f$ as input and outputs its derivative at zero, $f\mapsto \lim_{\epsilon\rightarrow 0}\frac{f(\epsilon)-f(0)}{\epsilon-0}$, or outputs the integral $f\mapsto \int^1_0 f(x)\ \mathrm{dx}$ \\
+(later in the term, we will develop some very good approaches for both of these computations).\\[6pt]
+(b) {\it Integer functions} mapping $\mathbb{N} \rightarrow \mathbb{R}$, for example, $\pi$ approximations as a function of $T$ from HW1.\\[6pt]
+(c) {\it Programs with text input and output}, for example systems like ChatGPT.
+
+\end{document} 

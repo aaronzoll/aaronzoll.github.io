@@ -1,0 +1,67 @@
+\documentclass[reqno]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{
+  JHED: \underline{\hspace{4cm}} \hspace{1em} Name: \underline{\hspace{9cm}}}
+   }
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+  \question
+
+  Let $T_f(n)$ denote the trapezoidal rule approximation to $\int_0^1 f(x) \, dx$ using $n$ equally spaced subintervals with step size $h = 1/n$. Assume that $f$ is sufficiently smooth.
+
+  \begin{parts}
+    \part[4] Apply Richardson extrapolation using $T_f(n)$ and $T_f(2n)$ to construct a higher-order approximation $S_f(2n)$. Express $S_f(2n)$ in terms of $T_f(n)$ and $T_f(2n)$. What is the order of accuracy of $S_f(2n)$ as $h \to 0$?
+
+    \part[8] Now apply Richardson extrapolation a second time using $S_f(2n)$ and $S_f(4n)$ to construct an even higher-order approximation $R_f(4n)$. Express $R_f(4n)$ in terms of $S_f(2n)$ and $S_f(4n)$. What is the order of accuracy of $R_f(4n)$ as $h \to 0$?
+
+    \part[3] Express $R_f(4n)$ directly in terms of the trapezoidal approximations $T_f(n)$, $T_f(2n)$, and $T_f(4n)$.
+
+  \end{parts}
+
+  \begin{solution}
+    \textbf{(a)} The error expansion for the trapezoidal rule is $T_f(n) = I + c_2h^2 + O(h^4)$ where $I = \int_0^1 f(x)\,dx$. For $T_f(2n)$ with step size $h/2$:
+    $$T_f(2n) = I + c_2(h/2)^2 + O(h^4) = I + \frac{c_2h^2}{4} + O(h^4).$$
+    To eliminate the $h^2$ term, solve:
+    $$4T_f(2n) - T_f(n) = 4I + c_2h^2 - I - c_2h^2 + O(h^4) = 3I + O(h^4).$$
+    Therefore:
+    $$S_f(2n) = \frac{4T_f(2n) - T_f(n)}{3}.$$
+    The order of accuracy is $O(h^4)$.
+
+    \textbf{(b)} The error expansion for $S_f$ is $S_f(2n) = I + c_4h^4 + O(h^6)$ where the leading error term is now $O(h^4)$. For $S_f(4n)$ with step size $h/2$:
+    $$S_f(4n) = I + c_4(h/2)^4 + O(h^6) = I + \frac{c_4h^4}{16} + O(h^6).$$
+    To eliminate the $h^4$ term, solve:
+    $$16S_f(4n) - S_f(2n) = 16I + c_4h^4 - I - c_4h^4 + O(h^6) = 15I + O(h^6).$$
+    Therefore:
+    $$R_f(4n) = \frac{16S_f(4n) - S_f(2n)}{15}.$$
+    The order of accuracy is $O(h^6)$.
+
+    \textbf{(c)} From part (a):
+    $$S_f(2n) = \frac{4T_f(2n) - T_f(n)}{3}, \quad S_f(4n) = \frac{4T_f(4n) - T_f(2n)}{3}.$$
+    Substituting into the expression from part (b):
+    \begin{align*}
+      R_f(4n) & = \frac{16 \cdot \frac{4T_f(4n) - T_f(2n)}{3} - \frac{4T_f(2n) - T_f(n)}{3}}{15} \\
+              & = \frac{64T_f(4n) - 16T_f(2n) - 4T_f(2n) + T_f(n)}{45}                           \\
+              & = \frac{64T_f(4n) - 20T_f(2n) + T_f(n)}{45}.
+    \end{align*}
+  \end{solution}
+
+\end{questions}
+\end{document}

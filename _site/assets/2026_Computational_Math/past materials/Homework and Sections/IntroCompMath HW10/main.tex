@@ -1,0 +1,63 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025 \\
+Homework 10\\
+Due through gradescope before lecture starts, Thursday, Dec 4}
+\end{center}
+
+Your solutions should represent your own work and understanding of the material. You can discuss homework problems at a high level with other students or software systems like ChatGPT, but you should execute the details of any directions discussed independently of them. Results from class or the textbook can be used without proof. Otherwise, claims need to be well justified. You use any programming language you feel comfortable with (matlab, julia, or python are most reasonable). You must submit both your code and the requested output/plots from running your code. Grading will focus on the quality of outputs rather than the code itself.\\
+
+\noindent {\bf Q1.} {\it A Simple Harmonic Oscillator (and computing $\pi$, one final time).}\\
+A spring with a mass placed at the end in a given, potentially stretched, initial condition will oscillate back and forth over time, with the mass's position $x(t)$ being governed by
+$$ \frac{d^2}{dt^2} x(t) = -\frac{k}{m}x(t) $$
+where $m$ is the masses' mass and $k$ is the associated ``spring constant''. Assume the initial conditions are $x(0)=1$ and $x'(0)=1$ (the mass is originally stretched out one unit and is moving away).
+
+\noindent (i) Write down an equivalent system of two first-order ODEs with associated initial conditions.
+
+\noindent (ii) Using Euler's method and RK4 to solve your system from $t\in[0,8]$ using $n=200$ data points with $k=2$ and $m=3$. Plot the value of $x(t)$ produced in both cases.
+
+\noindent (iii) A fact derived in many physics courses is that this spring system will have a period of $T=2\pi \sqrt{m/k}$ (that is, the initial conditions will hold again at time $T$). Compute the value of $T$ minimizing the squared difference of your computed $x(t)$ from $a\cos(2\pi t/T)+b\sin(2\pi t/T)$. Use this to estimate the value of $\pi$ twice based on each of your ODE solves. Numerically, what order of accuracy are these approximations of $\pi$ (as $n$ varies)? Theoretically, why is this the case?
+
+\vskip1cm
+
+\noindent {\bf Q2.}  Do exercise 6 in Sections 6.3 of Driscoll and Braun (\url{https://fncbook.com/}). You can use any IVP solver you like or implement your own, so long as you are able to produce solutions with accuracy at least on the order of $10^{-9}$.
+
+
+\vskip1cm
+
+\noindent {\bf Q3.} {\it Implicit Multistep Accuracy and Closed-Form Updates.}\\
+Throughout, use a uniform step size \(h>0\) with \(t_{n}=nh\) and assume any needed smoothness.
+Consider the scalar IVP \(y'=f(t,y)\) and the two implicit two step methods
+\[
+\frac{3y_{n+1}-4y_{n}+y_{n-1}}{2h}=f(t_{n+1},y_{n+1}),
+\]
+\[
+y_{n+1}=y_{n}+\frac{h}{12}\Bigl(5f(t_{n+1},y_{n+1})+8f(t_{n},y_{n})-f(t_{n-1},y_{n-1})\Bigr).
+\]
+
+\noindent (i) For each method, compute/verify the order of convergence of its local truncation error by Taylor expanding their update formulas around $t_n$.\\
+
+\noindent (ii) Specialize to the case where we have a quadratic right-hand side \(f(t,y)=a(t)y^{2}+b(t)y+c(t)\) with time-varying terms \(a,b,c\). For the first method above, derive a closed-form update for $y_{n+1}$ as a function of $y_{n}$ and $y_{n-1}$. Note there should be two ``equally'' valid choices for the method's formula.\\
+
+\noindent (iii) Apply the first method above to the concrete IVP for $t\in [0,5]$
+\[
+y'=\frac{t}{t+1}y^{2}-\frac{t+1}{t+2}y,\qquad y(0)=\frac14
+\]
+with $h=0.01$. At each iteration, to decide which of their two ``equally'' valid update formulas to use, select the one that is closer to the simple Euler step's update. (This is a common trick to prevent unstable choices leading to divergence.)
+
+
+\end{document}

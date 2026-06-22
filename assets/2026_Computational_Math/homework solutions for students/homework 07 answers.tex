@@ -1,0 +1,90 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 07}
+\date{Due: Friday, Mar 13, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+    \item Textbook Exercise 5.1.4
+          \begin{solution}
+              \textbf{(a)} $q(s)$ interpolates the points $(-1,a)$, $(0,b)$, $(1,c)$.
+
+              \textbf{(b)} $s = \dfrac{x - x_0}{h}$
+
+              \textbf{(c)} $$\tilde{q}(x) = \frac{a(x-x_0)(x-x_0-h) - 2b(x-x_0-h)(x-x_0+h) + c(x-x_0)(x-x_0+h)}{2h^2}$$
+          \end{solution}
+
+    \item Textbook Exercise 5.1.5
+          \begin{solution}
+              $$q(s) = a\phi_{-1}(s) + b\phi_0(s) + c\phi_1(s)$$
+              \begin{align*}
+                  \phi_{-1}(s) & = \frac{s(s-1)}{2}, \quad \phi_0(s) = -(s-1)(s+1), \quad \phi_1(s) = \frac{s(s+1)}{2}
+              \end{align*}
+
+              $\|\phi_{-1}\|_\infty = 1/8$, \quad $\|\phi_0\|_\infty = 1$, \quad $\|\phi_1\|_\infty = 1$.
+
+              $$\max\left\{\frac{1}{8}, 1, 1\right\} \leq \kappa(y) \leq \frac{1}{8} + 1 + 1$$
+
+              $$1 \leq \kappa(y) \leq \frac{17}{8}$$
+          \end{solution}
+
+    \item Textbook Exercise 5.2.5
+
+          \begin{solution}
+              \textbf{(a)} By MVT applied to $f$ on $[t_k, x]$, there exists $s \in (t_k, x)$ such that:
+              $$f(x) = y_k + (x - t_k)f'(s)$$
+
+              \textbf{(b)} $p_n(x) = y_k + (x - t_k)\dfrac{y_{k+1} - y_k}{t_{k+1} - t_k}$.
+
+              By MVT applied to $f$ on $[t_k, t_{k+1}]$, there exists $u \in (t_k, t_{k+1})$ such that $f'(u) = \dfrac{y_{k+1} - y_k}{t_{k+1} - t_k}$.
+
+              By MVT applied to $f'$ on $[s, u]$, there exists $v \in (t_k, t_{k+1})$ such that:
+              $$f'(s) - \frac{y_{k+1} - y_k}{t_{k+1} - t_k} = (s - u)f''(v)$$
+
+              \textbf{(c)} Combining parts (a) and (b):
+              $$f(x) - p_n(x) = (x - t_k)(s - u)f''(v)$$
+
+              Since $x, s, u \in (t_k, t_{k+1})$, both $|x - t_k| < h$ and $|s - u| < h$, so:
+              $$\|f - p_n\|_\infty \leq Mh^2$$
+          \end{solution}
+
+    \item Jupyter notebook
+
+\end{enumerate}
+
+
+\section*{Quiz Information}
+
+The quiz will be held on {\bf Tuesday, March 24, 2026} during the discussion section.
+
+Quiz questions will be modifications of the homework problems and material discussed in class.
+
+\textbf{Topics covered:}
+
+Chapters 5.1 and 5.2.
+
+\begin{itemize}
+    \item Conditioning of linear interpolants
+    \item Cardinal functions
+    \item Properties of linear interpolation
+\end{itemize}
+
+The quiz on this material will be short as we covered very little material.
+
+
+
+\end{document}

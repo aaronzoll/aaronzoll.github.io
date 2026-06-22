@@ -1,0 +1,106 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{
+  JHED: \underline{\hspace{4cm}} \hspace{1em} Name: \underline{\hspace{9cm}}}
+   }
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+
+
+  \question[10]
+  We want to solve the following non-linear system of equations using Newton's method:
+  \begin{align*}
+    x + y^2 & = 1 \\
+    x^2 - y & = 0
+  \end{align*}
+  The initial guess is $(x_0, y_0) = (1, 0)$. Find the first iteration of Newton's method, i.e. find $(x_1, y_1)$.
+
+  \begin{solution}
+    Let $\mathbf{F}(x, y) = \begin{bmatrix} x + y^2 - 1 \\ x^2 - y \end{bmatrix}$. The Jacobian matrix is given by
+    \[J(x, y) = \begin{bmatrix} 1 & 2y \\ 2x & -1 \end{bmatrix}\]
+    At the initial guess $(1, 0)$, we have
+    \begin{align*}
+      \mathbf{F}(1, 0) & = \begin{bmatrix} 0 \\ 1 \end{bmatrix}          \\
+      J(1, 0)          & = \begin{bmatrix} 1 & 0 \\ 2 & -1 \end{bmatrix} \\
+      \implies
+      J(1, 0)^{-1}     & = \begin{bmatrix} 1 & 0 \\ 2 & -1 \end{bmatrix}
+    \end{align*}
+
+    Thus, the first iteration of Newton's method is given by
+    \begin{align*}
+      \begin{bmatrix} x_1 \\ y_1 \end{bmatrix} & = \begin{bmatrix} 1 \\ 0 \end{bmatrix} - J(1, 0)^{-1} \mathbf{F}(1, 0)                                                      \\
+                                               & = \begin{bmatrix} 1 \\ 0 \end{bmatrix} - \begin{bmatrix} 1 & 0 \\ 2 & -1 \end{bmatrix} \begin{bmatrix} 0 \\ 1 \end{bmatrix} \\
+                                               & = \begin{bmatrix} 1 \\ 0 \end{bmatrix} - \begin{bmatrix} 0 \\ -1 \end{bmatrix}                                              \\
+                                               & = \begin{bmatrix} 1 \\ 1 \end{bmatrix}
+    \end{align*}
+  \end{solution}
+
+
+
+
+  \newpage
+
+  \question[5] We want to approximate $\pi$ by applying fixed-point iteration to $f(x)=\sin(x)$. Propose a function $g(x)$ for which the iteration converges to $\pi$ and is guaranteed to converge. Justify your choice.
+
+  \begin{solution}
+    Choose
+    \[
+      g(x)=x+c\sin(x),\qquad 0<c<2.
+    \]
+    Then $g(\pi)=\pi$, so $\pi$ is a fixed point. Also,
+    \begin{align*}
+      g'(x)   & = 1+c\cos(x), \\
+      g'(\pi) & = 1-c.
+    \end{align*}
+    For local convergence to $\pi$, we need $|g'(\pi)|<1$, i.e.
+    \[
+      |1-c|<1 \iff 0<c<2.
+    \]
+    So any $c\in(0,2)$ works; for example, $c=1$ gives $g(x)=x+\sin(x)$.
+  \end{solution}
+  \vfill
+
+  \question[5] Apply Newton's method near $x=0$ to $f(x)=\sin(x)$. Derive the error recurrence, i.e., express $\epsilon_{n+1}$ in terms of $\epsilon_n$. Your answer cannot be ``the error is always 0.'' You may use
+  \[
+    \sin(x)=\sum_{k=0}^{\infty}\frac{(-1)^k x^{2k+1}}{(2k+1)!},
+    \qquad
+    \tan(x)=x+\frac{x^3}{3}+\frac{2x^5}{15}+ \dots.
+  \]
+
+  \begin{solution}
+    For Newton's method,
+    \[
+      x_{n+1}=x_n-\frac{\sin(x_n)}{\cos(x_n)}=x_n-\tan(x_n).
+    \]
+    Near $0$, use $\tan(x)=x+\frac{x^3}{3}+O(x^5)$:
+    \[
+      x_{n+1}=x_n-\left(x_n+\frac{x_n^3}{3}+O(x_n^5)\right)
+      =-\frac{x_n^3}{3}+O(x_n^5).
+    \]
+    Since the root is $x^*=0$, the error is $\epsilon_n=x_n$, so
+    \[
+      \epsilon_{n+1}=-\frac{1}{3}\epsilon_n^3+O(\epsilon_n^5).
+    \]
+  \end{solution}
+  \vfill
+
+\end{questions}
+\end{document}

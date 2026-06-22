@@ -1,0 +1,46 @@
+\documentclass[reqno]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{
+  JHED: \underline{\hspace{4cm}} \hspace{1em} Name: \underline{\hspace{9cm}}}
+   }
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+    \question[4] 
+  Fill in the blanks below using the correct big-O notation for each case:\vspace{1.5ex}
+  \begin{parts}
+    \part If $f = O(h^4)$ and $g = O(h^2)$, then $f + g = O(\underline{\hspace{2cm}})$.\vspace{1.5ex}
+    \part If $f = O(h^4)$ and $g = O(h^2)$, then $f - g = O(\underline{\hspace{2cm}})$.\vspace{1.5ex}
+    \part If $f = O(h^5)$ and $g = O(h^5)$, then $f + g = O(\underline{\hspace{2cm}})$.\vspace{1.5ex}
+    \part If $f = O(h^5)$ and $g = O(h^5)$, then $f - g = O(\underline{\hspace{2cm}})$.
+  \end{parts}
+  where we are interested in the behavior as $h \to 0$.
+
+  \question[8]
+  Construct a finite difference approximation for the first derivative $f'(x)$ at a point $x$ using the points $x - h$ and $x + 4h$. What is the order of accuracy of your approximation?
+
+  \newpage
+
+  \question[8]
+  Improve the accuracy of the following finite difference approximation you derived in the previous question by using Richardson extrapolation. Simplify completely and provide a new finite difference approximation for $f'(x)$ and state the order of accuracy of your new approximation.
+
+
+\end{questions}
+\end{document}

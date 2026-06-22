@@ -1,0 +1,162 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 10}
+\date{Due: Friday, Apr 10, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+  \item Textbook Exercise 6.1.1 b, c
+
+        \begin{solution}
+          \textbf{(b) $f(t,u) = -t\sin(u)$, $0 \leq t \leq 5$}
+
+          $\boxed{L = 5}$
+
+          \medskip
+
+          \textbf{(c) $f(t,u) = -(1+t^2)u^2$, $1 \leq t \leq 3$}
+
+          Does \textbf{NOT} satisfy Theorem 6.1.2 because $\frac{\partial f}{\partial u}$ is unbounded (no finite $L$ exists)
+
+        \end{solution}
+
+
+  \item Textbook Exercise 6.1.4
+        \begin{solution}
+          Consider the IVP $u' = u^2$, $u(0) = \alpha$.
+
+          \medskip
+
+          \textbf{(a) Does Theorem 6.1.1 apply to this problem?}
+
+          Theorem 6.1.1 does \textbf{NOT} apply.
+
+          \medskip
+
+          \textbf{(c) Does this solution necessarily exist for all $t \in [0,1]$?}
+
+          No, the solution does NOT necessarily exist for all $t \in [0,1]$. It exists on $[0,1]$ if and only if $\alpha < 1$.
+
+        \end{solution}
+
+  \item Textbook Exercise 6.2.1 b, c
+        \begin{solution}
+
+          \textbf{(b) $u' = u + t$, $u(0) = 2$; $h = 0.2$; $\hat{u}(t) = -1 - t + 3e^t$}
+
+          $u_1 = 2.4$
+
+          $u_2 = 2.92$
+
+          Error: $|u_2 - \hat{u}(0.4)| \approx 0.1555$
+
+          \medskip
+
+          \textbf{(c) $tu' + u = 1$, $u(1) = 6$, $h = 0.25$; $\hat{u}(t) = 1 + 5/t$}
+
+          $u_1 = 4.75$
+
+          $u_2 = 4.0$
+
+          Error: $|u_2 - \hat{u}(1.5)| \approx 0.3333$
+
+        \end{solution}
+
+
+  \item Textbook Exercise 6.2.3
+
+        You can use the following theorem without proof: $f(t_i + h, u(t_i) + h f(t_i, u(t_i))) = f(t_i, u(t_i)) + O(h)$
+        \begin{solution}
+          \textbf{(a) Write out the method explicitly in the general one-step form (6.2.7)}
+
+          \begin{align*}
+            \boxed{\phi(t, u, h) = f(t + h, u + h f(t, u))}
+          \end{align*}
+
+          \medskip
+
+          \textbf{(b) Show that the method is consistent}
+
+          A method is consistent if $\phi(t, u, 0) = f(t, u)$.
+
+          Evaluate $\phi(t, u, h)$ as $h \to 0$:
+          \begin{align*}
+            \phi(t, u, 0) & = f(t + 0, u + 0 \cdot f(t, u)) \\
+                          & = f(t, u)
+          \end{align*}
+
+          Therefore, the method is \textbf{consistent}. $\checkmark$
+
+          \textit{Alternative verification using local truncation error:}
+
+          Let $u(t)$ be the exact solution. Using Taylor expansion: $u(t_i + h) = u(t_i) + h f(t_i, u(t_i)) + O(h^2)$
+
+          And: $f(t_i + h, u(t_i) + h f(t_i, u(t_i))) = f(t_i, u(t_i)) + O(h)$
+
+          The local truncation error is:
+          \begin{align*}
+            \tau_i & = \frac{u(t_{i+1}) - u(t_i)}{h} - \phi(t_i, u(t_i), h) = O(h)
+          \end{align*}
+
+          Since $\tau_i \to 0$ as $h \to 0$, the method is consistent.
+        \end{solution}
+
+
+  \item Textbook Exercise 6.2.4
+        \begin{solution}
+          Consider the problem $u' = ku$, $u(0) = 1$ for a real constant $k$ and $t > 0$.
+
+          \medskip
+
+          \textbf{(a) Find an explicit formula for the Euler solution $u_i$ at $t = ih$}
+
+          \boxed{u_i = (1 + hk)^i}
+
+          \medskip
+
+          \textbf{(b) Find values of $k$ and $h$ such that $|u_i| \to \infty$ as $i \to \infty$ while $\hat{u}(t)$ is bounded as $t \to \infty$}
+
+          \textbf{Example:} $\boxed{k = -1}$ and $\boxed{h = 3}$
+
+          \textbf{General answer:} Any $k < 0$ and $h > \frac{2}{|k|}$ will work.
+        \end{solution}
+
+  \item Jupyter Notebook
+
+\end{enumerate}
+
+\section*{Quiz Information}
+
+The quiz will be held on {\bf Tuesday, April 07, 2026} during the discussion section.
+
+Quiz questions will be modifications of the {\it homework problems and material discussed in class}.
+
+\textbf{Topics covered:}
+
+Chapters 5.6
+
+\begin{itemize}
+  \item Numerical integration: trapezoidal rule, Simpson's rule etc.
+  \item Convergence analysis of numerical integration methods
+\end{itemize}
+
+Please memorize the formulas for trapezoidal rule and Simpson's rule, and the general form of the Euler-Maclaurin formula for the error of numerical integration methods.
+
+
+
+
+\end{document}

@@ -1,0 +1,241 @@
+\documentclass[reqno]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 08}
+\date{Due: Friday, Mar 27, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+\item Textbook Exercise 5.4.6
+
+\begin{solution}
+Starting with the forward difference formula (5.4.2) for $f'$ at $x = 0$:
+$$f'(0) \approx \frac{f(h) - f(0)}{h}$$
+
+Applying this again to estimate $f''(0)$:
+$$f''(0) \approx \frac{f'(h) - f'(0)}{h}$$
+
+Now we use forward difference (5.4.2) for $f'(h)$:
+$$f'(h) \approx \frac{f(2h) - f(h)}{h}$$
+
+And backward difference (5.4.3) for $f'(0)$:
+$$f'(0) \approx \frac{f(0) - f(-h)}{h}$$
+
+Substituting these into the expression for $f''(0)$:
+\begin{align*}
+f''(0) &\approx \frac{1}{h}\left[\frac{f(2h) - f(h)}{h} - \frac{f(0) - f(-h)}{h}\right]\\
+&= \frac{1}{h^2}\left[f(2h) - f(h) - f(0) + f(-h)\right]\\
+&= \frac{f(-h) - f(0) - f(h) + f(2h)}{h^2}
+\end{align*}
+
+Therefore, the finite-difference formula is:
+$$\boxed{f''(0) \approx \frac{f(-h) - f(0) - f(h) + f(2h)}{h^2}}$$
+
+Or equivalently:
+$$\boxed{f''(0) \approx \frac{f(2h) - f(h) - f(0) + f(-h)}{h^2}}$$
+\end{solution}
+
+\item Textbook Exercise 5.4.7
+\begin{solution}
+\textbf{(a)} The centered difference formula (5.4.5) is:
+$$f'(x) \approx \frac{f(x+h) - f(x-h)}{2h}$$
+
+We need to show that:
+$$\lim_{h \to 0} \frac{f(x+h) - f(x-h)}{2h} = f'(x)$$
+
+As $h \to 0$, both numerator and denominator approach 0, giving the indeterminate form $\frac{0}{0}$. Applying L'Hôpital's Rule (differentiating with respect to $h$):
+$$\lim_{h \to 0} \frac{f(x+h) - f(x-h)}{2h} = \lim_{h \to 0} \frac{f'(x+h) \cdot 1 - f'(x-h) \cdot (-1)}{2}$$
+$$= \lim_{h \to 0} \frac{f'(x+h) + f'(x-h)}{2} = \frac{f'(x) + f'(x)}{2} = f'(x)$$
+
+Therefore, the centered formula converges to equality as $h \to 0$.
+
+\textbf{(b)} Consider the general finite-difference formula:
+$$f'(x) \approx \frac{1}{h}\sum_{k=-p}^{q} a_k f(x+kh)$$
+
+For convergence as $h \to 0$, we need:
+$$\lim_{h \to 0} \frac{\sum_{k=-p}^{q} a_k f(x+kh)}{h} = f'(x)$$
+
+\textbf{Condition 1:} For the indeterminate form $\frac{0}{0}$ to occur (so L'Hôpital's Rule can be applied), the numerator must approach 0:
+$$\lim_{h \to 0} \sum_{k=-p}^{q} a_k f(x+kh) = \sum_{k=-p}^{q} a_k f(x) = 0$$
+
+This requires:
+$$\boxed{\sum_{k=-p}^{q} a_k = 0}$$
+
+\textbf{Condition 2:} Applying L'Hôpital's Rule:
+$$\lim_{h \to 0} \frac{\sum_{k=-p}^{q} a_k f(x+kh)}{h} = \lim_{h \to 0} \frac{\sum_{k=-p}^{q} a_k \cdot k \cdot f'(x+kh)}{1} = f'(x) \sum_{k=-p}^{q} k a_k$$
+
+For this to equal $f'(x)$:
+$$\boxed{\sum_{k=-p}^{q} k a_k = 1}$$
+\end{solution}
+
+\item Textbook Exercise 5.5.2
+
+\begin{solution}
+The centered difference formula (5.4.3) is:
+$$f'(x) \approx \frac{f(x+h) - f(x-h)}{2h}$$
+
+The truncation error is:
+$$\tau_f(h) = f'(x) - \frac{f(x+h) - f(x-h)}{2h}$$
+
+Using Taylor series expansions about $x$:
+\begin{align*}
+f(x+h) &= f(x) + hf'(x) + \frac{h^2}{2}f''(x) + \frac{h^3}{6}f'''(x) + \frac{h^4}{24}f^{(4)}(x) + \frac{h^5}{120}f^{(5)}(x) + O(h^6)\\
+f(x-h) &= f(x) - hf'(x) + \frac{h^2}{2}f''(x) - \frac{h^3}{6}f'''(x) + \frac{h^4}{24}f^{(4)}(x) - \frac{h^5}{120}f^{(5)}(x) + O(h^6)
+\end{align*}
+
+Subtracting:
+$$f(x+h) - f(x-h) = 2hf'(x) + \frac{2h^3}{6}f'''(x) + \frac{2h^5}{120}f^{(5)}(x) + O(h^7)$$
+
+Dividing by $2h$:
+$$\frac{f(x+h) - f(x-h)}{2h} = f'(x) + \frac{h^2}{6}f'''(x) + \frac{h^4}{120}f^{(5)}(x) + O(h^6)$$
+
+Therefore, the truncation error is:
+$$\tau_f(h) = f'(x) - \left[f'(x) + \frac{h^2}{6}f'''(x) + \frac{h^4}{120}f^{(5)}(x) + O(h^6)\right]$$
+
+$$\boxed{\tau_f(h) = -\frac{h^2}{6}f'''(x) - \frac{h^4}{120}f^{(5)}(x) + O(h^6)}$$
+
+The first two nonzero terms are $-\frac{h^2}{6}f'''(x)$ and $-\frac{h^4}{120}f^{(5)}(x)$.
+\end{solution}
+
+\item Textbook Exercise 5.5.3
+\begin{solution}
+The second row of Table 5.4.2 gives the finite-difference formula:
+$$f'(x) \approx \frac{-3f(x) + 4f(x+h) - f(x+2h)}{2h}$$
+
+The truncation error is:
+$$\tau_f(h) = f'(x) - \frac{-3f(x) + 4f(x+h) - f(x+2h)}{2h}$$
+
+Using Taylor series expansions about $x$:
+\begin{align*}
+f(x) &= f(x)\\
+f(x+h) &= f(x) + hf'(x) + \frac{h^2}{2}f''(x) + \frac{h^3}{6}f'''(x) + O(h^4)\\
+f(x+2h) &= f(x) + 2hf'(x) + 2h^2f''(x) + \frac{4h^3}{3}f'''(x) + O(h^4)
+\end{align*}
+
+Computing the numerator:
+\begin{align*}
+&-3f(x) + 4f(x+h) - f(x+2h)\\
+&= -3f(x) + 4\left[f(x) + hf'(x) + \frac{h^2}{2}f''(x) + \frac{h^3}{6}f'''(x)\right]\\
+&\quad - \left[f(x) + 2hf'(x) + 2h^2f''(x) + \frac{4h^3}{3}f'''(x)\right] + O(h^4)\\
+&= 2hf'(x) + (2h^2 - 2h^2)f''(x) + \left(\frac{2h^3}{3} - \frac{4h^3}{3}\right)f'''(x) + O(h^4)\\
+&= 2hf'(x) - \frac{2h^3}{3}f'''(x) + O(h^4)
+\end{align*}
+
+Dividing by $2h$:
+$$\frac{-3f(x) + 4f(x+h) - f(x+2h)}{2h} = f'(x) - \frac{h^2}{3}f'''(x) + O(h^3)$$
+
+Therefore:
+$$\boxed{\tau_f(h) = \frac{h^2}{3}f'''(x) + O(h^3)}$$
+
+The first nonzero term is $\frac{h^2}{3}f'''(x)$.
+\end{solution}
+
+\item Textbook Exercise 5.5.5
+
+\begin{solution}
+The finite-difference formula (5.4.9) is:
+$$f''(0) \approx \frac{f(-h) - 2f(0) + f(h)}{h^2}$$
+
+The truncation error is:
+$$\tau_f(h) = f''(0) - \frac{f(-h) - 2f(0) + f(h)}{h^2}$$
+
+Using Taylor series expansions about $x = 0$:
+\begin{align*}
+f(h) &= f(0) + hf'(0) + \frac{h^2}{2}f''(0) + \frac{h^3}{6}f'''(0) + \frac{h^4}{24}f^{(4)}(0) + O(h^5)\\
+f(-h) &= f(0) - hf'(0) + \frac{h^2}{2}f''(0) - \frac{h^3}{6}f'''(0) + \frac{h^4}{24}f^{(4)}(0) + O(h^5)
+\end{align*}
+
+Computing the numerator:
+\begin{align*}
+&f(-h) - 2f(0) + f(h)\\
+&= \left[f(0) - hf'(0) + \frac{h^2}{2}f''(0) - \frac{h^3}{6}f'''(0) + \frac{h^4}{24}f^{(4)}(0)\right]\\
+&\quad - 2f(0) + \left[f(0) + hf'(0) + \frac{h^2}{2}f''(0) + \frac{h^3}{6}f'''(0) + \frac{h^4}{24}f^{(4)}(0)\right] + O(h^5)\\
+&= h^2f''(0) + \frac{h^4}{12}f^{(4)}(0) + O(h^5)
+\end{align*}
+
+Dividing by $h^2$:
+$$\frac{f(-h) - 2f(0) + f(h)}{h^2} = f''(0) + \frac{h^2}{12}f^{(4)}(0) + O(h^3)$$
+
+Therefore:
+$$\tau_f(h) = -\frac{h^2}{12}f^{(4)}(0) + O(h^3)$$
+
+Since the leading term of the truncation error is $O(h^2)$, the formula is \textbf{second-order accurate}.
+
+$$\boxed{\tau_f(h) = O(h^2)}$$
+\end{solution}
+
+\item In this problem, we analyze a general-purpose algorithm called Richardson extrapolation that improves the convergence rate of finite difference approximations. 
+
+Let $f$ be a smooth function whose derivative we wish to estimate at a point $a$. Suppose $D(h)$ is a finite difference approximation to $f'(a)$ with truncation error $O(h^p)$, where $p > 0$. 
+Construct an improved estimate for $f'(a)$ by combining two finite difference approximations at different step sizes:
+\[
+R(h) = x D(h) + y D(2h),
+\]
+where $x$ and $y$ are constants to be determined.
+
+\begin{itemize}
+    \item Determine the conditions on $x$ and $y$ that ensure $R(h) \to f'(a)$ as $h \to 0$.
+    \item Find specific values of $x$ and $y$ such that $R(h)$ converges to $f'(a)$ faster than $D(h)$ does. What is the order of convergence for $R(h)$?
+    \item Suppose $D(h)$ is the forward difference approximation $D(h) = \frac{f(a+h) - f(a)}{h}$. Use Richardson extrapolation to derive an improved approximation for $f'(a)$ and determine its order of convergence.
+\end{itemize}
+
+\begin{solution}
+    Since $D(h)$ has truncation error $O(h^p)$, we write:
+\[
+D(h) = f'(a) + c_1 h^p + c_2 h^{p+1} + O(h^{p+2}), \quad D(2h) = f'(a) + c_1 2^p h^p + c_2 2^{p+1} h^{p+1} + O(h^{p+2})
+\]
+
+\textbf{Part 1.} Substituting into $R(h) = x D(h) + y D(2h)$ gives $R(h) = (x + y)f'(a) + c_1(x + 2^p y)h^p + O(h^{p+1})$.
+For convergence to $f'(a)$, we need $\boxed{x + y = 1}$.
+
+\textbf{Part 2.} To eliminate the $O(h^p)$ term, we require $x + 2^p y = 0$. Solving the system gives:
+\[
+\boxed{x = \frac{2^p}{2^p - 1}, \quad y = \frac{-1}{2^p - 1}}
+\]
+With these values, $R(h) = f'(a) + O(h^{p+1})$, so the order of convergence is $\boxed{O(h^{p+1})}$.
+
+\textbf{Part 3.} For forward difference, $p = 1$, so $x = 2$ and $y = -1$. Thus:
+\[
+R(h) = 2 \cdot \frac{f(a+h) - f(a)}{h} - \frac{f(a+2h) - f(a)}{2h} = \boxed{\frac{4f(a+h) - f(a+2h) - 3f(a)}{2h}}
+\]
+Order of convergence: $\boxed{O(h^2)}$.
+
+\end{solution}
+
+\item Jupyter notebook
+
+\end{enumerate}
+
+
+\section*{Quiz Information}
+
+The quiz will be held on {\bf Tuesday, March 30, 2026} during the discussion section.
+
+Quiz questions will be modifications of the homework problems and material discussed in class.
+
+\textbf{Topics covered:} 
+
+Chapters 5.4 and 5.5.
+
+\begin{itemize}
+    \item Finite difference approximations for derivatives
+    \item Big O notation, error analysis and convergence rates of sequences
+\end{itemize}
+
+
+
+
+\end{document}

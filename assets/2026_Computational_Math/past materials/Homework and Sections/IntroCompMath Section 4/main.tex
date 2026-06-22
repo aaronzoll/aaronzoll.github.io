@@ -1,0 +1,43 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Section 4, Sept 19 (not due or graded).\\
+}
+\end{center}
+
+\noindent {\it Section will give you time to work on/discuss questions in small groups and then present your solutions. The questions below are selected exercises from the textbook to help build comfort and expertise with the ideas we've been discussing. The last question is from a prior exam in this course.
+\\
+}
+
+\noindent {\bf Q1.} Attempt Exercise 4 in Section 2.6, Exercise 11 in  2.7, and Exercise 4 in 2.8 of Driscoll and Braun (\url{https://fncbook.com/}).
+
+\vskip1cm
+
+\noindent {\bf Q2.}  Recall, when computing an $LU$-factorization, we saw that numerical instabilities (or worse, division by zero errors) could occur whenever we encounter a diagonal $U_{ii}$ is small (or worse, zero) to divide by. Our solution was to swap the $i$th row with a later row $j>i$ having the largest $|U_{ji}|$ and then continue factorizing. Such a factorization is described by the equation $LU = PA$.\\
+
+\noindent Consider instead pivoting columns: Whenever we encounter a small diagonal $U_{ii}$, swap the $i$th column with a column $j>i$ having the largest value of $|U_{ij}|$, yielding a factorization $LU = AP^T$.\\
+
+    Walk through computing this factorization and then doing forward/backward substitutions to solve the example below with no pivoting and with column pivoting.
+    Clearly state the matrices $L,U,P$ you compute in both cases.
+    Label anywhere in these two calculations where bad subtractive cancellations would occur if done on a computer in floating point arithmetic.
+    
+    $$ Ax=b \qquad \text{ with } \qquad A = \begin{bmatrix}
+        10^{-8} & 2 \\
+        1 & 3
+    \end{bmatrix},\qquad b = \begin{bmatrix} 4 \\ 6+10^{-8} \end{bmatrix}.
+    $$
+\end{document} 

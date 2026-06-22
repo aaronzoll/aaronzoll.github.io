@@ -1,0 +1,84 @@
+\documentclass[reqno]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+\title{\normalsize{
+  JHED: \underline{\hspace{4cm}} \hspace{1em} Name: \underline{\hspace{9cm}}}
+   }
+\author{}
+\date{}
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm}
+
+\begin{questions}
+  \question[8]
+Machine: base 10, precision $d=2$. Let $\mathbb{F}$ be the representable set.
+
+\begin{parts}
+  \part What is $\epsilon_{\text{mach}}$?
+  \begin{solution}
+  $\boxed{0.01}$
+  \end{solution}
+
+  \part How many elements of $\mathbb{F}$ are in $[50,5000]$?
+  \begin{solution}
+  $[50,99.99]$ step $0.01$: $5000$; $[100,999.9]$ step $0.1$: $9000$; $[1000,5000]$ step $1$: $4001$. Total $\boxed{18001}$.
+  \end{solution}
+
+  \part What is the closest element of $\mathbb{F}$ to $\pi$?
+  \begin{solution}
+  $\boxed{3.14}$
+  \end{solution}
+
+  \part Give a stretch of 10 consecutive positive integers not in $\mathbb{F}$.
+  \begin{solution}
+  $\boxed{1001,1002,1003,1004,1005,1006,1007,1008,1009,1010}$
+  \end{solution}
+\end{parts}
+
+\newpage
+Let $a=0.565$, $b=0.678$, $c=0.234$.
+
+\question[6]
+$\mathrm{fl}(x)$ = nearest in $\mathbb{F}$ (round half up).
+
+\begin{parts}
+  \part $a + (b - c)$
+  \begin{solution}
+  $\mathrm{fl}(a)=0.57$, $\mathrm{fl}(b)=0.68$, $\mathrm{fl}(c)=0.23$.
+  $b-c=0.45$; $a+(b-c)=1.02$; $\mathrm{fl}= \boxed{1.02}$.
+  \end{solution}
+
+  \part $(a + b) - c$
+  \begin{solution}
+  $\mathrm{fl}(a)=0.57$, $\mathrm{fl}(b)=0.68$, $\mathrm{fl}(c)=0.23$.
+  $a+b=1.25$; $(a+b)-c=1.02$; $\mathrm{fl}= \boxed{1.02}$.
+  \end{solution}
+\end{parts}
+
+\question[6]
+$\mathrm{fl}(x)$ = truncation to $d=2$ digits.
+
+\begin{parts}
+  \part $a + (b - c)$
+  \begin{solution}
+  $\mathrm{fl}(a)=0.56$, $\mathrm{fl}(b)=0.67$, $\mathrm{fl}(c)=0.23$.
+  $b-c=0.44$; $a+(b-c)=1.00$; $\mathrm{fl}= \boxed{1.00}$.
+  \end{solution}
+
+  \part $(a + b) - c$
+  \begin{solution}
+  $\mathrm{fl}(a)=0.56$, $\mathrm{fl}(b)=0.67$, $\mathrm{fl}(c)=0.23$.
+  $a+b=1.23$; $(a+b)-c=1.00$; $\mathrm{fl}= \boxed{1.00}$.
+  \end{solution}
+\end{parts}
+
+\end{questions}
+\end{document}

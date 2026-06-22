@@ -1,0 +1,43 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 6\\
+Due through gradescope before lecture starts, Thursday, Oct 9}
+\end{center}
+
+Your solutions should represent your own work and understanding of the material. You can discuss homework problems at a high level with other students or software systems like ChatGPT, but you should execute the details of any directions discussed independently of them. Results from class or the textbook can be used without proof. Otherwise, claims need to be well justified. You use any programming language you feel comfortable with (matlab, julia, or python are most reasonable). You must submit both your code and the requested output/plots from running your code. Grading will focus on the quality of outputs rather than the code itself.\\
+
+
+\noindent {\bf Q1.} Do exercise 3 in Section 4.2 of Driscoll and Braun (\url{https://fncbook.com/}).\\
+
+\noindent {\bf Q2.} Do exercises 1, 2, and 3 in Sections 4.3 of Driscoll and Braun (\url{https://fncbook.com/}).\\
+
+
+\noindent {\bf Q3.} {\it Optimizing Crop Planting Times via Gradient Descent, an example of root finding.}\\
+Suppose you want to minimize a continuously differentiable function $h\colon \mathbb{R}\rightarrow \mathbb{R}$. For example, let $h(t)$ represent the cost resulting from planting a crop at a given time $t$. The model $h$ used could become very complex, including periodic effects from seasonal cycles, exponential effects from interest earned on money saved, and more complex effects (e.g., potentially needing hazard pay for seasonal workers in hotter conditions). 
+Let's consider a fixed simple function
+$$ h(t) = \cos\left(\frac{2\pi}{365} t \right) + \exp\left(-\frac{1.05}{365} t\right) + \frac{1}{10000}(t-1)^2 \ . $$
+We know from calculus that every local minimum $t^*$ of $h$ solves the nonlinear equation $h'(t^*)=0$. We could find such a point by looking for a fixed point of the iteration (i.e., gradient descent) $$ t_{k+1} = t_k - h'(t_k) . $$
+
+\noindent (i) Implement this iteration for the above example in IEEE standard (64bit) floating point arithmetic starting at $t_0=0$ and print out $t_k$ for $k=10^5$. What kind of convergence rate is occurring (make a strong numerical case justifying your answer\footnote{Plotting $\log(t^*-t_k)$ may help you see what's happening for some estimate of $t^*$.})?\\
+
+\noindent (ii) Implement Newton's method for the above example, finding a root of the equation $h'(t)=0$ starting at $t_0=0$ and printing out $t_k$ for $k=100$.
+What kind of convergence rate occurs here (again make a strong numerical case supporting your answer)?\\
+
+
+
+\end{document} 

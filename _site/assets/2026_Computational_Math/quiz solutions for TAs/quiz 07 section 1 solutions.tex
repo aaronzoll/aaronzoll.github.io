@@ -1,0 +1,106 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{
+  JHED: \underline{\hspace{4cm}} \hspace{1em} Name: \underline{\hspace{9cm}}}
+   }
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+  \question[4] 
+  Fill in the blanks below using the correct big-O notation for each case:\vspace{1.5ex}
+  \begin{parts}
+    \part If $f = O(h^2)$ and $g = O(h^3)$, then $f + g = O(h^2)$.\vspace{1.5ex}
+    \part If $f = O(h^2)$ and $g = O(h^3)$, then $f - g = O(h^2)$.\vspace{1.5ex}
+    \part If $f = O(h^2)$ and $g = O(h^2)$, then $f + g = O(h^2)$.\vspace{1.5ex}
+    \part If $f = O(h^2)$ and $g = O(h^2)$, then $f - g = O(h^2)$.
+  \end{parts}
+  where we are interested in the behavior as $h \to 0$.
+  \question[8]
+  Construct a finite difference approximation for the first derivative $f'(x)$ at a point $x$ using the points $x - h$, and $x + 2h$. What is the order of accuracy of your approximation?
+
+  \begin{solution}
+    We seek a finite difference for $f'(x)$ using $f(x-h)$ and $f(x+2h)$. Assume
+    \[
+      f'(x) \approx a\, f(x-h) + b\, f(x+2h)
+    \]
+    Expand via Taylor series:
+    \begin{align*}
+      f(x-h) &= f(x) - h f'(x) + \frac{h^2}{2} f''(x) + O(h^3) \\
+      f(x+2h) &= f(x) + 2h f'(x) + 2h^2 f''(x) + O(h^3)
+    \end{align*}
+    Combine and match coefficients to isolate $f'(x)$:
+    \[
+      a + b = 0, \quad -a + 2b = \frac{1}{h}
+    \]
+    Solving gives $a = -\frac{1}{3h}$, $b = \frac{1}{3h}$, so
+    \[
+      f'(x) \approx \frac{f(x+2h) - f(x-h)}{3h}
+    \]
+    Substituting the expansions, the leading error is $O(h)$.
+
+    \textbf{Final answer:}
+    \[
+      \boxed{
+        f'(x) \approx \frac{f(x+2h) - f(x-h)}{3h}
+      }
+      \qquad \text{with error } O(h)
+    \]
+  \end{solution}
+
+  \newpage
+
+  \question[8]
+  Improve the accuracy of the following finite difference approximation you derived in the previous question by using Richardson extrapolation. Simplify completely and provide a new finite difference approximation for $f'(x)$ and state the order of accuracy of your new approximation.
+
+  \begin{solution}
+    Let $D(h) = \frac{f(x+2h) - f(x-h)}{3h}$ be the original approximation. Compute $D(2h)$:
+    \[
+      D(2h) = \frac{f(x+4h) - f(x-2h)}{6h}
+    \]
+    The error expansions are:
+    \begin{align*}
+      D(h) &= f'(x) + C h + O(h^2) \\
+      D(2h) &= f'(x) + C (2h) + O(h^2)
+    \end{align*}
+    Using Richardson extrapolation:
+    \[
+      R = 2 D(h) - D(2h) = 2\left(f'(x) + C h\right) - \left(f'(x) + 2C h\right) + O(h^2)
+    \]
+    Simplifying gives:
+    \[
+      R = f'(x) + O(h^2)
+    \]
+    Thus, the new approximation is:
+    \[
+      \boxed{
+        f'(x) \approx 2\frac{f(x+2h) - f(x-h)}{3h} - \frac{f(x+4h) - f(x-2h)}{6h}
+      }
+      \qquad \text{with error } O(h^2)
+    \]
+
+    Note: You can also directly state that the Richardson extrapolation for an estimate of order $O(h)$ is given by $R = 2 D(h) - D(2h)$, which improves the order from $O(h)$ to $O(h^2)$.
+  \end{solution}
+
+
+  \newpage
+
+
+\end{questions}
+\end{document}

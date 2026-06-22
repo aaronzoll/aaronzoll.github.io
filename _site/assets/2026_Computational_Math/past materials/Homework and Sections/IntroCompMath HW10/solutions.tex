@@ -1,0 +1,442 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 10 Sample Solutions}
+\end{center}
+
+{\bf Question 1.}
+
+\paragraph{(i)}
+Let \(y_{1}(t)=x(t)\) and \(y_{2}(t)=x'(t)\). Then
+\[
+\begin{aligned}
+y_{1}'(t) &= y_{2}(t),\\
+y_{2}'(t) &= -\frac{k}{m}y_{1}(t),
+\end{aligned}
+\]
+with initial conditions \(y_{1}(0)=1\) and \(y_{2}(0)=1\).
+
+\paragraph{(ii)}
+On \(t\in[0,8]\) with \(n\) equally spaced points \(t_{j}=jh\) and \(h=8/(n-1)\), define \(f(y_{1},y_{2})=(y_{2},-(k/m)y_{1})\).
+
+Forward Euler for \(y'=f(y)\) is
+\[
+y^{j+1}=y^{j}+h f(y^{j}).
+\]
+
+Classical RK4 is
+\[
+\begin{aligned}
+k_{1}&=f(y^{j}),\\
+k_{2}&=f(y^{j}+\frac{h}{2}k_{1}),\\
+k_{3}&=f(y^{j}+\frac{h}{2}k_{2}),\\
+k_{4}&=f(y^{j}+h k_{3}),\\
+y^{j+1}&=y^{j}+\frac{h}{6}\bigl(k_{1}+2k_{2}+2k_{3}+k_{4}\bigr).
+\end{aligned}
+\]
+
+\paragraph{(iii)}
+Let \(T\) minimize the discrete least-squares error
+\[
+E(T)=\min_{a,b}\sum_{j=0}^{n-1}\bigl[x(t_{j})-a\cos(2\pi t_{j}/T)-b\sin(2\pi t_{j}/T)\bigr]^{2}.
+\]
+Set \(\hat{T}\) to this minimizer and define
+\[
+\hat{\pi}=\frac{\hat{T}}{2\sqrt{m/k}}.
+\]
+Numerically, \(\hat{\pi}\) obtained from RK4 exhibits \(O(h^{4})\) convergence, while with Euler the observed order is \(O(h)\) for this particular estimator. 
+
+\paragraph{Python code for plotting and estimating \(\pi\)}
+\begin{verbatim}
+# Requires: numpy, matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
+
+# problem data
+k, m = 2.0, 3.0
+omega = np.sqrt(k/m)
+T_true = 2.0*np.pi*np.sqrt(m/k)
+
+def f(y):
+    x, v = y
+    return np.array([v, -(k/m)*x])
+
+def euler(npts=200, Tend=8.0):
+    h = Tend/(npts-1)
+    t = np.linspace(0.0, Tend, npts)
+    x = np.zeros(npts); v = np.zeros(npts)
+    x[0] = 1.0; v[0] = 1.0
+    for j in range(npts-1):
+        x[j+1] = x[j] + h*v[j]
+        v[j+1] = v[j] - h*(k/m)*x[j]
+    return t, x, v
+
+def rk4(npts=200, Tend=8.0):
+    h = Tend/(npts-1)
+    t = np.linspace(0.0, Tend, npts)
+    x = np.zeros(npts); v = np.zeros(npts)
+    x[0] = 1.0; v[0] = 1.0
+    for j in range(npts-1):
+        y = np.array([x[j], v[j]])
+        k1 = f(y)
+        k2 = f(y + 0.5*h*k1)
+        k3 = f(y + 0.5*h*k2)
+        k4 = f(y + h*k3)
+        y_next = y + (h/6.0)*(k1 + 2*k2 + 2*k3 + k4)
+        x[j+1], v[j+1] = y_next
+    return t, x, v
+
+# Least-squares period fit with phase: minimize over a,b for each T
+def sse_T_phase(t, x, T):
+    w = 2.0*np.pi/T
+    c = np.cos(w*t); s = np.sin(w*t)
+    X = np.vstack([c, s]).T
+    G = X.T @ X
+    rhs = X.T @ x
+    a_b = np.linalg.solve(G, rhs)
+    r = x - X @ a_b
+    return float(r @ r)
+
+def fit_T_phase(t, x, T0, widen=0.3, refinements=6, grid=1201):
+    lo = (1.0 - widen)*T0
+    hi = (1.0 + widen)*T0
+    for _ in range(refinements):
+        Ts = np.linspace(lo, hi, grid)
+        errs = np.array([sse_T_phase(t, x, T) for T in Ts])
+        j = int(np.argmin(errs))
+        j0 = max(j-1, 0); j1 = min(j+1, len(Ts)-1)
+        lo, hi = Ts[j0], Ts[j1]
+    return 0.5*(lo + hi)
+
+def pi_from_T(T_hat):
+    return T_hat/(2.0*np.sqrt(m/k))
+
+# run both solvers with n=200 on [0,8]
+tE, xE, vE = euler(npts=200, Tend=8.0)
+tR, xR, vR = rk4(npts=200, Tend=8.0)
+
+# plot x(t)
+plt.figure()
+plt.plot(tE, xE, label="Euler")
+plt.plot(tR, xR, label="RK4", linestyle="--")
+plt.xlabel("t"); plt.ylabel("x(t)")
+plt.title("Simple harmonic oscillator, k=2, m=3")
+plt.legend(); plt.tight_layout(); plt.show()
+
+# period and pi estimates via LS fit with phase
+T_E = fit_T_phase(tE, xE, T_true)
+T_R = fit_T_phase(tR, xR, T_true)
+pi_euler = pi_from_T(T_E)
+pi_rk4   = pi_from_T(T_R)
+print("pi (Euler, n=200) =", pi_euler)
+print("pi (RK4,   n=200) =", pi_rk4)
+
+# convergence study (observed orders)
+def observed_orders(method, Ns=(50,100,200,400,800,1600)):
+    errs = []
+    for n in Ns:
+        t, x, v = (euler(n) if method=="euler" else rk4(n))
+        That = fit_T_phase(t, x, T_true)
+        errs.append(abs(pi_from_T(That) - np.pi))
+    orders = [np.log(errs[j-1]/errs[j])/np.log(2.0) for j in range(1,len(errs))]
+    return errs, orders
+
+errsE, ordE = observed_orders("euler")
+errsR, ordR = observed_orders("rk4")
+print("Euler errors:", errsE)
+print("Euler observed orders:", ordE)
+print("RK4 errors:", errsR)
+print("RK4 observed orders:", ordR)
+\end{verbatim}
+
+Running with \(n=200\) typically yields
+\[
+\pi_{\text{Euler}}\approx 3.12846,\qquad \pi_{\text{RK4}}\approx 3.141592684,
+\]
+and a halving study reports orders close to \(1\) for Euler and \(4\) for RK4 for this estimator.
+
+
+
+\newpage
+
+
+
+{\bf Question 2.}
+With \(v_{1}(0)=0.5\), \(v_{2}(0)=0.1\), \(a=0.1\), \(\epsilon=0.008\), \(\gamma=1\), and current \(I\), the FitzHugh–Nagumo model is
+\[
+\frac{dv_{1}}{dt}=-v_{1}(v_{1}-1)(v_{1}-a)-v_{2}+I,\qquad
+\frac{dv_{2}}{dt}=\epsilon\bigl(v_{1}-\gamma v_{2}\bigr).
+\]
+For each \(I\in\{0.05527,0.05683,0.0568385,0.05740\}\) the numerical solution on \(0\le t\le 600\) rapidly approaches a limit cycle. The time series \(v_{1}(t)\) settles into periodic oscillations and the trajectory in the \((v_{1},v_{2})\) plane spirals to a closed orbit.
+
+\paragraph{Python code to generate all requested plots at \(10^{-9}\) accuracy}
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
+
+# Parameters and initial data
+a = 0.1
+eps = 0.008
+gamma = 1.0
+y0 = np.array([0.5, 0.1])
+t_span = (0.0, 600.0)
+I_values = [0.05527, 0.05683, 0.0568385, 0.05740]
+
+def f(t, y, I):
+    v1, v2 = y
+    return np.array([
+        -v1*(v1-1.0)*(v1-a) - v2 + I,
+        eps*(v1 - gamma*v2)
+    ])
+
+# High-resolution output grid only for plotting (solver is adaptive)
+t_plot = np.linspace(t_span[0], t_span[1], 60001)
+
+fig_ts, axs_ts = plt.subplots(4, 1, figsize=(9, 10), sharex=True)
+fig_pp, axs_pp = plt.subplots(2, 2, figsize=(10, 9))
+axs_pp = axs_pp.ravel()
+
+for k, I in enumerate(I_values):
+    sol = solve_ivp(
+        fun=lambda t, y: f(t, y, I),
+        t_span=t_span,
+        y0=y0,
+        method="RK45",          # high-order explicit method
+        rtol=1e-9, atol=1e-9,
+        dense_output=True,
+    )
+    # Evaluate on a uniform grid for plotting
+    Y = sol.sol(t_plot)
+    v1 = Y[0]; v2 = Y[1]
+
+    # time series of v1(t)
+    axs_ts[k].plot(t_plot, v1)
+    axs_ts[k].set_ylabel("v1(t)")
+    axs_ts[k].set_title(f"I = {I:.7f}")
+    axs_ts[k].grid(True, alpha=0.3)
+
+    # phase portrait
+    axs_pp[k].plot(v1, v2)
+    axs_pp[k].set_xlabel("v1")
+    axs_pp[k].set_ylabel("v2")
+    axs_pp[k].set_title(f"I = {I:.7f}")
+    axs_pp[k].grid(True, alpha=0.3)
+
+axs_ts[-1].set_xlabel("t")
+fig_ts.tight_layout()
+fig_pp.tight_layout()
+plt.show()
+
+# Optional: coarse period estimate after transients using peaks of v1
+def estimate_period(t, x, t_start=200.0):
+    # simple local-maximum detector
+    idx = np.where(t >= t_start)[0]
+    t2, x2 = t[idx], x[idx]
+    peaks = []
+    for j in range(1, len(x2)-1):
+        if x2[j-1] < x2[j] and x2[j] >= x2[j+1]:
+            # quadratic refinement near the peak (j-1, j, j+1)
+            t0, t1, t2p = t2[j-1], t2[j], t2[j+1]
+            y0, y1, y2p = x2[j-1], x2[j], x2[j+1]
+            # fit y = A t^2 + B t + C
+            M = np.array([[t0*t0, t0, 1.0],
+                          [t1*t1, t1, 1.0],
+                          [t2p*t2p, t2p, 1.0]])
+            A, B, C = np.linalg.solve(M, np.array([y0, y1, y2p]))
+            t_peak = -B/(2.0*A)
+            peaks.append(t_peak)
+    if len(peaks) < 2:
+        return np.nan
+    # use the last few spacings to reduce transient bias
+    diffs = np.diff(peaks[-6:])
+    return float(np.mean(diffs))
+
+for I in I_values:
+    sol = solve_ivp(lambda t, y: f(t, y, I), t_span, y0,
+                    method="RK45", rtol=1e-9, atol=1e-9, dense_output=True)
+    v1 = sol.sol(t_plot)[0]
+    T_hat = estimate_period(t_plot, v1, t_start=200.0)
+    print(f"I={I:.7f}, estimated period ~ {T_hat:.6f}")
+\end{verbatim}
+
+\paragraph{What to look for in the plots}
+For each \(I\) the time series \(v_{1}(t)\) settles quickly to an oscillation with nearly constant amplitude and spacing. In the phase plane the trajectory spirals from the initial point \((0.5,0.1)\) onto a closed loop, demonstrating a stable periodic orbit. As \(I\) increases from \(0.05527\) to \(0.05740\), the oscillation frequency increases slightly and the loop deforms, illustrating the sensitivity to \(I\).
+
+
+\newpage
+
+
+
+{\bf Question 3.}
+
+% ---------- Q3: Implicit Multistep Accuracy and Closed-Form Updates ----------
+
+\paragraph{(i) Local truncation error by Taylor expansion about $t_{n}$}
+Insert the exact smooth solution into each scheme and expand all quantities about $t_{n}$. Write
+\[
+y(t_{n+1})=y(t_{n})+h y'(t_{n})+\tfrac12 h^{2}y''(t_{n})+\tfrac16 h^{3}y^{(3)}(t_{n})+\tfrac1{24}h^{4}y^{(4)}(t_{n})+\tfrac1{120}h^{5}y^{(5)}(t_{n})+O(h^{6}),
+\]
+\[
+y(t_{n-1})=y(t_{n})-h y'(t_{n})+\tfrac12 h^{2}y''(t_{n})-\tfrac16 h^{3}y^{(3)}(t_{n})+\tfrac1{24}h^{(4)}(t_{n})-\tfrac1{120}h^{(5)}(t_{n})+O(h^{6}),
+\]
+and similarly for the derivatives
+\[
+y'(t_{n+1})=y'(t_{n})+h y''(t_{n})+\tfrac12 h^{2}y^{(3)}(t_{n})+\tfrac16 h^{3}y^{(4)}(t_{n})+\tfrac1{24}h^{5}y^{(5)}(t_{n})+O(h^{6}),
+\]
+\[
+y'(t_{n-1})=y'(t_{n})-h y''(t_{n})+\tfrac12 h^{2}y^{(3)}(t_{n})-\tfrac16 h^{3}y^{(4)}(t_{n})+\tfrac1{24}h^{5}y^{(5)}(t_{n})+O(h^{6}).
+\]
+The first method, \(\displaystyle \frac{3y_{n+1}-4y_{n}+y_{n-1}}{2h}=f(t_{n+1},y_{n+1})\),
+has one step residual of
+\[
+\frac{3y(t_{n+1})-4y(t_{n})+y(t_{n-1})}{2h}-y'(t_{n+1})
+= -\tfrac13 h^{2}y^{(3)}(t_{n})-\tfrac1{12} h^{3}y^{(4)}(t_{n})-\tfrac1{30} h^{4}y^{(5)}(t_{n})+O(h^{5}).
+\]
+Thus, the usual local truncation error is \(O(h^{2})\).
+
+For the second method, \(\displaystyle y_{n+1}=y_{n}+\frac{h}{12}\bigl(5f(t_{n+1},y_{n+1})+8f(t_{n},y_{n})-f(t_{n-1},y_{n-1})\bigr)\),
+substituting \(f(t,y(t))=y'(t)\) and expanding about \(t_{n}\) gives the residual
+\[
+y(t_{n+1})-y(t_{n})-\frac{h}{12}\Bigl(5y'(t_{n+1})+8y'(t_{n})-y'(t_{n-1})\Bigr)
+= -\tfrac1{24}h^{4}y^{(4)}(t_{n})-\tfrac1{180}h^{5}y^{(5)}(t_{n})+O(h^{6}).
+\]
+Hence, the local truncation error is \(O(h^{3})\).
+
+\paragraph{(ii) Closed-form updates for \(f(t,y)=a(t)y^{2}+b(t)y+c(t)\)}
+
+For the first method,
+\[
+\frac{3y_{n+1}-4y_{n}+y_{n-1}}{2h}=a(t_{n+1})y_{n+1}^{2}+b(t_{n+1})y_{n+1}+c(t_{n+1}).
+\]
+Rearrange to the quadratic form
+\[
+a(t_{n+1})y_{n+1}^{2}+\Bigl(b(t_{n+1})-\tfrac{3}{2h}\Bigr)y_{n+1}
++\Bigl(c(t_{n+1})+\tfrac{4y_{n}-y_{n-1}}{2h}\Bigr)=0,
+\]
+so
+\[
+y_{n+1}=\frac{-\Bigl(b(t_{n+1})-\tfrac{3}{2h}\Bigr)\pm
+\sqrt{\Bigl(b(t_{n+1})-\tfrac{3}{2h}\Bigr)^{2}-4a(t_{n+1})\Bigl(c(t_{n+1})+\tfrac{4y_{n}-y_{n-1}}{2h}\Bigr)}}{2a(t_{n+1})}.
+\]
+
+For the second method, the formula is uglier, so I did not ask you to write it out. If you were interested:
+\[
+y_{n+1}=y_{n}+\frac{h}{12}\Bigl(5\bigl(a(t_{n+1})y_{n+1}^{2}+b(t_{n+1})y_{n+1}+c(t_{n+1})\bigr)
++8\bigl(a(t_{n})y_{n}^{2}+b(t_{n})y_{n}+c(t_{n})\bigr)
+-\bigl(a(t_{n-1})y_{n-1}^{2}+b(t_{n-1})y_{n-1}+c(t_{n-1})\bigr)\Bigr).
+\]
+Bringing all terms to the left yields
+\[
+-\tfrac{5h}{12}a(t_{n+1})y_{n+1}^{2}
++\Bigl(1-\tfrac{5h}{12}b(t_{n+1})\Bigr)y_{n+1}
+-\Bigl(y_{n}+\tfrac{h}{12}\bigl(8(a(t_{n})y_{n}^{2}+b(t_{n})y_{n}+c(t_{n}))
+-(a(t_{n-1})y_{n-1}^{2}+b(t_{n-1})y_{n-1}+c(t_{n-1}))\bigr)
++\tfrac{5h}{12}c(t_{n+1})\Bigr)=0,
+\]
+so
+\[
+y_{n+1}=\frac{-\Bigl(1-\tfrac{5h}{12}b(t_{n+1})\Bigr)\pm
+\sqrt{\Bigl(1-\tfrac{5h}{12}b(t_{n+1})\Bigr)^{2}-\tfrac{5h}{3}a(t_{n+1})\Bigl(
+y_{n}+\tfrac{h}{12}\bigl(8(a(t_{n})y_{n}^{2}+b(t_{n})y_{n}+c(t_{n}))
+-(a(t_{n-1})y_{n-1}^{2}+b(t_{n-1})y_{n-1}+c(t_{n-1}))\bigr)
++\tfrac{5h}{12}c(t_{n+1})\Bigr)}}{-\tfrac{5h}{6}a(t_{n+1})}.
+\]
+Either algebraic sign gives a formal solution.
+
+\paragraph{(iii) Application on \(t\in[0,5]\) with branch chosen by proximity to the Euler step}
+
+For
+\[
+y'=\frac{t}{t+1}y^{2}-\frac{t+1}{t+2}y,\qquad y(0)=\tfrac14,
+\]
+use the uniform grid \(t_{n}=nh\). At each step form the forward Euler predictor
+\[
+y_{n}^{\text{pred}}=y_{n}+h\Bigl(\frac{t_{n}}{t_{n}+1}y_{n}^{2}-\frac{t_{n}+1}{t_{n}+2}y_{n}\Bigr).
+\]
+Evaluate both quadratic roots given above for \(y_{n+1}\) and choose the one whose absolute difference from \(y_{n}^{\text{pred}}\) is smaller. This selection suppresses the spurious algebraic branch that can cause immediate divergence.
+
+\paragraph{Reference Python implementing both methods and the branch-selection rule}
+\begin{verbatim}
+# Requires: numpy, matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
+
+def a(t): return t/(t+1.0)
+def b(t): return -(t+1.0)/(t+2.0)
+def c(t): return 0.0
+def f(t, y): return a(t)*y*y + b(t)*y + c(t)
+
+def pick_closest(root1, root2, predictor):
+    return root1 if abs(root1 - predictor) <= abs(root2 - predictor) else root2
+
+def step_first_method(tnp1, yn, ynm1, h):
+    # Quadratic coefficients for the first method
+    A = a(tnp1)
+    B = b(tnp1) - 3.0/(2.0*h)
+    C = c(tnp1) + (4.0*yn - ynm1)/(2.0*h)
+    D = B*B - 4.0*A*C
+    if D < 0: raise RuntimeError("negative discriminant in first method")
+    r = np.sqrt(D)
+    y1 = (-B + r)/(2.0*A)
+    y2 = (-B - r)/(2.0*A)
+    predictor = yn + h*f(tnp1 - h, yn)  # Euler predictor at t_n
+    return pick_closest(y1, y2, predictor)
+
+def step_second_method(tnp1, tn, tnm1, yn, ynm1, h):
+    # Quadratic coefficients for the second method
+    F_n   = f(tn, yn)
+    F_nm1 = f(tnm1, ynm1)
+    A = -(5.0*h/12.0)*a(tnp1)
+    B = 1.0 - (5.0*h/12.0)*b(tnp1)
+    C = - ( yn + (h/12.0)*(8.0*F_n - F_nm1) + (5.0*h/12.0)*c(tnp1) )
+    D = B*B - 4.0*A*C
+    if D < 0: raise RuntimeError("negative discriminant in second method")
+    r = np.sqrt(D)
+    y1 = (-B + r)/(2.0*A)
+    y2 = (-B - r)/(2.0*A)
+    predictor = yn + h*F_n  # Euler predictor at t_n
+    return pick_closest(y1, y2, predictor)
+
+def integrate(method="first", h=1e-2):
+    T0, T1 = 0.0, 5.0
+    N = int(round((T1 - T0)/h))
+    t = np.linspace(T0, T1, N+1)
+    y = np.zeros_like(t)
+    # start with y(0) and a single forward Euler step for y_1
+    y[0] = 0.25
+    y[1] = y[0] + h*f(t[0], y[0])
+    for n in range(1, N):
+        if method == "first":
+            y[n+1] = step_first_method(t[n+1], y[n], y[n-1], h)
+        else:
+            y[n+1] = step_second_method(t[n+1], t[n], t[n-1], y[n], y[n-1], h)
+    return t, y
+
+h = 0.01
+t1, y1 = integrate(method="first",  h=h)
+t2, y2 = integrate(method="second", h=h)
+
+plt.figure()
+plt.plot(t1, y1, label="first method")
+plt.plot(t2, y2, label="second method", linestyle="--")
+plt.xlabel("t"); plt.ylabel("y(t)")
+plt.title("Implicit two step methods with branch chosen by Euler proximity")
+plt.legend(); plt.tight_layout(); plt.show()
+\end{verbatim}
+
+
+
+\end{document}

@@ -1,0 +1,146 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 03}
+\date{Due: Friday, Feb 13, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+% Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{questions}
+
+\question 
+\label{q:Q1}
+Say you want to find a polynomial $p$ such that 
+\begin{align*}
+p(-1) = -2, \quad p'(-1) = 4, \quad p(1) = 2.
+\end{align*}
+(This is known as a Hermite interpolant.) 
+
+\begin{parts}
+  \part What is the minimum degree of $p$ needed? Write out a linear system of equations $A\vec{x} = \vec{b}$ for the coefficients of $p$.
+  
+  \begin{solution}
+  Minimum degree: 2
+  
+  $$\begin{bmatrix} 1 & -1 & 1 \\ 0 & 1 & -2 \\ 1 & 1 & 1 \end{bmatrix} \begin{bmatrix} a_0 \\ a_1 \\ a_2 \end{bmatrix} = \begin{bmatrix} -2 \\ 4 \\ 2 \end{bmatrix}$$
+  \end{solution}
+  
+  \part Perform LU decomposition of $A$ by hand.
+  
+  \begin{solution}
+  $$L = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 2 & 1 \end{bmatrix}, \quad U = \begin{bmatrix} 1 & -1 & 1 \\ 0 & 1 & -2 \\ 0 & 0 & 4 \end{bmatrix}$$
+  \end{solution}
+  
+  \part Solve for the coefficients of $p$ using your LU decomposition.
+  
+  \begin{solution}
+  $$p(x) = 1 + 2x - x^2$$
+  \end{solution}
+\end{parts}
+
+\question \textbf{Understanding elementary matrices.}
+
+There are three types of elementary row operations:
+\begin{itemize}
+  \item Type 1: Swap two rows $R_i \leftrightarrow R_j$.
+  \item Type 2: Add a scalar multiple of one row to another row $R_i \leftarrow R_i + \alpha R_j$.
+  \item Type 3: Multiply a row by a nonzero scalar $R_i \leftarrow \alpha R_i$.
+\end{itemize}
+
+Let $A$ be a $4 \times 4$ matrix. 
+\begin{parts}
+  \part Write a matrix $E_1$ that performs the row operation $R_1 \leftrightarrow R_3$ when left-multiplied to $A$.
+  
+  \begin{solution}
+  $E_1 = \begin{bmatrix} 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}$
+  \end{solution}
+  
+  \part Write a matrix $E_2$ that performs the row operation $R_2 \leftarrow R_2 + 5R_4$ when left-multiplied to $A$.
+  
+  \begin{solution}
+  $E_2 = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 5 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}$
+  \end{solution}
+  
+  \part Write a matrix $E_3$ that performs the row operation $R_3 \leftarrow 2R_3$ when left-multiplied to $A$.
+  
+  \begin{solution}
+  $E_3 = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 2 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}$
+  \end{solution}
+  
+  \part What is the inverse of each of the matrices in parts (a), (b), and (c)? \textit{Hint: think about how you would invert the corresponding row operation.}
+  
+  \begin{solution}
+  $$E_1^{-1} = E_1 = \begin{bmatrix} 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 1 & 0 & 0 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}$$
+  
+  $$E_2^{-1} = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & -5 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}$$
+  
+  $$E_3^{-1} = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1/2 & 0 \\ 0 & 0 & 0 & 1 \end{bmatrix}$$
+  \end{solution}
+\end{parts}
+
+\question 
+Gaussian elimination works by repeatedly left-multiplying by elementary matrices (encoded as row operations) to reduce $A$ to a desired form. In this problem you'll see a demonstration of the following theorem: Every invertible matrix $A$ can be expressed as a product of elementary matrices. 
+
+Consider the matrix 
+\[
+A = \begin{bmatrix} 0 & 1 & 0 \\ 2 & 0 & 0 \\ 2 & 2 & 1 \end{bmatrix}.
+\]
+
+\begin{parts}
+  \part Row reduce this matrix all the way to the identity matrix $I$ using elementary row operations. Keep track of the row operations you perform.
+  
+  \begin{solution}
+  Row operations: $R_1 \leftrightarrow R_2$, $R_1 \leftarrow \frac{1}{2}R_1$, $R_3 \leftarrow R_3 - 2R_1$, $R_3 \leftarrow R_3 - 2R_2$
+  \end{solution}
+  
+  \part Write each of the row operations you performed as an elementary matrix $E_i$.
+  
+  \begin{solution}
+  $$E_1 = \begin{bmatrix} 0 & 1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 1 \end{bmatrix}, \quad
+  E_2 = \begin{bmatrix} 1/2 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}, \quad
+  E_3 = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ -2 & 0 & 1 \end{bmatrix}, \quad
+  E_4 = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & -2 & 1 \end{bmatrix}$$
+  \end{solution}
+  
+  \part Reverse the Gaussian elimination (i.e. go from $I$ to $A$) and use this to write $A$ as a product of elementary matrices.
+  
+  \begin{solution}
+  $$A = \begin{bmatrix} 0 & 1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 1 \end{bmatrix}
+  \begin{bmatrix} 2 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}
+  \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 2 & 0 & 1 \end{bmatrix}
+  \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 2 & 1 \end{bmatrix}$$
+  \end{solution}
+\end{parts}
+
+\question 
+
+Jupyter notebook.
+
+\end{questions}
+
+See instructions on the next page for details on submission and grading policy.
+
+
+\section*{Quiz Information}
+
+The quiz will be held on {\bf Tuesday, February 10, 2026} during the discussion section.
+
+Quiz questions will be modifications of the homework problems and material discussed in class. Students who rely on automated solutions to complete this homework will likely struggle on the quiz, as it requires genuine understanding of the concepts.
+
+\textbf{Topics covered:} 
+
+Chapters 1.2, 1.4. The emphasis will be on Ch 1.2.
+
+
+\end{document}

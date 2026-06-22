@@ -194,7 +194,11 @@ Current work aims to further analyze the complexity of first-order algorithms on
   }
 </style>
 
+
+Feel free to use my <a href="/chalk-studio">chalk studio</a> to generate custom text, math, or images for your presentations.
 <div class="slides">
+
+
 
   <div class="slide-row">
     <div class="bullet-points">

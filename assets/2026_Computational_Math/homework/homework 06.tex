@@ -1,0 +1,154 @@
+\documentclass[reqno]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 06}
+\date{Due: Friday, Mar 06, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+\item Textbook Exercise 4.1.7 a, d
+\begin{solution}
+\textbf{(a)} $f(x) = x^3 - 2x^2 + x - 2$, root $r = 2$
+
+Verify: $f(2) = 0$ \checkmark
+
+For multiplicity: $f'(x) = 3x^2 - 4x + 1$, so $f'(2) = 5 \neq 0$.
+
+Thus the root has \textbf{multiplicity 1}, with absolute condition number:
+$$\kappa_{abs} = \frac{|r|}{|f'(r)|} = \frac{2}{5}$$
+
+\textbf{(d)} $f(x) = (x-1)\log(x)$, root $r = 1$
+
+Verify: $f(1) = 0$ \checkmark
+
+For multiplicity: $f'(x) = \log(x) + \frac{x-1}{x}$, so $f'(1) = 0$.
+
+Check second derivative: $f''(x) = \frac{1}{x} + \frac{1}{x^2}$, so $f''(1) = 2 \neq 0$.
+
+Thus the root has \textbf{multiplicity 2}. Condition number not computed for non-simple roots.
+\end{solution}
+
+\item Textbook Exercise 4.2.3 a, d
+\begin{solution}
+\textbf{(a)} $g(x) = 3 + x - x^2$, $p = \sqrt{3}$
+
+Verify: $g(\sqrt{3}) = \sqrt{3}$ \checkmark
+
+For convergence: $g'(x) = 1 - 2x$, so $g'(\sqrt{3}) = 1 - 2\sqrt{3}$.
+
+Since $|g'(\sqrt{3})| = 2\sqrt{3} - 1 \approx 2.464 > 1$, the iteration \textbf{will NOT converge}.
+
+\textbf{(d)} $g(x) = x + 1 - \tan(\pi x)$, $p = 1/4$
+
+Verify: $g(1/4) = 1/4$ \checkmark
+
+For convergence: $g'(x) = 1 - \pi \sec^2(\pi x)$, so $g'(1/4) = 1 - 2\pi$.
+
+Since $|g'(1/4)| = 2\pi - 1 \approx 5.283 > 1$, the iteration \textbf{will NOT converge}.
+\end{solution}
+
+\item Textbook Exercise 4.2.5
+\begin{solution}
+Given $g(x) = \frac{a}{x^{m-1}}$ where $a > 0$ and integer $m > 1$.
+
+Verify fixed point: $g(a^{1/m}) = a^{1/m}$ \checkmark
+
+For convergence: $g'(x) = -\frac{(m-1)a}{x^m}$, so $g'(p) = -(m-1)$.
+
+Convergence requires $|g'(p)| < 1$, which gives $|m-1| < 1$, or $0 < m < 2$.
+
+Since $m$ must be an integer with $m > 1$, there are \textbf{no integer values} satisfying this condition:
+\begin{itemize}
+\item $m = 2$: $|g'(p)| = 1$ (borderline)
+\item $m \geq 3$: $|g'(p)| \geq 2 > 1$ (diverges)
+\end{itemize}
+\end{solution}
+
+\item Textbook Exercise 4.2.7
+\begin{solution}
+Given iteration: $x_{k+1} = x_k - \frac{f(x_k)}{c}$
+
+This is fixed-point iteration with $g(x) = x - \frac{f(x)}{c}$.
+
+Verify: $g(p) = p$ since $f(p) = 0$ \checkmark
+
+For convergence: $g'(x) = 1 - \frac{f'(x)}{c}$, so $g'(p) = 1 - \frac{f'(p)}{c}$.
+
+Require $|g'(p)| < 1$:
+$$\left|1 - \frac{f'(p)}{c}\right| < 1 \implies -1 < 1 - \frac{f'(p)}{c} < 1$$
+
+This gives $0 < \frac{f'(p)}{c} < 2$.
+
+Since $f'(p) > 0$, we need $c > 0$ and:
+$$\boxed{c > \frac{f'(p)}{2}}$$
+\end{solution}
+
+\item Textbook Exercise 4.5.1
+\begin{solution}
+Given $f(x) = \begin{bmatrix} x_1 x_2 + x_2^2 - 1 \\ x_1 x_2^3 + x_1^2 x_2^2 + 1 \end{bmatrix}$ and $x_1 = \begin{bmatrix} -2 \\ 1 \end{bmatrix}$.
+
+Jacobian:
+$$J_f(x) = \begin{bmatrix} x_2 & x_1 + 2x_2 \\ x_2^3 + 2x_1 x_2^2 & 3x_1 x_2^2 + 2x_1^2 x_2 \end{bmatrix}$$
+
+At $x_1 = \begin{bmatrix} -2 \\ 1 \end{bmatrix}$:
+$$f(x_1) = \begin{bmatrix} -2 \\ 3 \end{bmatrix}, \quad J_f(x_1) = \begin{bmatrix} 1 & 0 \\ -3 & 2 \end{bmatrix}$$
+
+Solve $J_f(x_1) \Delta x = -f(x_1) = \begin{bmatrix} 2 \\ -3 \end{bmatrix}$:
+
+From row 1: $\Delta x_1 = 2$. From row 2: $\Delta x_2 = \frac{3}{2}$.
+
+Therefore:
+$$\boxed{x_2 = \begin{bmatrix} -2 \\ 1 \end{bmatrix} + \begin{bmatrix} 2 \\ 3/2 \end{bmatrix} = \begin{bmatrix} 0 \\ 5/2 \end{bmatrix}}$$
+\end{solution}
+
+\item Suppose $r$ is a root of $f(x)$ with $f''(r) = 0$. Derive the convergence rate of Newton's method in this case near the root $r$. Your answer cannot be that the error is 0.
+
+\begin{solution}
+\begin{align*}
+    x_{k+1} &= x_k - \frac{f(x_k)}{f'(x_k)} \\
+    \implies 
+    x_{k+1} &= x_k - \frac{f(x_k)}{f'(x_k)} \\
+\end{align*}
+
+\end{solution}
+
+\item Jupyter notebook
+
+\end{enumerate}
+
+
+
+\section*{Quiz Information}
+
+The quiz will be held on {\bf Tuesday, March 10, 2026} during the discussion section.
+
+Quiz questions will be modifications of the homework problems and material discussed in class.
+
+\textbf{Topics covered:} 
+
+Chapters 4.1, 4.2, 4.3, and 4.5.
+
+\begin{itemize}
+    \item Conditioning of root-finding problem
+    \item Convergence analysis of fixed point iteration
+    \item Convergence analysis of Newton's method
+    \item Newton's method for systems of nonlinear equations
+\end{itemize}
+
+You should be able to derive the convergence rate of recursive algorithms as done in class using Taylor expansions.
+
+
+\end{document}

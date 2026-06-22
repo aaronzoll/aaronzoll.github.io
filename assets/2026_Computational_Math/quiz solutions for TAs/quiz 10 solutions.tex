@@ -1,0 +1,101 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{Quiz 10, ICM, Spring 2026 \hspace{1ex} JHED: \underline{\hspace{20ex}} \hspace{2ex} Name: \underline{\hspace{40ex}}}}
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+\question[10]
+  Heun's method is a Runge-Kutta method with the following Butcher tableau:
+\begin{equation*}
+            \begin{array}{c|cc}
+              0   &      &     \\[0.5em]
+              1/3   & 1/3  &     \\[0.5em]
+              \hline
+                  & 2/3 & 2/3 \\
+            \end{array}
+\end{equation*}
+
+Consider the IVP $u' = -u, u(0) = 1$.
+
+The method is stable for a given step size $h$ if $|u_n|$ does not grow without bound as $n \to \infty$.
+
+\begin{parts}
+\part Find some $h$ for which the numerical solution is stable.
+\part Find some $h$ for which the numerical solution is unstable.
+\end{parts}
+
+Show all your work.
+
+\begin{solution}
+For $u' = -u$, apply the Runge-Kutta method:
+\begin{align*}
+k_1 &= -u_n \\
+k_2 &= -(u_n + hk_1/3) = -u_n(1 - h/3) \\
+u_{n+1} &= u_n + h\left(\frac{2}{3}k_1 + \frac{2}{3}k_2\right) \\
+&= u_n + \frac{2h}{3}[-u_n - u_n(1-h/3)] \\
+&= u_n\left(1 - \frac{4h}{3} + \frac{2h^2}{9}\right)
+\end{align*}
+
+The growth factor is $R(h) = 1 - \frac{4h}{3} + \frac{2h^2}{9}$.
+
+Stability requires $|R(h)| \leq 1$.
+
+Check values of $h$ by trial and error analysis. Here are two examples:
+
+\textbf{Part (a):} Let $h = 1$. Then:
+$$R(1) = 1 - \frac{4}{3} + \frac{2}{9} = \frac{9 - 12 + 2}{9} = -\frac{1}{9}$$
+Since $|R(1)| = 1/9 < 1$, the method is \textbf{stable} for $h = 1$.
+
+\textbf{Part (b):} 
+Try $h = 7$:
+$$R(7) = 1 - \frac{28}{3} + \frac{98}{9} = \frac{9 - 84 + 98}{9} = \frac{23}{9}$$
+Since $|R(7)| = 23/9 \approx 2.56 > 1$, the method is \textbf{unstable} for $h = 7$.
+\end{solution}
+
+\newpage 
+
+\question[5]
+Find the Butcher tableau for the following Runge-Kutta method:
+\begin{align*}
+k_1 &= f(t_n, y_n)\\
+k_2 &= f\!\left(t_n + \tfrac{1}{3}h,\; y_n + \tfrac{1}{3}h k_1\right)\\
+k_3 &= f\!\left(t_n + \tfrac{2}{3}h,\; y_n - \tfrac{1}{3}h k_1 + h k_2\right)\\
+k_4 &= f(t_n + h,\; y_n + h k_1 - h k_2 + h k_3)\\
+y_{n+1} &= y_n + h\left(\tfrac{1}{8}k_1 + \tfrac{3}{8}k_2 + \tfrac{3}{8}k_3 + \tfrac{1}{8}k_4\right)
+\end{align*}
+
+\begin{solution}
+The Butcher tableau is:
+\begin{equation*}
+\begin{array}{c|cccc}
+0   & 0    & 0    & 0   & 0   \\[0.5em]
+1/3 & 1/3  & 0    & 0   & 0   \\[0.5em]
+2/3 & -1/3 & 1    & 0   & 0   \\[0.5em]
+1   & 1    & -1   & 1   & 0   \\[0.5em]
+\hline
+    & 1/8  & 3/8  & 3/8 & 1/8 \\
+\end{array}
+\end{equation*}
+
+This is the classical fourth-order Runge-Kutta method (RK4).
+\end{solution}
+
+\end{questions}
+\end{document}

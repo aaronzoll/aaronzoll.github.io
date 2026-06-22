@@ -1,0 +1,50 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Section 12, Nov 21 (not due or graded).\\
+}
+\end{center}
+
+\noindent {\it Section will give you time to work on/discuss questions in small groups and then present your solutions. The questions below are selected exercises from the textbook to help build comfort and expertise with the ideas we've been discussing. The last question is from a prior exam in this course.
+\\
+}
+
+\noindent {\bf Q1.} Attempt Exercises 1 through 5 in Section 6.4 of Driscoll and Braun (\url{https://fncbook.com/}).
+
+\vskip2cm
+
+\noindent {\bf Q2.} Consider the following initial value problem given by a system of two first-order differential equations
+$$
+\begin{bmatrix}
+    \frac{d}{dt} x(t)\\ \frac{d}{dt} y(t) 
+\end{bmatrix} = \begin{bmatrix}
+    -y(t)\\ x(t) 
+\end{bmatrix}
+$$
+with initial condition $x(0)=1$ and $y(0)=0$. Note the true solution to this system of equations is $\hat x(t)=\cos(t)$ and $\hat y(t) = \sin(t)$ (geometrically, this just spins counter-clockwise).\\
+
+\noindent {\bf (a)}
+State an upper bound on how different Euler's method with a generic stepsize $h>0$ can be from the true solution at a generic time $t>0$. \\ 
+Calculate and plot the trajectory of Euler's method with $h=1$ for two steps.
+
+\vskip 3cm
+
+
+\noindent {\bf (b)} State an upper bound on how different the Improved Euler's method with a generic stepsize $h>0$ can be from the true solution at a generic time $t>0$. \\
+Calculate and plot the trajectory of the Improved Euler's method with $h=1$ for two steps.
+
+\end{document} 

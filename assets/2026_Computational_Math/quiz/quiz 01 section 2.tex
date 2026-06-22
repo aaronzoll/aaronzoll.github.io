@@ -1,0 +1,141 @@
+\documentclass[reqno]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{graphicx}
+\usepackage{enumitem}
+
+% Improved spacing
+\usepackage[top=1in, bottom=0.8in, left=1in, right=1in]{geometry}
+
+
+\title{\normalsize{
+  JHED: \underline{\hspace{4cm}} \hspace{1em} Name: \underline{\hspace{9cm}}}
+   }
+\author{}
+\date{}
+
+% Custom spacing for better page utilization
+\renewcommand{\baselinestretch}{0.95}
+
+\begin{document}
+\maketitle
+\vspace{-2cm} % Reduce space after title
+
+\begin{questions}
+  \question[8]
+Suppose you have a machine that works in \textit{base 10} instead of \textit{base 2} with precision $d = 1$ (number of digits in the fractional part). Let $\mathbb{F}$ denote the set of all floating point numbers representable on this machine.
+
+\begin{parts}
+  \part What is the machine epsilon $\epsilon_{\text{mach}}$?
+  \begin{solution}
+  Machine epsilon is defined as $\epsilon_{\text{mach}} = \beta^{-d}$ where $\beta$ is the base and $d$ is the precision (number of digits after the leading digit).
+  
+  With $\beta = 10$ and $d = 1$:
+  $$\epsilon_{\text{mach}} = 10^{-1} = \boxed{0.1}$$
+  \end{solution}
+  \vfill
+  \part How many elements of $\mathbb{F}$ are there in the real interval $[5, 500]$, including the endpoints?
+  \begin{solution}
+  With base 10 and precision $d=1$, elements of $\mathbb{F}$ have the form $a.b \times 10^n$ where $a \in \{1,...,9\}$ and $b \in \{0,1,...,9\}$.
+  
+  \textbf{In $[5, 9.9]$:} $5.0, 5.1, ..., 9.9$ $\rightarrow$ 50 elements
+  
+  \textbf{In $[10, 99]$:} $10, 11, 12, ..., 99$ $\rightarrow$ 90 elements
+  
+  \textbf{In $[100, 500]$:} $100, 110, 120, ..., 500$ $\rightarrow$ 41 elements
+  
+  Total: $50 + 90 + 41 = \boxed{181}$ elements
+  \end{solution}
+  \vfill
+  \part What is the element of $\mathbb{F}$ closest to the real number $\pi$? 
+  \begin{solution}
+   $\boxed{3.1}$.
+  \end{solution}
+  \vfill
+  \part What is a stretch of 10 consecutive positive integers not in $\mathbb{F}$? (more than one answer possible)
+  \begin{solution}
+   One possible answer: $\boxed{1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010}$
+  \end{solution}
+  \vfill
+\end{parts}
+
+
+
+
+  \newpage
+   Let $a = 5.65$, $b = 7.78$, $c = 3.34$.
+
+  \question[6]
+
+    Suppose $\mathrm{fl}(x)$ is the number in $\mathbb{F}$ obtained by truncating the real number $x$ (i.e., chopping off digits beyond the precision).
+Compute the following, showing intermediate steps:
+
+\begin{parts}
+  \part $a + (b - c)$
+  \begin{solution}
+  \textbf{Step 0:} Convert to $\mathbb{F}$: $\mathrm{fl}(a) = 5.6$, $\mathrm{fl}(b) = 7.7$, $\mathrm{fl}(c) = 3.3$
+  
+  \textbf{Step 1:} Compute $b - c = 7.7 - 3.3 = 4.4$ (already in $\mathbb{F}$)
+  
+  \textbf{Step 2:} Compute $a + 4.4 = 5.6 + 4.4 = 10.0$ (already in $\mathbb{F}$)
+  
+  $$\boxed{10}$$
+  \end{solution}
+  \vfill
+  \part $(a + b) - c$
+  \begin{solution}
+  \textbf{Step 0:} Convert to $\mathbb{F}$: $\mathrm{fl}(a) = 5.6$, $\mathrm{fl}(b) = 7.7$, $\mathrm{fl}(c) = 3.3$
+  
+  \textbf{Step 1:} Compute $a + b = 5.6 + 7.7 = 13.3$
+  
+  \textbf{Step 2:} Truncate to $\mathbb{F}$: $\mathrm{fl}(13.3) = 13$
+  
+  \textbf{Step 3:} Compute $13 - c = 13 - 3.3 = 9.7$ (already in $\mathbb{F}$)
+  
+  $$\boxed{9.7}$$
+  \end{solution}
+  \vfill
+\end{parts}
+
+    \question[6]
+
+    Suppose instead $\mathrm{fl}(x)$ is the number in $\mathbb{F}$ \textbf{closest} to the real number $x$ (round half up).
+Compute the following, showing intermediate steps:
+
+\begin{parts}
+  \part $a + (b - c)$
+  \begin{solution}
+  \textbf{Step 0:} Convert to $\mathbb{F}$: $\mathrm{fl}(a) = 5.7$, $\mathrm{fl}(b) = 7.8$, $\mathrm{fl}(c) = 3.3$
+  
+  \textbf{Step 1:} Compute $b - c = 7.8 - 3.3 = 4.5$ (already in $\mathbb{F}$)
+  
+  \textbf{Step 2:} Compute $a + 4.5 = 5.7 + 4.5 = 10.2$
+  
+  \textbf{Step 3:} Round to $\mathbb{F}$: $\mathrm{fl}(10.2) = 10$ (since elements in this range are $10, 11, 12, ...$)
+  
+  $$\boxed{10}$$
+  \end{solution}
+  \vfill
+  \part $(a + b) - c$
+  \begin{solution}
+  \textbf{Step 0:} Convert to $\mathbb{F}$: $\mathrm{fl}(a) = 5.7$, $\mathrm{fl}(b) = 7.8$, $\mathrm{fl}(c) = 3.3$
+  
+  \textbf{Step 1:} Compute $a + b = 5.7 + 7.8 = 13.5$
+  
+  \textbf{Step 2:} Round to $\mathbb{F}$: $\mathrm{fl}(13.5) = 14$ (round half up)
+  
+  \textbf{Step 3:} Compute $14 - c = 14 - 3.3 = 10.7$
+  
+  \textbf{Step 4:} Round to $\mathbb{F}$: $\mathrm{fl}(10.7) = 11$
+  
+  $$\boxed{11}$$
+  \end{solution}
+  \vfill
+\end{parts}
+
+    
+
+
+\end{questions}
+\end{document}

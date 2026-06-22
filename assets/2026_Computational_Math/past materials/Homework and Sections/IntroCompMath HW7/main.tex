@@ -1,0 +1,62 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 7\\
+Due through gradescope before lecture starts, Thursday, Oct 30}
+\end{center}
+
+Your solutions should represent your own work and understanding of the material. You can discuss homework problems at a high level with other students or software systems like ChatGPT, but you should execute the details of any directions discussed independently of them. Results from class or the textbook can be used without proof. Otherwise, claims need to be well justified. You use any programming language you feel comfortable with (matlab, julia, or python are most reasonable). You must submit both your code and the requested output/plots from running your code. Grading will focus on the quality of outputs rather than the code itself.\\
+
+
+\noindent {\bf Q1.} {\it The Accuracy of a Piecewise Linear Natural Log Interpolation.}\\
+Before electronic calculators, the function $f(x) = ln(x)$ was often computed using piecewise linear interpolation with a table of values. Consider using such a table with nodes at $1.0,1.01,1.02,…,1.99,2$.\\
+
+\noindent (i) Based on (second) derivatives of $f$, state an upper bound on the difference between $ln(x)$ and your interpolation between $1$ and $2$?\\
+
+\noindent (ii) Plot this difference between $1$ and $2$. Numerically, how large does it get?\\
+
+
+\vskip1cm
+
+
+
+
+\noindent {\bf Q2.} Do exercise 1 in Sections 5.3 of Driscoll and Braun (\url{https://fncbook.com/}). For each function, compute both piecewise linear and cubic spline interpolations and loglog plot the error of both methods as $n$ grows.\\
+\vskip1cm
+
+
+\noindent {\bf Q3.} {\it Interpolating curves, not just functions.}\\
+Suppose you have been tracking the migration of a pod of whales (getting daily pings from GPS tags) and received data points giving their locations in a grid over time as
+$$ (0,0)\rightarrow (1,3)\rightarrow(2,3)\rightarrow(3,4)\rightarrow(2,5)\rightarrow(1,4)\rightarrow(0,6)\rightarrow(0,8)\rightarrow(0,10) .$$
+These data points were taken at times $t_k = k$ for $k=0,\dots 8$ and are denoted below as $(x_k,y_k)$.
+
+We would like to interpolate their path based on this data. Alas, these points don't make a function but rather a generic curve through 2D. In this question, you will generalize interpolation.\\ 
+
+\noindent (i) We can define a piecewise linear curve through space from time $t_{k-1}$ to time $t_k$ by
+$$S_k(t) = \begin{bmatrix} a_k + b_k (t-t_{k-1}) \\ d_k + e_k (t-t_{k-1}) \end{bmatrix} $$
+For $S_k$ and $S_{k+1}$ to interpolate, we require 
+$ S_k(t_k) = S_{k+1}(t_{k}) = \begin{bmatrix} x_k \\ y_k \end{bmatrix}. $
+Plot the points $(x(t),y(t))$ for $t\in[0,8]$ given by your interpolation.\\
+
+\noindent (ii) We can define a smoother curve through space from time $t_{k-1}$ to time $t_k$ by
+$$S_k(t) = \begin{bmatrix} a_k + b_k (t-t_{k-1}) + c_k  (t-t_{k-1})^2 \\ d_k + e_k (t-t_{k-1}) + f_k  (t-t_{k-1})^2 \end{bmatrix} $$
+To smoothly interpolate, we require 
+$ S_k(t_k) = S_{k+1}(t_{k}) = \begin{bmatrix} x_k \\ y_k \end{bmatrix} \text{ and } \nabla S_k(t_k) = \nabla S_{k+1}(t_{k}). $
+Write a system of equations describing this with additional constraints to make this have a unique solution (feel free to choose these additions any reasonable way you like).
+Then solve this system and plot the points $(x(t),y(t))$ given by your interpolation. I highly recommend modifying the textbook's code for cubic splines, building your matrices in block form rather than writing them out entry by entry.
+
+\end{document} 

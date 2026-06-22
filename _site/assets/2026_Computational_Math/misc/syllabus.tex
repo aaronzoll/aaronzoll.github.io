@@ -1,0 +1,194 @@
+\documentclass{article}
+
+% Packages
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{booktabs} % Better table formatting
+\usepackage{xcolor}   % For color support
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+% Course information
+\newcommand{\course}{EN.553.385 Introduction to Computational Mathematics}
+\newcommand{\semester}{Spring 2026}
+\newcommand{\instructor}{Apurva Nakade}
+\newcommand{\email}{apurva.nakade@jhu.edu}
+
+% Custom commands for consistency
+\newcommand{\sectionbreak}{\newpage}
+\newcommand{\grade}[1]{\textbf{#1}}
+
+\title{\course \\ \semester\ Syllabus}
+\author{\instructor \\ \texttt{\email}}
+\date{Updated on \today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\sectionbreak
+\section{Course Information}
+
+\textbf{Course:} \course, \semester
+
+\textbf{Instructor:} \instructor, \texttt{\email}
+
+Office hours and TA information will be posted on Canvas.
+
+\subsection{Class Meetings}
+
+\begin{center}
+    \begin{tabular}{@{}lllll@{}}
+        \toprule
+        \textbf{Section} & \textbf{Class Time} & \textbf{Location} & \textbf{Discussion Time} & \textbf{Location} \\
+        \midrule
+        Section 01 & MW 03:00 PM -- 04:15 PM & Hodson 311 & T 03:00 PM -- 03:50 PM & Hodson 316 \\
+        Section 02 & MW 03:00 PM -- 04:15 PM & Hodson 311 & T 04:30 PM -- 05:20 PM & Shaffer 307 \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+Please check SIS for any updates to the schedule.
+
+% There will be short weekly quizzes during discussion sections. The quizzes will be based on the homework and lectures. The quizzes will be closed book. No electronic devices will be allowed during a quiz. Quizzes will be cumulative but will focus on the material covered in the previous week.
+
+\subsection{Textbook}
+We will be generally following Chapters 1-6 of ``Fundamentals of Numerical Computation'' by
+Driscoll and Braun. T. This text is freely available online:
+\url{https://fncbook.com/}
+
+Other resources will be posted on the course website as needed.
+
+\subsection{Prerequisites}
+
+Students should come into the course with a good working knowledge of linear algebra and of multi-variable calculus at an advanced undergraduate level. Students should also have some computer programming experience in Python and will be expected to submit programming assignments in Jupyter notebooks.
+
+\subsection{Course Description}
+
+
+This course offers a broad introduction to the area of numerical computation in the
+mathematical sciences. Topics include but may not be limited to: floating point numbers, linear
+systems, LU factorization, vector and matrix norms, conditioning of linear systems, QR
+factorizations, the root finding problem, fixed point iterations, Newton’s method in one variable
+and for nonlinear systems, interpolation, cubic splines, finite differences, numerical integration,
+initial-value problems for ODEs, Euler’s method, systems of differential equations, Runge-Kutta
+methods; time permitting: shooting methods for boundary-value problems and topics in numerical
+optimization.
+
+\textbf{This is a rigorous mathematics course with strong mathematical expectations from students.} The entire focus is on the mathematical analysis of algorithms, including their theoretical foundations, convergence properties, stability analysis, and error bounds. While programming assignments are an essential component of the course, this is not a programming or software engineering course. Similarly, we will not cover applications of these algorithms to specific fields such as machine learning, data science, or engineering simulations. Instead, we emphasize generic mathematical principles and rigorous theoretical understanding that underlie computational methods in linear algebra and numerical analysis.
+
+As an applied mathematics course, the emphasis is on fundamental principles and algorithms that are widely applicable in scientific computing, rather than on detailed discussion of specific applications or software packages. Upon completion of this course, students will have the insight and understanding to critically evaluate computational methods, analyze their numerical properties, and understand the tradeoffs between accuracy, stability, and efficiency in numerical algorithms.
+
+\sectionbreak
+\section{Grading}
+
+The following is the breakdown of the grading scheme:
+
+\begin{center}
+    \begin{tabular}{@{}lr@{}}
+        \toprule
+        \textbf{Component} & \textbf{Percentage} \\
+        \midrule
+        Weekly Homework & 15\% \\
+        Weekly Quizzes & 60\% \\
+        Final Project & 25\% \\
+        % Final Project Checkpoint & 3\% \\
+        % Final Project Report & 10\% \\
+        % Final Project Presentation & 12\% \\
+        % Final Project Code & 5\% \\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+% While class attendance is not explicitly graded, individual grading weights will be adjusted to reduce the quiz weight and increase the final project weight for students who \textit{demonstrate strong class participation throughout the semester}.
+
+% Percentages above 90\%, 80\%, 70\%, 60\% are respectively guaranteed the grades \grade{A}, \grade{B}, \grade{C}, \grade{D}. The instructor reserves the right to lower these thresholds to reflect the difficulty of the exams and assignments. The top few points of each letter grade get a ``+'' appended to the letter, and the bottom few points of each letter grade get a ``--'' appended to the letter.
+
+At the end of the semester, grades will be assigned such that the median grade is at least B+. Grade assignments will generally follow university standards but are ultimately at the discretion of the instructor. Final grades are not based solely on arbitrary percentage cutoffs but also reflect your overall learning, improvement over the semester, engagement with course material, and {\bf participation in class discussions}.
+\subsection{Quizzes}
+
+There will be short weekly quizzes during discussion sections. The quizzes will be based on the homework and lectures. The quizzes will be closed book. Only basic function calculators will be allowed during a quiz. Quizzes will focus on the material covered in the previous week.
+
+\subsubsection{Grade Adjustments}
+
+Your lowest homework score will be dropped automatically at the end of the semester. 
+
+For quizzes, instead of dropping your lowest score, at the end of the semester your overall quiz grade will be multiplied by $n/(n-1)$, where $n$ is the total number of quizzes (up to a maximum of 100\%). This adjustment is mathematically equivalent to dropping one quiz but disincentivizes intentionally missing a quiz.
+
+In case of a medical emergency, illness, or school/work-related absence, you must:
+\begin{itemize}
+    \item Promptly inform the instructor,
+    \item \underline{\textbf{Provide appropriate documentation}} (e.g., doctor's note, official travel documentation, university-approved absence form).
+\end{itemize}
+
+Decisions on excused absences will be made on a case-by-case basis. If approved, you will be required to complete a make-up quiz as an \emph{oral examination} conducted by the instructor.
+\subsection{Homework}
+
+Homework will be due weekly. Late homework will not be accepted.
+
+\textbf{Grading:} Homework will be graded primarily on effort and honest attempt. The purpose of homework is to prepare you for the weekly quizzes, so focus on understanding the problems rather than achieving perfect solutions.
+
+\subsection{Final Project}
+
+The final project will be done in \textbf{groups of 3 students}. You'll need to make a 10 minute presentation and submit a report. The project will be graded based on the quality of the presentation, the report, and the code. 
+
+For the project, you'll have to implement an algorithm that we didn't cover in class possibly from the textbook or from a research paper. More details will be provided later in the semester.
+
+The final project presentations will be held during the \textbf{final exam slot} for this course. \textbf{Attendance is mandatory} for all students. Remote participation will not be permitted, and failure to attend will result in loss of all presentation credit.
+
+\sectionbreak
+\section{Expectations from students}
+
+Please review the university-wide policies and resources provided on the \href{https://jhu.instructure.com/courses/119377/external_tools/14137}{Canvas Course Syllabus} page.
+
+\subsection{Deadlines}
+
+You are expected to submit homework by each deadline. Late submissions will not be accepted for any reason. Each homework will be posted a week in advance and there is no reason to wait until the last minute to submit it.
+
+\subsection{Attendance and Classroom Policies}
+
+Regular attendance is expected and is essential for success in this course. Students should arrive before class begins. Arriving late is disruptive to the learning environment. Students who repeatedly arrive late will not be admitted to class and will need to meet with the instructor to discuss their situation.
+
+\textbf{Exception:} Students who have another class or work commitment that conflicts with the start time and prevents them from arriving on time should inform the instructor well in advance to receive an exception. 
+
+\textbf{Laptops and phones are not allowed in class.} Tablets are allowed for note-taking only. Research has shown that handwritten notes lead to better retention and understanding of material compared to typed notes. Additionally, devices can be distracting both to the user and to other students in the classroom. Violations of this policy will result in exclusion from class. 
+
+\subsection{Generative Artificial Intelligence (AI) Tools}
+
+Use of generative artificial intelligence (AI) tools such as ChatGPT can augment learning experiences when used appropriately. You are encouraged to use generative AI to brainstorm and generate code, refine ideas, find reliable sources, outline, check grammar, and format bibliographies. You should note, however, that the material generated by these programs may be inaccurate, incomplete, biased, or otherwise problematic. You are ultimately responsible for what you submit.
+
+\textbf{All writing and calculations you submit must be your own.} Use of AI to solve math problems is strictly prohibited and is detrimental to your learning. This would be a violation of the academic integrity policy and appropriate action will be taken. You will not learn anything if you do that and it will be reflected in your quiz scores, which are worth 60\% of your grade. Use your interaction with AI as a learning experience. Then, let your submitted work reflect your improved understanding. 
+
+\textbf{Good Uses of AI Tools}
+
+\subsubsection{Good Uses of AI Tools}
+
+\begin{itemize}[nosep]
+    \item Asking how to perform standard tasks such as plotting, statistical testing, or finding Python functions
+    \item Getting help with debugging error messages or code optimization
+    \item Generating small pieces of code
+    \item Generating ideas for project topics or alternative approaches
+    \item Learning syntax, documentation, or programming concepts
+    \item Assistance with grammar, formatting, or report structure
+\end{itemize}
+
+\subsubsection{Bad Uses of AI Tools}
+
+\begin{itemize}[nosep]
+    \item Pasting entire homework assignments and asking it to solve them
+    \item Using it to generate large chunks of code without understanding the logic
+    \item Having AI solve mathematical proofs or theoretical problems
+    \item Copy-pasting AI solutions without modification or understanding
+    \item Using AI as a substitute for reading course materials or attending lectures
+\end{itemize}
+
+\end{document}

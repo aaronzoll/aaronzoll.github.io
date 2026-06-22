@@ -1,0 +1,156 @@
+\documentclass[reqno, answers]{exam}
+
+\usepackage{amssymb, amsmath, amsthm, stmaryrd}
+\usepackage{fullpage, parskip}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ulem}
+\usepackage{hyperref}
+
+\title{Introduction to Computational Math Spring 2026 \\ Homework 07}
+\date{Due: Friday, Mar 13, 2026, 11:59 PM}
+\author{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+Textbook = Driscoll and Braun (\url{https://fncbook.com/})
+
+\begin{enumerate}
+
+    \item Textbook Exercise 5.1.4
+          \begin{solution}
+              \textbf{(a)} We verify that $q(s)$ passes through the three points by direct substitution:
+
+              At $s = -1$:
+              $$q(-1) = a \cdot \frac{(-1)(-2)}{2} - b(-2)(0) + c \cdot \frac{(-1)(0)}{2} = a \cdot 1 - 0 + 0 = a$$
+
+              At $s = 0$:
+              $$q(0) = a \cdot \frac{0(-1)}{2} - b(-1)(1) + c \cdot \frac{0(1)}{2} = 0 + b + 0 = b$$
+
+              At $s = 1$:
+              $$q(1) = a \cdot \frac{1(0)}{2} - b(0)(2) + c \cdot \frac{1(2)}{2} = 0 - 0 + c = c$$
+
+              Therefore, $q(s)$ interpolates the points $(-1,a)$, $(0,b)$, $(1,c)$.
+
+              \textbf{(b)} We need $s = Ax + B$ such that:
+              \begin{align*}
+                  s = -1 & \text{ when } x = x_0 - h \\
+                  s = 0  & \text{ when } x = x_0     \\
+                  s = 1  & \text{ when } x = x_0 + h
+              \end{align*}
+
+              From $s = 0$ when $x = x_0$: $B = -Ax_0$.
+
+              From $s = 1$ when $x = x_0 + h$: $1 = A(x_0 + h) + B = Ah$, so $A = \frac{1}{h}$.
+
+              Therefore: $$s = \frac{x - x_0}{h}$$
+
+              \textbf{(c)} Substituting $s = \frac{x - x_0}{h}$ into $q(s)$:
+              \begin{align*}
+                  \tilde{q}(x) & = a \cdot \frac{s(s-1)}{2} - b(s-1)(s+1) + c \cdot \frac{s(s+1)}{2}
+              \end{align*}
+
+              Expanding and simplifying with $s = \frac{x-x_0}{h}$:
+              $$\tilde{q}(x) = \frac{a(x-x_0)(x-x_0-h) - 2b(x-x_0-h)(x-x_0+h) + c(x-x_0)(x-x_0+h)}{2h^2}$$
+
+              Alternatively, in compact form:
+              $$\tilde{q}(x) = \frac{(a-2b+c)(x-x_0)^2 + (c-a)h(x-x_0) + 2bh^2}{2h^2}$$
+          \end{solution}
+
+    \item Textbook Exercise 5.1.5
+          \begin{solution}
+              From part (a) of the previous exercise, we can write $q(s)$ in terms of cardinal functions:
+              $$q(s) = a\phi_{-1}(s) + b\phi_0(s) + c\phi_1(s)$$
+              where
+              \begin{align*}
+                  \phi_{-1}(s) & = \frac{s(s-1)}{2}, \quad \phi_0(s) = -(s-1)(s+1), \quad \phi_1(s) = \frac{s(s+1)}{2}
+              \end{align*}
+
+              We compute the infinity norms on $s \in [-1, 1]$:
+
+              For $\phi_{-1}(s) = \frac{s(s-1)}{2}$: This is non-positive on $[-1,1]$ with minimum at $s=1/2$ giving $-1/8$. Thus $\|\phi_{-1}\|_\infty = 1/8$.
+
+              For $\phi_0(s) = -(s-1)(s+1) = 1 - s^2$: Maximum at $s=0$ gives $1$. Thus $\|\phi_0\|_\infty = 1$.
+
+              For $\phi_1(s) = \frac{s(s+1)}{2}$: This is non-negative on $[-1,1]$ with maximum at $s=1$ giving $1$, but checking $s=-1$ gives $0$ and the critical point $s=-1/2$ gives $-1/8$. Actually, on $[-1,1]$, the maximum magnitude is at $s=1$ giving $1$. Thus $\|\phi_1\|_\infty = 1$.
+
+              By Theorem 5.1.1, the condition number satisfies:
+              $$\max\left\{\frac{1}{8}, 1, 1\right\} \leq \kappa(y) \leq \frac{1}{8} + 1 + 1$$
+
+              Therefore:
+              $$1 \leq \kappa(y) \leq \frac{17}{8}$$
+
+              The bounds show that quadratic interpolation at equally-spaced nodes $\{-1, 0, 1\}$ is well-conditioned, with the condition number bounded by $17/8 = 2.125$.
+
+              By the change of variable in part (b), these bounds apply equally to interpolation at nodes $\{x_0-h, x_0, x_0+h\}$ for any $x_0$ and $h > 0$.
+          \end{solution}
+
+    \item Textbook Exercise 5.2.5
+
+                    \begin{solution}
+              \textbf{(a)} Apply the mean value theorem to $f$ on the interval $[t_k, x] \subset (t_k, t_{k+1})$:
+              $$f'(s) = \frac{f(x) - f(t_k)}{x - t_k}$$
+              for some $s \in (t_k, x) \subset (t_k, t_{k+1})$.
+
+              Since $f(t_k) = y_k$, we have:
+              $$f(x) = y_k + (x - t_k)f'(s)$$
+
+              \textbf{(b)} The piecewise linear interpolant satisfies:
+              $$p_n(x) = y_k + (x - t_k)\frac{y_{k+1} - y_k}{t_{k+1} - t_k}$$
+
+              Apply the mean value theorem to $f$ on $[t_k, t_{k+1}]$:
+              $$f(t_{k+1}) - f(t_k) = (t_{k+1} - t_k)f'(u)$$
+              for some $u \in (t_k, t_{k+1})$, so:
+              $$f'(u) = \frac{y_{k+1} - y_k}{t_{k+1} - t_k}$$
+
+              Now apply the mean value theorem to $f'$ on the interval with endpoints $s$ and $u$:
+              $$f''(v) = \frac{f'(s) - f'(u)}{s - u}$$
+              for some $v$ between $s$ and $u$, hence $v \in (t_k, t_{k+1})$.
+
+              This gives:
+              $$f'(s) - \frac{y_{k+1} - y_k}{t_{k+1} - t_k} = (s - u)f''(v)$$
+
+              \textbf{(c)} From parts (a) and (b):
+              \begin{align*}
+                  f(x) - p_n(x) & = y_k + (x - t_k)f'(s) - y_k - (x - t_k)\frac{y_{k+1} - y_k}{t_{k+1} - t_k} \\
+                                & = (x - t_k)\left[f'(s) - \frac{y_{k+1} - y_k}{t_{k+1} - t_k}\right]         \\
+                                & = (x - t_k)(s - u)f''(v)
+              \end{align*}
+
+              Taking absolute values and using $|f''(v)| \leq M = \|f''\|_\infty$:
+              $$|f(x) - p_n(x)| \leq |x - t_k| \cdot |s - u| \cdot M$$
+
+              Since $x, s, u \in (t_k, t_{k+1})$, we have $|x - t_k| < h$ and $|s - u| < h$.
+
+              Therefore:
+              $$\|f - p_n\|_\infty \leq Mh^2$$
+          \end{solution}
+
+    \item Jupyter notebook
+
+\end{enumerate}
+
+
+\section*{Quiz Information}
+
+The quiz will be held on {\bf Tuesday, March 24, 2026} during the discussion section.
+
+Quiz questions will be modifications of the homework problems and material discussed in class.
+
+\textbf{Topics covered:}
+
+Chapters 5.1 and 5.2.
+
+\begin{itemize}
+    \item Conditioning of linear interpolants
+    \item Cardinal functions
+    \item Properties of linear interpolation
+\end{itemize}
+
+The quiz on this material will be short as we covered very little material.
+
+
+
+\end{document}

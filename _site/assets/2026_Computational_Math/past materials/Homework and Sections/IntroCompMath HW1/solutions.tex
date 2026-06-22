@@ -1,0 +1,305 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,multirow}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}
+%\usepackage{enumerate}
+\usepackage[shortlabels, inline]{enumitem}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{comment}
+
+\usepackage{listings}
+\lstset{language=Python, numbers=left, basicstyle=\ttfamily, keywordstyle=\color{blue}, showstringspaces=false}
+
+\usepackage[style=alphabetic-verb]{biblatex}
+% \bibliography{Problems/ref.bib}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\K}{\mathbb{K}}
+\renewcommand{\div}{\mid}
+\newcommand{\ndiv}{\nmid}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\F}{\mathcal{F}}
+
+\DeclareMathOperator{\id}{Id}
+\DeclareMathOperator{\tr}{Tr}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\acosh}{acosh}
+
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+\newcommand{\subtag}[1]{\tag{\theparentequation#1}}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\usepackage{subfiles}
+\usepackage{subcaption}
+\makeatletter
+\newcommand\nocaption{
+    \renewcommand\p@subfigure{}
+    \renewcommand{\thesubfigure}{\arabic{figure}\alph{subfigure}}
+}
+\makeatother
+
+
+\newenvironment{problem}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{spacedproof}[1][\proofname]{%
+  \begin{proof}[\textbf{#1}]$ $\par\nobreak\ignorespaces
+}{%
+  \end{proof}
+}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\pagestyle{empty}
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Fall 2025\\
+Homework 1 Sample Solutions}
+\end{center}
+
+\begin{problem}{1}
+Consider a floating-point set FF defined by \href{https://fncbook.com/floating-point/#floatpoint}{(1.1.1)} and \href{https://fncbook.com/floating-point/#mantissa}{(1.1.2)} with $d = 4$.
+
+\begin{enumerate}[(a)]
+    \item How many elements of $\mathbb{F}$ are there in the real interval $[1/2,4]$, including the endpoints?
+    \item What is the element of $\mathbb{F}$ closest to the real number $1/10$? (Hint: Find the interval $[2^n, 2^{n+1})$ that contains $1/10$, then enumerate all the candidates in $\mathbb{F}$.)
+    \item What is the smallest positive integer not in $\mathbb{F}$? (Hint: For what value of the exponent does the spacing between floating-point numbers become larger than 1?)
+\end{enumerate}
+\end{problem}
+\begin{spacedproof}[Solution]
+\textbf{With $d=2$.}
+
+\begin{enumerate}[(a)]
+    \item The set $[1/2,4]$ is the union of $[2^{-1},1)$, $[1,2)$, $[2,4)$ and the endpoint $4$. Each half-open interval $[2^n,2^{n+1})$ contains $2^d$ numbers. Hence the count is $3\cdot 2^2 + 1 = 13$.
+    \item Since $1/10 \in [2^{-4},2^{-3})$, take $n=-4$. Elements there have the form $2^{-4}(1+z/2^d)$ with $z\in\{0,\dots,2^d-1\}$. For $d=2$ this is $2^{-4}(1+z/4)$. Targeting a mantissa near $1.6$ gives $z\in\{2,3\}$, yielding $3/32=0.09375$ and $7/64=0.109375$. The nearer to $0.1$ is $3/32$.
+    \item In $[2^n,2^{n+1})$ the spacing is $2^{n-d}$. At $n=d$ the spacing equals $1$, so all integers from $2^d$ to $2^{d+1}-1$ appear. At $n=d+1$ the spacing is $2$ and only even integers appear, so the smallest missing positive integer is $2^{d+1}+1$. With $d=2$ this is $9$.
+\end{enumerate}
+
+\medskip
+
+\textbf{With $d=4$.}
+\begin{enumerate}[(a)]
+    \item As above, the count is $3\cdot 2^4 + 1 = 49$.
+    \item Again $1/10 \in [2^{-4},2^{-3})$. Now use $2^{-4}(1+z/16)$; taking $z\in\{9,10\}$ gives $25/256=0.09765625$ and $13/128=0.1015625$. The nearer to $0.1$ is $13/128$.
+    \item By the same argument, the smallest missing positive integer is $2^{d+1}+1$. With $d=4$ this is $33$.
+\end{enumerate}
+\end{spacedproof}
+
+
+\newpage
+\begin{problem}{2}
+Recall $\pi$ is defined as the ratio of a circle's circumference to its diameter. Write a computer program that approximates $\pi$ by approximately measuring the circumference of the unit circle (that is, the circle with radius one) as follows:
+First, let's restrict to measuring the circumference of the top right quarter of the circle given by $y(x) = \sqrt{1-x^2}$ for $0\leq x\leq 1$\footnote{This is fine since we can quadruple it after our calculation.}. Then, let's approximate the curve by $T$ line segments (a number your program should take as input). For each $i=0,\dots T-1$ let $x_i = i/T$ and compute the sum of the lengths of the line segments from $(x_i,y(x_i))$ to $(x_{i+1},y(x_{i+1})$,
+$$ \mathrm{ApproximateCircumference}(T) = 4\sum_{i=0}^{T-1} \mathrm{LineSegmentLength}((x_i,y(x_i)),(x_{i+1},y(x_{i+1}))) \ . $$
+Use this to compute an approximate value of $\pi$ for $T=1,\ 2,\ 3, \ 10,\ 10^3,\ 10^6$ in standard double-precision floating point arithmetic. Print out each approximation along with its absolute accuracy and relative accuracy, and number of accurate digits (as defined by (1.1.6) in Driscoll and Braun). What do you think the main limitations are on the quality of approximation of $\pi$ here?
+\end{problem}
+\begin{spacedproof}[Solution]
+\textbf{Method and results.}
+With $x_i = i/T$ and $y(x) = \sqrt{1 - x^2}$, define
+\[
+\widehat{\pi}(T) = \frac{1}{2}\cdot 4 \sum_{i=0}^{T-1} \sqrt{(x_{i+1}-x_i)^2 + \bigl(y(x_{i+1}) - y(x_i)\bigr)^2}.
+\]
+Because each chord is shorter than its corresponding arc, $\widehat{\pi}(T) \le \pi$, and the estimate increases with $T$. Our estimated values are:
+\[
+\begin{array}{r|r|r|r|r}
+T & \widehat{\pi}(T) & |\widehat{\pi}(T)-\pi| & \frac{|\widehat{\pi}(T)-\pi|}{\pi} & \text{digits} \\
+\hline
+1 & 2.828427124746190 & 3.131655288436028\text{e-}01 & 9.968368384289383\text{e-}02 & 1.001375920894790 \\
+2 & 3.035276180410083 & 1.063164731797102\text{e-}01 & 3.384158447729557\text{e-}02 & 1.470549311305690 \\
+3 & 3.084252850204089 & 5.733980338570399\text{e-}02 & 1.825182628950437\text{e-}02 & 1.738693673247432 \\
+10 & 3.132264618516503 & 9.328035073290053\text{e-}03 & 2.969205782497364\text{e-}03 & 2.527359702334545 \\
+10^3 & 3.141583356349993 & 9.297239800254431\text{e-}06 & 2.959403342642397\text{e-}06 & 5.528795839994393 \\
+10^6 & 3.141592653295798 & 2.939950505265188\text{e-}10 & 9.358153107169398\text{e-}11 & 10.028809853666722 \\
+\end{array}
+\]
+
+\textbf{Python reference implementation.}
+\begin{lstlisting}
+from math import sqrt, hypot, pi, log10
+
+def pi_hat(T):
+    # quarter-arc polyline length
+    s = 0.0
+    invT = 1.0 / T
+    x_prev = 0.0
+    y_prev = sqrt(1.0 - x_prev*x_prev)
+    for i in range(1, T+1):
+        x = i * invT
+        y = sqrt(max(0.0, 1.0 - x*x)) # guard tiny negatives from roundoff
+        s += sqrt((x - x_prev)**2 +(y - y_prev)**2)
+        x_prev, y_prev = x, y
+    C_hat = 4.0 * s
+    return C_hat / 2.0  # convert circumference to pi via diameter=2
+
+def digits_from_relerr(relerr):
+    if relerr == 0:
+        return 16  # cap for double precision displays
+    return -log10(relerr)
+
+def report(T_values):
+    print(f"{'T':>10} {'pi_hat':>20} {'abs_err':>20}
+            {'rel_err':>20}{'digits':>8}")
+    for T in T_values:
+        ph = pi_hat(T)
+        abs_err = abs(pi - ph)
+        rel_err = abs_err / pi
+        digs = digits_from_relerr(rel_err)
+        print(f"{T:10d} {ph:20.15f} {abs_err:20.15e}
+                {rel_err:20.15e} {digs:8d}")
+
+report([1, 2, 3, 10, 10**3, 10**6])
+\end{lstlisting}
+
+\textbf{Discussion of limitations.}
+This method approximates the arc by chords at evenly spaced $x$ values. Near $x=1$, the slope $y'(x) = -x/\sqrt{1-x^2}$ becomes large, so the last few chords subtend comparatively large angles even for big $T$. Empirically, the truncation error decays like $O(T^{-1/2})$, which is slow. A substantial number of iterations of this method will be needed to get an estimate near machine precision.
+\end{spacedproof}
+
+
+\newpage
+
+\begin{problem}{3}
+There are many other algorithms for computing $\pi$, one exceptionally strange way comes from the famous Mathematician Ramanujan, who proved the formula that
+$$ \frac {1}{\pi }= \lim_{T\rightarrow \infty} \ {\frac {2{\sqrt {2}}}{9801}}\sum _{k=0}^{T-1}{\frac {(4k)!(1103+26390k)}{(k!)^{4}396^{4k}}} \ , $$
+where $k!$ denotes the factorial of $k$. Use this formula to (attempt to) compute an approximation of $\pi$ for $T=1,\ 2,\ 3, \ 10,\ 10^3,\ 10^6$ in standard double-precision floating point arithmetic. For each that works, print out the approximation and its absolute accuracy, relative accuracy, and number of accurate digits (as defined by (1.1.6) in Driscoll and Braun). What do you think the main limitations are on the quality of approximation of $\pi$ here?
+\end{problem}
+\begin{spacedproof}
+With
+\[
+S_T=\sum_{k=0}^{T-1}\frac{(4k)!(1103+26390k)}{(k!)^4\,396^{4k}},\qquad
+\widehat{\pi}(T)=\frac{1}{\frac{2\sqrt{2}}{9801}\,S_T},
+\]
+we evaluate using standard IEEE double precision (Python float). Doing this directly will likely cause overflow errors or generate Infs/NaNs if we are not careful (its okay if your code broke for $N\geq 3$). We can try to keep things numerically stable, avoiding an overflow in the factorial, but constructing
+\[
+a_{0}=1103,\quad
+a_{k+1}=a_k\cdot\frac{(4k+4)(4k+3)(4k+2)(4k+1)}{(k+1)^4}\cdot\frac{1103+26390(k+1)}{1103+26390k}\cdot\frac{1}{396^4},\quad
+S_T=\sum_{k=0}^{T-1} a_k.
+\]
+Below we report absolute error $|\widehat{\pi}-\pi|$, relative error $|\widehat{\pi}-\pi|/\pi$, and digits of accuracy $-\log_{10}(\text{relative error})$.
+
+\[
+\begin{array}{r|r|r|r|r}
+T & \widehat{\pi}(T) & |\widehat{\pi}(T)-\pi| & \frac{|\widehat{\pi}(T)-\pi|}{\pi} & \text{digits} \\
+\hline
+1 & 3.141592730013305 & 7.642351240733092\text{e-}08 & 2.432635953614302\text{e-}08 & 7.613922878806969 \\
+2 & 3.1415926535897936 & 4.440892098500626\text{e-}16 & 1.413579858428230\text{e-}16 & 15.849679651557175 \\
+3 & 3.141592653589793 & 0 & 0 & 15.653559774527022 \\
+10 & 3.141592653589793 & 0 & 0 & 15.653559774527022 \\
+10^{3} & 3.141592653589793 & 0 & 0 & 15.653559774527022 \\
+10^{6} & 3.141592653589793 & 0 & 0 & 15.653559774527022 \\
+\end{array}
+\]
+
+By $T=2$ the value is at the double-precision limit; further terms do not improve the approximation. The digits figure is reported as a real number; when the relative error rounds to zero in double precision, it is capped by $-\log_{10}(\text{ulp}(1))\approx 15.65$.
+
+\textbf{Double-precision reference code (ratio form, no big-number libraries).}
+\begin{lstlisting}
+from math import sqrt, log10, ulp, pi
+
+def ramanujan_pi_double(T):
+    factor = (2.0 * sqrt(2.0)) / 9801.0
+    a = 1103.0
+    S = a
+    inv_3964 = 1.0 / (396.0 ** 4)
+    k = 0
+    for _ in range(1, T):
+        kp1 = k + 1
+        num = (4*k + 4) * (4*k + 3) * (4*k + 2) * (4*k + 1)
+        den = (kp1 ** 4)
+        lin = (1103 + 26390*kp1) / (1103 + 26390*k)
+        a = a * (num / den) * lin * inv_3964
+        S += a
+        k += 1
+    return 1.0 / (factor * S)
+
+def digits_from_relerr_float(relerr):
+    if relerr == 0.0:
+        return -log10(ulp(1.0))  # about 15.65 digits near 1.0
+    return -log10(relerr)
+
+for T in [1, 2, 3, 10, 10**3, 10**6]:
+    ph = ramanujan_pi_double(T)
+    abs_err = abs(pi - ph)
+    rel_err = abs_err / pi
+    digs = digits_from_relerr_float(rel_err)
+    print(T, ph, abs_err, rel_err, digs)
+\end{lstlisting}
+
+\textbf{Why progress stops.}
+The series adds about $8$ digits per term, but double precision has only about $16$ decimal digits available. After two terms, new terms are smaller than machine epsilon relative to the partial sum, so additions are lost to rounding. At that point $S_T$ and hence $\widehat{\pi}(T)$ stop changing for larger $T$. Hence, our primary limitation is running out of bits of precision.\\
+
+\textbf{An extra note: continuing with arbitrary precision.}
+If we switch to arbitrary-precision floating point, the same algorithm keeps gaining digits at roughly $8$ per term. The code below uses Python’s Decimal to raise working precision and also produces plots of digits versus $T$.
+\begin{lstlisting}
+from decimal import Decimal, getcontext
+
+def ramanujan_pi_decimal(T, prec=200):
+    getcontext().prec = prec
+    ctx = getcontext()
+    sqrt2 = ctx.sqrt(Decimal(2))
+    factor = (Decimal(2) * sqrt2) / Decimal(9801)
+    a = Decimal(1103)
+    S = a
+    inv_3964 = Decimal(1) / (Decimal(396) ** 4)
+    k = 0
+    for _ in range(1, T):
+        kp1 = k + 1
+        num = Decimal(4*k + 4) * Decimal(4*k + 3)
+              * Decimal(4*k + 2) * Decimal(4*k + 1)
+        den = Decimal(kp1) ** 4
+        lin = Decimal(1103 + 26390*kp1) / Decimal(1103 + 26390*k)
+        a = a * (num / den) * lin * inv_3964
+        S += a
+        k += 1
+    return Decimal(1) / (factor * S)
+
+# Digits as a real number using Decimal log10
+def digits_from_relerr_decimal(relerr_dec):
+    if relerr_dec == 0:
+        return getcontext().prec
+    return -getcontext().log10(relerr_dec)
+
+# Example table for T=1..10 relative to a high-precision pi_ref
+pi_ref = Decimal("3.14159265358979323846264338327950288419716939937510"
+                 "58209749445923078164062862089986280348253421170679")
+for T in range(1, 11):
+    pihat = ramanujan_pi_decimal(T, prec=200)
+    abs_err = abs(pihat - pi_ref)
+    rel_err = abs_err / pi_ref
+    print(T, pihat, abs_err, rel_err,
+          float(digits_from_relerr_decimal(rel_err)))
+\end{lstlisting}    
+\end{spacedproof}{Solution}
+
+
+\end{document}

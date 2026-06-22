@@ -1,0 +1,392 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath, multirow}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage[shortlabels]{enumitem}
+\newcommand{\bvec}[1]{{\bf #1}}
+\newcommand{\solution}[1]{
+    \vspace{0.2cm}
+	\noindent\underline{\textit{Solution:}}\\
+
+    \noindent{\color{red} #1}
+}
+
+\newcommand{\question}[1]{
+	\fbox{\parbox{\dimexpr\linewidth-4\fboxsep-2\fboxrule}{\small #1}}
+}
+
+
+\newcommand{\dist}{\mathrm{\bf dist}}
+\renewcommand{\vec}[1]{{\bf #1}}
+\pagestyle{empty}
+
+
+
+
+%\parskip .125in
+
+\begin{document}
+\begin{center}
+{\bf Intro to Computational Math, Spring 2026\\
+Section 4, Feb 17 (not due or graded).\\
+}
+\end{center}
+
+\noindent {\it Section will give you time to work on/discuss questions in small groups and then present your solutions. The questions below are selected exercises from the textbook to help build comfort and expertise with the ideas we've been discussing. %The last question is from a prior exam in this course.
+\\
+}
+
+\noindent {\bf Q1.} Attempt Exercises 4 in Section 2.4 of Driscoll and Braun (\url{https://fncbook.com/}).
+
+\question{Let $$\bvec{A} = \begin{bmatrix}
+    1 & 1 & 0 & 1 & 0 & 0\\
+    0 & 1 & 1 & 0 & 1 & 0\\
+    0 & 0 & 1 & 1 & 0 & 1\\
+    1 & 0 & 0 & 1 & 1 & 0\\
+    1 & 1 & 0 & 0 & 1 & 1\\
+    0 & 1 & 1 & 0 & 0 & 1\\
+\end{bmatrix}$$
+
+Verify computationally (you can use computer software) that if $\bvec{A}=\bvec{L}\bvec{U}$ then the elements of $\bvec{L}, \bvec{U}, \bvec{L}^{-1}, \bvec{U}^{-1}$ are all integers. Do not rely just on visual inspection of the numbers; perform a more definitive test.
+
+}
+
+
+\solution{\begin{align*}
+U \;=\; E_7E_6E_5E_4E_3E_2E_1\,A,
+\qquad
+L \;=\; (E_7E_6E_5E_4E_3E_2E_1)^{-1}
+      \;=\; E_1^{-1}E_2^{-1}\cdots E_7^{-1}.
+\end{align*}
+
+% -----------------------------
+% Step 1
+% -----------------------------
+Simply doing Gaussian elimination to place all zero elements in the lower left side,
+
+\begin{align*}
+E_1=
+\left[
+\begin{array}{rrrrrr}
+ 1& 0& 0& 0& 0& 0\\
+ 0& 1& 0& 0& 0& 0\\
+ 0& 0& 1& 0& 0& 0\\
+-1& 0& 0& 1& 0& 0\\
+ 0& 0& 0& 0& 1& 0\\
+ 0& 0& 0& 0& 0& 1
+\end{array}
+\right]
+\quad&\text{(this does }R_4\leftarrow R_4-R_1\text{)}.\\
+E_1A
+&=
+\left[
+\begin{array}{rrrrrr}
+ 1& 1& 0& 1& 0& 0\\
+ 0& 1& 1& 0& 1& 0\\
+ 0& 0& 1& 1& 0& 1\\
+ 0&-1& 0& 0& 1& 0\\
+ 1& 1& 0& 0& 1& 1\\
+ 0& 1& 1& 0& 0& 1
+\end{array}
+\right].
+\end{align*}
+
+% -----------------------------
+% Step 2
+% -----------------------------
+\begin{align*}
+E_2=
+\left[
+\begin{array}{rrrrrr}
+ 1& 0& 0& 0& 0& 0\\
+ 0& 1& 0& 0& 0& 0\\
+ 0& 0& 1& 0& 0& 0\\
+ 0& 0& 0& 1& 0& 0\\
+-1& 0& 0& 0& 1& 0\\
+ 0& 0& 0& 0& 0& 1
+\end{array}
+\right]
+\quad&\text{(this does }R_5\leftarrow R_5-R_1\text{)}.\\
+E_2E_1A
+&=
+\left[
+\begin{array}{rrrrrr}
+ 1& 1& 0& 1& 0& 0\\
+ 0& 1& 1& 0& 1& 0\\
+ 0& 0& 1& 1& 0& 1\\
+ 0&-1& 0& 0& 1& 0\\
+ 0& 0& 0&-1& 1& 1\\
+ 0& 1& 1& 0& 0& 1
+\end{array}
+\right].
+\end{align*}
+
+% -----------------------------
+% Step 3
+% -----------------------------
+\begin{align*}
+E_3=
+\left[
+\begin{array}{rrrrrr}
+ 1& 0& 0& 0& 0& 0\\
+ 0& 1& 0& 0& 0& 0\\
+ 0& 0& 1& 0& 0& 0\\
+ 0& 1& 0& 1& 0& 0\\
+ 0& 0& 0& 0& 1& 0\\
+ 0& 0& 0& 0& 0& 1
+\end{array}
+\right]
+\quad&\text{(this does }R_4\leftarrow R_4+R_2\text{)}.\\
+E_3E_2E_1A
+&=
+\left[
+\begin{array}{rrrrrr}
+ 1& 1& 0& 1& 0& 0\\
+ 0& 1& 1& 0& 1& 0\\
+ 0& 0& 1& 1& 0& 1\\
+ 0& 0& 1& 0& 2& 0\\
+ 0& 0& 0&-1& 1& 1\\
+ 0& 1& 1& 0& 0& 1
+\end{array}
+\right].
+\end{align*}
+
+% -----------------------------
+% Step 4
+% -----------------------------
+\begin{align*}
+E_4=
+\left[
+\begin{array}{rrrrrr}
+ 1& 0& 0& 0& 0& 0\\
+ 0& 1& 0& 0& 0& 0\\
+ 0& 0& 1& 0& 0& 0\\
+ 0& 0& 0& 1& 0& 0\\
+ 0& 0& 0& 0& 1& 0\\
+ 0&-1& 0& 0& 0& 1
+\end{array}
+\right]
+\quad&\text{(this does }R_6\leftarrow R_6-R_2\text{)}.\\
+E_4E_3E_2E_1A
+&=
+\left[
+\begin{array}{rrrrrr}
+ 1& 1& 0& 1& 0& 0\\
+ 0& 1& 1& 0& 1& 0\\
+ 0& 0& 1& 1& 0& 1\\
+ 0& 0& 1& 0& 2& 0\\
+ 0& 0& 0&-1& 1& 1\\
+ 0& 0& 0& 0&-1& 1
+\end{array}
+\right].
+\end{align*}
+
+% -----------------------------
+% Step 5
+% -----------------------------
+\begin{align*}
+E_5=
+\left[
+\begin{array}{rrrrrr}
+ 1& 0& 0& 0& 0& 0\\
+ 0& 1& 0& 0& 0& 0\\
+ 0& 0& 1& 0& 0& 0\\
+ 0& 0&-1& 1& 0& 0\\
+ 0& 0& 0& 0& 1& 0\\
+ 0& 0& 0& 0& 0& 1
+\end{array}
+\right]
+\quad&\text{(this does }R_4\leftarrow R_4-R_3\text{)}.\\
+E_5E_4E_3E_2E_1A
+&=
+\left[
+\begin{array}{rrrrrr}
+ 1& 1& 0& 1& 0& 0\\
+ 0& 1& 1& 0& 1& 0\\
+ 0& 0& 1& 1& 0& 1\\
+ 0& 0& 0&-1& 2&-1\\
+ 0& 0& 0&-1& 1& 1\\
+ 0& 0& 0& 0&-1& 1
+\end{array}
+\right].
+\end{align*}
+
+% -----------------------------
+% Step 6
+% -----------------------------
+\begin{align*}
+E_6=
+\left[
+\begin{array}{rrrrrr}
+ 1& 0& 0& 0& 0& 0\\
+ 0& 1& 0& 0& 0& 0\\
+ 0& 0& 1& 0& 0& 0\\
+ 0& 0& 0& 1& 0& 0\\
+ 0& 0& 0&-1& 1& 0\\
+ 0& 0& 0& 0& 0& 1
+\end{array}
+\right]
+\quad&\text{(this does }R_5\leftarrow R_5-R_4\text{)}.\\
+E_6E_5E_4E_3E_2E_1A
+&=
+\left[
+\begin{array}{rrrrrr}
+ 1& 1& 0& 1& 0& 0\\
+ 0& 1& 1& 0& 1& 0\\
+ 0& 0& 1& 1& 0& 1\\
+ 0& 0& 0&-1& 2&-1\\
+ 0& 0& 0& 0&-1& 2\\
+ 0& 0& 0& 0&-1& 1
+\end{array}
+\right].
+\end{align*}
+
+% -----------------------------
+% Step 7
+% -----------------------------
+
+Finally, we do one last elimination to get
+\begin{align*}
+E_7=
+\left[
+\begin{array}{rrrrrr}
+ 1& 0& 0& 0& 0& 0\\
+ 0& 1& 0& 0& 0& 0\\
+ 0& 0& 1& 0& 0& 0\\
+ 0& 0& 0& 1& 0& 0\\
+ 0& 0& 0& 0& 1& 0\\
+ 0& 0& 0& 0&-1& 1
+\end{array}
+\right]
+\quad&\text{(this does }R_6\leftarrow R_6-R_5\text{)}.\\
+U=E_7E_6E_5E_4E_3E_2E_1A
+&=
+\left[
+\begin{array}{rrrrrr}
+ 1& 1& 0& 1& 0& 0\\
+ 0& 1& 1& 0& 1& 0\\
+ 0& 0& 1& 1& 0& 1\\
+ 0& 0& 0&-1& 2&-1\\
+ 0& 0& 0& 0&-1& 2\\
+ 0& 0& 0& 0& 0&-1
+\end{array}
+\right].
+\end{align*}
+
+
+Then to construct $L$ we just move all the $E_i$ to the other side. Note that we don't have to do any complicated inversion techniques as if for example $E_7$ takes $R_6 \leftarrow R_6 - R_5$ then the inverse $E_7^{-1}$ does the opposite: $R_6 \leftarrow R_6 - R_5$. Further, multiplying these together just looks like "overlapping" the matrices. So in this case, $L$ is compromised of taking the negative of each $E_i$ off diagonal.
+% -----------------------------
+% Construct L from inverses
+% -----------------------------
+\begin{align*}
+L
+&=(E_7E_6E_5E_4E_3E_2E_1)^{-1}
+  =E_1^{-1}E_2^{-1}E_3^{-1}E_4^{-1}E_5^{-1}E_6^{-1}E_7^{-1}
+=
+\left[
+\begin{array}{rrrrrr}
+ 1& 0& 0& 0& 0& 0\\
+ 0& 1& 0& 0& 0& 0\\
+ 0& 0& 1& 0& 0& 0\\
+ 1&-1& 1& 1& 0& 0\\
+ 1& 0& 0& 1& 1& 0\\
+ 0& 1& 0& 0& 1& 1
+\end{array}
+\right].
+\end{align*}
+
+One can then check by direct $
+A = LU.$
+
+Furthermore, not that each row operation was over the form $R_i \pm R_j$. There was no scaling involved, and all the elements of $A$ were integers. Specifically, all the elements were $1$ or $0$ and all the diagonals were $1$. This properties force all the diagonals of $U$ to be $\pm 1$. Therefore, both $L$ and $U$ are matrices with integer elements and all ones (or negative ones) down the diagonal. By the property that for a lower (or upper) triangular matrix, the determinant is just the product of the diagonals, the determinant is also $\pm 1$. Taking an inverse involves permuting elements and dividing by determinants (in some hand-wavey manner). Dividing an integer by $\pm 1$ results in an integer, so both $L^{-1}$ and $U^{-1}$ are comprised of only integers as well. 
+
+}
+
+\vskip1cm
+
+\noindent {\bf Q2.} Attempt Exercises 4 in Section 2.6 of Driscoll and Braun (\url{https://fncbook.com/}).
+
+\question{ An $n \times n$ permutation matrix $\bvec{P}$ is a reordering of the rows an identity matrix such that $\bvec{P}\bvec{A}$ has the effect of moving rows $1, 2, ..., n$ of $\bvec{A}$ to new positions $i_1, i_2, ..., i_n$. Then $\bvec{P}$ can be expression as $$\bvec{P} = \bvec{e}_{i_1}\bvec{e}_{1}^T+\bvec{e}_{i_2}\bvec{e}_{2}^T+...+\bvec{e}_{i_n}\bvec{e}_{n}^T = \sum_{k=1}^n \bvec{e}_{i_k}\bvec{e}_{k}^T.$$
+
+\begin{enumerate}[a)]
+    \item For the case $n = 4$ and $i_1 = 3, i_2 = 2, i+3 = 4, i_1 = 1$, write out separately as matrices, all four terms in the sum. Then add them together to find $\bvec{P}$
+    \item  Use the formula in the general case to show that $\bvec{P}^{-1} = \bvec{P}^T$ and discuss any algebraic or geometric interpretations.
+\end{enumerate}
+}
+
+\solution{\begin{enumerate}[a)]
+    \item \begin{align*}
+        \vec{P} &= \begin{bmatrix}0 \\ 0 \\ 1 \\ 0\end{bmatrix}\cdot [1, 0, 0, 0]
+        + \begin{bmatrix}0 \\ 1 \\ 0 \\ 0\end{bmatrix} \cdot [0, 1, 0, 0]
+        + \begin{bmatrix}0 \\ 0 \\ 0 \\ 1\end{bmatrix} \cdot [0, 0, 1, 0]
+        + \begin{bmatrix}1 \\ 0 \\ 0 \\ 0\end{bmatrix} \cdot [0, 0, 0, 1] \\
+        &= \begin{bmatrix}
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            1 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            \end{bmatrix} 
+            + \begin{bmatrix}
+            0 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            \end{bmatrix}
+            + \begin{bmatrix}
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
+            \end{bmatrix}
+            + \begin{bmatrix}
+            0 & 0 & 0 & 1 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            \end{bmatrix} \\
+        &= \begin{bmatrix}
+            0 & 0 & 0 & 1 \\
+            0 & 1 & 0 & 0 \\
+            1 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
+            \end{bmatrix}
+    \end{align*}
+    \item \begin{align*}
+        \vec{P}\vec{P}^{T} &= (\vec{e}_{i_1}\vec{e}_{1}^T + \vec{e}_{i_2}\vec{e}_{2}^T + \cdots + \vec{e}_{i_n}\vec{e}_{n}^T) \cdot (\vec{e}_{i_1}\vec{e}_{1}^T + \vec{e}_{i_2}\vec{e}_{2}^T + \cdots + \vec{e}_{i_n}\vec{e}_{n}^T)^{T} \\
+        &= (\vec{e}_{i_1}\vec{e}_{1}^T + \vec{e}_{i_2}\vec{e}_{2}^T + \cdots + \vec{e}_{i_n}\vec{e}_{n}^T) \cdot (\vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{n}\vec{e}_{i_n}^T) \\
+        &= \vec{e}_{i_1}\vec{e}_{1}^T \cdot (\vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{n}\vec{e}_{i_n}^T) + \vec{e}_{i_2}\vec{e}_{2}^T \cdot (\vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{n}\vec{e}_{i_n}^T) + \cdots \\
+        &\quad + \vec{e}_{i_n}\vec{e}_{n}^T \cdot (\vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{n}\vec{e}_{i_n}^T) \\    
+        &= \vec{e}_{i_1}\vec{e}_{1}^T \cdot \vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{i_1}\vec{e}_{1}^T \cdot \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{i_1}\vec{e}_{1}^T \cdot + \vec{e}_{n}\vec{e}_{i_n}^T \\
+        &\quad + \vec{e}_{i_2}\vec{e}_{2}^T \cdot \vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{i_2}\vec{e}_{2}^T \cdot \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{i_2}\vec{e}_{2}^T \cdot \vec{e}_{n}\vec{e}_{i_n}^T \\
+        &\quad + \vdots \\
+        &\quad + \vec{e}_{i_n}\vec{e}_{n}^T \cdot \vec{e}_{1}\vec{e}_{i_1}^T + \vec{e}_{i_n}\vec{e}_{n}^T \cdot \vec{e}_{2}\vec{e}_{i_2}^T + \cdots + \vec{e}_{i_n}\vec{e}_{n}^T \cdot \vec{e}_{n}\vec{e}_{i_n}^T \\
+        &= \vec{e}_{i_1}\vec{e}_{i_1}^T + \vec{0} \cdot \vec{0} + \cdots + \vec{0} \\
+        &\quad + \vec{0} + \vec{e}_{i_2}\vec{e}_{i_2}^T + \cdots + \vec{0} \\
+        &\quad + \vdots \\
+        &\quad + \vec{0} + \vec{0} + \cdots + \vec{e}_{i_n}\vec{e}_{i_n}^T \\
+        &= \vec{e}_{i_1}\vec{e}_{i_1}^{T} + \vec{e}_{i_2}\vec{e}_{i_2}^{T} + \ldots + \vec{e}_{i_n}\vec{e}_{i_n}^{T} \\
+        &= \vec{I}
+    \end{align*}
+    Note: in section, we collapsed this large wall of summations using summation notation as follows:
+    \begin{align*}
+        \vec{P}\vec{P}^T &= \left(\sum_{j = 1}^{n} \vec{e}_{i_j}\vec{e}_j^T \right)\left(\sum_{k = 1}^{n} \vec{e}_{i_k}\vec{e}_k^T \right)^T \\
+        &= \left(\sum_{j = 1}^{n} \vec{e}_{i_j}\vec{e}_j^T \right) \left(\sum_{k = 1}^{n} \vec{e}_{k}\vec{e}_{i_k}^T \right) \\
+        &= \sum_{j = 1}^{n} \sum_{k = 1}^{n} (\vec{e}_{i_j}\vec{e}_j^{T})(\vec{e}_k\vec{e}_{i_k}^T) \\
+        &= \sum_{j = 1}^{n} \sum_{k = 1}^{n} \vec{e}_{i_j}(\vec{e}_j^{T}\vec{e}_k)\vec{e}_{i_k}^T \\
+        &= \sum_{j = 1}^{n} \vec{e}_{i_j}\vec{e}_{i_k}^T \\
+        &= \vec{I}
+    \end{align*}
+    where the second last step follows since $\vec{e}_j^{T}\vec{e}_k = \begin{cases}1,\quad j = k\\0,\quad j \neq k\end{cases}$.
+
+    We note that this technically only establishes that $\vec{P}^T$ is a right inverse of $\vec{P}$. A similar argument shows that $\vec{P}^T$ is a left inverse of $\vec{P}$, but the cancellation will occur on $\vec{e}_{i_j}^T\vec{e}_{i_k}$ instead.
+
+    Finally, we note the geometric implications. Note that $\bvec{P}$ is comprised of a sum of ``single permutations'' $\vec{e}_{i_k}\vec{e}_k^T$ that swaps the row $i_k$ with row $k$. By summing all these together we are mapping rows $$(1, 2, ..., n) \mapsto (i_1, i_2, ..., i_n).$$
+    The transpose matrix $\bvec{P}^T$ is then summing together elements of the form $\bvec{e}_k\bvec{e}_{i_k}^T$, which now swaps row $k$ with row $i_k$. Therefore, summing these together maps the rows $$(i_1, i_2, ..., i_n) \mapsto (1, 2, ..., n).$$
+    Coupling this together in succession just swaps the rows back to where the started, which is precisely what the identity matrix would do. In this case, $\vec{P}$ swaps rows and $\vec{P}^{T}$ swaps them back, so $\vec{P}\vec{P}^{T} = \vec{I}$, which exactly states that $\vec{P}^T = \vec{P}^{-1}$.
+\end{enumerate}}
+
+\end{document} 
