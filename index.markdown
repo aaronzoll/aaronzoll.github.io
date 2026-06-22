@@ -5,13 +5,13 @@
 # bundle exec jekyll serve to run locally
 layout: splash
 title: Home 
-feature_image: "https://picsum.photos/1300/400?image=989"
+feature_image: "/assets/images/banner.png"
 feature_text: |
   ## Aaron Zoll Personal Website
 header:
   overlay_color: "#000"         # Dark overlay to improve text visibility
-  overlay_filter: "0.5"         # Opacity of overlay
-  overlay_image: "https://picsum.photos/1300/400?image=989"  # Path to your background image
+  overlay_filter: "0.35"         # Opacity of overlay
+  overlay_image: "/assets/images/banner.png"  # Path to your background image
 
 custom_js: |
   <script>particlesJS.load('particles-js', 'assets/particles.json', function() {

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Chalk Studio</title>
+
+<!-- Handwriting fonts. Loading these does not taint the canvas. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Gloria+Hallelujah&display=swap" rel="stylesheet">
+
+<!-- MathJax: SVG output gives glyph PATHS, so it rasterizes to canvas cleanly. -->
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] },
+    svg: { fontCache: 'local' },          // keep glyph defs inside each svg -> self-contained
+    startup: { typeset: false }
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js" async></script>
+
+<style>
+  :root{
+    --board-img:  url('chalkboard.png');  /* save the uploaded image here */
+    --board:      #1f2421;                 /* fallback shown before image loads */
+    --dust:       #f3f0e7;                 /* chalk white */
+    /* site wood/cream palette (matches .site-btn / .fd-action-btn) */
+    --cream:      #fdf6ee;
+    --cream-2:    #f0e0ca;
+    --bar:        #f2e8d8;
+    --brown:      #a67b5b;
+    --brown-dk:   #593302;
+    --ink:        #3b1f00;
+    --muted:      #6b4a2b;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; height:100%; background:var(--bar); color:var(--ink);
+             font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap{ height:100%; display:flex; flex-direction:column; }
+
+  /* ---- toolbar (site wood/cream styling) ---- */
+  .bar{ display:flex; flex-wrap:wrap; align-items:center; gap:9px;
+        padding:9px 13px; border-bottom:1px solid var(--brown);
+        background:var(--bar); }
+  .group{ display:flex; align-items:center; gap:6px; }
+  .group + .group{ padding-left:9px; border-left:1px solid rgba(166,123,91,.4); }
+  .lbl{ font-size:11px; text-transform:uppercase; letter-spacing:.06em;
+        font-weight:700; color:var(--muted); }
+
+  button.tool, button.act{
+    font:inherit; font-size:13px; color:var(--ink);
+    background:var(--cream); border:1px solid var(--brown);
+    border-radius:4px; padding:4px 11px; cursor:pointer; line-height:1.2;
+    transition:background .12s ease, border-color .12s ease;
+  }
+  button.tool:hover, button.act:hover{ background:var(--cream-2); }
+  button.tool[aria-pressed="true"]{
+    background:var(--brown); color:#fff; border-color:var(--brown-dk);
+  }
+
+  .swatch{ width:22px; height:22px; border-radius:50%; cursor:pointer;
+           border:2px solid rgba(89,51,2,.25); }
+  .swatch[aria-pressed="true"]{ border-color:var(--brown-dk); transform:scale(1.14);
+                                box-shadow:0 0 0 1px #fff inset; }
+
+  input[type=range]{ width:104px; accent-color:var(--brown); }
+  .val{ font-size:12px; color:var(--muted); width:26px; text-align:right; }
+
+  #composer{ font:inherit; font-size:13px; color:var(--ink);
+             background:#fff; border:1px solid var(--brown);
+             border-radius:3px; padding:4px 9px; width:250px; outline:none; }
+  #composer:focus{ outline:2px solid var(--brown); outline-offset:1px; }
+  #composer::placeholder{ color:#b08e6e; }
+  #hwControls{ display:none; align-items:center; gap:8px; }
+  #hwLabel{ display:flex; align-items:center; gap:5px; font-size:12px;
+            color:var(--muted); cursor:pointer; user-select:none; }
+  #hwLabel input{ accent-color:var(--brown); }
+  #wobble{ width:84px; }
+
+  /* ---- board (the chalkboard image) ---- */
+  .stage{ flex:1; position:relative; padding:16px; min-height:0; }
+  .board{ position:relative; width:100%; height:100%; border-radius:4px;
+          box-shadow: inset 0 0 70px rgba(0,0,0,.45), 0 4px 14px rgba(0,0,0,.4);
+          background: var(--board-img) center/cover no-repeat, var(--board);
+          border:6px solid var(--brown-dk);    /* slim wood edge */
+          overflow:hidden; }
+  canvas{ position:absolute; inset:0; width:100%; height:100%;
+          touch-action:none; cursor:crosshair; }
+  #preview{ pointer-events:none; }
+
+  .hint{ position:absolute; left:16px; bottom:10px; font-size:13px;
+         color:var(--dust); opacity:.5; }
+
+  /* ---- export overlay ---- */
+  #overlay{ display:none; position:fixed; inset:0; z-index:50;
+            background:rgba(0,0,0,.6); align-items:center; justify-content:center; }
+  #overlay.open{ display:flex; }
+  .sheet{ display:flex; flex-direction:column; gap:12px; padding:14px;
+          max-width:82vw; max-height:88vh;
+          background:var(--cream); border:1px solid var(--brown);
+          border-radius:8px; box-shadow:0 20px 60px rgba(0,0,0,.5);
+          outline:4px ridge var(--brown-dk); }
+  .sheetbar{ display:flex; align-items:center; justify-content:space-between;
+             font-size:14px; font-weight:600; color:var(--ink); }
+  /* preview the chalk on the real chalkboard (export itself is transparent) */
+  #ovImg{ max-width:76vw; max-height:58vh; border-radius:4px;
+          border:1px solid var(--brown-dk);
+          background: var(--board-img) center/cover, var(--board); }
+  .ovHint{ font-size:13px; color:var(--muted); }
+  a.act{ text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="bar">
+    <div class="group">
+      <span class="lbl">tool</span>
+      <button class="tool" data-tool="free"  aria-pressed="true">free</button>
+      <button class="tool" data-tool="line">line</button>
+      <button class="tool" data-tool="rect">rect</button>
+      <button class="tool" data-tool="ellipse">circle</button>
+      <button class="tool" data-tool="text">text</button>
+      <button class="tool" data-tool="math">∑ math</button>
+    </div>
+
+    <div class="group" id="palette">
+      <span class="lbl">chalk</span>
+      <span class="swatch" style="background:#ffffff" data-color="#ffffff" aria-pressed="true"></span>
+      <span class="swatch" style="background:#ffb624" data-color="#ffb624"></span>
+      <span class="swatch" style="background:#f7ff81" data-color="#f7ff81"></span>
+      <span class="swatch" style="background:#00cf63" data-color="#00cf63"></span>
+      <span class="swatch" style="background:#82aef0" data-color="#82aef0"></span>
+      <span class="swatch" style="background:#ffa2e1" data-color="#ffa2e1"></span>
+    </div>
+
+    <div class="group">
+      <span class="lbl">size</span>
+      <input id="size" type="range" min="3" max="40" value="9"/>
+      <span class="val" id="sizeVal">9</span>
+    </div>
+
+    <div class="group">
+      <span class="lbl">grain</span>
+      <input id="grain" type="range" min="0.4" max="2.4" step="0.1" value="1.2"/>
+      <span class="val" id="grainVal">1.2</span>
+    </div>
+
+    <div class="group" id="composeGroup" style="display:none">
+      <span class="lbl" id="composeLbl">text</span>
+      <input id="composer" type="text" placeholder="type, then click the board"/>
+      <span id="hwControls">
+        <label id="hwLabel"><input type="checkbox" id="handwrite" checked/> handwritten</label>
+        <input id="wobble" type="range" min="0" max="100" value="40" title="how hand-drawn"/>
+        <span class="val" id="wobbleVal">40</span>
+      </span>
+    </div>
+
+    <div class="group">
+      <button class="act" id="undo">undo</button>
+      <button class="act" id="clear">clear</button>
+      <button class="act" id="export">export PNG</button>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="board">
+      <canvas id="base"></canvas>
+      <canvas id="preview"></canvas>
+      <div class="hint" id="hint">draw freely — pick a tool, color, and grain</div>
+    </div>
+  </div>
+</div>
+
+<div id="overlay">
+  <div class="sheet">
+    <div class="sheetbar">
+      <span>your chalk (transparent PNG)</span>
+      <button class="act" id="ovClose">close</button>
+    </div>
+    <img id="ovImg" alt="exported chalk"/>
+    <div class="ovHint">Right-click the image &rarr; <b>Save image as…</b>, or drag it straight onto a slide.</div>
+    <div class="group">
+      <button class="act" id="ovCopy">copy image</button>
+      <a class="act" id="ovDl" download="chalk.png">download</a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CHALK ENGINE
+   ------------------------------------------------------------
+   Two primitives do all the work:
+     1) sprayLine() / sprayPoint()  -> freehand, lines, shapes
+     2) chalkifyMask()              -> text + math (any glyphs)
+   Both share the same look knobs, so everything stays consistent.
+   ============================================================ */
+
+const base    = document.getElementById('base');
+const preview = document.getElementById('preview');
+const bctx = base.getContext('2d');
+const pctx = preview.getContext('2d');
+const composer = document.getElementById('composer');
+
+let DPR = Math.min(2, window.devicePixelRatio || 1);
+
+function fit(){
+  const r = base.parentElement.getBoundingClientRect();
+  for (const c of [base, preview]){
+    c.width  = Math.round(r.width  * DPR);
+    c.height = Math.round(r.height * DPR);
+  }
+  bctx.setTransform(DPR,0,0,DPR,0,0);
+  pctx.setTransform(DPR,0,0,DPR,0,0);
+  redraw();
+}
+
+/* ---- state ---- */
+const state = { tool:'free', color:'#ffffff', size:9, grain:1.2, handwrite:true, wobble:40 };
+let drawing=false, start=null, last=null, freePts=[];
+const history=[];                       // snapshots for undo (ImageData)
+
+function snapshot(){
+  history.push(bctx.getImageData(0,0,base.width,base.height));
+  if (history.length>25) history.shift();
+}
+function redraw(){ /* nothing persistent beyond bitmap; here for resize hook */ }
+
+/* ---- the spray brush ---- */
+function sprayPoint(ctx, x, y, o){
+  const count = Math.max(2, Math.round(o.size * o.grain * 0.9));
+  for (let i=0;i<count;i++){
+    const a  = Math.random()*Math.PI*2;
+    const rr = Math.pow(Math.random(), 0.7) * o.size*0.55;   // denser middle
+    ctx.globalAlpha = 0.18 + Math.random()*0.55;             // opacity jitter = dust
+    const s = 0.5 + Math.random()* (o.size*0.10 + 0.8);
+    ctx.fillRect(x+Math.cos(a)*rr, y+Math.sin(a)*rr, s, s);
+  }
+  ctx.globalAlpha = 1;
+}
+function sprayLine(ctx, x0,y0,x1,y1, o){
+  const d = Math.hypot(x1-x0, y1-y0);
+  const steps = Math.max(1, Math.round(d / (o.size*0.18)));
+  for (let i=0;i<=steps;i++){
+    const t=i/steps;
+    sprayPoint(ctx, x0+(x1-x0)*t, y0+(y1-y0)*t, o);
+  }
+}
+function sprayPath(ctx, pts, o, closed=false){
+  for (let i=1;i<pts.length;i++) sprayLine(ctx, pts[i-1].x,pts[i-1].y, pts[i].x,pts[i].y, o);
+  if (closed && pts.length>2) sprayLine(ctx, pts.at(-1).x,pts.at(-1).y, pts[0].x,pts[0].y, o);
+}
+
+/* ---- shape point generators (with a little hand-drawn wobble) ---- */
+function jit(p, amt){ return { x:p.x + (Math.random()-0.5)*amt, y:p.y + (Math.random()-0.5)*amt }; }
+
+function rectPts(a, b, wob){
+  const c=[{x:a.x,y:a.y},{x:b.x,y:a.y},{x:b.x,y:b.y},{x:a.x,y:b.y}].map(p=>jit(p,wob));
+  return c;
+}
+function ellipsePts(a, b, wob){
+  const cx=(a.x+b.x)/2, cy=(a.y+b.y)/2, rx=Math.abs(b.x-a.x)/2, ry=Math.abs(b.y-a.y)/2;
+  const N=Math.max(28, Math.round((rx+ry)));
+  const pts=[];
+  for (let i=0;i<=N;i++){ const t=i/N*Math.PI*2; pts.push(jit({x:cx+Math.cos(t)*rx, y:cy+Math.sin(t)*ry}, wob)); }
+  return pts;
+}
+
+/* ---- chalkify any white-on-transparent mask onto ctx ----
+   Grain params are overridable so small math can use finer, denser specks
+   (otherwise fixed-size specks bleed past thin scaled-down strokes = fuzzy). */
+function chalkifyMask(ctx, mask, dx, dy, o, p){
+  p = p || {};
+  const w=mask.width, h=mask.height;
+  const data = mask.getContext('2d').getImageData(0,0,w,h).data;
+  const step    = p.step    ?? 2;                  // sample stride
+  const density = (p.density ?? 0.55) * o.grain;   // coverage (× grain slider)
+  const jit     = p.jitter  ?? 1.6;                // edge spread
+  const sMin    = p.sMin    ?? 0.5;                // speck size floor
+  const sRand   = p.sRand   ?? 1.6;                // speck size spread
+  const aMin    = p.aMin    ?? 0.18;               // opacity floor
+  const aRand   = p.aRand   ?? 0.6;                // opacity spread
+  ctx.fillStyle = o.color;
+  for (let y=0;y<h;y+=step){
+    for (let x=0;x<w;x+=step){
+      if (data[(y*w+x)*4+3] < 80) continue;        // skip transparent
+      if (Math.random() > density) continue;       // break it up
+      ctx.globalAlpha = aMin + Math.random()*aRand;
+      const s = sMin + Math.random()*sRand;
+      ctx.fillRect(dx + x + (Math.random()-0.5)*jit,
+                   dy + y + (Math.random()-0.5)*jit, s, s);
+    }
+  }
+  ctx.globalAlpha = 1;
+}
+
+/* ---- crisp grain params, scaled to glyph size (fine = size / default) ---- */
+function maskGrain(fine){
+  return { step:1, density:0.85, jitter:0.7*fine,
+           sMin:0.35*fine, sRand:0.7*fine, aMin:0.30, aRand:0.55 };
+}
+
+/* ---- value noise (smooth, low-frequency) for the handwriting wobble ---- */
+function makeNoise(cols, rows){
+  const g = new Float32Array(cols*rows);
+  for (let i=0;i<g.length;i++) g[i]=Math.random()*2-1;
+  return { g, cols, rows };
+}
+function sampleNoise(n, u, v){                 // u,v in [0,1]; smoothstep interp
+  const x=u*(n.cols-1), y=v*(n.rows-1);
+  const x0=Math.floor(x), y0=Math.floor(y);
+  const x1=Math.min(x0+1,n.cols-1), y1=Math.min(y0+1,n.rows-1);
+  const fx=x-x0, fy=y-y0, sx=fx*fx*(3-2*fx), sy=fy*fy*(3-2*fy);
+  const a=n.g[y0*n.cols+x0], b=n.g[y0*n.cols+x1],
+        c=n.g[y1*n.cols+x0], d=n.g[y1*n.cols+x1];
+  return (a*(1-sx)+b*sx)*(1-sy) + (c*(1-sx)+d*sx)*sy;
+}
+
+/* ---- displace a white-on-transparent mask so strokes wander off-straight ----
+   Low-frequency field dominates (a hand can't hold a straight line); a smaller
+   high-frequency octave adds extra variation that grows with the slider.
+   Pure JS, so no font/taint issues — works identically for text and math. */
+function wobbleMask(mask, amp, detail){
+  const w=mask.width, h=mask.height;
+  const pad=Math.ceil(amp)+2, W=w+pad*2, H=h+pad*2;
+  const src=mask.getContext('2d').getImageData(0,0,w,h).data;
+  const out=document.createElement('canvas'); out.width=W; out.height=H;
+  const octx=out.getContext('2d'), dst=octx.createImageData(W,H);
+  const lx=makeNoise(4,4), ly=makeNoise(4,4);    // wandering (long waves)
+  const hx=makeNoise(9,9), hy=makeNoise(9,9);    // finer variation
+  for (let y=0;y<H;y++){
+    const v=y/H;
+    for (let x=0;x<W;x++){
+      const u=x/W;
+      const dx=(sampleNoise(lx,u,v) + sampleNoise(hx,u,v)*detail)*amp;
+      const dy=(sampleNoise(ly,u,v) + sampleNoise(hy,u,v)*detail)*amp;
+      const sx=Math.round(x-pad-dx), sy=Math.round(y-pad-dy);
+      if (sx<0||sy<0||sx>=w||sy>=h) continue;
+      const a=src[(sy*w+sx)*4+3];
+      if (a){ const di=(y*W+x)*4; dst.data[di]=dst.data[di+1]=dst.data[di+2]=255; dst.data[di+3]=a; }
+    }
+  }
+  octx.putImageData(dst,0,0);
+  return out;
+}
+/* map slider (0..100) -> wobble amount in px and high-octave weight, scaled to size */
+function wobbleAmt(o, emPx){ return (o.wobble/100) * 0.15 * emPx; }     // not too extreme
+function wobbleDetail(o){    return 0.2 + (o.wobble/100) * 0.5; }       // more when higher
+
+/* ---- text -> mask ---- */
+async function textMask(txt, emPx){
+  await document.fonts.ready;
+  const m=document.createElement('canvas');
+  let mc=m.getContext('2d');
+  mc.font=`${emPx}px 'Caveat', cursive`;
+  const w=Math.ceil(mc.measureText(txt).width)+20, h=Math.ceil(emPx*1.5);
+  m.width=w; m.height=h;
+  mc=m.getContext('2d');
+  mc.font=`${emPx}px 'Caveat', cursive`;
+  mc.fillStyle='#fff'; mc.textBaseline='middle';
+  mc.fillText(txt, 10, h/2);
+  return m;
+}
+async function placeText(txt, cx, cy, o){
+  const emPx=o.size*4+18;
+  let m=await textMask(txt, emPx);
+  if (o.handwrite && o.wobble>0) m=wobbleMask(m, wobbleAmt(o,emPx), wobbleDetail(o));
+  snapshot();
+  chalkifyMask(bctx, m, cx, cy-m.height/2, o, maskGrain(emPx/54));
+}
+
+/* ---- LaTeX -> MathJax SVG (paths) -> mask ----
+   Sized in `ex` (not viewBox units) so it tracks the text size. */
+async function mathMask(tex, emPx, o){
+  const node=await MathJax.tex2svgPromise(tex, {display:true});
+  const svg=node.querySelector('svg');
+  svg.style.color='#ffffff';                        // currentColor -> white mask
+  const pxPerEx=emPx*0.5;
+  const exW=parseFloat(svg.getAttribute('width'))||2;
+  const exH=parseFloat(svg.getAttribute('height'))||2;
+  const w=Math.max(8,Math.round(exW*pxPerEx)), h=Math.max(8,Math.round(exH*pxPerEx));
+  svg.setAttribute('width',w); svg.setAttribute('height',h);
+  const xml=new XMLSerializer().serializeToString(svg);
+  const url='data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(xml)));
+  const img=new Image();
+  await new Promise((res,rej)=>{ img.onload=res; img.onerror=rej; img.src=url; });
+  let m=document.createElement('canvas'); m.width=w; m.height=h;
+  m.getContext('2d').drawImage(img,0,0,w,h);        // vector paths -> no taint
+  if (o.handwrite && o.wobble>0) m=wobbleMask(m, wobbleAmt(o,emPx), wobbleDetail(o));
+  return m;
+}
+async function placeMath(tex, cx, cy, o){
+  if (!window.MathJax || !MathJax.tex2svgPromise){ hint.style.display='block'; hint.textContent='MathJax is still loading — try again in a second.'; return; }
+  const emPx=o.size*4+18;
+  const m=await mathMask(tex, emPx, o);
+  snapshot();
+  chalkifyMask(bctx, m, cx, cy-m.height/2, o, maskGrain(emPx/54));   // crisp, size-scaled
+}
+
+/* ============================================================
+   POINTER HANDLING
+   ============================================================ */
+function pos(e){
+  const r = base.getBoundingClientRect();
+  return { x:e.clientX-r.left, y:e.clientY-r.top };
+}
+
+preview.style.pointerEvents='none';
+base.addEventListener('pointerdown', async (e)=>{
+  base.setPointerCapture(e.pointerId);
+  const p = pos(e);
+  hint.style.display='none';
+
+  if (state.tool==='text'){
+    const t = composer.value.trim();
+    if (t){ await placeText(t, p.x, p.y, state); }
+    else { hint.style.display='block'; hint.textContent='type some text in the bar above, then click the board'; }
+    return;
+  }
+  if (state.tool==='math'){
+    const t = composer.value.trim();
+    if (t){ await placeMath(t, p.x, p.y, state); }
+    else { hint.style.display='block'; hint.textContent='type LaTeX in the bar above, then click the board'; }
+    return;
+  }
+  drawing=true; start=p; last=p; freePts=[p];
+  if (state.tool==='free') snapshot();
+});
+
+base.addEventListener('pointermove', (e)=>{
+  if (!drawing) return;
+  const p = pos(e);
+  if (state.tool==='free'){
+    bctx.fillStyle = state.color;
+    sprayLine(bctx, last.x,last.y, p.x,p.y, state);
+    last=p; return;
+  }
+  // shapes: live preview
+  pctx.clearRect(0,0,preview.width,preview.height);
+  pctx.fillStyle = state.color;
+  if (state.tool==='line') sprayLine(pctx, start.x,start.y, p.x,p.y, state);
+  if (state.tool==='rect') sprayPath(pctx, rectPts(start,p, state.size*0.4), state, true);
+  if (state.tool==='ellipse') sprayPath(pctx, ellipsePts(start,p, state.size*0.4), state, true);
+});
+
+base.addEventListener('pointerup', (e)=>{
+  if (!drawing) return;
+  const p = pos(e);
+  if (state.tool!=='free'){
+    snapshot();
+    bctx.fillStyle = state.color;
+    if (state.tool==='line') sprayLine(bctx, start.x,start.y, p.x,p.y, state);
+    if (state.tool==='rect'){ // two passes -> hand-drawn double edge
+      sprayPath(bctx, rectPts(start,p, state.size*0.4), state, true);
+      sprayPath(bctx, rectPts(start,p, state.size*0.7), state, true);
+    }
+    if (state.tool==='ellipse'){
+      sprayPath(bctx, ellipsePts(start,p, state.size*0.4), state, true);
+      sprayPath(bctx, ellipsePts(start,p, state.size*0.8), state, true);
+    }
+    pctx.clearRect(0,0,preview.width,preview.height);
+  }
+  drawing=false;
+});
+
+/* ============================================================
+   UI WIRING
+   ============================================================ */
+const hint = document.getElementById('hint');
+const composeGroup = document.getElementById('composeGroup');
+const hwControls = document.getElementById('hwControls');
+const handwrite = document.getElementById('handwrite');
+const wobble = document.getElementById('wobble');
+handwrite.onchange = ()=>{ state.handwrite = handwrite.checked; };
+wobble.oninput = ()=>{ state.wobble=+wobble.value; wobbleVal.textContent=wobble.value; };
+
+document.querySelectorAll('.tool').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.tool').forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true');
+    state.tool=b.dataset.tool;
+    const writing = (state.tool==='text' || state.tool==='math');
+    composeGroup.style.display = writing ? 'flex' : 'none';
+    hwControls.style.display = writing ? 'flex' : 'none';   // wobble applies to both
+    if (writing){
+      document.getElementById('composeLbl').textContent = state.tool;
+      composer.placeholder = state.tool==='math'
+        ? 'type LaTeX (no $), then click the board'
+        : 'type text, then click the board';
+      composer.focus();
+    }
+  };
+});
+document.querySelectorAll('.swatch').forEach(s=>{
+  s.onclick=()=>{
+    document.querySelectorAll('.swatch').forEach(x=>x.setAttribute('aria-pressed','false'));
+    s.setAttribute('aria-pressed','true');
+    state.color=s.dataset.color;
+  };
+});
+size.oninput  = ()=>{ state.size=+size.value;  sizeVal.textContent=size.value; };
+grain.oninput = ()=>{ state.grain=+grain.value; grainVal.textContent=grain.value; };
+
+undo.onclick = ()=>{ const s=history.pop(); if (s) bctx.putImageData(s,0,0); };
+clear.onclick= ()=>{ snapshot(); bctx.clearRect(0,0,base.width,base.height); };
+
+/* Export: render to a transparent PNG and show it in an overlay.
+   Programmatic downloads are blocked in sandboxed iframes (and Slides
+   sidebars), so we give three sandbox-proof options:
+     - copy to clipboard (paste straight onto a slide)
+     - right-click / drag the shown image
+     - a real download link (works when opened as a normal page)
+   The dataURL here is exactly what the add-on would hand to Apps Script. */
+const overlay = document.getElementById('overlay');
+const ovImg   = document.getElementById('ovImg');
+const ovDl    = document.getElementById('ovDl');
+const ovCopy  = document.getElementById('ovCopy');
+
+document.getElementById('export').onclick = ()=>{
+  const url = base.toDataURL('image/png');   // not tainted -> works
+  ovImg.src = url;
+  ovDl.href = url;
+  overlay.classList.add('open');
+};
+document.getElementById('ovClose').onclick = ()=> overlay.classList.remove('open');
+overlay.addEventListener('click', (e)=>{ if (e.target===overlay) overlay.classList.remove('open'); });
+
+ovCopy.onclick = async ()=>{
+  try{
+    const blob = await (await fetch(ovImg.src)).blob();
+    await navigator.clipboard.write([ new ClipboardItem({ 'image/png': blob }) ]);
+    ovCopy.textContent = 'copied \u2713';
+    setTimeout(()=> ovCopy.textContent='copy image', 1500);
+  }catch{
+    ovCopy.textContent = 'copy blocked — right-click the image';
+    setTimeout(()=> ovCopy.textContent='copy image', 2200);
+  }
+};
+
+window.addEventListener('resize', fit);
+fit();
+</script>
+</body>
+</html>
