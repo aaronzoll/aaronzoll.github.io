@@ -546,7 +546,7 @@ window.MathJax = {
   .featured-demos {
     display: grid;
     grid-auto-rows: auto;
-    row-gap: 1.5rem;
+    row-gap: 0;
   }
 
   .featured-demo-row {
@@ -554,7 +554,15 @@ window.MathJax = {
     grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
     column-gap: 2rem;
     align-items: start;
+    padding: 1rem 0.75rem;
+    border-bottom: 1px solid rgba(139, 90, 43, 0.2);
   }
+
+  .featured-demo-row:first-child { padding-top: 0; }
+  .featured-demo-row:last-child  { border-bottom: none; padding-bottom: 0; }
+
+  /* min-width: 0 prevents grid children from overflowing their cell */
+  .featured-demo-row > * { min-width: 0; }
 
   .demo-title {
     font-weight: 600;
@@ -567,13 +575,16 @@ window.MathJax = {
     line-height: 1.5;
     color: #4a5568;
     margin: 0;
+    overflow-wrap: break-word;
   }
 
-  .demo-image { display: block; margin-left: auto; }
+  .demo-image { display: block; margin-left: auto; min-width: 0; }
 
+  /* ↓ To resize the frames: adjust max-width (width) and the aspect-ratio (height proportional) */
   .demo-picture {
-    height: 270px;
-    width: 470px;
+    width: 100%;
+    max-width: 360px;      /* ← frame width cap */
+    aspect-ratio: 47 / 27; /* ← maintains original 470×270 proportions */
     border-radius: 0;
     border: none;
     box-shadow: inset 2px 2px 6px rgba(255,255,255,0.6),
@@ -582,6 +593,7 @@ window.MathJax = {
     background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
     padding: 8px;
     outline: 5px ridge #593302;
+    box-sizing: border-box;
   }
 
   .demo-picture:hover {
@@ -598,11 +610,19 @@ window.MathJax = {
     display: block;
   }
 
-  @media (max-width: 900px) {
+  /* Collapse to single column when viewport is too narrow for side-by-side */
+  @media (max-width: 750px) {
     .featured-demo-row {
       grid-template-columns: 1fr;
       row-gap: 1rem;
     }
+    .demo-image { margin-left: 0; }
+  }
+
+  /* Mobile: reduce bubble padding so frames don't clip */
+  @media (max-width: 500px) {
+    .bubble { padding: 1rem; border-radius: 10px; }
+    .demo-picture { max-width: 100%; }
   }
 </style>
 

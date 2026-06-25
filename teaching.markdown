@@ -119,42 +119,42 @@ A significant motivator in my pursuit of higher education aligns with pedagogy. 
 <div class="notes-group">
   <div class="notes-heading"><u>Introduction to Computational Mathematics — Section Notes</u></div>
   <div class="note-row">
-    <span class="note-name">Section 5</span>
+    <span class="note-name">Section 5: Matrix Norms, Inequalities, and Conditioning</span>
     <div style="display:flex;gap:0.4rem;flex-shrink:0;">
       <a class="pdf-btn" href="/assets/ICM/Section_5.pdf" target="_blank">.pdf</a>
       <a class="pdf-btn" href="/assets/2026_Computational_Math/section_material/section%205.zip" target="_blank">.zip</a>
     </div>
   </div>
   <div class="note-row">
-    <span class="note-name">Section 6</span>
+    <span class="note-name">Section 6: Least Squares and Householder Transformations</span>
     <div style="display:flex;gap:0.4rem;flex-shrink:0;">
       <a class="pdf-btn" href="/assets/ICM/Section_6.pdf" target="_blank">.pdf</a>
       <a class="pdf-btn" href="/assets/2026_Computational_Math/section_material/section%206.zip" target="_blank">.zip</a>
     </div>
   </div>
   <div class="note-row">
-    <span class="note-name">Section 7</span>
+    <span class="note-name">Section 7: Fixed Point and Newton's Method</span>
     <div style="display:flex;gap:0.4rem;flex-shrink:0;">
       <a class="pdf-btn" href="/assets/ICM/Section_7.pdf" target="_blank">.pdf</a>
       <a class="pdf-btn" href="/assets/2026_Computational_Math/section_material/section%207.zip" target="_blank">.zip</a>
     </div>
   </div>
   <div class="note-row">
-    <span class="note-name">Section 8</span>
+    <span class="note-name">Section 8: Finite Differences and Lagrange Interpolation</span>
     <div style="display:flex;gap:0.4rem;flex-shrink:0;">
       <a class="pdf-btn" href="/assets/ICM/Section_8.pdf" target="_blank">.pdf</a>
       <a class="pdf-btn" href="/assets/2026_Computational_Math/section_material/section%208.zip" target="_blank">.zip</a>
     </div>
   </div>
   <div class="note-row">
-    <span class="note-name">Section 10</span>
+    <span class="note-name">Section 10: IVPs and Euler's Method</span>
     <div style="display:flex;gap:0.4rem;flex-shrink:0;">
       <a class="pdf-btn" href="/assets/ICM/Section_10.pdf" target="_blank">.pdf</a>
       <a class="pdf-btn" href="/assets/2026_Computational_Math/section_material/section%2010.zip" target="_blank">.zip</a>
     </div>
   </div>
   <div class="note-row">
-    <span class="note-name">Section 11</span>
+    <span class="note-name">Section 11: Runge Kutta Methods</span>
     <div style="display:flex;gap:0.4rem;flex-shrink:0;">
       <a class="pdf-btn" href="/assets/ICM/Section_11.pdf" target="_blank">.pdf</a>
       <a class="pdf-btn" href="/assets/2026_Computational_Math/section_material/section%2011.zip" target="_blank">.zip</a>

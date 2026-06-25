@@ -20,6 +20,17 @@ $caption-font-family: $garamond !default;
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
+// Desmos pages keep the light cream background regardless of global body color
+body.layout--desmos-graph,
+body.layout--desmos-notebook {
+  background-color:  #f0f0f0;
+
+  .masthead {
+    border-bottom: 2px solid #a67b5b;
+    box-shadow: 0 4px 0 0 #593302;
+  }
+}
+
 // Reusable content card
 .bubble {
   background: $background-color;
@@ -28,7 +39,9 @@ $caption-font-family: $garamond !default;
   margin-bottom: 1.5rem;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
 
-  h3:first-child { margin-top: 0.2rem; }
+  h3:first-child,
+  h4:first-child,
+  h5:first-child { margin-top: 0.2rem; }
 
   hr {
     border: none;

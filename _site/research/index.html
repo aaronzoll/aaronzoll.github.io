@@ -546,9 +546,14 @@ window.MathJax = {
     align-items: start;
   }
 
+  /* min-width: 0 prevents grid children from overflowing their cell */
+  .slide-row > * { min-width: 0; }
+
+  /* ↓ To resize the frames: adjust max-width (width) and the aspect-ratio (height proportional) */
   .slide-picture {
-    height: 270px;
-    width: 470px;
+    width: 100%;
+    max-width: 360px;      /* ← frame width cap */
+    aspect-ratio: 47 / 27; /* ← maintains original 470×270 proportions */
     border-radius: 0;
     border: none;
     box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.6),
@@ -557,6 +562,7 @@ window.MathJax = {
     background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
     padding: 8px;
     outline: 5px ridge #593302;
+    box-sizing: border-box;
   }
 
   .slide-picture:hover {
@@ -575,13 +581,21 @@ window.MathJax = {
     display: block;
   }
 
-  .desmos-gallery-image { display: block; margin-left: auto; }
+  .desmos-gallery-image { display: block; margin-left: auto; min-width: 0; }
 
-  @media (max-width: 900px) {
+  /* Collapse to single column when viewport is too narrow for side-by-side */
+  @media (max-width: 750px) {
     .slide-row {
       grid-template-columns: 1fr;
       row-gap: 1rem;
     }
+    .desmos-gallery-image { margin-left: 0; }
+  }
+
+  /* Mobile: reduce bubble padding so frames don't clip */
+  @media (max-width: 500px) {
+    .bubble { padding: 1rem; border-radius: 10px; }
+    .slide-picture { max-width: 100%; }
   }
 
   .slide-heading {

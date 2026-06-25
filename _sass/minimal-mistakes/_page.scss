@@ -189,6 +189,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    box-shadow: inset 0 0 0 2px #a67b5b, inset 0 0 0 6px #593302;
     -webkit-animation: $intro-transition;
     animation: $intro-transition;
     -webkit-animation-delay: 0.25s;
