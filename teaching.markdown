@@ -14,13 +14,16 @@ custom_js: |
 
 ---
 
-A significant motivator in my pursuit of higher education aligns with pedagogy. Since helping peers with their calculus homework in high school, I have deeply enjoyed teaching. I find the puzzle of sharing information in a digestible, informative, yet fun way to be fascinating, and I hope to continue with teaching opportunities as I move forward in my career. Below, I share some of the (very much work in progress) artifacts I have created in my various experiences as a teaching assistent, mentor, and course designer. To supplement, I also share various interactive <a href="https://aaronzoll.github.io/DesmosGallery.html">Desmos graphs</a>. Future work will entail adding informative write-ups, but for now feel free to play around with the paramters to your heart's content!
-
 <style>
+  .page__content {
+    max-width: 780px;
+    margin-inline: auto;
+  }
+
   .course-list {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1rem;
+    margin-bottom: 0.25rem;
   }
 
   .course-row {
@@ -34,13 +37,8 @@ A significant motivator in my pursuit of higher education aligns with pedagogy. 
     border-bottom: 1px solid rgba(100, 120, 140, 0.15);
   }
 
-  .course-row:last-child {
-    border-bottom: none;
-  }
-
-  .course-name {
-    flex: 1;
-  }
+  .course-row:last-child { border-bottom: none; }
+  .course-name { flex: 1; }
 
   .course-date {
     flex-shrink: 0;
@@ -50,9 +48,8 @@ A significant motivator in my pursuit of higher education aligns with pedagogy. 
     white-space: nowrap;
   }
 
-  .notes-group {
-    margin-bottom: 1.4rem;
-  }
+  .notes-group { margin-bottom: 1.4rem; }
+  .notes-group:last-child { margin-bottom: 0; }
 
   .notes-heading {
     font-weight: 600;
@@ -71,13 +68,8 @@ A significant motivator in my pursuit of higher education aligns with pedagogy. 
     border-bottom: 1px solid rgba(100, 120, 140, 0.15);
   }
 
-  .note-row:last-child {
-    border-bottom: none;
-  }
-
-  .note-name {
-    flex: 1;
-  }
+  .note-row:last-child { border-bottom: none; }
+  .note-name { flex: 1; }
 
   .pdf-btn {
     flex-shrink: 0;
@@ -112,10 +104,17 @@ A significant motivator in my pursuit of higher education aligns with pedagogy. 
     margin-top: 0.8rem;
     margin-bottom: 0.35rem;
   }
+
+  .ta-subheading:first-child { margin-top: 0; }
 </style>
 
-### Slides and Other Notes
----
+<div class="bubble">
+A significant motivator in my pursuit of higher education aligns with pedagogy. Since helping peers with their calculus homework in high school, I have deeply enjoyed teaching. I find the puzzle of sharing information in a digestible, informative, yet fun way to be fascinating, and I hope to continue with teaching opportunities as I move forward in my career. Below, I share some of the (very much work in progress) artifacts I have created in my various experiences as a teaching assistent, mentor, and course designer. To supplement, I also share various interactive <a href="https://aaronzoll.github.io/DesmosGallery.html">Desmos graphs</a>. Future work will entail adding informative write-ups, but for now feel free to play around with the paramters to your heart's content!
+</div>
+
+<div class="bubble">
+<h3>Slides and Other Notes</h3>
+<hr>
 
 <div class="notes-group">
   <div class="notes-heading"><u>Introduction to Computational Mathematics — Section Notes</u></div>
@@ -192,16 +191,19 @@ A significant motivator in my pursuit of higher education aligns with pedagogy. 
   <div class="notes-heading"><u>Directed Reading Program</u></div>
   <div class="note-row">
     <span class="note-name">Why Does Gradient Descent Work (well)?</span>
-     <div style="display:flex;gap:0.4rem;flex-shrink:0;">
-        <a class="pdf-btn" href="/assets/DRP_Notes.pdf" target="_blank">.pdf</a>
-        <a class="pdf-btn" href="/assets/DRP_Notes.zip" target="_blank">.zip</a>
+    <div style="display:flex;gap:0.4rem;flex-shrink:0;">
+      <a class="pdf-btn" href="/assets/DRP_Notes.pdf" target="_blank">.pdf</a>
+      <a class="pdf-btn" href="/assets/DRP_Notes.zip" target="_blank">.zip</a>
     </div>
   </div>
 </div>
+</div>
 
-### Courses Developed
----
+<div class="bubble">
+<h3>Courses</h3>
+<hr>
 
+<div class="ta-subheading">Developed</div>
 <div class="course-list">
   <div class="course-row">
     <span class="course-name">Data Analytics Workshop (AS.110.100)</span>
@@ -213,9 +215,7 @@ A significant motivator in my pursuit of higher education aligns with pedagogy. 
   </div>
 </div>
 
-### Courses Taught
----
-
+<div class="ta-subheading">Taught</div>
 <div class="course-list">
   <div class="course-row">
     <span class="course-name">Data Analytics Workshop (AS.110.100)</span>
@@ -223,11 +223,7 @@ A significant motivator in my pursuit of higher education aligns with pedagogy. 
   </div>
 </div>
 
-### Courses TA'ed
----
-
-<div class="ta-subheading">Graduate Teaching Assistant</div>
-
+<div class="ta-subheading">Graduate TA</div>
 <div class="course-list">
   <div class="course-row">
     <span class="course-name">Introduction to Computational Mathematics (EN.553.385)</span>
@@ -267,8 +263,7 @@ A significant motivator in my pursuit of higher education aligns with pedagogy. 
   </div>
 </div>
 
-<div class="ta-subheading">Undergraduate Teaching Assistant</div>
-
+<div class="ta-subheading">Undergraduate TA</div>
 <div class="course-list">
   <div class="course-row">
     <span class="course-name">Real Analysis I (EN.553.405)</span>
@@ -314,4 +309,5 @@ A significant motivator in my pursuit of higher education aligns with pedagogy. 
     <span class="course-name">Introduction to Computing (AS.205.205)</span>
     <span class="course-date">Spring 2020</span>
   </div>
+</div>
 </div>

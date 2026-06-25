@@ -1,17 +1,11 @@
 ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-# bundle exec jekyll serve to run locally
 layout: splash
-title: Home 
+title: Home
 feature_image: "/assets/images/banner.png"
-feature_text: |
-  ## Aaron Zoll Personal Website
 header:
-  overlay_color: "#000"         # Dark overlay to improve text visibility
-  overlay_filter: "0.35"         # Opacity of overlay
-  overlay_image: "/assets/images/banner.png"  # Path to your background image
+  overlay_color: "#000"
+  overlay_filter: "0.35"
+  overlay_image: "/assets/images/banner.png"
 
 custom_js: |
   <script>particlesJS.load('particles-js', 'assets/particles.json', function() {
@@ -19,23 +13,24 @@ custom_js: |
   });</script>
   <script src="assets/js/particles.js"></script>
 
-  
 ---
 
-
-
-I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank">The Johns Hopkins University</a> in the department of applied math and statistics. My work primarily focuses in optimization, under the supervision of  <a href="https://www.ams.jhu.edu/~grimmer/" target="_blank">Benjamin Grimmer</a>.
-
-<a href="/assets/CV 2025.pdf" target="_blank">Here is my CV</a>
-
-#### **Selected Papers**<br>
-
 <style>
+  .page__content {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 0.5rem;
+  }
+
+  .bubble {
+    padding: 1.25rem 1.5rem;
+  }
+
   .paper-list {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
   }
 
   .paper-row {
@@ -46,6 +41,8 @@ I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank"
     padding: 0.55rem 0.75rem;
     border-bottom: 1px solid rgba(139, 90, 43, 0.2);
   }
+
+  .paper-row:last-child { border-bottom: none; }
 
   .paper-title {
     flex: 1;
@@ -83,7 +80,7 @@ I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank"
   .featured-demos {
     display: grid;
     grid-auto-rows: auto;
-    row-gap: 2rem;
+    row-gap: 1.5rem;
   }
 
   .featured-demo-row {
@@ -106,33 +103,26 @@ I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank"
     margin: 0;
   }
 
-  .demo-image {
-    display: block;
-    margin-left: auto;
-  }
+  .demo-image { display: block; margin-left: auto; }
 
   .demo-picture {
     height: 270px;
     width: 470px;
     border-radius: 0;
     border: none;
-    box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.6),
-      inset -2px -2px 6px rgba(0, 0, 0, 0.2),
-      0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 2px 2px 6px rgba(255,255,255,0.6),
+                inset -2px -2px 6px rgba(0,0,0,0.2),
+                0 4px 8px rgba(0,0,0,0.3);
     background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
     padding: 8px;
     outline: 5px ridge #593302;
   }
 
   .demo-picture:hover {
-    height: 270px;
-    width: 470px;
-    box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.6),
-      inset -2px -2px 6px rgba(0, 0, 0, 0.2),
-      0 4px 8px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
     padding: 5.5px;
-    outline: 5px ridge #593302;
+    box-shadow: inset 2px 2px 6px rgba(255,255,255,0.6),
+                inset -2px -2px 6px rgba(0,0,0,0.2),
+                0 4px 8px rgba(0,0,0,0.3);
   }
 
   .demo-picture img {
@@ -150,75 +140,85 @@ I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank"
   }
 </style>
 
-<div class="paper-list">
-  <div class="paper-row">
-    <span class="paper-title">Inexactly Smooth Performance Estimation and New Optimized Gradient Methods</span>
-    <a class="arxiv-btn" href="https://arxiv.org/abs/2606.01505" target="_blank">arXiv</a>
-  </div>
-  <div class="paper-row">
-    <span class="paper-title">A Universally Optimal Primal-Dual Method for Minimizing Heterogeneous Compositions<br><em>(IMA Journal of Numerical Analysis)</em></span>
-    <a class="arxiv-btn" href="https://arxiv.org/abs/2503.07566" target="_blank">arXiv</a>
+<div class="bubble">
+  <p>I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank">The Johns Hopkins University</a> in the department of Applied Math and Statistics. My work primarily focuses in optimization, under the supervision of <a href="https://www.ams.jhu.edu/~grimmer/" target="_blank">Benjamin Grimmer</a>. In particular, I work on expanding classical theory to apply universally to Lipschitz functions, functions with Lipschitz gradients, and everywhere in between. In a dual notion, my work also focuses on functions that are convex, strongly convex, and anywhere in between.</p>
+  <p>More recent work has focused on the study and development of interpolation theory, performance estimation problems, and the design of optimized algorithms. These tools give rise to understanding two other dual notions: minimax optimal algorithm design and maximin hard problem instances, with families of functions and classes of algorithms playing dual roles.</p>
+  <a class="arxiv-btn" href="/assets/CV 2025.pdf" download>Download CV</a>
+</div>
+
+<div class="bubble">
+  <h4><strong>Selected Papers</strong></h4>
+  <div class="paper-list">
+    <div class="paper-row">
+      <span class="paper-title">Inexactly Smooth Performance Estimation and New Optimized Gradient Methods</span>
+      <a class="arxiv-btn" href="https://arxiv.org/abs/2606.01505" target="_blank">arXiv</a>
+    </div>
+    <div class="paper-row">
+      <span class="paper-title">A Universally Optimal Primal-Dual Method for Minimizing Heterogeneous Compositions<br><em>(IMA Journal of Numerical Analysis)</em></span>
+      <a class="arxiv-btn" href="https://arxiv.org/abs/2503.07566" target="_blank">arXiv</a>
+    </div>
   </div>
 </div>
 
-#### **Selected Desmos Visualizations** &nbsp;<small><a href="/DesmosGallery.html">view all →</a></small><br>
+<div class="bubble">
+  <h4><strong>Selected Desmos Visualizations</strong> &nbsp;<small><a href="/DesmosGallery.html">view all →</a></small></h4>
+  <div class="featured-demos">
 
-<div class="featured-demos">
+    <div class="featured-demo-row">
+      <div class="demo-text">
+        <div class="demo-title"><a href="/desmos/runge-kutta-2" target="_blank">Second Order Runge-Kutta Methods</a></div>
+        <p class="demo-blurb">Runga Kutta Methods are efficient and practical ways to accurately model a trajectory given information about its underlying vector field. Here we demonstrate multiple classical two-step methods, as well as the general form supplying a class of provably convergent methods. Watch how increasing the number of steps (decreasing the step size) affects the stability of the iteratively built trajectory!</p>
+      </div>
+      <div class="demo-image">
+        <a href="/desmos/runge-kutta-2" target="_blank">
+          <div class="demo-picture">
+            <img src="/assets/desmos/images/rk2.png" alt="Second Order Runge-Kutta Methods">
+          </div>
+        </a>
+      </div>
+    </div>
 
-  <div class="featured-demo-row">
-    <div class="demo-text">
-      <div class="demo-title"><a href="/desmos/runge-kutta-2" target="_blank">Second Order Runge-Kutta Methods</a></div>
-      <p class="demo-blurb">Runga Kutta Methods are efficient and practical ways to accurately model a trajectory given information about its underlying vector field. Here we demonstrate multiple classical two-step methods, as well as the general form supplying a class of provably convergent methods. Watch how increasing the number of steps (decreasing the step size) affects the stability of the iteratively built trajectory!</p>
+    <div class="featured-demo-row">
+      <div class="demo-text">
+        <div class="demo-title"><a href="/desmos/lagrange-hermite-interpolation" target="_blank">Lagrange/Hermite Interpolation</a></div>
+        <p class="demo-blurb">Interpolation theory has many applications in data science, optimization, and machine learning. Here, you may explore polynomial interpolation through both Lagrange and Hermite basis functions, the former interpolating points and function values while the latter incorporates derivatives. Toggle between these methods and isolate individual basis polynomials to see how they sum to produce the full interpolant.</p>
+      </div>
+      <div class="demo-image">
+        <a href="/desmos/lagrange-hermite-interpolation" target="_blank">
+          <div class="demo-picture">
+            <img src="/assets/desmos/images/lagrange_hermite_interp.png" alt="Lagrange/Hermite Interpolation">
+          </div>
+        </a>
+      </div>
     </div>
-    <div class="demo-image">
-      <a href="/desmos/runge-kutta-2" target="_blank">
-        <div class="demo-picture">
-          <img src="/assets/desmos/images/rk2.png" alt="Second Order Runge-Kutta Methods">
-        </div>
-      </a>
+
+    <div class="featured-demo-row">
+      <div class="demo-text">
+        <div class="demo-title"><a href="/desmos/taylor-series" target="_blank">Taylor Series</a></div>
+        <p class="demo-blurb">Construct polynomials to approximate smooth functions using perhaps the most important results from calc II. As you increase the degree, you may notice the polynomial converge, but be wary that depending on the function, its radius of convergence may be finite.</p>
+      </div>
+      <div class="demo-image">
+        <a href="/desmos/taylor-series" target="_blank">
+          <div class="demo-picture">
+            <img src="/assets/desmos/images/taylor_series.png" alt="Taylor Series">
+          </div>
+        </a>
+      </div>
     </div>
+
+    <div class="featured-demo-row">
+      <div class="demo-text">
+        <div class="demo-title"><a href="/desmos/finite-diff" target="_blank">Finite Difference Interpolation</a></div>
+        <p class="demo-blurb">Here you may visualize how finite difference methods approximate derivatives. Compare standard central difference formulas, or interact with custom interpolation nodes to derive general finite difference rules.</p>
+      </div>
+      <div class="demo-image">
+        <a href="/desmos/finite-diff" target="_blank">
+          <div class="demo-picture">
+            <img src="/assets/desmos/images/finite_diff_interp.png" alt="Finite Difference Interpolation">
+          </div>
+        </a>
+      </div>
+    </div>
+
   </div>
-
-  <div class="featured-demo-row">
-    <div class="demo-text">
-      <div class="demo-title"><a href="/desmos/lagrange-hermite-interpolation" target="_blank">Lagrange/Hermite Interpolation</a></div>
-      <p class="demo-blurb">Interpolation theory has many applications in data science, optimization, and machine learning. Here, you may explore polynomial interpolation through both Lagrange and Hermite basis functions, the former interpolating points and function values while the latter incorporates derivatives. Toggle between these methods and isolate individual basis polynomials to see how they sum to produce the full interpolant. </p>
-    </div>
-    <div class="demo-image">
-      <a href="/desmos/lagrange-hermite-interpolation" target="_blank">
-        <div class="demo-picture">
-          <img src="/assets/desmos/images/lagrange_hermite_interp.png" alt="Lagrange/Hermite Interpolation">
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <div class="featured-demo-row">
-    <div class="demo-text">
-      <div class="demo-title"><a href="/desmos/taylor-series" target="_blank">Taylor Series</a></div>
-      <p class="demo-blurb">Construct polynomials to approximate smooth functions using perhaps the most important results from calc II. As you increase the degree, you may notice the polynomial converge, but be wary that depending on the function, its radius of convergence may be finite. </p>
-    </div>
-    <div class="demo-image">
-      <a href="/desmos/taylor-series" target="_blank">
-        <div class="demo-picture">
-          <img src="/assets/desmos/images/taylor_series.png" alt="Taylor Series">
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <div class="featured-demo-row">
-    <div class="demo-text">
-      <div class="demo-title"><a href="/desmos/finite-diff" target="_blank">Finite Difference Interpolation</a></div>
-      <p class="demo-blurb">Here you may visualize how finite difference methods approximate derivatives. Compare standard central difference formulas, or interact with custom interpolation nodes to derive general finite difference rules.</p>
-    </div>
-    <div class="demo-image">
-      <a href="/desmos/finite-diff" target="_blank">
-        <div class="demo-picture">
-          <img src="/assets/desmos/images/finite_diff_interp.png" alt="Finite Difference Interpolation">
-        </div>
-      </a>
-    </div>
-  </div>
-
-</div> 
+</div>

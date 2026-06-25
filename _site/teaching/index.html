@@ -10,7 +10,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Teaching - Aaron Zoll Personal Website</title>
+<!-- begin _includes/seo.html --><title>Teaching</title>
 <meta name="description" content="An amazing website.">
 
 
@@ -20,7 +20,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
-<meta property="og:site_name" content="Aaron Zoll Personal Website">
+<meta property="og:site_name" content="">
 <meta property="og:title" content="Teaching">
 <meta property="og:url" content="http://localhost:4000/teaching/">
 
@@ -362,7 +362,7 @@ window.MathJax = {
       <nav id="site-nav" class="greedy-nav">
         
         <a class="site-title" href="/">
-          Aaron Zoll Personal Website
+          
           
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
@@ -371,12 +371,6 @@ window.MathJax = {
                 
                 
               >Home</a>
-            </li><li class="masthead__menu-item">
-              <a
-                href="/about/"
-                
-                
-              >About</a>
             </li><li class="masthead__menu-item">
               <a
                 href="/research/"
@@ -477,13 +471,16 @@ window.MathJax = {
     
 
     <section class="page__content" itemprop="text">
-      <p>A significant motivator in my pursuit of higher education aligns with pedagogy. Since helping peers with their calculus homework in high school, I have deeply enjoyed teaching. I find the puzzle of sharing information in a digestible, informative, yet fun way to be fascinating, and I hope to continue with teaching opportunities as I move forward in my career. Below, I share some of the (very much work in progress) artifacts I have created in my various experiences as a teaching assistent, mentor, and course designer. To supplement, I also share various interactive <a href="https://aaronzoll.github.io/DesmosGallery.html">Desmos graphs</a>. Future work will entail adding informative write-ups, but for now feel free to play around with the paramters to your heart’s content!</p>
+      <style>
+  .page__content {
+    max-width: 780px;
+    margin-inline: auto;
+  }
 
-<style>
   .course-list {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1rem;
+    margin-bottom: 0.25rem;
   }
 
   .course-row {
@@ -497,13 +494,8 @@ window.MathJax = {
     border-bottom: 1px solid rgba(100, 120, 140, 0.15);
   }
 
-  .course-row:last-child {
-    border-bottom: none;
-  }
-
-  .course-name {
-    flex: 1;
-  }
+  .course-row:last-child { border-bottom: none; }
+  .course-name { flex: 1; }
 
   .course-date {
     flex-shrink: 0;
@@ -513,9 +505,8 @@ window.MathJax = {
     white-space: nowrap;
   }
 
-  .notes-group {
-    margin-bottom: 1.4rem;
-  }
+  .notes-group { margin-bottom: 1.4rem; }
+  .notes-group:last-child { margin-bottom: 0; }
 
   .notes-heading {
     font-weight: 600;
@@ -534,13 +525,8 @@ window.MathJax = {
     border-bottom: 1px solid rgba(100, 120, 140, 0.15);
   }
 
-  .note-row:last-child {
-    border-bottom: none;
-  }
-
-  .note-name {
-    flex: 1;
-  }
+  .note-row:last-child { border-bottom: none; }
+  .note-name { flex: 1; }
 
   .pdf-btn {
     flex-shrink: 0;
@@ -575,9 +561,16 @@ window.MathJax = {
     margin-top: 0.8rem;
     margin-bottom: 0.35rem;
   }
+
+  .ta-subheading:first-child { margin-top: 0; }
 </style>
 
-<h3 id="slides-and-other-notes">Slides and Other Notes</h3>
+<div class="bubble">
+A significant motivator in my pursuit of higher education aligns with pedagogy. Since helping peers with their calculus homework in high school, I have deeply enjoyed teaching. I find the puzzle of sharing information in a digestible, informative, yet fun way to be fascinating, and I hope to continue with teaching opportunities as I move forward in my career. Below, I share some of the (very much work in progress) artifacts I have created in my various experiences as a teaching assistent, mentor, and course designer. To supplement, I also share various interactive <a href="https://aaronzoll.github.io/DesmosGallery.html">Desmos graphs</a>. Future work will entail adding informative write-ups, but for now feel free to play around with the paramters to your heart's content!
+</div>
+
+<div class="bubble">
+<h3>Slides and Other Notes</h3>
 <hr />
 
 <div class="notes-group">
@@ -655,16 +648,19 @@ window.MathJax = {
   <div class="notes-heading"><u>Directed Reading Program</u></div>
   <div class="note-row">
     <span class="note-name">Why Does Gradient Descent Work (well)?</span>
-     <div style="display:flex;gap:0.4rem;flex-shrink:0;">
-        <a class="pdf-btn" href="/assets/DRP_Notes.pdf" target="_blank">.pdf</a>
-        <a class="pdf-btn" href="/assets/DRP_Notes.zip" target="_blank">.zip</a>
+    <div style="display:flex;gap:0.4rem;flex-shrink:0;">
+      <a class="pdf-btn" href="/assets/DRP_Notes.pdf" target="_blank">.pdf</a>
+      <a class="pdf-btn" href="/assets/DRP_Notes.zip" target="_blank">.zip</a>
     </div>
   </div>
 </div>
+</div>
 
-<h3 id="courses-developed">Courses Developed</h3>
+<div class="bubble">
+<h3>Courses</h3>
 <hr />
 
+<div class="ta-subheading">Developed</div>
 <div class="course-list">
   <div class="course-row">
     <span class="course-name">Data Analytics Workshop (AS.110.100)</span>
@@ -676,9 +672,7 @@ window.MathJax = {
   </div>
 </div>
 
-<h3 id="courses-taught">Courses Taught</h3>
-<hr />
-
+<div class="ta-subheading">Taught</div>
 <div class="course-list">
   <div class="course-row">
     <span class="course-name">Data Analytics Workshop (AS.110.100)</span>
@@ -686,11 +680,7 @@ window.MathJax = {
   </div>
 </div>
 
-<h3 id="courses-taed">Courses TA’ed</h3>
-<hr />
-
-<div class="ta-subheading">Graduate Teaching Assistant</div>
-
+<div class="ta-subheading">Graduate TA</div>
 <div class="course-list">
   <div class="course-row">
     <span class="course-name">Introduction to Computational Mathematics (EN.553.385)</span>
@@ -730,8 +720,7 @@ window.MathJax = {
   </div>
 </div>
 
-<div class="ta-subheading">Undergraduate Teaching Assistant</div>
-
+<div class="ta-subheading">Undergraduate TA</div>
 <div class="course-list">
   <div class="course-row">
     <span class="course-name">Real Analysis I (EN.553.405)</span>
@@ -778,6 +767,7 @@ window.MathJax = {
     <span class="course-date">Spring 2020</span>
   </div>
 </div>
+</div>
 
     </section>
   </article>
@@ -808,7 +798,7 @@ window.MathJax = {
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2026 <a href="http://localhost:4000">Aaron Zoll Personal Website</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2026 <a href="http://localhost:4000"></a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>

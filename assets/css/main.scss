@@ -20,6 +20,23 @@ $caption-font-family: $garamond !default;
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
+// Reusable content card
+.bubble {
+  background: $background-color;
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+
+  h3:first-child { margin-top: 0.2rem; }
+
+  hr {
+    border: none;
+    border-top: 1px solid rgba(100, 120, 140, 0.25);
+    margin: 0 0 1rem;
+  }
+}
+
 // Site-wide neutral button
 // Usage: class="site-btn"  /  class="site-btn site-btn--active"
 // For buttons that contain rendered math, wrap the inner span in .site-btn-math

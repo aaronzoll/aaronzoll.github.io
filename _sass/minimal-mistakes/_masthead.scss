@@ -4,7 +4,9 @@
 
 .masthead {
   position: relative;
-  border-bottom: 1px solid $border-color;
+  background-color: $background-color;
+  border: 2px solid #a67b5b;
+  outline: 4px ridge #593302;
   -webkit-animation: $intro-transition;
   animation: $intro-transition;
   -webkit-animation-delay: 0.15s;
@@ -43,13 +45,7 @@
 }
 
 .site-title {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-item-align: center;
-  align-self: center;
-  font-weight: bold;
-  // z-index: 20;
+  display: none;
 }
 
 .site-subtitle {
