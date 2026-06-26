@@ -11,19 +11,19 @@ side_controls: true
   <span class="rk2-label">Function <span style="text-transform:none">f(t, u)</span></span>
 
   <div class="rk2-presets">
-    <button class="site-btn rk2-fn-btn" data-latex="u\sin\left(t\right)">u·sin(t)</button>
+    <button class="site-btn rk2-fn-btn" data-latex="\sin\left(u\right)">sin(u)</button>
+    <button class="site-btn rk2-fn-btn" data-latex="\sin\left(t\right)">sin(t)</button>
     <button class="site-btn rk2-fn-btn" data-latex="u">u</button>
     <button class="site-btn rk2-fn-btn" data-latex="-u">−u</button>
     <button class="site-btn rk2-fn-btn" data-latex="t-u">t − u</button>
-    <button class="site-btn rk2-fn-btn" data-latex="\sin\left(t\right)">sin(t)</button>
-    <button class="site-btn rk2-fn-btn" data-latex="u\left(1-u\right)">u(1−u)</button>
+    <button class="site-btn rk2-fn-btn" data-latex="u\left(2-u\right)">u(2−u)</button>
   </div>
 
   <div class="rk2-custom-section">
     <span class="rk2-custom-label">Custom</span>
     <div class="rk2-custom-row">
       <input class="rk2-custom-input" id="rk2-custom-fn" type="text"
-             placeholder="u*\sin(t), t^2-u, …" autocomplete="off" spellcheck="false">
+             placeholder="\sin(t), t^2-u, …" autocomplete="off" spellcheck="false">
       <button class="rk2-action-btn" id="rk2-apply-fn">Apply</button>
     </div>
     <span class="rk2-custom-note">Use LaTeX with variables t and u (e.g. u\sin(t), t^2+u, e^{-t}u).</span>
@@ -84,6 +84,8 @@ side_controls: true
 </div>
 
 <style>
+  .desmos-page-wrap { max-width: 1350px; }
+
   .rk2-stack {
     display: flex;
     flex-direction: column;
@@ -116,6 +118,7 @@ side_controls: true
     padding: 0.25rem 0.6rem;
     font-size: 0.8rem;
     font-family: monospace;
+    min-width: 0;
   }
 
   .rk2-custom-section {
@@ -123,7 +126,7 @@ side_controls: true
     flex-direction: column;
     gap: 0.3rem;
     padding: 0.5rem 0.6rem;
-    border: 1px dashed #c8c8c8;
+    border: 2px dashed #c8c8c8;
     border-radius: 4px;
     background: #fafafa;
   }

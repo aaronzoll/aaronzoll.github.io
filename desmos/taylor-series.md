@@ -11,12 +11,12 @@ side_controls: true
   <span class="ts-section-label">Function</span>
 
   <div class="ts-presets">
-    <button class="ts-preset-btn" data-latex="\sin\left(x\right)">sin(x)</button>
-    <button class="ts-preset-btn" data-latex="\cos\left(x\right)">cos(x)</button>
-    <button class="ts-preset-btn" data-latex="e^{x}">e<sup>x</sup></button>
-    <button class="ts-preset-btn" data-latex="\ln\left(x\right)">ln(x)</button>
-    <button class="ts-preset-btn" data-latex="\frac{1}{1+x^{2}}">1/(1+x²)</button>
-    <button class="ts-preset-btn" data-latex="x^{3}">x³</button>
+    <button class="site-btn ts-preset-btn" data-latex="\sin\left(x\right)">sin(x)</button>
+    <button class="site-btn ts-preset-btn" data-latex="\cos\left(x\right)">cos(x)</button>
+    <button class="site-btn ts-preset-btn" data-latex="e^{x}">e<sup>x</sup></button>
+    <button class="site-btn ts-preset-btn" data-latex="\ln\left(x\right)">ln(x)</button>
+    <button class="site-btn ts-preset-btn" data-latex="\frac{1}{1+x^{2}}">1/(1+x²)</button>
+    <button class="site-btn ts-preset-btn" data-latex="x^{3}-x">x³-x</button>
   </div>
 
   <button class="ts-reset-btn" id="ts-reset-fn">Reset to default</button>
@@ -31,7 +31,7 @@ side_controls: true
     <span class="ts-custom-note">Use LaTeX notation (e.g. \sin(x), x^2, e^{x+1}, \ln(x)).</span>
   </div>
 
-  <hr class="ts-divider">
+  <hr class="desmos-divider">
 
   <span class="ts-section-label">Degree</span>
 
@@ -44,6 +44,8 @@ side_controls: true
 </div>
 
 <style>
+  .desmos-page-wrap { max-width: 1350px; }
+
   .ts-stack {
     display: flex;
     flex-direction: column;
@@ -64,26 +66,11 @@ side_controls: true
     gap: 0.35rem;
   }
 
-  .ts-preset-btn {
+  .ts-presets .site-btn {
     padding: 0.25rem 0.6rem;
     font-size: 0.8rem;
     font-family: monospace;
-    cursor: pointer;
-    border: 1px solid #a67b5b;
-    background: #fdf6ee;
-    color: #3b1f00;
-    border-radius: 3px;
-    transition: background 0.12s;
-  }
-
-  .ts-preset-btn:hover {
-    background: #f0e0ca;
-  }
-
-  .ts-preset-btn.ts-active {
-    background: #a67b5b;
-    color: #fff;
-    border-color: #593302;
+    min-width: 0;
   }
 
   .ts-custom-row {
@@ -145,7 +132,7 @@ side_controls: true
     flex-direction: column;
     gap: 0.3rem;
     padding: 0.5rem 0.6rem;
-    border: 1px dashed #c8c8c8;
+    border: 2px dashed #c8c8c8;
     border-radius: 4px;
     background: #fafafa;
   }
@@ -164,11 +151,6 @@ side_controls: true
     font-style: italic;
   }
 
-  .ts-divider {
-    border: none;
-    border-top: 1px solid #d0d7de;
-    margin: 0.2rem 0;
-  }
 </style>
 
 <script>
@@ -215,9 +197,9 @@ side_controls: true
 
     function setActivePreset(btn) {
       document.querySelectorAll('.ts-preset-btn').forEach(function(b) {
-        b.classList.remove('ts-active');
+        b.classList.remove('site-btn--active');
       });
-      if (btn) btn.classList.add('ts-active');
+      if (btn) btn.classList.add('site-btn--active');
     }
 
     /* ---- preset buttons ---- */

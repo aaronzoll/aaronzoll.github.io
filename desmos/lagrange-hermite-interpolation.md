@@ -7,9 +7,9 @@ side_controls: true
 ---
 
 <p class="lhi-side-note">
-  The <strong>full interpolations</strong> are the complete polynomials fitting all five data points.
-  The <strong>basis functions</strong> are the individual pieces, where each one is controlled by a node
-  index \(k\) and contributes exactly one data value (or derivative) to the sum.
+  The full interpolations are the polynomials fitting all five data points.
+  The basis functions are the individual pieces, where each one is controlled by a single node
+  contributes exactly one data value or derivative to the sum.
 </p>
 
 <div class="lhi-stack">
@@ -73,6 +73,44 @@ side_controls: true
       <input class="site-slider" type="range" min="1" max="5" step="1" value="2"
              oninput="lhiSlide(this)">
     </div>
+  </div>
+
+  <hr class="desmos-divider">
+  <span class="lhi-label">Derivatives</span>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(g_1\) = <strong id="lhi-g1-val">2.00</strong></span>
+    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="2"
+           data-expr-id="302" data-latex-prefix="G_{1}=" data-val-id="lhi-g1-val"
+           oninput="lhiGradSlide(this)">
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(g_2\) = <strong id="lhi-g2-val">-1.00</strong></span>
+    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="-1"
+           data-expr-id="303" data-latex-prefix="G_{2}=" data-val-id="lhi-g2-val"
+           oninput="lhiGradSlide(this)">
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(g_3\) = <strong id="lhi-g3-val">-3.00</strong></span>
+    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="-3"
+           data-expr-id="304" data-latex-prefix="G_{3}=" data-val-id="lhi-g3-val"
+           oninput="lhiGradSlide(this)">
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(g_4\) = <strong id="lhi-g4-val">1.00</strong></span>
+    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="1"
+           data-expr-id="305" data-latex-prefix="G_{4}=" data-val-id="lhi-g4-val"
+           oninput="lhiGradSlide(this)">
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(g_5\) = <strong id="lhi-g5-val">-3.00</strong></span>
+    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="-3"
+           data-expr-id="306" data-latex-prefix="G_{5}=" data-val-id="lhi-g5-val"
+           oninput="lhiGradSlide(this)">
   </div>
 
 </div>
@@ -171,8 +209,18 @@ side_controls: true
     document.getElementById(valId).textContent = val;
     window.desmosCalc.setExpression({ id: exprId, latex: prefix + val });
   }
+
+  function lhiGradSlide(input) {
+    var val    = parseFloat(input.value);
+    var exprId = input.getAttribute('data-expr-id');
+    var prefix = input.getAttribute('data-latex-prefix');
+    var valId  = input.getAttribute('data-val-id');
+    var el = document.getElementById(valId);
+    if (el) { el.textContent = val.toFixed(2); }
+    window.desmosCalc.setExpression({ id: exprId, latex: prefix + val });
+  }
 </script>
 
 <!--writeup-->
 
-*Write-up coming soon.* (Since derivatives aren't as easy to slide around the page as points and function values, alter these data by clicking "Show Expressions" and changing manually)
+*Write-up coming soon.*

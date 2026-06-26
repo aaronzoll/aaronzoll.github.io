@@ -4,9 +4,9 @@ title: Research
 permalink: /research/
 
 header:
-  overlay_color: "#000"
-  overlay_filter: "0.35"
-  overlay_image: "/assets/images/banner.png"
+  overlay_color: "#fff"
+  overlay_filter: "rgba(0, 0, 0, 0.15)"
+  overlay_image: "/assets/images/research_banner.png"
 custom_js: |
   <script>particlesJS.load('particles-js', '/assets/particles.json', function() {
     console.log('callback - particles.js config loaded');
@@ -174,10 +174,10 @@ custom_js: |
 </style>
 
 <div class="bubble">
-  <h4><strong>Current Projects</strong></h4>
-  <p>My current research aims to construct and design universally optimal methods for minimizing a wide class of functions, bridging the gap between smooth and nonsmooth optimization.</p>
-  <p>Previous work has dealt with compositions of Hölder smooth functions, which interpolate the smoothness between Lipschitz functions and those with Lipschitz gradient (typically denoted as "$L$-smooth"). We performed further analysis to incorpate uniform convexity (ranging from plain convexity to strong convexity) into the components as well. Our main contirubutions included a universal sliding method for heterogeneous compositions, as well as two propsoed constants the capture the "aggregate dualized approximate" upper and lower curvature: $L_{\varepsilon,r}^\mathtt{ADA}$ and $\mu_{\varepsilon}^\mathtt{ADA}$.</p>
-  <p>Current work aims to further analyze the complexity of first-order algorithms on functions that may only attain an approximate notion of smoothness. Future work will propse new optimized gradient methods, one which is uniformly optimized and paramater free. More to follow in the upcoming months!</p>
+  <h4><strong>Overview of My Research</strong></h4>
+  <p>My current research focuses on designing, characterizing, and classifying optimal methods for convex minimization. Given an algorithm (e.g. gradient descent), one may analyze the worst-case performance among a set of problem instances (e.g. convex functions with Lipschitz gradient). Classical results give proofs of convergence guarantees; performance estimation optimizes them. Further, algorithm design optimizes these methods.  </p>
+  <p>Previous work has dealt with compositions of Hölder smooth functions, which interpolate the smoothness between Lipschitz functions and those with Lipschitz gradient. We performed further analysis to incorpate uniform convexity (ranging from standard convexity to strong convexity) into the components as well. Our main contirubutions included a universal sliding method for heterogeneous compositions, as well as two propsoed constants the capture the "aggregate dualized approximate" upper and lower curvature: $L_{\varepsilon,r}^\mathtt{ADA}$ and $\mu_{\varepsilon}^\mathtt{ADA}$.</p>
+  <p>Further research constructed and designed universally optimal methods for minimizing a wide class of functions, bridging the gap between smooth and nonsmooth optimization. This work generalized classical smooth, convex analysis results to the regime of $L(\cdot)$-inexactly smooth functions.Coupled with interpolation theory, my work analyzed the complexity of first-order algorithms and proposed new optimized algorithms.</p>
 </div>
 
 <div class="bubble">
@@ -204,7 +204,6 @@ custom_js: |
   <h4><strong>Slides</strong></h4>
   <p style="font-size:0.9rem;margin-bottom:1rem;">Feel free to use my <a href="/chalk-studio">chalk studio</a> to generate custom text, math, or images for your presentations.</p>
   <div class="slides">
-
     <div class="slide-row">
       <div class="bullet-points">
         <div class="slide-heading"><u>Presentations on Interpolation Theory</u></div>
@@ -227,7 +226,6 @@ custom_js: |
         </a>
       </div>
     </div>
-
     <div class="slide-row">
       <div class="bullet-points">
         <div class="slide-heading"><u>Presentations on Inexactly Smooth Performance Estimation</u></div>
@@ -258,7 +256,6 @@ custom_js: |
         </a>
       </div>
     </div>
-
     <div class="slide-row">
       <div class="bullet-points">
         <div class="slide-heading"><u>Presentations on Heterogenous Compositions</u></div>

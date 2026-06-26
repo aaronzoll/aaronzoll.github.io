@@ -12,11 +12,12 @@ side_controls: true
   <span class="fd-section-label">Function</span>
 
   <div class="fd-presets">
-    <button class="site-btn fd-fn-btn" data-latex="\sin\left(2x\right)+\frac{1}{4}x">sin(2x)+x/4</button>
-    <button class="site-btn fd-fn-btn" data-latex="\sin\left(x\right)">sin(x)</button>
-    <button class="site-btn fd-fn-btn" data-latex="e^{x}">e<sup>x</sup></button>
     <button class="site-btn fd-fn-btn" data-latex="x^{3}-x">x³−x</button>
+    <button class="site-btn fd-fn-btn" data-latex="\sin\left(x\right)/6+\cos\left(6x\right)/2">sin(x)+cos(6x)</button>
+    <button class="site-btn fd-fn-btn" data-latex="e^{x}-1">e<sup>x</sup>-1</button>
+    <button class="site-btn fd-fn-btn" data-latex="\min(e^{x}, e^{-x})">min(e<sup>x</sup>,e<sup>-x</sup>)</button>
     <button class="site-btn fd-fn-btn" data-latex="\frac{1}{1+x^{2}}">1/(1+x²)</button>
+    <button class="site-btn fd-fn-btn" data-latex="\frac{1}{1+e^{-8x}}">1/(1+e<sup>-8x</sup>)</button>    
   </div>
 
   <div class="fd-custom-section">
@@ -171,6 +172,7 @@ side_controls: true
     padding: 0.25rem 0.6rem;
     font-size: 0.8rem;
     font-family: monospace;
+    min-width: 0;
   }
 
   .fd-custom-section {
@@ -178,7 +180,7 @@ side_controls: true
     flex-direction: column;
     gap: 0.3rem;
     padding: 0.5rem 0.6rem;
-    border: 1px dashed #c8c8c8;
+    border: 2px dashed #c8c8c8;
     border-radius: 4px;
     background: #fafafa;
   }

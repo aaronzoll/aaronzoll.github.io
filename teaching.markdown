@@ -3,9 +3,9 @@ layout: splash
 title: Teaching
 permalink: /teaching/
 header:
-  overlay_color: "#000"
-  overlay_filter: "0.35"
-  overlay_image: "/assets/images/banner.png"
+  overlay_color: "#fff"
+  overlay_filter: "rgba(0, 0, 0, 0.15)"
+  overlay_image: "/assets/images/teaching_banner.png"
 custom_js: |
   <script>particlesJS.load('particles-js', '/assets/particles.json', function() {
     console.log('callback - particles.js config loaded');
@@ -108,16 +108,17 @@ custom_js: |
   .ta-subheading:first-child { margin-top: 0; }
 </style>
 
-<div class="bubble">
-A significant motivator in my pursuit of higher education aligns with pedagogy. Since helping peers with their calculus homework in high school, I have deeply enjoyed teaching. I find the puzzle of sharing information in a digestible, informative, yet fun way to be fascinating, and I hope to continue with teaching opportunities as I move forward in my career. Below, I share some of the (very much work in progress) artifacts I have created in my various experiences as a teaching assistent, mentor, and course designer. To supplement, I also share various interactive <a href="https://aaronzoll.github.io/DesmosGallery.html">Desmos graphs</a>. Future work will entail adding informative write-ups, but for now feel free to play around with the paramters to your heart's content!
-</div>
+<!-- <div class="bubble">
+<h3>Why I Love to Teach</h3>
+I have always loved to teach. In high school, I helped peers with their calculus homework. In undergrad, I sought out as many teaching assistant roles as possible. In graduate school, I designed and tought courses.
+</div> -->
 
 <div class="bubble">
-<h3>Slides and Other Notes</h3>
+<h3>Selected Lecture Notes</h3>
 <hr>
 
 <div class="notes-group">
-  <div class="notes-heading"><u>Introduction to Computational Mathematics — Section Notes</u></div>
+  <div class="notes-heading"><u>Introduction to Computational Mathematics</u></div>
   <div class="note-row">
     <span class="note-name">Section 5: Matrix Norms, Inequalities, and Conditioning</span>
     <div style="display:flex;gap:0.4rem;flex-shrink:0;">
@@ -200,7 +201,7 @@ A significant motivator in my pursuit of higher education aligns with pedagogy. 
 </div>
 
 <div class="bubble">
-<h3>Courses</h3>
+<h3>Course Roster</h3>
 <hr>
 
 <div class="ta-subheading">Developed</div>
