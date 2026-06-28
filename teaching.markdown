@@ -106,6 +106,18 @@ custom_js: |
   }
 
   .ta-subheading:first-child { margin-top: 0; }
+
+  @media (max-width: 550px) {
+    .course-row {
+      align-items: flex-start;
+    }
+
+    .course-date {
+      white-space: normal;
+      text-align: right;
+      max-width: 38%;
+    }
+  }
 </style>
 
 <!-- <div class="bubble">
