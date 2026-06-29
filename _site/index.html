@@ -488,10 +488,29 @@ window.MathJax = {
     padding-inline: 0.5rem;
   }
 
-  .bubble {
-    padding: 1.25rem 1.5rem;
+  .bubble { padding: 1.25rem 1.5rem; }
+
+  /* ── Intro: circular photo + about text ─────────────────── */
+  .intro-inner {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
   }
 
+  .profile-photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    flex-shrink: 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+    border: 3px solid rgba(139, 90, 43, 0.25);
+  }
+
+  .intro-text h4 { margin-top: 0; }
+
+  /* ── Papers ─────────────────────────────────────────────── */
   .paper-list {
     display: flex;
     flex-direction: column;
@@ -543,6 +562,7 @@ window.MathJax = {
     border-color: #556b7d;
   }
 
+  /* ── Desmos demo rows (text + thumbnail side-by-side) ──── */
   .featured-demos {
     display: grid;
     grid-auto-rows: auto;
@@ -561,7 +581,6 @@ window.MathJax = {
   .featured-demo-row:first-child { padding-top: 0; }
   .featured-demo-row:last-child  { border-bottom: none; padding-bottom: 0; }
 
-  /* min-width: 0 prevents grid children from overflowing their cell */
   .featured-demo-row > * { min-width: 0; }
 
   .demo-title {
@@ -580,11 +599,10 @@ window.MathJax = {
 
   .demo-image { display: block; margin-left: auto; min-width: 0; }
 
-  /* ↓ To resize the frames: adjust max-width (width) and the aspect-ratio (height proportional) */
   .demo-picture {
     width: 100%;
-    max-width: 360px;      /* ← frame width cap */
-    aspect-ratio: 47 / 27; /* ← maintains original 470×270 proportions */
+    max-width: 360px;
+    aspect-ratio: 47 / 27;
     border-radius: 0;
     border: none;
     box-shadow: inset 2px 2px 6px rgba(255,255,255,0.6),
@@ -596,12 +614,7 @@ window.MathJax = {
     box-sizing: border-box;
   }
 
-  .demo-picture:hover {
-    padding: 5.5px;
-    box-shadow: inset 2px 2px 6px rgba(255,255,255,0.6),
-                inset -2px -2px 6px rgba(0,0,0,0.2),
-                0 4px 8px rgba(0,0,0,0.3);
-  }
+  .demo-picture:hover { padding: 5.5px; }
 
   .demo-picture img {
     width: 100%;
@@ -610,7 +623,7 @@ window.MathJax = {
     display: block;
   }
 
-  /* Collapse to single column when viewport is too narrow for side-by-side */
+  /* ── Responsive ─────────────────────────────────────────── */
   @media (max-width: 750px) {
     .featured-demo-row {
       grid-template-columns: 1fr;
@@ -619,18 +632,23 @@ window.MathJax = {
     .demo-image { margin-left: 0; }
   }
 
-  /* Mobile: reduce bubble padding so frames don't clip */
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
+    .intro-inner { flex-direction: column; align-items: center; text-align: center; }
+    .profile-photo { width: 160px; height: 160px; }
     .bubble { padding: 1rem; border-radius: 10px; }
-    .demo-picture { max-width: 100%; }
   }
 </style>
 
 <div class="bubble">
- <h4><strong>About Me</strong></h4>
-  <p>I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank">The Johns Hopkins University</a> in the department of Applied Math and Statistics. My work primarily focuses in optimization, under the supervision of <a href="https://www.ams.jhu.edu/~grimmer/" target="_blank">Benjamin Grimmer</a>. My work primarily focuses on the algorithm design and analysis. In particular, I work on expanding classical optimization theory to apply universally to Lipschitz functions, functions with Lipschitz gradient, and everywhere in between. Dually, my work sometimes considers functions exhibiting strong convexity, simple convexity, or anywhere in between.</p>
-  <p>Below are a few selected papers, unifying calculus results and algorithm design for a wide range of functions classes. Further below, I give selections from my <a href="/DesmosGallery.html" target="_blank">Desmos Gallery</a>, a series of interactive graphs. Feel free to experiment and play; I hope these are as fun to interact with as they were to create.</p>
-  <a class="arxiv-btn" href="/assets/CV 2025.pdf" download="">Download CV</a>
+  <div class="intro-inner">
+    <img class="profile-photo" src="/assets/images/about_image.jpg" alt="Aaron Zoll" />
+    <div class="intro-text">
+      <h4><strong>About Me</strong></h4>
+      <p>I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank">The Johns Hopkins University</a> in the department of Applied Math and Statistics. My work primarily focuses in optimization, under the supervision of <a href="https://www.ams.jhu.edu/~grimmer/" target="_blank">Benjamin Grimmer</a>. My work primarily focuses on the algorithm design and analysis. In particular, I work on expanding classical optimization theory to apply universally to Lipschitz functions, functions with Lipschitz gradient, and everywhere in between. Dually, my work sometimes considers functions exhibiting strong convexity, simple convexity, or anywhere in between.</p>
+      <p>Below are a few selected papers, unifying calculus results and algorithm design for a wide range of function classes. Further below, I give selections from my <a href="/DesmosGallery.html" target="_blank">Desmos Gallery</a>, a series of interactive graphs. Feel free to experiment and play; I hope these are as fun to interact with as they were to create.</p>
+      <a class="arxiv-btn" href="/assets/CV 2025.pdf" download="">Download CV</a>
+    </div>
+  </div>
 </div>
 
 <div class="bubble">
@@ -638,18 +656,17 @@ window.MathJax = {
   <div class="paper-list">
     <div class="paper-row">
       <span class="paper-title">Inexactly Smooth Performance Estimation and New Optimized Gradient Methods</span>
-    <div style="display:flex;gap:0.4rem;flex-shrink:0;">
-       <a class="arxiv-btn" href="https://docs.google.com/presentation/d/16-uQ_1_5pgzji-R4n-FNhOw6n-XYtm5olD0_tYGngIs/edit?usp=sharing" target="_blank">slides</a>
-       <a class="arxiv-btn" href="https://arxiv.org/abs/2606.01505" target="_blank">arXiv</a>
-    </div>
+      <div style="display:flex;gap:0.4rem;flex-shrink:0;">
+        <a class="arxiv-btn" href="https://docs.google.com/presentation/d/16-uQ_1_5pgzji-R4n-FNhOw6n-XYtm5olD0_tYGngIs/edit?usp=sharing" target="_blank">slides</a>
+        <a class="arxiv-btn" href="https://arxiv.org/abs/2606.01505" target="_blank">arXiv</a>
+      </div>
     </div>
     <div class="paper-row">
       <span class="paper-title">A Universally Optimal Primal-Dual Method for Minimizing Heterogeneous Compositions<br /><em>(IMA Journal of Numerical Analysis)</em></span>
-          <div style="display:flex;gap:0.4rem;flex-shrink:0;">
-       <a class="arxiv-btn" href="https://docs.google.com/presentation/d/1tWwSVU1H9AicJsRl5ckGGWJNYubuAOYnmS248aNhD9s/edit?usp=sharing" target="_blank">slides</a>
-       <a class="arxiv-btn" href="https://arxiv.org/abs/2503.07566" target="_blank">arXiv</a>
-    </div>
-
+      <div style="display:flex;gap:0.4rem;flex-shrink:0;">
+        <a class="arxiv-btn" href="https://docs.google.com/presentation/d/1tWwSVU1H9AicJsRl5ckGGWJNYubuAOYnmS248aNhD9s/edit?usp=sharing" target="_blank">slides</a>
+        <a class="arxiv-btn" href="https://arxiv.org/abs/2503.07566" target="_blank">arXiv</a>
+      </div>
     </div>
   </div>
 </div>
