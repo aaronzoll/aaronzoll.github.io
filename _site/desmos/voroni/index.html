@@ -10,7 +10,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Aaron Zoll</title>
+<!-- begin _includes/seo.html --><title>Voroni Diagrams</title>
 <meta name="description" content="An amazing website.">
 
 
@@ -21,16 +21,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
-<meta property="og:title" content="Aaron Zoll">
-<meta property="og:url" content="http://localhost:4000/">
+<meta property="og:title" content="Voroni Diagrams">
+<meta property="og:url" content="http://localhost:4000/desmos/voroni/">
 
 
   <meta property="og:description" content="An amazing website.">
 
 
 
-  <meta property="og:image" content="http://localhost:4000/assets/images/about_banner.png">
-
 
 
 
@@ -44,20 +42,10 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/">
+<link rel="canonical" href="http://localhost:4000/desmos/voroni/">
 
 
 
-
-
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-    "name": "Aaron Zoll",
-    "url": "http://localhost:4000/"
-}
-</script>
 
 
 
@@ -85,8 +73,6 @@
 
 
 
-
-  <script src='/assets/js/particles.js'></script>
 
     <!-- start custom head snippets -->
 
@@ -355,7 +341,7 @@ window.MathJax = {
 
   </head>
 
-  <body class="layout--splash" dir="ltr">
+  <body class="layout--desmos-graph" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -414,379 +400,427 @@ window.MathJax = {
 
     <div class="initial-content">
       
-  
 
-
-
-
-
-
-
-<div class="page__hero--overlay"
-  style="background-color: #fff; background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url('/assets/images/about_banner.png');">
-  <style>
-    .page__hero {
-      position: relative;
-      overflow: hidden;
-    }
-    .page__hero.wrapper {
-      position: relative;
-      z-index: 2;
-    }
-    .particles-wrapper {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 3;
-    }
-  
-    .page__hero-actions {
-      position: relative;
-      z-index: 10; /* Higher, explicitly above particles */
-    }
-  </style>
-  <div class="particles-wrapper" id="particles-js"></div>
-
-  
-    <div class="wrapper" style="position: relative; z-index: 2;">
-      <h1 id="page-title" class="page__title" itemprop="headline">
-        
-          Aaron Zoll
-
-        
-      </h1>
-      
-      
-
-
-      
-    </div>
-    <div class="page__hero-actions" style="position: relative; z-index: 10;">
-    
-    </div>
-  
-  
-</div>
-
-
-
-<div id="main" role="main">
-
-  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Aaron Zoll">
-    
-    
-    
-
-    <section class="page__content" itemprop="text">
-      <style>
-  .page__content {
-    max-width: 1200px;
-    margin-inline: auto;
-    padding-inline: 0.5rem;
+<style>
+  .desmos-page-wrap {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
   }
 
-  .bubble { padding: 1.25rem 1.5rem; }
-
-  /* ── Intro: circular photo + about text ─────────────────── */
-  .intro-inner {
+  .desmos-page-top {
     display: flex;
-    gap: 2rem;
-    align-items: flex-start;
-  }
-
-  .profile-photo {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center top;
-    flex-shrink: 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.18);
-    border: 3px solid rgba(139, 90, 43, 0.25);
-  }
-
-  .intro-text h4 { margin-top: 0; }
-
-  /* ── Papers ─────────────────────────────────────────────── */
-  .paper-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    margin-bottom: 0;
-  }
-
-  .paper-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding: 0.55rem 0.75rem;
-    border-bottom: 1px solid rgba(139, 90, 43, 0.2);
-  }
-
-  .paper-row:last-child { border-bottom: none; }
-
-  .paper-title {
-    flex: 1;
-    font-size: 0.95rem;
-    line-height: 1.45;
-  }
-
-  .arxiv-btn {
-    flex-shrink: 0;
-    display: inline-block;
-    padding: 0.3rem 0.85rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.03em;
-    color: #3a4f63;
-    background: #eceff3;
-    border: 1px solid #a0aebb;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background 0.15s ease, border-color 0.15s ease;
-  }
-
-  .arxiv-btn:hover {
-    background: #dde3ea;
-    border-color: #7a8fa0;
-    text-decoration: none;
-    color: #3a4f63;
-  }
-
-  .arxiv-btn:active {
-    background: #c8d2dc;
-    border-color: #556b7d;
-  }
-
-  /* ── Desmos section label ───────────────────────────────── */
-  .desmos-section-label {
-    display: flex;
-    justify-content: space-between;
     align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .desmos-page-top h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  .desmos-page-links {
+    font-size: 0.9rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  .desmos-controls {
     margin-bottom: 0.5rem;
-    padding: 0 0.25rem;
   }
 
-  .desmos-section-label h4 { margin: 0; }
-
-  /* ── Demo bubble grid ──────────────────────────────────────── */
-  .demo-bubble-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    align-items: start;
+  .desmos-toggle-btn {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: 1px solid #a67b5b;
+    background: #fdf6ee;
+    color: #3b1f00;
+    border-radius: 3px;
+    transition: background 0.15s;
   }
 
-  .demo-bubble-grid > .bubble { margin-bottom: 0; }
-
-  /* ── Demo card internals ────────────────────────────────── */
-  .demo-title {
-    font-weight: 600;
-    font-size: 0.95rem;
-    margin-top: 0;
-    margin-bottom: 0.6rem;
+  .desmos-toggle-btn:hover {
+    background: #f0e0ca;
   }
 
-  /* Frame + hover overlay container */
-  .demo-picture {
-    position: relative;
+  .desmos-embed-container {
     width: 100%;
-    aspect-ratio: 47 / 27;
-    box-shadow: inset 2px 2px 6px rgba(255,255,255,0.6),
-                inset -2px -2px 6px rgba(0,0,0,0.2),
-                0 4px 8px rgba(0,0,0,0.3);
-    background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
-    padding: 8px;
-    outline: 5px ridge #593302;
+    height: 650px;
+    border: 2px solid #a67b5b;
+    outline: 4px ridge #593302;
     box-sizing: border-box;
-    overflow: hidden;
   }
 
-  .demo-picture img {
+  .desmos-embed-container iframe {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    border: none;
     display: block;
   }
 
-  .demo-overlay {
-    position: absolute;
-    inset: 8px; /* sits inside the frame padding, over the image */
-    background: rgba(255, 255, 255, 0.88);
+  #calculator {
+    width: 100%;
+    height: 100%;
+  }
+
+  .desmos-error {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.7rem 0.85rem;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    pointer-events: none;
+    height: 100%;
+    color: #888;
+    font-style: italic;
   }
 
-  .demo-picture:hover .demo-overlay { opacity: 1; }
-
-  .demo-overlay p {
-    font-size: 0.8rem;
-    line-height: 1.45;
-    color: #2a2a2a;
-    margin: 0;
-    text-align: center;
-    overflow: hidden;
+  .desmos-below-graph {
+    margin-top: 0.5rem;
   }
 
-  .cv-button-holder {
+  .desmos-writeup {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #a67b5b;
+  }
+
+  /* Side-panel layout (opt-in via side_controls: true in front matter) */
+  .desmos-body--side {
     display: flex;
-    justify-content: left;
-    gap: 10px;
-    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-start;
   }
 
-  /* ── Responsive ─────────────────────────────────────────── */
-  @media (max-width: 600px) {
-    .intro-inner { flex-direction: column; align-items: center; text-align: center; }
-    .profile-photo { width: 160px; height: 160px; }
-    .bubble { padding: 1rem; border-radius: 10px; }
-.demo-bubble-grid { grid-template-columns: 1fr; }
+  .desmos-body--side .desmos-embed-section {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .desmos-side-panel {
+    width: 310px;
+    flex-shrink: 0;
+    border-left: 2px solid #d0d7de;
+    padding-left: 1.25rem;
+  }
+
+  /* Mobile: stack graph above controls, shrink graph height */
+  @media (max-width: 700px) {
+    .desmos-embed-container {
+      height: 420px;
+    }
+
+    .desmos-body--side {
+      flex-direction: column;
+    }
+
+    .desmos-body--side .desmos-embed-section {
+      width: 100%;
+    }
+
+    .desmos-side-panel {
+      width: 100%;
+      border-left: none;
+      border-top: 2px solid #d0d7de;
+      padding-left: 0;
+      padding-top: 1rem;
+    }
   }
 </style>
 
-<div class="bubble">
-  <div class="intro-inner">
-    <img class="profile-photo" src="/assets/images/about_image.jpg" alt="Aaron Zoll" />
-    <div class="intro-text">
-      <h4><strong>About Me</strong></h4>
-      <p>I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank">The Johns Hopkins University</a> in the department of Applied Math and Statistics. My work primarily focuses in optimization, under the supervision of <a href="https://www.ams.jhu.edu/~grimmer/" target="_blank">Benjamin Grimmer</a>. My work primarily focuses on the algorithm design and analysis. In particular, I work on expanding classical optimization theory to apply universally to Lipschitz functions, functions with Lipschitz gradient, and everywhere in between. Dually, my work sometimes considers functions exhibiting strong convexity, simple convexity, or anywhere in between.</p>
-      <p>Below are a few selected papers, unifying calculus results and algorithm design for a wide range of function classes. Further below, I give selections from my Desmos Gallery, a series of interactive graphs. Feel free to experiment and play; I hope these are as fun to interact with as they were to create.</p>
-      <div class="cv-button-holder">
-        <a class="arxiv-btn" href="/assets/CV 2025.pdf" target="_blank">Curriculum Vitae</a>
-        <a class="arxiv-btn" href="https://www.linkedin.com/in/aaron-zoll/" target="_blank">LinkedIn</a>
-        <a class="arxiv-btn" href="/DesmosGallery.html" target="_blank">Desmos Gallery</a>
-        <a class="arxiv-btn" href="mailto:azoll1@jh.edu">Email</a>
-      </div>
+<div class="desmos-page-wrap">
+
+  <div class="desmos-page-top">
+    <h1>Voroni Diagrams</h1>
+    <div class="desmos-page-links">
+      <a href="/DesmosGallery">← Gallery</a>
+      <a href="https://www.desmos.com/calculator/hxwd5y0opp" target="_blank">Open in Desmos ↗</a>
     </div>
   </div>
-</div>
 
-<div class="bubble">
-  <h4><strong>Selected Papers</strong></h4>
-  <div class="paper-list">
-    <div class="paper-row">
-      <span class="paper-title">Inexactly Smooth Performance Estimation and New Optimized Gradient Methods</span>
-      <div style="display:flex;gap:0.4rem;flex-shrink:0;">
-        <a class="arxiv-btn" href="https://docs.google.com/presentation/d/16-uQ_1_5pgzji-R4n-FNhOw6n-XYtm5olD0_tYGngIs/edit?usp=sharing" target="_blank">slides</a>
-        <a class="arxiv-btn" href="https://arxiv.org/abs/2606.01505" target="_blank">arXiv</a>
-      </div>
+  <div class="desmos-body desmos-body--side">
+
+    <div class="desmos-embed-section">
+      
+
+        <div class="desmos-controls">
+          <button class="desmos-toggle-btn" id="toggle-btn" onclick="toggleExpressions()">Show Expressions</button>
+        </div>
+
+        <div class="desmos-embed-container">
+          <div id="calculator"></div>
+        </div>
+
+        <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=88d0c7b9a32a465da20a22e0e61756f3"></script>
+        <script>
+          (function () {
+            var expressionsVisible = false;
+            var calc = window.desmosCalc = Desmos.Calculator(document.getElementById('calculator'), {
+              expressions: false,
+              settingsMenu: false,
+              keypad: false,
+            });
+
+            fetch('/assets/desmos/json_files/voroni.json')
+              .then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.json();
+              })
+              .then(function (state) {
+                calc.setState(state);
+                if (typeof window.onDesmosReady === 'function') window.onDesmosReady(calc);
+              })
+              .catch(function (err) {
+                document.getElementById('calculator').innerHTML =
+                  '<div class="desmos-error">Could not load graph state: ' + err.message + '</div>';
+              });
+
+            window.toggleExpressions = function () {
+              expressionsVisible = !expressionsVisible;
+              calc.updateSettings({ expressions: expressionsVisible });
+              document.getElementById('toggle-btn').textContent =
+                expressionsVisible ? 'Hide Expressions' : 'Show Expressions';
+            };
+          })();
+        </script>
+
+      
+
+      
     </div>
-    <div class="paper-row">
-      <span class="paper-title">A Universally Optimal Primal-Dual Method for Minimizing Heterogeneous Compositions<br /><em>(IMA Journal of Numerical Analysis)</em></span>
-      <div style="display:flex;gap:0.4rem;flex-shrink:0;">
-        <a class="arxiv-btn" href="https://docs.google.com/presentation/d/1tWwSVU1H9AicJsRl5ckGGWJNYubuAOYnmS248aNhD9s/edit?usp=sharing" target="_blank">slides</a>
-        <a class="arxiv-btn" href="https://arxiv.org/abs/2503.07566" target="_blank">arXiv</a>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="demo-bubble-grid">
+    
+      <div class="desmos-side-panel page__content"><div class="vor-stack">
 
-  <div class="bubble demo-bubble">
-    <div class="demo-title"><a href="/desmos/runge-kutta-2" target="_blank">Second Order Runge-Kutta Methods</a></div>
-    <a href="/desmos/runge-kutta-2" target="_blank">
-      <div class="demo-picture">
-        <img src="/assets/desmos/images/rk2.png" alt="Second Order Runge-Kutta Methods" />
-        <div class="demo-overlay">
-          <p>Runga Kutta Methods efficiently and accurately model a trajectory given information about its underlying vector field. Here we demonstrate multiple two-step methods. Watch how decreasing the step size affects the stability of the iteratively built trajectory.</p>
-        </div>
-      </div>
-    </a>
+  <span class="vor-section-label">Distance parameter</span>
+
+  <span class="vor-subtle-label">Preset p-norm</span>
+
+  <div class="vor-presets">
+    <button class="site-btn vor-preset-btn vor-preset-btn--frac" data-p="0.5">
+      <span class="site-btn-math">\(\tfrac{1}{2}\)</span>
+    </button>
+    <button class="site-btn vor-preset-btn" data-p="1">1</button>
+    <button class="site-btn vor-preset-btn" data-p="1.5">
+      <span class="site-btn-math">\(\tfrac{3}{2}\)</span>
+    </button>
+    <button class="site-btn vor-preset-btn" data-p="2">2</button>
+    <button class="site-btn vor-preset-btn" data-p="5">5</button>
+    <button class="site-btn vor-preset-btn" data-p="20">20</button>
   </div>
 
-
-
-
-  <div class="bubble demo-bubble">
-    <div class="demo-title"><a href="/desmos/finite-diff" target="_blank">Finite Difference Interpolation</a></div>
-    <a href="/desmos/finite-diff" target="_blank">
-      <div class="demo-picture">
-        <img src="/assets/desmos/images/finite_diff_interp.png" alt="Finite Difference Interpolation" />
-        <div class="demo-overlay">
-          <p>Here you may visualize how finite difference methods approximate derivatives. Compare standard central difference formulas, or interact with custom interpolation nodes to derive general finite difference rules.</p>
-        </div>
-      </div>
-    </a>
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(p\) = <strong id="vor-p-val">2.00</strong></span>
+    <input class="site-slider" type="range" min="1" max="20" step="0.01" value="2" id="vor-p-input" />
   </div>
 
+  <hr class="desmos-divider" />
 
+  <span class="vor-section-label">Number of points</span>
 
-  <div class="bubble demo-bubble">
-    <div class="demo-title"><a href="/desmos/lagrange-hermite-interpolation" target="_blank">Lagrange/Hermite Interpolation</a></div>
-    <a href="/desmos/lagrange-hermite-interpolation" target="_blank">
-      <div class="demo-picture">
-        <img src="/assets/desmos/images/lagrange_hermite_interp.png" alt="Lagrange/Hermite Interpolation" />
-        <div class="demo-overlay">
-          <p>Here, you may explore polynomial interpolation through both Lagrange and Hermite basis functions, the former interpolating points and function values while the latter incorporates derivatives. Toggle these methods and isolate individual basis polynomials to see how they sum to produce the full interpolant.</p>
-        </div>
-      </div>
-    </a>
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(k\) = <strong id="vor-k-val">5</strong></span>
+    <input class="site-slider" type="range" min="1" max="9" step="1" value="5" id="vor-k-input" data-expr-id="101" data-latex-prefix="k=" data-val-id="vor-k-val" data-decimals="0" />
   </div>
 
-  <div class="bubble demo-bubble">
-    <div class="demo-title"><a href="/desmos/voroni" target="_blank">Voronoi Diagrams</a></div>
-    <a href="/desmos/voroni" target="_blank">
-      <div class="demo-picture">
-        <img src="/assets/desmos/images/voroni.png" alt="Voronoi Diagrams" />
-        <div class="demo-overlay">
-          <p>Given a set of points, we may partition the plane by considering which sections are closest to each node. Changing our metric alters these partitions. Watch these regions grow and morph into a beautiful partition.</p>
-        </div>
-      </div>
-    </a>
+  <hr class="desmos-divider" />
+
+  <span class="vor-section-label">Region size</span>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(R\) = <strong id="vor-r-val">30.00</strong></span>
+    <input class="site-slider" type="range" min="0" max="30" step="0.1" value="30" id="vor-r-input" />
   </div>
 
+  <span class="vor-subtle-label">Animate</span>
 
-  <div class="bubble demo-bubble">
-    <div class="demo-title"><a href="/desmos/taylor-series" target="_blank">Taylor Series</a></div>
-    <a href="/desmos/taylor-series" target="_blank">
-      <div class="demo-picture">
-        <img src="/assets/desmos/images/taylor_series.png" alt="Taylor Series" />
-        <div class="demo-overlay">
-          <p>Construct polynomials to approximate smooth functions using perhaps the most important results from calc II. As you increase the degree, you may notice the polynomial converge, but be wary that depending on the function, its radius of convergence may be finite.</p>
-        </div>
-      </div>
-    </a>
-  </div>
-
-
-
-  <div class="bubble demo-bubble">
-    <div class="demo-title"><a href="/desmos/circular-shadow" target="_blank">Circular Shadows and Slices in p-norm Balls</a></div>
-    <a href="/desmos/circular-shadow" target="_blank">
-      <div class="demo-picture">
-        <img src="/assets/desmos/images/circular_shadow.png" alt="Circular Shadows" />
-        <div class="demo-overlay">
-          <p>The shadow of a Euclidean ball is always circular. However, in a different metric, this projection may differ. Surprisingly, there exists another \(p\)-norm ball with circular projection. Dually, there exists another \(q\)-norm ball with a circular cross section.</p>
-        </div>
-      </div>
-    </a>
+  <div class="vor-speed-group">
+    <button class="site-btn vor-speed-btn" data-steps="400">Slow</button>
+    <button class="site-btn vor-speed-btn" data-steps="80">Fast</button>
   </div>
 
 </div>
 
-<div class="desmos-section-label">
-  <h4></h4>
-  <small><a href="/DesmosGallery.html">view all →</a></small>
-</div>
+<style>
+  .desmos-page-wrap { max-width: 1350px; }
 
-    </section>
-  </article>
-</div>
+  .vor-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
 
-<script>particlesJS.load('particles-js', 'assets/particles.json', function() {
-  console.log('callback - particles.js config loaded');
-});</script>
-<script src="assets/js/particles.js"></script>
+  .vor-section-label {
+    font-weight: bold;
+    font-size: 0.82rem;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .vor-subtle-label {
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+    margin-top: -0.2rem;
+  }
+
+  .vor-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .vor-presets .site-btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.82rem;
+    font-family: monospace;
+    min-width: 2.6rem;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1;
+  }
+
+  .vor-presets .site-btn-math {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* p = 1/2 is a special case (a "distance" that isn't a true metric),
+     so mark it out with a dotted border without over-contrasting. */
+  .vor-preset-btn--frac {
+    border-style: dotted;
+    border-width: 2px;
+  }
+
+  .vor-speed-group {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .vor-speed-group .site-btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 0.82rem;
+    padding: 0.35rem 0.6rem;
+  }
+</style>
+
+<script>
+  window.onDesmosReady = function(calc) {
+
+    /* ---- distance parameter p (slider + presets) ---- */
+    var pInput = document.getElementById('vor-p-input');
+    var pVal = document.getElementById('vor-p-val');
+    var presetBtns = document.querySelectorAll('.vor-preset-btn');
+
+    function setP(val) {
+      calc.setExpression({ id: '59', latex: 'p=' + val });
+      if (pVal) { pVal.textContent = Number(val).toFixed(2); }
+      if (pInput) { pInput.value = val; }
+      presetBtns.forEach(function(b) {
+        var match = parseFloat(b.getAttribute('data-p')) === parseFloat(val);
+        b.classList.toggle('site-btn--active', match);
+      });
+    }
+
+    presetBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        setP(parseFloat(btn.getAttribute('data-p')));
+      });
+    });
+
+    pInput.addEventListener('input', function() {
+      setP(parseFloat(pInput.value));
+    });
+
+    /* highlight a preset if the initial value matches one */
+    setP(parseFloat(pInput.value));
+
+    /* ---- number of points k (generic slider) ---- */
+    document.querySelectorAll('#vor-k-input').forEach(function(input) {
+      input.addEventListener('input', function() {
+        var val = parseFloat(input.value);
+        var d = parseInt(input.getAttribute('data-decimals'), 10);
+        var decimals = isNaN(d) ? 0 : d;
+        var el = document.getElementById(input.getAttribute('data-val-id'));
+        if (el) { el.textContent = val.toFixed(decimals); }
+        calc.setExpression({
+          id: input.getAttribute('data-expr-id'),
+          latex: input.getAttribute('data-latex-prefix') + val
+        });
+      });
+    });
+
+    /* ---- region size R (endpoints hidden) ---- */
+    var rInput = document.getElementById('vor-r-input');
+    var rVal = document.getElementById('vor-r-val');
+
+    function setR(val) {
+      calc.setExpression({ id: '80', latex: 'R=' + val });
+      if (rVal) { rVal.textContent = Number(val).toFixed(2); }
+      if (rInput) { rInput.value = val; }
+    }
+
+    rInput.addEventListener('input', function() {
+      setR(parseFloat(rInput.value));
+    });
+
+    setR(parseFloat(rInput.value));
+
+    /* ---- animate R from 0 to 30, speed set by mutually exclusive buttons ---- */
+    var speedBtns = document.querySelectorAll('.vor-speed-btn');
+    var animateInterval = null;
+    var ANIMATE_TARGET = 30;
+
+    function animateR(totalSteps) {
+      if (animateInterval) { clearInterval(animateInterval); }
+      rInput.disabled = true;
+      setR(0);
+      var step = 0;
+      animateInterval = setInterval(function() {
+        step = step + 1;
+        setR((step / totalSteps) * ANIMATE_TARGET);
+        if (step >= totalSteps) {
+          clearInterval(animateInterval);
+          animateInterval = null;
+          setR(ANIMATE_TARGET);
+          rInput.disabled = false;
+        }
+      }, 25);
+    }
+
+    speedBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        speedBtns.forEach(function(b) { b.classList.remove('site-btn--active'); });
+        btn.classList.add('site-btn--active');
+        animateR(parseInt(btn.getAttribute('data-steps'), 10));
+      });
+    });
+
+  };
+</script>
+
+</div>
+    
+
+  </div>
+
+  
+    <div class="desmos-writeup page__content">
+<p><em>Write-up coming soon.</em></p>
+</div>
+  
+
+</div>
 
       
     </div>

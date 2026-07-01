@@ -234,11 +234,28 @@ custom_js: |
       <div class="demo-picture">
         <img src="/assets/desmos/images/rk2.png" alt="Second Order Runge-Kutta Methods">
         <div class="demo-overlay">
-          <p>Runga Kutta Methods are efficient and practical ways to accurately model a trajectory given information about its underlying vector field. Here we demonstrate multiple classical two-step methods, as well as the general form supplying a class of provably convergent methods. Watch how increasing the number of steps (decreasing the step size) affects the stability of the iteratively built trajectory!</p>
+          <p>Runga Kutta Methods efficiently and accurately model a trajectory given information about its underlying vector field. Here we demonstrate multiple two-step methods. Watch how decreasing the step size affects the stability of the iteratively built trajectory.</p>
         </div>
       </div>
     </a>
   </div>
+
+
+
+
+  <div class="bubble demo-bubble">
+    <div class="demo-title"><a href="/desmos/finite-diff" target="_blank">Finite Difference Interpolation</a></div>
+    <a href="/desmos/finite-diff" target="_blank">
+      <div class="demo-picture">
+        <img src="/assets/desmos/images/finite_diff_interp.png" alt="Finite Difference Interpolation">
+        <div class="demo-overlay">
+          <p>Here you may visualize how finite difference methods approximate derivatives. Compare standard central difference formulas, or interact with custom interpolation nodes to derive general finite difference rules.</p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+
 
   <div class="bubble demo-bubble">
     <div class="demo-title"><a href="/desmos/lagrange-hermite-interpolation" target="_blank">Lagrange/Hermite Interpolation</a></div>
@@ -246,11 +263,24 @@ custom_js: |
       <div class="demo-picture">
         <img src="/assets/desmos/images/lagrange_hermite_interp.png" alt="Lagrange/Hermite Interpolation">
         <div class="demo-overlay">
-          <p>Interpolation theory has many applications in data science, optimization, and machine learning. Here, you may explore polynomial interpolation through both Lagrange and Hermite basis functions, the former interpolating points and function values while the latter incorporates derivatives. Toggle between these methods and isolate individual basis polynomials to see how they sum to produce the full interpolant.</p>
+          <p>Here, you may explore polynomial interpolation through both Lagrange and Hermite basis functions, the former interpolating points and function values while the latter incorporates derivatives. Toggle these methods and isolate individual basis polynomials to see how they sum to produce the full interpolant.</p>
         </div>
       </div>
     </a>
   </div>
+
+  <div class="bubble demo-bubble">
+    <div class="demo-title"><a href="/desmos/voroni" target="_blank">Voronoi Diagrams</a></div>
+    <a href="/desmos/voroni" target="_blank">
+      <div class="demo-picture">
+        <img src="/assets/desmos/images/voroni.png" alt="Voronoi Diagrams">
+        <div class="demo-overlay">
+          <p>Given a set of points, we may partition the plane by considering which sections are closest to each node. Changing our metric alters these partitions. Watch these regions grow and morph into a beautiful partition.</p>
+        </div>
+      </div>
+    </a>
+  </div>
+
 
   <div class="bubble demo-bubble">
     <div class="demo-title"><a href="/desmos/taylor-series" target="_blank">Taylor Series</a></div>
@@ -264,13 +294,15 @@ custom_js: |
     </a>
   </div>
 
+
+
   <div class="bubble demo-bubble">
-    <div class="demo-title"><a href="/desmos/finite-diff" target="_blank">Finite Difference Interpolation</a></div>
-    <a href="/desmos/finite-diff" target="_blank">
+    <div class="demo-title"><a href="/desmos/circular-shadow" target="_blank">Circular Shadows and Slices in p-norm Balls</a></div>
+    <a href="/desmos/circular-shadow" target="_blank">
       <div class="demo-picture">
-        <img src="/assets/desmos/images/finite_diff_interp.png" alt="Finite Difference Interpolation">
+        <img src="/assets/desmos/images/circular_shadow.png" alt="Circular Shadows">
         <div class="demo-overlay">
-          <p>Here you may visualize how finite difference methods approximate derivatives. Compare standard central difference formulas, or interact with custom interpolation nodes to derive general finite difference rules.</p>
+          <p>The shadow of a Euclidean ball is always circular. However, in a different metric, this projection may differ. Surprisingly, there exists another \(p\)-norm ball with circular projection. Dually, there exists another \(q\)-norm ball with a circular cross section.</p>
         </div>
       </div>
     </a>
