@@ -139,26 +139,23 @@ author:
       # url: "https://instagram.com/"
 
 # Site Footer
-# footer:
-#   links:
-#     - label: "Twitter"
-#       icon: "fab fa-fw fa-twitter-square"
-#       # url:
-#     - label: "Facebook"
-#       icon: "fab fa-fw fa-facebook-square"
-#       # url:
-#     - label: "GitHub"
-#       icon: "fab fa-fw fa-github"
-#       # url:
-#     - label: "GitLab"
-#       icon: "fab fa-fw fa-gitlab"
-#       # url:
-#     - label: "Bitbucket"
-#       icon: "fab fa-fw fa-bitbucket"
-#       # url:
-#     - label: "Instagram"
-#       icon: "fab fa-fw fa-instagram"
-#       # url:
+footer:
+  links:
+    - label: "Scholar"
+      icon: "fas fa-fw fa-graduation-cap"
+      url: "https://scholar.google.com/citations?user=0K3XSl0AAAAJ&hl=en"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/aaron-zoll/"
+    - label: "Desmos"
+      icon: "fas fa-fw fa-chart-line"
+      url: "/DesmosGallery.html"
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope"
+      url: "mailto:azoll1@jh.edu"
+    - label: "CV"
+      icon: "fas fa-fw fa-file-pdf"
+      url: "/assets/CV 2025.pdf"
 
 
 # Reading Files

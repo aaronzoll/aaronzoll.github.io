@@ -20,12 +20,13 @@
     @include clearfix;
     margin-inline: auto;
     margin-top: 2em;
-    max-width: 100%;
-    padding: 0 1em 2em;
-
-    @include breakpoint($x-large) {
-      max-width: $x-large;
-    }
+    max-width: 1200px;
+    padding: 0 1.5rem 2em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5em 1em;
   }
 
   a {
@@ -55,6 +56,10 @@
     margin: 0;
     padding: 0;
     list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.35em 0.85em;
   }
 
   li {
@@ -62,18 +67,12 @@
     padding-top: 5px;
     padding-bottom: 5px;
     font-family: $sans-serif-narrow;
-    font-size: $type-size-6;
-    text-transform: uppercase;
-  }
-
-  li + li::before {
-    content: "";
-    padding-inline-end: 5px;
+    font-size: $type-size-7;
+    text-transform: lowercase;
   }
 
   a {
-    padding-inline-end: 10px;
-    font-weight: bold;
+    font-weight: normal;
   }
 
   .social-icons {
