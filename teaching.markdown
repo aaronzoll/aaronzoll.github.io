@@ -130,7 +130,7 @@ I have always loved to teach. In high school, I helped peers with their calculus
 <hr>
 
 <div class="notes-group">
-  <div class="notes-heading"><u>Introduction to Computational Mathematics</u></div>
+  <div class="notes-heading">Introduction to Computational Mathematics</div>
   <div class="note-row">
     <span class="note-name">Section 5: Matrix Norms, Inequalities, and Conditioning</span>
     <div style="display:flex;gap:0.4rem;flex-shrink:0;">
@@ -176,7 +176,7 @@ I have always loved to teach. In high school, I helped peers with their calculus
 </div>
 
 <div class="notes-group">
-  <div class="notes-heading"><u>Linear Algebra Review Sessions</u></div>
+  <div class="notes-heading">Linear Algebra Review Sessions</div>
   <div class="note-row">
     <span class="note-name">Linear Algebra Review Session 1 (part 1)</span>
     <div style="display:flex;gap:0.4rem;flex-shrink:0;">
@@ -201,7 +201,7 @@ I have always loved to teach. In high school, I helped peers with their calculus
 </div>
 
 <div class="notes-group">
-  <div class="notes-heading"><u>Directed Reading Program</u></div>
+  <div class="notes-heading">Directed Reading Program</div>
   <div class="note-row">
     <span class="note-name">Why Does Gradient Descent Work (well)?</span>
     <div style="display:flex;gap:0.4rem;flex-shrink:0;">
@@ -239,24 +239,16 @@ I have always loved to teach. In high school, I helped peers with their calculus
 <div class="ta-subheading">Graduate TA</div>
 <div class="course-list">
   <div class="course-row">
-    <span class="course-name">Introduction to Computational Mathematics (EN.553.385)</span>
-    <span class="course-date">Spring 2026</span>
-  </div>
-  <div class="course-row">
     <span class="course-name">Machine Learning 1 (EN.553.740)</span>
     <span class="course-date">Fall 2025</span>
   </div>
   <div class="course-row">
     <span class="course-name">Introduction to Computational Mathematics (EN.553.385)</span>
-    <span class="course-date">Spring 2025</span>
+    <span class="course-date">Spring 2025, Spring 2026</span>
   </div>
   <div class="course-row">
     <span class="course-name">Introduction to Convexity (EN.553.665)</span>
-    <span class="course-date">Fall 2024</span>
-  </div>
-  <div class="course-row">
-    <span class="course-name">Introduction to Convexity (EN.553.665)</span>
-    <span class="course-date">Spring 2024</span>
+    <span class="course-date">Spring 2024, Fall 2024</span>
   </div>
   <div class="course-row">
     <span class="course-name">Matrix Analysis and Linear Algebra (EN.553.792)</span>
@@ -280,14 +272,10 @@ I have always loved to teach. In high school, I helped peers with their calculus
 <div class="course-list">
   <div class="course-row">
     <span class="course-name">Real Analysis I (EN.553.405)</span>
-    <span class="course-date">Summer 2022</span>
+    <span class="course-date">Spring 2022, Summer 2022</span>
   </div>
   <div class="course-row">
     <span class="course-name">Cryptology and Coding (EN.553.371)</span>
-    <span class="course-date">Spring 2022</span>
-  </div>
-  <div class="course-row">
-    <span class="course-name">Real Analysis I (EN.553.405)</span>
     <span class="course-date">Spring 2022</span>
   </div>
   <div class="course-row">
@@ -300,19 +288,11 @@ I have always loved to teach. In high school, I helped peers with their calculus
   </div>
   <div class="course-row">
     <span class="course-name">Differential Equations and Applications (AS.110.302)</span>
-    <span class="course-date">Fall 2021</span>
+    <span class="course-date">Fall 2021, Spring 2021</span>
   </div>
   <div class="course-row">
     <span class="course-name">Discrete Mathematics (EN.553.171)</span>
-    <span class="course-date">Spring 2021</span>
-  </div>
-  <div class="course-row">
-    <span class="course-name">Differential Equations and Applications (AS.110.302)</span>
-    <span class="course-date">Spring 2021</span>
-  </div>
-  <div class="course-row">
-    <span class="course-name">Discrete Mathematics (EN.553.171)</span>
-    <span class="course-date">Fall 2020</span>
+    <span class="course-date">Spring 2021, Fall 2020</span>
   </div>
   <div class="course-row">
     <span class="course-name">Calculus III (AS.110.202)</span>

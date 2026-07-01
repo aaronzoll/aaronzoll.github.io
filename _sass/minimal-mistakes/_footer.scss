@@ -3,9 +3,7 @@
    ========================================================================== */
 
 .page__footer {
-  @include clearfix;
-  float: inline-start;
-  margin-inline: 0;
+  display: block;
   width: 100%;
   margin-top: 3em;
   color: $muted-text-color;
@@ -17,16 +15,16 @@
   border-top: 1px solid rgba(100, 120, 140, 0.3);
 
   footer {
-    @include clearfix;
-    margin-inline: auto;
-    margin-top: 2em;
-    max-width: 1200px;
-    padding: 0 1.5rem 2em;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 0.5em 1em;
+    margin-inline: auto;
+    margin-top: 2em;
+    max-width: $max-width;
+    padding: 0 1.5rem 2em;
+    box-sizing: border-box;
   }
 
   a {

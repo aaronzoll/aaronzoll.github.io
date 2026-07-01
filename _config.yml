@@ -155,7 +155,7 @@ footer:
       url: "mailto:azoll1@jh.edu"
     - label: "CV"
       icon: "fas fa-fw fa-file-pdf"
-      url: "/assets/CV 2025.pdf"
+      url: "/assets/cv.pdf"
 
 
 # Reading Files

@@ -129,6 +129,7 @@ custom_js: |
   .demo-picture {
     position: relative;
     width: 100%;
+    margin-top: 0.9rem;
     aspect-ratio: 47 / 27;
     box-shadow: inset 2px 2px 6px rgba(255,255,255,0.6),
                 inset -2px -2px 6px rgba(0,0,0,0.2),
@@ -195,7 +196,7 @@ custom_js: |
       <p>I am a PhD student at <a href="https://engineering.jhu.edu/ams/" target="_blank">The Johns Hopkins University</a> in the department of Applied Math and Statistics. My work primarily focuses in optimization, under the supervision of <a href="https://www.ams.jhu.edu/~grimmer/" target="_blank">Benjamin Grimmer</a>. My work primarily focuses on the algorithm design and analysis. In particular, I work on expanding classical optimization theory to apply universally to Lipschitz functions, functions with Lipschitz gradient, and everywhere in between. Dually, my work sometimes considers functions exhibiting strong convexity, simple convexity, or anywhere in between.</p>
       <p>Below are a few selected papers, unifying calculus results and algorithm design for a wide range of function classes. Further below, I give selections from my Desmos Gallery, a series of interactive graphs. Feel free to experiment and play; I hope these are as fun to interact with as they were to create.</p>
       <div class="cv-button-holder">
-        <a class="arxiv-btn" href="/assets/CV 2025.pdf" target = "_blank">Curriculum Vitae</a>
+        <a class="arxiv-btn" href="/cv" target = "_blank">Curriculum Vitae</a>
         <a class="arxiv-btn" href="https://www.linkedin.com/in/aaron-zoll/" target = "_blank">LinkedIn</a>
         <a class="arxiv-btn" href="/DesmosGallery.html" target = "_blank">Desmos Gallery</a>
         <a class="arxiv-btn" href="mailto:azoll1@jh.edu">Email</a>
@@ -229,7 +230,7 @@ custom_js: |
 <div class="demo-bubble-grid">
 
   <div class="bubble demo-bubble">
-    <div class="demo-title"><a href="/desmos/runge-kutta-2" target="_blank">Second Order Runge-Kutta Methods</a></div>
+    <div class="demo-title">Second Order Runge-Kutta Methods</div>
     <a href="/desmos/runge-kutta-2" target="_blank">
       <div class="demo-picture">
         <img src="/assets/desmos/images/rk2.png" alt="Second Order Runge-Kutta Methods">
@@ -244,7 +245,7 @@ custom_js: |
 
 
   <div class="bubble demo-bubble">
-    <div class="demo-title"><a href="/desmos/finite-diff" target="_blank">Finite Difference Interpolation</a></div>
+    <div class="demo-title">Finite Difference Interpolation</div>
     <a href="/desmos/finite-diff" target="_blank">
       <div class="demo-picture">
         <img src="/assets/desmos/images/finite_diff_interp.png" alt="Finite Difference Interpolation">
@@ -258,7 +259,7 @@ custom_js: |
 
 
   <div class="bubble demo-bubble">
-    <div class="demo-title"><a href="/desmos/lagrange-hermite-interpolation" target="_blank">Lagrange/Hermite Interpolation</a></div>
+    <div class="demo-title">Lagrange/Hermite Interpolation</div>
     <a href="/desmos/lagrange-hermite-interpolation" target="_blank">
       <div class="demo-picture">
         <img src="/assets/desmos/images/lagrange_hermite_interp.png" alt="Lagrange/Hermite Interpolation">
@@ -270,7 +271,7 @@ custom_js: |
   </div>
 
   <div class="bubble demo-bubble">
-    <div class="demo-title"><a href="/desmos/voroni" target="_blank">Voronoi Diagrams</a></div>
+    <div class="demo-title">Voronoi Diagrams</div>
     <a href="/desmos/voroni" target="_blank">
       <div class="demo-picture">
         <img src="/assets/desmos/images/voroni.png" alt="Voronoi Diagrams">
@@ -283,7 +284,7 @@ custom_js: |
 
 
   <div class="bubble demo-bubble">
-    <div class="demo-title"><a href="/desmos/taylor-series" target="_blank">Taylor Series</a></div>
+    <div class="demo-title">Taylor Series</div>
     <a href="/desmos/taylor-series" target="_blank">
       <div class="demo-picture">
         <img src="/assets/desmos/images/taylor_series.png" alt="Taylor Series">
@@ -297,7 +298,7 @@ custom_js: |
 
 
   <div class="bubble demo-bubble">
-    <div class="demo-title"><a href="/desmos/circular-shadow" target="_blank">Circular Shadows and Slices in p-norm Balls</a></div>
+    <div class="demo-title">Circular Shadows and Slices in p-norm Balls</div>
     <a href="/desmos/circular-shadow" target="_blank">
       <div class="demo-picture">
         <img src="/assets/desmos/images/circular_shadow.png" alt="Circular Shadows">

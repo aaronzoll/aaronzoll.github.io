@@ -207,7 +207,7 @@ custom_js: |
   <div class="slides">
     <div class="slide-row">
       <div class="bullet-points">
-        <div class="slide-heading"><u>Presentations on Interpolation Theory</u></div>
+        <div class="slide-heading">Presentations on Interpolation Theory</div>
         <div class="venue-list">
           <div class="venue-item">
             <span class="venue-name">Clayton High School — <i>Algebra and Number Theory</i> Guest Lecture</span>
@@ -229,7 +229,7 @@ custom_js: |
     </div>
     <div class="slide-row">
       <div class="bullet-points">
-        <div class="slide-heading"><u>Presentations on Inexactly Smooth Performance Estimation</u></div>
+        <div class="slide-heading">Presentations on Inexactly Smooth Performance Estimation</div>
         <div class="venue-list">
           <div class="venue-item">
             <span class="venue-name">Johns Hopkins <a href="https://sites.google.com/view/ams-grad-seminar" target="_blank">Applied Math and Statistics Student Seminar</a></span>
@@ -259,7 +259,7 @@ custom_js: |
     </div>
     <div class="slide-row">
       <div class="bullet-points">
-        <div class="slide-heading"><u>Presentations on Heterogenous Compositions</u></div>
+        <div class="slide-heading">Presentations on Heterogenous Compositions</div>
         <div class="venue-list">
           <div class="venue-item">
             <span class="venue-name">Johns Hopkins <a href="https://sites.google.com/view/ams-grad-seminar" target="_blank">Applied Math and Statistics Student Seminar</a></span>
