@@ -3,7 +3,7 @@ layout: splash
 title: Projects
 permalink: /projects/
 
-feature_image: "/assets/images/banner.png"
+feature_image: "/assets/images/about_banner.png"
 feature_text: |
   # Projects
 header:
