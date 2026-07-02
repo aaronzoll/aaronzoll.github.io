@@ -23,9 +23,6 @@
 <loc>http://localhost:4000/desmos/cocoercivity-demo/</loc>
 </url>
 <url>
-<loc>http://localhost:4000/contact/</loc>
-</url>
-<url>
 <loc>http://localhost:4000/desmos/finite-diff/</loc>
 </url>
 <url>
@@ -63,9 +60,6 @@
 </url>
 <url>
 <loc>http://localhost:4000/desmos/p-norm-regularization/</loc>
-</url>
-<url>
-<loc>http://localhost:4000/projects/</loc>
 </url>
 <url>
 <loc>http://localhost:4000/research/</loc>
@@ -107,10 +101,6 @@
 <lastmod>2025-05-01T16:52:45-04:00</lastmod>
 </url>
 <url>
-<loc>http://localhost:4000/assets/CV.pdf</loc>
-<lastmod>2026-07-01T21:47:27-04:00</lastmod>
-</url>
-<url>
 <loc>http://localhost:4000/assets/Composite_Opti_Presentation.pdf</loc>
 <lastmod>2024-10-08T18:19:22-04:00</lastmod>
 </url>
@@ -145,6 +135,10 @@
 <url>
 <loc>http://localhost:4000/assets/Jr_MINDS_Presentation_3_8.pdf</loc>
 <lastmod>2025-03-08T18:16:29-05:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/assets/cv.pdf</loc>
+<lastmod>2026-07-01T21:47:27-04:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/assets/lin_alg_review_slides/Lin_Alg_Review_Session_1.pdf</loc>

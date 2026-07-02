@@ -11,7 +11,7 @@ side_controls: true
 
   <span class="vor-section-label">Distance parameter</span>
 
-  <span class="vor-subtle-label">Preset p-norm</span>
+  <span class="vor-subtle-label vor-subtle-label--case-normal">preset \(p\) - norms</span>
 
   <div class="vor-presets">
     <button class="site-btn vor-preset-btn vor-preset-btn--frac" data-p="0.5">
@@ -58,6 +58,17 @@ side_controls: true
   <div class="vor-speed-group">
     <button class="site-btn vor-speed-btn" data-steps="400">Slow</button>
     <button class="site-btn vor-speed-btn" data-steps="80">Fast</button>
+  </div>
+
+  <hr class="desmos-divider">
+
+  <span class="vor-section-label">Delaunay Triangulation</span>
+  <span class="vor-subtle-label vor-subtle-label--case-normal">requires \(p = 2\)</span>
+
+  <div class="vor-delaunay-group">
+    <button class="site-btn vor-delaunay-btn" data-folder="171">Triangulation</button>
+    <button class="site-btn vor-delaunay-btn" data-folder="190">Circumcircle Centers</button>
+    <button class="site-btn vor-delaunay-btn" data-folder="193">Circumcircles</button>
   </div>
 
 </div>
@@ -130,6 +141,31 @@ side_controls: true
     min-width: 0;
     font-size: 0.82rem;
     padding: 0.35rem 0.6rem;
+  }
+
+  .vor-subtle-label--case-normal {
+    text-transform: none;
+  }
+
+  .vor-delaunay-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .vor-delaunay-btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .site-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .site-slider:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
   }
 </style>
 
@@ -222,6 +258,27 @@ side_controls: true
         speedBtns.forEach(function(b) { b.classList.remove('site-btn--active'); });
         btn.classList.add('site-btn--active');
         animateR(parseInt(btn.getAttribute('data-steps'), 10));
+      });
+    });
+
+    /* ---- Delaunay triangulation toggles (independent, force p=2 while any active) ---- */
+    var delaunayBtns = document.querySelectorAll('.vor-delaunay-btn');
+
+    function updateDelaunayLock() {
+      var anyActive = false;
+      delaunayBtns.forEach(function(b) {
+        if (b.classList.contains('site-btn--active')) { anyActive = true; }
+      });
+      pInput.disabled = anyActive;
+      presetBtns.forEach(function(b) { b.disabled = anyActive; });
+      if (anyActive) { setP(2); }
+    }
+
+    delaunayBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var active = btn.classList.toggle('site-btn--active');
+        calc.setExpression({ id: btn.getAttribute('data-folder'), hidden: !active });
+        updateDelaunayLock();
       });
     });
 
