@@ -211,7 +211,7 @@
         "slider": {
           "hardMin": true,
           "hardMax": true,
-          "min": "\\ -G",
+          "min": "-G",
           "max": "G"
         }
       },
@@ -288,8 +288,10 @@
         "latex": "y_{1}=-6.5",
         "hidden": true,
         "slider": {
-          "min": "-16.7",
-          "max": "11.3"
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-G",
+          "max": "G"
         }
       },
       {
@@ -299,7 +301,10 @@
         "color": "#000000",
         "latex": "y_{2}=10.6",
         "slider": {
-          "max": "15.3"
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-G",
+          "max": "G"
         }
       },
       {
@@ -309,7 +314,10 @@
         "color": "#c74440",
         "latex": "y_{3}=-4.1",
         "slider": {
-          "max": "14.3"
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-G",
+          "max": "G"
         }
       },
       {
@@ -319,8 +327,10 @@
         "color": "#2d70b3",
         "latex": "y_{4}=-16.66",
         "slider": {
-          "min": "-13.2",
-          "max": "11.2"
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-G",
+          "max": "G"
         }
       },
       {
@@ -330,7 +340,10 @@
         "color": "#6042a6",
         "latex": "y_{5}=6.1",
         "slider": {
-          "max": "16.4"
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-G",
+          "max": "G"
         }
       },
       {
@@ -338,7 +351,13 @@
         "id": "31",
         "folderId": "2",
         "color": "#000000",
-        "latex": "y_{6}=3.3"
+        "latex": "y_{6}=3.3",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-G",
+          "max": "G"
+        }
       },
       {
         "type": "expression",
@@ -347,7 +366,10 @@
         "color": "#c74440",
         "latex": "y_{7}=10.3",
         "slider": {
-          "max": "12.43"
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-G",
+          "max": "G"
         }
       },
       {
@@ -356,16 +378,23 @@
         "folderId": "2",
         "color": "#2d70b3",
         "latex": "y_{8}=5.85",
-        "slider": {
-          "max": "11.56"
-        }
+            "slider": {
+              "min": "-G",
+              "max": "G"
+            }
       },
       {
         "type": "expression",
         "id": "34",
         "folderId": "2",
         "color": "#388c46",
-        "latex": "y_{9}=-4.7"
+        "latex": "y_{9}=-4.7",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-G",
+          "max": "G"
+        }
       },
       {
         "type": "expression",
