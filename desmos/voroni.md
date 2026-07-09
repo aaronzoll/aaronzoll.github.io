@@ -1,6 +1,6 @@
 ---
 layout: desmos-graph
-title: "Voroni Diagrams"
+title: "Voronoi Diagrams"
 
 desmos_json: "voroni.json"
 desmos_url: "https://www.desmos.com/calculator/hxwd5y0opp"
