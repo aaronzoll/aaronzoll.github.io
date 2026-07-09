@@ -12,6 +12,37 @@ custom_js: |
     console.log('callback - particles.js config loaded');
   });</script>
   <script src="assets/js/particles.js"></script>
+  <script>
+    // On touch devices, :hover can't be relied on to reveal the caption, so the
+    // first tap reveals it (without navigating) and a second tap follows the link.
+    (function () {
+      var isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+      if (!isTouch) return;
+
+      document.querySelectorAll('.demo-picture').forEach(function (picture) {
+        var link = picture.closest('a');
+        if (!link) return;
+
+        link.addEventListener('click', function (e) {
+          if (!picture.classList.contains('is-revealed')) {
+            e.preventDefault();
+            document.querySelectorAll('.demo-picture.is-revealed').forEach(function (other) {
+              other.classList.remove('is-revealed');
+            });
+            picture.classList.add('is-revealed');
+          }
+        });
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest('.demo-picture')) {
+          document.querySelectorAll('.demo-picture.is-revealed').forEach(function (other) {
+            other.classList.remove('is-revealed');
+          });
+        }
+      });
+    })();
+  </script>
 
 ---
 
@@ -161,7 +192,12 @@ custom_js: |
     pointer-events: none;
   }
 
-  .demo-picture:hover .demo-overlay { opacity: 1; }
+  @media (hover: hover) and (pointer: fine) {
+    .demo-picture:hover .demo-overlay { opacity: 1; }
+  }
+
+  /* Toggled by touch devices via JS: first tap reveals, second tap follows the link */
+  .demo-picture.is-revealed .demo-overlay { opacity: 1; }
 
   .demo-overlay p {
     font-size: 0.8rem;
