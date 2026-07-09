@@ -170,6 +170,7 @@ custom_js: |
     outline: 5px ridge #593302;
     box-sizing: border-box;
     overflow: hidden;
+    container-type: inline-size; /* lets the caption text scale off the card's own width */
   }
 
   .demo-picture img {
@@ -200,7 +201,8 @@ custom_js: |
   .demo-picture.is-revealed .demo-overlay { opacity: 1; }
 
   .demo-overlay p {
-    font-size: 0.8rem;
+    font-size: 0.9rem; /* fallback for browsers without container query units */
+    font-size: clamp(0.85rem, 3.4cqw, 0.95rem);
     line-height: 1.45;
     color: #2a2a2a;
     margin: 0;
