@@ -14,7 +14,6 @@ $header-font-family: $garamond !default;
 $caption-font-family: $garamond !default;
 
 
-
 @charset "utf-8";
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
@@ -29,6 +28,10 @@ body.layout--desmos-notebook {
     border-bottom: 2px solid #a67b5b;
     box-shadow: 0 4px 0 0 #593302;
   }
+}
+body.layout--widget {
+  background-color: #f0f0f0;
+  .masthead { border-bottom: 2px solid #a67b5b; box-shadow: 0 4px 0 0 #593302; }
 }
 
 // Reusable content card

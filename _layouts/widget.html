@@ -1,0 +1,161 @@
+---
+layout: default
+---
+
+{% if page.side_controls %}
+  {% assign _parts       = content | split: '<!--writeup-->' %}
+  {% assign _panel_raw   = _parts[0] %}
+  {% assign _writeup     = _parts[1] %}
+  {% assign _bg_parts    = _panel_raw | split: '<!--below-widget-->' %}
+  {% assign _panel       = _bg_parts[0] %}
+  {% assign _below_widget = _bg_parts[1] %}
+{% endif %}
+
+<style>
+  .widget-page-wrap {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  .widget-page-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .widget-page-top h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  .widget-page-links {
+    font-size: 0.9rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  /* Same board-and-frame treatment as .desmos-embed-container */
+  .widget-embed-container {
+    width: 100%;
+    border: 2px solid #a67b5b;
+    outline: 4px ridge #593302;
+    box-sizing: border-box;
+  }
+
+  .widget-embed-container iframe {
+    width: 100%;
+    height: {{ page.widget_height | default: 820 }}px;
+    border: none;
+    display: block;
+    transition: height 0.15s;
+  }
+
+  .widget-below {
+    margin-top: 0.5rem;
+  }
+
+  .widget-writeup {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #a67b5b;
+  }
+
+  .widget-body--side {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .widget-body--side .widget-embed-section {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .widget-side-panel {
+    width: 310px;
+    flex-shrink: 0;
+    border-left: 2px solid #d0d7de;
+    padding-left: 1.25rem;
+  }
+
+  @media (max-width: 700px) {
+    .widget-embed-container iframe {
+      height: {{ page.widget_height_mobile | default: 640 }}px;
+    }
+
+    .widget-body--side { flex-direction: column; }
+    .widget-body--side .widget-embed-section { width: 100%; }
+
+    .widget-side-panel {
+      width: 100%;
+      border-left: none;
+      border-top: 2px solid #d0d7de;
+      padding-left: 0;
+      padding-top: 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .widget-embed-container iframe { transition: none; }
+  }
+</style>
+
+<div class="widget-page-wrap">
+
+  <div class="widget-page-top">
+    <h1>{% if page.title_math %}{{ page.title_math }}{% else %}{{ page.title }}{% endif %}</h1>
+    <div class="widget-page-links">
+      {% if page.back_url %}<a href="{{ page.back_url }}">← {{ page.back_label | default: 'Back' }}</a>{% endif %}
+      {% if page.source_url %}<a href="{{ page.source_url }}" target="_blank">Source ↗</a>{% endif %}
+      <a href="{{ page.widget_src }}" target="_blank">Open full page ↗</a>
+    </div>
+  </div>
+
+  <div class="widget-body{% if page.side_controls %} widget-body--side{% endif %}">
+
+    <div class="widget-embed-section">
+      <div class="widget-embed-container">
+        <iframe id="widget-frame"
+                src="{{ page.widget_src }}"
+                title="{{ page.title | escape }}"
+                loading="lazy"
+                allowfullscreen></iframe>
+      </div>
+
+      {% if _below_widget %}
+        <div class="widget-below page__content">{{ _below_widget }}</div>
+      {% endif %}
+    </div>
+
+    {% if page.side_controls %}
+      <div class="widget-side-panel page__content">{{ _panel }}</div>
+    {% elsif content %}
+      <div class="widget-writeup page__content">{{ content }}</div>
+    {% endif %}
+
+  </div>
+
+  {% if page.side_controls and _writeup %}
+    <div class="widget-writeup page__content">{{ _writeup }}</div>
+  {% endif %}
+
+</div>
+
+{% unless page.widget_fixed_height %}
+<script>
+  (function () {
+    var frame = document.getElementById('widget-frame');
+    if (!frame) return;
+    window.addEventListener('message', function (e) {
+      if (e.source !== frame.contentWindow) return;
+      var h = e.data && e.data.embedHeight;
+      if (typeof h === 'number' && h > 100 && h < 20000) frame.style.height = h + 'px';
+    });
+  })();
+</script>
+{% endunless %}

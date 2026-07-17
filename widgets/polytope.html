@@ -1,0 +1,520 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P^N — the polytope of optimal subgradient methods</title>
+<style>
+  :root{
+    --ground:#f7f5f0;
+    --ground-deep:#efe9db;
+    --ink:#37474f;
+    --ink-mute:#6f777d;
+    --ink-faint:#b0bec5;
+    --dt:#c1440e;
+    --avg:#a13d2f;
+    --zg:#1f7a5c;
+    --serif:Garamond,"Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --mono:"SF Mono","JetBrains Mono","IBM Plex Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--ground)}
+  body{
+    color:var(--ink);
+    font-family:var(--serif);
+    -webkit-font-smoothing:antialiased;
+    padding:0;
+  }
+  body.embedded .grp-ext{display:none}
+  .plate{
+    max-width:none;margin:0;
+    background:var(--ground);
+    border:none;
+    padding:26px 28px 22px;
+  }
+
+  /* ---- masthead ---- */
+  .eyebrow{
+    font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-mute);
+  }
+  h1{
+    font-family:var(--serif);font-weight:400;font-size:44px;line-height:1;
+    letter-spacing:.01em;margin:10px 0 0;
+  }
+  h1 sup{font-size:.44em;vertical-align:.72em;margin-left:1px}
+  .dek{
+    font-size:15px;line-height:1.5;color:var(--ink-mute);max-width:62ch;margin-top:9px;
+  }
+  .dek em{color:var(--ink);font-style:italic}
+  .rule{height:1px;background:var(--ink-faint);margin:18px 0 0;opacity:.55}
+
+  /* ---- controls ---- */
+  .bar{
+    display:flex;flex-wrap:wrap;gap:22px;align-items:baseline;
+    padding:12px 0 13px;font-family:var(--mono);font-size:11px;
+  }
+  .grp{display:flex;align-items:baseline;gap:8px}
+  .grp>span{color:var(--ink-mute);letter-spacing:.13em;text-transform:uppercase;font-size:9.5px}
+  button{
+    font-family:var(--mono);font-size:11px;background:none;color:var(--ink-mute);
+    border:1px solid transparent;border-radius:4px;padding:3px 8px;cursor:pointer;letter-spacing:.04em;
+    transition:background .15s,border-color .15s,color .15s;
+  }
+  button:hover{color:var(--ink);border-color:var(--ink-faint)}
+  button[aria-pressed="true"]{color:#fff;background:#546e7a;border-color:#37474f}
+  button:focus-visible{outline:2px solid var(--zg);outline-offset:1px}
+
+  /* ---- figure ---- */
+  .fig{position:relative;background:transparent}
+  canvas{display:block;width:100%;height:440px;cursor:grab;touch-action:none}
+  canvas.drag{cursor:grabbing}
+  .cap{
+    position:absolute;left:0;bottom:6px;font-family:var(--mono);font-size:10px;
+    color:var(--ink-faint);letter-spacing:.06em;pointer-events:none;
+  }
+  .readout{
+    position:absolute;right:0;top:0;text-align:right;font-family:var(--mono);font-size:10.5px;
+    line-height:1.7;color:var(--ink-mute);pointer-events:none;
+  }
+  .readout b{color:var(--ink);font-weight:400}
+  .hint{
+    font-family:var(--mono);font-size:9.5px;color:var(--ink-faint);letter-spacing:.03em;
+    margin-top:6px;
+  }
+
+  /* ---- odometer: the signature ---- */
+  .odo{border-top:1px solid var(--ink-faint);padding-top:16px;margin-top:8px}
+  .odo-head{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-mute);margin-bottom:11px;
+  }
+  .wheels{display:flex;flex-wrap:wrap;align-items:center;gap:2px}
+  .wheel{display:flex;flex-direction:column;gap:3px;padding:0 3px}
+  .wlab{font-family:var(--mono);font-size:9px;color:var(--ink-faint);text-align:center;padding-bottom:2px}
+  .digits{display:flex;flex-direction:column;gap:2px}
+  .digit{
+    font-family:var(--mono);font-size:11px;width:22px;height:19px;line-height:19px;text-align:center;
+    color:var(--ink-faint);border:1px solid transparent;border-radius:3px;cursor:pointer;
+  }
+  .digit:hover{color:var(--ink);border-color:var(--ink-faint)}
+  .digit[data-on="1"]{color:#fff;font-weight:600}
+  .times{font-family:var(--mono);font-size:12px;color:var(--ink-faint);padding:0 5px;align-self:center}
+  .eq{
+    font-family:var(--mono);font-size:12px;color:var(--ink);padding-left:12px;align-self:center;
+    white-space:nowrap;
+  }
+  .eq b{color:var(--zg);font-weight:400}
+
+  /* ---- legend + stats ---- */
+  .foot{
+    display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;
+    border-top:1px solid var(--ink-faint);margin-top:18px;padding-top:13px;
+    font-family:var(--mono);font-size:10.5px;color:var(--ink-mute);
+  }
+  .keys{display:flex;flex-wrap:wrap;gap:16px}
+  .key{display:flex;align-items:center;gap:6px;cursor:pointer}
+  .dot{width:8px;height:8px;border-radius:50%;flex:none}
+  .key:hover{color:var(--ink)}
+  .stats{display:flex;gap:15px;flex-wrap:wrap}
+  .stats b{color:var(--ink);font-weight:400}
+  @media (max-width:640px){
+    .plate{padding:18px 16px}
+    h1{font-size:34px}
+    canvas{height:320px}
+    .readout{position:static;text-align:left;margin-top:8px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="plate">
+  <div class="eyebrow">flow polytope · minimax-optimal subgradient methods</div>
+  <h1>𝒫<sup id="hN">3</sup></h1>
+  <p class="dek">
+    Every minimax-optimal fixed-step method corresponds to a nonnegative flow on the arcs
+    <span style="font-family:var(--mono);font-size:.9em">i&thinsp;→&thinsp;j</span>, <em>i &lt; j</em>, that supplies
+    <span style="font-family:var(--mono);font-size:.9em">1/(N+1)</span> at each node <em>0,…,N−1</em>.
+    Each vertex is a spanning tree into <em>N</em>: one out-arc <em>s(j) &gt; j</em> per node. Choosing them
+    independently gives <em>N!</em>.
+  </p>
+  <div class="rule"></div>
+
+  <div class="bar">
+    <div class="grp grp-ext"><span>N</span><div id="nsel"></div></div>
+    <div class="grp"><span>edges</span>
+      <button id="bAll" aria-pressed="true">all</button>
+      <button id="bIso" aria-pressed="false">at vertex</button>
+    </div>
+    <div class="grp grp-ext"><span>spin</span>
+      <button id="bSpin" aria-pressed="true">on</button>
+    </div>
+    <div class="grp"><span>view</span>
+      <button id="bReset">reset</button>
+    </div>
+  </div>
+
+  <div class="fig">
+    <canvas id="cv"></canvas>
+    <div class="cap" id="cap"></div>
+    <div class="readout" id="ro"></div>
+  </div>
+  <div class="hint">drag to rotate · scroll / pinch to zoom · shift+drag, right-drag, or two-finger drag to pan</div>
+
+  <div class="odo">
+    <div class="odo-head">a vertex is one choice per wheel — click to travel</div>
+    <div class="wheels" id="wheels"></div>
+  </div>
+
+  <div class="foot">
+    <div class="keys">
+      <div class="key" data-go="dt"><span class="dot" style="background:var(--dt)"></span>Drori–Taylor · the path s(j)=j+1</div>
+      <div class="key" data-go="avg"><span class="dot" style="background:var(--avg)"></span>averaged subgradient · the star s(j)=N</div>
+      <div class="key" data-go="zg"><span class="dot" style="background:var(--zg)"></span>Zamani–Glineur · barycenter, not a vertex</div>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+</div>
+
+<script>
+const RAMP = ['#4c6c8f','#6f6693','#8a5a7d','#a6524f','#c17817'];
+const CSS = getComputedStyle(document.documentElement);
+const COL = { dt:CSS.getPropertyValue('--dt').trim(), avg:CSS.getPropertyValue('--avg').trim(),
+              zg:CSS.getPropertyValue('--zg').trim(), ink:CSS.getPropertyValue('--ink').trim(),
+              faint:CSS.getPropertyValue('--ink-faint').trim() };
+
+/* ---------- combinatorics ---------- */
+const fact = n => n<2?1:n*fact(n-1);
+function arcsOf(N){ const A=[]; for(let i=0;i<=N;i++) for(let j=i+1;j<=N;j++) A.push([i,j]); return A; }
+function treesOf(N){
+  let out=[[]];
+  for(let j=0;j<N;j++){ const nx=[];
+    for(const s of out) for(let v=j+1;v<=N;v++) nx.push(s.concat([v]));
+    out=nx; }
+  return out;
+}
+// lambda^s : lambda_{j,s(j)} = |T_j| / (N+1)
+function lamOfTree(s,N,ix){
+  const v=new Array(ix.size).fill(0);
+  for(let j=0;j<N;j++){
+    let cnt=0;
+    for(let i=0;i<=N;i++){ let k=i;
+      for(;;){ if(k===j){cnt++;break;} if(k===N) break; k=s[k]; } }
+    v[ix.get(j+','+s[j])] += cnt/(N+1);
+  }
+  return v;
+}
+// Zamani-Glineur: lambda_{i,j} = 1/((N-i)(N-i+1)) for all i<j — also the barycenter of all N! vertices
+function lamZG(N,A,ix){
+  const v=new Array(A.length).fill(0);
+  A.forEach(([i,j],k)=>{ v[k]=1/((N-i)*(N-i+1)); });
+  return v;
+}
+
+/* ---------- live PCA (top-3 principal axes, no precomputed/hardcoded data) ----------
+   The N! vertices live in a dim-|A| ambient arc space but the polytope itself only
+   spans a dim = N(N-1)/2 affine subspace. We find the best-fit 3-plane through the
+   vertex set (centered at the barycenter) via a Jacobi eigendecomposition of the
+   |A|x|A| covariance matrix — small (|A| <= ~28 for N<=6) so this runs instantly. */
+function jacobiEigen(Cin, n){
+  const A = Cin.map(r=>Array.from(r));
+  const V = Array.from({length:n},(_,i)=>Array.from({length:n},(_,j)=>i===j?1:0));
+  for(let sweep=0; sweep<80; sweep++){
+    let off=0;
+    for(let p=0;p<n;p++) for(let q=p+1;q<n;q++) off+=A[p][q]*A[p][q];
+    if(off<1e-24) break;
+    for(let p=0;p<n;p++) for(let q=p+1;q<n;q++){
+      if(Math.abs(A[p][q])<1e-18) continue;
+      const theta=(A[q][q]-A[p][p])/(2*A[p][q]);
+      const t=(theta>=0?1:-1)/(Math.abs(theta)+Math.sqrt(theta*theta+1));
+      const c=1/Math.sqrt(t*t+1), s=t*c;
+      const app=A[p][p], aqq=A[q][q], apq=A[p][q];
+      A[p][p]=c*c*app-2*s*c*apq+s*s*aqq;
+      A[q][q]=s*s*app+2*s*c*apq+c*c*aqq;
+      A[p][q]=0; A[q][p]=0;
+      for(let i=0;i<n;i++){
+        if(i===p||i===q) continue;
+        const aip=A[i][p], aiq=A[i][q];
+        A[i][p]=c*aip-s*aiq; A[p][i]=A[i][p];
+        A[i][q]=s*aip+c*aiq; A[q][i]=A[i][q];
+      }
+      for(let i=0;i<n;i++){
+        const vip=V[i][p], viq=V[i][q];
+        V[i][p]=c*vip-s*viq;
+        V[i][q]=s*vip+c*viq;
+      }
+    }
+  }
+  const values=Array.from({length:n},(_,i)=>A[i][i]);
+  return {values, vectors:V};
+}
+// top min(3,dim) eigenvectors of the covariance of `centered` (array of vectors), by descending variance
+function pcaTop3(centered, dim){
+  const C=Array.from({length:dim},()=>new Float64Array(dim));
+  for(const row of centered){
+    for(let a=0;a<dim;a++){
+      const ra=row[a]; if(!ra) continue;
+      for(let b=a;b<dim;b++) C[a][b]+=ra*row[b];
+    }
+  }
+  for(let a=0;a<dim;a++) for(let b=0;b<a;b++) C[a][b]=C[b][a];
+  const {values,vectors}=jacobiEigen(C,dim);
+  const order=[...Array(dim).keys()].sort((p,q)=>values[q]-values[p]);
+  return order.slice(0,Math.min(3,dim)).map(k=>vectors.map(row=>row[k]));
+}
+
+/* ---------- state ---------- */
+let N=3, A, IX, TREES, LAM, XYZ, EDGES, KEYI={}, sel=0, iso=false, spin=true, spinSpeed=1;
+let yaw=0.6, pitch=-0.32, drag=null, hover=-1;
+let zoom=1, panX=0, panY=0;
+const TARGET_RADIUS=1.2;
+
+function build(n){
+  N=n; A=arcsOf(N); IX=new Map(A.map(([i,j],k)=>[i+','+j,k]));
+  TREES=treesOf(N);
+  LAM=TREES.map(s=>lamOfTree(s,N,IX));
+  const dim=A.length, c=lamZG(N,A,IX);
+  const centered=LAM.map(v=>v.map((x,k)=>x-c[k]));
+  const Q=pcaTop3(centered,dim);
+  const proj0 = v => Q.map(q=>{ let t=0; for(let k=0;k<dim;k++) t+=q[k]*(v[k]-c[k]); return t; });
+  let maxAbs=1e-9;
+  LAM.forEach(v=>proj0(v).forEach(x=>{ const a=Math.abs(x); if(a>maxAbs) maxAbs=a; }));
+  const scale=TARGET_RADIUS/maxAbs;
+  const proj = v => { const p=proj0(v); return [0,1,2].map(i=> p[i]!==undefined ? p[i]*scale : 0); };
+  XYZ=LAM.map(proj);
+  KEYI.polyDim = N*(N-1)/2;
+  const key = new Map(TREES.map((s,k)=>[s.join(','),k]));
+  EDGES=[];
+  TREES.forEach((s,a)=>{
+    for(let j=0;j<N;j++) for(let v=j+1;v<=N;v++){
+      if(v===s[j]) continue;
+      const t=s.slice(); t[j]=v; const b=key.get(t.join(','));
+      if(a<b) EDGES.push([a,b,j]);
+    }
+  });
+  KEYI.dt  = key.get(TREES[0].map((_,j)=>j+1).join(','));
+  KEYI.avg = key.get(new Array(N).fill(N).join(','));
+  KEYI.zgXYZ = proj(lamZG(N,A,IX));
+  sel = KEYI.dt; hover=-1;
+  document.getElementById('hN').textContent=N;
+  drawWheels(); drawStats();
+}
+
+/* ---------- geometry ---------- */
+function rot(p){
+  const [x,y,z]=p;
+  const cy=Math.cos(yaw), sy=Math.sin(yaw), cp=Math.cos(pitch), sp=Math.sin(pitch);
+  const x1= cy*x + sy*z, z1=-sy*x + cy*z;
+  const y1= cp*y - sp*z1, z2= sp*y + cp*z1;
+  return [x1,y1,z2];
+}
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+let W=0,H=0,S=1;
+function resize(){
+  const r=cv.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  cv.width=r.width*dpr; cv.height=r.height*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  W=r.width; H=r.height; S=Math.min(W,H)*0.46;
+}
+const to2 = p => [W/2 + panX + p[0]*S*zoom, H/2 - panY - p[1]*S*zoom];
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const R=XYZ.map(rot);
+  const zg=rot(KEYI.zgXYZ);
+
+  // edges, painter-sorted, back-to-front
+  let E=EDGES.map(([a,b,j])=>({a,b,j,z:(R[a][2]+R[b][2])/2}));
+  if(iso) E=E.filter(e=>e.a===sel||e.b===sel);
+  E.sort((p,q)=>p.z-q.z);
+  const many = TREES.length>40;
+  for(const e of E){
+    const [x1,y1]=to2(R[e.a]), [x2,y2]=to2(R[e.b]);
+    const t=(e.z+1)/2;
+    ctx.strokeStyle=RAMP[e.j%RAMP.length];
+    ctx.globalAlpha=(iso?0.95:(many?0.30:0.62))*(0.42+0.58*t);
+    ctx.lineWidth=iso?1.5:(many?0.6:1.05);
+    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+
+  // vertices, back-to-front
+  const zr=nodeZoomScale();
+  const order=R.map((p,k)=>k).sort((p,q)=>R[p][2]-R[q][2]);
+  for(const k of order){
+    const [x,y]=to2(R[k]), t=(R[k][2]+1)/2;
+    let col=COL.ink, r=(many?2.0:2.9)*zr;
+    if(k===KEYI.dt){col=COL.dt; r=5*zr;}
+    if(k===KEYI.avg){col=COL.avg; r=5*zr;}
+    if(k===sel){ r=Math.max(r,5.5*zr); }
+    if(k===hover){ r=Math.max(r,5.5*zr); }
+    ctx.globalAlpha=0.45+0.55*t;
+    ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill();
+    if(k===sel){
+      ctx.globalAlpha=1; ctx.strokeStyle=COL.ink; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(x,y,r+4.5,0,7); ctx.stroke();
+    }
+  }
+  ctx.globalAlpha=1;
+
+  // barycenter
+  const [zx,zy]=to2(zg);
+  ctx.fillStyle=COL.zg; ctx.beginPath(); ctx.arc(zx,zy,4.2,0,7); ctx.fill();
+  ctx.strokeStyle=COL.zg; ctx.globalAlpha=.5; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.arc(zx,zy,8,0,7); ctx.stroke(); ctx.globalAlpha=1;
+
+  drawReadout();
+}
+
+function drawReadout(){
+  const k = hover>=0?hover:sel, s=TREES[k], v=LAM[k];
+  let nm='';
+  if(k===KEYI.dt) nm='<b style="color:'+COL.dt+'">Drori–Taylor</b>';
+  else if(k===KEYI.avg) nm='<b style="color:'+COL.avg+'">averaged subgradient</b>';
+  const supp=A.map(([i,j],t)=>[i,j,v[t]]).filter(r=>r[2]>1e-12)
+    .map(([i,j,x])=>'λ<sub>'+i+','+j+'</sub> = '+Math.round(x*(N+1))+'/'+(N+1));
+  document.getElementById('ro').innerHTML =
+    (nm?nm+'<br>':'') +
+    's = ('+s.join(', ')+')<br>' +
+    supp.join('<br>');
+  const dim=KEYI.polyDim;
+  document.getElementById('cap').textContent =
+    dim<=3 ? 'exact — dim '+dim : 'principal 3-plane of a dim-'+dim+' polytope · crossings are projection artifacts';
+}
+
+function drawStats(){
+  const nv=fact(N), deg=N*(N-1)/2, ne=nv*deg/2, nf=(N+1)*N/2-1;
+  document.getElementById('stats').innerHTML =
+    ['dim <b>'+deg+'</b>','vertices <b>'+nv+'</b>','edges <b>'+ne+'</b>',
+     'facets <b>'+nf+'</b>','simple: <b>'+deg+'</b> edges per vertex'].map(s=>'<span>'+s+'</span>').join('');
+}
+
+/* ---------- odometer ---------- */
+function drawWheels(){
+  const w=document.getElementById('wheels'); w.innerHTML='';
+  const s=TREES[sel];
+  for(let j=0;j<N;j++){
+    if(j) { const t=document.createElement('div'); t.className='times'; t.textContent='×'; w.appendChild(t); }
+    const d=document.createElement('div'); d.className='wheel';
+    const l=document.createElement('div'); l.className='wlab'; l.textContent='s('+j+')'; d.appendChild(l);
+    const box=document.createElement('div'); box.className='digits';
+    for(let v=j+1;v<=N;v++){
+      const b=document.createElement('div'); b.className='digit'; b.textContent=v;
+      if(v===s[j]){ b.dataset.on='1'; b.style.background=RAMP[j%RAMP.length]; b.style.borderColor=RAMP[j%RAMP.length]; }
+      b.onclick=()=>{ const t=TREES[sel].slice(); t[j]=v; goTree(t); };
+      box.appendChild(b);
+    }
+    d.appendChild(box); w.appendChild(d);
+  }
+  const eq=document.createElement('div'); eq.className='eq';
+  eq.innerHTML='= &nbsp;'+Array.from({length:N},(_,j)=>N-j).join(' · ')+' &nbsp;=&nbsp; <b>'+fact(N)+'</b> vertices';
+  w.appendChild(eq);
+}
+function goTree(t){
+  const k=TREES.findIndex(s=>s.join(',')===t.join(','));
+  if(k>=0){ sel=k; drawWheels(); draw(); }
+}
+
+/* ---------- interaction ---------- */
+const ZOOM_MIN=0.4, ZOOM_MAX=10;
+function nodeZoomScale(){ return Math.min(2.4, Math.max(0.7, Math.sqrt(zoom))); }
+function pick(ev){
+  const r=cv.getBoundingClientRect(), mx=ev.clientX-r.left, my=ev.clientY-r.top;
+  const R=XYZ.map(rot); let best=-1, hitR=12*nodeZoomScale(), bd=hitR*hitR;
+  R.forEach((p,k)=>{ const [x,y]=to2(p); const d=(x-mx)**2+(y-my)**2; if(d<bd){bd=d;best=k;} });
+  return best;
+}
+const pointers=new Map();
+let pinch=null;
+function clampZoom(z){ return Math.max(ZOOM_MIN,Math.min(ZOOM_MAX,z)); }
+function resetView(){ yaw=0.6; pitch=-0.32; zoom=1; panX=0; panY=0; draw(); }
+
+cv.addEventListener('pointerdown',e=>{
+  cv.setPointerCapture(e.pointerId);
+  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pointers.size>=2){
+    const pts=[...pointers.values()];
+    pinch={dist:Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y), zoom,
+           mx:(pts[0].x+pts[1].x)/2, my:(pts[0].y+pts[1].y)/2, panX, panY};
+    drag=null;
+  } else {
+    drag={x:e.clientX,y:e.clientY,moved:false,pan:e.button===2||e.shiftKey};
+    cv.classList.add('drag');
+  }
+});
+cv.addEventListener('pointermove',e=>{
+  if(pointers.has(e.pointerId)) pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(pinch && pointers.size>=2){
+    const pts=[...pointers.values()];
+    const dist=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y);
+    zoom=clampZoom(pinch.zoom*(dist/Math.max(1,pinch.dist)));
+    draw(); return;
+  }
+  if(drag){
+    const dx=e.clientX-drag.x, dy=e.clientY-drag.y;
+    if(Math.abs(dx)+Math.abs(dy)>3) drag.moved=true;
+    if(drag.pan){ panX+=dx; panY+=dy; }
+    else { yaw-=dx*0.009; pitch=Math.max(-1.5,Math.min(1.5,pitch-dy*0.009)); }
+    drag.x=e.clientX; drag.y=e.clientY; draw();
+  } else {
+    const h=pick(e); if(h!==hover){ hover=h; cv.style.cursor=h>=0?'pointer':'grab'; draw(); }
+  }
+});
+cv.addEventListener('pointerup',e=>{
+  pointers.delete(e.pointerId);
+  if(pointers.size<2) pinch=null;
+  if(drag&&!drag.moved&&!drag.pan){ const k=pick(e); if(k>=0){ sel=k; drawWheels(); } }
+  if(pointers.size===0){ drag=null; cv.classList.remove('drag'); }
+  draw();
+});
+cv.addEventListener('pointerleave',()=>{ hover=-1; draw(); });
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+cv.addEventListener('wheel',e=>{
+  e.preventDefault();
+  zoom=clampZoom(zoom*Math.exp(-e.deltaY*0.0012));
+  draw();
+},{passive:false});
+
+const nsel=document.getElementById('nsel');
+[2,3,4,5,6].forEach(n=>{
+  const b=document.createElement('button'); b.textContent=n; b.setAttribute('aria-pressed',n===3);
+  b.onclick=()=>{ [...nsel.children].forEach(c=>c.setAttribute('aria-pressed','false'));
+                  b.setAttribute('aria-pressed','true'); build(n); draw(); };
+  nsel.appendChild(b);
+});
+const bAll=document.getElementById('bAll'), bIso=document.getElementById('bIso'), bSpin=document.getElementById('bSpin'), bReset=document.getElementById('bReset');
+bAll.onclick=()=>{ iso=false; bAll.setAttribute('aria-pressed','true'); bIso.setAttribute('aria-pressed','false'); draw(); };
+bIso.onclick=()=>{ iso=true; bIso.setAttribute('aria-pressed','true'); bAll.setAttribute('aria-pressed','false'); draw(); };
+bSpin.onclick=()=>{ spin=!spin; bSpin.setAttribute('aria-pressed',spin); bSpin.textContent=spin?'on':'off'; };
+bReset.onclick=resetView;
+document.querySelectorAll('.key').forEach(k=>k.onclick=()=>{
+  const g=k.dataset.go;
+  if(g==='dt') sel=KEYI.dt; else if(g==='avg') sel=KEYI.avg; else return;
+  drawWheels(); draw();
+});
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(reduce){ spin=false; bSpin.setAttribute('aria-pressed','false'); bSpin.textContent='off'; }
+addEventListener('resize',()=>{ resize(); draw(); });
+build(3); resize(); draw();
+/* --- host embed: report content height + accept external controls ---
+   when hosted in the site's widget iframe, the N and spin controls live
+   in the page's side panel instead of the .bar; expose them here. */
+(function(){
+  if(window.parent===window) return;
+  document.body.classList.add('embedded');
+  const el=document.querySelector('.plate');
+  const post=()=>parent.postMessage({embedHeight:Math.ceil(el.getBoundingClientRect().height)},'*');
+  if(window.ResizeObserver) new ResizeObserver(post).observe(el);
+  addEventListener('load',post); setTimeout(post,60); post();
+})();
+window.setN = function(n){
+  const b=[...nsel.children].find(c=>Number(c.textContent)===n);
+  if(!b) return;
+  [...nsel.children].forEach(c=>c.setAttribute('aria-pressed','false'));
+  b.setAttribute('aria-pressed','true'); build(n); draw();
+};
+window.setSpin = function(on){
+  spin=!!on; bSpin.setAttribute('aria-pressed',spin); bSpin.textContent=spin?'on':'off';
+};
+window.setSpinSpeed = function(v){
+  spinSpeed=Math.max(0,Number(v)||0);
+};
+
+(function loop(){ if(spin&&!drag&&!pinch){ yaw+=0.0022*spinSpeed; draw(); } requestAnimationFrame(loop); })();
+</script>
