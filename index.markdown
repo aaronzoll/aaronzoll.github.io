@@ -12,6 +12,37 @@ custom_js: |
     console.log('callback - particles.js config loaded');
   });</script>
   <script src="assets/js/particles.js"></script>
+  <script>
+    // On touch devices, :hover can't be relied on to reveal the caption, so the
+    // first tap reveals it (without navigating) and a second tap follows the link.
+    (function () {
+      var isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+      if (!isTouch) return;
+
+      document.querySelectorAll('.demo-picture').forEach(function (picture) {
+        var link = picture.closest('a');
+        if (!link) return;
+
+        link.addEventListener('click', function (e) {
+          if (!picture.classList.contains('is-revealed')) {
+            e.preventDefault();
+            document.querySelectorAll('.demo-picture.is-revealed').forEach(function (other) {
+              other.classList.remove('is-revealed');
+            });
+            picture.classList.add('is-revealed');
+          }
+        });
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest('.demo-picture')) {
+          document.querySelectorAll('.demo-picture.is-revealed').forEach(function (other) {
+            other.classList.remove('is-revealed');
+          });
+        }
+      });
+    })();
+  </script>
 
 ---
 
@@ -139,6 +170,7 @@ custom_js: |
     outline: 5px ridge #593302;
     box-sizing: border-box;
     overflow: hidden;
+    container-type: inline-size; /* lets the caption text scale off the card's own width */
   }
 
   .demo-picture img {
@@ -161,10 +193,16 @@ custom_js: |
     pointer-events: none;
   }
 
-  .demo-picture:hover .demo-overlay { opacity: 1; }
+  @media (hover: hover) and (pointer: fine) {
+    .demo-picture:hover .demo-overlay { opacity: 1; }
+  }
+
+  /* Toggled by touch devices via JS: first tap reveals, second tap follows the link */
+  .demo-picture.is-revealed .demo-overlay { opacity: 1; }
 
   .demo-overlay p {
-    font-size: 0.8rem;
+    font-size: 0.9rem; /* fallback for browsers without container query units */
+    font-size: clamp(0.85rem, 3.4cqw, 0.95rem);
     line-height: 1.45;
     color: #2a2a2a;
     margin: 0;
@@ -235,7 +273,7 @@ custom_js: |
       <div class="demo-picture">
         <img src="/assets/desmos/images/rk2.png" alt="Second Order Runge-Kutta Methods">
         <div class="demo-overlay">
-          <p>Runga Kutta Methods efficiently and accurately model a trajectory given information about its underlying vector field. Here we demonstrate multiple two-step methods. Watch how decreasing the step size affects the stability of the iteratively built trajectory.</p>
+          <p>Trace a trajectory through a vector field using two-step Runge-Kutta methods. Alter the method, shrink the step size, and watch the stability grow.</p>
         </div>
       </div>
     </a>
@@ -250,7 +288,7 @@ custom_js: |
       <div class="demo-picture">
         <img src="/assets/desmos/images/finite_diff_interp.png" alt="Finite Difference Interpolation">
         <div class="demo-overlay">
-          <p>Here you may visualize how finite difference methods approximate derivatives. Compare standard central difference formulas, or interact with custom interpolation nodes to derive general finite difference rules.</p>
+          <p>Approximate derivatives with finite difference formulas. Compare standard central-difference methods, or apply custom nodes to derive your own estimations.</p>
         </div>
       </div>
     </a>
@@ -264,7 +302,7 @@ custom_js: |
       <div class="demo-picture">
         <img src="/assets/desmos/images/lagrange_hermite_interp.png" alt="Lagrange/Hermite Interpolation">
         <div class="demo-overlay">
-          <p>Here, you may explore polynomial interpolation through both Lagrange and Hermite basis functions, the former interpolating points and function values while the latter incorporates derivatives. Toggle these methods and isolate individual basis polynomials to see how they sum to produce the full interpolant.</p>
+          <p>Interpolate points with Lagrange or Hermite polynomials, the latter incorporating derivatives. Toggle individual basis polynomials to see how they sum to the interpolant.</p>
         </div>
       </div>
     </a>
@@ -276,7 +314,7 @@ custom_js: |
       <div class="demo-picture">
         <img src="/assets/desmos/images/voroni.png" alt="Voronoi Diagrams">
         <div class="demo-overlay">
-          <p>Given a set of points, we may partition the plane by considering which sections are closest to each node. Changing our metric alters these partitions. Watch these regions grow and morph into a beautiful partition.</p>
+          <p>Partition the plane into cells minimizing distances. Dually, toggle maximal triangulations. Drag the nodes or switch metrics; watch the regions morph and triangles flip.</p>
         </div>
       </div>
     </a>
@@ -289,7 +327,7 @@ custom_js: |
       <div class="demo-picture">
         <img src="/assets/desmos/images/taylor_series.png" alt="Taylor Series">
         <div class="demo-overlay">
-          <p>Construct polynomials to approximate smooth functions using perhaps the most important results from calc II. As you increase the degree, you may notice the polynomial converge, but be wary that depending on the function, its radius of convergence may be finite.</p>
+          <p>Approximate smooth functions with Taylor polynomials. Raise the degree, witness convergence, or see it fail past its radius of convergence.</p>
         </div>
       </div>
     </a>
@@ -303,7 +341,7 @@ custom_js: |
       <div class="demo-picture">
         <img src="/assets/desmos/images/circular_shadow.png" alt="Circular Shadows">
         <div class="demo-overlay">
-          <p>The shadow of a Euclidean ball is always circular. However, in a different metric, this projection may differ. Surprisingly, there exists another \(p\)-norm ball with circular projection. Dually, there exists another \(q\)-norm ball with a circular cross section.</p>
+          <p>A Euclidean ball always casts a circular shadow. Another \(p\)-norm ball has one too, with its dual \(q\)-norm ball containing a circular cross-section. Can you find it?</p>
         </div>
       </div>
     </a>
