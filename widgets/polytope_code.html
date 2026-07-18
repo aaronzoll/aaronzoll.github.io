@@ -1,6 +1,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>P^N — the polytope of optimal subgradient methods</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" defer></script>
 <style>
   :root{
     --ground:#f7f5f0;
@@ -35,15 +42,14 @@
     font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
     color:var(--ink-mute);
   }
-  h1{
-    font-family:var(--serif);font-weight:400;font-size:44px;line-height:1;
-    letter-spacing:.01em;margin:10px 0 0;
-  }
-  h1 sup{font-size:.44em;vertical-align:.72em;margin-left:1px}
   .dek{
     font-size:15px;line-height:1.5;color:var(--ink-mute);max-width:62ch;margin-top:9px;
   }
   .dek em{color:var(--ink);font-style:italic}
+  .dek-eq{
+    font-size:13.5px;color:var(--ink);max-width:62ch;margin-top:6px;overflow-x:auto;
+  }
+  .dek-eq--top{font-size:19px;margin-top:10px;max-width:none;}
   .rule{height:1px;background:var(--ink-faint);margin:18px 0 0;opacity:.55}
 
   /* ---- controls ---- */
@@ -72,9 +78,11 @@
   }
   .readout{
     position:absolute;right:0;top:0;text-align:right;font-family:var(--mono);font-size:10.5px;
-    line-height:1.7;color:var(--ink-mute);pointer-events:none;
+    line-height:1.6;color:var(--ink-mute);pointer-events:none;
   }
   .readout b{color:var(--ink);font-weight:400}
+  .readout .lam-on{color:var(--ink)}
+  .readout .lam-off{color:var(--ink-faint)}
   .hint{
     font-family:var(--mono);font-size:9.5px;color:var(--ink-faint);letter-spacing:.03em;
     margin-top:6px;
@@ -103,6 +111,15 @@
   }
   .eq b{color:var(--zg);font-weight:400}
 
+  /* ---- W matrix ---- */
+  .wmat{border-top:1px solid var(--ink-faint);padding-top:16px;margin-top:16px}
+  .wmat-head{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-mute);margin-bottom:11px;
+  }
+  .wmat-note{text-transform:none;letter-spacing:0;color:var(--ink-faint);margin-left:2px}
+  .wmat-eq{font-size:19px;color:var(--ink);overflow-x:auto;padding-bottom:4px}
+
   /* ---- legend + stats ---- */
   .foot{
     display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;
@@ -117,7 +134,7 @@
   .stats b{color:var(--ink);font-weight:400}
   @media (max-width:640px){
     .plate{padding:18px 16px}
-    h1{font-size:34px}
+    .dek-eq--top{font-size:15px}
     canvas{height:320px}
     .readout{position:static;text-align:left;margin-top:8px}
   }
@@ -125,27 +142,24 @@
 </style>
 
 <div class="plate">
-  <div class="eyebrow">flow polytope · minimax-optimal subgradient methods</div>
-  <h1>𝒫<sup id="hN">3</sup></h1>
+  <div class="eyebrow">minimax-optimal subgradient methods</div>
+  <div class="dek-eq dek-eq--top" id="polyEq"></div>
   <p class="dek">
-    Every minimax-optimal fixed-step method corresponds to a nonnegative flow on the arcs
-    <span style="font-family:var(--mono);font-size:.9em">i&thinsp;→&thinsp;j</span>, <em>i &lt; j</em>, that supplies
-    <span style="font-family:var(--mono);font-size:.9em">1/(N+1)</span> at each node <em>0,…,N−1</em>.
-    Each vertex is a spanning tree into <em>N</em>: one out-arc <em>s(j) &gt; j</em> per node. Choosing them
-    independently gives <em>N!</em>.
+    Every minimax-optimal fixed-step method for Lipschitz convex minimization corresponds to a
+    unique set of dual multipliers in this polytope.
   </p>
   <div class="rule"></div>
 
   <div class="bar">
     <div class="grp grp-ext"><span>N</span><div id="nsel"></div></div>
-    <div class="grp"><span>edges</span>
+    <div class="grp"><span>edges:</span>
       <button id="bAll" aria-pressed="true">all</button>
       <button id="bIso" aria-pressed="false">at vertex</button>
     </div>
     <div class="grp grp-ext"><span>spin</span>
       <button id="bSpin" aria-pressed="true">on</button>
     </div>
-    <div class="grp"><span>view</span>
+    <div class="grp"><span>view:</span>
       <button id="bReset">reset</button>
     </div>
   </div>
@@ -158,14 +172,19 @@
   <div class="hint">drag to rotate · scroll / pinch to zoom · shift+drag, right-drag, or two-finger drag to pan</div>
 
   <div class="odo">
-    <div class="odo-head">a vertex is one choice per wheel — click to travel</div>
+    <div class="odo-head">each vertex corresponds to a mapping below</div>
     <div class="wheels" id="wheels"></div>
+  </div>
+
+  <div class="wmat">
+    <div class="wmat-head">step-size matrix of the selected vertex <span class="wmat-note">(D = M = 1)</span></div>
+    <div class="wmat-eq" id="wmatEq"></div>
   </div>
 
   <div class="foot">
     <div class="keys">
-      <div class="key" data-go="dt"><span class="dot" style="background:var(--dt)"></span>Drori–Taylor · the path s(j)=j+1</div>
-      <div class="key" data-go="avg"><span class="dot" style="background:var(--avg)"></span>averaged subgradient · the star s(j)=N</div>
+      <div class="key" data-go="dt"><span class="dot" style="background:var(--dt)"></span>Drori–Taylor · the map s(j)=j+1</div>
+      <div class="key" data-go="avg"><span class="dot" style="background:var(--avg)"></span>Averaged Subgradient · the map s(j)=N</div>
       <div class="key" data-go="zg"><span class="dot" style="background:var(--zg)"></span>Zamani–Glineur · barycenter, not a vertex</div>
     </div>
     <div class="stats" id="stats"></div>
@@ -260,7 +279,8 @@ function pcaTop3(centered, dim){
 }
 
 /* ---------- state ---------- */
-let N=3, A, IX, TREES, LAM, XYZ, EDGES, KEYI={}, sel=0, iso=false, spin=true, spinSpeed=1;
+let N=3, A, IX, TREES, LAM, XYZ, EDGES, KEYI={}, sel=0, selKind='vertex', iso=false, spin=true, spinSpeed=1;
+function currentLam(){ return selKind==='zg' ? lamZG(N,A,IX) : LAM[sel]; }
 let yaw=0.6, pitch=-0.32, drag=null, hover=-1;
 let zoom=1, panX=0, panY=0;
 const TARGET_RADIUS=1.2;
@@ -291,8 +311,8 @@ function build(n){
   KEYI.dt  = key.get(TREES[0].map((_,j)=>j+1).join(','));
   KEYI.avg = key.get(new Array(N).fill(N).join(','));
   KEYI.zgXYZ = proj(lamZG(N,A,IX));
-  sel = KEYI.dt; hover=-1;
-  document.getElementById('hN').textContent=N;
+  sel = KEYI.dt; selKind='vertex'; hover=-1;
+  drawPolyEq();
   drawWheels(); drawStats();
 }
 
@@ -341,11 +361,11 @@ function draw(){
     let col=COL.ink, r=(many?2.0:2.9)*zr;
     if(k===KEYI.dt){col=COL.dt; r=5*zr;}
     if(k===KEYI.avg){col=COL.avg; r=5*zr;}
-    if(k===sel){ r=Math.max(r,5.5*zr); }
+    if(selKind==='vertex'&&k===sel){ r=Math.max(r,5.5*zr); }
     if(k===hover){ r=Math.max(r,5.5*zr); }
     ctx.globalAlpha=0.45+0.55*t;
     ctx.fillStyle=col; ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill();
-    if(k===sel){
+    if(selKind==='vertex'&&k===sel){
       ctx.globalAlpha=1; ctx.strokeStyle=COL.ink; ctx.lineWidth=1;
       ctx.beginPath(); ctx.arc(x,y,r+4.5,0,7); ctx.stroke();
     }
@@ -357,20 +377,42 @@ function draw(){
   ctx.fillStyle=COL.zg; ctx.beginPath(); ctx.arc(zx,zy,4.2,0,7); ctx.fill();
   ctx.strokeStyle=COL.zg; ctx.globalAlpha=.5; ctx.lineWidth=1;
   ctx.beginPath(); ctx.arc(zx,zy,8,0,7); ctx.stroke(); ctx.globalAlpha=1;
+  if(selKind==='zg'){
+    ctx.globalAlpha=1; ctx.strokeStyle=COL.zg; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.arc(zx,zy,12.5,0,7); ctx.stroke();
+  }
 
   drawReadout();
 }
 
 function drawReadout(){
-  const k = hover>=0?hover:sel, s=TREES[k], v=LAM[k];
-  let nm='';
-  if(k===KEYI.dt) nm='<b style="color:'+COL.dt+'">Drori–Taylor</b>';
-  else if(k===KEYI.avg) nm='<b style="color:'+COL.avg+'">averaged subgradient</b>';
-  const supp=A.map(([i,j],t)=>[i,j,v[t]]).filter(r=>r[2]>1e-12)
-    .map(([i,j,x])=>'λ<sub>'+i+','+j+'</sub> = '+Math.round(x*(N+1))+'/'+(N+1));
+  const zgActive = hover<0 && selKind==='zg';
+  const k = hover>=0?hover:sel;
+  const v = zgActive ? lamZG(N,A,IX) : LAM[k];
+  let nm='', mapLine;
+  if(zgActive){
+    nm='<b style="color:'+COL.zg+'">Zamani–Glineur</b>';
+    mapLine='barycenter of all '+fact(N)+' vertices';
+  } else {
+    if(k===KEYI.dt) nm='<b style="color:'+COL.dt+'">Drori–Taylor</b>';
+    else if(k===KEYI.avg) nm='<b style="color:'+COL.avg+'">averaged subgradient</b>';
+    mapLine='s = ('+TREES[k].join(', ')+')';
+  }
+  const supp=A.map(([i,j],t)=>{
+    // vertex lambdas are exact multiples of 1/(N+1); the ZG barycenter is not
+    // (lambda_ij = 1/((N-i)(N-i+1))), so it needs its own exact fraction, not
+    // a round-trip through the (N+1) denominator.
+    if(zgActive){
+      const den=(N-i)*(N-i+1);
+      return '<span class="lam-on">λ<sub>'+i+','+j+'</sub> = 1/'+den+'</span>';
+    }
+    const on=v[t]>1e-12;
+    const val=on ? (Math.round(v[t]*(N+1))+'/'+(N+1)) : '0';
+    return '<span class="'+(on?'lam-on':'lam-off')+'">λ<sub>'+i+','+j+'</sub> = '+val+'</span>';
+  });
   document.getElementById('ro').innerHTML =
     (nm?nm+'<br>':'') +
-    's = ('+s.join(', ')+')<br>' +
+    mapLine+'<br>' +
     supp.join('<br>');
   const dim=KEYI.polyDim;
   document.getElementById('cap').textContent =
@@ -384,9 +426,58 @@ function drawStats(){
      'facets <b>'+nf+'</b>','simple: <b>'+deg+'</b> edges per vertex'].map(s=>'<span>'+s+'</span>').join('');
 }
 
+/* ---------- W matrix: dual-generated FSFOM step coefficients (D = M = 1) ----------
+   W[n][j] = (1/Lam_n) * ( 1/(N+1)^1.5 + sum_{i=j+1}^{n-1} lambda_{i,n} W[i][j] ),
+   Lam_n = 1/(N+1) + sum_{i=0}^{n-1} lambda_{i,n}, for 0 <= j < n <= N. */
+function computeW(v){
+  const lam=(i,n)=>{ const k=IX.get(i+','+n); return k===undefined?0:v[k]; };
+  const c=1/Math.pow(N+1,1.5);
+  const W=[]; for(let n=0;n<=N;n++) W[n]=[];
+  for(let n=1;n<=N;n++){
+    let s=0; for(let i=0;i<n;i++) s+=lam(i,n);
+    const Lam=1/(N+1)+s;
+    for(let j=0;j<n;j++){
+      let acc=c;
+      for(let i=j+1;i<n;i++) acc+=lam(i,n)*W[i][j];
+      W[n][j]=acc/Lam;
+    }
+  }
+  return W;
+}
+function typeset(el){
+  if(window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([el]).catch(function(){});
+}
+function drawW(){
+  const el=document.getElementById('wmatEq'); if(!el) return;
+  const W=computeW(currentLam());
+  const rows=[];
+  for(let n=1;n<=N;n++){
+    const cells=[];
+    for(let j=0;j<N;j++) cells.push(j<n ? W[n][j].toFixed(3) : '0');
+    rows.push(cells.join(' & '));
+  }
+  el.innerHTML = '\\[ W(\\lambda) = \\begin{bmatrix} ' + rows.join(' \\\\ ') + ' \\end{bmatrix} \\]';
+  typeset(el);
+}
+function drawPolyEq(){
+  const el=document.getElementById('polyEq'); if(!el) return;
+  el.innerHTML =
+    '\\[ \\mathcal{P}^{' + N + '} = \\left\\{\\, \\lambda \\mid \\lambda \\geq 0,\\ \\ ' +
+    '\\sum_{i=j+1}^{' + N + '} \\lambda_{j,i} - \\sum_{i=0}^{j-1} \\lambda_{i,j} = \\frac{1}{' + (N+1) + '}, ' +
+    '\\ \\ j = 0, \\dots, ' + (N-1) + ' \\,\\right\\}. \\]';
+  typeset(el);
+}
+
 /* ---------- odometer ---------- */
 function drawWheels(){
   const w=document.getElementById('wheels'); w.innerHTML='';
+  if(selKind==='zg'){
+    const note=document.createElement('div'); note.className='eq';
+    note.innerHTML='<b style="color:'+COL.zg+'">Zamani–Glineur</b> is the barycenter of all <b>'+fact(N)+'</b> vertices — no single mapping s(j).';
+    w.appendChild(note);
+    drawW();
+    return;
+  }
   const s=TREES[sel];
   for(let j=0;j<N;j++){
     if(j) { const t=document.createElement('div'); t.className='times'; t.textContent='×'; w.appendChild(t); }
@@ -404,10 +495,11 @@ function drawWheels(){
   const eq=document.createElement('div'); eq.className='eq';
   eq.innerHTML='= &nbsp;'+Array.from({length:N},(_,j)=>N-j).join(' · ')+' &nbsp;=&nbsp; <b>'+fact(N)+'</b> vertices';
   w.appendChild(eq);
+  drawW();
 }
 function goTree(t){
   const k=TREES.findIndex(s=>s.join(',')===t.join(','));
-  if(k>=0){ sel=k; drawWheels(); draw(); }
+  if(k>=0){ sel=k; selKind='vertex'; drawWheels(); draw(); }
 }
 
 /* ---------- interaction ---------- */
@@ -458,7 +550,7 @@ cv.addEventListener('pointermove',e=>{
 cv.addEventListener('pointerup',e=>{
   pointers.delete(e.pointerId);
   if(pointers.size<2) pinch=null;
-  if(drag&&!drag.moved&&!drag.pan){ const k=pick(e); if(k>=0){ sel=k; drawWheels(); } }
+  if(drag&&!drag.moved&&!drag.pan){ const k=pick(e); if(k>=0){ sel=k; selKind='vertex'; drawWheels(); } }
   if(pointers.size===0){ drag=null; cv.classList.remove('drag'); }
   draw();
 });
@@ -484,7 +576,10 @@ bSpin.onclick=()=>{ spin=!spin; bSpin.setAttribute('aria-pressed',spin); bSpin.t
 bReset.onclick=resetView;
 document.querySelectorAll('.key').forEach(k=>k.onclick=()=>{
   const g=k.dataset.go;
-  if(g==='dt') sel=KEYI.dt; else if(g==='avg') sel=KEYI.avg; else return;
+  if(g==='dt'){ sel=KEYI.dt; selKind='vertex'; }
+  else if(g==='avg'){ sel=KEYI.avg; selKind='vertex'; }
+  else if(g==='zg'){ selKind='zg'; }
+  else return;
   drawWheels(); draw();
 });
 

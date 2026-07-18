@@ -1,16 +1,16 @@
 ---
 layout: widget
 title: "The Polytope of Optimal Subgradient Methods"
-widget_src: "/widgets/polytope.html"
+widget_src: "/widgets/polytope_code.html"
 widget_height: 860
 widget_height_mobile: 680
-back_url: "/DesmosGallery"
-back_label: "Gallery"
+back_url: "/research"
+back_label: "Research"
 ---
 
 <div class="poly-controls">
   <div class="poly-control-group">
-    <span class="poly-control-label">N</span>
+    <span class="poly-control-label">N:</span>
     <div class="poly-presets" id="poly-n-group">
       <button class="site-btn poly-n-btn" data-n="2">2</button>
       <button class="site-btn poly-n-btn" data-n="3">3</button>
@@ -33,9 +33,14 @@ back_label: "Gallery"
 <hr class="poly-divider">
 
 Every minimax-optimal fixed-step method for Lipschitz convex minimization corresponds to a
-nonnegative flow \\(\lambda\\) on the arcs \\(i \to j\\), \\(i < j\\), supplying \\(1/(N+1)\\)
-at each node \\(0, \dots, N-1\\). The vertices of that flow polytope are its spanning trees into
-\\(N\\) — one out-arc \\(s(j) > j\\) per node — so there are exactly \\(N!\\) of them.
+unique set of dual multipliers \\(\lambda_{ij} \geq 0\\), \\(i < j\\), sitting inside the polytope
+
+\\[
+\mathcal{P}^N = \left\\{\, \lambda \mid \lambda \geq 0,\ \ \sum_{i=j+1}^{N} \lambda_{j,i} - \sum_{i=0}^{j-1} \lambda_{i,j} = \frac{1}{N+1}, \ \ j = 0, \dots, N-1 \,\right\\}.
+\\]
+
+The vertices of this polytope are its spanning trees into \\(N\\) — one out-arc \\(s(j) > j\\)
+per node — so there are exactly \\(N!\\) of them.
 
 Drori–Taylor sits at the path \\(s(j) = j+1\\), the averaged subgradient method at the star
 \\(s(j) = N\\), and Zamani–Glineur at the barycenter of all \\(N!\\) vertices.
