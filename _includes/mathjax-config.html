@@ -3,24 +3,215 @@
 // Applied to every <div class="latex-body"> before MathJax runs.
 // Converts theorem environments, display math envs, headings, text commands,
 // lists, and paragraph breaks so raw Overleaf LaTeX renders correctly.
+//
+// Cross-references and citations work in two phases across the WHOLE page
+// (so forward references and page-wide numbering both work correctly):
+//   Phase A (scanLabels)   — read-only scan of every .latex-body block that
+//                             builds a shared label registry:
+//                               equation labels  -> {type:'eq'}      (MathJax
+//                                 itself numbers/resolves these natively —
+//                                 see step 7 below)
+//                               theorem-env labels -> {type:'thm', name, num,
+//                                 anchor}, numbered sequentially in document
+//                                 order across all blocks on the page
+//   Phase B (preprocessLatex) — renders each block using the completed
+//                             registry, so \ref/\eqref/\cref/\cite resolve
+//                             correctly regardless of definition order.
 
 (function () {
-  function preprocessLatex(el) {
-    var h = el.innerHTML;
-    var stash = [];
+  // theorem-like environment name -> [display name, isProof]
+  var THM_ENVS = {
+    theorem:     ['Theorem',     false],
+    definition:  ['Definition',  false],
+    proposition: ['Proposition', false],
+    lemma:       ['Lemma',       false],
+    corollary:   ['Corollary',   false],
+    remark:      ['Remark',      false],
+    example:     ['Example',     false],
+    problem:     ['Problem',     false],
+    algorithm:   ['Algorithm',   false],
+    assumption:  ['Assumption',  false],
+    proof:       ['Proof',       true],
+  };
+  var DISPLAY_ENVS = ['align', 'alignat', 'equation', 'gather', 'multline', 'flalign', 'split'];
+  var NUMBERED_NAMES = Object.keys(THM_ENVS).filter(function (n) { return !THM_ENVS[n][1]; });
+  var THM_ALT = NUMBERED_NAMES.join('|');
 
-    // Normalize LaTeX opening double-quotes → Unicode
-    // Note: '' is intentionally NOT converted — it appears in math as derivative notation (f'', f'''')
+  function slugify(key) {
+    return 'latex-label-' + String(key).replace(/[^a-zA-Z0-9_-]+/g, '-');
+  }
+
+  // ── algorithmic pseudocode (algpseudocode-style: \State, \If{}...\EndIf, etc.) ──────
+  // Balanced-brace argument extraction: s[i] must be '{'. Returns [innerText, indexAfterClosingBrace]
+  // or null if unbalanced. Depth-aware so \frac{a}{b}-style nested braces inside a
+  // condition don't terminate early, and \{ / \} (escaped, e.g. set-builder notation)
+  // don't affect depth.
+  function extractArg(s, i) {
+    if (s[i] !== '{') return null;
+    var depth = 0;
+    for (var j = i; j < s.length; j++) {
+      var c = s[j];
+      if (c === '\\') { j++; continue; }
+      if (c === '{') depth++;
+      else if (c === '}') { depth--; if (depth === 0) return [s.slice(i + 1, j), j + 1]; }
+    }
+    return null;
+  }
+  function skipWs(s, i) { while (i < s.length && /\s/.test(s[i])) i++; return i; }
+
+  var ALGO_ARG_CMDS     = { If: 1, ElsIf: 1, ElseIf: 1, For: 1, ForAll: 1, While: 1, Until: 1, Comment: 1 };
+  var ALGO_CONTENT_CMDS = { State: 1, Require: 1, Ensure: 1, Return: 1, Print: 1 };
+  var ALGO_CMD_RE = /\\(State|ElsIf|ElseIf|If|ForAll|For|EndFor|EndIf|While|EndWhile|Repeat|Until|EndFunction|Function|EndProcedure|Procedure|Return|Comment|Require|Ensure|Print)\b/g;
+
+  function tokenizeAlgorithmic(body) {
+    var matches = [], m;
+    ALGO_CMD_RE.lastIndex = 0;
+    while ((m = ALGO_CMD_RE.exec(body))) matches.push({ cmd: m[1], start: m.index, after: m.index + m[0].length });
+    var tokens = [];
+    for (var idx = 0; idx < matches.length; idx++) {
+      var cur = matches[idx], cmd = cur.cmd, pos = cur.after;
+      if (cmd === 'Function' || cmd === 'Procedure') {
+        pos = skipWs(body, pos);
+        var a1 = extractArg(body, pos), name = a1 ? a1[0] : '';
+        pos = a1 ? skipWs(body, a1[1]) : pos;
+        var a2 = extractArg(body, pos), params = a2 ? a2[0] : '';
+        tokens.push({ cmd: cmd, name: name, params: params });
+      } else if (ALGO_ARG_CMDS[cmd]) {
+        pos = skipWs(body, pos);
+        var a = extractArg(body, pos);
+        tokens.push({ cmd: cmd, arg: a ? a[0] : '' });
+      } else if (ALGO_CONTENT_CMDS[cmd]) {
+        var end = (idx + 1 < matches.length) ? matches[idx + 1].start : body.length;
+        tokens.push({ cmd: cmd, content: body.slice(pos, end).trim() });
+      } else {
+        tokens.push({ cmd: cmd }); // Else, EndIf, EndFor, EndWhile, Repeat, EndFunction, EndProcedure
+      }
+    }
+    return tokens;
+  }
+
+  // Text-mode macros algpseudocode allows outside explicit math mode, plus inline \Call{}{}.
+  function algoInlineText(s, inlineFormat) {
+    s = s.replace(/\\Call\{([^}]*)\}\{([^}]*)\}/g, '<code>$1($2)</code>');
+    s = s.replace(/\\gets\b/g, '←');
+    s = s.replace(/\\to\b/g,   '→');
+    s = s.replace(/\\land\b/g, '∧');
+    s = s.replace(/\\lor\b/g,  '∨');
+    s = s.replace(/\\lnot\b|\\neg\b/g, '¬');
+    s = s.replace(/\\True\b/g,  'true');
+    s = s.replace(/\\False\b/g, 'false');
+    s = s.replace(/\\text\{([^}]*)\}/g, '$1');
+    return inlineFormat(s);
+  }
+
+  // Render tokens into indented, line-numbered pseudocode. \Comment{} attaches to the
+  // immediately preceding line instead of starting a new one, matching how it's used
+  // in source (`\State ... \Comment{...}`).
+  function renderAlgoLines(tokens, inlineFormat) {
+    var out = [], depth = 0, lineNo = 0;
+    function emit(depthForLine, html) {
+      lineNo++;
+      out.push('<div class="algo-line" style="--algo-depth:' + depthForLine + '">' +
+                '<span class="algo-lineno">' + lineNo + '</span>' +
+                '<span class="algo-text">' + html + '</span></div>');
+    }
+    function attachComment(html) {
+      if (out.length) {
+        out[out.length - 1] = out[out.length - 1].replace(
+          '</span></div>', ' <span class="algo-comment">▷ ' + html + '</span></span></div>'
+        );
+      } else {
+        emit(depth, '<span class="algo-comment">▷ ' + html + '</span>');
+      }
+    }
+    tokens.forEach(function (t) {
+      var kw = '<span class="algo-kw">';
+      if (t.cmd === 'State')   { emit(depth, algoInlineText(t.content, inlineFormat)); }
+      else if (t.cmd === 'Require') { emit(depth, kw + 'Require:</span> ' + algoInlineText(t.content, inlineFormat)); }
+      else if (t.cmd === 'Ensure')  { emit(depth, kw + 'Ensure:</span> '  + algoInlineText(t.content, inlineFormat)); }
+      else if (t.cmd === 'Return')  { emit(depth, kw + 'return</span> '  + algoInlineText(t.content, inlineFormat)); }
+      else if (t.cmd === 'Print')   { emit(depth, kw + 'print</span> '   + algoInlineText(t.content, inlineFormat)); }
+      else if (t.cmd === 'Comment') { attachComment(algoInlineText(t.arg, inlineFormat)); }
+      else if (t.cmd === 'If')      { emit(depth, kw + 'if</span> ' + algoInlineText(t.arg, inlineFormat) + ' ' + kw + 'then</span>'); depth++; }
+      else if (t.cmd === 'ElsIf' || t.cmd === 'ElseIf') { depth--; emit(depth, kw + 'else if</span> ' + algoInlineText(t.arg, inlineFormat) + ' ' + kw + 'then</span>'); depth++; }
+      else if (t.cmd === 'Else')    { depth--; emit(depth, kw + 'else</span>'); depth++; }
+      else if (t.cmd === 'EndIf')   { depth = Math.max(0, depth - 1); emit(depth, kw + 'end if</span>'); }
+      else if (t.cmd === 'For')     { emit(depth, kw + 'for</span> ' + algoInlineText(t.arg, inlineFormat) + ' ' + kw + 'do</span>'); depth++; }
+      else if (t.cmd === 'ForAll')  { emit(depth, kw + 'for all</span> ' + algoInlineText(t.arg, inlineFormat) + ' ' + kw + 'do</span>'); depth++; }
+      else if (t.cmd === 'EndFor')  { depth = Math.max(0, depth - 1); emit(depth, kw + 'end for</span>'); }
+      else if (t.cmd === 'While')   { emit(depth, kw + 'while</span> ' + algoInlineText(t.arg, inlineFormat) + ' ' + kw + 'do</span>'); depth++; }
+      else if (t.cmd === 'EndWhile'){ depth = Math.max(0, depth - 1); emit(depth, kw + 'end while</span>'); }
+      else if (t.cmd === 'Repeat')  { emit(depth, kw + 'repeat</span>'); depth++; }
+      else if (t.cmd === 'Until')   { depth = Math.max(0, depth - 1); emit(depth, kw + 'until</span> ' + algoInlineText(t.arg, inlineFormat)); }
+      else if (t.cmd === 'Function'){ emit(depth, kw + 'function</span> <code>' + t.name + '(' + t.params + ')</code>'); depth++; }
+      else if (t.cmd === 'EndFunction') { depth = Math.max(0, depth - 1); emit(depth, kw + 'end function</span>'); }
+      else if (t.cmd === 'Procedure')   { emit(depth, kw + 'procedure</span> <code>' + t.name + '(' + t.params + ')</code>'); depth++; }
+      else if (t.cmd === 'EndProcedure'){ depth = Math.max(0, depth - 1); emit(depth, kw + 'end procedure</span>'); }
+    });
+    return '<div class="algo-pseudocode">' + out.join('') + '</div>';
+  }
+
+  // Applied identically before both the Phase A scan and the Phase B render, so the
+  // theorem-env match count/order the two passes see is guaranteed identical (otherwise
+  // e.g. a stray thmtools `{}` artifact could shift phase B's numbering out of sync
+  // with the labels phase A already recorded).
+  function normalize(h) {
     h = h.replace(/``/g, '“');
-
-    // Strip block environments that have no web equivalent (figures, tikz)
     h = h.replace(/\\begin\{figure\*?\}[\s\S]*?\\end\{figure\*?\}/g, '');
     h = h.replace(/\\begin\{tikzpicture\}[\s\S]*?\\end\{tikzpicture\}/g, '');
-    h = h.replace(/\\begin\{algorithm\}[\s\S]*?\\end\{algorithm\}/g, '');
-
-    // Normalize \begin{env}{}{} / \begin{env}{} → \begin{env}
-    // (thmtools sometimes adds extra {} optional arguments)
     h = h.replace(/\\begin\{(\w+)\}(\{\}){1,2}/g, '\\begin{$1}');
+    return h;
+  }
+
+  // Read-only: find every \label{...} inside display-math source and record it as an
+  // equation-type label (MathJax resolves these itself once we hand it the raw TeX).
+  function scanEqLabels(raw, registry) {
+    function harvest(body) {
+      var lm, lre = /\\label\{([^}]*)\}/g;
+      while ((lm = lre.exec(body))) { registry.labels[lm[1]] = { type: 'eq' }; }
+    }
+    DISPLAY_ENVS.forEach(function (e) {
+      [e, e + '*'].forEach(function (env) {
+        var esc = env.replace('*', '\\*');
+        var re = new RegExp('\\\\begin\\{' + esc + '\\}([\\s\\S]*?)\\\\end\\{' + esc + '\\}', 'g'), m;
+        while ((m = re.exec(raw))) harvest(m[1]);
+      });
+    });
+    [/\\\[([\s\S]*?)\\\]/g, /\$\$([\s\S]*?)\$\$/g].forEach(function (re) {
+      var m;
+      while ((m = re.exec(raw))) harvest(m[1]);
+    });
+  }
+
+  // Read-only: find every theorem-like environment in document order, assign it the
+  // next number in the page-wide shared counter, and (if labeled) register it.
+  function scanThmLabels(raw, registry) {
+    var re = new RegExp('\\\\begin\\{(' + THM_ALT + ')\\}(?:\\[[^\\]]*\\])?([\\s\\S]*?)\\\\end\\{\\1\\}', 'g'), m;
+    while ((m = re.exec(raw))) {
+      var name = m[1], body = m[2];
+      registry.thmCounter++;
+      var lm = /\\label\{([^}]*)\}/.exec(body);
+      if (lm) {
+        registry.labels[lm[1]] = {
+          type: 'thm', name: THM_ENVS[name][0], num: registry.thmCounter, anchor: slugify(lm[1])
+        };
+      }
+    }
+  }
+
+  function scanLabels(blocks) {
+    var registry = { labels: {}, thmCounter: 0 };
+    blocks.forEach(function (el) {
+      var raw = normalize(el.innerHTML);
+      scanEqLabels(raw, registry);
+      scanThmLabels(raw, registry);
+    });
+    return registry;
+  }
+
+  function preprocessLatex(el, registry) {
+    var h = normalize(el.innerHTML);
+    var stash = [];
 
     function save(s)    { var i = stash.length; stash.push(s); return '\x00' + i + '\x00'; }
     function restoreAll(s) {
@@ -34,8 +225,8 @@
     }
 
     // 1. Stash and wrap standalone LaTeX display environments in \[...\]
-    var displayEnvs = ['align', 'alignat', 'equation', 'gather', 'multline', 'flalign', 'split'];
-    displayEnvs.forEach(function (e) {
+    //    (labels inside survive untouched — MathJax needs to see them to number/resolve them)
+    DISPLAY_ENVS.forEach(function (e) {
       [e, e + '*'].forEach(function (env) {
         var esc = env.replace('*', '\\*');
         h = h.replace(
@@ -72,20 +263,6 @@
       return save('<ol' + attr + '>' + items.join('') + '</ol>');
     });
 
-    // 4. Convert theorem environments to HTML, then stash
-    var envs = {
-      theorem:     ['Theorem',     false],
-      definition:  ['Definition',  false],
-      proposition: ['Proposition', false],
-      lemma:       ['Lemma',       false],
-      corollary:   ['Corollary',   false],
-      remark:      ['Remark',      false],
-      example:     ['Example',     false],
-      problem:     ['Problem',     false],
-      algo:        ['Algorithm',   false],
-      assumption:  ['Assumption',  false],
-      proof:       ['Proof',       true ],
-    };
     function inlineFormat(s) {
       s = s.replace(/\\textbf\{([^}]*)\}/g,    '<strong>$1</strong>');
       s = s.replace(/\\textit\{([^}]*)\}/g,    '<em>$1</em>');
@@ -94,29 +271,64 @@
       s = s.replace(/\\underline\{([^}]*)\}/g, '<u>$1</u>');
       return s;
     }
-    Object.keys(envs).forEach(function (name) {
-      var label = envs[name][0], isProof = envs[name][1];
-      h = h.replace(
-        new RegExp('\\\\begin\\{' + name + '\\}(\\[([^\\]]*)\\])?([\\s\\S]*?)\\\\end\\{' + name + '\\}', 'g'),
-        function (_, _br, opt, body) {
-          body = inlineFormat(body);
-          var html;
-          if (isProof) {
-            var cleaned = body
-              .replace(/\\qed\b/g, '')
-              .replace(/\\hfill\s*\$\\square\$\s*/g, '');
-            html = '<div class="math-proof"><span class="math-env-title">Proof.</span> ' +
-                   cleaned +
-                   '<div class="proof-end">$\\square$</div></div>';
-          } else {
-            var t = opt ? label + ' (' + opt + ')' : label;
-            html = '<div class="math-env math-env-' + name + '">' +
-                   '<span class="math-env-title">' + t + '.</span> ' +
-                   body + '</div>';
-          }
-          return save(html);
+
+    // \begin{algorithm} bodies get pseudocode formatting instead of the generic
+    // inlineFormat treatment: pull out \caption{}, then render the nested
+    // \begin{algorithmic}...\end{algorithmic} block (falling back to plain text if
+    // there isn't one — e.g. algorithm2e-style input).
+    function renderAlgorithmBody(body) {
+      var caption = '';
+      var capM = /\\caption\{/.exec(body);
+      if (capM) {
+        var capArg = extractArg(body, capM.index + capM[0].length - 1);
+        if (capArg) {
+          caption = inlineFormat(capArg[0]);
+          body = body.slice(0, capM.index) + body.slice(capArg[1]);
         }
-      );
+      }
+      var algoM = /\\begin\{algorithmic\}(?:\[[^\]]*\])?([\s\S]*?)\\end\{algorithmic\}/.exec(body);
+      var codeHtml = algoM
+        ? renderAlgoLines(tokenizeAlgorithmic(algoM[1]), inlineFormat)
+        : ' ' + inlineFormat(body).trim();
+      return { caption: caption, codeHtml: codeHtml };
+    }
+
+    // 4. Convert theorem environments to HTML (numbered from the shared registry, same
+    //    document-order pass as scanThmLabels so the numbers line up), then stash.
+    //    \label is stripped from the body — it's now baked into the title + anchor id.
+    var thmRe = new RegExp('\\\\begin\\{(' + THM_ALT + ')\\}(\\[([^\\]]*)\\])?([\\s\\S]*?)\\\\end\\{\\1\\}', 'g');
+    h = h.replace(thmRe, function (_, name, _br, opt, body) {
+      registry.thmCounter++;
+      var num = registry.thmCounter;
+      var lm = /\\label\{([^}]*)\}/.exec(body);
+      var anchor = lm ? slugify(lm[1]) : 'latex-thm-' + num;
+      body = body.replace(/\\label\{[^}]*\}/g, '');
+      var label = THM_ENVS[name][0];
+      var html;
+      if (name === 'algorithm') {
+        var parts = renderAlgorithmBody(body);
+        var t = label + ' ' + num + (parts.caption ? ': ' + parts.caption : '') + (opt ? ' (' + opt + ')' : '');
+        html = '<div class="math-env math-env-algorithm" id="' + anchor + '">' +
+               '<span class="math-env-title">' + t + '</span>' + parts.codeHtml + '</div>';
+      } else {
+        var body2 = inlineFormat(body);
+        var t2 = label + ' ' + num + (opt ? ' (' + opt + ')' : '');
+        html = '<div class="math-env math-env-' + name + '" id="' + anchor + '">' +
+               '<span class="math-env-title">' + t2 + '.</span> ' +
+               body2 + '</div>';
+      }
+      return save(html);
+    });
+    // Proof (unnumbered, not part of the shared counter)
+    h = h.replace(/\\begin\{proof\}(\[([^\]]*)\])?([\s\S]*?)\\end\{proof\}/g, function (_, _br, opt, body) {
+      var cleaned = inlineFormat(body)
+        .replace(/\\qed\b/g, '')
+        .replace(/\\hfill\s*\$\\square\$\s*/g, '');
+      var title = opt ? 'Proof (' + opt + ').' : 'Proof.';
+      var html = '<div class="math-proof"><span class="math-env-title">' + title + '</span> ' +
+                 cleaned +
+                 '<div class="proof-end">$\\square$</div></div>';
+      return save(html);
     });
 
     // 5. Stash section headings
@@ -136,11 +348,39 @@
     h = h.replace(/\\noindent\b/g, '');
     h = h.replace(/\\newline\b|\\\\(?!\[)/g, '<br>');
 
-    // 7. Strip \label, resolve \ref / \eqref as placeholders
+    // 7. Resolve cross-references and citations using the page-wide registry.
+    //    A stray \label{} not inside a display-math or theorem env has no numbered
+    //    target, so (as before) it's just dropped.
     h = h.replace(/\\label\{[^}]*\}/g, '');
-    h = h.replace(/\\eqref\{([^}]*)\}/g, '(?)');
-    h = h.replace(/\\[Cc]ref\{[^}]*\}/g, '?');
-    h = h.replace(/\\ref\{[^}]*\}/g, '?');
+
+    function brokenRef(key) {
+      return '<span class="latex-ref-broken" title="undefined label: ' + key + '">??</span>';
+    }
+    // \eqref{} — if it targets a real equation label, hand it to MathJax verbatim (native
+    // numbering + hyperlink); otherwise fall through to the same resolution as \ref.
+    h = h.replace(/\\eqref\{([^}]*)\}/g, function (m, key) {
+      var e = registry.labels[key];
+      if (e && e.type === 'eq') return '\\(\\eqref{' + key + '}\\)';
+      if (e && e.type === 'thm') return '<a class="latex-ref" href="#' + e.anchor + '">' + e.name + ' ' + e.num + '</a>';
+      return brokenRef(key);
+    });
+    // \ref{} / \Cref{} / \cref{} — equation labels delegate to MathJax; theorem labels
+    // resolve to a clickable, numbered reference (\Cref/\cref also prefix the env name).
+    h = h.replace(/\\(Cref|cref|ref)\{([^}]*)\}/g, function (m, cmd, key) {
+      var e = registry.labels[key];
+      if (!e) return brokenRef(key);
+      if (e.type === 'eq') return '\\(\\ref{' + key + '}\\)';
+      var name = cmd === 'Cref' ? e.name : (cmd === 'cref' ? e.name.toLowerCase() : null);
+      var text = name ? (name + ' ' + e.num) : String(e.num);
+      return '<a class="latex-ref" href="#' + e.anchor + '">' + text + '</a>';
+    });
+    // \cite{} / \citep{} / \citet{} — no bibliography is configured on this site, so
+    // render the citation key(s) as a bracketed, visibly-distinct marker rather than
+    // letting the raw command leak through or silently vanish.
+    h = h.replace(/\\cite[pt]?\{([^}]*)\}/g, function (m, keys) {
+      var list = keys.split(',').map(function (k) { return k.trim(); }).join(', ');
+      return '<span class="latex-cite" title="citation key(s), no bibliography configured">[' + list + ']</span>';
+    });
 
     // 8. Paragraph wrapping: split on blank lines
     var chunks = h.split(/\n{2,}/);
@@ -155,7 +395,16 @@
     el.innerHTML = restoreAll(h);
   }
 
-  window._preprocessLatex = preprocessLatex;
+  window._preprocessAllLatex = function () {
+    var blocks = Array.prototype.slice.call(document.querySelectorAll('.latex-body'));
+    if (!blocks.length) return;
+    var registry = scanLabels(blocks);
+    // Phase A left thmCounter at the page-wide total while building the label->number
+    // map; reset it so Phase B recounts from 1, retracing the identical sequence of
+    // theorem-env matches (same content, same order) and landing on the same numbers.
+    registry.thmCounter = 0;
+    blocks.forEach(function (el) { preprocessLatex(el, registry); });
+  };
 })();
 
 // ── MathJax 3 configuration ──────────────────────────────────────────────────
@@ -239,9 +488,7 @@ window.MathJax = {
   startup: {
     ready() {
       function doPreprocess() {
-        document.querySelectorAll('.latex-body').forEach(function (el) {
-          window._preprocessLatex(el);
-        });
+        window._preprocessAllLatex();
         MathJax.startup.defaultReady();
       }
       if (document.readyState === 'loading') {

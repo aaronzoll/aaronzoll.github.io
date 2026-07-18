@@ -49,8 +49,52 @@
 .math-env-problem .math-env-title { color: #222222; }
 
 /* Algorithm — YellowOrange */
-.math-env-algo    { border-color: #E8900A; background: #FFFBF0; }
-.math-env-algo    .math-env-title { color: #E8900A; }
+.math-env-algorithm { border-color: #E8900A; background: #FFFBF0; }
+.math-env-algorithm .math-env-title { color: #E8900A; display: block; margin-bottom: 0.4rem; }
+
+/* ── Algorithm pseudocode ────────────────────────────────────────────────── */
+
+.algo-pseudocode {
+  font-family: "SF Mono", "JetBrains Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
+  font-size: 0.88rem;
+  font-style: normal;
+  background: #fff;
+  border: 1px solid #f0d9a8;
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+}
+
+.algo-line {
+  display: flex;
+  gap: 0.6rem;
+  padding-left: calc(var(--algo-depth, 0) * 1.25rem);
+  line-height: 1.55;
+}
+
+.algo-lineno {
+  color: #b0a48a;
+  min-width: 1.4rem;
+  text-align: right;
+  flex: none;
+  user-select: none;
+}
+
+.algo-text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.algo-kw {
+  font-weight: bold;
+  color: #B7312C;
+  font-style: normal;
+}
+
+.algo-comment {
+  color: #8a8a8a;
+  font-style: italic;
+}
 
 /* Assumption — Brown */
 .math-env-assumption { border-color: #7B3B00; background: #FFF5EE; }
@@ -74,6 +118,29 @@
 
 .proof-end {
   text-align: right;
+}
+
+/* ── Cross-references & citations ────────────────────────────────────────── */
+
+.latex-ref {
+  color: #2E6CB5;
+  text-decoration: none;
+  border-bottom: 1px dotted #2E6CB5;
+}
+
+.latex-ref:hover {
+  border-bottom-style: solid;
+}
+
+.latex-ref-broken {
+  color: #B7312C;
+  border-bottom: 1px dotted #B7312C;
+  cursor: help;
+}
+
+.latex-cite {
+  color: #3C8031;
+  cursor: help;
 }
 
 /* ── latex-body container ────────────────────────────────────────────────── */

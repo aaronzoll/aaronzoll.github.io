@@ -452,12 +452,14 @@ If we pattern match with the bracketed term, we need to choose $$\alpha = \frac{
 Making this final substitution, we get $$u_{i+1} = u_i + hf\left(t_i + \frac{h}{2}, u_i + \frac{h}{2}f(t_i, u_i)\right).$$
 This is notably a bit of a weird method. We have this nested iteration of our function $f$. Regardless, it is technically a one-step method, but we can implement it easily as one that saves a few intermediaries. This is called a \textit{multistage method}.
 
-\textbf{Algorithm (Improved Euler Method).} Given the initial value problem $u' = f(t,u)$ for $a \leq t \leq b$, initial value $u_0$, and stepsize $h > 0$, for $i = 0, 1, 2, \dots$
+\begin{algorithm}[Improved Euler Method]
+Given the initial value problem $u' = f(t,u)$ for $a \leq t \leq b$, initial value $u_0$, and stepsize $h > 0$, for $i = 0, 1, 2, \dots$
 \begin{align*}
     k_1 &= hf(t_i, u_i)\\
     k_2 &= hf(t_i + \tfrac{1}{2}h, u_i + \tfrac{1}{2}k_1)\\
     u_{i+1} &= u_i + k_2
 \end{align*}
+\end{algorithm}
 
 Note that another way we can write the last line, to incorporate a true ``summing and weighting the previous steps'' is to say $$u_{i+1} = u_i + \underbrace{0k_1+1k_2}_{\text{forward step}}.$$
 In fact, we can abstract away all the specific constants and write this out as
@@ -474,33 +476,39 @@ where our first stage analyzes the slope at our current point, the second stage 
 
 Recall that for Euler's method, we simply march along in the direction of our vector field. Improved Euler, and any two-phase method, behaves slightly differently. Instead, we track first our velocity at our current point, but instead of moving in that direction, we set up a hypothetical movement. We save an intermediary position that moves in that direction and mark the velocity at that new point. These two velocities are then saved as $k_1$ and $k_2$ respectively. Finally, we move in a direction that is some combination of these velocities. Improved Euler puts all the weight on the second, intermediary direction, but other methods create more nontrivial combinations.
 
-\textbf{Algorithm (Modified Euler Method).} Given the initial value problem $u' = f(t,u)$ for $a \leq t \leq b$, initial value $u_0$, and stepsize $h > 0$, for $i = 0, 1, 2, \dots$
+\begin{algorithm}[Modified Euler Method]
+Given the initial value problem $u' = f(t,u)$ for $a \leq t \leq b$, initial value $u_0$, and stepsize $h > 0$, for $i = 0, 1, 2, \dots$
 \begin{align*}
     k_1 &= hf(t_i, u_i)\\
     k_2 &= hf(t_i + h, u_i + k_1)\\
     u_{i+1} &= u_i + \tfrac{1}{2}k_1 + \tfrac{1}{2}k_2
 \end{align*}
+\end{algorithm}
 
 This second method marches to an intermediary that is a full time step away, measures a velocity there and then averages the two for the true forward step.
 
 This third method does a more complex averaging. Note that more of the weight is on the forward intermediary, so this lies somewhere in between the two previous methods. That is, the forward step looks like it lies more in the intermediary's direction than the original. Regardless, all three methods have the same order of convergence, and all perform better than the basic Euler's method.
 
-\textbf{Algorithm (Heun's/Ralston's Method).} Given the initial value problem $u' = f(t,u)$ for $a \leq t \leq b$, initial value $u_0$, and stepsize $h > 0$, for $i = 0, 1, 2, \dots$
+\begin{algorithm}[Heun's/Ralston's Method]
+Given the initial value problem $u' = f(t,u)$ for $a \leq t \leq b$, initial value $u_0$, and stepsize $h > 0$, for $i = 0, 1, 2, \dots$
 \begin{align*}
     k_1 &= hf(t_i, u_i)\\
     k_2 &= hf(t_i + \tfrac{2}{3}h, u_i + \tfrac{2}{3}k_1)\\
     u_{i+1} &= u_i + \tfrac{1}{4}k_1 + \tfrac{3}{4}k_2
 \end{align*}
+\end{algorithm}
 
 The existence of these three methods that all look similar, but with different parameters leads us to question if more exist. Further, since Heun's method looks as if it lies somewhere in between Improved and Modified Euler, we may seek some type of parameterization. Not too surprisingly, one exists, and its derivation once again comes from some Taylor expansion.
 
-\textbf{Algorithm (General Two-Phase Method).} Given the initial value problem $u' = f(t,u)$ for $a \leq t \leq b$, initial value $u_0$, and stepsize $h > 0$, for $i = 0, 1, 2, \dots$
+\begin{algorithm}[General Two-Phase Method]
+Given the initial value problem $u' = f(t,u)$ for $a \leq t \leq b$, initial value $u_0$, and stepsize $h > 0$, for $i = 0, 1, 2, \dots$
 \begin{align*}
     k_1 &= hf(t_i, u_i)\\
     k_2 &= hf(t_i + \alpha h, u_i + \alpha k_1)\\
     u_{i+1} &= u_i + \left(1-\tfrac{1}{2\alpha}\right)k_1 + \tfrac{1}{2\alpha}k_2
 \end{align*}
 where $\alpha \in (0,1]$.
+\end{algorithm}
 
 Notably, when $\alpha = \tfrac{1}{2}$, we recover Improved Euler, when $\alpha = 1$, we recover Modified Euler, and when $\alpha = \tfrac{2}{3}$, we recover Heun's/Ralston's Method.
 
