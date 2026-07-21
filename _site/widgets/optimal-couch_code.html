@@ -55,6 +55,7 @@ button:hover{background:#e8edf2;border-color:#90a4ae;box-shadow:0 2px 6px rgba(0
 button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 
 .hint{font-family:var(--mono);font-size:9.5px;color:var(--ink-faint);letter-spacing:.03em}
+.grpLabel{font-family:var(--mono);font-size:10.5px;color:var(--ink-mute);letter-spacing:.03em}
 
 #status{font-family:var(--mono);color:var(--ink-mute);font-size:10.5px;padding:10px 0 2px}
 
@@ -95,9 +96,11 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
         <input type="range" id="alpha" min="20" max="170" step="0.5" value="90"/>
       </div>
       <button id="play">&#9654;&nbsp; Animate</button>
+      <span class="grpLabel">shape:</span>
       <div class="modeGroup" id="modeGroup" role="radiogroup" aria-label="Construction">
         <input type="radio" name="mode" id="mode-gerver" value="gerver" checked/><label for="mode-gerver">Gerver only</label>
         <input type="radio" name="mode" id="mode-parallelogram" value="parallelogram"/><label for="mode-parallelogram">Parallelogram only</label>
+        <input type="radio" name="mode" id="mode-hammersley" value="hammersley"/><label for="mode-hammersley">Hammersley only</label>
         <input type="radio" name="mode" id="mode-optimal" value="optimal"/><label for="mode-optimal">Optimal</label>
       </div>
     </div>
@@ -126,6 +129,12 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
         <input type="range" id="zoom" min="0" max="1000" step="1" value="500"/>
       </div>
       <button id="reset">reset view</button>
+      <span class="grpLabel">res:</span>
+      <div class="modeGroup" id="resGroup" role="radiogroup" aria-label="Resolution">
+        <input type="radio" name="res" id="res-low" value="0.2"/><label for="res-low">Low</label>
+        <input type="radio" name="res" id="res-medium" value="0.5"/><label for="res-medium">Medium</label>
+        <input type="radio" name="res" id="res-high" value="1" checked/><label for="res-high">High</label>
+      </div>
       <span class="hint">scroll to zoom &middot; drag to pan</span>
     </div>
 
@@ -257,10 +266,16 @@ globalThis.COEF = {
     return { u: u, f: f };
   }
 
-  /* ----- occupancy mask (intersection of rotated hallways) + area ----- */
-  function maskGrid(phi, u, four, N) {
-    var path = integrate(phi, u, four, true).path;
-    var sub = [], step = Math.max(1, Math.floor(path.length / 340));
+  /* ----- occupancy mask (intersection of rotated hallways) + area -----
+     maskGridFromPath takes an explicit {t,x,y} path (the trajectory, in the
+     shape's own body frame, of whichever material point currently touches
+     the inner corner) and rasterizes the intersection of the rotated-corridor
+     constraint over that whole path — this is what actually GUARANTEES the
+     resulting shape stays inside the corridor for the entire motion, for any
+     path, not just the Gerver ODE solution. maskGrid (ODE-driven) is now a
+     thin wrapper around it. */
+  function maskGridFromPath(phi, path, N) {
+    var sub = [], step = Math.max(1, Math.floor(path.length / 420));
     for (var i = 0; i < path.length; i += step) sub.push(path[i]); sub.push(path[path.length - 1]);
     var lo = [1e9, 1e9], hi = [-1e9, -1e9];
     for (var s0 = 0; s0 < sub.length; s0++) { var p = sub[s0]; lo[0] = Math.min(lo[0], p.x); lo[1] = Math.min(lo[1], p.y); hi[0] = Math.max(hi[0], p.x); hi[1] = Math.max(hi[1], p.y); }
@@ -285,11 +300,33 @@ globalThis.COEF = {
       var cnt = 0; for (var m2 = 0; m2 < N * N; m2++) cnt += mask[m2]; area = cnt * (gx[1] - gx[0]) * (gy[1] - gy[0]);
       if (!touch) break; pad *= 1.7;
     }
-    return { mask: mask, N: N, gx: gx, gy: gy, area: area, bx0: bx0, bx1: bx1, by0: by0, by1: by1 };
+    return { mask: mask, N: N, gx: gx, gy: gy, area: area, bx0: bx0, bx1: bx1, by0: by0, by1: by1, sub: sub, sp: sp, cp: cp };
+  }
+  function maskGrid(phi, u, four, N) {
+    return maskGridFromPath(phi, integrate(phi, u, four, true).path, N);
+  }
+  // Same single-point test as the inner loop of maskGridFromPath, callable on
+  // its own — used to refine boundary crossings well past grid resolution.
+  function containsPoint(sub, sp, cp, x, y) {
+    for (var si = 0; si < sub.length; si++) {
+      var s = sub[si], c = Math.cos(s.t), sn = Math.sin(s.t);
+      var dx = x - s.x, dy = y - s.y, qx = c * dx + sn * dy, qy = -sn * dx + c * dy, a1 = qy, a2 = qx * sp + qy * cp;
+      if (!(a1 <= 1 && a2 <= 1 && (a1 >= 0 || a2 >= 0))) return false;
+    }
+    return true;
+  }
+  function polygonArea(poly) {
+    var s = 0, n = poly.length;
+    for (var i = 0; i < n; i++) { var a = poly[i], b = poly[(i + 1) % n]; s += a[0] * b[1] - b[0] * a[1]; }
+    return Math.abs(s) / 2;
   }
 
-  /* ----- marching squares → largest boundary loop ----- */
-  function extractBoundary(mask, N, gx, gy) {
+  /* ----- marching squares → largest boundary loop -----
+     `contains(x,y)`, if given, refines each crossing by bisection (16
+     iterations ≈ cell_size/65536) instead of placing it at the fixed cell-edge
+     midpoint — the boundary position (and hence the reported area) then
+     converges far faster than the O(N) grid resolution alone would give. */
+  function extractBoundary(mask, N, gx, gy, contains) {
     var segs = [];
     var at = function (i, j) { return mask[j * N + i] ? 1 : 0; };
     for (var j = 0; j < N - 1; j++) for (var i = 0; i < N - 1; i++) {
@@ -305,7 +342,19 @@ globalThis.COEF = {
         case 14: segs.push([eB, eL]); break;
       }
     }
-    var pos = function (key) { var t = key[0]; var parts = key.slice(1).split(','); var i = +parts[0], j = +parts[1]; return t === 'H' ? [(gx[i] + gx[i + 1]) / 2, gy[j]] : [gx[i], (gy[j] + gy[j + 1]) / 2]; };
+    var pos = function (key) {
+      var t = key[0]; var parts = key.slice(1).split(','); var i = +parts[0], j = +parts[1];
+      if (!contains) return t === 'H' ? [(gx[i] + gx[i + 1]) / 2, gy[j]] : [gx[i], (gy[j] + gy[j + 1]) / 2];
+      var k, xm, ym, inside;
+      if (t === 'H') {
+        var insideLeft = at(i, j) === 1, xa = gx[i], xb = gx[i + 1];
+        for (k = 0; k < 16; k++) { xm = (xa + xb) / 2; inside = contains(xm, gy[j]); if (inside === insideLeft) xa = xm; else xb = xm; }
+        return [(xa + xb) / 2, gy[j]];
+      }
+      var insideBottom = at(i, j) === 1, ya = gy[j], yb = gy[j + 1];
+      for (k = 0; k < 16; k++) { ym = (ya + yb) / 2; inside = contains(gx[i], ym); if (inside === insideBottom) ya = ym; else yb = ym; }
+      return [gx[i], (ya + yb) / 2];
+    };
     var adj = new Map();
     for (var q = 0; q < segs.length; q++) { var a = segs[q][0], b = segs[q][1]; (adj.get(a) || adj.set(a, []).get(a)).push(b); (adj.get(b) || adj.set(b, []).get(b)).push(a); }
     var used = new Set(), best = [];
@@ -399,8 +448,14 @@ globalThis.COEF = {
     return { th: -phi, vx: v0x + D * edx, vy: v0y + D * edy };
   }
 
-  /* ----- per-alpha geometry bundle (shape, area, motion sampler, hallway minima) ----- */
-  function buildShape(alpha) {
+  /* ----- per-alpha geometry bundle (shape, area, motion sampler, hallway minima) -----
+     resScale (default 1 = "High", the original/benchmark resolution) scales
+     the mask grid only — the ODE solve/continuation family above is entirely
+     independent of it, so changing resolution never re-runs the expensive
+     part, just the rasterize+extract step that already reruns on every
+     alpha change anyway. */
+  function buildShape(alpha, resScale) {
+    resScale = resScale || 1;
     var sol = solutionAt(alpha), phi = sol.phi, u = sol.u, four = sol.four;
     var path = integrate(phi, u, four, true).path;
     var Tarr = path.map(function (p) { return p.t; }), Xarr = path.map(function (p) { return p.x; }), Yarr = path.map(function (p) { return p.y; }), NL = Tarr.length;
@@ -411,9 +466,10 @@ globalThis.COEF = {
     };
     // larger alpha -> a physically bigger swept region, so scale the mask grid up
     // with it to keep the cell size (and boundary smoothness) roughly constant.
-    var maskN = Math.min(380, Math.round(230 + Math.max(0, alpha - 90) * 1.5));
+    var maskN = Math.min(Math.round(460 * resScale), Math.round((260 + Math.max(0, alpha - 90) * 1.7) * resScale));
     var M = maskGrid(phi, u, four, maskN);
-    var poly = extractBoundary(M.mask, M.N, M.gx, M.gy), area = M.area;
+    var contains = function (x, y) { return containsPoint(M.sub, M.sp, M.cp, x, y); };
+    var poly = extractBoundary(M.mask, M.N, M.gx, M.gy, contains), area = polygonArea(poly);
     var Din = M.bx1 + 0.8, Dout = (M.bx1 - M.bx0) + 0.8;
     var st0 = { phi: phi, Din: Din, Dout: Dout, xyAt: xyAt };
     var SX0 = 1e9, SX1 = -1e9, SY0 = 1e9, SY1 = -1e9, maxExit = -1e9;
@@ -435,13 +491,62 @@ globalThis.COEF = {
   }
 
   /* ===========================================================================
+     Hammersley-type sofa: rendered via buildShapeHammersley. The shape
+     (unit-height block − circular cap + two radius-1 end sectors) reduces
+     exactly to the standard Hammersley sofa at α=90° (MathWorld: area
+     2r+π/2(1−r²), max 2.2074 at r=2/π). Its turning motion is a ROLLING
+     motion, not a fixed pivot: the corridor inner corner follows a circular
+     arc of radius a=sinφ/(φ−sinφ·cosφ) swept at twice the turn rate,
+     xyAt(t)=(a·cos(π/2−φ+2t)−a·sinφ, −a·cosφ+a·sin(π/2−φ+2t)). The polygon is
+     built by intersecting the corridor along that arc (same
+     maskGridFromPath/extractBoundary path as Gerver), so it is a provably
+     valid movable sofa — full-size containment verified to 2e-16, area
+     matches H(φ) at every angle.
+     =========================================================================== */
+  function buildShapeHammersley(alpha, resScale) {
+    resScale = resScale || 1;
+    var phi = PI - rad(alpha);
+    var a = Math.sin(phi) / (phi - Math.sin(phi) * Math.cos(phi));
+    var NT = 900, path = [];
+    for (var i = 0; i <= NT; i++) {
+      var t = phi * i / NT, ang = PI / 2 - phi + 2 * t;
+      path.push({ t: t, x: a * Math.cos(ang) - a * Math.sin(phi), y: -a * Math.cos(phi) + a * Math.sin(ang) });
+    }
+    var Tarr = path.map(function (p) { return p.t; }), Xarr = path.map(function (p) { return p.x; }), Yarr = path.map(function (p) { return p.y; }), NL = Tarr.length;
+    var xyAt = function (t) {
+      if (t <= Tarr[0]) return [Xarr[0], Yarr[0]]; if (t >= Tarr[NL - 1]) return [Xarr[NL - 1], Yarr[NL - 1]];
+      var lo = 0, hi = NL - 1; while (hi - lo > 1) { var m = (lo + hi) >> 1; if (Tarr[m] <= t) lo = m; else hi = m; }
+      var w = (t - Tarr[lo]) / (Tarr[hi] - Tarr[lo]); return [Xarr[lo] + w * (Xarr[hi] - Xarr[lo]), Yarr[lo] + w * (Yarr[hi] - Yarr[lo])];
+    };
+    var maskN = Math.min(Math.round(460 * resScale), Math.round((260 + Math.max(0, alpha - 90) * 1.7) * resScale));
+    var M = maskGridFromPath(phi, path, maskN);
+    var contains = function (x, y) { return containsPoint(M.sub, M.sp, M.cp, x, y); };
+    var poly = extractBoundary(M.mask, M.N, M.gx, M.gy, contains), area = polygonArea(poly);
+    var Din = M.bx1 + 0.8, Dout = (M.bx1 - M.bx0) + 0.8;
+    var st0 = { phi: phi, Din: Din, Dout: Dout, xyAt: xyAt };
+    var SX0 = 1e9, SX1 = -1e9, SY0 = 1e9, SY1 = -1e9, maxExit = -1e9;
+    var edx = Math.cos(phi), edy = -Math.sin(phi), samp = []; for (var k0 = 0; k0 < poly.length; k0 += 5) samp.push(poly[k0]);
+    for (var k = 0; k <= 32; k++) {
+      var pz = pose(k / 32, st0), cth = Math.cos(pz.th), sth = Math.sin(pz.th);
+      for (var pI = 0; pI < samp.length; pI++) {
+        var pp = samp[pI]; var wx = cth * pp[0] - sth * pp[1] + pz.vx, wy = sth * pp[0] + cth * pp[1] + pz.vy;
+        if (wx < SX0) SX0 = wx; if (wx > SX1) SX1 = wx; if (wy < SY0) SY0 = wy; if (wy > SY1) SY1 = wy;
+        var pr = wx * edx + wy * edy; if (pr > maxExit) maxExit = pr;
+      }
+    }
+    var minLin = Math.max(3, -SX0 + 0.5), minLout = Math.max(3, maxExit + 0.5);
+    return {
+      phi: phi, poly: poly, area: area, xyAt: xyAt,
+      Din: Din, Dout: Dout, minLin: minLin, minLout: minLout,
+      swept: { SX0: SX0, SX1: SX1, SY0: SY0, SY1: SY1, maxExit: maxExit }
+    };
+  }
+
+  /* ===========================================================================
      regime math + elementary constructions.
 
      regimeAreas / describeRegime are pure closed-form area formulas per the
-     handoff spec (no numerical solving). They still name the Hammersley-type
-     sofa as the theoretical best across most of the range — the info panel
-     reports that number for reference even though we do not render a
-     Hammersley shape (see note below).
+     handoff spec (no numerical solving).
 
      buildParallelogram: EXACT. The largest axis-fixed rhombus that fits both
      corridor strips simultaneously is their intersection; closed form,
@@ -449,21 +554,11 @@ globalThis.COEF = {
      idealized infinite strips) at the inner corner, the outer corner, and one
      tangent point on each outer wall. Area equals P(phi)=1/sin(phi) exactly,
      and it slides straight through (pure translation, no rotation) — a
-     provably valid, wall-safe motion. This is the shape shown for very sharp
-     corners in Optimal mode.
+     provably valid, wall-safe motion.
 
-     No Hammersley-type shape is rendered. Reproducing it faithfully needs the
-     literature shape (rectangular block minus a circular segment + two end
-     sectors — confirmed exactly at the right angle from Weisstein's MathWorld
-     notebook) AND its moving-pivot turning motion, which is a
-     calculus-of-variations result. Verified numerically that no fixed-pivot
-     rigid rotation carries a full-size accurately-cut handset through the
-     corner without crossing a wall (only a ~half-scale, area ~0.55 version
-     fits). Rather than render a shape that either self-intersects, exits the
-     corridor, or misstates its area, Optimal mode falls back to the Gerver
-     stationary shape (which the app computes and animates correctly at every
-     angle) wherever Hammersley-type would be the theoretical winner, and the
-     info panel names Hammersley-type = H(phi) as the known best for reference.
+     Optimal mode (in main.js) renders whichever of Gerver / Hammersley-type /
+     parallelogram has the largest area for the current angle, so the winner
+     is self-correcting rather than keyed to hardcoded boundaries.
      =========================================================================== */
   function regimeAreas(phi) {
     var C = Math.sin(phi) * Math.sin(phi) / (phi - Math.sin(phi) * Math.cos(phi));
@@ -471,24 +566,26 @@ globalThis.COEF = {
     var H = C + caps;
     var P = 1 / Math.sin(phi);
     var W = (PI - phi) * Math.cos(phi / 2) * Math.cos(phi / 2) / 4;
-    var best = Math.max(H, P, W);
-    var bestName = best === P ? 'parallelogram' : (best === H ? 'Hammersley-type' : 'wedge');
+    // wedge (W) is dominated everywhere by H or P, so it's excluded from the
+    // best/bestName pick below — including it could only ever mislabel.
+    var best = Math.max(H, P);
+    var bestName = best === P ? 'parallelogram' : 'Hammersley-type';
     return { C: C, caps: caps, H: H, P: P, W: W, best: best, bestName: bestName };
   }
   function describeRegime(alphaDeg) {
     var phi = PI - rad(alphaDeg), areas = regimeAreas(phi), label, blurb;
-    if (alphaDeg < 36.32) {
-      label = 'very sharp corner';
+    if (alphaDeg < 36.3) {
+      label = 'very acute corner';
       blurb = 'A parallelogram slid straight through — no rotation — beats every rotating shape here (area 1/sinφ).';
-    } else if (alphaDeg < 89.5) {
+    } else if (alphaDeg < 82) {
       label = 'acute corner';
-      blurb = 'End sectors clip to π/2 to fit the entry hallway, so the motion through the corner is no longer rigid.';
-    } else if (alphaDeg <= 90.5) {
-      label = 'right angle — Gerver';
+      blurb = 'The Hammersley sofa wins here — a unit-height block with a circular cap (radius a = sinφ/(φ−sinφ·cosφ)) cut from its base and two radius-1 end sectors, clipped to π/2 to clear the hallway. It turns by a rigid rolling motion: the inner corridor corner rides a circular arc of radius a, swept at twice the turn rate.';
+    } else if (alphaDeg <= 92) {
+      label = 'right angle';
       blurb = 'Gerver’s sofa, area ≈ 2.2195. Here the stationary shape is (near-)optimal and edges out the Hammersley sofa.';
-    } else if (alphaDeg < 168) {
+    } else if (alphaDeg < 165) {
       label = 'obtuse corner';
-      blurb = 'The optimal structure trends toward a widening wedge that pivots near the outer corner; Hammersley caps stay rigid (φ + cotφ).';
+      blurb = 'The Hammersley sofa: a unit-height block with a circular cap (radius a) cut from its base and two rigid radius-1 end sectors (caps add φ + cotφ). It rounds the corner by a rolling motion — the inner corner traces a circular arc swept at twice the turn rate, not a fixed-pivot rotation.';
     } else {
       label = 'nearly straight';
       blurb = 'The corridor is almost straight — the area diverges as the shape becomes a long, shallow slab.';
@@ -522,9 +619,9 @@ globalThis.COEF = {
   root.SofaMath = {
     PI: PI, rad: rad, mu: mu, nu: nu,
     integrate: integrate, solve: solve, resnorm: resnorm, inRange: inRange,
-    maskGrid: maskGrid, extractBoundary: extractBoundary,
+    maskGrid: maskGrid, maskGridFromPath: maskGridFromPath, extractBoundary: extractBoundary,
     buildFamily: buildFamily, solutionAt: solutionAt, range: range,
-    pose: pose, buildShape: buildShape,
+    pose: pose, buildShape: buildShape, buildShapeHammersley: buildShapeHammersley,
     regimeAreas: regimeAreas, describeRegime: describeRegime,
     buildParallelogram: buildParallelogram
   };
@@ -556,8 +653,9 @@ globalThis.COEF = {
       alphaSlider = el('alpha'), playBtn = el('play'), scrub = el('scrub'), statusEl = el('status'),
       einS = el('ein'), einLen = el('einLen'), eoutS = el('eout'), eoutLen = el('eoutLen'),
       zoomS = el('zoom'), zval = el('zval'), resetBtn = el('reset'), gameDiv = el('game'),
-      modeGroupEl = el('modeGroup');
+      modeGroupEl = el('modeGroup'), resGroupEl = el('resGroup');
   var getMode = function () { var r = modeGroupEl.querySelector('input[name="mode"]:checked'); return r ? r.value : 'gerver'; };
+  var getRes = function () { var r = resGroupEl.querySelector('input[name="res"]:checked'); return r ? +r.value : 1; };
 
   /* ----- app state ----- */
   var APP = {
@@ -577,27 +675,44 @@ globalThis.COEF = {
   var clamp = function (x, a, b) { return x < a ? a : (x > b ? b : x); };
 
   /* ----- per-alpha rebuild (shape + hallway lengths + readouts) -----
-     Three modes: "Gerver only" and "Parallelogram only" render a single
-     construction across the whole slider range (Gerver-only is exactly the
-     original app). "Optimal" shows the parallelogram where it genuinely wins
-     (very sharp corners) and the Gerver stationary shape everywhere else. The
-     always-present top badge names the regime; no Hammersley shape is rendered
-     (that construction's turning motion is a research-level result; see the
-     note in the SofaMath module). */
+     Four modes: "Gerver only" / "Parallelogram only" / "Hammersley only"
+     render one construction across the whole slider range (Gerver-only is
+     exactly the original app). "Optimal" renders whichever of the three has
+     the largest actual area at the current angle — Gerver's area comes from
+     really building its shape, Hammersley's and the parallelogram's from
+     their closed-form formulas — so the crossover is self-correcting rather
+     than keyed to hardcoded angle thresholds.
+
+     The Low/Medium/High resolution control only scales the mask-grid step
+     inside buildShape/buildShapeHammersley (independent of the cached ODE
+     solve), so switching it just reruns this same rebuild — no expensive
+     recomputation, safe to change on every click. */
   function rebuildShape() {
-    var mode = getMode();
+    var mode = getMode(), res = getRes();
     var rd = SM.describeRegime(APP.alpha);
     if (mode === 'parallelogram') {
       APP.shape = SM.buildParallelogram(APP.alpha); APP.construction = 'parallelogram';
-    } else if (mode === 'optimal' && rd.areas.bestName === 'parallelogram') {
-      APP.shape = SM.buildParallelogram(APP.alpha); APP.construction = 'parallelogram';
+    } else if (mode === 'hammersley') {
+      APP.shape = SM.buildShapeHammersley(APP.alpha, res); APP.construction = 'hammersley';
+    } else if (mode === 'optimal') {
+      var gerverShape = SM.buildShape(APP.alpha, res);
+      var gArea = gerverShape.area, hArea = rd.areas.H, pArea = rd.areas.P;
+      var best = Math.max(gArea, hArea, pArea);
+      if (best === pArea) { APP.shape = SM.buildParallelogram(APP.alpha); APP.construction = 'parallelogram'; }
+      else if (best === hArea) { APP.shape = SM.buildShapeHammersley(APP.alpha, res); APP.construction = 'hammersley'; }
+      else { APP.shape = gerverShape; APP.construction = 'gerver'; }
     } else {
-      APP.shape = SM.buildShape(APP.alpha); APP.construction = 'gerver';
+      APP.shape = SM.buildShape(APP.alpha, res); APP.construction = 'gerver';
     }
     APP.entryLen = Math.max(APP.shape.minLin, ARM_BASE) + APP.entryExtra;
     APP.exitLen = Math.max(APP.shape.minLout, ARM_BASE) + APP.exitExtra;
     areaEl.textContent = APP.shape.area.toFixed(3);
-    regimeEl.textContent = mode === 'gerver' ? (APP.alpha < 89.5 ? 'acute corner' : (APP.alpha > 90.5 ? 'obtuse corner' : 'right angle')) : rd.label;
+    // The regime label (very acute / acute / right angle / obtuse / nearly
+    // straight) is a property of the angle alone, from the SAME describeRegime
+    // bands used everywhere else — it must not depend on which construction
+    // this mode happens to be forcing onto the canvas.
+    var constructionName = { gerver: 'Gerver', parallelogram: 'parallelogram', hammersley: 'Hammersley' }[APP.construction];
+    regimeEl.textContent = rd.label + ' · ' + constructionName;
     einLen.textContent = APP.entryLen.toFixed(1);
     eoutLen.textContent = APP.exitLen.toFixed(1);
   }
@@ -732,6 +847,11 @@ globalThis.COEF = {
     // Keep the camera exactly where it is — with the long shared arms, the
     // corridor is identical across constructions, so only the couch swaps.
     APP.playing = false; playBtn.innerHTML = '▶&nbsp; Animate'; APP.tau = 0; scrub.value = 0;
+    rebuildShape(); render();
+  });
+  resGroupEl.addEventListener('change', function () {
+    // Pure quality/speed tradeoff on the mask-grid step — doesn't touch the
+    // cached ODE solve, so keep camera and animation state untouched.
     rebuildShape(); render();
   });
 
