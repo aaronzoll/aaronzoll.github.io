@@ -58,6 +58,17 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 
 #status{font-family:var(--mono);color:var(--ink-mute);font-size:10.5px;padding:10px 0 2px}
 
+/* ---- construction-mode segmented control ---- */
+.modeGroup{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--ink-faint);border-radius:6px;overflow:hidden}
+.modeGroup label{font-family:var(--mono);font-size:10.5px;color:var(--ink-mute);letter-spacing:.02em;
+  padding:0.45rem 0.7rem;cursor:pointer;user-select:none;border-right:1px solid var(--ink-faint);
+  transition:background .15s,color .15s}
+.modeGroup label:last-child{border-right:none}
+.modeGroup input{width:0;height:0;opacity:0;margin:0;padding:0;border:0}
+.modeGroup input:checked + label{background:var(--accent);color:#fff}
+.modeGroup label:hover{background:#e8e2d2}
+.modeGroup input:checked + label:hover{background:var(--accent)}
+
 /* ---- figure ---- */
 #game{width:100%;height:600px;border-radius:4px;background:var(--ground);margin-top:2px;overflow:hidden;
   touch-action:none;cursor:grab;border:1px solid var(--ink-faint)}
@@ -84,6 +95,11 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
         <input type="range" id="alpha" min="20" max="170" step="0.5" value="90"/>
       </div>
       <button id="play">&#9654;&nbsp; Animate</button>
+      <div class="modeGroup" id="modeGroup" role="radiogroup" aria-label="Construction">
+        <input type="radio" name="mode" id="mode-gerver" value="gerver" checked/><label for="mode-gerver">Gerver only</label>
+        <input type="radio" name="mode" id="mode-parallelogram" value="parallelogram"/><label for="mode-parallelogram">Parallelogram only</label>
+        <input type="radio" name="mode" id="mode-optimal" value="optimal"/><label for="mode-optimal">Optimal</label>
+      </div>
     </div>
 
     <div class="ctlrow">
@@ -418,12 +434,99 @@ globalThis.COEF = {
     };
   }
 
+  /* ===========================================================================
+     regime math + elementary constructions.
+
+     regimeAreas / describeRegime are pure closed-form area formulas per the
+     handoff spec (no numerical solving). They still name the Hammersley-type
+     sofa as the theoretical best across most of the range — the info panel
+     reports that number for reference even though we do not render a
+     Hammersley shape (see note below).
+
+     buildParallelogram: EXACT. The largest axis-fixed rhombus that fits both
+     corridor strips simultaneously is their intersection; closed form,
+     verified algebraically to touch the physical walls (not just the
+     idealized infinite strips) at the inner corner, the outer corner, and one
+     tangent point on each outer wall. Area equals P(phi)=1/sin(phi) exactly,
+     and it slides straight through (pure translation, no rotation) — a
+     provably valid, wall-safe motion. This is the shape shown for very sharp
+     corners in Optimal mode.
+
+     No Hammersley-type shape is rendered. Reproducing it faithfully needs the
+     literature shape (rectangular block minus a circular segment + two end
+     sectors — confirmed exactly at the right angle from Weisstein's MathWorld
+     notebook) AND its moving-pivot turning motion, which is a
+     calculus-of-variations result. Verified numerically that no fixed-pivot
+     rigid rotation carries a full-size accurately-cut handset through the
+     corner without crossing a wall (only a ~half-scale, area ~0.55 version
+     fits). Rather than render a shape that either self-intersects, exits the
+     corridor, or misstates its area, Optimal mode falls back to the Gerver
+     stationary shape (which the app computes and animates correctly at every
+     angle) wherever Hammersley-type would be the theoretical winner, and the
+     info panel names Hammersley-type = H(phi) as the known best for reference.
+     =========================================================================== */
+  function regimeAreas(phi) {
+    var C = Math.sin(phi) * Math.sin(phi) / (phi - Math.sin(phi) * Math.cos(phi));
+    var caps = phi <= PI / 2 ? phi + Math.cos(phi) / Math.sin(phi) : PI / 2;
+    var H = C + caps;
+    var P = 1 / Math.sin(phi);
+    var W = (PI - phi) * Math.cos(phi / 2) * Math.cos(phi / 2) / 4;
+    var best = Math.max(H, P, W);
+    var bestName = best === P ? 'parallelogram' : (best === H ? 'Hammersley-type' : 'wedge');
+    return { C: C, caps: caps, H: H, P: P, W: W, best: best, bestName: bestName };
+  }
+  function describeRegime(alphaDeg) {
+    var phi = PI - rad(alphaDeg), areas = regimeAreas(phi), label, blurb;
+    if (alphaDeg < 36.32) {
+      label = 'very sharp corner';
+      blurb = 'A parallelogram slid straight through — no rotation — beats every rotating shape here (area 1/sinφ).';
+    } else if (alphaDeg < 89.5) {
+      label = 'acute corner';
+      blurb = 'End sectors clip to π/2 to fit the entry hallway, so the motion through the corner is no longer rigid.';
+    } else if (alphaDeg <= 90.5) {
+      label = 'right angle — Gerver';
+      blurb = 'Gerver’s sofa, area ≈ 2.2195. Here the stationary shape is (near-)optimal and edges out the Hammersley sofa.';
+    } else if (alphaDeg < 168) {
+      label = 'obtuse corner';
+      blurb = 'The optimal structure trends toward a widening wedge that pivots near the outer corner; Hammersley caps stay rigid (φ + cotφ).';
+    } else {
+      label = 'nearly straight';
+      blurb = 'The corridor is almost straight — the area diverges as the shape becomes a long, shallow slab.';
+    }
+    return { phi: phi, label: label, blurb: blurb, areas: areas };
+  }
+
+  // largest projection of poly onto unit direction dir — used to size hallway draw length
+  function polyExtent(poly, dir) {
+    var m = -1e9;
+    for (var i = 0; i < poly.length; i++) { var pr = poly[i][0] * dir[0] + poly[i][1] * dir[1]; if (pr > m) m = pr; }
+    return m;
+  }
+
+  function buildParallelogram(alpha) {
+    var phi = PI - rad(alpha), s = 1 / Math.sin(phi);
+    var poly = [[0, 0], [s, 0], [Math.tan(phi / 2), 1], [-Math.cos(phi) / Math.sin(phi), 1]];
+    var edx = Math.cos(phi), edy = -Math.sin(phi);
+    var minLin = Math.max(3, polyExtent(poly, [1, 0]) + 0.6);
+    var minLout = Math.max(3, polyExtent(poly, [edx, edy]) + 0.6);
+    var Din = minLin, Dout = minLout;
+    var poseFn = function (tau) {
+      var a1 = 0.42;
+      if (tau <= a1) { var f = tau / a1; return { th: 0, vx: -Din * (1 - f), vy: 0 }; }
+      var f2 = (tau - a1) / (1 - a1);
+      return { th: 0, vx: Dout * f2 * edx, vy: Dout * f2 * edy };
+    };
+    return { phi: phi, poly: poly, area: s, Din: Din, Dout: Dout, minLin: minLin, minLout: minLout, poseFn: poseFn };
+  }
+
   root.SofaMath = {
     PI: PI, rad: rad, mu: mu, nu: nu,
     integrate: integrate, solve: solve, resnorm: resnorm, inRange: inRange,
     maskGrid: maskGrid, extractBoundary: extractBoundary,
     buildFamily: buildFamily, solutionAt: solutionAt, range: range,
-    pose: pose, buildShape: buildShape
+    pose: pose, buildShape: buildShape,
+    regimeAreas: regimeAreas, describeRegime: describeRegime,
+    buildParallelogram: buildParallelogram
   };
 })(typeof window !== "undefined" ? window : globalThis);
 
@@ -452,7 +555,9 @@ globalThis.COEF = {
   var aval = el('aval'), areaEl = el('area'), regimeEl = el('regime'),
       alphaSlider = el('alpha'), playBtn = el('play'), scrub = el('scrub'), statusEl = el('status'),
       einS = el('ein'), einLen = el('einLen'), eoutS = el('eout'), eoutLen = el('eoutLen'),
-      zoomS = el('zoom'), zval = el('zval'), resetBtn = el('reset'), gameDiv = el('game');
+      zoomS = el('zoom'), zval = el('zval'), resetBtn = el('reset'), gameDiv = el('game'),
+      modeGroupEl = el('modeGroup');
+  var getMode = function () { var r = modeGroupEl.querySelector('input[name="mode"]:checked'); return r ? r.value : 'gerver'; };
 
   /* ----- app state ----- */
   var APP = {
@@ -462,23 +567,43 @@ globalThis.COEF = {
     shape: null, entryLen: 0, exitLen: 0
   };
   var ZMIN = 6, ZMAX = 900;
+  // Shape-independent default arm length added to both corridor sides. Keeping
+  // it long (ends off-screen at the default zoom) and constant across
+  // constructions means swapping shapes — manually or via Optimal mode — never
+  // changes the visible corridor: only the couch inside it changes.
+  var ARM_BASE = 6;
   var sliderToZoom = function (v) { return ZMIN * Math.pow(ZMAX / ZMIN, v / 1000); };
   var zoomToSlider = function (z) { return 1000 * Math.log(z / ZMIN) / Math.log(ZMAX / ZMIN); };
   var clamp = function (x, a, b) { return x < a ? a : (x > b ? b : x); };
 
-  /* ----- per-alpha rebuild (shape + hallway lengths + readouts) ----- */
+  /* ----- per-alpha rebuild (shape + hallway lengths + readouts) -----
+     Three modes: "Gerver only" and "Parallelogram only" render a single
+     construction across the whole slider range (Gerver-only is exactly the
+     original app). "Optimal" shows the parallelogram where it genuinely wins
+     (very sharp corners) and the Gerver stationary shape everywhere else. The
+     always-present top badge names the regime; no Hammersley shape is rendered
+     (that construction's turning motion is a research-level result; see the
+     note in the SofaMath module). */
   function rebuildShape() {
-    APP.shape = SM.buildShape(APP.alpha);
-    APP.entryLen = APP.shape.minLin + APP.entryExtra;
-    APP.exitLen = APP.shape.minLout + APP.exitExtra;
+    var mode = getMode();
+    var rd = SM.describeRegime(APP.alpha);
+    if (mode === 'parallelogram') {
+      APP.shape = SM.buildParallelogram(APP.alpha); APP.construction = 'parallelogram';
+    } else if (mode === 'optimal' && rd.areas.bestName === 'parallelogram') {
+      APP.shape = SM.buildParallelogram(APP.alpha); APP.construction = 'parallelogram';
+    } else {
+      APP.shape = SM.buildShape(APP.alpha); APP.construction = 'gerver';
+    }
+    APP.entryLen = Math.max(APP.shape.minLin, ARM_BASE) + APP.entryExtra;
+    APP.exitLen = Math.max(APP.shape.minLout, ARM_BASE) + APP.exitExtra;
     areaEl.textContent = APP.shape.area.toFixed(3);
-    regimeEl.textContent = APP.alpha < 89.5 ? 'acute corner' : (APP.alpha > 90.5 ? 'obtuse corner' : 'right angle');
+    regimeEl.textContent = mode === 'gerver' ? (APP.alpha < 89.5 ? 'acute corner' : (APP.alpha > 90.5 ? 'obtuse corner' : 'right angle')) : rd.label;
     einLen.textContent = APP.entryLen.toFixed(1);
     eoutLen.textContent = APP.exitLen.toFixed(1);
   }
   function updateLengths() {
-    APP.entryLen = APP.shape.minLin + APP.entryExtra;
-    APP.exitLen = APP.shape.minLout + APP.exitExtra;
+    APP.entryLen = Math.max(APP.shape.minLin, ARM_BASE) + APP.entryExtra;
+    APP.exitLen = Math.max(APP.shape.minLout, ARM_BASE) + APP.exitExtra;
     einLen.textContent = APP.entryLen.toFixed(1);
     eoutLen.textContent = APP.exitLen.toFixed(1);
   }
@@ -486,12 +611,17 @@ globalThis.COEF = {
   /* ----- geometry helpers (math coords, y-up) ----- */
   function corridorPolyMath() {
     var phi = APP.shape.phi, O = [Math.tan(phi / 2), 1], edx = Math.cos(phi), edy = -Math.sin(phi);
-    var Lin = APP.entryLen, Lout = APP.exitLen;
-    return [[-Lin, 1], O, [O[0] + Lout * edx, O[1] + Lout * edy], [Lout * edx, Lout * edy], [0, 0], [-Lin, 0]];
+    var Lin = APP.entryLen, Lout = APP.exitLen, th = Math.tan(phi / 2);
+    // The entry mouth (x = -Lin) is already a perpendicular cut. Extend the
+    // OUTER exit wall by tan(phi/2) past the inner wall's far end so the exit
+    // mouth is likewise perpendicular to the corridor axis e (its edge then
+    // runs along the wall normal (sinφ,cosφ)), mirroring the entry.
+    return [[-Lin, 1], O, [O[0] + (Lout + th) * edx, O[1] + (Lout + th) * edy], [Lout * edx, Lout * edy], [0, 0], [-Lin, 0]];
   }
   function couchVertsMath(tau) {
-    var sh = APP.shape, st = { phi: sh.phi, Din: sh.Din, Dout: sh.Dout, xyAt: sh.xyAt };
-    var pz = SM.pose(tau, st), c = Math.cos(pz.th), s = Math.sin(pz.th), P = sh.poly, out = new Array(P.length);
+    var sh = APP.shape;
+    var pz = sh.poseFn ? sh.poseFn(tau) : SM.pose(tau, { phi: sh.phi, Din: sh.Din, Dout: sh.Dout, xyAt: sh.xyAt });
+    var c = Math.cos(pz.th), s = Math.sin(pz.th), P = sh.poly, out = new Array(P.length);
     for (var i = 0; i < P.length; i++) out[i] = [c * P[i][0] - s * P[i][1] + pz.vx, s * P[i][0] + c * P[i][1] + pz.vy];
     return out;
   }
@@ -598,6 +728,12 @@ globalThis.COEF = {
   eoutS.addEventListener('input', function () { APP.exitExtra = +eoutS.value; updateLengths(); render(); });
   zoomS.addEventListener('input', function () { setZoomKeepCenter(sliderToZoom(+zoomS.value)); });
   resetBtn.addEventListener('click', resetView);
+  modeGroupEl.addEventListener('change', function () {
+    // Keep the camera exactly where it is — with the long shared arms, the
+    // corridor is identical across constructions, so only the couch swaps.
+    APP.playing = false; playBtn.innerHTML = '▶&nbsp; Animate'; APP.tau = 0; scrub.value = 0;
+    rebuildShape(); render();
+  });
 
   /* ----- boot: build the solution family (reporting progress), then start Phaser ----- */
   statusEl.textContent = 'Calculating… 0%';
