@@ -198,8 +198,14 @@ custom_js: |
       <span class="paper-title">Inexactly Smooth Performance Estimation and New Optimized Gradient Methods</span>
       <a class="arxiv-btn" href="https://arxiv.org/abs/2606.01505" target="_blank">arXiv</a>
     </div>
+      <div class="paper-row">
+      <span class="paper-title">A Complete Characterization of Optimal Subgradient Methods for Lipschitz Convex Minimization</span>
+      <a class="arxiv-btn" href="https://arxiv.org/abs/2607.19240" target="_blank">arXiv</a>
+    </div>
   </div>
 </div>
+
+
 
 <div class="bubble">
   <h4><strong>Slides</strong></h4>

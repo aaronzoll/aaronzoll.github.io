@@ -246,6 +246,12 @@ custom_js: |
 <div class="bubble">
   <h4><strong>Selected Papers</strong></h4>
   <div class="paper-list">
+<div class="paper-row">
+      <span class="paper-title">A Complete Characterization of Optimal Subgradient Methods for Lipschitz Convex Minimization</span>
+      <div style="display:flex;gap:0.4rem;flex-shrink:0;">
+        <a class="arxiv-btn" href="https://arxiv.org/abs/2607.19240" target="_blank">arXiv</a>
+      </div>
+    </div>
     <div class="paper-row">
       <span class="paper-title">Inexactly Smooth Performance Estimation and New Optimized Gradient Methods</span>
       <div style="display:flex;gap:0.4rem;flex-shrink:0;">
@@ -253,12 +259,6 @@ custom_js: |
         <a class="arxiv-btn" href="https://arxiv.org/abs/2606.01505" target="_blank">arXiv</a>
       </div>
     </div>
-    <div class="paper-row">
-      <span class="paper-title">A Universally Optimal Primal-Dual Method for Minimizing Heterogeneous Compositions<br><em>(IMA Journal of Numerical Analysis)</em></span>
-      <div style="display:flex;gap:0.4rem;flex-shrink:0;">
-        <a class="arxiv-btn" href="https://docs.google.com/presentation/d/1tWwSVU1H9AicJsRl5ckGGWJNYubuAOYnmS248aNhD9s/edit?usp=sharing" target="_blank">slides</a>
-        <a class="arxiv-btn" href="https://arxiv.org/abs/2503.07566" target="_blank">arXiv</a>
-      </div>
     </div>
   </div>
 </div>
