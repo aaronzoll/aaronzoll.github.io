@@ -111,6 +111,17 @@
   }
   .eq b{color:var(--zg);font-weight:400}
 
+  /* ---- arc diagram (replaces the odometer wheels) ---- */
+  .arcbox{position:relative;margin-top:2px}
+  .arcsvg{display:block;width:100%;height:auto;touch-action:none;-webkit-user-select:none;user-select:none;overflow:visible}
+  .arc-hit{cursor:grab}
+  .arcbox.dragging .arc-hit,.arcbox.dragging{cursor:grabbing}
+  .arccap{
+    font-family:var(--mono);font-size:11px;color:var(--ink-mute);
+    margin-top:8px;min-height:15px;letter-spacing:.02em;
+  }
+  .arccap b{color:var(--ink);font-weight:400}
+
   /* ---- W matrix ---- */
   .wmat{border-top:1px solid var(--ink-faint);padding-top:16px;margin-top:16px}
   .wmat-head{
@@ -172,8 +183,11 @@
   <div class="hint">drag to rotate · scroll / pinch to zoom · shift+drag, right-drag, or two-finger drag to pan</div>
 
   <div class="odo">
-    <div class="odo-head">each vertex corresponds to a mapping below</div>
-    <div class="wheels" id="wheels"></div>
+    <div class="odo-head">each vertex is an arc diagram · drag an arc&rsquo;s endpoint to rewire it</div>
+    <div class="arcbox" id="arcbox">
+      <svg id="arcsvg" class="arcsvg" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="arccap" id="arccap"></div>
+    </div>
   </div>
 
   <div class="wmat">
@@ -313,7 +327,7 @@ function build(n){
   KEYI.zgXYZ = proj(lamZG(N,A,IX));
   sel = KEYI.dt; selKind='vertex'; hover=-1;
   drawPolyEq();
-  drawWheels(); drawStats();
+  drawArcs(); drawStats();
 }
 
 /* ---------- geometry ---------- */
@@ -468,38 +482,123 @@ function drawPolyEq(){
   typeset(el);
 }
 
-/* ---------- odometer ---------- */
-function drawWheels(){
-  const w=document.getElementById('wheels'); w.innerHTML='';
-  if(selKind==='zg'){
-    const note=document.createElement('div'); note.className='eq';
-    note.innerHTML='<b style="color:'+COL.zg+'">Zamani–Glineur</b> is the barycenter of all <b>'+fact(N)+'</b> vertices — no single mapping s(j).';
-    w.appendChild(note);
-    drawW();
-    return;
+/* ---------- arc diagram ----------
+   Each vertex s is an arc diagram on nodes 0..N: one forward arc j -> s(j) per
+   source node j (Yoon et al., arXiv:2605.02231). Arcs are drawn in a fixed
+   1000-unit viewBox and scaled to the container by CSS; heights grow with span
+   so nested arcs stay legible. Any arc's head is dragged to a node t > j, which
+   re-selects the corresponding polytope vertex. */
+const ARC_MUTE   = CSS.getPropertyValue('--ink-mute').trim();
+const ARC_GROUND = CSS.getPropertyValue('--ground').trim();
+const VBW=1000, ARC_PADX=46, ARC_CTRL=300, ARC_TOP=18, ARC_BOT=48;
+const SVGNS='http://www.w3.org/2000/svg';
+let dragArc=null;                 // {j, target} while a head is being dragged
+function arcLayout(){
+  const dx=(VBW-2*ARC_PADX)/N;
+  const baseY=ARC_TOP+0.75*ARC_CTRL;
+  return { dx, nx:i=>ARC_PADX+i*dx, baseY, svgH:baseY+ARC_BOT };
+}
+function svgX(ev){                 // client x -> viewBox x (no letterboxing, so linear)
+  const r=document.getElementById('arcsvg').getBoundingClientRect();
+  return (ev.clientX-r.left)/r.width*VBW;
+}
+function nearestTarget(x,j){
+  const {dx}=arcLayout();
+  let t=Math.round((x-ARC_PADX)/dx);
+  return t<j+1 ? j+1 : (t>N ? N : t);
+}
+function mk(tag,attrs){
+  const e=document.createElementNS(SVGNS,tag);
+  for(const k in attrs) e.setAttribute(k,attrs[k]);
+  return e;
+}
+function drawArcs(){
+  const svg=document.getElementById('arcsvg'); if(!svg) return;
+  const cap=document.getElementById('arccap');
+  const {dx,nx,baseY,svgH}=arcLayout();
+  svg.setAttribute('viewBox','0 0 '+VBW+' '+svgH);
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+
+  // number line
+  svg.appendChild(mk('line',{x1:nx(0),y1:baseY,x2:nx(N),y2:baseY,stroke:COL.faint,'stroke-width':1.4}));
+
+  const zg=selKind==='zg';
+  const s=zg?null:TREES[sel];
+
+  // one cubic arc from node j to node t, rising vertically at both ends
+  function arc(j,t,vis){
+    const x1=nx(j), x2=nx(t), k=ARC_CTRL*(t-j)/N;
+    const d='M '+x1+' '+baseY+' C '+x1+' '+(baseY-k)+' '+x2+' '+(baseY-k)+' '+x2+' '+baseY;
+    const col=RAMP[j%RAMP.length];
+    const p=mk('path',{d,fill:'none',stroke:col,'stroke-width':vis.w,'stroke-linecap':'round',opacity:vis.op});
+    p.style.pointerEvents='none'; svg.appendChild(p);
+    return {x1,x2,k,col};
   }
-  const s=TREES[sel];
-  for(let j=0;j<N;j++){
-    if(j) { const t=document.createElement('div'); t.className='times'; t.textContent='×'; w.appendChild(t); }
-    const d=document.createElement('div'); d.className='wheel';
-    const l=document.createElement('div'); l.className='wlab'; l.textContent='s('+j+')'; d.appendChild(l);
-    const box=document.createElement('div'); box.className='digits';
-    for(let v=j+1;v<=N;v++){
-      const b=document.createElement('div'); b.className='digit'; b.textContent=v;
-      if(v===s[j]){ b.dataset.on='1'; b.style.background=RAMP[j%RAMP.length]; b.style.borderColor=RAMP[j%RAMP.length]; }
-      b.onclick=()=>{ const t=TREES[sel].slice(); t[j]=v; goTree(t); };
-      box.appendChild(b);
+
+  if(zg){
+    // barycenter: faint superposition of every arc (its full lambda support)
+    for(let i=0;i<N;i++) for(let t=i+1;t<=N;t++) arc(i,t,{w:1.4,op:0.15});
+    cap.innerHTML='<b style="color:'+COL.zg+'">Zamani–Glineur</b> — barycenter of all '+fact(N)+' arc diagrams; no single wiring.';
+  } else {
+    for(let j=0;j<N;j++){
+      const t=(dragArc&&dragArc.j===j)?dragArc.target:s[j];
+      const g=arc(j,t,{w:3,op:0.92});
+      // draggable head handle, sitting on the arc just shy of its target node
+      const u=0.82, m=1-u;
+      const hx=g.x1*(m*m*m+3*m*m*u)+g.x2*(3*m*u*u+u*u*u);
+      const hy=baseY-3*g.k*u*m;
+      const head=mk('circle',{cx:hx,cy:hy,r:5.5,fill:g.col});
+      head.style.pointerEvents='none'; svg.appendChild(head);
+      // wide invisible hit-stroke covering the whole arc
+      const hit=mk('path',{d:'M '+g.x1+' '+baseY+' C '+g.x1+' '+(baseY-g.k)+' '+g.x2+' '+(baseY-g.k)+' '+g.x2+' '+baseY,
+                           fill:'none',stroke:'transparent','stroke-width':24});
+      hit.setAttribute('class','arc-hit'); hit.style.pointerEvents='stroke';
+      hit.addEventListener('pointerdown',ev=>startArcDrag(ev,j));
+      svg.appendChild(hit);
     }
-    d.appendChild(box); w.appendChild(d);
+    let nm='';
+    if(sel===KEYI.dt)  nm='<b style="color:'+COL.dt+'">Drori–Taylor</b> · ';
+    else if(sel===KEYI.avg) nm='<b style="color:'+COL.avg+'">averaged subgradient</b> · ';
+    cap.innerHTML=nm+'s = ('+s.join(', ')+')';
   }
-  const eq=document.createElement('div'); eq.className='eq';
-  eq.innerHTML='= &nbsp;'+Array.from({length:N},(_,j)=>N-j).join(' · ')+' &nbsp;=&nbsp; <b>'+fact(N)+'</b> vertices';
-  w.appendChild(eq);
+
+  // nodes + labels on top (transparent to pointer so arcs stay grabbable)
+  for(let i=0;i<=N;i++){
+    const tgt=dragArc&&dragArc.target===i;
+    const c=mk('circle',{cx:nx(i),cy:baseY,r:7,
+      fill:i===N?COL.ink:ARC_GROUND,
+      stroke:tgt?RAMP[dragArc.j%RAMP.length]:ARC_MUTE,'stroke-width':tgt?3:1.6});
+    c.style.pointerEvents='none'; svg.appendChild(c);
+    const l=mk('text',{x:nx(i),y:baseY+26,'text-anchor':'middle','font-family':'var(--mono)','font-size':15,fill:ARC_MUTE});
+    l.style.pointerEvents='none'; l.textContent=i; svg.appendChild(l);
+  }
   drawW();
+}
+function startArcDrag(ev,j){
+  if(selKind==='zg') return;
+  ev.preventDefault();
+  dragArc={j, target:nearestTarget(svgX(ev),j)};
+  document.getElementById('arcbox').classList.add('dragging');
+  window.addEventListener('pointermove',arcMove);
+  window.addEventListener('pointerup',arcUp);
+  drawArcs();
+}
+function arcMove(ev){
+  if(!dragArc) return;
+  const t=nearestTarget(svgX(ev),dragArc.j);
+  if(t!==dragArc.target){ dragArc.target=t; drawArcs(); }
+}
+function arcUp(){
+  window.removeEventListener('pointermove',arcMove);
+  window.removeEventListener('pointerup',arcUp);
+  document.getElementById('arcbox').classList.remove('dragging');
+  if(!dragArc) return;
+  const t=TREES[sel].slice(); t[dragArc.j]=dragArc.target; dragArc=null;
+  goTree(t);
 }
 function goTree(t){
   const k=TREES.findIndex(s=>s.join(',')===t.join(','));
-  if(k>=0){ sel=k; selKind='vertex'; drawWheels(); draw(); }
+  if(k>=0){ sel=k; selKind='vertex'; drawArcs(); draw(); }
 }
 
 /* ---------- interaction ---------- */
@@ -550,7 +649,7 @@ cv.addEventListener('pointermove',e=>{
 cv.addEventListener('pointerup',e=>{
   pointers.delete(e.pointerId);
   if(pointers.size<2) pinch=null;
-  if(drag&&!drag.moved&&!drag.pan){ const k=pick(e); if(k>=0){ sel=k; selKind='vertex'; drawWheels(); } }
+  if(drag&&!drag.moved&&!drag.pan){ const k=pick(e); if(k>=0){ sel=k; selKind='vertex'; drawArcs(); } }
   if(pointers.size===0){ drag=null; cv.classList.remove('drag'); }
   draw();
 });
@@ -580,7 +679,7 @@ document.querySelectorAll('.key').forEach(k=>k.onclick=()=>{
   else if(g==='avg'){ sel=KEYI.avg; selKind='vertex'; }
   else if(g==='zg'){ selKind='zg'; }
   else return;
-  drawWheels(); draw();
+  drawArcs(); draw();
 });
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
