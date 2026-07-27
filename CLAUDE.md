@@ -27,7 +27,7 @@ The site auto-deploys to GitHub Pages on push to `main`.
 
 - **Root-level `.markdown` files** — main site pages (index, about, research, teaching, projects, contact, CV)
 - **`desmos/`** — 18 individual interactive Desmos graph pages; use `desmos/_template.md` when adding new ones
-- **`DesmosGallery.html`** — gallery page linking all Desmos visualizations
+- **`gallery.markdown`** — Gallery page (permalink `/gallery/`) linking all Desmos visualizations; styled to match the rest of the site. `DesmosGallery.html` is the legacy version, kept unlinked in case of rollback.
 - **`_config.yml`** — site config: remote theme, author profile, plugins, MathJax/spaceship settings
 - **`_data/navigation.yml`** — main nav links (Home, About, Research, Teaching, Desmos Gallery)
 - **`_includes/mathjax-config.html`** — MathJax 3 setup; disables jekyll-spaceship math processors to avoid conflicts
@@ -52,5 +52,5 @@ Most content pages use the `splash` layout with a hero `header` block (overlay c
 
 - PDFs (CV, slides, course notes) live in `assets/` subdirectories
 - Images are in `assets/images/`
-- New Desmos pages should be created from `desmos/_template.md` and linked from both `DesmosGallery.html` and `teaching.markdown`
+- New Desmos pages should be created from `desmos/_template.md` and linked from both `gallery.markdown` and `teaching.markdown`
 - The `_site/` directory is the generated build output — do not edit files there directly

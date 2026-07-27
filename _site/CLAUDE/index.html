@@ -628,10 +628,10 @@ window.MathJax = {
               >Teaching</a>
             </li><li class="masthead__menu-item">
               <a
-                href="/DesmosGallery.html"
+                href="/gallery/"
                 
                 
-              >Desmos Gallery</a>
+              >Gallery</a>
             </li></ul>
         
         <button class="greedy-nav__toggle hidden" type="button">
@@ -675,7 +675,7 @@ bundle <span class="nb">install</span>
 <ul>
   <li><strong>Root-level <code class="language-plaintext highlighter-rouge">.markdown</code> files</strong> — main site pages (index, about, research, teaching, projects, contact, CV)</li>
   <li><strong><code class="language-plaintext highlighter-rouge">desmos/</code></strong> — 18 individual interactive Desmos graph pages; use <code class="language-plaintext highlighter-rouge">desmos/_template.md</code> when adding new ones</li>
-  <li><strong><code class="language-plaintext highlighter-rouge">DesmosGallery.html</code></strong> — gallery page linking all Desmos visualizations</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">gallery.markdown</code></strong> — Gallery page (permalink <code class="language-plaintext highlighter-rouge">/gallery/</code>) linking all Desmos visualizations; styled to match the rest of the site. <code class="language-plaintext highlighter-rouge">DesmosGallery.html</code> is the legacy version, kept unlinked in case of rollback.</li>
   <li><strong><code class="language-plaintext highlighter-rouge">_config.yml</code></strong> — site config: remote theme, author profile, plugins, MathJax/spaceship settings</li>
   <li><strong><code class="language-plaintext highlighter-rouge">_data/navigation.yml</code></strong> — main nav links (Home, About, Research, Teaching, Desmos Gallery)</li>
   <li><strong><code class="language-plaintext highlighter-rouge">_includes/mathjax-config.html</code></strong> — MathJax 3 setup; disables jekyll-spaceship math processors to avoid conflicts</li>
@@ -1207,7 +1207,7 @@ window.MathJax = {
 <ul>
   <li>PDFs (CV, slides, course notes) live in <code class="language-plaintext highlighter-rouge">assets/</code> subdirectories</li>
   <li>Images are in <code class="language-plaintext highlighter-rouge">assets/images/</code></li>
-  <li>New Desmos pages should be created from <code class="language-plaintext highlighter-rouge">desmos/_template.md</code> and linked from both <code class="language-plaintext highlighter-rouge">DesmosGallery.html</code> and <code class="language-plaintext highlighter-rouge">teaching.markdown</code></li>
+  <li>New Desmos pages should be created from <code class="language-plaintext highlighter-rouge">desmos/_template.md</code> and linked from both <code class="language-plaintext highlighter-rouge">gallery.markdown</code> and <code class="language-plaintext highlighter-rouge">teaching.markdown</code></li>
   <li>The <code class="language-plaintext highlighter-rouge">_site/</code> directory is the generated build output — do not edit files there directly</li>
 </ul>
 
@@ -1238,7 +1238,7 @@ window.MathJax = {
         
       
         
-          <li><a href="/DesmosGallery.html" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-chart-line" aria-hidden="true"></i> Desmos</a></li>
+          <li><a href="/gallery/" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-chart-line" aria-hidden="true"></i> Desmos</a></li>
         
       
         

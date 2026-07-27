@@ -10,32 +10,30 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Welcome to My Website!</title>
-<meta name="description" content="This is a work in progress and a lot neads to be updated.">
+<!-- begin _includes/seo.html --><title>Gallery</title>
+<meta name="description" content="">
 
 
   <meta name="author" content="Aaron Zoll">
   
-  <meta property="article:author" content="Aaron Zoll">
-  
 
 
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
-<meta property="og:title" content="Welcome to My Website!">
-<meta property="og:url" content="http://localhost:4000/jekyll/update/welcome-to-website/">
+<meta property="og:title" content="Gallery">
+<meta property="og:url" content="http://localhost:4000/gallery/">
 
 
-  <meta property="og:description" content="This is a work in progress and a lot neads to be updated.">
-
-
-
+  <meta property="og:description" content="">
 
 
 
+  <meta property="og:image" content="http://localhost:4000/assets/images/desmos_gallery_background1.png">
 
-  <meta property="article:published_time" content="2025-04-21T00:00:00-04:00">
+
+
+
 
 
 
@@ -46,7 +44,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/jekyll/update/welcome-to-website/">
+<link rel="canonical" href="http://localhost:4000/gallery/">
 
 
 
@@ -77,6 +75,8 @@
 
 
 
+
+  <script src='/assets/js/particles.js'></script>
 
     <!-- start custom head snippets -->
 
@@ -592,7 +592,7 @@ window.MathJax = {
 
   </head>
 
-  <body class="layout--single" dir="ltr">
+  <body class="layout--splash" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -651,258 +651,287 @@ window.MathJax = {
 
     <div class="initial-content">
       
+  
 
 
+
+
+
+
+
+<div class="page__hero--overlay"
+  style="background-color: #fff; background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url('/assets/images/desmos_gallery_background1.png');">
+  <style>
+    .page__hero {
+      position: relative;
+      overflow: hidden;
+    }
+    .page__hero.wrapper {
+      position: relative;
+      z-index: 2;
+    }
+    .particles-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 3;
+    }
+  
+    .page__hero-actions {
+      position: relative;
+      z-index: 10; /* Higher, explicitly above particles */
+    }
+  </style>
+  <div class="particles-wrapper" id="particles-js"></div>
+
+  
+    <div class="wrapper" style="position: relative; z-index: 2;">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          Gallery
+
+        
+      </h1>
+      
+      
+
+
+      
+    </div>
+    <div class="page__hero-actions" style="position: relative; z-index: 10;">
+    
+    </div>
+  
+  
+</div>
 
 
 
 <div id="main" role="main">
 
-  
-  <div class="sidebar sticky">
-  
-
-
-<div itemscope itemtype="https://schema.org/Person" class="h-card">
-
-  
-    <div class="author__avatar">
-      <a href="http://localhost:4000/">
-        <img src="/assets/images/test_image.jpg" alt="Aaron Zoll" itemprop="image" class="u-photo">
-      </a>
-    </div>
-  
-
-  <div class="author__content">
-    <h3 class="author__name p-name" itemprop="name">
-      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">Aaron Zoll</a>
-    </h3>
+  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Gallery">
     
-      <div class="author__bio p-note" itemprop="description">
-        <p>I am a third year Ph.D student researching optimization under the supervision of Ben Grimmer</p>
-
-      </div>
     
-  </div>
+    
 
-  <div class="author__urls-wrapper">
-    <button class="btn btn--inverse">Follow</button>
-    <ul class="author__urls social-icons">
-      
-        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
-          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Johns Hopkins</span>
-        </li>
-      
+    <section class="page__content" itemprop="text">
+      <style>
+  .page__content {
+    max-width: 1020px;
+    margin-inline: auto;
+    padding-inline: 0.5rem;
+  }
 
-      
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-      
+  .bubble { padding: 1.25rem 1.5rem; }
 
-      
 
-      
+  .gallery-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.75rem 1.5rem;
+    max-width: 880px;
+    margin: 0.75rem auto 0 auto;
+  }
 
-      
+  .gallery-card {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+  }
 
-      
+  /* Wooden-frame square thumbnail, same treatment as the home page cards */
+  .gallery-picture {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.6),
+                inset -2px -2px 6px rgba(0, 0, 0, 0.2),
+                0 4px 8px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
+    padding: 8px;
+    outline: 5px ridge #593302;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
 
-      
+  .gallery-picture img,
+  .gallery-picture canvas {
+    position: absolute;
+    inset: 8px;
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
+    object-fit: cover;
+    display: block;
+  }
 
-      
+  .gallery-picture canvas[hidden] { display: none; }
 
-      
+  /* Still image: no caption/cover on hover, just a gentle zoom */
+  .gallery-picture img.gallery-static {
+    transition: transform 0.25s ease;
+  }
 
-      
+  /* Animation placeholder: hidden until an animated source is supplied,
+     then it fades in over the still image on hover instead of zooming. */
+  .gallery-picture img.gallery-anim {
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
 
-      
+  @media (hover: hover) and (pointer: fine) {
+    .gallery-card:hover .gallery-static { transform: scale(1.06); }
+    .gallery-card:hover .gallery-anim { opacity: 1; }
+  }
 
-      
+  .gallery-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+    margin-top: 0.6rem;
+  }
 
-      
+  .gallery-section { margin-bottom: 1.5rem; }
+  .gallery-section:last-child { margin-bottom: 0; }
 
-      
+  @media (max-width: 600px) {
+    .bubble { padding: 1rem; border-radius: 10px; }
+  }
+</style>
 
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      <!--
-  <li>
-    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
-      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+<div class="bubble gallery-section">
+  <h4><strong>Research / Convex Analysis</strong></h4>
+  <div class="gallery-grid">
+    <a class="gallery-card" href="/desmos/interpolation-master" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/interpolation_master.png" alt="Interpolation Master" /></div>
+      <span class="gallery-title">Interpolation Master</span>
     </a>
-  </li>
--->
-    </ul>
+    <a class="gallery-card" href="/desmos/worst-case-gd" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/huber_quad_image.png" alt="Worst-Case Smooth Gradient Descent" /></div>
+      <span class="gallery-title">Worst-Case Smooth Gradient Descent</span>
+    </a>
+    <a class="gallery-card" href="/desmos/legendre-transform" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/legendre_demo.png" alt="Legendre Transform Demo" /></div>
+      <span class="gallery-title">Legendre Transform Demo</span>
+    </a>
+    <a class="gallery-card" href="/desmos/inexact-cocoercivity" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/inexact_coco_image.png" alt="Inexact Cocoercivity Demo" /></div>
+      <span class="gallery-title">Inexact Cocoercivity Demo</span>
+    </a>
+    <a class="gallery-card" href="/desmos/inexact-interpolation" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/inext_interpolation_image.png" alt="Inexactly Smooth Interpolation" /></div>
+      <span class="gallery-title">Inexactly Smooth Interpolation</span>
+    </a>
+    <a class="gallery-card" href="/desmos/inexact-construction" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/inexact_construction.png" alt="Inexactly Smooth Construction" /></div>
+      <span class="gallery-title">Inexactly Smooth Construction</span>
+    </a>
+    <a class="gallery-card" href="/desmos/smooth-interpolation" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/smooth_interpolation.png" alt="L-Smooth Interpolation" /></div>
+      <span class="gallery-title">L-Smooth Interpolation</span>
+    </a>
+    <a class="gallery-card" href="/desmos/p-norm-regularization" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="https://www.desmos.com/calc_thumbs/production/gzragmnctk.png" alt="p-norm regularization" /></div>
+      <span class="gallery-title">p-norm regularization</span>
+    </a>
+    <a class="gallery-card" href="/desmos/cocoercivity-demo" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/cocoercivity.png" alt="Visualizing Cocoercivity" /></div>
+      <span class="gallery-title">Visualizing Cocoercivity</span>
+    </a>
+    <a class="gallery-card" href="/desmos/strongly-convex" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/strongly_convex.png" alt="Strongly Convex Functions" /></div>
+      <span class="gallery-title">Strongly Convex Functions</span>
+    </a>
+    <a class="gallery-card" href="/desmos/L-smooth" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/L_smooth.png" alt="L-smooth Functions" /></div>
+      <span class="gallery-title">L-smooth Functions</span>
+    </a>
   </div>
 </div>
 
-  
+<div class="bubble gallery-section">
+  <h4><strong>Introduction to Computational Mathematics</strong></h4>
+  <div class="gallery-grid">
+    <a class="gallery-card" href="/desmos/runge-kutta-2" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/rk2.png" alt="Second Order RK Methods" /></div>
+      <span class="gallery-title">Second Order RK Methods</span>
+    </a>
+    <a class="gallery-card" href="/desmos/finite-diff" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/finite_diff_interp.png" alt="Finite Difference Interpolation" /></div>
+      <span class="gallery-title">Finite Difference Interpolation</span>
+    </a>
+    <a class="gallery-card" href="/desmos/lagrange-hermite-interpolation" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/lagrange_hermite_interp.png" alt="Lagrange/Hermite Interpolation" /></div>
+      <span class="gallery-title">Lagrange/Hermite Interpolation</span>
+    </a>
+    <a class="gallery-card" href="/desmos/fixed-point" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="https://www.desmos.com/calc_thumbs/production/xwljuznw9j.png" alt="Fixed Point Methods" /></div>
+      <span class="gallery-title">Fixed Point Methods</span>
+    </a>
+    <a class="gallery-card" href="/desmos/taylor-series" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/taylor_series.png" alt="Taylor Series" /></div>
+      <span class="gallery-title">Taylor Series</span>
+    </a>
   </div>
+</div>
 
+<div class="bubble gallery-section">
+  <h4><strong>Directed Reading Program</strong></h4>
+  <div class="gallery-grid">
+    <a class="gallery-card" href="/desmos/gradient-descent" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/GD.png" alt="Gradient Descent" /></div>
+      <span class="gallery-title">Gradient Descent</span>
+    </a>
+    <a class="gallery-card" href="https://www.desmos.com/calculator/oahkt7wzj1" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="https://www.desmos.com/calc_thumbs/production/oahkt7wzj1.png" alt="Armijo Rule" /></div>
+      <span class="gallery-title">Armijo Rule</span>
+    </a>
+  </div>
+</div>
 
+<div class="bubble gallery-section">
+  <h4><strong>Fun / Creative</strong></h4>
+  <div class="gallery-grid">
+    <a class="gallery-card" href="/desmos/voroni" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/voroni.png" alt="Voronoi Diagrams" /></div>
+      <span class="gallery-title">Voronoi Diagrams</span>
+    </a>
+    <a class="gallery-card" href="/desmos/circular-shadow" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/circular_shadow.png" alt="Circular Shadow" /></div>
+      <span class="gallery-title">Circular Shadow</span>
+    </a>
+    <a class="gallery-card" href="/desmos/modular-multiplication" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/modular_multiplication.png" alt="Modular Multiplication" /></div>
+      <span class="gallery-title">Modular Multiplication</span>
+    </a>
+    <a class="gallery-card" href="/widgets/optimal-couch/" target="_blank">
+      <div class="gallery-picture" id="couch-gallery-preview">
+        <img class="gallery-static" id="couch-preview-fallback" src="/widgets/images/couch_img.png" alt="General Optimized Sofa Problem" />
+        <canvas class="gallery-static" id="couch-preview-canvas" width="640" height="640" hidden=""></canvas>
+      </div>
+      <span class="gallery-title">General Optimized Sofa Problem</span>
+    </a>
+  </div>
+</div>
 
-  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Welcome to My Website!">
-    <meta itemprop="description" content="This is a work in progress and a lot neads to be updated.">
-    <meta itemprop="datePublished" content="2025-04-21T00:00:00-04:00">
-    
-
-    <div class="page__inner-wrap">
-      
-        <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">
-            <a href="http://localhost:4000/jekyll/update/welcome-to-website/" itemprop="url">Welcome to My Website!
-</a>
-          </h1>
-          
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-        </header>
-      
-
-      <section class="page__content" itemprop="text">
-        
-        <p>This is a work in progress and a lot neads to be updated.</p>
-
-\[\nabla_\boldsymbol{x} J({\bf x})\]
-
-<p>Here is the test code gien by Jeykll</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
-
-<p>Keeping this in for my future use [smiley face emoji]:</p>
-
-<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>
-
-
-        
-      </section>
-
-      <footer class="page__meta">
-        
-        
-
-
-  
-
-
-  
-
-  <p class="page__taxonomy">
-    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
-    <span itemprop="keywords">
-    
-      <a href="/categories/#jekyll" class="page__taxonomy-item p-category" rel="tag">jekyll</a><span class="sep">, </span>
-    
-      <a href="/categories/#update" class="page__taxonomy-item p-category" rel="tag">update</a>
-    
-    </span>
-  </p>
-
-
-        
-
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2025-04-21T00:00:00-04:00">April 21, 2025</time></p>
-
-      </footer>
-
-      <section class="page__share">
-  <h4 class="page__share-title">Share on</h4>
-
-  <a href="https://x.com/intent/tweet?text=Welcome+to+My+Website%21%20http%3A%2F%2Flocalhost%3A4000%2Fjekyll%2Fupdate%2Fwelcome-to-website%2F" class="btn btn--x" aria-label="Share on X" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on X">
-    <i class="fas fa-fw fa-share-alt" aria-hidden="true"></i><span> X</span>
-  </a>
-
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fjekyll%2Fupdate%2Fwelcome-to-website%2F" class="btn btn--facebook" aria-label="Share on Facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook">
-    <i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span>
-  </a>
-
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/jekyll/update/welcome-to-website/" class="btn btn--linkedin" aria-label="Share on LinkedIn" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn">
-    <i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span>
-  </a>
-
-  <a href="https://bsky.app/intent/compose?text=Welcome+to+My+Website%21%20http%3A%2F%2Flocalhost%3A4000%2Fjekyll%2Fupdate%2Fwelcome-to-website%2F" class="btn btn--bluesky" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Bluesky">
-    <i class="fab fa-fw fa-bluesky" aria-hidden="true"></i><span> Bluesky</span>
-  </a>
-</section>
-
-
-      
-
-    </div>
-
-    
+    </section>
   </article>
-
-  
-  
-    
-<div class="page__related">
-  
-  <h2 class="page__related-title">You may also enjoy</h2>
-  <div class="grid__wrapper">
-    
-      
-  </div>
 </div>
 
-  
-</div>
+<script>particlesJS.load('particles-js', '/assets/particles.json', function() {
+  console.log('callback - particles.js config loaded');
+});</script>
+<script src="/assets/js/particles.js"></script>
+<script src="/widgets/src/couch/coef.js"></script>
+<script src="/widgets/src/couch/sofa-math.js"></script>
+<script src="/assets/js/couch-preview.js"></script>
 
       
     </div>

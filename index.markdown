@@ -236,7 +236,7 @@ custom_js: |
       <div class="cv-button-holder">
         <a class="arxiv-btn" href="/cv" target = "_blank">Curriculum Vitae</a>
         <a class="arxiv-btn" href="https://www.linkedin.com/in/aaron-zoll/" target = "_blank">LinkedIn</a>
-        <a class="arxiv-btn" href="/DesmosGallery.html" target = "_blank">Desmos Gallery</a>
+        <a class="arxiv-btn" href="/gallery/" target = "_blank">Gallery</a>
         <a class="arxiv-btn" href="mailto:azoll1@jh.edu">Email</a>
       </div>
     </div>
@@ -350,5 +350,5 @@ custom_js: |
 
 <div class="desmos-section-label">
   <h4></h4>
-  <small><a href="/DesmosGallery.html">view all →</a></small>
+  <small><a href="/gallery/">view all →</a></small>
 </div>

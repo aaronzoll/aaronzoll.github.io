@@ -132,7 +132,7 @@ custom_js: |
 
 <div class="bubble">
   <h4><strong>Overview</strong></h4>
-  <p>Beyond the <a href="/DesmosGallery.html">Desmos Gallery</a>, I occasionally build small standalone tools that aid my research directly. I find interactive explorations construction, a conjecture, a proof technique, etc. are easier to understand when playing with something "tangible." Below are the widgets built so far.</p>
+  <p>Beyond the <a href="/gallery/">Gallery</a>, I occasionally build small standalone tools that aid my research directly. I find interactive explorations construction, a conjecture, a proof technique, etc. are easier to understand when playing with something "tangible." Below are the widgets built so far.</p>
 </div>
 
 <div class="demo-bubble-grid">

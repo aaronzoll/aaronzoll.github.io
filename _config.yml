@@ -149,7 +149,7 @@ footer:
       url: "https://www.linkedin.com/in/aaron-zoll/"
     - label: "Desmos"
       icon: "fas fa-fw fa-chart-line"
-      url: "/DesmosGallery.html"
+      url: "/gallery/"
     - label: "Email"
       icon: "fas fa-fw fa-envelope"
       url: "mailto:azoll1@jh.edu"
