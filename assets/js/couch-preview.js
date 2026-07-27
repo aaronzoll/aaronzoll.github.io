@@ -130,6 +130,14 @@
     link.addEventListener("focus", start);
     link.addEventListener("blur", stop);
 
+    // Touch devices have no hover: the gallery's tap-to-reveal script (see
+    // custom_js) toggles an "is-revealed" class on first tap instead. Mirror
+    // that here so the animation plays then too, rather than only reacting
+    // to mouse events.
+    new MutationObserver(function () {
+      if (link.classList.contains("is-revealed")) start(); else stop();
+    }).observe(link, { attributes: true, attributeFilter: ["class"] });
+
     // Solving the sofa family + extracting its boundary is the only non-trivial
     // cost here; defer it so it never blocks first paint of the gallery.
     setTimeout(function () {

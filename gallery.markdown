@@ -14,6 +14,35 @@ custom_js: |
   <script src="/widgets/src/couch/coef.js"></script>
   <script src="/widgets/src/couch/sofa-math.js"></script>
   <script src="/assets/js/couch-preview.js"></script>
+  <script>
+    // On touch devices, :hover can't be relied on to trigger the preview, so
+    // the first tap reveals it (without navigating) and a second tap follows
+    // the link — same mechanic as the home page's demo cards.
+    (function () {
+      var isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+      if (!isTouch) return;
+
+      document.querySelectorAll('.gallery-card').forEach(function (card) {
+        card.addEventListener('click', function (e) {
+          if (!card.classList.contains('is-revealed')) {
+            e.preventDefault();
+            document.querySelectorAll('.gallery-card.is-revealed').forEach(function (other) {
+              other.classList.remove('is-revealed');
+            });
+            card.classList.add('is-revealed');
+          }
+        });
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest('.gallery-card')) {
+          document.querySelectorAll('.gallery-card.is-revealed').forEach(function (other) {
+            other.classList.remove('is-revealed');
+          });
+        }
+      });
+    })();
+  </script>
 
 ---
 
@@ -89,12 +118,17 @@ custom_js: |
     .gallery-card:hover .gallery-anim { opacity: 1; }
   }
 
+  /* Touch devices: first tap adds this (see custom_js), standing in for :hover */
+  .gallery-card.is-revealed .gallery-static { transform: scale(1.06); }
+  .gallery-card.is-revealed .gallery-anim { opacity: 1; }
+
   .gallery-title {
     font-size: 0.85rem;
     font-weight: 600;
     line-height: 1.3;
     text-align: center;
     margin-top: 0.6rem;
+    color: #3a4f63;
   }
 
   .gallery-section { margin-bottom: 1.5rem; }
