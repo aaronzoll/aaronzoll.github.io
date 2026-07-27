@@ -5,5 +5,7 @@ main:
     url: /research/
   - title: "Teaching"
     url: /teaching/
+  # - title: "Widgets"
+  #   url: /widgets/
   - title: "Desmos Gallery"
     url: /DesmosGallery.html

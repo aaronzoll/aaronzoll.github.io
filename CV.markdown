@@ -248,17 +248,24 @@ custom_js: |
     </div>
     <div class="cv-entry">
       <div class="cv-entry-header">
-        <span class="cv-entry-title">Johns Hopkins, Baltimore — Teaching Assistant</span>
-        <span class="cv-entry-date">January 2020 – Present</span>
+        <span class="cv-entry-title">Johns Hopkins, Baltimore — Directed Reading Program</span>
+        <span class="cv-entry-date">Spring 2025/Fall 2025</span>
       </div>
-      <p class="cv-entry-body">Supported instruction in twenty undergraduate and graduate-level courses through grading, writing lecture notes, designing assignments, leading weekly discussion sections, and providing academic support to students. Collaborated with faculty to reinforce core course concepts and foster a strong learning environment.</p>
+      <p class="cv-entry-body">Paired with up to three students a semester, mentoring a self-contained course on gradient descent, its convergence theory and guarantees. Wrote a series of lecture notes and exercises for students who were expected to discuss and work independently for a few hours every week. After the semester of preparation, each student presented a structured talk to the group of mentees.</p>
     </div>
     <div class="cv-entry">
       <div class="cv-entry-header">
         <span class="cv-entry-title">Johns Hopkins, Baltimore — Course Developer</span>
-        <span class="cv-entry-date">Summer 2021 – 2025</span>
+        <span class="cv-entry-date">Summer 2021</span>
       </div>
       <p class="cv-entry-body">Contributed to the design and development of new mathematics and engineering courses. Authored original lecture material, guided Excel practice problems, engaging problem sets, and instructional resources tailored to enhance pedagogical clarity and student engagement.</p>
+    </div>
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <span class="cv-entry-title">Johns Hopkins, Baltimore — Teaching Assistant</span>
+        <span class="cv-entry-date">January 2020 – Present</span>
+      </div>
+      <p class="cv-entry-body">Supported instruction in twenty undergraduate and graduate-level courses through grading, writing lecture notes, designing assignments, leading weekly discussion sections, and providing academic support to students. Collaborated with faculty to reinforce core course concepts and foster a strong learning environment.</p>
     </div>
     <div class="cv-entry">
       <div class="cv-entry-header">
@@ -317,7 +324,7 @@ custom_js: |
         <span class="cv-entry-date">Summer 2022</span>
       </div>
       <div class="cv-entry-subtitle">Course Developer &amp; Instructor, Johns Hopkins University</div>
-      <p class="cv-entry-body">Developed and launched a summer course for high school students introducing the fundamentals of data analysis, probability, and statistics. Encouraged students to master effective presentation skills and collaborative work. Produced a full suite of materials, including lecture videos, online quizzes, interactive assignments, and guided Excel tutorials, delivered to over 50 students annually.</p>
+      <p class="cv-entry-body">Developed and launched a summer course for high school students introducing the fundamentals of data analysis, probability, and statistics. Encouraged students to master affective presentation skills and collaborative work. Produced a full suite of materials, including lecture videos, online quizzes, interactive assignments, and guided Excel tutorials, delivered to over 50 students annually.</p>
     </div>
   </div>
 </div>
@@ -328,12 +335,12 @@ custom_js: |
   <div class="cv-subsection-label">Graduate Teaching Assistant</div>
   <div class="venue-list">
     <div class="venue-item">
-      <span class="venue-name">Machine Learning 1 (EN.553.740)</span>
-      <span class="venue-date">Fall 2025</span>
-    </div>
-    <div class="venue-item">
       <span class="venue-name">Introduction to Computational Mathematics (EN.553.385)</span>
       <span class="venue-date">Spring 2025, Spring 2026</span>
+    </div>
+    <div class="venue-item">
+      <span class="venue-name">Machine Learning 1 (EN.553.740)</span>
+      <span class="venue-date">Fall 2025</span>
     </div>
     <div class="venue-item">
       <span class="venue-name">Introduction to Convexity (EN.553.665)</span>
@@ -403,7 +410,7 @@ custom_js: |
         <span class="cv-entry-date">Ongoing</span>
       </div>
       <div class="cv-entry-subtitle">Dissertation research with Dr. Benjamin Grimmer, Johns Hopkins University</div>
-      <p class="cv-entry-body">Conducting theoretical research on algorithm design and analysis to unify the regimes between smooth and nonsmooth convex problem classes (e.g. functions exhibiting Hölder smoothness or uniform convexity). Prior work focused on heterogeneously smooth and convex compositions, calculus results expanding and characterizing dual notions between Hölder smoothness and uniform convexity, interpolation theory for inexactly smooth convex functions, performance estimation over respective problem classes, and universal algorithm design. Future work entails characterizing the class of minimax optimal methods for convex Lipschitz minimization.</p>
+      <p class="cv-entry-body">Conducting theoretical research on algorithm design and analysis to unify the regimes between smooth and nonsmooth convex problem classes (e.g. function exhibiting Hölder smoothness or uniform convexity). Prior work focused on heterogeneously smooth and convex compositions, calculus results expanding and characterizing dual notations between Hölder smoothness and uniform convexity, interpolation theory for inexactly smooth convex functions, performance estimation over respective problem classes, and universal algorithm design. Future work entails characterizing the class of minimax optimal methods for convex Lipschitz minimization.</p>
     </div>
     <div class="cv-entry">
       <div class="cv-entry-header">
@@ -440,6 +447,12 @@ custom_js: |
 
   <div class="cv-subsection-label">Preprints</div>
   <div class="paper-list">
+    <div class="paper-row">
+      <span class="paper-title">A Complete Characterization of Optimal Subgradient Methods for Lipschitz Minimization<br><em>(2026)</em></span>
+      <div style="display:flex;gap:0.4rem;flex-shrink:0;">
+        <a class="arxiv-btn" href="https://arxiv.org/abs/2607.19240" target="_blank">arXiv</a>
+      </div>
+    </div>
     <div class="paper-row">
       <span class="paper-title">Inexactly Smooth Performance Estimation and New Optimized Gradient Methods<br><em>(2026)</em></span>
       <div style="display:flex;gap:0.4rem;flex-shrink:0;">
