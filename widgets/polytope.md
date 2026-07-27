@@ -39,11 +39,10 @@ unique set of dual multipliers \\(\lambda_{ij} \geq 0\\), \\(i < j\\), sitting i
 \mathcal{P}^N = \left\\{\, \lambda \mid \lambda \geq 0,\ \ \sum_{i=j+1}^{N} \lambda_{j,i} - \sum_{i=0}^{j-1} \lambda_{i,j} = \frac{1}{N+1}, \ \ j = 0, \dots, N-1 \,\right\\}.
 \\]
 
-The vertices of this polytope are its spanning trees into \\(N\\) — one out-arc \\(s(j) > j\\)
-per node — so there are exactly \\(N!\\) of them.
+There are exactly N! vertices on this polytope, and each can be characterized by a particular "arc diagram." These diagrams can be understood as a selection of \\(N\\) dual multipliers, one in each row of the upper triangular \\(\Lambda\\) matrix: a choice of \\(\lambda_{j,s(j)}\\) where the map \\(s(j) > j\\) for each \\(j = 0, 1, \dots, N-1\\). 
 
-Drori–Taylor sits at the path \\(s(j) = j+1\\), the averaged subgradient method at the star
-\\(s(j) = N\\), and Zamani–Glineur at the barycenter of all \\(N!\\) vertices.
+The SSEP method constructed by <a href = "https://arxiv.org/abs/1803.05676">Drori and Taylor</a> corresponds to \\(s(j) = j+1\\), and the averaged subgradient method corresponds to the constant
+\\(s(j) = N\\). The last-iterate subgradient method (without averaging) of <a href = "https://arxiv.org/abs/2307.11134">Zamani and Glineur</a> is the barycenter of all \\(N!\\) vertices.
 
 <style>
   .poly-controls {

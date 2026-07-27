@@ -259,7 +259,6 @@ custom_js: |
         <a class="arxiv-btn" href="https://arxiv.org/abs/2606.01505" target="_blank">arXiv</a>
       </div>
     </div>
-    </div>
   </div>
 </div>
 
