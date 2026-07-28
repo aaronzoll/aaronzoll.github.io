@@ -110,12 +110,23 @@
       rafId = requestAnimationFrame(step);
     }
 
+    // Every other card's hover effect is a plain 0.25s CSS zoom on a still
+    // image. Starting the sofa's motion on the same instant as that CSS
+    // transition made the couch read as an abrupt cut instead of the same
+    // slow "expand" — so let the zoom finish first, then start the slide.
+    var START_DELAY_MS = 260;
+    var startTimer = null;
+
     function start() {
-      if (!shape || playing) return;
-      playing = true; lastT = null; pausedAt = null;
-      rafId = requestAnimationFrame(step);
+      if (!shape || playing || startTimer) return;
+      startTimer = setTimeout(function () {
+        startTimer = null;
+        playing = true; lastT = null; pausedAt = null;
+        rafId = requestAnimationFrame(step);
+      }, START_DELAY_MS);
     }
     function stop() {
+      if (startTimer) { clearTimeout(startTimer); startTimer = null; }
       playing = false;
       if (rafId) cancelAnimationFrame(rafId);
       rafId = null;

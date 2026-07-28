@@ -14,6 +14,7 @@ custom_js: |
   <script src="/widgets/src/couch/coef.js"></script>
   <script src="/widgets/src/couch/sofa-math.js"></script>
   <script src="/assets/js/couch-preview.js"></script>
+  <script src="/assets/js/gallery-video-preview.js"></script>
   <script>
     // On touch devices, :hover can't be relied on to trigger the preview, so
     // the first tap reveals it (without navigating) and a second tap follows
@@ -90,7 +91,8 @@ custom_js: |
   }
 
   .gallery-picture img,
-  .gallery-picture canvas {
+  .gallery-picture canvas,
+  .gallery-picture video {
     position: absolute;
     inset: 8px;
     width: calc(100% - 16px);
@@ -101,14 +103,21 @@ custom_js: |
 
   .gallery-picture canvas[hidden] { display: none; }
 
-  /* Still image: no caption/cover on hover, just a gentle zoom */
-  .gallery-picture img.gallery-static {
+  /* Still image (or the couch's live canvas): no caption/cover on hover,
+     just a gentle zoom. Scoped per-tag, not just "img", so canvas/video
+     variants of .gallery-static also get the transition, not just the
+     end-state transform. */
+  .gallery-picture img.gallery-static,
+  .gallery-picture canvas.gallery-static,
+  .gallery-picture video.gallery-static {
     transition: transform 0.25s ease;
   }
 
-  /* Animation placeholder: hidden until an animated source is supplied,
-     then it fades in over the still image on hover instead of zooming. */
-  .gallery-picture img.gallery-anim {
+  /* Animation placeholder (gif <img> or <video>): hidden until an animated
+     source is supplied, then it fades in over the still image on hover
+     instead of zooming. */
+  .gallery-picture img.gallery-anim,
+  .gallery-picture video.gallery-anim {
     opacity: 0;
     transition: opacity 0.25s ease;
   }
@@ -194,7 +203,12 @@ custom_js: |
   <h4><strong>Introduction to Computational Mathematics</strong></h4>
   <div class="gallery-grid">
     <a class="gallery-card" href="/desmos/runge-kutta-2" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/rk2.png" alt="Second Order RK Methods"></div>
+      <div class="gallery-picture">
+        <img class="gallery-static" src="/assets/desmos/gifs/RK_poster.png" alt="Second Order RK Methods">
+        <video class="gallery-anim" muted playsinline preload="auto" poster="/assets/desmos/gifs/RK_poster.png" data-playback-rate="0.35">
+          <source src="/assets/desmos/gifs/RK.mp4" type="video/mp4">
+        </video>
+      </div>
       <span class="gallery-title">Second Order RK Methods</span>
     </a>
     <a class="gallery-card" href="/desmos/finite-diff" target="_blank">

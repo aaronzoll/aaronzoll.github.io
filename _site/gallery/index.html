@@ -22,14 +22,14 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
 <meta property="og:title" content="Gallery">
-<meta property="og:url" content="http://localhost:4000/gallery/">
+<meta property="og:url" content="/gallery/">
 
 
   <meta property="og:description" content="">
 
 
 
-  <meta property="og:image" content="http://localhost:4000/assets/images/desmos_gallery_background1.png">
+  <meta property="og:image" content="/assets/images/desmos_gallery_background1.png">
 
 
 
@@ -44,7 +44,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/gallery/">
+<link rel="canonical" href="/gallery/">
 
 
 
@@ -762,7 +762,8 @@ window.MathJax = {
   }
 
   .gallery-picture img,
-  .gallery-picture canvas {
+  .gallery-picture canvas,
+  .gallery-picture video {
     position: absolute;
     inset: 8px;
     width: calc(100% - 16px);
@@ -773,14 +774,21 @@ window.MathJax = {
 
   .gallery-picture canvas[hidden] { display: none; }
 
-  /* Still image: no caption/cover on hover, just a gentle zoom */
-  .gallery-picture img.gallery-static {
+  /* Still image (or the couch's live canvas): no caption/cover on hover,
+     just a gentle zoom. Scoped per-tag, not just "img", so canvas/video
+     variants of .gallery-static also get the transition, not just the
+     end-state transform. */
+  .gallery-picture img.gallery-static,
+  .gallery-picture canvas.gallery-static,
+  .gallery-picture video.gallery-static {
     transition: transform 0.25s ease;
   }
 
-  /* Animation placeholder: hidden until an animated source is supplied,
-     then it fades in over the still image on hover instead of zooming. */
-  .gallery-picture img.gallery-anim {
+  /* Animation placeholder (gif <img> or <video>): hidden until an animated
+     source is supplied, then it fades in over the still image on hover
+     instead of zooming. */
+  .gallery-picture img.gallery-anim,
+  .gallery-picture video.gallery-anim {
     opacity: 0;
     transition: opacity 0.25s ease;
   }
@@ -790,12 +798,17 @@ window.MathJax = {
     .gallery-card:hover .gallery-anim { opacity: 1; }
   }
 
+  /* Touch devices: first tap adds this (see custom_js), standing in for :hover */
+  .gallery-card.is-revealed .gallery-static { transform: scale(1.06); }
+  .gallery-card.is-revealed .gallery-anim { opacity: 1; }
+
   .gallery-title {
     font-size: 0.85rem;
     font-weight: 600;
     line-height: 1.3;
     text-align: center;
     margin-top: 0.6rem;
+    color: #3a4f63;
   }
 
   .gallery-section { margin-bottom: 1.5rem; }
@@ -860,7 +873,12 @@ window.MathJax = {
   <h4><strong>Introduction to Computational Mathematics</strong></h4>
   <div class="gallery-grid">
     <a class="gallery-card" href="/desmos/runge-kutta-2" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/rk2.png" alt="Second Order RK Methods" /></div>
+      <div class="gallery-picture">
+        <img class="gallery-static" src="/assets/desmos/gifs/RK_poster.png" alt="Second Order RK Methods" />
+        <video class="gallery-anim" muted="" playsinline="" preload="auto" poster="/assets/desmos/gifs/RK_poster.png" data-playback-rate="0.35">
+          <source src="/assets/desmos/gifs/RK.mp4" type="video/mp4" />
+        </video>
+      </div>
       <span class="gallery-title">Second Order RK Methods</span>
     </a>
     <a class="gallery-card" href="/desmos/finite-diff" target="_blank">
@@ -932,6 +950,36 @@ window.MathJax = {
 <script src="/widgets/src/couch/coef.js"></script>
 <script src="/widgets/src/couch/sofa-math.js"></script>
 <script src="/assets/js/couch-preview.js"></script>
+<script src="/assets/js/gallery-video-preview.js"></script>
+<script>
+  // On touch devices, :hover can't be relied on to trigger the preview, so
+  // the first tap reveals it (without navigating) and a second tap follows
+  // the link — same mechanic as the home page's demo cards.
+  (function () {
+    var isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    if (!isTouch) return;
+
+    document.querySelectorAll('.gallery-card').forEach(function (card) {
+      card.addEventListener('click', function (e) {
+        if (!card.classList.contains('is-revealed')) {
+          e.preventDefault();
+          document.querySelectorAll('.gallery-card.is-revealed').forEach(function (other) {
+            other.classList.remove('is-revealed');
+          });
+          card.classList.add('is-revealed');
+        }
+      });
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.gallery-card')) {
+        document.querySelectorAll('.gallery-card.is-revealed').forEach(function (other) {
+          other.classList.remove('is-revealed');
+        });
+      }
+    });
+  })();
+</script>
 
       
     </div>
