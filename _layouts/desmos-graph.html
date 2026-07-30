@@ -2,13 +2,34 @@
 layout: default
 ---
 
+{% assign _parts = content | split: '<!--writeup-->' %}
+
 {% if page.side_controls %}
-  {% assign _parts      = content | split: '<!--writeup-->' %}
-  {% assign _panel_raw  = _parts[0] %}
-  {% assign _writeup    = _parts[1] %}
-  {% assign _bg_parts   = _panel_raw | split: '<!--below-graph-->' %}
+  {% assign _bg_parts   = _parts[0] | split: '<!--below-graph-->' %}
   {% assign _panel      = _bg_parts[0] %}
   {% assign _below_graph = _bg_parts[1] %}
+  {% assign _writeup    = _parts[1] %}
+{% elsif _parts.size > 1 %}
+  {% assign _below_graph = _parts[0] %}
+  {% assign _writeup    = _parts[1] %}
+{% else %}
+  {% assign _writeup    = content %}
+{% endif %}
+
+<!-- A page counts as having a write-up when the write-up region holds real prose. -->
+<!-- Set `writeup: false` in front matter when that region only holds controls.    -->
+{% assign _writeup_text = _writeup | strip_html | strip %}
+{% if page.writeup == false or _writeup_text == '' %}
+  {% assign _has_writeup = false %}
+{% else %}
+  {% assign _has_writeup = true %}
+{% endif %}
+
+<!-- Render the section for anything visible; comment-only regions stay hidden. -->
+{% if _writeup_text != '' or _writeup contains '<script' or _writeup contains '<style' %}
+  {% assign _show_writeup = true %}
+{% else %}
+  {% assign _show_writeup = false %}
 {% endif %}
 
 <style>
@@ -24,7 +45,7 @@ layout: default
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.35rem;
   }
 
   .desmos-page-top h1 {
@@ -37,6 +58,36 @@ layout: default
     display: flex;
     gap: 1.2rem;
     align-items: center;
+  }
+
+  /* Small "jump to the write-up" line sitting directly under the title */
+  .desmos-page-jump {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .desmos-page-jump a {
+    text-decoration: none;
+    border-bottom: 1px dotted currentColor;
+  }
+
+  .desmos-page-jump a:hover {
+    border-bottom-style: solid;
+  }
+
+  .desmos-page-jump--pending {
+    color: #777;
+    font-style: italic;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   .desmos-controls {
@@ -95,6 +146,7 @@ layout: default
     margin-top: 2rem;
     padding-top: 1.5rem;
     border-top: 2px solid #a67b5b;
+    scroll-margin-top: 1.5rem;
   }
 
   /* Side-panel layout (opt-in via side_controls: true in front matter) */
@@ -148,6 +200,14 @@ layout: default
       <a href="/gallery/">← Gallery</a>
       {% if page.desmos_url %}<a href="{{ page.desmos_url }}" target="_blank">Open in Desmos ↗</a>{% endif %}
     </div>
+  </div>
+
+  <div class="desmos-page-jump">
+    {% if _has_writeup %}
+      <a href="#writeup">Jump to write-up ↓</a>
+    {% else %}
+      <span class="desmos-page-jump--pending">Write-up coming soon.</span>
+    {% endif %}
   </div>
 
   <div class="desmos-body{% if page.side_controls %} desmos-body--side{% endif %}">
@@ -241,14 +301,12 @@ layout: default
 
     {% if page.side_controls %}
       <div class="desmos-side-panel page__content">{{ _panel }}</div>
-    {% elsif content %}
-      <div class="desmos-writeup page__content">{{ content }}</div>
     {% endif %}
 
   </div>
 
-  {% if page.side_controls and _writeup %}
-    <div class="desmos-writeup page__content">{{ _writeup }}</div>
+  {% if _show_writeup %}
+    <div class="desmos-writeup page__content" id="writeup">{{ _writeup }}</div>
   {% endif %}
 
 </div>

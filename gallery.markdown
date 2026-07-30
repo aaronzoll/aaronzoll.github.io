@@ -145,19 +145,39 @@ custom_js: |
   <h4><strong>Research / Convex Analysis</strong></h4>
   <div class="gallery-grid">
     <a class="gallery-card" href="/desmos/interpolation-master" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/interpolation_master.png" alt="Interpolation Master"></div>
+      <div class="gallery-picture">
+        <img class="gallery-static" src="/assets/desmos/gifs/interpolation_master_poster.png" alt="Interpolation Master">
+        <video class="gallery-anim" muted playsinline preload="auto" poster="/assets/desmos/gifs/interpolation_master_poster.png">
+          <source src="/assets/desmos/gifs/interpolation_master.mp4" type="video/mp4">
+        </video>
+      </div>
       <span class="gallery-title">Interpolation Master</span>
     </a>
     <a class="gallery-card" href="/desmos/worst-case-gd" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/huber_quad_image.png" alt="Worst-Case Smooth Gradient Descent"></div>
+      <div class="gallery-picture">
+        <img class="gallery-static" src="/assets/desmos/gifs/huber_quad_poster.png" alt="Worst-Case Smooth Gradient Descent">
+        <video class="gallery-anim" muted playsinline preload="auto" poster="/assets/desmos/gifs/huber_quad_poster.png">
+          <source src="/assets/desmos/gifs/huber_quad.mp4" type="video/mp4">
+        </video>
+      </div>
       <span class="gallery-title">Worst-Case Smooth Gradient Descent</span>
     </a>
     <a class="gallery-card" href="/desmos/legendre-transform" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/legendre_demo.png" alt="Legendre Transform Demo"></div>
+      <div class="gallery-picture">
+        <img class="gallery-static" src="/assets/desmos/gifs/legendre_demo_poster.png" alt="Legendre Transform Demo">
+        <video class="gallery-anim" muted playsinline preload="auto" poster="/assets/desmos/gifs/legendre_demo_poster.png">
+          <source src="/assets/desmos/gifs/legendre_demo.mp4" type="video/mp4">
+        </video>
+      </div>
       <span class="gallery-title">Legendre Transform Demo</span>
     </a>
     <a class="gallery-card" href="/desmos/inexact-cocoercivity" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/inexact_coco_image.png" alt="Inexact Cocoercivity Demo"></div>
+      <div class="gallery-picture">
+        <img class="gallery-static" src="/assets/desmos/gifs/inexact_coco_poster.png" alt="Inexact Cocoercivity Demo">
+        <video class="gallery-anim" muted playsinline preload="auto" poster="/assets/desmos/gifs/inexact_coco_poster.png">
+          <source src="/assets/desmos/gifs/inexact_coco.mp4" type="video/mp4">
+        </video>
+      </div>
       <span class="gallery-title">Inexact Cocoercivity Demo</span>
     </a>
     <a class="gallery-card" href="/desmos/inexact-interpolation" target="_blank">

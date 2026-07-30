@@ -30,7 +30,7 @@ back_label: "Research"
   </div>
 </div>
 
-<hr class="poly-divider">
+<!--writeup-->
 
 Every minimax-optimal fixed-step method for Lipschitz convex minimization corresponds to a
 unique set of dual multipliers \\(\lambda_{ij} \geq 0\\), \\(i < j\\), sitting inside the polytope
@@ -51,7 +51,7 @@ The SSEP method constructed by <a href = "https://arxiv.org/abs/1803.05676">Dror
     justify-content: center;
     align-items: center;
     gap: 1.75rem;
-    padding-bottom: 1.5rem;
+    padding: 1.25rem 0 0.25rem;
   }
 
   .poly-control-group {
@@ -95,12 +95,6 @@ The SSEP method constructed by <a href = "https://arxiv.org/abs/1803.05676">Dror
     font-size: 0.82rem;
     color: #37474f;
     min-width: 2.6rem;
-  }
-
-  .poly-divider {
-    border: none;
-    border-top: 1px solid #d0d7de;
-    margin: 0 0 1.5rem;
   }
 </style>
 

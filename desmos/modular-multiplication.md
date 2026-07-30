@@ -133,4 +133,3 @@ side_controls: true
 </script>
 
 <!--writeup-->
-*Write-up coming soon*

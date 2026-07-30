@@ -3,9 +3,10 @@ layout: desmos-graph
 title: "Fixed Point Methods"
 desmos_json: "fixed_point.json"
 desmos_url: "https://www.desmos.com/calculator/xwljuznw9j"
+# The section below only holds the blurb and function selector, not a write-up.
+writeup: false
 ---
 
-*Write-up coming soon.*
 
 
 <div class="fp-section">

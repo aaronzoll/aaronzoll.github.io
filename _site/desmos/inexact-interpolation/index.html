@@ -22,7 +22,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
 <meta property="og:title" content="L(delta) Inexactly Smooth Interpolation">
-<meta property="og:url" content="http://localhost:4000/desmos/inexact-interpolation/">
+<meta property="og:url" content="/desmos/inexact-interpolation/">
 
 
   <meta property="og:description" content="">
@@ -42,7 +42,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/desmos/inexact-interpolation/">
+<link rel="canonical" href="/desmos/inexact-interpolation/">
 
 
 
@@ -648,6 +648,16 @@ window.MathJax = {
     <div class="initial-content">
       
 
+
+
+<!-- A page counts as having a write-up when the write-up region holds real prose. -->
+<!-- Set `writeup: false` in front matter when that region only holds controls.    -->
+
+
+
+<!-- Render the section for anything visible; comment-only regions stay hidden. -->
+
+
 <style>
   .desmos-page-wrap {
     max-width: 1100px;
@@ -661,7 +671,7 @@ window.MathJax = {
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.35rem;
   }
 
   .desmos-page-top h1 {
@@ -674,6 +684,36 @@ window.MathJax = {
     display: flex;
     gap: 1.2rem;
     align-items: center;
+  }
+
+  /* Small "jump to the write-up" line sitting directly under the title */
+  .desmos-page-jump {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .desmos-page-jump a {
+    text-decoration: none;
+    border-bottom: 1px dotted currentColor;
+  }
+
+  .desmos-page-jump a:hover {
+    border-bottom-style: solid;
+  }
+
+  .desmos-page-jump--pending {
+    color: #777;
+    font-style: italic;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   .desmos-controls {
@@ -732,6 +772,7 @@ window.MathJax = {
     margin-top: 2rem;
     padding-top: 1.5rem;
     border-top: 2px solid #a67b5b;
+    scroll-margin-top: 1.5rem;
   }
 
   /* Side-panel layout (opt-in via side_controls: true in front matter) */
@@ -785,6 +826,12 @@ window.MathJax = {
       <a href="/gallery/">← Gallery</a>
       <a href="https://www.desmos.com/calculator/ukg2b09eb0" target="_blank">Open in Desmos ↗</a>
     </div>
+  </div>
+
+  <div class="desmos-page-jump">
+    
+      <a href="#writeup">Jump to write-up ↓</a>
+    
   </div>
 
   <div class="desmos-body desmos-body--side">
@@ -982,7 +1029,7 @@ window.MathJax = {
   </div>
 
   
-    <div class="desmos-writeup page__content">
+    <div class="desmos-writeup page__content" id="writeup">
 
 <p>Each cell shows \(f_i - f_j - g_j(x_i - x_j) - \theta^*(g_i - g_j)\). All values must be \(\geq 0\) for the data to be \(L(\delta)\)-inexactly smooth interpolable.</p>
 

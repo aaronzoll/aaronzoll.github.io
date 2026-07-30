@@ -402,11 +402,11 @@ custom_js: |
 </div>
 
 <div class="bubble">
-  <h4><strong>Research</strong></h4>
+  <h4><strong>Research Interests</strong></h4>
   <div class="cv-entry-list">
     <div class="cv-entry">
       <div class="cv-entry-header">
-        <span class="cv-entry-title">Optimization Research</span>
+        <span class="cv-entry-title">Optimization</span>
         <span class="cv-entry-date">Ongoing</span>
       </div>
       <div class="cv-entry-subtitle">Dissertation research with Dr. Benjamin Grimmer, Johns Hopkins University</div>
@@ -414,7 +414,7 @@ custom_js: |
     </div>
     <div class="cv-entry">
       <div class="cv-entry-header">
-        <span class="cv-entry-title">AI Pedagogy Research</span>
+        <span class="cv-entry-title">AI Pedagogy</span>
         <span class="cv-entry-date">Ongoing</span>
       </div>
       <div class="cv-entry-subtitle">Extracurricular research led by Dr. Sergey Kushnarev, Johns Hopkins University</div>
@@ -422,7 +422,7 @@ custom_js: |
     </div>
     <div class="cv-entry">
       <div class="cv-entry-header">
-        <span class="cv-entry-title">Signal Processing Research</span>
+        <span class="cv-entry-title">Signal Processing</span>
         <span class="cv-entry-date">Upcoming</span>
       </div>
       <div class="cv-entry-subtitle">Planned collaboration with Dr. Mario Michelli &amp; Kaleigh Rudge, Johns Hopkins University</div>

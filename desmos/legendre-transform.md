@@ -6,4 +6,3 @@ desmos_url: "https://www.desmos.com/calculator/ua9fujvuxe"
 ---
 
 
-*Write-up coming soon.*

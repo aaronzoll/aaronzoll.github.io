@@ -5,6 +5,8 @@ title: "Inexact Cocoercivity Demo"
 desmos_json: "inexact_coco.json"
 desmos_url: "https://www.desmos.com/calculator/2rrfzfzuwc"
 side_controls: true
+# The write-up region below only holds the demo controls, not prose.
+writeup: false
 ---
 
 <div class="ico-stack">
@@ -142,7 +144,6 @@ side_controls: true
 </script>
 
 <!--writeup-->
-*Write-up coming soon*
 
 <div class="ico-demo">
   <button class="site-btn" id="ico-demo-btn">Run Full Demo</button>

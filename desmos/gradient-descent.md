@@ -295,5 +295,3 @@ side_controls: true
 </script>
 
 <!--writeup-->
-
-<!-- Optional write-up below. Supports full Markdown + LaTeX via MathJax. -->

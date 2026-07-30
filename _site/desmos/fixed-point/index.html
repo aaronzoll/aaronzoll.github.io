@@ -22,7 +22,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
 <meta property="og:title" content="Fixed Point Methods">
-<meta property="og:url" content="http://localhost:4000/desmos/fixed-point/">
+<meta property="og:url" content="/desmos/fixed-point/">
 
 
   <meta property="og:description" content="">
@@ -42,7 +42,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/desmos/fixed-point/">
+<link rel="canonical" href="/desmos/fixed-point/">
 
 
 
@@ -648,6 +648,16 @@ window.MathJax = {
     <div class="initial-content">
       
 
+
+
+<!-- A page counts as having a write-up when the write-up region holds real prose. -->
+<!-- Set `writeup: false` in front matter when that region only holds controls.    -->
+
+
+
+<!-- Render the section for anything visible; comment-only regions stay hidden. -->
+
+
 <style>
   .desmos-page-wrap {
     max-width: 1100px;
@@ -661,7 +671,7 @@ window.MathJax = {
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.35rem;
   }
 
   .desmos-page-top h1 {
@@ -674,6 +684,36 @@ window.MathJax = {
     display: flex;
     gap: 1.2rem;
     align-items: center;
+  }
+
+  /* Small "jump to the write-up" line sitting directly under the title */
+  .desmos-page-jump {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .desmos-page-jump a {
+    text-decoration: none;
+    border-bottom: 1px dotted currentColor;
+  }
+
+  .desmos-page-jump a:hover {
+    border-bottom-style: solid;
+  }
+
+  .desmos-page-jump--pending {
+    color: #777;
+    font-style: italic;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   .desmos-controls {
@@ -732,6 +772,7 @@ window.MathJax = {
     margin-top: 2rem;
     padding-top: 1.5rem;
     border-top: 2px solid #a67b5b;
+    scroll-margin-top: 1.5rem;
   }
 
   /* Side-panel layout (opt-in via side_controls: true in front matter) */
@@ -787,6 +828,12 @@ window.MathJax = {
     </div>
   </div>
 
+  <div class="desmos-page-jump">
+    
+      <span class="desmos-page-jump--pending">Write-up coming soon.</span>
+    
+  </div>
+
   <div class="desmos-body">
 
     <div class="desmos-embed-section">
@@ -839,9 +886,11 @@ window.MathJax = {
     </div>
 
     
-      <div class="desmos-writeup page__content"><p><em>Write-up coming soon.</em></p>
 
-<div class="fp-section">
+  </div>
+
+  
+    <div class="desmos-writeup page__content" id="writeup"><div class="fp-section">
 
   <p class="fp-description">
     A <strong>fixed point</strong> of \(g\) is a value \(x^*\) where \(g(x^*) = x^*\).
@@ -929,10 +978,6 @@ window.MathJax = {
 </script>
 
 </div>
-    
-
-  </div>
-
   
 
 </div>

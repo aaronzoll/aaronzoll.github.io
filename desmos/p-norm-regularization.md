@@ -89,7 +89,6 @@ side_controls: true
 </script>
 
 <!--writeup-->
-*Write-up coming soon.*
 
 We aim to solve the following problem 
 <div>

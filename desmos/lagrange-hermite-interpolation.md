@@ -223,4 +223,3 @@ side_controls: true
 
 <!--writeup-->
 
-*Write-up coming soon.*
