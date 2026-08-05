@@ -676,6 +676,7 @@ bundle <span class="nb">install</span>
   <li><strong>Root-level <code class="language-plaintext highlighter-rouge">.markdown</code> files</strong> — main site pages (index, about, research, teaching, projects, contact, CV)</li>
   <li><strong><code class="language-plaintext highlighter-rouge">desmos/</code></strong> — 18 individual interactive Desmos graph pages; use <code class="language-plaintext highlighter-rouge">desmos/_template.md</code> when adding new ones</li>
   <li><strong><code class="language-plaintext highlighter-rouge">gallery.markdown</code></strong> — Gallery page (permalink <code class="language-plaintext highlighter-rouge">/gallery/</code>) linking all Desmos visualizations; styled to match the rest of the site. <code class="language-plaintext highlighter-rouge">DesmosGallery.html</code> is the legacy version, kept unlinked in case of rollback.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">widgets/</code></strong> — standalone interactive research tools. Each is a two-file pair: a thin <code class="language-plaintext highlighter-rouge">*.md</code> page (<code class="language-plaintext highlighter-rouge">layout: widget</code>) plus the actual app in a self-contained HTML file it points at. See “Widgets” below.</li>
   <li><strong><code class="language-plaintext highlighter-rouge">_config.yml</code></strong> — site config: remote theme, author profile, plugins, MathJax/spaceship settings</li>
   <li><strong><code class="language-plaintext highlighter-rouge">_data/navigation.yml</code></strong> — main nav links (Home, About, Research, Teaching, Desmos Gallery)</li>
   <li><strong><code class="language-plaintext highlighter-rouge">_includes/mathjax-config.html</code></strong> — MathJax 3 setup; disables jekyll-spaceship math processors to avoid conflicts</li>
@@ -1198,6 +1199,44 @@ window.MathJax = {
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" defer=""></script>
 ` in their front matter <code class="language-plaintext highlighter-rouge">header</code> or body.</p>
 
+<h3 id="widgets">Widgets</h3>
+
+<p>Standalone interactive tools live at <code class="language-plaintext highlighter-rouge">/widgets/&lt;name&gt;/</code> and are built from two pieces:</p>
+
+<ol>
+  <li>
+    <p><strong>The page</strong> — <code class="language-plaintext highlighter-rouge">widgets/&lt;name&gt;.md</code> with <code class="language-plaintext highlighter-rouge">layout: widget</code> and no body markup beyond controls and the write-up. Front matter:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">layout</span><span class="pi">:</span> <span class="s">widget</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Human-readable</span><span class="nv"> </span><span class="s">title"</span>
+<span class="na">widget_src</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/widgets/&lt;name&gt;_code.html"</span>   <span class="c1"># or /assets/tools/&lt;name&gt;.html</span>
+<span class="na">widget_height</span><span class="pi">:</span> <span class="m">860</span>                        <span class="c1"># desktop iframe height, px</span>
+<span class="na">widget_height_mobile</span><span class="pi">:</span> <span class="m">680</span>                 <span class="c1"># ≤700px viewport</span>
+<span class="na">widget_fixed_height</span><span class="pi">:</span> <span class="no">true</span>                 <span class="c1"># only for apps that fill their frame</span>
+<span class="na">back_url</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/research"</span>
+<span class="na">back_label</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Research"</span>
+</code></pre></div>    </div>
+
+    <p><code class="language-plaintext highlighter-rouge">_layouts/widget.html</code> supplies the title row, back link, “jump to write-up” link, the <strong>wood frame around the iframe</strong>, and the hairline-separated write-up section. It splits page content on an <code class="language-plaintext highlighter-rouge">&lt;!--writeup--&gt;</code> marker: everything before it renders directly under the iframe (used for host-page controls, as in <code class="language-plaintext highlighter-rouge">widgets/polytope.md</code>), everything after is the prose write-up. Omit the marker entirely when the page is only prose. Unless <code class="language-plaintext highlighter-rouge">widget_fixed_height</code> is set, the layout listens for <code class="language-plaintext highlighter-rouge">postMessage({embedHeight})</code> from the iframe and resizes to fit.</p>
+  </li>
+  <li>
+    <p><strong>The app</strong> — a self-contained HTML file (the iframe contents). It must <strong>not</strong> draw its own outer frame; the layout already provides one.</p>
+  </li>
+</ol>
+
+<h4 id="widget-theme">Widget theme</h4>
+
+<p>All widget apps share one look, so they read as instruments from the same shop: warm off-white ground, slate ink, hairline rules, tiny uppercase monospace labels, one slate accent, no heavy chrome. It is codified in <code class="language-plaintext highlighter-rouge">assets/css/themes/widget-theme.css</code> — link it and write only tool-specific rules:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/assets/css/themes/widget-theme.css"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<p>Use its class API so themes stay swappable: <code class="language-plaintext highlighter-rouge">.w-plate</code> (container), <code class="language-plaintext highlighter-rouge">.w-bar</code> / <code class="language-plaintext highlighter-rouge">.w-group</code> / <code class="language-plaintext highlighter-rouge">.w-label</code> / <code class="language-plaintext highlighter-rouge">.w-val</code> (control bar), <code class="language-plaintext highlighter-rouge">.w-rule</code>, <code class="language-plaintext highlighter-rouge">.w-hint</code>, <code class="language-plaintext highlighter-rouge">.w-stage</code> / <code class="language-plaintext highlighter-rouge">.w-figure</code> (the framed canvas), <code class="language-plaintext highlighter-rouge">.w-scrim</code> / <code class="language-plaintext highlighter-rouge">.w-sheet</code> (modal). Buttons, sliders, and text inputs are styled by element; express toggle state with <code class="language-plaintext highlighter-rouge">aria-pressed="true"</code>.</p>
+
+<p><strong>Alternate theme:</strong> <code class="language-plaintext highlighter-rouge">assets/css/themes/widget-theme-chalk-wood.css</code> is Chalk Studio’s original wood/cream look (cream toolbar, brown rules, ridged wood board edge, system sans), preserved as a drop-in. It imports the base file and only overrides tokens, so swapping the <code class="language-plaintext highlighter-rouge">&lt;link&gt;</code> href re-skins a widget with no markup changes — the route to take if the house style should move that way instead.</p>
+
+<p><code class="language-plaintext highlighter-rouge">widgets/polytope_code.html</code> and <code class="language-plaintext highlighter-rouge">widgets/optimal-couch_code.html</code> predate the shared file and still inline the same palette; they’re the visual reference, but new widgets should link the stylesheet rather than copy it.</p>
+
 <h3 id="page-layouts">Page Layouts</h3>
 
 <p>Most content pages use the <code class="language-plaintext highlighter-rouge">splash</code> layout with a hero <code class="language-plaintext highlighter-rouge">header</code> block (overlay color + image from picsum.photos). Research and teaching pages contain embedded HTML/CSS for custom grid layouts and slide presentations.</p>
@@ -1208,6 +1247,7 @@ window.MathJax = {
   <li>PDFs (CV, slides, course notes) live in <code class="language-plaintext highlighter-rouge">assets/</code> subdirectories</li>
   <li>Images are in <code class="language-plaintext highlighter-rouge">assets/images/</code></li>
   <li>New Desmos pages should be created from <code class="language-plaintext highlighter-rouge">desmos/_template.md</code> and linked from both <code class="language-plaintext highlighter-rouge">gallery.markdown</code> and <code class="language-plaintext highlighter-rouge">teaching.markdown</code></li>
+  <li>New widgets go in <code class="language-plaintext highlighter-rouge">widgets/</code>, use <code class="language-plaintext highlighter-rouge">layout: widget</code> and the widget theme (see “Widgets”), and are listed in <code class="language-plaintext highlighter-rouge">widgets.markdown</code> with a thumbnail in <code class="language-plaintext highlighter-rouge">widgets/images/</code></li>
   <li>The <code class="language-plaintext highlighter-rouge">_site/</code> directory is the generated build output — do not edit files there directly</li>
 </ul>
 

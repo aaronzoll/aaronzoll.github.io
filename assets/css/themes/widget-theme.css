@@ -1,0 +1,245 @@
+/* ============================================================================
+   WIDGET THEME — "parchment instrument"  (the current house style)
+   ----------------------------------------------------------------------------
+   The look shared by the standalone widget pages: /widgets/polytope,
+   /widgets/optimal-couch, /widgets/chalk-studio. Warm off-white ground, slate
+   ink, hairline rules, tiny uppercase monospace labels, one slate accent.
+
+   HOW TO USE IT in a new widget's *_code.html (the iframe contents):
+
+     <link rel="stylesheet" href="/assets/css/themes/widget-theme.css">
+
+   then write only tool-specific rules in the page's own <style>. The wrapping
+   page (_layouts/widget.html) supplies the wood frame around the iframe, so
+   the iframe's own chrome stays neutral — no second frame inside the frame.
+
+   SWAPPING THEMES: every rule below is driven by the tokens in :root, and the
+   companion file widget-theme-chalk-wood.css redefines exactly those tokens
+   for the wood/cream chalkboard look. Point the <link> at that file instead
+   and a widget re-skins with no markup changes.
+
+   CLASS API (keep these names in widget markup so themes stay swappable):
+     .w-plate    outermost padded container
+     .w-bar      horizontal control bar        .w-group  one labelled cluster
+     .w-label    micro uppercase label         .w-val    numeric readout
+     .w-rule     hairline divider              .w-hint   faint helper text
+     .w-stage    flexible region holding the figure
+     .w-figure   the framed canvas / plot itself
+     .w-scrim    full-bleed modal backdrop     .w-sheet  the modal card
+   Buttons/inputs are styled by element, so plain <button> is already themed;
+   toggle state is expressed with aria-pressed="true".
+   ========================================================================= */
+
+:root {
+  /* ---- palette ---- */
+  --ground:        #f7f5f0;
+  --ground-deep:   #efe9db;
+  --ink:           #37474f;
+  --ink-mute:      #6f777d;
+  --ink-faint:     #b0bec5;
+  --accent:        #546e7a;
+  --accent-deep:   #37474f;
+  --accent-on:     #ffffff;   /* text on an accent fill */
+
+  /* ---- controls ---- */
+  --btn-bg:        #f4f6f8;
+  --btn-bg-hover:  #e8edf2;
+  --btn-border:    var(--ink-faint);
+  --btn-border-hover: #90a4ae;
+  --btn-shadow:       0 1px 3px rgba(0, 0, 0, .1);
+  --btn-shadow-hover: 0 2px 6px rgba(0, 0, 0, .15);
+  --field-bg:      #ffffff;
+  --radius:        6px;
+
+  /* ---- the figure frame (canvas / board / plot) ---- */
+  --figure-border: 1px solid var(--ink-faint);
+  --figure-radius: 4px;
+  --figure-shadow: none;
+
+  /* ---- type ---- */
+  --serif: Garamond, "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --mono:  "SF Mono", "JetBrains Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { background: var(--ground); }
+
+body {
+  color: var(--ink);
+  font-family: var(--serif);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- layout ------------------------------------------------------------- */
+
+.w-plate { padding: 16px; }
+
+.w-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 22px;
+  padding: 0 0 13px;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.w-group { display: flex; align-items: center; gap: 8px; }
+
+.w-label {
+  color: var(--ink-mute);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.w-val {
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+  min-width: 26px;
+  text-align: right;
+}
+
+.w-rule {
+  height: 1px;
+  background: var(--ink-faint);
+  opacity: .55;
+  margin: 0 0 14px;
+}
+
+.w-hint {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--ink-faint);
+  letter-spacing: .03em;
+}
+
+.w-stage { flex: 1; min-height: 0; }
+
+.w-figure {
+  border: var(--figure-border);
+  border-radius: var(--figure-radius);
+  box-shadow: var(--figure-shadow);
+  overflow: hidden;
+}
+
+/* ---- buttons ------------------------------------------------------------ */
+
+button, .w-btn {
+  font-family: var(--mono);
+  font-size: .82rem;
+  line-height: 1.2;
+  color: var(--ink);
+  background: var(--btn-bg);
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius);
+  padding: .4rem 1rem;
+  cursor: pointer;
+  letter-spacing: .02em;
+  box-shadow: var(--btn-shadow);
+  transition: background .15s, border-color .15s, box-shadow .15s, color .15s;
+}
+
+button:hover:not([aria-pressed="true"]),
+.w-btn:hover:not([aria-pressed="true"]) {
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover);
+  box-shadow: var(--btn-shadow-hover);
+}
+
+button[aria-pressed="true"], .w-btn[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent-deep);
+  color: var(--accent-on);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, .2), var(--btn-shadow-hover);
+}
+
+button:focus-visible, .w-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* ---- sliders ------------------------------------------------------------ */
+
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--ink-faint);
+  outline: none;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  background: var(--ground);
+  border: 2px solid var(--accent);
+  cursor: pointer;
+  transition: background .15s;
+}
+
+input[type=range]:hover::-webkit-slider-thumb { background: var(--accent); }
+
+input[type=range]::-moz-range-track { background: var(--ink-faint); height: 3px; border-radius: 3px; }
+input[type=range]::-moz-range-thumb {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--ground); border: 2px solid var(--accent); cursor: pointer;
+}
+
+input[type=range]:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+input[type=checkbox], input[type=radio] { accent-color: var(--accent); }
+
+/* ---- text fields -------------------------------------------------------- */
+
+input[type=text] {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink);
+  background: var(--field-bg);
+  border: 1px solid var(--ink-faint);
+  border-radius: 3px;
+  padding: 5px 9px;
+  outline: none;
+}
+
+input[type=text]:focus { border-color: var(--accent); }
+input[type=text]::placeholder { color: var(--ink-faint); }
+
+/* ---- modal -------------------------------------------------------------- */
+
+.w-scrim {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(55, 71, 79, .55);
+  align-items: center;
+  justify-content: center;
+}
+
+.w-scrim.open { display: flex; }
+
+.w-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  max-width: 82vw;
+  max-height: 88vh;
+  background: var(--ground);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

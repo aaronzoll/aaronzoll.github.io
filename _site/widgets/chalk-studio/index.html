@@ -22,7 +22,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
 <meta property="og:title" content="Chalk Studio">
-<meta property="og:url" content="/chalk-studio/">
+<meta property="og:url" content="/widgets/chalk-studio/">
 
 
   <meta property="og:description" content="">
@@ -42,7 +42,7 @@
   
 
 
-<link rel="canonical" href="/chalk-studio/">
+<link rel="canonical" href="/widgets/chalk-studio/">
 
 
 
@@ -73,8 +73,6 @@
 
 
 
-
-  <script src='/assets/js/particles.js'></script>
 
     <!-- start custom head snippets -->
 
@@ -590,7 +588,7 @@ window.MathJax = {
 
   </head>
 
-  <body class="layout--splash" dir="ltr">
+  <body class="layout--widget" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -650,63 +648,185 @@ window.MathJax = {
     <div class="initial-content">
       
 
-<div id="main" role="main">
 
-  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Chalk Studio">
-    
-    
-    
 
-    <section class="page__content" itemprop="text">
-      <style>
-  .chalk-embed-wrap { display: flex; justify-content: center; margin: 1.5rem 0 2rem; }
+<!-- A page counts as having a write-up when the write-up region holds real prose. -->
+<!-- Set `writeup: false` in front matter when that region only holds controls.    -->
 
-  /* same frame as .demo-picture in your gallery */
-  .chalk-frame {
-    width: 100%;
-    max-width: 1000px;
-    box-shadow: inset 2px 2px 6px rgba(255,255,255,0.6),
-                inset -2px -2px 6px rgba(0,0,0,0.2),
-                0 4px 8px rgba(0,0,0,0.3);
-    background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
-    padding: 8px;
-    outline: 5px ridge #593302;
+
+
+<!-- Render the section for anything visible; comment-only regions stay hidden. -->
+
+
+<style>
+  .widget-page-wrap {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
   }
 
-  .chalk-frame iframe {
-    display: block;
+  .widget-page-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .widget-page-top h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  .widget-page-links {
+    font-size: 0.9rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  /* Small "jump to the write-up" line sitting directly under the title */
+  .widget-page-jump {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .widget-page-jump a {
+    text-decoration: none;
+    border-bottom: 1px dotted currentColor;
+  }
+
+  .widget-page-jump a:hover {
+    border-bottom-style: solid;
+  }
+
+  .widget-page-jump--pending {
+    color: #777;
+    font-style: italic;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* Same board-and-frame treatment as .desmos-embed-container */
+  .widget-embed-container {
+    width: 100%;
+    border: 2px solid #a67b5b;
+    outline: 4px ridge #593302;
+    box-sizing: border-box;
+  }
+
+  .widget-embed-container iframe {
     width: 100%;
     height: 640px;
-    border: 0;
-    background: #28302c;          /* chalkboard, so it reads as intentional pre-load */
+    border: none;
+    display: block;
+    transition: height 0.15s;
+  }
+
+  .widget-below {
+    margin-top: 0.5rem;
+  }
+
+  .widget-writeup {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #a67b5b;
+    scroll-margin-top: 1.5rem;
+  }
+
+  .widget-body--side {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .widget-body--side .widget-embed-section {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .widget-side-panel {
+    width: 310px;
+    flex-shrink: 0;
+    border-left: 2px solid #d0d7de;
+    padding-left: 1.25rem;
   }
 
   @media (max-width: 700px) {
-    .chalk-frame iframe { height: 70vh; }
+    .widget-embed-container iframe {
+      height: 620px;
+    }
+
+    .widget-body--side { flex-direction: column; }
+    .widget-body--side .widget-embed-section { width: 100%; }
+
+    .widget-side-panel {
+      width: 100%;
+      border-left: none;
+      border-top: 2px solid #d0d7de;
+      padding-left: 0;
+      padding-top: 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .widget-embed-container iframe { transition: none; }
   }
 </style>
 
-<div class="chalk-embed-wrap">
-  <div class="chalk-frame">
-    <iframe src="/assets/tools/chalk-studio.html" title="Chalk Studio" loading="lazy" allow="clipboard-write"></iframe>
+<div class="widget-page-wrap">
+
+  <div class="widget-page-top">
+    <h1>Chalk Studio</h1>
+    <div class="widget-page-links">
+      <a href="/research">← Research</a>
+      
+    </div>
   </div>
+
+  <div class="widget-page-jump">
+    
+      <a href="#writeup">Jump to write-up ↓</a>
+    
+  </div>
+
+  <div class="widget-body">
+
+    <div class="widget-embed-section">
+      <div class="widget-embed-container">
+        <iframe id="widget-frame"
+                src="/assets/tools/chalk-studio.html"
+                title="Chalk Studio"
+                loading="lazy"
+                allowfullscreen></iframe>
+      </div>
+
+      
+    </div>
+
+    
+
+  </div>
+
+  
+    <div class="widget-writeup page__content" id="writeup"><p>This is the tool I use to generate chalk drawings/writing/LaTeX for my presentations. Everything exports as a transparent
+PNG, so it drops straight onto a slide. Math is rendered in LaTeX form, e.g. \(\R^n\), \(\norm{x}\),
+\(\frac{-b\pm\sqrt{b^2-4ac}}{2a}\). You may also adjust the size, grain, and “wobblyness” to give it a more handwriting
+feel. Note the handwriting is randomly generated, and is prone to look bad.</p>
+</div>
+  
+
 </div>
 
-<!--writeup-->
-
-<div class="latex-body">
-
-\section{Chalk Studio}
-
-This is the tool I use to generate chalk drawings/writing/LaTeX for my presentations. Everything exports as a transparent PNG, so it drops straight
-onto a slide. Math is rendered in LaTeX form, e.g. $\R^n$, $\norm{x}$, $\frac{-b\pm\sqrt{b^2-4ac}}{2a}$. You may also adjust the size, grain, and "wobblyness" to give it a more handwriting feel. Note the handwriting is randomly generated, and is prone to look bad. 
-
-</div>
-
-    </section>
-  </article>
-</div>
 
 
       

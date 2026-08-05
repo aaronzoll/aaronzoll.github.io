@@ -209,7 +209,7 @@ custom_js: |
 
 <div class="bubble">
   <h4><strong>Slides</strong></h4>
-  <p style="font-size:0.9rem;margin-bottom:1rem;">Feel free to use my <a href="/chalk-studio">chalk studio</a> to generate custom text, math, or images for your presentations.</p>
+  <p style="font-size:0.9rem;margin-bottom:1rem;">Feel free to use my <a href="/widgets/chalk-studio/">chalk studio</a> to generate custom text, math, or images for your presentations.</p>
   <div class="slides">
     <div class="slide-row">
       <div class="bullet-points">
