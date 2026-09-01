@@ -107,6 +107,30 @@ custom_js: |
 
   .ta-subheading:first-child { margin-top: 0; }
 
+  .course-page-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.35rem 0.5rem;
+    border-bottom: 1px solid rgba(100, 120, 140, 0.15);
+  }
+
+  .course-page-row:last-child { border-bottom: none; }
+
+  .course-page-name {
+    flex: 1;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .course-page-blurb {
+    display: block;
+    font-size: 0.8rem;
+    color: #6b7c8a;
+    font-style: italic;
+  }
+
   @media (max-width: 550px) {
     .course-row {
       align-items: flex-start;
@@ -124,6 +148,19 @@ custom_js: |
 <h3>Why I Love to Teach</h3>
 I have always loved to teach. In high school, I helped peers with their calculus homework. In undergrad, I sought out as many teaching assistant roles as possible. In graduate school, I designed and tought courses.
 </div> -->
+
+<div class="bubble">
+<h3>Course Pages</h3>
+<hr>
+
+<div class="course-page-row">
+  <span class="course-page-name">
+    Linear Algebra and Differential Equations
+    <span class="course-page-blurb">Lecture slides and interactive demos built for the course</span>
+  </span>
+  <a class="pdf-btn" href="/teaching/lade/">Visit</a>
+</div>
+</div>
 
 <div class="bubble">
 <h3>Selected Lecture Notes</h3>
