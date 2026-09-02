@@ -22,9 +22,13 @@ title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "Aaron Zoll"
 description              : ""
-url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
-baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+# Both MUST be set explicitly. Left empty, GitHub Pages' build environment
+# auto-populates baseurl as "/pages/aaronzoll", which the theme's relative_url
+# filter prepends to every asset — main.css and main.min.js then 404 and the
+# live site renders unstyled, even though local builds look fine.
+url                      : "https://aaronzoll.github.io"
+baseurl                  : ""
+repository               : "aaronzoll/aaronzoll.github.io"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
