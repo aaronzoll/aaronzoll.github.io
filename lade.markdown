@@ -344,7 +344,7 @@ augmented by topics from linear algebra and the use of computer software (primar
         <img src="/assets/LADE/thumbnails/Lecture_2.png" alt="Lecture 2 slides" onerror="this.remove()">
       </div>
       <span class="lecture-label">Lecture 2</span>
-      <span class="lecture-title">Matrices and Row Oeprations/span>
+      <span class="lecture-title">Matrices and Row Operations</span>
     </a>
 
     <a class="lecture-card" href="https://docs.google.com/presentation/d/1wVbiOxRGltsdX2aqrVYwi--OC_Q3c2CyPKSghCCu4Bo/edit?usp=drive_link" target="_blank">
