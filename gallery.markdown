@@ -148,6 +148,10 @@ custom_js: |
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/3d_planes.png" alt="Planes in 3D"></div>
       <span class="gallery-title">Planes in 3D</span>
     </a>
+    <a class="gallery-card" href="/desmos/visual_gauss" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/placeholder.svg" alt="Visualizing Gaussian Elimination"></div>
+      <span class="gallery-title">Visualizing Gaussian Elimination</span>
+    </a>
     <a class="gallery-card" href="/widgets/row-reduce/" target="_blank">
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/gaussian_elim.png" alt="Gaussian Elimination"></div>
       <span class="gallery-title">Gaussian Elimination</span>

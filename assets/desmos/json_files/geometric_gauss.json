@@ -1,0 +1,816 @@
+{
+  "version": 11,
+  "randomSeed": "ffd7ed13a4b9cfbeb3b9410302ea4ea7",
+  "graph": {
+    "viewport": {
+      "xmin": 2,
+      "ymin": -7,
+      "zmin": -3,
+      "xmax": 12,
+      "ymax": 3,
+      "zmax": 7
+    },
+    "worldRotation3D": [
+      -0.970400548823606,
+      -0.15790139157898203,
+      -0.18272910381256277,
+      0.15517427613785711,
+      -0.9874548853174562,
+      0.0292197448255924,
+      -0.18505058461894,
+      1.8074878356845829e-12,
+      0.9827289967900734
+    ],
+    "axis3D": [
+      0,
+      0,
+      -1.0000000000014815
+    ],
+    "squareAxes": false,
+    "product": "graphing-3d",
+    "threeDMode": true,
+    "__v12ViewportLatexStash": {
+      "xmin": "-M+c_{x}",
+      "xmax": "M+c_{x}",
+      "ymin": "-M+c_{y}",
+      "ymax": "M+c_{y}",
+      "zmin": "-M+c_{z}",
+      "zmax": "M+c_{z}"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "folder",
+        "id": "88",
+        "title": "Matrix Operations",
+        "collapsed": true
+      },
+      {
+        "type": "text",
+        "id": "90",
+        "folderId": "88",
+        "text": "Rows x Columns\n\nlowercase => value\nuppercase => list"
+      },
+      {
+        "type": "expression",
+        "id": "91",
+        "folderId": "88",
+        "color": "#6042a6",
+        "latex": "r_{ows}\\left(A\\right)=A\\left[A.\\operatorname{count}-1\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "92",
+        "folderId": "88",
+        "color": "#aaaaaa",
+        "latex": "c_{olumns}\\left(A\\right)=A\\left[A.\\operatorname{count}\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "93",
+        "folderId": "88",
+        "color": "#c74440",
+        "latex": "D_{imensions}\\left(A\\right)=\\left[r_{ows}\\left(A\\right),c_{olumns}\\left(A\\right)\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "94",
+        "folderId": "88",
+        "color": "#2d70b3",
+        "latex": "v_{alidRow}\\left(A,i\\right)=\\left\\{1\\le i\\le r_{ows}\\left(A\\right)\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "95",
+        "folderId": "88",
+        "color": "#388c46",
+        "latex": "v_{alidColumn}\\left(A,j\\right)=\\left\\{1\\le j\\le c_{olumns}\\left(A\\right)\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "96",
+        "folderId": "88",
+        "color": "#6042a6",
+        "latex": "v_{erifySquare}\\left(A\\right)=\\left\\{r_{ows}\\left(A\\right)=c_{olumns}\\left(A\\right)\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "97",
+        "folderId": "88",
+        "color": "#aaaaaa",
+        "latex": "R_{ows}\\left(A\\right)=\\left[1...r_{ows}\\left(A\\right)\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "98",
+        "folderId": "88",
+        "color": "#c74440",
+        "latex": "C_{olumns}\\left(A\\right)=\\left[1...c_{olumns}\\left(A\\right)\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "99",
+        "folderId": "88",
+        "color": "#2d70b3",
+        "latex": "a\\left(A,i,j\\right)=A\\left[c_{olumns}\\left(A\\right)\\left(i-1\\right)+j\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "100",
+        "folderId": "88",
+        "color": "#388c46",
+        "latex": "R_{ow}\\left(A,i\\right)=a\\left(A,i,C_{olumns}\\left(A\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "101",
+        "folderId": "88",
+        "color": "#6042a6",
+        "latex": "C_{olumn}\\left(A,j\\right)=a\\left(A,R_{ows}\\left(A\\right),j\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "102",
+        "folderId": "88",
+        "color": "#aaaaaa"
+      },
+      {
+        "type": "expression",
+        "id": "103",
+        "folderId": "88",
+        "color": "#c74440",
+        "latex": "I_{dentity}\\left(n\\right)=\\left[\\left\\{i=j,0\\right\\}\\operatorname{for}j=\\left[1...n\\right],\\ i=\\left[1...n\\right]\\right].\\operatorname{join}\\left(n,n\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "104",
+        "folderId": "88",
+        "color": "#2d70b3",
+        "latex": "D_{iag}\\left(x\\right)\\ =\\ \\left[x\\left[i\\right]\\left\\{i=j,0\\right\\}\\operatorname{for}j=\\left[1...x.\\operatorname{count}\\right],\\ i=\\left[1...x.\\operatorname{count}\\right]\\right].\\operatorname{join}\\left(x.\\operatorname{count},x.\\operatorname{count}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "105",
+        "folderId": "88",
+        "color": "#388c46",
+        "latex": "Z_{eros}\\left(n\\right)\\ =\\ D_{iag}\\left(0\\left[1,...,n\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "106",
+        "folderId": "88",
+        "color": "#6042a6",
+        "latex": "T_{ranspose}\\left(A\\right)=\\left[a\\left(A,j,i\\right)\\operatorname{for}j=R_{ows}\\left(A\\right),\\ i=C_{olumns}\\left(A\\right)\\right].\\operatorname{join}\\left(c_{olumns}\\left(A\\right),r_{ows}\\left(A\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "107",
+        "folderId": "88",
+        "color": "#aaaaaa",
+        "latex": "S_{cale}\\left(k,A\\right)=\\left[ka\\left(A,i,j\\right)\\operatorname{for}j=C_{olumns}\\left(A\\right),\\ i=R_{ows}\\left(A\\right)\\right].\\operatorname{join}\\left(D_{imensions}\\left(A\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "108",
+        "folderId": "88",
+        "color": "#c74440",
+        "latex": "A_{dd}\\left(A,B\\right)=\\left[a\\left(A,i,j\\right)+a\\left(B,i,j\\right)\\operatorname{for}j=C_{olumns}\\left(A\\right),\\ i=R_{ows}\\left(A\\right)\\right].\\operatorname{join}\\left(D_{imensions}\\left(A\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "109",
+        "folderId": "88",
+        "color": "#2d70b3",
+        "latex": "S_{ubtract}\\left(A,B\\right)=\\left[a\\left(A,i,j\\right)-a\\left(B,i,j\\right)\\operatorname{for}j=C_{olumns}\\left(A\\right),\\ i=R_{ows}\\left(A\\right)\\right].\\operatorname{join}\\left(D_{imensions}\\left(A\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "110",
+        "folderId": "88",
+        "color": "#388c46",
+        "latex": "M_{ultiply}\\left(A,B\\right)=\\left[\\operatorname{total}\\left(a\\left(A,i,C_{olumns}\\left(A\\right)\\right)\\cdot a\\left(B,R_{ows}\\left(B\\right),j\\right)\\right)\\operatorname{for}j=C_{olumns}\\left(B\\right),\\ i=R_{ows}\\left(A\\right)\\right].\\operatorname{join}\\left(r_{ows}\\left(A\\right),c_{olumns}\\left(B\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "111",
+        "folderId": "88",
+        "color": "#6042a6",
+        "latex": "T_{race}\\left(A\\right)=\\operatorname{total}\\left(a\\left(A,R_{ows}\\left(A\\right),C_{olumns}\\left(A\\right)\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "112",
+        "folderId": "88",
+        "color": "#aaaaaa"
+      },
+      {
+        "type": "expression",
+        "id": "113",
+        "folderId": "88",
+        "color": "#c74440",
+        "latex": "b_{aseDigit}\\left(x,b,k\\right)=\\operatorname{mod}\\left(\\operatorname{floor}\\left(b^{-k}x\\right),b\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "114",
+        "folderId": "88",
+        "color": "#2d70b3",
+        "latex": "B_{ase}\\left(x,b\\right)=b_{aseDigit}\\left(x,b,\\left[0...b-1\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "115",
+        "folderId": "88",
+        "color": "#388c46",
+        "latex": "i_{sPermutation}\\left(x,n\\right)=\\left\\{B_{ase}\\left(x,n\\right).\\operatorname{unique}.\\operatorname{length}=n,0\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "116",
+        "folderId": "88",
+        "color": "#6042a6",
+        "latex": "P_{ermutations}\\left(n\\right)=L_{1}\\left[\\left[i_{sPermutation}\\left(k,n\\right)\\operatorname{for}k=L_{1}\\right]=1\\right]\\operatorname{with}L_{1}=\\left[0...n^{n}-1\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "117",
+        "folderId": "88",
+        "color": "#aaaaaa",
+        "latex": "P_{ermutation}\\left(n,i\\right)=B_{ase}\\left(P_{ermutations}\\left(n\\right)\\left[n!-\\left(i-1\\right)\\right],n\\right)+1"
+      },
+      {
+        "type": "expression",
+        "id": "118",
+        "folderId": "88",
+        "color": "#c74440",
+        "latex": "s_{gn}\\left(\\sigma\\right)=\\left(-1\\right)^{\\sum_{i=1}^{\\sigma.\\operatorname{length}-1}\\sum_{j=i+1}^{\\sigma.\\operatorname{length}}\\left\\{\\sigma\\left[i\\right]>\\sigma\\left[j\\right],0\\right\\}}"
+      },
+      {
+        "type": "expression",
+        "id": "119",
+        "folderId": "88",
+        "color": "#2d70b3",
+        "latex": "d_{eterminant}\\left(A\\right)=\\left[s_{gn}\\left(P_{ermutation}\\left(n,x\\right)\\right)\\prod_{y=1}^{n}a\\left(A,y,P_{ermutation}\\left(n,x\\right)\\left[y\\right]\\right)\\operatorname{for}x=\\left[1...n!\\right]\\right].\\operatorname{total}\\operatorname{with}n=r_{ows}\\left(A\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "120",
+        "folderId": "88",
+        "color": "#388c46",
+        "latex": "E_{xclude}\\left(A,i\\right)=A\\left[\\left|A-i\\right|>0\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "121",
+        "folderId": "88",
+        "color": "#6042a6",
+        "latex": "M_{inor}\\left(A,i,j\\right)=\\left[a\\left(A,x,y\\right)\\operatorname{for}y=E_{xclude}\\left(C_{olumns}\\left(A\\right),j\\right),\\ x=E_{xclude}\\left(R_{ows}\\left(A\\right),i\\right)\\right].\\operatorname{join}\\left(D_{imensions}\\left(A\\right)-1\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "122",
+        "folderId": "88",
+        "color": "#aaaaaa",
+        "latex": "M_{inors}\\left(A\\right)=\\left[d_{eterminant}\\left(M_{inor}\\left(A,u,v\\right)\\right)\\operatorname{for}v=C_{olumns}\\left(A\\right),\\ u=R_{ows}\\left(A\\right)\\right].\\operatorname{join}\\left(D_{imensions}\\left(A\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "123",
+        "folderId": "88",
+        "color": "#c74440",
+        "latex": "C_{ofactors}\\left(A\\right)=\\left[\\left(-1\\right)^{u+v}a\\left(B,u,v\\right)\\operatorname{for}v=C_{olumns}\\left(B\\right),\\ u=R_{ows}\\left(B\\right)\\right].\\operatorname{join}\\left(D_{imensions}\\left(B\\right)\\right)\\operatorname{with}B=M_{inors}\\left(A\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "124",
+        "folderId": "88",
+        "color": "#2d70b3",
+        "latex": "A_{djugate}\\left(A\\right)=T_{ranspose}\\left(C_{ofactors}\\left(A\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "125",
+        "folderId": "88",
+        "color": "#388c46",
+        "latex": "I_{nverse}\\left(A\\right)=\\left[D^{-1}a\\left(B,p,q\\right)\\operatorname{for}q=C_{olumns}\\left(B\\right),\\ p=R_{ows}\\left(B\\right)\\right].\\operatorname{join}\\left(D_{imensions}\\left(B\\right)\\right)\\operatorname{with}B=A_{djugate}\\left(A\\right),\\ D=d_{eterminant}\\left(A\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "126",
+        "folderId": "88",
+        "color": "#6042a6",
+        "latex": "e_{qualNum}\\left(x,y\\right)=\\left\\{\\operatorname{round}\\left(\\left|x-y\\right|,10\\right)=0,0\\right\\}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "127",
+        "folderId": "88",
+        "color": "#aaaaaa",
+        "latex": "e_{qual}\\left(A,B\\right)=\\left\\{A.\\operatorname{length}=B.\\operatorname{length},0\\right\\}\\left\\{\\operatorname{total}\\left(1-e_{qualNum}\\left(A,B\\right)\\right)=0,0\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "129",
+        "folderId": "88",
+        "color": "#2d70b3",
+        "latex": "T_{ensor}\\left(A,B\\right)=\\left[a\\left(A,i,j\\right)a\\left(B,k,l\\right)\\operatorname{for}l=C_{olumns}\\left(B\\right),\\ j=C_{olumns}\\left(A\\right),\\ k=R_{ows}\\left(B\\right),\\ i=R_{ows}\\left(A\\right)\\right].\\operatorname{join}\\left(r_{ows}\\left(A\\right)r_{ows}\\left(B\\right),c_{olumns}\\left(A\\right)c_{olumns}\\left(B\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "130",
+        "folderId": "88",
+        "color": "#388c46"
+      },
+      {
+        "type": "expression",
+        "id": "131",
+        "folderId": "88",
+        "color": "#6042a6",
+        "latex": "H_{orz}\\left(n,A,B\\right)\\ =\\ \\operatorname{join}\\left(H_{orz}\\left(n-1,A,B\\right),R_{ow}\\left(A,n\\right),R_{ow}\\left(B,n\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "132",
+        "folderId": "88",
+        "color": "#aaaaaa",
+        "latex": "H_{orz}\\left(0,A,B\\right)=\\left[\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "133",
+        "folderId": "88",
+        "color": "#c74440",
+        "latex": "V_{ert}\\left(n,A\\right)\\ =\\ \\operatorname{join}\\left(V_{ert}\\left(n-1,A\\right),R_{ow}\\left(A,n\\right)\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "134",
+        "folderId": "88",
+        "color": "#2d70b3",
+        "latex": "V_{ert}\\left(0,A\\right)=\\left[\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "137",
+        "folderId": "88",
+        "color": "#aaaaaa",
+        "latex": "V_{cat}\\left(A,B\\right)\\ =\\ \\operatorname{join}\\left(V_{ert}\\left(r_{ows}\\left(A\\right),A\\right),V_{ert}\\left(r_{ows}\\left(B\\right),B\\right)\\right).\\operatorname{join}\\left(\\left[r_{ows}\\left(A\\right)+r_{ows}\\left(B\\right),\\ c_{olumns}\\left(A\\right)\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "138",
+        "folderId": "88",
+        "color": "#c74440",
+        "latex": "H_{cat}\\left(A,B\\right)\\ =\\ \\ H_{orz}\\left(r_{ows}\\left(A\\right),A,B\\right).\\operatorname{join}\\left(\\left[r_{ows}\\left(A\\right),\\ c_{olumns}\\left(A\\right)+c_{olumns}\\left(B\\right)\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "139",
+        "folderId": "88",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "text",
+        "id": "141",
+        "folderId": "88",
+        "text": "Row Operations"
+      },
+      {
+        "type": "expression",
+        "id": "142",
+        "folderId": "88",
+        "color": "#6042a6",
+        "latex": "T_{rans}\\left(i,j,n\\right)=\\left[\\left\\{k=l,0\\right\\}+\\left(\\left\\{l=i,0\\right\\}-\\left\\{l=j,0\\right\\}\\right)\\left(\\left\\{k=j,0\\right\\}-\\left\\{k=i,0\\right\\}\\right)\\operatorname{for}k=\\left[1...n\\right],\\ l=\\left[1...n\\right]\\right].\\operatorname{join}\\left(n,n\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "135",
+        "folderId": "88",
+        "color": "#388c46",
+        "latex": "S_{caleRow}\\left(i,m,n\\right)\\ =\\ \\left[\\left(m\\left\\{k=i,\\frac{1}{m}\\right\\}\\right)\\left\\{k=j,0\\right\\}\\operatorname{for}j=\\left[1...n\\right],\\ k=\\left[1...n\\right]\\right].\\operatorname{join}\\left(n,n\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "143",
+        "folderId": "88",
+        "color": "#aaaaaa",
+        "latex": "R_{owAdd}\\left(i,j,m,n\\right)\\ =\\ \\left[\\left\\{k=l,0\\right\\}+\\left(1-\\left\\{i=j,0\\right\\}\\right)\\left(m\\left\\{k=j,0\\right\\}\\left\\{l=i,0\\right\\}\\right)\\operatorname{for}k=\\left[1...n\\right],\\ l=\\left[1...n\\right]\\right].\\operatorname{join}\\left(n,n\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "136",
+        "folderId": "88",
+        "color": "#6042a6",
+        "latex": "T\\left(i,j,A\\right)\\ =\\ M_{ultiply}\\left(T_{rans}\\left(i,j,r_{ows}\\left(A\\right)\\right),\\ A\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "144",
+        "folderId": "88",
+        "color": "#c74440",
+        "latex": "S\\left(i,m,A\\right)=M_{ultiply}\\left(S_{caleRow}\\left(i,m,r_{ows}\\left(A\\right)\\right),\\ A\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "145",
+        "folderId": "88",
+        "color": "#2d70b3",
+        "latex": "R\\left(i,j,m,A\\right)\\ =\\ M_{ultiply}\\left(R_{owAdd}\\left(i,j,m,r_{ows}\\left(A\\right)\\right),\\ A\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "128",
+        "folderId": "88",
+        "color": "#c74440"
+      },
+      {
+        "type": "folder",
+        "id": "146",
+        "title": "RREF Example",
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "147",
+        "folderId": "146",
+        "color": "#388c46",
+        "latex": "A_{0}\\ =\\ \\left[3,\\ 5,\\ -5,\\ 1,\\ 1,\\ 2,\\ -1,\\ 1,\\ 0,\\ 2,\\ 1,\\ -2,\\ 3,\\ 4\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "202",
+        "folderId": "146",
+        "color": "#c74440",
+        "latex": "A_{0}"
+      },
+      {
+        "type": "expression",
+        "id": "203",
+        "folderId": "146",
+        "color": "#2d70b3"
+      },
+      {
+        "type": "expression",
+        "id": "148",
+        "folderId": "146",
+        "color": "#6042a6",
+        "latex": "A_{1}=T\\left(1,2,A_{0}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "149",
+        "folderId": "146",
+        "color": "#aaaaaa",
+        "latex": "A_{2}=R\\left(2,1,-3,\\ A_{1}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "150",
+        "folderId": "146",
+        "color": "#c74440",
+        "latex": "A_{3}=S\\left(2,-1,\\ A_{2}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "151",
+        "folderId": "146",
+        "color": "#2d70b3",
+        "latex": "A_{4}=R\\left(3,2,-2,\\ A_{3}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "152",
+        "folderId": "146",
+        "color": "#388c46",
+        "latex": "A_{5}=S\\left(3,\\ -\\frac{1}{3},\\ A_{4}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "153",
+        "folderId": "146",
+        "color": "#6042a6",
+        "latex": "A_{6}=R\\left(2,\\ 3,\\ -2,\\ A_{5}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "154",
+        "folderId": "146",
+        "color": "#aaaaaa",
+        "latex": "A_{7}\\ =\\ R\\left(1,\\ 3,\\ 1,\\ A_{6}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "155",
+        "folderId": "146",
+        "color": "#c74440",
+        "latex": "A_{8}\\ =\\ R\\left(1,\\ 2,\\ -2,\\ A_{7}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "156",
+        "folderId": "146",
+        "color": "#2d70b3",
+        "latex": "S_{ol}\\ =\\ C_{olumn}\\left(A_{8},4\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "157",
+        "folderId": "146",
+        "color": "#388c46",
+        "latex": "R\\left(1,2,-2,R\\left(1,3,1,R\\left(2,3,-2,S\\left(3,-\\frac{1}{3},R\\left(3,2,-2,S\\left(2,-1,R\\left(2,1,-3,\\ T\\left(1,2,A_{0}\\right)\\right)\\right)\\right)\\right)\\right)\\right)\\right)"
+      },
+      {
+        "type": "folder",
+        "id": "159",
+        "title": "RREF Visual"
+      },
+      {
+        "type": "expression",
+        "id": "160",
+        "folderId": "159",
+        "color": "#2d70b3",
+        "latex": "A_{total}=\\operatorname{join}\\left(A_{0},A_{1},A_{2},A_{3},A_{4},A_{5},A_{6},A_{7},A_{8}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "161",
+        "folderId": "159",
+        "color": "#388c46",
+        "latex": "A_{mat}\\left(i\\right)=A_{total}\\left[14\\left(i\\right)+1,...,14\\left(i\\right)+A_{0}.\\operatorname{count}\\right]"
+      },
+      {
+        "type": "text",
+        "id": "164",
+        "folderId": "159",
+        "text": "Planes"
+      },
+      {
+        "type": "expression",
+        "id": "165",
+        "folderId": "159",
+        "color": "#c74440",
+        "latex": "A_{mat}\\left(i\\right)\\left[1\\right]x+A_{mat}\\left(i\\right)\\left[2\\right]y+A_{mat}\\left(i\\right)\\left[3\\right]z=A_{mat}\\left(i\\right)\\left[4\\right]\\ \\left\\{\\left(x-S_{ol}\\left[1\\right]\\right)^{2}+\\left(y-S_{ol}\\left[2\\right]\\right)^{2}+\\left(z-S_{ol}\\left[3\\right]\\right)^{2}\\le r_{ad}^{2}\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "170",
+        "folderId": "159",
+        "color": "#2d70b3",
+        "latex": "A_{mat}\\left(i\\right)\\left[5\\right]x+A_{mat}\\left(i\\right)\\left[6\\right]y+A_{mat}\\left(i\\right)\\left[7\\right]z=A_{mat}\\left(i\\right)\\left[8\\right]\\ \\left\\{\\left(x-S_{ol}\\left[1\\right]\\right)^{2}+\\left(y-S_{ol}\\left[2\\right]\\right)^{2}+\\left(z-S_{ol}\\left[3\\right]\\right)^{2}\\le r_{ad}^{2}\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "171",
+        "folderId": "159",
+        "color": "#388c46",
+        "latex": "A_{mat}\\left(i\\right)\\left[9\\right]x+A_{mat}\\left(i\\right)\\left[10\\right]y+A_{mat}\\left(i\\right)\\left[11\\right]z=A_{mat}\\left(i\\right)\\left[12\\right]\\ \\left\\{\\left(x-S_{ol}\\left[1\\right]\\right)^{2}+\\left(y-S_{ol}\\left[2\\right]\\right)^{2}+\\left(z-S_{ol}\\left[3\\right]\\right)^{2}\\le r_{ad}^{2}\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "168",
+        "folderId": "159",
+        "color": "#6042a6",
+        "latex": "r_{ad}=15",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "15"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "169",
+        "folderId": "159",
+        "color": "#aaaaaa"
+      },
+      {
+        "type": "expression",
+        "id": "166",
+        "folderId": "159",
+        "color": "#2d70b3",
+        "latex": "i=0",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "8",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "167",
+        "folderId": "159",
+        "color": "#aaaaaa",
+        "latex": "\\left(7,-2,2\\right)",
+        "pointSize": "5",
+        "movablePointSize": "5"
+      },
+      {
+        "type": "folder",
+        "id": "173",
+        "title": "Auto RREF",
+        "hidden": true,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "186",
+        "folderId": "173",
+        "color": "#6042a6",
+        "latex": "B_{0}=\\left[1,2,3,4,2,-1,4,3,5,2,1,-2,3,4\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "174",
+        "folderId": "173",
+        "color": "#2d70b3",
+        "latex": "p_{col}\\left(A,k\\right)=\\left|a\\left(A,\\left[k...r_{ows}\\left(A\\right)\\right],k\\right)\\right|"
+      },
+      {
+        "type": "expression",
+        "id": "175",
+        "folderId": "173",
+        "color": "#388c46",
+        "latex": "P_{ivot}\\left(A,k\\right)=\\min\\left(\\left[k...r_{ows}\\left(A\\right)\\right]\\left[p_{col}\\left(A,k\\right)=\\max\\left(p_{col}\\left(A,k\\right)\\right)\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "176",
+        "folderId": "173",
+        "color": "#6042a6",
+        "latex": "c_{piv}\\left(A,k\\right)=\\frac{1}{a\\left(A,P_{ivot}\\left(A,k\\right),k\\right)}"
+      },
+      {
+        "type": "expression",
+        "id": "177",
+        "folderId": "173",
+        "color": "#aaaaaa",
+        "latex": "s_{wap}\\left(r,k,p\\right)=r+\\left(p-k\\right)\\left\\{r=k,0\\right\\}+\\left(k-p\\right)\\left\\{r=p,0\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "178",
+        "folderId": "173",
+        "color": "#c74440",
+        "latex": "S_{tep}\\left(A,k\\right)=\\left[\\left\\{r=k,0\\right\\}ca\\left(A,p,j\\right)+\\left(1-\\left\\{r=k,0\\right\\}\\right)\\left(a\\left(A,s_{wap}\\left(r,k,p\\right),j\\right)-a\\left(A,s_{wap}\\left(r,k,p\\right),k\\right)ca\\left(A,p,j\\right)\\right)\\operatorname{for}j=C_{olumns}\\left(A\\right),\\ r=R_{ows}\\left(A\\right)\\right].\\operatorname{join}\\left(D_{imensions}\\left(A\\right)\\right)\\operatorname{with}p=P_{ivot}\\left(A,k\\right),\\ c=c_{piv}\\left(A,k\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "179",
+        "folderId": "173",
+        "color": "#2d70b3",
+        "latex": "B_{1}=S_{tep}\\left(B_{0},1\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "180",
+        "folderId": "173",
+        "color": "#388c46",
+        "latex": "B_{2}=S_{tep}\\left(B_{1},2\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "181",
+        "folderId": "173",
+        "color": "#6042a6",
+        "latex": "B_{3}=S_{tep}\\left(B_{2},3\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "182",
+        "folderId": "173",
+        "color": "#aaaaaa",
+        "latex": "S_{olGen}\\ =\\ C_{olumn}\\left(B_{3},4\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "191",
+        "folderId": "173",
+        "color": "#6042a6",
+        "latex": "\\left(S_{olGen}\\left[1\\right],S_{olGen}\\left[2\\right],S_{olGen}\\left[3\\right]\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "183",
+        "folderId": "173",
+        "color": "#c74440",
+        "latex": "B_{total}=\\operatorname{join}\\left(B_{0},\\ B_{1},\\ B_{2},\\ B_{3}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "184",
+        "folderId": "173",
+        "color": "#2d70b3",
+        "latex": "B_{mat}\\left(i\\right)=B_{total}\\left[14\\left(i\\right)+1,...,14\\left(i\\right)+B_{0}.\\operatorname{count}\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "185",
+        "folderId": "173",
+        "color": "#c74440",
+        "latex": "B_{mat}\\left(j\\right)\\left[1\\right]x+B_{mat}\\left(j\\right)\\left[2\\right]y+B_{mat}\\left(j\\right)\\left[3\\right]z=B_{mat}\\left(j\\right)\\left[4\\right]\\ \\left\\{\\left(x-S_{olGen}\\left[1\\right]\\right)^{2}+\\left(y-S_{olGen}\\left[2\\right]\\right)^{2}+\\left(z-S_{olGen}\\left[3\\right]\\right)^{2}\\le r_{ad}^{2}\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "189",
+        "folderId": "173",
+        "color": "#2d70b3",
+        "latex": "B_{mat}\\left(j\\right)\\left[5\\right]x+B_{mat}\\left(j\\right)\\left[6\\right]y+B_{mat}\\left(j\\right)\\left[7\\right]z=B_{mat}\\left(j\\right)\\left[8\\right]\\ \\left\\{\\left(x-S_{olGen}\\left[1\\right]\\right)^{2}+\\left(y-S_{olGen}\\left[2\\right]\\right)^{2}+\\left(z-S_{olGen}\\left[3\\right]\\right)^{2}\\le r_{ad}^{2}\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "190",
+        "folderId": "173",
+        "color": "#388c46",
+        "latex": "B_{mat}\\left(j\\right)\\left[9\\right]x+B_{mat}\\left(j\\right)\\left[10\\right]y+B_{mat}\\left(j\\right)\\left[11\\right]z=B_{mat}\\left(j\\right)\\left[12\\right]\\ \\left\\{\\left(x-S_{olGen}\\left[1\\right]\\right)^{2}+\\left(y-S_{olGen}\\left[2\\right]\\right)^{2}+\\left(z-S_{olGen}\\left[3\\right]\\right)^{2}\\le r_{ad}^{2}\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "188",
+        "folderId": "173",
+        "color": "#c74440",
+        "latex": "j=0",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "3",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "187",
+        "color": "#aaaaaa"
+      },
+      {
+        "type": "folder",
+        "id": "193",
+        "title": "Axes"
+      },
+      {
+        "type": "expression",
+        "id": "195",
+        "folderId": "193",
+        "color": "#2d70b3",
+        "latex": "D_{efault}\\ =\\ c_{x}\\to0,\\ c_{y}\\to0,\\ c_{z}\\to0,\\ M\\to5"
+      },
+      {
+        "type": "expression",
+        "id": "200",
+        "folderId": "193",
+        "color": "#2d70b3",
+        "latex": "E_{xample}\\ =\\ c_{x}\\to S_{ol}\\left[1\\right],\\ c_{y}\\to S_{ol}\\left[2\\right],\\ c_{z}\\to\\ S_{ol}\\left[3\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "201",
+        "folderId": "193",
+        "color": "#388c46",
+        "latex": "G_{enSol}\\ =\\ \\ c_{x}\\to S_{olGen}\\left[1\\right],\\ c_{y}\\to S_{olGen}\\left[2\\right],\\ c_{z}\\to\\ S_{olGen}\\left[3\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "196",
+        "folderId": "193",
+        "color": "#388c46",
+        "latex": "c_{x}=7",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "197",
+        "folderId": "193",
+        "color": "#6042a6",
+        "latex": "c_{y}=-2",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "198",
+        "folderId": "193",
+        "color": "#aaaaaa",
+        "latex": "c_{z}=2",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "199",
+        "folderId": "193",
+        "color": "#c74440",
+        "latex": "M=5",
+        "hidden": true
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrate3dLineWidthZero": true,
+  "doNotMigrateMovablePointStyle": true
+}
