@@ -145,8 +145,12 @@ custom_js: |
   <h4><strong>LADE</strong></h4>
   <div class="gallery-grid">
     <a class="gallery-card" href="/desmos/planes-in-3d" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/placeholder.svg" alt="Planes in 3D"></div>
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/3d_planes.png" alt="Planes in 3D"></div>
       <span class="gallery-title">Planes in 3D</span>
+    </a>
+    <a class="gallery-card" href="/widgets/row-reduce/" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/gaussian_elim.png" alt="Gaussian Elimination"></div>
+      <span class="gallery-title">Gaussian Elimination</span>
     </a>
   </div>
 </div>

@@ -968,7 +968,7 @@ augmented by topics from linear algebra and the use of computer software (primar
 <div class="bubble" id="demos">
   <h4><strong>Course Demos</strong></h4>
   <hr>
-  <p style="font-size:0.9rem;margin-bottom:0;">Interactive Desmos graphs built for this course. They also appear in the main <a href="/gallery/">Gallery</a>.</p>
+  <p style="font-size:0.9rem;margin-bottom:0;">Interactive demos built for this course. They also appear in the main <a href="/gallery/">Gallery</a>.</p>
   <div class="gallery-grid">
 
     <!-- Template for a demo card. The graph page itself lives in /desmos/ and
@@ -995,8 +995,13 @@ augmented by topics from linear algebra and the use of computer software (primar
     -->
 
     <a class="gallery-card" href="/desmos/planes-in-3d" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/placeholder.svg" alt="Planes in 3D"></div>
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/3d_planes.png" alt="Planes in 3D"></div>
       <span class="gallery-title">Planes in 3D</span>
+    </a>
+
+    <a class="gallery-card" href="/widgets/row-reduce/" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/gaussian_elim.png" alt="Gaussian Elimination"></div>
+      <span class="gallery-title">Gaussian Elimination</span>
     </a>
 
   </div>

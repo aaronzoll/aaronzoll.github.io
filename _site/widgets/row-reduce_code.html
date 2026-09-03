@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Row reduction</title>
+<style>
+  :root{
+    --bg:#f0f0f0; --card:#ffffff; --ink:#37474f; --ink-strong:#263238; --muted:#78909c;
+    --line:#d0d7de; --slate:#546e7a; --slate-dark:#37474f; --btn:#f4f6f8; --btn-line:#b0bec5;
+    --frame:#a67b5b; --frame-out:#593302;
+    --blue:#2E6CB5; --blue-bg:#EEF4FF;
+    --olive:#3C8031; --olive-bg:#F3FBF1;
+    --brick:#B7312C; --brick-bg:#FFF0EF;
+    --amber:#E8900A; --amber-bg:#FFFBF0;
+    --ghost:#b0bec5;
+    --rowh:3.5rem;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:Garamond,"EB Garamond",Georgia,serif;font-size:17px;line-height:1.5}
+  /* The host page supplies the title row and the wood frame, so the app only
+     pads itself off that frame — no outer margin, no <h1> of its own. */
+  .wrap{max-width:1100px;margin:0 auto;padding:1.25rem 1.5rem}
+  .page-sub{font-size:.9rem;color:var(--muted);margin-bottom:1.2rem}
+
+  .bubble{background:var(--card);border-radius:16px;padding:1.5rem 2rem;margin-bottom:1.5rem;
+          box-shadow:0 3px 12px rgba(0,0,0,.15)}
+  .bubble h2{margin:0 0 .9rem;font-size:1rem;font-weight:600;color:var(--ink);
+             font-family:sans-serif;letter-spacing:.02em}
+  .bubble h2 span{font-weight:400;color:var(--muted)}
+
+  .cols{display:flex;gap:1.5rem;align-items:flex-start;flex-wrap:wrap}
+  .col-main{flex:1 1 480px;min-width:320px}
+  .col-side{flex:1 1 300px;min-width:270px}
+
+  .controls{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+  .stepper{display:flex;align-items:center;gap:.4rem;font-size:.87rem;color:var(--ink)}
+  .stepper .box{display:flex;align-items:center;border:1px solid var(--btn-line);border-radius:6px;background:var(--btn)}
+  .stepper button{border:none;background:none;cursor:pointer;padding:.15rem .5rem;font:inherit;font-size:1rem;color:var(--ink)}
+  .stepper button:disabled{color:var(--ghost);cursor:default}
+  .stepper .val{min-width:1.4rem;text-align:center;font-size:1rem}
+
+  .site-btn{display:inline-block;min-width:160px;padding:.65rem 1.4rem;border:1px solid var(--btn-line);
+    border-radius:6px;background:var(--btn);color:var(--ink);font-size:1.05rem;font-family:inherit;
+    cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.1);
+    transition:background .15s,border-color .15s,box-shadow .15s;text-align:center}
+  .site-btn:hover:not(.site-btn--active):not(:disabled){background:#e8edf2;border-color:#90a4ae;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+  .site-btn--active{background:var(--slate);border-color:var(--slate-dark);color:#fff;
+    box-shadow:inset 0 1px 3px rgba(0,0,0,.2),0 2px 6px rgba(0,0,0,.15)}
+  .site-btn:disabled{color:var(--ghost);cursor:default;box-shadow:none}
+  .site-btn.sm{min-width:0;padding:.35rem .8rem;font-size:.92rem}
+  .site-btn.tiny{min-width:0;padding:.2rem .55rem;font-size:.82rem;color:var(--slate)}
+  .site-btn.wide{width:100%}
+  .divider{border:none;border-top:1px solid var(--line);margin:1rem 0}
+
+  /* matrix */
+  .mtx{display:flex;justify-content:center;user-select:none}
+  .rows{position:relative;display:inline-block}
+  .brk{position:absolute;top:var(--caph);bottom:0;width:.55rem;border:2px solid var(--ink-strong)}
+  .brk.l{left:var(--labw);border-right:none}
+  .brk.r{right:0;border-left:none}
+  .caprow,.mrow{display:flex;align-items:stretch}
+  .caprow{height:var(--caph)}
+  .rlab{width:var(--labw);flex:none;display:flex;align-items:center;justify-content:flex-end;
+        gap:.3rem;padding-right:.35rem;font-size:.95rem;color:var(--muted);white-space:nowrap}
+  .rlab.t{color:var(--blue)} .rlab.s{color:var(--olive)}
+  .pad{width:.85rem;flex:none}
+  .cells,.caps{display:grid;flex:1}
+  .caps{font-size:.78rem;color:var(--muted);align-items:end;font-family:sans-serif}
+  .caps div{text-align:center;padding-bottom:.25rem}
+  .mrow{height:var(--rowh);cursor:pointer;position:relative}
+  .mrow.static{cursor:default}
+  .mrow:not(.static):hover{background:#f7f9fa}
+  .mrow.t{background:var(--blue-bg)}
+  .mrow.s{background:var(--olive-bg)}
+  .cell{display:flex;flex-direction:column;align-items:center;justify-content:center;
+        min-width:3rem;padding:0 .55rem;font-size:1.25rem;color:var(--ink-strong)}
+  .cell.aug{border-left:1px solid var(--line)}
+  .cell .old{font-size:.75rem;color:var(--ghost);text-decoration:line-through;line-height:1}
+  .cell .new{color:var(--blue)}
+  .compact .mrow{height:2.4rem}
+  .compact .cell{font-size:1rem;min-width:2.2rem;padding:0 .4rem}
+  .compact .rlab{font-size:.8rem}
+  .handle{cursor:grab;color:var(--ghost);font-size:.8rem;line-height:1;padding:.15rem}
+  .mrow:hover .handle{color:var(--slate)}
+  .board{border:2px solid var(--frame);outline:4px ridge var(--frame-out);padding:1.1rem .6rem .9rem;background:#fff}
+
+  /* drag */
+  .mrow.lifted{opacity:.4;outline:2px dashed var(--btn-line);outline-offset:-2px}
+  .mrow.dropzone{background:var(--blue-bg);outline:2px dashed var(--blue);outline-offset:-2px}
+  .mrow[data-drop]::after{content:attr(data-drop);position:absolute;left:100%;top:50%;
+    transform:translateY(-50%);margin-left:.5rem;white-space:nowrap;
+    font-family:sans-serif;font-size:.72rem;color:var(--blue);background:#fff;
+    border:1px solid var(--blue);border-radius:4px;padding:.05rem .4rem}
+  #ghost{position:fixed;pointer-events:none;z-index:50;background:#fff;
+    border:1px solid var(--blue);border-radius:6px;box-shadow:0 6px 16px rgba(0,0,0,.22);
+    padding:.2rem .55rem;display:none;align-items:center;gap:.55rem;font-size:1.05rem;color:var(--ink-strong)}
+  #ghost .tag-r{font-size:.8rem;color:var(--blue)}
+  #ghost .g{display:flex;gap:.55rem}
+
+  /* op panel */
+  .modes{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.1rem}
+  .modes .site-btn{min-width:0;flex:1 1 30%;padding:.5rem .8rem;font-size:.95rem;line-height:1.3}
+  .modes .fmla{display:block;font-size:.88rem;color:var(--muted)}
+  .site-btn--active .fmla{color:#e3ebef}
+  .prompt{font-size:.95rem;color:var(--muted);min-height:1.4rem}
+  .opline{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-top:.7rem;font-size:1.15rem}
+  #cin{width:4.6rem;padding:.28rem .4rem;font:inherit;font-size:1.05rem;text-align:center;
+       border:1px solid var(--btn-line);border-radius:6px;background:#fff;color:var(--ink-strong)}
+  #cin.bad{border-color:var(--brick)}
+  .quick{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
+  .err{color:var(--brick);font-size:.85rem;margin-top:.5rem}
+
+  /* review */
+  .review{border:1px solid var(--amber);background:var(--amber-bg);border-radius:8px;padding:.8rem 1rem;margin-top:1.1rem}
+  .review h3{margin:0 0 .5rem;font-family:sans-serif;font-size:.9rem;color:var(--amber);font-weight:700}
+  .review .now{font-size:1.15rem;color:var(--ink-strong);min-height:1.7rem}
+  .review .nav{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.7rem}
+  ol.steps{margin:.7rem 0 0;padding-left:1.5rem;max-height:11rem;overflow-y:auto;font-size:1rem}
+  ol.steps li{padding:.08rem 0;color:var(--muted)}
+  ol.steps li.done{color:var(--ink)}
+  ol.steps li.cur{color:var(--amber);font-weight:600}
+
+  /* counters + status */
+  .counters{display:flex;gap:1.6rem;flex-wrap:wrap;align-items:baseline;margin-bottom:.5rem}
+  .counter{display:flex;flex-direction:column;line-height:1.15}
+  .counter .k{font-size:1.7rem;color:var(--ink-strong)}
+  .counter .lab{font-size:.75rem;font-family:sans-serif;color:var(--muted)}
+  .parnote{font-size:.85rem;color:var(--muted);margin-bottom:.9rem}
+  .parnote.beat{color:var(--olive)} .parnote.over{color:var(--brick)}
+  ol.log{margin:0;padding-left:1.4rem;max-height:12rem;overflow-y:auto}
+  ol.log li{padding:.1rem 0;font-size:1.02rem}
+  .empty{color:var(--muted);font-size:.95rem}
+  .side-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+  .stat{font-size:.98rem;line-height:1.7}
+  .tag{display:inline-block;padding:.05rem .5rem;border-radius:4px;font-size:.85rem;font-family:sans-serif;border:1px solid}
+  .tag.ok{color:var(--olive);border-color:var(--olive);background:var(--olive-bg)}
+  .tag.mid{color:var(--slate);border-color:var(--btn-line);background:var(--btn)}
+  .tag.bad{color:var(--brick);border-color:var(--brick);background:var(--brick-bg)}
+  .soln{margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--line);font-size:1.1rem;overflow-x:auto}
+  .vec{display:inline-flex;align-items:stretch;gap:.12rem;vertical-align:middle;margin:0 .12rem}
+  .vec .bl,.vec .br{width:.3rem;border:1.5px solid var(--ink-strong)}
+  .vec .bl{border-right:none}.vec .br{border-left:none}
+  .vec .body{display:flex;flex-direction:column;align-items:center;padding:.15rem .35rem;gap:.05rem}
+  .param{color:var(--slate)}
+
+  .frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1.05;font-size:.72em;vertical-align:middle}
+  .frac .d{border-top:1px solid currentColor;padding:0 .12em}
+  .frac .n{padding:0 .12em}
+  .signed{display:inline-flex;align-items:center;gap:.05em}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="page-sub">Below, choose the size of the system you want to solve and its rank (i.e. the number of final pivot columns, more on this later).</div>
+  <div class="bubble"><div class="controls" id="controls"></div></div>
+
+  <div class="cols">
+    <div class="col-main">
+      <div class="bubble">
+        <h2>Starting matrix</h2>
+        <div class="page-sub">For reference, here is the original augmented matrix.</div>
+        <div id="origMtx"></div>
+      </div>
+      <div class="bubble">
+        <h2 id="workHead">Working matrix</h2>
+        <div class="board"><div id="workMtx"></div></div>
+        <div id="workPanel"></div>
+      </div>
+    </div>
+    <div class="col-side">
+      <div class="bubble">
+        <h2>Operations</h2>
+        <div id="counters"></div>
+        <button class="site-btn sm wide" id="solve">Show solution</button>
+        <hr class="divider">
+        <div id="log"></div>
+        <hr class="divider">
+        <div class="side-actions">
+          <button class="site-btn sm" id="undo">Undo</button>
+          <button class="site-btn sm" id="reset">Back to start</button>
+        </div>
+      </div>
+      <div class="bubble">
+        <h2>Status</h2>
+        <div class="stat" id="status"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="ghost"></div>
+
+<script>
+/* ============================== exact rationals ============================== */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=a%b;a=b;b=t;}return a||1;}
+function F(n,d){d=(d===undefined)?1:d;if(d===0)return{n:0,d:1};if(d<0){n=-n;d=-d;}var g=gcd(n,d);return{n:n/g,d:d/g};}
+function add(x,y){return F(x.n*y.d+y.n*x.d,x.d*y.d);}
+function mul(x,y){return F(x.n*y.n,x.d*y.d);}
+function inv(x){return F(x.d,x.n);}
+function dvd(x,y){return mul(x,inv(y));}
+function neg(x){return{n:-x.n,d:x.d};}
+function isZero(x){return x.n===0;}
+function isOne(x){return x.n===1&&x.d===1;}
+function eqF(x,y){return x.n===y.n&&x.d===y.d;}
+function fstr(x){return x.d===1?String(x.n):x.n+"/"+x.d;}
+function parseFrac(s){
+  var t=String(s).replace(/\s+/g,""),m;
+  if(t===""||t==="-"||t==="/")return null;
+  if((m=/^(-?\d+)\/(-?\d+)$/.exec(t))){var d=+m[2];if(d===0)return null;return F(+m[1],d);}
+  if((m=/^(-?\d+)$/.exec(t)))return F(+m[1]);
+  if((m=/^(-?\d*\.\d+)$/.exec(t))){var dec=t.split(".")[1].length,p=Math.pow(10,dec);return F(Math.round(parseFloat(t)*p),p);}
+  return null;
+}
+var SUB="\u2080\u2081\u2082\u2083\u2084\u2085\u2086\u2087\u2088\u2089";
+function sub(k){return String(k).split("").map(function(d){return SUB[+d];}).join("");}
+function fracHTML(v,cls){
+  var c=cls?' class="'+cls+'"':"";
+  if(v.d===1)return "<span"+c+">"+(v.n<0?"\u2212"+Math.abs(v.n):v.n)+"</span>";
+  return "<span"+c+'><span class="signed">'+(v.n<0?"\u2212":"")+
+    '<span class="frac"><span class="n">'+Math.abs(v.n)+'</span><span class="d">'+v.d+"</span></span></span></span>";
+}
+
+/* ============================== generation ============================== */
+function randInt(a,b){return a+Math.floor(Math.random()*(b-a+1));}
+function generateSystem(m,n,r){
+  r=Math.max(1,Math.min(r,Math.min(m,n)));
+  for(var attempt=0;attempt<600;attempt++){
+    var piv=[],pool=[];
+    for(var k=0;k<n;k++)pool.push(k);
+    for(var s=0;s<r;s++)piv.push(pool.splice(randInt(0,pool.length-1),1)[0]);
+    piv.sort(function(a,b){return a-b;});
+    var A=[];
+    for(var i=0;i<m;i++){
+      var row=[];for(var j=0;j<n;j++)row.push(0);
+      if(i<r){
+        row[piv[i]]=1;
+        for(var j2=piv[i]+1;j2<n;j2++)if(piv.indexOf(j2)<0)row[j2]=randInt(-2,2);
+      }
+      A.push(row);
+    }
+    var x=[];for(var q=0;q<n;q++)x.push(randInt(-3,3));
+    var M=A.map(function(row){
+      var b=0;for(var k2=0;k2<n;k2++)b+=row[k2]*x[k2];
+      return row.concat([b]);
+    });
+    var rounds=6+2*m;
+    for(var t=0;t<rounds;t++){
+      var u=Math.random();
+      if(u<0.22&&m>1){
+        var i1=randInt(0,m-1),j1=randInt(0,m-1);while(j1===i1)j1=randInt(0,m-1);
+        var tmp=M[i1];M[i1]=M[j1];M[j1]=tmp;
+      }else if(u<0.32){
+        var i2=randInt(0,m-1);M[i2]=M[i2].map(function(v){return -v;});
+      }else if(m>1){
+        var i3=randInt(0,m-1),j3=randInt(0,m-1);while(j3===i3)j3=randInt(0,m-1);
+        var c=[-2,-1,1,1,2][randInt(0,4)];
+        var cand=M[i3].map(function(v,k3){return v+c*M[j3][k3];});
+        if(Math.max.apply(null,cand.map(Math.abs))<=9)M[i3]=cand;
+      }
+    }
+    var flat=[];M.forEach(function(row){row.forEach(function(v){flat.push(Math.abs(v));});});
+    if(Math.max.apply(null,flat)>9)continue;
+    if(M.some(function(row){return row.every(function(v){return v===0;});}))continue;
+    var zeroCol=false;
+    for(var k4=0;k4<n;k4++)if(M.every(function(row){return row[k4]===0;}))zeroCol=true;
+    if(zeroCol)continue;
+    return M.map(function(row){return row.map(function(v){return F(v);});});
+  }
+  var fb=[];
+  for(var i5=0;i5<m;i5++){
+    var row5=[];
+    for(var j5=0;j5<n;j5++)row5.push(F(i5<r&&i5===j5?1:0));
+    row5.push(F(i5<r?randInt(-3,3):0));
+    fb.push(row5);
+  }
+  return fb;
+}
+
+/* ============================== row operations ============================== */
+function applyOp(M,op){
+  var N=M.map(function(r){return r.slice();});
+  if(op.type==="swap"){var t=N[op.i];N[op.i]=N[op.j];N[op.j]=t;}
+  else if(op.type==="scale"){N[op.i]=M[op.i].map(function(v){return mul(v,op.c);});}
+  else if(op.type==="add"){N[op.i]=M[op.i].map(function(v,k){return add(v,mul(op.c,M[op.j][k]));});}
+  return N;
+}
+function opLabel(op){
+  if(op.type==="swap")return "R"+sub(op.i+1)+" \u2194 R"+sub(op.j+1);
+  if(op.type==="scale")return "R"+sub(op.i+1)+" \u2190 "+(isOne(op.c)?"":fstr(op.c)+" ")+"R"+sub(op.i+1);
+  var sign=op.c.n<0?"\u2212":"+";
+  var mag=fstr({n:Math.abs(op.c.n),d:op.c.d});
+  return "R"+sub(op.i+1)+" \u2190 R"+sub(op.i+1)+" "+sign+" "+(mag==="1"?"":mag+" ")+"R"+sub(op.j+1);
+}
+function leadCol(row,n){for(var k=0;k<n;k++)if(!isZero(row[k]))return k;return -1;}
+
+function analyze(M,n){
+  var m=M.length,piv=M.map(function(r){return leadCol(r,n);});
+  var rank=piv.filter(function(p){return p>=0;}).length;
+  var inconsistent=false,badRow=-1;
+  for(var i=0;i<m;i++)if(piv[i]===-1&&!isZero(M[i][n])){inconsistent=true;badRow=i;break;}
+  var sorted=true,last=-1;
+  for(var i2=0;i2<m;i2++){
+    if(piv[i2]===-1){for(var j=i2;j<m;j++)if(piv[j]!==-1)sorted=false;break;}
+    if(piv[i2]<=last)sorted=false;
+    last=piv[i2];
+  }
+  var ref=sorted,rref=sorted;
+  if(ref)for(var i3=0;i3<m;i3++){
+    if(piv[i3]===-1)continue;
+    if(!isOne(M[i3][piv[i3]]))rref=false;
+    for(var j2=0;j2<m;j2++)if(j2!==i3&&!isZero(M[j2][piv[i3]]))rref=false;
+  }
+  return {piv:piv,rank:rank,inconsistent:inconsistent,badRow:badRow,ref:ref,rref:rref};
+}
+
+function generalSolution(M,n,info){
+  if(info.inconsistent||!info.rref)return null;
+  var pivCols=info.piv.filter(function(p){return p>=0;});
+  var free=[];for(var k=0;k<n;k++)if(pivCols.indexOf(k)<0)free.push(k);
+  var p=[];for(var q=0;q<n;q++)p.push(F(0));
+  info.piv.forEach(function(pc,i){if(pc>=0)p[pc]=M[i][n];});
+  var basis=free.map(function(f){
+    var v=[];for(var q2=0;q2<n;q2++)v.push(F(0));
+    v[f]=F(1);
+    info.piv.forEach(function(pc,i){if(pc>=0)v[pc]=neg(M[i][f]);});
+    return {col:f,v:v};
+  });
+  return {p:p,basis:basis,free:free};
+}
+
+/* ====================== reference solution and par ====================== */
+/* Gauss-Jordan that avoids avoidable work: a pivot row whose entry is already 1
+   is preferred so no scaling is needed, the row already in place is preferred so
+   no swap is needed, and rows already zero in the pivot column are skipped. */
+function refSolve(M0,n){
+  var M=M0.map(function(r){return r.slice();}),ops=[],m=M.length,row=0;
+  for(var col=0;col<n&&row<m;col++){
+    var cand=[];
+    for(var i=row;i<m;i++)if(!isZero(M[i][col]))cand.push(i);
+    if(!cand.length)continue;
+    var pick=-1;
+    if(cand.indexOf(row)>=0&&isOne(M[row][col]))pick=row;
+    if(pick<0)for(var t=0;t<cand.length;t++)if(isOne(M[cand[t]][col])){pick=cand[t];break;}
+    if(pick<0)pick=(cand.indexOf(row)>=0)?row:cand[0];
+    if(pick!==row){var o1={type:"swap",i:row,j:pick};M=applyOp(M,o1);ops.push(o1);}
+    if(!isOne(M[row][col])){var o2={type:"scale",i:row,c:inv(M[row][col])};M=applyOp(M,o2);ops.push(o2);}
+    for(var i2=0;i2<m;i2++){
+      if(i2===row||isZero(M[i2][col]))continue;
+      var o3={type:"add",i:i2,j:row,c:neg(M[i2][col])};M=applyOp(M,o3);ops.push(o3);
+    }
+    row++;
+  }
+  return {ops:ops,result:M};
+}
+
+function rowKey(row){return row.map(fstr).join(",");}
+function mtxKey(M){return M.map(rowKey).join(";");}
+
+/* Restricted move set: swaps, normalizing a leading entry, and the elimination
+   step that clears one entry using another row's pivot column. */
+function moves(M,n){
+  var m=M.length,out=[],i,j;
+  for(i=0;i<m;i++)for(j=i+1;j<m;j++)if(rowKey(M[i])!==rowKey(M[j]))out.push({type:"swap",i:i,j:j});
+  for(i=0;i<m;i++){
+    var p=leadCol(M[i],n);
+    if(p>=0&&!isOne(M[i][p]))out.push({type:"scale",i:i,c:inv(M[i][p])});
+  }
+  for(j=0;j<m;j++){
+    var pj=leadCol(M[j],n);
+    if(pj<0)continue;
+    for(i=0;i<m;i++){
+      if(i===j||isZero(M[i][pj]))continue;
+      out.push({type:"add",i:i,j:j,c:neg(dvd(M[i][pj],M[j][pj]))});
+    }
+  }
+  return out;
+}
+
+/* Iterative deepening under a node budget. Split the rows that differ from the
+   target into those whose content appears nowhere in the target (each needs its
+   own scale or add, since those rewrite one row) and those merely out of place
+   (a swap fixes two at once), which bounds the remaining work from below. */
+function shortestSolve(M,n,cap){
+  var T=refSolve(M,n).result,tk=T.map(rowKey),m=M.length;
+  var tset={};tk.forEach(function(k){tset[k]=1;});
+  function h(X){
+    var w=0,q=0;
+    for(var i=0;i<m;i++){
+      var k=rowKey(X[i]);
+      if(k===tk[i])continue;
+      w++;if(!tset[k])q++;
+    }
+    return q+Math.ceil((w-q)/2);
+  }
+  var budget=8000,nodes=0,found=null;
+  function dfs(X,depth,limit,path,seen){
+    if(++nodes>budget)throw 0;
+    var hh=h(X);
+    if(hh===0){found=path.slice();return true;}
+    if(depth+hh>limit)return false;
+    var mv=moves(X,n);
+    for(var q=0;q<mv.length;q++){
+      var Y=applyOp(X,mv[q]),ky=mtxKey(Y);
+      if(seen[ky])continue;
+      if(depth+1+h(Y)>limit)continue;
+      seen[ky]=1;path.push(mv[q]);
+      if(dfs(Y,depth+1,limit,path,seen))return true;
+      path.pop();delete seen[ky];
+    }
+    return false;
+  }
+  try{
+    for(var lim=h(M);lim<cap;lim++){
+      var seen={};seen[mtxKey(M)]=1;
+      if(dfs(M,0,lim,[],seen))return {ops:found,proven:true};
+    }
+    return {ops:null,proven:true};
+  }catch(e){return {ops:null,proven:false};}
+}
+
+function bestSolve(M,n){
+  var ref=refSolve(M,n),m=M.length;
+  if(m*n<=12&&ref.ops.length<=10){
+    var s=shortestSolve(M,n,ref.ops.length);
+    if(s.ops)return {ops:s.ops,proven:true};
+    if(s.proven)return {ops:ref.ops,proven:true};
+  }
+  return {ops:ref.ops,proven:false};
+}
+
+/* ============================== state ============================== */
+var S={m:3,n:3,r:3,orig:null,cur:null,hist:[],mode:"add",a:null,b:null,c:"1",
+       drag:null,review:null,par:0,parProven:false};
+var focusC=false,caret=0;
+
+function newSystem(){
+  S.r=Math.max(1,Math.min(S.r,Math.min(S.m,S.n)));
+  S.orig=generateSystem(S.m,S.n,S.r);
+  S.cur=S.orig;S.hist=[];S.a=null;S.b=null;S.c="1";S.review=null;
+  var bs=bestSolve(S.orig,S.n);
+  S.par=bs.ops.length;S.parProven=bs.proven;
+  render();
+}
+function currentC(){return parseFrac(S.c);}
+function pendingOp(){
+  var c=currentC();
+  if(!c||isZero(c))return null;
+  if(S.mode==="scale"&&S.a!==null)return {type:"scale",i:S.a,c:c};
+  if(S.mode==="add"&&S.a!==null&&S.b!==null)return {type:"add",i:S.b,j:S.a,c:c};
+  return null;
+}
+function commit(op){
+  S.hist.push({label:opLabel(op),before:S.cur});
+  S.cur=applyOp(S.cur,op);
+  S.a=null;S.b=null;S.c="1";focusC=false;render();
+}
+function reviewMatrix(){
+  var X=S.review.base;
+  for(var i=0;i<S.review.idx;i++)X=applyOp(X,S.review.ops[i]);
+  return X;
+}
+
+/* ============================== rendering ============================== */
+function matrixHTML(M,n,opts){
+  opts=opts||{};
+  var roles=opts.roles||{},prev=opts.preview,compact=!!opts.compact;
+  var labw=compact?"2.4rem":"3.9rem",caph=compact?"0rem":"1.2rem";
+  var cols="repeat("+(n+1)+",minmax("+(compact?"2.2rem":"3rem")+",1fr))";
+  var h='<div class="mtx'+(compact?" compact":"")+'" style="--labw:'+labw+';--caph:'+caph+'">';
+  h+='<div class="rows"><div class="brk l"></div><div class="brk r"></div>';
+  if(!compact){
+    h+='<div class="caprow"><div class="rlab"></div><div class="pad"></div>'+
+       '<div class="caps" style="grid-template-columns:'+cols+'">';
+    for(var k=0;k<n;k++)h+="<div>x"+sub(k+1)+"</div>";
+    h+='<div>=</div></div><div class="pad"></div></div>';
+  }
+  for(var i=0;i<M.length;i++){
+    var role=roles[i]||"";
+    h+='<div class="mrow '+(compact?"static ":"")+(role==="t"?"t":role==="s"?"s":"")+'" data-row="'+i+'">';
+    h+='<div class="rlab '+(role==="t"?"t":role==="s"?"s":"")+'">'+
+       (compact?"":'<span class="handle" data-handle="'+i+'">\u283F</span>')+"R"+sub(i+1)+"</div>";
+    h+='<div class="pad"></div><div class="cells" style="grid-template-columns:'+cols+'">';
+    for(var k2=0;k2<=n;k2++){
+      var v=M[i][k2],shown=prev?prev[i][k2]:v,changed=prev&&!eqF(shown,v);
+      h+='<div class="cell'+(k2===n?" aug":"")+'">';
+      if(changed)h+='<span class="old">'+fracHTML(v)+"</span>";
+      h+=fracHTML(shown,changed?"new":"");
+      h+="</div>";
+    }
+    h+='</div><div class="pad"></div></div>';
+  }
+  return h+"</div></div>";
+}
+function vecHTML(v){
+  var h='<span class="vec"><span class="bl"></span><span class="body">';
+  v.forEach(function(e){h+="<span>"+fracHTML(e)+"</span>";});
+  return h+'</span><span class="br"></span></span>';
+}
+function stepperHTML(id,label,val,min,max){
+  return '<div class="stepper"><span>'+label+'</span><div class="box">'+
+    '<button data-step="'+id+'" data-dir="-1"'+(val<=min?" disabled":"")+">\u2212</button>"+
+    '<span class="val">'+val+"</span>"+
+    '<button data-step="'+id+'" data-dir="1"'+(val>=max?" disabled":"")+">+</button></div></div>";
+}
+
+function render(){
+  var n=S.n,inReview=!!S.review;
+  var shown=inReview?reviewMatrix():S.cur;
+  var info=analyze(shown,n);
+
+  document.getElementById("controls").innerHTML=
+    stepperHTML("m","equations",S.m,2,6)+
+    stepperHTML("n","unknowns",S.n,2,6)+
+    stepperHTML("r","rank",S.r,1,Math.min(S.m,S.n))+
+    '<button class="site-btn sm" id="newsys">New system</button>';
+
+  var roles={},prev=null;
+  if(inReview){
+    var rop=S.review.ops[S.review.idx];
+    if(rop){
+      prev=applyOp(shown,rop);
+      if(rop.type==="swap"){roles[rop.i]="t";roles[rop.j]="s";}
+      else{roles[rop.i]="t";if(rop.type==="add")roles[rop.j]="s";}
+    }
+  }else{
+    if(S.mode==="add"){if(S.a!==null)roles[S.a]="s";if(S.b!==null)roles[S.b]="t";}
+    else if(S.a!==null)roles[S.a]="t";
+    var pop=pendingOp();
+    if(pop)prev=applyOp(S.cur,pop);
+  }
+
+  document.getElementById("origMtx").innerHTML=matrixHTML(S.orig,n,{compact:true});
+  document.getElementById("workMtx").innerHTML=matrixHTML(shown,n,{roles:roles,preview:prev});
+  document.getElementById("workHead").innerHTML=inReview
+    ? 'Working matrix <span>\u2014 reference solution, step '+S.review.idx+" of "+S.review.ops.length+"</span>"
+    : "Working matrix "+(S.hist.length?'<span>\u2014 '+S.hist.length+" operation"+(S.hist.length>1?"s":"")+" applied</span>":"");
+
+  var panel="";
+  if(inReview){
+    var rv=S.review,cur=rv.ops[rv.idx];
+    panel+='<div class="review"><h3>Reference solution</h3>';
+    panel+='<div class="now">'+(cur?"Next: "+opLabel(cur):"Reduced row echelon form reached.")+"</div>";
+    panel+='<div class="nav">'+
+      '<button class="site-btn sm" id="rvPrev"'+(rv.idx===0?" disabled":"")+">Previous</button>"+
+      '<button class="site-btn sm" id="rvNext"'+(cur?"":" disabled")+">Next step</button>"+
+      '<button class="site-btn sm" id="rvAll"'+(cur?"":" disabled")+">Run to the end</button>"+
+      '<button class="site-btn sm" id="rvExit">Close</button></div>';
+    panel+='<ol class="steps">'+rv.ops.map(function(o,k){
+      return '<li class="'+(k<rv.idx?"done":k===rv.idx?"cur":"")+'">'+opLabel(o)+"</li>";
+    }).join("")+"</ol></div>";
+  }else{
+    var modes=[["swap","Swap rows","R\u1D62 \u2194 R\u2C7C"],
+               ["scale","Scale a row","R\u1D62 \u2190 c R\u1D62"],
+               ["add","Add a multiple","R\u1D62 \u2190 R\u1D62 + c R\u2C7C"]];
+    panel+='<div class="modes">'+modes.map(function(x){
+      return '<button class="site-btn'+(S.mode===x[0]?" site-btn--active":"")+'" data-mode="'+x[0]+'">'+
+             x[1]+'<span class="fmla">'+x[2]+"</span></button>";
+    }).join("")+'</div><hr class="divider">';
+    var prompt;
+    if(S.mode==="swap")
+      prompt=S.a===null?"Click a row, then the row to trade it with. You can also drag a row by its handle."
+                       :"Row "+(S.a+1)+" is picked up. Click the row to trade it with.";
+    else if(S.mode==="scale")
+      prompt=S.a===null?"Click the row you want to multiply.":"Set the multiplier, then apply.";
+    else
+      prompt=S.a===null?"Click the row you want to add a multiple of."
+           :S.b===null?"Row "+(S.a+1)+" is the source. Click the row that should change."
+           :"Set the multiplier, then apply.";
+    panel+='<div class="prompt">'+prompt+"</div>";
+    var showPanel=(S.mode==="scale"&&S.a!==null)||(S.mode==="add"&&S.a!==null&&S.b!==null);
+    if(showPanel){
+      var c=currentC(),bad=!c||isZero(c),op2=pendingOp();
+      var lhs=S.mode==="scale"?"R"+sub(S.a+1)+" \u2190 ":"R"+sub(S.b+1)+" \u2190 R"+sub(S.b+1)+" + ";
+      panel+='<div class="opline"><span>'+lhs+"</span>"+
+        '<input id="cin" value="'+S.c.replace(/"/g,"&quot;")+'" class="'+(bad?"bad":"")+'" aria-label="multiplier">'+
+        "<span>R"+sub(S.a+1)+"</span>"+
+        '<button class="site-btn sm" id="apply"'+(op2?"":" disabled")+">Apply</button>"+
+        '<button class="site-btn sm" id="cancel">Cancel</button></div>';
+      var quick=[];
+      if(S.mode==="scale"){
+        var p=leadCol(S.cur[S.a],n);
+        quick.push(["\u22121","-1"],["1/2","1/2"],["2","2"]);
+        if(p>=0&&!isOne(S.cur[S.a][p]))quick.push(["make leading 1",fstr(inv(S.cur[S.a][p]))]);
+      }else{
+        var ps=leadCol(S.cur[S.a],n);
+        quick.push(["\u22121","-1"],["1","1"],["\u22122","-2"]);
+        if(ps>=0)quick.push(["clear leading entry",fstr(neg(dvd(S.cur[S.b][ps],S.cur[S.a][ps])))]);
+      }
+      panel+='<div class="quick">'+quick.map(function(q){
+        return '<button class="site-btn tiny" data-quick="'+q[1]+'">'+q[0]+"</button>";
+      }).join("")+"</div>";
+      if(bad)panel+='<div class="err">Enter an integer, a fraction such as \u22123/4, or a decimal. Multiplying by 0 is not a row operation.</div>';
+    }
+  }
+  document.getElementById("workPanel").innerHTML=panel;
+
+  var used=S.hist.length,solved=analyze(S.cur,n).rref,note;
+  if(inReview)note="Stepping through the reference solution. Your own work is untouched.";
+  else if(solved&&used<S.par)note="Solved in fewer than par.";
+  else if(solved&&used===S.par)note="Solved at par.";
+  else if(solved)note="Solved, "+(used-S.par)+" operation"+(used-S.par>1?"s":"")+" over par.";
+  else note=(S.parProven?"Par is the fewest operations possible":"Par is the shortest sequence found")+
+            " from the starting matrix to RREF.";
+  document.getElementById("counters").innerHTML=
+    '<div class="counters">'+
+      '<div class="counter"><span class="k">'+used+'</span><span class="lab">operations used</span></div>'+
+      '<div class="counter"><span class="k">'+S.par+'</span><span class="lab">par'+(S.parProven?" (minimum)":"")+'</span></div>'+
+    "</div>"+
+    '<div class="parnote'+(solved&&used<S.par?" beat":solved&&used>S.par?" over":"")+'">'+note+"</div>";
+  document.getElementById("solve").textContent=inReview?"Hide solution":"Show solution";
+
+  document.getElementById("log").innerHTML=S.hist.length
+    ? '<ol class="log">'+S.hist.map(function(h){return "<li>"+h.label+"</li>";}).join("")+"</ol>"
+    : '<div class="empty">Nothing applied yet.</div>';
+  document.getElementById("undo").disabled=!S.hist.length||inReview;
+  document.getElementById("reset").disabled=!S.hist.length||inReview;
+
+  var dof=n-info.rank;
+  var form=info.rref?'<span class="tag ok">reduced row echelon form</span>'
+        :info.ref?'<span class="tag mid">row echelon form</span>'
+        :'<span class="tag mid">not in echelon form</span>';
+  var st="<div>rank "+info.rank+", "+n+" unknown"+(n>1?"s":"")+"</div><div>"+form+"</div>";
+  if(info.inconsistent){
+    st+='<div style="margin-top:.5rem"><span class="tag bad">no solution</span> row '+
+        (info.badRow+1)+" reads 0 = "+fstr(shown[info.badRow][n])+".</div>";
+  }else if(!info.rref){
+    st+='<div style="margin-top:.5rem;color:var(--muted)">Reduce to RREF to read off the solution set.</div>';
+  }else{
+    var gs=generalSolution(shown,n,info);
+    st+='<div style="margin-top:.5rem"><span class="tag ok">'+
+        (dof===0?"unique solution":"infinitely many solutions")+"</span>"+
+        (dof>0?" "+dof+" free parameter"+(dof>1?"s":""):"")+"</div>";
+    var body="<div>x = "+vecHTML(gs.p);
+    gs.basis.forEach(function(bs,idx){
+      body+=' <span class="param">+ t'+sub(idx+1)+"</span> "+vecHTML(bs.v);
+    });
+    body+="</div>";
+    if(dof>0)body+='<div style="font-size:.9rem;color:var(--muted);margin-top:.4rem">free: '+
+      gs.free.map(function(f,idx){return "x"+sub(f+1)+" = t"+sub(idx+1);}).join(", ")+"</div>";
+    st+='<div class="soln">'+body+"</div>";
+  }
+  document.getElementById("status").innerHTML=st;
+
+  var inp=document.getElementById("cin");
+  if(inp&&focusC){inp.focus();inp.setSelectionRange(caret,caret);}
+}
+
+/* ============================== interaction ============================== */
+function rowClick(i){
+  if(S.review)return;
+  var n=S.n,cur=S.cur;
+  if(S.mode==="swap"){
+    if(S.a===null)S.a=i;
+    else if(S.a===i)S.a=null;
+    else{commit({type:"swap",i:S.a,j:i});return;}
+  }else if(S.mode==="scale"){
+    if(S.a===i)S.a=null;
+    else{
+      S.a=i;
+      var p=leadCol(cur[i],n);
+      S.c=(p>=0&&!isOne(cur[i][p]))?fstr(inv(cur[i][p])):"-1";
+    }
+  }else{
+    if(S.a===null)S.a=i;
+    else if(S.a===i){S.a=null;S.b=null;}
+    else{
+      S.b=i;
+      var ps=leadCol(cur[S.a],n);
+      S.c=(ps>=0)?fstr(neg(dvd(cur[i][ps],cur[S.a][ps]))):"1";
+    }
+  }
+  focusC=false;render();
+}
+
+document.addEventListener("click",function(e){
+  var t=e.target,el;
+  if((el=t.closest("[data-step]"))){
+    var id=el.getAttribute("data-step"),dir=+el.getAttribute("data-dir");
+    if(id==="m")S.m=Math.max(2,Math.min(6,S.m+dir));
+    if(id==="n")S.n=Math.max(2,Math.min(6,S.n+dir));
+    if(id==="r")S.r=Math.max(1,Math.min(Math.min(S.m,S.n),S.r+dir));
+    newSystem();return;
+  }
+  if(t.closest("#newsys")){newSystem();return;}
+  if(t.closest("#solve")){
+    if(S.review)S.review=null;
+    else{
+      var bs=bestSolve(S.cur,S.n);
+      S.review={base:S.cur,ops:bs.ops,idx:0};
+      S.a=null;S.b=null;
+    }
+    render();return;
+  }
+  if(t.closest("#rvNext")){if(S.review&&S.review.idx<S.review.ops.length)S.review.idx++;render();return;}
+  if(t.closest("#rvPrev")){if(S.review&&S.review.idx>0)S.review.idx--;render();return;}
+  if(t.closest("#rvAll")){if(S.review)S.review.idx=S.review.ops.length;render();return;}
+  if(t.closest("#rvExit")){S.review=null;render();return;}
+  if((el=t.closest("[data-mode]"))){S.mode=el.getAttribute("data-mode");S.a=null;S.b=null;S.c="1";focusC=false;render();return;}
+  if((el=t.closest("[data-quick]"))){S.c=el.getAttribute("data-quick");focusC=false;render();return;}
+  if(t.closest("#apply")){var op=pendingOp();if(op)commit(op);return;}
+  if(t.closest("#cancel")){S.a=null;S.b=null;S.c="1";focusC=false;render();return;}
+  if(t.closest("#undo")){if(S.hist.length){S.cur=S.hist.pop().before;S.a=null;S.b=null;render();}return;}
+  if(t.closest("#reset")){S.cur=S.orig;S.hist=[];S.a=null;S.b=null;render();return;}
+  var row=t.closest("#workMtx .mrow");
+  if(row)rowClick(+row.getAttribute("data-row"));
+});
+
+document.addEventListener("input",function(e){
+  if(e.target.id==="cin"){S.c=e.target.value;focusC=true;caret=e.target.selectionStart;render();}
+});
+document.addEventListener("keydown",function(e){
+  if(S.review){
+    if(e.key==="ArrowRight"&&S.review.idx<S.review.ops.length){S.review.idx++;render();}
+    if(e.key==="ArrowLeft"&&S.review.idx>0){S.review.idx--;render();}
+    if(e.key==="Escape"){S.review=null;render();}
+    return;
+  }
+  if(e.key==="Escape"){S.a=null;S.b=null;focusC=false;render();}
+  if(e.key==="Enter"){var op=pendingOp();if(op)commit(op);}
+});
+
+/* ── dragging a row by its handle ─────────────────────────────────────────── */
+function workRows(){return document.querySelectorAll("#workMtx .mrow");}
+function clearDragMarks(){
+  workRows().forEach(function(el){
+    el.classList.remove("lifted","dropzone");
+    el.removeAttribute("data-drop");
+  });
+}
+function markDrag(){
+  clearDragMarks();
+  var rows=workRows(),d=S.drag;
+  if(!rows[d.from])return;
+  rows[d.from].classList.add("lifted");
+  if(d.over!==null&&d.over!==d.from&&rows[d.over]){
+    rows[d.over].classList.add("dropzone");
+    rows[d.over].setAttribute("data-drop","R"+sub(d.from+1)+" lands here");
+    rows[d.from].setAttribute("data-drop","R"+sub(d.over+1)+" lands here");
+  }
+}
+function showGhost(i,x,y){
+  var g=document.getElementById("ghost");
+  var cells=S.cur[i].map(function(v,k){
+    return "<span"+(k===S.n?' style="border-left:1px solid var(--line);padding-left:.5rem"':"")+">"+fracHTML(v)+"</span>";
+  }).join("");
+  g.innerHTML='<span class="tag-r">R'+sub(i+1)+'</span><span class="g">'+cells+"</span>";
+  g.style.display="flex";
+  moveGhost(x,y);
+}
+function moveGhost(x,y){
+  var g=document.getElementById("ghost");
+  g.style.left=(x+16)+"px";
+  g.style.top=(y-14)+"px";
+}
+document.addEventListener("mousedown",function(e){
+  var h=e.target.closest("[data-handle]");
+  if(!h||S.review)return;
+  e.preventDefault();
+  var from=+h.getAttribute("data-handle");
+  S.drag={from:from,over:from};
+  markDrag();
+  showGhost(from,e.clientX,e.clientY);
+});
+document.addEventListener("mousemove",function(e){
+  if(!S.drag)return;
+  moveGhost(e.clientX,e.clientY);
+  var row=e.target.closest("#workMtx .mrow");
+  var i=row?+row.getAttribute("data-row"):null;
+  if(i!==S.drag.over){S.drag.over=i;markDrag();}
+});
+document.addEventListener("mouseup",function(){
+  if(!S.drag)return;
+  var d=S.drag;S.drag=null;
+  document.getElementById("ghost").style.display="none";
+  clearDragMarks();
+  if(d.over!==null&&d.over!==d.from)commit({type:"swap",i:d.from,j:d.over});
+});
+
+newSystem();
+
+/* ============================== embed height ==============================
+   The page grows and shrinks a lot (matrix size, op log, review panel), so
+   report the content height to the host widget layout and let it resize the
+   iframe instead of leaving a fixed frame with dead space or a scrollbar. */
+(function(){
+  if(window.parent===window)return;
+  var el=document.querySelector(".wrap");
+  function post(){
+    var h=Math.ceil(el.getBoundingClientRect().height)+
+          parseFloat(getComputedStyle(el).paddingTop);
+    try{parent.postMessage({embedHeight:h},"*");}catch(e){}
+  }
+  if(window.ResizeObserver)new ResizeObserver(post).observe(el);
+  addEventListener("load",post);setTimeout(post,60);post();
+})();
+</script>
+</body>
+</html>

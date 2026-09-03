@@ -10,7 +10,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Analytics</title>
+<!-- begin _includes/seo.html --><title>Gaussian Elimination</title>
 <meta name="description" content="">
 
 
@@ -21,16 +21,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
-<meta property="og:title" content="Analytics">
-<meta property="og:url" content="https://aaronzoll.github.io/analytics/">
+<meta property="og:title" content="Gaussian Elimination">
+<meta property="og:url" content="https://aaronzoll.github.io/widgets/row-reduce/">
 
 
   <meta property="og:description" content="">
 
 
 
-  <meta property="og:image" content="https://aaronzoll.github.io/assets/images/banner.png">
-
 
 
 
@@ -44,7 +42,7 @@
   
 
 
-<link rel="canonical" href="https://aaronzoll.github.io/analytics/">
+<link rel="canonical" href="https://aaronzoll.github.io/widgets/row-reduce/">
 
 
 
@@ -75,8 +73,6 @@
 
 
 
-
-  <script src='/assets/js/particles.js'></script>
 
     <!-- start custom head snippets -->
 
@@ -592,7 +588,7 @@ window.MathJax = {
 
   </head>
 
-  <body class="layout--splash" dir="ltr">
+  <body class="layout--widget" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -651,255 +647,203 @@ window.MathJax = {
 
     <div class="initial-content">
       
-  
 
 
 
+<!-- A page counts as having a write-up when the write-up region holds real prose. -->
+<!-- Set `writeup: false` in front matter when that region only holds controls.    -->
 
 
 
-
-<div class="page__hero--overlay"
-  style="background-color: #000; background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('/assets/images/banner.png');">
-  <style>
-    .page__hero {
-      position: relative;
-      overflow: hidden;
-    }
-    .page__hero.wrapper {
-      position: relative;
-      z-index: 2;
-    }
-    .particles-wrapper {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 3;
-    }
-  
-    .page__hero-actions {
-      position: relative;
-      z-index: 10; /* Higher, explicitly above particles */
-    }
-  </style>
-  <div class="particles-wrapper" id="particles-js"></div>
-
-  
-    <div class="wrapper" style="position: relative; z-index: 2;">
-      <h1 id="page-title" class="page__title" itemprop="headline">
-        
-          Analytics
-
-        
-      </h1>
-      
-      
+<!-- Render the section for anything visible; comment-only regions stay hidden. -->
 
 
-      
-    </div>
-    <div class="page__hero-actions" style="position: relative; z-index: 10;">
-    
-    </div>
-  
-  
-</div>
-
-
-
-<div id="main" role="main">
-
-  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Analytics">
-    
-    
-    
-
-    <section class="page__content" itemprop="text">
-      <style>
-  .an-note {
-    font-size: 0.84rem;
-    color: #6b7c8a;
-    font-style: italic;
-    margin-bottom: 1.25rem;
+<style>
+  .widget-page-wrap {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
   }
 
-  .an-section {
-    font-size: 0.82rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #3a4f63;
-    border-bottom: 2px solid rgba(100, 120, 140, 0.2);
-    padding-bottom: 0.35rem;
-    margin: 2rem 0 1rem;
-  }
-
-  .an-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .an-card {
-    padding: 1.1rem 1.2rem;
-    border: 1px solid rgba(100, 120, 140, 0.22);
-    border-radius: 5px;
-    background: rgba(236, 239, 243, 0.45);
-  }
-
-  .an-card-title {
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: #2c3e50;
+  .widget-page-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     margin-bottom: 0.35rem;
   }
 
-  .an-card-desc {
-    font-size: 0.84rem;
-    color: #4a5568;
-    line-height: 1.5;
-    margin: 0 0 0.8rem;
+  .widget-page-top h1 {
+    margin: 0;
+    font-size: 1.6rem;
   }
 
-  .an-btn {
-    display: inline-block;
-    padding: 0.25rem 0.7rem;
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: #3a4f63;
-    background: #eceff3;
-    border: 1px solid #a0aebb;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background 0.15s ease, border-color 0.15s ease;
-  }
-
-  .an-btn:hover {
-    background: #dde3ea;
-    border-color: #7a8fa0;
-    text-decoration: none;
-    color: #3a4f63;
-  }
-
-  .an-embed-wrap {
-    position: relative;
-    width: 100%;
-    border: 1px solid rgba(100, 120, 140, 0.22);
-    border-radius: 5px;
-    overflow: hidden;
-    background: #f7f9fb;
-  }
-
-  .an-embed-wrap iframe {
-    display: block;
-    width: 100%;
-    height: 820px;
-    border: none;
-  }
-
-  .an-embed-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 320px;
-    color: #6b7c8a;
+  .widget-page-links {
     font-size: 0.9rem;
-    text-align: center;
-    gap: 0.5rem;
-    padding: 2rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
   }
 
-  .an-embed-placeholder strong {
-    font-size: 1rem;
-    color: #3a4f63;
+  /* Small "jump to the write-up" line sitting directly under the title */
+  .widget-page-jump {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
   }
 
-  .an-embed-placeholder code {
-    font-size: 0.8rem;
-    background: #eceff3;
-    padding: 0.15rem 0.4rem;
-    border-radius: 3px;
+  .widget-page-jump a {
+    text-decoration: none;
+    border-bottom: 1px dotted currentColor;
+  }
+
+  .widget-page-jump a:hover {
+    border-bottom-style: solid;
+  }
+
+  .widget-page-jump--pending {
+    color: #777;
+    font-style: italic;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* Same board-and-frame treatment as .desmos-embed-container */
+  .widget-embed-container {
+    width: 100%;
+    border: 2px solid #a67b5b;
+    outline: 4px ridge #593302;
+    box-sizing: border-box;
+  }
+
+  .widget-embed-container iframe {
+    width: 100%;
+    height: 900px;
+    border: none;
+    display: block;
+    transition: height 0.15s;
+  }
+
+  .widget-below {
+    margin-top: 0.5rem;
+  }
+
+  .widget-writeup {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #a67b5b;
+    scroll-margin-top: 1.5rem;
+  }
+
+  .widget-body--side {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .widget-body--side .widget-embed-section {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .widget-side-panel {
+    width: 310px;
+    flex-shrink: 0;
+    border-left: 2px solid #d0d7de;
+    padding-left: 1.25rem;
   }
 
   @media (max-width: 700px) {
-    .an-grid { grid-template-columns: 1fr; }
+    .widget-embed-container iframe {
+      height: 720px;
+    }
+
+    .widget-body--side { flex-direction: column; }
+    .widget-body--side .widget-embed-section { width: 100%; }
+
+    .widget-side-panel {
+      width: 100%;
+      border-left: none;
+      border-top: 2px solid #d0d7de;
+      padding-left: 0;
+      padding-top: 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .widget-embed-container iframe { transition: none; }
   }
 </style>
 
-<div class="an-section">Live Dashboard</div>
+<div class="widget-page-wrap">
 
-<div class="an-embed-wrap">
-  <iframe src="https://datastudio.google.com/embed/reporting/9b90affa-90f5-4804-bee4-42d9d4eb4932/page/Wrm1F" frameborder="0" style="border:0" allowfullscreen="" sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
-  </iframe>
+  <div class="widget-page-top">
+    <h1>Gaussian Elimination</h1>
+    <div class="widget-page-links">
+      <a href="/teaching/lade/">← LADE</a>
+      
+    </div>
+  </div>
+
+  <div class="widget-page-jump">
+    
+      <a href="#writeup">Jump to write-up ↓</a>
+    
+  </div>
+
+  <div class="widget-body">
+
+    <div class="widget-embed-section">
+      <div class="widget-embed-container">
+        <iframe id="widget-frame"
+                src="/widgets/row-reduce_code.html"
+                title="Gaussian Elimination"
+                loading="lazy"
+                allowfullscreen></iframe>
+      </div>
+
+      
+    </div>
+
+    
+
+  </div>
+
+  
+    <div class="widget-writeup page__content" id="writeup"><p>Above, I provide practice row reducing a matrix by hand. You may apply one elementary operation at a time. Note, these preserve all the solutions as we are not changing the underlying system. For example, swapping rows simply just changes the order of the equations we want to simultaneously satisfy. Adding a row to another gives a new equation that must satisfy the same system (and undoing this would revert to the original system, so they must be equivalent).</p>
+
+<p>The operation counter tracks how many steps you have used. Try to be the systemetic approach, which algorithmically solves the system and gives a “par” number of operations. Clicking <strong>Show solution</strong> walks through that systematic
+reduction step by step.</p>
+
+<p>The status panel reports the rank, the pivot and free columns/variables,
+and whether the system is consistent. Not that when the rank is less than the number of columns, there must be free variables, and hence there must be infinite solutions.</p>
+
+<p>The matrix dimensions and the rank are yours to set, which is the point. You have the freedom to set the problem’s difficult, and you can play around to see how adjusting the rank changes the underlying structure.</p>
 </div>
-
-<p class="an-note" style="margin-top:0.6rem">
-  Alternatively, view all data directly in
-  <a href="https://analytics.google.com" target="_blank">Google Analytics</a>.
-</p>
-
-<div class="an-section">Quick Access — GA4 Reports</div>
-
-<div class="an-grid">
-
-  <div class="an-card">
-    <div class="an-card-title">Traffic Overview</div>
-    <p class="an-card-desc">Total users, sessions, page views, and new vs. returning visitors over any date range.</p>
-    <a class="an-btn" href="https://analytics.google.com" target="_blank">Open GA4 →</a>
-  </div>
-
-  <div class="an-card">
-    <div class="an-card-title">Real-Time</div>
-    <p class="an-card-desc">Active users on the site right now and which pages they are currently viewing.</p>
-    <a class="an-btn" href="https://analytics.google.com" target="_blank">Open GA4 →</a>
-  </div>
-
-  <div class="an-card">
-    <div class="an-card-title">Top Pages</div>
-    <p class="an-card-desc">Which pages receive the most visits, average time on page, and engagement rates.</p>
-    <a class="an-btn" href="https://analytics.google.com" target="_blank">Open GA4 →</a>
-  </div>
-
-  <div class="an-card">
-    <div class="an-card-title">Geographic Distribution</div>
-    <p class="an-card-desc">Country and city-level breakdown of where visitors are located.</p>
-    <a class="an-btn" href="https://analytics.google.com" target="_blank">Open GA4 →</a>
-  </div>
-
-  <div class="an-card">
-    <div class="an-card-title">Traffic Sources</div>
-    <p class="an-card-desc">How visitors arrive — direct, organic search, referral links, or social media.</p>
-    <a class="an-btn" href="https://analytics.google.com" target="_blank">Open GA4 →</a>
-  </div>
-
-  <div class="an-card">
-    <div class="an-card-title">Devices &amp; Browsers</div>
-    <p class="an-card-desc">Desktop vs. mobile vs. tablet split, operating systems, and browser breakdown.</p>
-    <a class="an-btn" href="https://analytics.google.com" target="_blank">Open GA4 →</a>
-  </div>
-
-  <div class="an-card">
-    <div class="an-card-title">User Retention</div>
-    <p class="an-card-desc">How often visitors return, average session duration, and bounce rate over time.</p>
-    <a class="an-btn" href="https://analytics.google.com" target="_blank">Open GA4 →</a>
-  </div>
-
-  <div class="an-card">
-    <div class="an-card-title">Search Console</div>
-    <p class="an-card-desc">Which Google search queries bring visitors in, click-through rates, and impressions.</p>
-    <a class="an-btn" href="https://search.google.com/search-console" target="_blank">Open Search Console →</a>
-  </div>
+  
 
 </div>
 
-    </section>
-  </article>
-</div>
+
+<script>
+  (function () {
+    var frame = document.getElementById('widget-frame');
+    if (!frame) return;
+    window.addEventListener('message', function (e) {
+      if (e.source !== frame.contentWindow) return;
+      var h = e.data && e.data.embedHeight;
+      if (typeof h === 'number' && h > 100 && h < 20000) frame.style.height = h + 'px';
+    });
+  })();
+</script>
 
 
       
