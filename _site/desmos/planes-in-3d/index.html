@@ -10,7 +10,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Gallery</title>
+<!-- begin _includes/seo.html --><title>Planes in 3D</title>
 <meta name="description" content="">
 
 
@@ -21,16 +21,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
-<meta property="og:title" content="Gallery">
-<meta property="og:url" content="http://localhost:4000/gallery/">
+<meta property="og:title" content="Planes in 3D">
+<meta property="og:url" content="http://localhost:4000/desmos/planes-in-3d/">
 
 
   <meta property="og:description" content="">
 
 
 
-  <meta property="og:image" content="http://localhost:4000/assets/images/desmos_gallery_background1.png">
-
 
 
 
@@ -44,7 +42,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/gallery/">
+<link rel="canonical" href="http://localhost:4000/desmos/planes-in-3d/">
 
 
 
@@ -75,8 +73,6 @@
 
 
 
-
-  <script src='/assets/js/particles.js'></script>
 
     <!-- start custom head snippets -->
 
@@ -592,7 +588,7 @@ window.MathJax = {
 
   </head>
 
-  <body class="layout--splash" dir="ltr">
+  <body class="layout--desmos-graph" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -651,362 +647,767 @@ window.MathJax = {
 
     <div class="initial-content">
       
-  
 
 
 
+<!-- A page counts as having a write-up when the write-up region holds real prose. -->
+<!-- Set `writeup: false` in front matter when that region only holds controls.    -->
 
 
 
-
-<div class="page__hero--overlay"
-  style="background-color: #fff; background-image: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url('/assets/images/desmos_gallery_background1.png');">
-  <style>
-    .page__hero {
-      position: relative;
-      overflow: hidden;
-    }
-    .page__hero.wrapper {
-      position: relative;
-      z-index: 2;
-    }
-    .particles-wrapper {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 3;
-    }
-  
-    .page__hero-actions {
-      position: relative;
-      z-index: 10; /* Higher, explicitly above particles */
-    }
-  </style>
-  <div class="particles-wrapper" id="particles-js"></div>
-
-  
-    <div class="wrapper" style="position: relative; z-index: 2;">
-      <h1 id="page-title" class="page__title" itemprop="headline">
-        
-          Gallery
-
-        
-      </h1>
-      
-      
+<!-- Render the section for anything visible; comment-only regions stay hidden. -->
 
 
-      
-    </div>
-    <div class="page__hero-actions" style="position: relative; z-index: 10;">
-    
-    </div>
-  
-  
-</div>
-
-
-
-<div id="main" role="main">
-
-  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Gallery">
-    
-    
-    
-
-    <section class="page__content" itemprop="text">
-      <style>
-  .page__content {
-    max-width: 1020px;
-    margin-inline: auto;
-    padding-inline: 0.5rem;
+<style>
+  .desmos-page-wrap {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
   }
 
-  .bubble { padding: 1.25rem 1.5rem; }
-
-
-  .gallery-grid {
+  .desmos-page-top {
     display: flex;
+    align-items: baseline;
+    justify-content: space-between;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.75rem 1.5rem;
-    max-width: 880px;
-    margin: 0.75rem auto 0 auto;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
   }
 
-  .gallery-card {
-    width: 260px;
+  .desmos-page-top h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  .desmos-page-links {
+    font-size: 0.9rem;
     display: flex;
-    flex-direction: column;
+    gap: 1.2rem;
     align-items: center;
-    text-decoration: none;
-    color: inherit;
   }
 
-  /* Wooden-frame square thumbnail, same treatment as the home page cards */
-  .gallery-picture {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.6),
-                inset -2px -2px 6px rgba(0, 0, 0, 0.2),
-                0 4px 8px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
-    padding: 8px;
-    outline: 5px ridge #593302;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-
-  /* Every media layer in a frame — still image, gif, video, the couch's live
-     canvas — shares ONE sizing rule and ONE hover transform, so the layers
-     stay pixel-aligned no matter what they are. The zoom belongs to the media
-     stack as a whole, never to an individual layer: if only one layer scales,
-     the larger layer's edges show around the smaller one during the crossfade.
-     Opacity is the only thing that may differ between layers. */
-  .gallery-picture > img,
-  .gallery-picture > canvas,
-  .gallery-picture > video {
-    position: absolute;
-    inset: 8px;
-    width: calc(100% - 16px);
-    height: calc(100% - 16px);
-    object-fit: cover;
-    display: block;
-    transition: transform 0.25s ease, opacity 0.25s ease;
-  }
-
-  .gallery-picture canvas[hidden] { display: none; }
-
-  /* Animated layer (gif <img> or <video>) stacks directly over the still and
-     is revealed by crossfade alone — its geometry already matches. */
-  .gallery-picture > .gallery-anim { opacity: 0; }
-
-  @media (hover: hover) and (pointer: fine) {
-    .gallery-card:hover .gallery-picture > * { transform: scale(1.06); }
-    .gallery-card:hover .gallery-picture > .gallery-anim { opacity: 1; }
-  }
-
-  /* Touch devices: first tap adds this (see custom_js), standing in for :hover */
-  .gallery-card.is-revealed .gallery-picture > * { transform: scale(1.06); }
-  .gallery-card.is-revealed .gallery-picture > .gallery-anim { opacity: 1; }
-
-  .gallery-title {
+  /* Small "jump to the write-up" line sitting directly under the title */
+  .desmos-page-jump {
     font-size: 0.85rem;
-    font-weight: 600;
-    line-height: 1.3;
-    text-align: center;
-    margin-top: 0.6rem;
-    color: #3a4f63;
+    margin-bottom: 1rem;
   }
 
-  .gallery-section { margin-bottom: 1.5rem; }
-  .gallery-section:last-child { margin-bottom: 0; }
+  .desmos-page-jump a {
+    text-decoration: none;
+    border-bottom: 1px dotted currentColor;
+  }
 
-  @media (max-width: 600px) {
-    .bubble { padding: 1rem; border-radius: 10px; }
+  .desmos-page-jump a:hover {
+    border-bottom-style: solid;
+  }
+
+  .desmos-page-jump--pending {
+    color: #777;
+    font-style: italic;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  .desmos-controls {
+    margin-bottom: 0.5rem;
+  }
+
+  .desmos-toggle-btn {
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: 1px solid #a67b5b;
+    background: #fdf6ee;
+    color: #3b1f00;
+    border-radius: 3px;
+    transition: background 0.15s;
+  }
+
+  .desmos-toggle-btn:hover {
+    background: #f0e0ca;
+  }
+
+  .desmos-embed-container {
+    width: 100%;
+    height: 650px;
+    border: 2px solid #a67b5b;
+    outline: 4px ridge #593302;
+    box-sizing: border-box;
+  }
+
+  .desmos-embed-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  #calculator {
+    width: 100%;
+    height: 100%;
+  }
+
+  .desmos-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #888;
+    font-style: italic;
+  }
+
+  .desmos-below-graph {
+    margin-top: 0.5rem;
+  }
+
+  .desmos-writeup {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #a67b5b;
+    scroll-margin-top: 1.5rem;
+  }
+
+  /* Side-panel layout (opt-in via side_controls: true in front matter) */
+  .desmos-body--side {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .desmos-body--side .desmos-embed-section {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .desmos-side-panel {
+    width: 310px;
+    flex-shrink: 0;
+    border-left: 2px solid #d0d7de;
+    padding-left: 1.25rem;
+  }
+
+  /* Mobile: stack graph above controls, shrink graph height */
+  @media (max-width: 700px) {
+    .desmos-embed-container {
+      height: 420px;
+    }
+
+    .desmos-body--side {
+      flex-direction: column;
+    }
+
+    .desmos-body--side .desmos-embed-section {
+      width: 100%;
+    }
+
+    .desmos-side-panel {
+      width: 100%;
+      border-left: none;
+      border-top: 2px solid #d0d7de;
+      padding-left: 0;
+      padding-top: 1rem;
+    }
   }
 </style>
 
-<div class="bubble gallery-section">
-  <h4><strong>LADE</strong></h4>
-  <div class="gallery-grid">
-    <a class="gallery-card" href="/desmos/planes-in-3d" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/placeholder.svg" alt="Planes in 3D" /></div>
-      <span class="gallery-title">Planes in 3D</span>
-    </a>
+<div class="desmos-page-wrap">
+
+  <div class="desmos-page-top">
+    <h1>Planes in 3D</h1>
+    <div class="desmos-page-links">
+      <a href="/gallery/">← Gallery</a>
+      
+    </div>
   </div>
-</div>
 
-<div class="bubble gallery-section">
-  <h4><strong>Research / Convex Analysis</strong></h4>
-  <div class="gallery-grid">
-    <a class="gallery-card" href="/desmos/interpolation-master" target="_blank">
-      <div class="gallery-picture">
-        <img class="gallery-static" src="/assets/desmos/gifs/interpolation_master_poster.png" alt="Interpolation Master" />
-        <video class="gallery-anim" muted="" playsinline="" preload="auto" poster="/assets/desmos/gifs/interpolation_master_poster.png">
-          <source src="/assets/desmos/gifs/interpolation_master.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <span class="gallery-title">Interpolation Master</span>
-    </a>
-    <a class="gallery-card" href="/desmos/worst-case-gd" target="_blank">
-      <div class="gallery-picture">
-        <img class="gallery-static" src="/assets/desmos/gifs/huber_quad_poster.png" alt="Worst-Case Smooth Gradient Descent" />
-        <video class="gallery-anim" muted="" playsinline="" preload="auto" poster="/assets/desmos/gifs/huber_quad_poster.png">
-          <source src="/assets/desmos/gifs/huber_quad.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <span class="gallery-title">Worst-Case Smooth Gradient Descent</span>
-    </a>
-    <a class="gallery-card" href="/desmos/legendre-transform" target="_blank">
-      <div class="gallery-picture">
-        <img class="gallery-static" src="/assets/desmos/gifs/legendre_demo_poster.png" alt="Legendre Transform Demo" />
-        <video class="gallery-anim" muted="" playsinline="" preload="auto" poster="/assets/desmos/gifs/legendre_demo_poster.png">
-          <source src="/assets/desmos/gifs/legendre_demo.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <span class="gallery-title">Legendre Transform Demo</span>
-    </a>
-    <a class="gallery-card" href="/desmos/inexact-cocoercivity" target="_blank">
-      <div class="gallery-picture">
-        <img class="gallery-static" src="/assets/desmos/gifs/inexact_coco_poster.png" alt="Inexact Cocoercivity Demo" />
-        <video class="gallery-anim" muted="" playsinline="" preload="auto" poster="/assets/desmos/gifs/inexact_coco_poster.png">
-          <source src="/assets/desmos/gifs/inexact_coco.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <span class="gallery-title">Inexact Cocoercivity Demo</span>
-    </a>
-    <a class="gallery-card" href="/desmos/inexact-interpolation" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/inext_interpolation_image.png" alt="Inexactly Smooth Interpolation" /></div>
-      <span class="gallery-title">Inexactly Smooth Interpolation</span>
-    </a>
-    <a class="gallery-card" href="/desmos/inexact-construction" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/inexact_construction.png" alt="Inexactly Smooth Construction" /></div>
-      <span class="gallery-title">Inexactly Smooth Construction</span>
-    </a>
-    <a class="gallery-card" href="/desmos/smooth-interpolation" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/smooth_interpolation.png" alt="L-Smooth Interpolation" /></div>
-      <span class="gallery-title">L-Smooth Interpolation</span>
-    </a>
-    <a class="gallery-card" href="/desmos/p-norm-regularization" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="https://www.desmos.com/calc_thumbs/production/gzragmnctk.png" alt="p-norm regularization" /></div>
-      <span class="gallery-title">p-norm regularization</span>
-    </a>
-    <a class="gallery-card" href="/desmos/cocoercivity-demo" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/cocoercivity.png" alt="Visualizing Cocoercivity" /></div>
-      <span class="gallery-title">Visualizing Cocoercivity</span>
-    </a>
-    <a class="gallery-card" href="/desmos/strongly-convex" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/strongly_convex.png" alt="Strongly Convex Functions" /></div>
-      <span class="gallery-title">Strongly Convex Functions</span>
-    </a>
-    <a class="gallery-card" href="/desmos/L-smooth" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/L_smooth.png" alt="L-smooth Functions" /></div>
-      <span class="gallery-title">L-smooth Functions</span>
-    </a>
+  <div class="desmos-page-jump">
+    
+      <span class="desmos-page-jump--pending">Write-up coming soon.</span>
+    
   </div>
-</div>
 
-<div class="bubble gallery-section">
-  <h4><strong>Introduction to Computational Mathematics</strong></h4>
-  <div class="gallery-grid">
-    <a class="gallery-card" href="/desmos/runge-kutta-2" target="_blank">
-      <div class="gallery-picture">
-        <img class="gallery-static" src="/assets/desmos/gifs/RK_poster.png" alt="Second Order RK Methods" />
-        <video class="gallery-anim" muted="" playsinline="" preload="auto" poster="/assets/desmos/gifs/RK_poster.png" data-playback-rate="0.35">
-          <source src="/assets/desmos/gifs/RK.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <span class="gallery-title">Second Order RK Methods</span>
-    </a>
-    <a class="gallery-card" href="/desmos/finite-diff" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/finite_diff_interp.png" alt="Finite Difference Interpolation" /></div>
-      <span class="gallery-title">Finite Difference Interpolation</span>
-    </a>
-    <a class="gallery-card" href="/desmos/lagrange-hermite-interpolation" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/lagrange_hermite_interp.png" alt="Lagrange/Hermite Interpolation" /></div>
-      <span class="gallery-title">Lagrange/Hermite Interpolation</span>
-    </a>
-    <a class="gallery-card" href="/desmos/fixed-point" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="https://www.desmos.com/calc_thumbs/production/xwljuznw9j.png" alt="Fixed Point Methods" /></div>
-      <span class="gallery-title">Fixed Point Methods</span>
-    </a>
-    <a class="gallery-card" href="/desmos/taylor-series" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/taylor_series.png" alt="Taylor Series" /></div>
-      <span class="gallery-title">Taylor Series</span>
-    </a>
+  <div class="desmos-body desmos-body--side">
+
+    <div class="desmos-embed-section">
+      
+
+        <div class="desmos-controls">
+          <button class="desmos-toggle-btn" id="toggle-btn" onclick="toggleExpressions()">Show Expressions</button>
+        </div>
+
+        <div class="desmos-embed-container">
+          <div id="calculator"></div>
+        </div>
+
+        <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=88d0c7b9a32a465da20a22e0e61756f3"></script>
+        <script>
+          (function () {
+            var expressionsVisible = false;
+            var calc = window.desmosCalc = Desmos.Calculator3D(document.getElementById('calculator'), {
+              expressions: false,
+              settingsMenu: false,
+              keypad: false,
+            });
+
+            fetch('/assets/desmos/json_files/planes_in_3d.json')
+              .then(function (r) {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.json();
+              })
+              .then(function (state) {
+                calc.setState(state);
+                if (typeof window.onDesmosReady === 'function') window.onDesmosReady(calc);
+              })
+              .catch(function (err) {
+                document.getElementById('calculator').innerHTML =
+                  '<div class="desmos-error">Could not load graph state: ' + err.message + '</div>';
+              });
+
+            window.toggleExpressions = function () {
+              expressionsVisible = !expressionsVisible;
+              calc.updateSettings({ expressions: expressionsVisible });
+              document.getElementById('toggle-btn').textContent =
+                expressionsVisible ? 'Hide Expressions' : 'Show Expressions';
+            };
+          })();
+        </script>
+
+      
+
+      
+        <div class="desmos-below-graph page__content">
+
+<div class="pl-linsys" id="pl-linsys">
+
+  <div class="pl-block">
+    <span class="pl-block-label">System of Equations</span>
+    <div class="pl-eq" id="pl-equations"></div>
   </div>
-</div>
 
-<div class="bubble gallery-section">
-  <h4><strong>Directed Reading Program</strong></h4>
-  <div class="gallery-grid">
-    <a class="gallery-card" href="/desmos/gradient-descent" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/GD.png" alt="Gradient Descent" /></div>
-      <span class="gallery-title">Gradient Descent</span>
-    </a>
-    <a class="gallery-card" href="https://www.desmos.com/calculator/oahkt7wzj1" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="https://www.desmos.com/calc_thumbs/production/oahkt7wzj1.png" alt="Armijo Rule" /></div>
-      <span class="gallery-title">Armijo Rule</span>
-    </a>
+  <div class="pl-block">
+    <span class="pl-block-label">Augmented Matrix</span>
+    <div class="pl-eq" id="pl-augmented"></div>
   </div>
-</div>
 
-<div class="bubble gallery-section">
-  <h4><strong>Fun / Creative</strong></h4>
-  <div class="gallery-grid">
-    <a class="gallery-card" href="/desmos/voroni" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/voroni.png" alt="Voronoi Diagrams" /></div>
-      <span class="gallery-title">Voronoi Diagrams</span>
-    </a>
-    <a class="gallery-card" href="/desmos/circular-shadow" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/circular_shadow.png" alt="Circular Shadow" /></div>
-      <span class="gallery-title">Circular Shadow</span>
-    </a>
-    <a class="gallery-card" href="/desmos/modular-multiplication" target="_blank">
-      <div class="gallery-picture">
-        <img class="gallery-static" src="/assets/desmos/gifs/modular_multiplication_poster.png" alt="Modular Multiplication" />
-        <video class="gallery-anim" muted="" playsinline="" preload="auto" poster="/assets/desmos/gifs/modular_multiplication_poster.png" data-playback-rate="0.35">
-          <source src="/assets/desmos/gifs/Modular_Multiplication.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <span class="gallery-title">Modular Multiplication</span>
-    </a>
-    <a class="gallery-card" href="/widgets/optimal-couch/" target="_blank">
-      <div class="gallery-picture" id="couch-gallery-preview">
-        <img class="gallery-static" id="couch-preview-fallback" src="/widgets/images/couch_img.png" alt="General Optimized Sofa Problem" />
-        <canvas class="gallery-static" id="couch-preview-canvas" width="640" height="640" hidden=""></canvas>
-      </div>
-      <span class="gallery-title">General Optimized Sofa Problem</span>
-    </a>
+  <div class="pl-block">
+    <span class="pl-block-label">RREF</span>
+    <div class="pl-eq" id="pl-rref"></div>
   </div>
+
+  <div class="pl-block pl-block--solution">
+    <span class="pl-block-label">Solution Set</span>
+    <div class="pl-eq" id="pl-solution"></div>
+  </div>
+
 </div>
 
-    </section>
-  </article>
-</div>
+<style>
+  .pl-linsys {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem 2rem;
+    margin-top: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: #fdf6ee;
+    border: 1px solid #a67b5b;
+    border-radius: 6px;
+  }
 
-<script>particlesJS.load('particles-js', '/assets/particles.json', function() {
-  console.log('callback - particles.js config loaded');
-});</script>
-<script src="/assets/js/particles.js"></script>
-<script src="/widgets/src/couch/coef.js"></script>
-<script src="/widgets/src/couch/sofa-math.js"></script>
-<script src="/assets/js/couch-preview.js"></script>
-<script src="/assets/js/gallery-video-preview.js"></script>
+  .pl-block-label {
+    display: block;
+    font-weight: bold;
+    font-size: 0.78rem;
+    color: #6b7c8a;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.35rem;
+  }
+
+  .pl-eq {
+    font-size: 1rem;
+    overflow-x: auto;
+  }
+
+  .pl-block--solution {
+    grid-column: 1 / -1;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(166, 123, 91, 0.4);
+  }
+
+  .pl-sol-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.55rem;
+    border-radius: 3px;
+    margin-bottom: 0.5rem;
+  }
+
+  .pl-sol-point { background: rgba(45, 112, 179, 0.12); color: #2d70b3; }
+  .pl-sol-line  { background: rgba(96, 66, 166, 0.12);  color: #6042a6; }
+  .pl-sol-none  { background: rgba(199, 68, 64, 0.12);  color: #c74440; }
+
+  .pl-sol-note {
+    margin: 0.3rem 0 0;
+    font-size: 0.85rem;
+    color: #555;
+  }
+
+  @media (max-width: 700px) {
+    .pl-linsys { grid-template-columns: 1fr; }
+  }
+</style>
+
 <script>
-  // On touch devices, :hover can't be relied on to trigger the preview, so
-  // the first tap reveals it (without navigating) and a second tap follows
-  // the link — same mechanic as the home page's demo cards.
-  (function () {
-    var isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-    if (!isTouch) return;
+  window.onDesmosReady = function (calc) {
 
-    document.querySelectorAll('.gallery-card').forEach(function (card) {
-      card.addEventListener('click', function (e) {
-        if (!card.classList.contains('is-revealed')) {
-          e.preventDefault();
-          document.querySelectorAll('.gallery-card.is-revealed').forEach(function (other) {
-            other.classList.remove('is-revealed');
-          });
-          card.classList.add('is-revealed');
-        }
+    // ── Expression IDs from planes_in_3d.json ──────────────────────────────
+    var ID = {
+      a1: '4',  b1: '5',  c1: '6',  d1: '7',
+      a2: '11', b2: '12', c2: '13', d2: '14',
+      a3: '19', b3: '20', c3: '21', d3: '22',
+      R:  '38',
+      x0: '90', y0: '91', z0: '92',
+      solutionPoint: '37'
+    };
+
+    var LATEX_SYM = {
+      a1: 'a_{1}', b1: 'b_{1}', c1: 'c_{1}', d1: 'd_{1}',
+      a2: 'a_{2}', b2: 'b_{2}', c2: 'c_{2}', d2: 'd_{2}',
+      a3: 'a_{3}', b3: 'b_{3}', c3: 'c_{3}', d3: 'd_{3}'
+    };
+
+    var coeffs = {};
+    var currentCenter = [0, 0, 0];
+
+    function pushCoeffsToDesmos() {
+      Object.keys(LATEX_SYM).forEach(function (key) {
+        calc.setExpression({ id: ID[key], latex: LATEX_SYM[key] + '=' + coeffs[key] });
       });
-    });
+    }
 
-    document.addEventListener('click', function (e) {
-      if (!e.target.closest('.gallery-card')) {
-        document.querySelectorAll('.gallery-card.is-revealed').forEach(function (other) {
-          other.classList.remove('is-revealed');
+    // ── Number / LaTeX formatting ────────────────────────────────────────
+    // General display values (RREF, solution vectors): rounded to 1 decimal.
+    function fmtNum(x) {
+      if (Math.abs(x) < 1e-9) { x = 0; }
+      var r = Math.round(x * 10) / 10;
+      if (Object.is(r, -0)) { r = 0; }
+      var s = r.toFixed(1).replace(/\.0$/, '');
+      return s === '' || s === '-' ? '0' : s;
+    }
+
+    // Raw system / augmented matrix: round each entry to 1 decimal, then
+    // scale the row by 10 — an equivalent system (scaling an equation by a
+    // nonzero constant doesn't change its solutions) with integer entries,
+    // which is much easier to read than the underlying decimal coefficients.
+    // Then divide the whole row by the GCD of its (now-integer) entries, so
+    // e.g. 10x+20y+10z=40 reduces to x+2y+z=4 instead of staying inflated.
+    function scaleInt(x) {
+      var r1 = Math.round(x * 10) / 10;
+      var v = Math.round(r1 * 10);
+      return Object.is(v, -0) ? 0 : v;
+    }
+
+    function gcd2(a, b) {
+      a = Math.abs(a); b = Math.abs(b);
+      while (b) { var t = b; b = a % b; a = t; }
+      return a;
+    }
+
+    function reduceRow(row) {
+      var g = 0;
+      row.forEach(function (v) { g = gcd2(g, v); });
+      return g > 1 ? row.map(function (v) { return v / g; }) : row;
+    }
+
+    function toIntRow(row) {
+      return reduceRow(row.map(scaleInt));
+    }
+
+    function rowEquationParts(row) {
+      var r = toIntRow(row);
+      var terms = [];
+      [[r[0], 'x'], [r[1], 'y'], [r[2], 'z']].forEach(function (pair) {
+        var coef = pair[0], sym = pair[1];
+        if (coef === 0) { return; }
+        var mag = Math.abs(coef);
+        var magStr = mag === 1 ? '' : String(mag);
+        terms.push({ neg: coef < 0, text: magStr + sym });
+      });
+      var lhs = '';
+      if (!terms.length) {
+        lhs = '0';
+      } else {
+        terms.forEach(function (t, i) {
+          lhs += i === 0 ? (t.neg ? '-' : '') + t.text : (t.neg ? ' - ' : ' + ') + t.text;
         });
       }
+      return { lhs: lhs, rhs: String(r[3]) };
+    }
+
+    function buildEquationsLatex(co) {
+      var rows = [
+        rowEquationParts([co.a1, co.b1, co.c1, co.d1]),
+        rowEquationParts([co.a2, co.b2, co.c2, co.d2]),
+        rowEquationParts([co.a3, co.b3, co.c3, co.d3])
+      ];
+      var body = rows.map(function (r) { return r.lhs + ' &= ' + r.rhs; }).join(' \\\\ ');
+      return '\\[\\begin{aligned}' + body + '\\end{aligned}\\]';
+    }
+
+    function augmentedMatrixLatex(co) {
+      var rows = [
+        toIntRow([co.a1, co.b1, co.c1, co.d1]),
+        toIntRow([co.a2, co.b2, co.c2, co.d2]),
+        toIntRow([co.a3, co.b3, co.c3, co.d3])
+      ].map(function (row) { return row.join(' & '); });
+      return '\\[\\left[\\begin{array}{ccc|c}' + rows.join(' \\\\ ') + '\\end{array}\\right]\\]';
+    }
+
+    function matrixLatex(M) {
+      var rows = M.map(function (row) { return row.map(fmtNum).join(' & '); });
+      return '\\[\\left[\\begin{array}{ccc|c}' + rows.join(' \\\\ ') + '\\end{array}\\right]\\]';
+    }
+
+    function vecLatex(v) {
+      return '\\begin{bmatrix}' + v.map(fmtNum).join('\\\\') + '\\end{bmatrix}';
+    }
+
+    // ── Row reduction ────────────────────────────────────────────────────
+    function computeRREF(A) {
+      var tol = 1e-9;
+      var m = A.map(function (row) { return row.slice(); });
+      var rows = m.length, cols = m[0].length;
+      var pivotCols = [];
+      var row = 0;
+      for (var col = 0; col < cols - 1 && row < rows; col++) {
+        var pivot = row, maxAbs = Math.abs(m[row][col]);
+        for (var i = row + 1; i < rows; i++) {
+          if (Math.abs(m[i][col]) > maxAbs) { maxAbs = Math.abs(m[i][col]); pivot = i; }
+        }
+        if (maxAbs < tol) { continue; }
+        var tmp = m[row]; m[row] = m[pivot]; m[pivot] = tmp;
+        var pv = m[row][col];
+        for (var c = 0; c < cols; c++) { m[row][c] /= pv; }
+        for (var r2 = 0; r2 < rows; r2++) {
+          if (r2 === row) { continue; }
+          var f = m[r2][col];
+          if (Math.abs(f) > tol) {
+            for (var c2 = 0; c2 < cols; c2++) { m[r2][c2] -= f * m[row][c2]; }
+          }
+        }
+        pivotCols.push(col);
+        row++;
+      }
+      return { m: m, pivotCols: pivotCols, rank: row };
+    }
+
+    function classifySolution(co) {
+      var A = [
+        [co.a1, co.b1, co.c1, co.d1],
+        [co.a2, co.b2, co.c2, co.d2],
+        [co.a3, co.b3, co.c3, co.d3]
+      ];
+      var red = computeRREF(A);
+      var m = red.m, pivotCols = red.pivotCols, rank = red.rank;
+      var tol = 1e-7;
+
+      for (var r = 0; r < 3; r++) {
+        if (Math.abs(m[r][0]) < tol && Math.abs(m[r][1]) < tol &&
+            Math.abs(m[r][2]) < tol && Math.abs(m[r][3]) > tol) {
+          return { type: 'none', rref: m };
+        }
+      }
+
+      var freeCols = [0, 1, 2].filter(function (c) { return pivotCols.indexOf(c) === -1; });
+
+      if (rank === 3) {
+        return { type: 'point', point: [m[0][3], m[1][3], m[2][3]], rref: m };
+      }
+
+      if (rank === 2) {
+        var free = freeCols[0];
+        var point2 = [0, 0, 0], dir = [0, 0, 0];
+        dir[free] = 1;
+        pivotCols.forEach(function (pc, i2) {
+          point2[pc] = m[i2][3];
+          dir[pc] = -m[i2][free];
+        });
+        return { type: 'line', point: point2, dir: dir, rref: m };
+      }
+
+      if (rank === 1) {
+        var f1 = freeCols[0], f2 = freeCols[1];
+        var point3 = [0, 0, 0], dir1 = [0, 0, 0], dir2 = [0, 0, 0];
+        dir1[f1] = 1; dir2[f2] = 1;
+        var pc0 = pivotCols[0];
+        point3[pc0] = m[0][3];
+        dir1[pc0] = -m[0][f1];
+        dir2[pc0] = -m[0][f2];
+        return { type: 'plane', point: point3, dir1: dir1, dir2: dir2, rref: m };
+      }
+
+      return { type: 'all', rref: m };
+    }
+
+    // ── MathJax (queued on the startup promise so it's safe before/after load) ──
+    function typesetMath(node) {
+      if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise = MathJax.startup.promise
+          .then(function () { return MathJax.typesetPromise([node]); })
+          .catch(function (err) { console.error(err); });
+      }
+    }
+
+    function renderSolution(result) {
+      var el = document.getElementById('pl-solution');
+      var html;
+      if (result.type === 'none') {
+        html = '<span class="pl-sol-tag pl-sol-none">No solution</span>' +
+               '<p class="pl-sol-note">The three planes share no common point — the system is inconsistent.</p>';
+      } else if (result.type === 'point') {
+        html = '<span class="pl-sol-tag pl-sol-point">Unique solution</span>' +
+               '\\[' + '\\begin{bmatrix}x\\\\y\\\\z\\end{bmatrix} = ' + vecLatex(result.point) + '\\]';
+      } else if (result.type === 'line') {
+        html = '<span class="pl-sol-tag pl-sol-line">Line of solutions</span>' +
+               '\\[' + '\\begin{bmatrix}x\\\\y\\\\z\\end{bmatrix} = ' + vecLatex(result.point) +
+               ' + t' + vecLatex(result.dir) + ',\\quad t \\in \\mathbb{R}' + '\\]';
+      } else if (result.type === 'plane') {
+        html = '<span class="pl-sol-tag pl-sol-line">Plane of solutions</span>' +
+               '\\[' + '\\begin{bmatrix}x\\\\y\\\\z\\end{bmatrix} = ' + vecLatex(result.point) +
+               ' + t' + vecLatex(result.dir1) + ' + s' + vecLatex(result.dir2) +
+               ',\\quad t, s \\in \\mathbb{R}' + '\\]';
+      } else {
+        html = '<span class="pl-sol-tag pl-sol-line">All of space</span>' +
+               '<p class="pl-sol-note">Every point in \\(\\mathbb{R}^3\\) satisfies all three (trivial) equations.</p>';
+      }
+      el.innerHTML = html;
+    }
+
+    function updateDisplay() {
+      var result = classifySolution(coeffs);
+      document.getElementById('pl-equations').innerHTML = buildEquationsLatex(coeffs);
+      document.getElementById('pl-augmented').innerHTML = augmentedMatrixLatex(coeffs);
+      document.getElementById('pl-rref').innerHTML = matrixLatex(result.rref);
+      renderSolution(result);
+      // The graph's intersection-point marker (1/D · (D1,D2,D3)) has no
+      // built-in gate: when D→0 (line/no-solution/plane cases) it can blow
+      // up to some huge-but-finite point instead of cleanly disappearing, so
+      // it has to be shown/hidden explicitly based on the actual solution type.
+      calc.setExpression({ id: ID.solutionPoint, hidden: result.type !== 'point' });
+      typesetMath(document.getElementById('pl-linsys'));
+      return result;
+    }
+
+    // ── Recenter the planes' bounding regions and the viewport on a point ──
+    // The viewport's half-width is kept FIXED (not scaled with R): the
+    // circular/square toggle only works because R=25's ball edge is pushed
+    // outside a fixed-size viewport, so scaling the viewport with R would
+    // just re-reveal that round edge and defeat the "square" look.
+    var VIEW_HALF_WIDTH = 8.55;
+
+    function applyViewport() {
+      var state = calc.getState();
+      var bounds = {
+        xmin: currentCenter[0] - VIEW_HALF_WIDTH, xmax: currentCenter[0] + VIEW_HALF_WIDTH,
+        ymin: currentCenter[1] - VIEW_HALF_WIDTH, ymax: currentCenter[1] + VIEW_HALF_WIDTH,
+        zmin: currentCenter[2] - VIEW_HALF_WIDTH, zmax: currentCenter[2] + VIEW_HALF_WIDTH
+      };
+      Object.assign(state.graph.viewport, bounds);
+      // Exported 3D states also carry a "__v12ViewportLatexStash" — the same
+      // six bounds duplicated as LaTeX-parseable strings for schema-version
+      // migration. If Desmos re-derives the live viewport from that stash on
+      // load/setState, editing only the numeric viewport fields above is a
+      // no-op — so keep both copies in sync.
+      if (state.graph.__v12ViewportLatexStash) {
+        Object.keys(bounds).forEach(function (k) {
+          state.graph.__v12ViewportLatexStash[k] = String(bounds[k]);
+        });
+      }
+      calc.setState(state, { allowUndo: false });
+    }
+
+    function setCenter(point) {
+      currentCenter = point;
+      calc.setExpression({ id: ID.x0, latex: 'x_{0}=' + point[0] });
+      calc.setExpression({ id: ID.y0, latex: 'y_{0}=' + point[1] });
+      calc.setExpression({ id: ID.z0, latex: 'z_{0}=' + point[2] });
+      applyViewport();
+    }
+
+    // ── Command generators (mirror the graph's F_ixedSolution / R_andom /
+    //    N_oSolution / R_andomLine+R_andomLineSet actions) ──────────────────
+    function applyFixedSolution() {
+      coeffs = { a1: 1, b1: 2, c1: 4, d1: 7, a2: 2, b2: -1, c2: 1, d2: 2, a3: 1, b3: 2, c3: 2, d3: 5 };
+      pushCoeffsToDesmos();
+      var result = updateDisplay();
+      setCenter(result.type === 'point' ? result.point : [0, 0, 0]);
+    }
+
+    function applyRandomUnique() {
+      function r() { return Math.random() - 0.5; }
+      coeffs = {
+        a1: r(), b1: r(), c1: r(), d1: r(),
+        a2: r(), b2: r(), c2: r(), d2: r(),
+        a3: r(), b3: r(), c3: r(), d3: r()
+      };
+      pushCoeffsToDesmos();
+      var result = updateDisplay();
+      setCenter(result.type === 'point' ? result.point : [0, 0, 0]);
+    }
+
+    // A random point + random unit direction, then 3 random planes whose
+    // normals are constrained to be orthogonal to that direction (so the
+    // direction is forced into the null space of the coefficient matrix)
+    // and which all pass through the point (so the system stays consistent).
+    // This is what actually randomizes the LINE itself, not just which three
+    // planes happen to cross it — the graph's own R_andomLine/R_andomLineSet
+    // actions fix c_i = a_i+b_i, d_i = 2(a_i+b_i), which pins every normal to
+    // the same span{(1,0,1),(0,1,1)} and every plane through the same point
+    // (0,0,2) — so that pair always reproduces the identical line.
+    function randomUnitVector3() {
+      var v, norm;
+      do {
+        v = [Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1];
+        norm = Math.hypot(v[0], v[1], v[2]);
+      } while (norm < 1e-6);
+      return [v[0] / norm, v[1] / norm, v[2] / norm];
+    }
+
+    function orthonormalBasisPerp(d) {
+      var ref = Math.abs(d[0]) < 0.9 ? [1, 0, 0] : [0, 1, 0];
+      var dot = ref[0] * d[0] + ref[1] * d[1] + ref[2] * d[2];
+      var u = [ref[0] - dot * d[0], ref[1] - dot * d[1], ref[2] - dot * d[2]];
+      var un = Math.hypot(u[0], u[1], u[2]);
+      u = [u[0] / un, u[1] / un, u[2] / un];
+      var v = [
+        d[1] * u[2] - d[2] * u[1],
+        d[2] * u[0] - d[0] * u[2],
+        d[0] * u[1] - d[1] * u[0]
+      ];
+      return [u, v];
+    }
+
+    function applyRandomLine() {
+      function r() { return Math.random() - 0.5; }
+      var p = [r() * 3, r() * 3, r() * 3];
+      var dir = randomUnitVector3();
+      var basis = orthonormalBasisPerp(dir);
+      var u = basis[0], v = basis[1];
+
+      var planes = [];
+      for (var i = 0; i < 3; i++) {
+        var s1 = r() * 2, s2 = r() * 2;
+        var n = [
+          s1 * u[0] + s2 * v[0],
+          s1 * u[1] + s2 * v[1],
+          s1 * u[2] + s2 * v[2]
+        ];
+        var d = n[0] * p[0] + n[1] * p[1] + n[2] * p[2];
+        planes.push({ a: n[0], b: n[1], c: n[2], d: d });
+      }
+
+      coeffs = {
+        a1: planes[0].a, b1: planes[0].b, c1: planes[0].c, d1: planes[0].d,
+        a2: planes[1].a, b2: planes[1].b, c2: planes[1].c, d2: planes[1].d,
+        a3: planes[2].a, b3: planes[2].b, c3: planes[2].c, d3: planes[2].d
+      };
+      pushCoeffsToDesmos();
+      // p lies exactly on the generated line, so centering there keeps the
+      // whole line visually anchored in view rather than off to one side.
+      setCenter(p);
+      updateDisplay();
+    }
+
+    function applyNoSolution() {
+      coeffs = { a1: 0, b1: 0, c1: 1, d1: 2, a2: 1, b2: 1, c2: 1, d2: 1, a3: 1, b3: 1, c3: -1, d3: 1 };
+      pushCoeffsToDesmos();
+      setCenter([0, 0, 0]);
+      updateDisplay();
+    }
+
+    document.getElementById('pl-reset-btn').addEventListener('click', applyFixedSolution);
+    document.getElementById('pl-random-btn').addEventListener('click', applyRandomUnique);
+    document.getElementById('pl-random-line-btn').addEventListener('click', applyRandomLine);
+    document.getElementById('pl-no-solution-btn').addEventListener('click', applyNoSolution);
+
+    // ── Circular / square plane bound toggle ────────────────────────────────
+    var isSquare = false;
+    document.getElementById('pl-shape-btn').addEventListener('click', function () {
+      isSquare = !isSquare;
+      var newR = isSquare ? 25 : 5;
+      calc.setExpression({
+        id: ID.R,
+        latex: 'R=' + newR,
+        slider: { hardMin: true, hardMax: true, min: '2', max: '25' }
+      });
+      this.textContent = 'Shape: ' + (isSquare ? 'Square' : 'Circular');
     });
-  })();
+
+    // ── Initial state: circular bound, fixed (unique-solution) system ──────
+    calc.setExpression({ id: ID.R, latex: 'R=5', slider: { hardMin: true, hardMax: true, min: '2', max: '25' } });
+    applyFixedSolution();
+  };
 </script>
+
+</div>
+      
+    </div>
+
+    
+      <div class="desmos-side-panel page__content"><div class="pl-panel">
+
+  <span class="pl-label">Plane Shape</span>
+  <button class="site-btn" id="pl-shape-btn">Shape: Circular</button>
+
+  <hr class="desmos-divider" />
+
+  <span class="pl-label">Generate a System</span>
+  <button class="site-btn" id="pl-random-btn">Random (unique solution)</button>
+  <button class="site-btn" id="pl-random-line-btn">Random (line of solutions)</button>
+  <button class="site-btn" id="pl-no-solution-btn">No solution</button>
+  <button class="site-btn" id="pl-reset-btn">Reset</button>
+
+</div>
+
+<style>
+  .pl-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .pl-panel .site-btn {
+    width: 100%;
+  }
+
+  .pl-label {
+    font-weight: bold;
+    font-size: 0.82rem;
+    color: #4a5568;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+</style>
+
+</div>
+    
+
+  </div>
+
+  
+
+</div>
 
       
     </div>

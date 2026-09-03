@@ -142,6 +142,16 @@ custom_js: |
 
 
 <div class="bubble gallery-section">
+  <h4><strong>LADE</strong></h4>
+  <div class="gallery-grid">
+    <a class="gallery-card" href="/desmos/planes-in-3d" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/placeholder.svg" alt="Planes in 3D"></div>
+      <span class="gallery-title">Planes in 3D</span>
+    </a>
+  </div>
+</div>
+
+<div class="bubble gallery-section">
   <h4><strong>Research / Convex Analysis</strong></h4>
   <div class="gallery-grid">
     <a class="gallery-card" href="/desmos/interpolation-master" target="_blank">

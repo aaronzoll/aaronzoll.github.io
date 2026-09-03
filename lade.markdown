@@ -994,6 +994,10 @@ augmented by topics from linear algebra and the use of computer software (primar
     </a>
     -->
 
+    <a class="gallery-card" href="/desmos/planes-in-3d" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/placeholder.svg" alt="Planes in 3D"></div>
+      <span class="gallery-title">Planes in 3D</span>
+    </a>
+
   </div>
-  <div class="empty-note">Demos coming soon.</div>
 </div>

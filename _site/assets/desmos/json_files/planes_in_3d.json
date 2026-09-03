@@ -1,0 +1,513 @@
+{
+  "version": 11,
+  "randomSeed": "51a6ff462d2694759213e6005854f74e",
+  "graph": {
+    "viewport": {
+      "xmin": -8.551696790581572,
+      "ymin": -8.551696790581572,
+      "zmin": -8.551696790581572,
+      "xmax": 8.551696790581572,
+      "ymax": 8.551696790581572,
+      "zmax": 8.551696790581572
+    },
+    "worldRotation3D": [
+      0.8931854404190397,
+      0.03924291517611591,
+      0.44797294854928205,
+      -0.03507822122439044,
+      0.9992297001232945,
+      -0.01759331655068358,
+      -0.4483182880713092,
+      -4.0750172751512473e-16,
+      0.8938739914444445
+    ],
+    "axis3D": [
+      0,
+      0,
+      -1.0000000000061855
+    ],
+    "product": "graphing-3d",
+    "threeDMode": true,
+    "__v12ViewportLatexStash": {
+      "xmin": "-8.551696790581572",
+      "xmax": "8.551696790581572",
+      "ymin": "-8.551696790581572",
+      "ymax": "8.551696790581572",
+      "zmin": "-8.551696790581572",
+      "zmax": "8.551696790581572"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "expression",
+        "id": "38",
+        "color": "#2d70b3",
+        "latex": "R=5.93",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "2",
+          "max": "15"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "90",
+        "color": "#2d70b3",
+        "latex": "x_{0}=0",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "91",
+        "color": "#2d70b3",
+        "latex": "y_{0}=0",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "92",
+        "color": "#2d70b3",
+        "latex": "z_{0}=0",
+        "hidden": true
+      },
+      {
+        "type": "text",
+        "id": "41",
+        "text": "For ease of visualization, the planes look like circles (as they are capped by the bound above). Raise the value of \"R\" to increase their size. Large enough \"R\" will recover the \"rectangular\" look we may expect. "
+      },
+      {
+        "type": "folder",
+        "id": "2",
+        "title": "Plane 1",
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "3",
+        "folderId": "2",
+        "color": "#2d70b3",
+        "latex": "a_{1}x+b_{1}y+c_{1}z=d_{1}\\ \\left\\{\\left(x-x_{0}\\right)^{2}+\\left(y-y_{0}\\right)^{2}+\\left(z-z_{0}\\right)^{2}\\le R^{2}\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "39",
+        "folderId": "2",
+        "color": "#388c46"
+      },
+      {
+        "type": "expression",
+        "id": "4",
+        "folderId": "2",
+        "color": "#388c46",
+        "latex": "a_{1}=0.3780121689299769",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "5",
+        "folderId": "2",
+        "color": "#6042a6",
+        "latex": "b_{1}=-0.3003836326821362",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "6",
+        "folderId": "2",
+        "color": "#aaaaaa",
+        "latex": "c_{1}=0.07762853624784072",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "7",
+        "folderId": "2",
+        "color": "#c74440",
+        "latex": "d_{1}=0.15525707249568144",
+        "hidden": true
+      },
+      {
+        "type": "folder",
+        "id": "9",
+        "title": "Plane 2",
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "10",
+        "folderId": "9",
+        "color": "#c74440",
+        "latex": "a_{2}x+b_{2}y+c_{2}z=d_{2}\\left\\{\\left(x-x_{0}\\right)^{2}+\\left(y-y_{0}\\right)^{2}+\\left(z-z_{0}\\right)^{2}\\le R^{2}\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "11",
+        "folderId": "9",
+        "color": "#6042a6",
+        "latex": "a_{2}=0.05732144472729561",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "12",
+        "folderId": "9",
+        "color": "#aaaaaa",
+        "latex": "b_{2}=0.1419872769457463",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "13",
+        "folderId": "9",
+        "color": "#c74440",
+        "latex": "c_{2}=0.19930872167304192",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "14",
+        "folderId": "9",
+        "color": "#2d70b3",
+        "latex": "d_{2}=0.39861744334608384",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "15",
+        "folderId": "9",
+        "color": "#388c46"
+      },
+      {
+        "type": "folder",
+        "id": "17",
+        "title": "Plane 3",
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "18",
+        "folderId": "17",
+        "color": "#388c46",
+        "latex": "a_{3}x+b_{3}y+c_{3}z=d_{3}\\left\\{\\left(x-x_{0}\\right)^{2}+\\left(y-y_{0}\\right)^{2}+\\left(z-z_{0}\\right)^{2}\\le R^{2}\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "19",
+        "folderId": "17",
+        "color": "#c74440",
+        "latex": "a_{3}=-0.3973735254459173",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "20",
+        "folderId": "17",
+        "color": "#2d70b3",
+        "latex": "b_{3}=-0.07189438655355362",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "21",
+        "folderId": "17",
+        "color": "#388c46",
+        "latex": "c_{3}=-0.46926791199947093",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "22",
+        "folderId": "17",
+        "color": "#6042a6",
+        "latex": "d_{3}=-0.9385358239989419",
+        "hidden": true
+      },
+      {
+        "type": "folder",
+        "id": "24",
+        "title": "Commands (click these to produce different sets of solutions)"
+      },
+      {
+        "type": "expression",
+        "id": "25",
+        "folderId": "24",
+        "color": "#c74440",
+        "latex": "F_{ixedSolution}\\ =\\ a_{1}\\ \\to\\ 1,\\ a_{2}\\ \\to2,\\ a_{3}\\to1,\\ b_{1}\\ \\to\\ 2,\\ b_{2}\\ \\to-1,\\ b_{3}\\to2,\\ c_{1}\\ \\to\\ 4,\\ c_{2}\\ \\to1,\\ c_{3}\\to2,\\ d_{1}\\ \\to\\ 7,d_{2}\\ \\to2,\\ d_{3}\\to5"
+      },
+      {
+        "type": "expression",
+        "id": "29",
+        "folderId": "24",
+        "color": "#6042a6",
+        "latex": "R_{andom}=\\ a_{1}\\ \\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ a_{2}\\ \\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ a_{3}\\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ b_{1}\\ \\to\\ \\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ b_{2}\\ \\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ b_{3}\\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ c_{1}\\ \\to\\ \\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ c_{2}\\ \\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ c_{3}\\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ d_{1}\\ \\to\\ \\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),d_{2}\\ \\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ d_{3}\\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "31",
+        "folderId": "24",
+        "color": "#c74440",
+        "latex": "N_{oSolution}\\ =\\ \\ a_{1}\\ \\to\\ 0,\\ a_{2}\\ \\to1,\\ a_{3}\\to1,\\ b_{1}\\ \\to\\ 0,\\ b_{2}\\ \\to1,\\ b_{3}\\to1,\\ c_{1}\\ \\to\\ 1,\\ c_{2}\\ \\to1,\\ c_{3}\\to-1,\\ d_{1}\\ \\to\\ 2,d_{2}\\ \\to1,\\ d_{3}\\to1"
+      },
+      {
+        "type": "expression",
+        "id": "42",
+        "folderId": "24",
+        "color": "#aaaaaa",
+        "latex": "L_{ineSolution}\\ =\\ \\ a_{1}\\ \\to\\ 1,\\ a_{2}\\ \\to0,\\ a_{3}\\to1,\\ b_{1}\\ \\to\\ 0,\\ b_{2}\\ \\to1,\\ b_{3}\\to1,\\ c_{1}\\ \\to\\ 1,\\ c_{2}\\ \\to1,\\ c_{3}\\to2,\\ d_{1}\\ \\to\\ 2,d_{2}\\ \\to1,\\ d_{3}\\to3"
+      },
+      {
+        "type": "expression",
+        "id": "86",
+        "folderId": "24",
+        "color": "#6042a6"
+      },
+      {
+        "type": "text",
+        "id": "85",
+        "folderId": "24",
+        "text": "Because of the way Desmos parses actions, you need to hit R_{andomLine} and then R_{andomLineSet} to actually produce a random system of equations with a linear solution"
+      },
+      {
+        "type": "expression",
+        "id": "72",
+        "folderId": "24",
+        "color": "#c74440",
+        "latex": "R_{andomLine}=a_{1}\\ \\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ a_{2}\\ \\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ a_{3}\\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ b_{1}\\ \\to\\ \\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ b_{2}\\ \\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right),\\ b_{3}\\to\\ M\\left(\\operatorname{random}\\left(\\right)-0.5\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "76",
+        "folderId": "24",
+        "color": "#aaaaaa",
+        "latex": "R_{andomLineSet}=c_{1}\\ \\to\\ \\ a_{1}+b_{1},\\ c_{2}\\ \\to a_{2}+b_{2},\\ c_{3}\\to\\ a_{3}+b_{3},\\ d_{1}\\ \\to\\ 2\\ a_{1}+2b_{1},d_{2}\\ \\to\\ 2a_{2}+2b_{2},\\ d_{3}\\to2\\ a_{3}+2b_{3}"
+      },
+      {
+        "type": "folder",
+        "id": "32",
+        "title": "Some Linear Algebra"
+      },
+      {
+        "type": "expression",
+        "id": "33",
+        "folderId": "32",
+        "color": "#2d70b3",
+        "latex": "D\\ =\\ a_{1}\\left(b_{2}c_{3}-b_{3}c_{2}\\right)-b_{1}\\left(a_{2}c_{3}-a_{3}c_{2}\\right)+c_{1}\\left(a_{2}b_{3}-a_{3}b_{2}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "34",
+        "folderId": "32",
+        "color": "#388c46",
+        "latex": "D_{1}=d_{1}\\left(b_{2}c_{3}-b_{3}c_{2}\\right)-b_{1}\\left(d_{2}c_{3}-d_{3}c_{2}\\right)+c_{1}\\left(d_{2}b_{3}-d_{3}b_{2}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "35",
+        "folderId": "32",
+        "color": "#6042a6",
+        "latex": "D_{2}=a_{1}\\left(d_{2}c_{3}-d_{3}c_{2}\\right)-d_{1}\\left(a_{2}c_{3}-a_{3}c_{2}\\right)+c_{1}\\left(a_{2}d_{3}-a_{3}d_{2}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "36",
+        "folderId": "32",
+        "color": "#aaaaaa",
+        "latex": "D_{3}=a_{1}\\left(b_{2}d_{3}-b_{3}d_{2}\\right)-b_{1}\\left(a_{2}d_{3}-a_{3}d_{2}\\right)+d_{1}\\left(a_{2}b_{3}-a_{3}b_{2}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "37",
+        "folderId": "32",
+        "color": "#aaaaaa",
+        "latex": "\\frac{1}{D}\\left(D_{1},D_{2},D_{3}\\right)",
+        "pointSize": "5",
+        "movablePointSize": "5"
+      },
+      {
+        "type": "text",
+        "id": "64",
+        "folderId": "32",
+        "text": "Define Cross and Dot Product"
+      },
+      {
+        "type": "expression",
+        "id": "43",
+        "folderId": "32",
+        "color": "#c74440",
+        "latex": "X\\left(u,v\\right)\\ =\\ \\left[u\\left[2\\right]v\\left[3\\right]-u\\left[3\\right]v\\left[2\\right],\\ u\\left[3\\right]v\\left[1\\right]-u\\left[1\\right]v\\left[3\\right],\\ u\\left[1\\right]v\\left[2\\right]-u\\left[2\\right]v\\left[1\\right]\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "44",
+        "folderId": "32",
+        "color": "#2d70b3",
+        "latex": "T\\left(u,v\\right)\\ =\\ \\operatorname{total}\\left(uv\\right)"
+      },
+      {
+        "type": "text",
+        "id": "66",
+        "folderId": "32",
+        "text": "Chosen irrational vector"
+      },
+      {
+        "type": "expression",
+        "id": "45",
+        "folderId": "32",
+        "color": "#388c46",
+        "latex": "q\\ =\\ \\left[1,\\sqrt{2},\\sqrt{3}\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "46",
+        "folderId": "32",
+        "color": "#6042a6",
+        "latex": "r_{1}\\ =\\ \\left[a_{1},\\ b_{1},\\ c_{1}\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "47",
+        "folderId": "32",
+        "color": "#aaaaaa",
+        "latex": "r_{2}=\\left[a_{2},\\ b_{2},\\ c_{2}\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "49",
+        "folderId": "32",
+        "color": "#2d70b3",
+        "latex": "r_{3}\\ =\\ \\left[a_{3},\\ b_{3},\\ c_{3}\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "50",
+        "folderId": "32",
+        "color": "#388c46",
+        "latex": "n_{12}\\ =\\ X\\left(r_{1},r_{2}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "51",
+        "folderId": "32",
+        "color": "#6042a6",
+        "latex": "n_{13}\\ =\\ X\\left(r_{1},r_{3}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "52",
+        "folderId": "32",
+        "color": "#aaaaaa",
+        "latex": "n_{23}\\ =\\ X\\left(r_{2},\\ r_{3}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "53",
+        "folderId": "32",
+        "color": "#c74440",
+        "latex": "S=T(n_{12},n_{12})+T(n_{13},n_{13})+T(n_{23},n_{23})"
+      },
+      {
+        "type": "text",
+        "id": "68",
+        "folderId": "32",
+        "text": "Projection onto cross products space"
+      },
+      {
+        "type": "expression",
+        "id": "54",
+        "folderId": "32",
+        "color": "#2d70b3",
+        "latex": "v=T\\left(n_{12},q\\right)n_{12}+T\\left(n_{13},q\\right)n_{13}+T\\left(n_{23},q\\right)n_{23}"
+      },
+      {
+        "type": "expression",
+        "id": "55",
+        "folderId": "32",
+        "color": "#388c46",
+        "latex": "m\\ =\\ \\frac{v}{\\sqrt{T\\left(v,v\\right)}}"
+      },
+      {
+        "type": "expression",
+        "id": "57",
+        "folderId": "32",
+        "color": "#aaaaaa",
+        "latex": "d\\ =\\ \\left[d_{1},\\ d_{2},\\ d_{3}\\right]"
+      },
+      {
+        "type": "expression",
+        "id": "56",
+        "folderId": "32",
+        "color": "#6042a6",
+        "latex": "w\\ =\\ X(d[1]r_{2}-d[2]r_{1},\\ n_{12})+X(d[1]r_{3}-d[3]r_{1},\\ n_{13})+X(d[2]r_{3}-d[3]r_{2},\\ n_{23})"
+      },
+      {
+        "type": "expression",
+        "id": "58",
+        "folderId": "32",
+        "color": "#c74440",
+        "latex": "p\\ =\\ \\frac{w}{S}"
+      },
+      {
+        "type": "expression",
+        "id": "69",
+        "folderId": "32",
+        "color": "#aaaaaa",
+        "latex": "L_{ine}\\ =\\ \\left(p\\left[1\\right]+tm\\left[1\\right],\\ p\\left[2\\right]+tm\\left[2\\right],\\ p\\left[3\\right]+tm\\left[3\\right]\\right)",
+        "parametricDomain": {
+          "min": "-10\\left\\{\\operatorname{abs}\\left(E_{rr}\\right)<10^{-8}:1,\\ 0\\right\\}",
+          "max": "10\\left\\{\\operatorname{abs}\\left(E_{rr}\\right)<10^{-8}:1,\\ 0\\right\\}"
+        },
+        "lineWidth": "3",
+        "domain": {
+          "min": "-10\\left\\{\\operatorname{abs}\\left(E_{rr}\\right)<10^{-8}:1,\\ 0\\right\\}",
+          "max": "10\\left\\{\\operatorname{abs}\\left(E_{rr}\\right)<10^{-8}:1,\\ 0\\right\\}"
+        }
+      },
+      {
+        "type": "text",
+        "id": "62",
+        "folderId": "32",
+        "text": "Test to see is solution is a line"
+      },
+      {
+        "type": "expression",
+        "id": "59",
+        "folderId": "32",
+        "color": "#2d70b3",
+        "latex": "R_{es}\\ =\\ [T(r_{1},p)-d[1],T(r_{2},p)-d[2],T(r_{3},p)-d[3]]"
+      },
+      {
+        "type": "expression",
+        "id": "60",
+        "folderId": "32",
+        "color": "#388c46",
+        "latex": "E_{rr}\\ =\\ T\\left(R_{es},R_{es}\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "70",
+        "folderId": "32",
+        "color": "#6042a6",
+        "latex": "L_{bound}\\ =\\ \\left\\{\\operatorname{abs}\\left(E_{rr}\\right)<10^{-8}:1,\\ 0\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "30",
+        "folderId": "32",
+        "color": "#aaaaaa",
+        "latex": "M\\ =\\ 1",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "-2",
+          "max": "2"
+        }
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrate3dLineWidthZero": true,
+  "doNotMigrateMovablePointStyle": true
+}
