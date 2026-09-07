@@ -999,8 +999,23 @@ augmented by topics from linear algebra and the use of computer software (primar
       <span class="gallery-title">Planes in 3D</span>
     </a>
 
+    <a class="gallery-card" href="/desmos/linear-combinations" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/linear_combinations.png" alt="Linear Combinations"></div>
+      <span class="gallery-title">Linear Combinations</span>
+    </a>
+
+    <a class="gallery-card" href="/desmos/parallelogram-law" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/parallelogram.png" alt="Parallelogram Law"></div>
+      <span class="gallery-title">Parallelogram Law</span>
+    </a>
+
     <a class="gallery-card" href="/desmos/visual_gauss" target="_blank">
-      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/placeholder.svg" alt="Visualizing Gaussian Elimination"></div>
+      <div class="gallery-picture">
+        <img class="gallery-static" src="/assets/desmos/gifs/gaussian_elimination_demo_poster.png" alt="Visualizing Gaussian Elimination">
+        <video class="gallery-anim" muted playsinline preload="auto" poster="/assets/desmos/gifs/gaussian_elimination_demo_poster.png">
+          <source src="/assets/desmos/gifs/gaussian_elimination_demo.mp4" type="video/mp4">
+        </video>
+      </div>
       <span class="gallery-title">Visualizing Gaussian Elimination</span>
     </a>
 

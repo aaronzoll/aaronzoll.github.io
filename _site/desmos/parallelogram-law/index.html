@@ -10,7 +10,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Lagrange/Hermite Interpolation</title>
+<!-- begin _includes/seo.html --><title>Parallelogram Law</title>
 <meta name="description" content="">
 
 
@@ -21,8 +21,8 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
-<meta property="og:title" content="Lagrange/Hermite Interpolation">
-<meta property="og:url" content="http://localhost:4000/desmos/lagrange-hermite-interpolation/">
+<meta property="og:title" content="Parallelogram Law">
+<meta property="og:url" content="http://localhost:4000/desmos/parallelogram-law/">
 
 
   <meta property="og:description" content="">
@@ -42,7 +42,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/desmos/lagrange-hermite-interpolation/">
+<link rel="canonical" href="http://localhost:4000/desmos/parallelogram-law/">
 
 
 
@@ -821,16 +821,16 @@ window.MathJax = {
 <div class="desmos-page-wrap">
 
   <div class="desmos-page-top">
-    <h1>Lagrange/Hermite Interpolation</h1>
+    <h1>Parallelogram Law</h1>
     <div class="desmos-page-links">
       <a href="/gallery/">← Gallery</a>
-      <a href="https://www.desmos.com/calculator/6u4yq9jhxa" target="_blank">Open in Desmos ↗</a>
+      
     </div>
   </div>
 
   <div class="desmos-page-jump">
     
-      <span class="desmos-page-jump--pending">Write-up coming soon.</span>
+      <a href="#writeup">Jump to write-up ↓</a>
     
   </div>
 
@@ -851,13 +851,13 @@ window.MathJax = {
         <script>
           (function () {
             var expressionsVisible = false;
-            var calc = window.desmosCalc = Desmos.Calculator(document.getElementById('calculator'), {
+            var calc = window.desmosCalc = Desmos.Calculator3D(document.getElementById('calculator'), {
               expressions: false,
               settingsMenu: false,
               keypad: false,
             });
 
-            fetch('/assets/desmos/json_files/lagrange_hermite_interp.json')
+            fetch('/assets/desmos/json_files/parallelogram_law.json')
               .then(function (r) {
                 if (!r.ok) throw new Error('HTTP ' + r.status);
                 return r.json();
@@ -886,194 +886,83 @@ window.MathJax = {
     </div>
 
     
-      <div class="desmos-side-panel page__content"><p class="lhi-side-note">
-  The full interpolations are the polynomials fitting all five data points.
-  The basis functions are the individual pieces, where each one is controlled by a single node
-  contributes exactly one data value or derivative to the sum.
-</p>
+      <div class="desmos-side-panel page__content"><div class="pl2-panel">
 
-<div class="lhi-stack">
+  <span class="pl2-label" style="color:#c74440;">Vector u</span>
 
-  <span class="lhi-label">Full interpolation</span>
-
-  <div class="lhi-btn-row">
-    <button class="site-btn lhi-full-btn" data-type="lagrange" onclick="lhiSetFull(this, 'lagrange')">
-      Full Lagrange
-    </button>
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(u_1\) = <strong id="pl2-u1-val">3.20</strong></span>
+    <input class="site-slider pl2-slider pl2-slider--u" type="range" min="-5" max="5" step="0.01" value="3.2" data-expr-id="4" data-latex-prefix="u_{1}=" data-val-id="pl2-u1-val" data-decimals="2" />
   </div>
-  <div class="lhi-btn-row">
-    <button class="site-btn site-btn--active lhi-full-btn" data-type="hermite" onclick="lhiSetFull(this, 'hermite')">
-      Full Hermite
-    </button>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(u_2\) = <strong id="pl2-u2-val">0.40</strong></span>
+    <input class="site-slider pl2-slider pl2-slider--u" type="range" min="-5" max="5" step="0.01" value="0.4" data-expr-id="5" data-latex-prefix="u_{2}=" data-val-id="pl2-u2-val" data-decimals="2" />
+  </div>
+
+  <div class="desmos-param">
+    <span class="desmos-param-label">\(u_3\) = <strong id="pl2-u3-val">0.00</strong></span>
+    <input class="site-slider pl2-slider pl2-slider--u" type="range" min="-5" max="5" step="0.01" value="0" data-expr-id="7" data-latex-prefix="u_{3}=" data-val-id="pl2-u3-val" data-decimals="2" />
   </div>
 
   <hr class="desmos-divider" />
-  <span class="lhi-label">Basis functions</span>
 
-  <div class="lhi-btn-row">
-    <button class="site-btn lhi-interp-btn" data-folder="111" data-slider="lhi-k-wrap" data-expr-id="115" data-latex-prefix="k=" data-val-id="lhi-k-val" data-default="5" onclick="lhiToggleInterp(this)">
-      Lagrange
-    </button>
-    <div class="lhi-slider-wrap" id="lhi-k-wrap">
-      <span class="lhi-slider-label">\(k\) = <strong id="lhi-k-val">5</strong></span>
-      <input class="site-slider" type="range" min="1" max="5" step="1" value="5" oninput="lhiSlide(this)" />
-    </div>
-  </div>
-
-  <div class="lhi-btn-row">
-    <button class="site-btn lhi-interp-btn" data-folder="127" data-slider="lhi-k1-wrap" data-expr-id="139" data-latex-prefix="k_{1}=" data-val-id="lhi-k1-val" data-default="1" onclick="lhiToggleInterp(this)">
-      Hermite F
-    </button>
-    <div class="lhi-slider-wrap" id="lhi-k1-wrap">
-      <span class="lhi-slider-label">\(k\) = <strong id="lhi-k1-val">1</strong></span>
-      <input class="site-slider" type="range" min="1" max="5" step="1" value="1" oninput="lhiSlide(this)" />
-    </div>
-  </div>
-
-  <div class="lhi-btn-row">
-    <button class="site-btn lhi-interp-btn" data-folder="294" data-slider="lhi-k2-wrap" data-expr-id="275" data-latex-prefix="k_{2}=" data-val-id="lhi-k2-val" data-default="2" onclick="lhiToggleInterp(this)">
-      Hermite G
-    </button>
-    <div class="lhi-slider-wrap" id="lhi-k2-wrap">
-      <span class="lhi-slider-label">\(k\) = <strong id="lhi-k2-val">2</strong></span>
-      <input class="site-slider" type="range" min="1" max="5" step="1" value="2" oninput="lhiSlide(this)" />
-    </div>
-  </div>
-
-  <hr class="desmos-divider" />
-  <span class="lhi-label">Derivatives</span>
+  <span class="pl2-label" style="color:#2d70b3;">Vector v</span>
 
   <div class="desmos-param">
-    <span class="desmos-param-label">\(g_1\) = <strong id="lhi-g1-val">2.00</strong></span>
-    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="2" data-expr-id="302" data-latex-prefix="G_{1}=" data-val-id="lhi-g1-val" oninput="lhiGradSlide(this)" />
+    <span class="desmos-param-label">\(v_1\) = <strong id="pl2-v1-val">0.70</strong></span>
+    <input class="site-slider pl2-slider pl2-slider--v" type="range" min="-5" max="5" step="0.01" value="0.7" data-expr-id="9" data-latex-prefix="v_{1}=" data-val-id="pl2-v1-val" data-decimals="2" />
   </div>
 
   <div class="desmos-param">
-    <span class="desmos-param-label">\(g_2\) = <strong id="lhi-g2-val">-1.00</strong></span>
-    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="-1" data-expr-id="303" data-latex-prefix="G_{2}=" data-val-id="lhi-g2-val" oninput="lhiGradSlide(this)" />
+    <span class="desmos-param-label">\(v_2\) = <strong id="pl2-v2-val">1.66</strong></span>
+    <input class="site-slider pl2-slider pl2-slider--v" type="range" min="-5" max="5" step="0.01" value="1.66" data-expr-id="10" data-latex-prefix="v_{2}=" data-val-id="pl2-v2-val" data-decimals="2" />
   </div>
 
   <div class="desmos-param">
-    <span class="desmos-param-label">\(g_3\) = <strong id="lhi-g3-val">-3.00</strong></span>
-    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="-3" data-expr-id="304" data-latex-prefix="G_{3}=" data-val-id="lhi-g3-val" oninput="lhiGradSlide(this)" />
-  </div>
-
-  <div class="desmos-param">
-    <span class="desmos-param-label">\(g_4\) = <strong id="lhi-g4-val">1.00</strong></span>
-    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="1" data-expr-id="305" data-latex-prefix="G_{4}=" data-val-id="lhi-g4-val" oninput="lhiGradSlide(this)" />
-  </div>
-
-  <div class="desmos-param">
-    <span class="desmos-param-label">\(g_5\) = <strong id="lhi-g5-val">-3.00</strong></span>
-    <input class="site-slider" type="range" min="-5" max="5" step="0.1" value="-3" data-expr-id="306" data-latex-prefix="G_{5}=" data-val-id="lhi-g5-val" oninput="lhiGradSlide(this)" />
+    <span class="desmos-param-label">\(v_3\) = <strong id="pl2-v3-val">0.00</strong></span>
+    <input class="site-slider pl2-slider pl2-slider--v" type="range" min="-5" max="5" step="0.01" value="0" data-expr-id="11" data-latex-prefix="v_{3}=" data-val-id="pl2-v3-val" data-decimals="2" />
   </div>
 
 </div>
 
 <style>
-  /* Widen the page to give the side panel room */
-  .desmos-page-wrap { max-width: 1350px; }
-
-  .lhi-side-note {
-    font-size: 0.88rem;
-    line-height: 1.65;
-    color: #4a5568;
-    margin-bottom: 1rem;
-  }
-
-  .lhi-stack {
+  .pl2-panel {
     display: flex;
     flex-direction: column;
-    gap: 0.45rem;
+    gap: 0.5rem;
   }
 
-  .lhi-label {
+  .pl2-label {
     font-weight: bold;
-    font-size: 0.85rem;
-    color: #4a5568;
+    font-size: 0.82rem;
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
 
-  /* Each row holds a button + optional inline slider */
-  .lhi-btn-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  /* Narrow buttons to fit the panel */
-  .lhi-btn-row .site-btn {
-    min-width: 120px;
-    flex-shrink: 0;
-    padding: 0.5rem 0.9rem;
-    font-size: 0.92rem;
-    white-space: nowrap;
-  }
-
-  .lhi-slider-wrap {
-    display: none;
-    align-items: center;
-    gap: 0.5rem;
-    white-space: nowrap;
-  }
-
-  .lhi-slider-label {
-    font-size: 0.88rem;
-    color: #37474f;
-    min-width: 2.8rem;
-  }
-
-
+  /* Desmos' own standard palette reds/blues, matching u/v in the graph itself */
+  .pl2-panel .pl2-slider--u { accent-color: #c74440; }
+  .pl2-panel .pl2-slider--v { accent-color: #2d70b3; }
 </style>
 
 <script>
-  function lhiSetFull(btn, type) {
-    var isLagrange = (type === 'lagrange');
-    window.desmosCalc.setExpression({ id: '135', hidden: !isLagrange });
-    window.desmosCalc.setExpression({ id: '273', hidden:  isLagrange });
-    document.querySelectorAll('.lhi-full-btn').forEach(function (b) {
-      b.classList.remove('site-btn--active');
+  window.onDesmosReady = function (calc) {
+
+    // ── Expression IDs from parallelogram_law.json ──────────────────────────
+    // u = (u_1, u_2, u_3) [red], v = (v_1, v_2, v_3) [blue]
+    document.querySelectorAll('.pl2-slider').forEach(function (input) {
+      input.addEventListener('input', function () {
+        var val = parseFloat(input.value);
+        var decimals = parseInt(input.getAttribute('data-decimals'), 10) || 2;
+        var exprId = input.getAttribute('data-expr-id');
+        var prefix = input.getAttribute('data-latex-prefix');
+        var valEl = document.getElementById(input.getAttribute('data-val-id'));
+        if (valEl) { valEl.textContent = val.toFixed(decimals); }
+        calc.setExpression({ id: exprId, latex: prefix + val });
+      });
     });
-    btn.classList.add('site-btn--active');
-  }
 
-  function lhiUpdateFullOpacity() {
-    var anyActive = document.querySelector('.lhi-interp-btn.site-btn--active') !== null;
-    var opacity = anyActive ? '0.3' : '1';
-    window.desmosCalc.setExpression({ id: '124', lineOpacity: opacity });
-    window.desmosCalc.setExpression({ id: '131', lineOpacity: opacity });
-  }
-
-  function lhiToggleInterp(btn) {
-    var isActive  = btn.classList.contains('site-btn--active');
-    var folderId  = btn.getAttribute('data-folder');
-    var sliderId  = btn.getAttribute('data-slider');
-    window.desmosCalc.setExpression({ id: folderId, hidden: isActive });
-    btn.classList.toggle('site-btn--active');
-    document.getElementById(sliderId).style.display = isActive ? 'none' : 'flex';
-    lhiUpdateFullOpacity();
-  }
-
-  function lhiSlide(input) {
-    var btn       = input.closest('.lhi-btn-row').querySelector('.lhi-interp-btn');
-    var exprId    = btn.getAttribute('data-expr-id');
-    var prefix    = btn.getAttribute('data-latex-prefix');
-    var valId     = btn.getAttribute('data-val-id');
-    var val       = parseInt(input.value, 10);
-    document.getElementById(valId).textContent = val;
-    window.desmosCalc.setExpression({ id: exprId, latex: prefix + val });
-  }
-
-  function lhiGradSlide(input) {
-    var val    = parseFloat(input.value);
-    var exprId = input.getAttribute('data-expr-id');
-    var prefix = input.getAttribute('data-latex-prefix');
-    var valId  = input.getAttribute('data-val-id');
-    var el = document.getElementById(valId);
-    if (el) { el.textContent = val.toFixed(2); }
-    window.desmosCalc.setExpression({ id: exprId, latex: prefix + val });
-  }
+  };
 </script>
 
 </div>
@@ -1081,6 +970,19 @@ window.MathJax = {
 
   </div>
 
+  
+    <div class="desmos-writeup page__content" id="writeup">
+
+<div class="latex-body">
+Rotate the graph and you can watch the parallelogram with sides constructed by $u$ and $v$ take shape in three dimensions, with the sum $w = u + v$ drawing the diagonal (and $u-v$ drawing the other one). This is completely analogous to the two-dimensional picture, just embedded in 3-D, showing this image exists in higher dimensions.
+
+\begin{remark}
+This geometric picture has a clean algebraic counterpart, written entirely in terms of norms. The diagonals of the parallelogram are $u+v$ and $u-v$, and adding their squared lengths gives the \textbf{parallelogram law}
+$$\|u+v\|^2 + \|u-v\|^2 = 2\|u\|^2 + 2\|v\|^2.$$
+This holds in $\R^n$ for any $n$, and the cross terms $\langle u,v\rangle$ and $-\langle u,v\rangle$ appearing when you expand $\|u+v\|^2$ and $\|u-v\|^2$ cancel exactly. 
+\end{remark}
+</div>
+</div>
   
 
 </div>
