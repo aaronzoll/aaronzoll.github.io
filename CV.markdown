@@ -179,17 +179,6 @@ custom_js: |
     margin-bottom: 0.3rem;
   }
 
-  /* ── Skills paragraph list ──────────────────────────────────── */
-  .skills-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin: 0;
-    padding-inline-start: 1.1rem;
-    font-size: 0.92rem;
-    line-height: 1.5;
-  }
-
   /* ── Software row ───────────────────────────────────────────── */
   .software-row {
     text-align: center;
@@ -209,6 +198,7 @@ custom_js: |
     <div class="cv-contact-list">
       <span>Email: <a href="mailto:azoll1@jhu.edu">azoll1@jhu.edu</a></span>
       <span>Web: <a href="https://aaronzoll.github.io" target="_blank">aaronzoll.github.io</a></span>
+      <span>Github: <a href="https://github.com/aaronzoll" target="_blank">github.com/aaronzoll</a></span>
     </div>
     <a class="arxiv-btn" href="/assets/cv.pdf" target="_blank">Download PDF</a>
   </div>
@@ -216,100 +206,92 @@ custom_js: |
 
 <div class="bubble">
   <h4><strong>Education</strong></h4>
-  <div class="venue-list">
-    <div class="venue-item">
-      <span class="venue-name">Johns Hopkins, Graduate — Ph.D in Applied Mathematics</span>
-      <span class="venue-date">August 2023 – Present</span>
+  <div class="cv-entry-list">
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <span class="cv-entry-title">Johns Hopkins, Graduate</span>
+        <span class="cv-entry-date">August 2023 – May 2027 (expected)</span>
+      </div>
+      <div class="cv-entry-subtitle">Ph.D in Applied Mathematics, Advisor: Ben Grimmer</div>
     </div>
-    <div class="venue-item">
-      <span class="venue-name">Johns Hopkins, Graduate — M.S in Applied Mathematics</span>
-      <span class="venue-date">August 2022 – May 2023</span>
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <span class="cv-entry-title">Johns Hopkins, Graduate</span>
+        <span class="cv-entry-date">August 2022 – May 2023</span>
+      </div>
+      <div class="cv-entry-subtitle">M.S in Applied Mathematics</div>
     </div>
-    <div class="venue-item">
-      <span class="venue-name">Johns Hopkins, Undergraduate — B.S in Applied Mathematics</span>
-      <span class="venue-date">August 2019 – May 2022</span>
-    </div>
-    <div class="venue-item">
-      <span class="venue-name">Johns Hopkins, Undergraduate — B.A in Mathematics</span>
-      <span class="venue-date">August 2019 – May 2022</span>
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <span class="cv-entry-title">Johns Hopkins, Undergraduate</span>
+        <span class="cv-entry-date">August 2019 – May 2022</span>
+      </div>
+      <div class="cv-entry-subtitle">B.S in Applied Mathematics, B.A in Mathematics</div>
     </div>
   </div>
 </div>
 
 <div class="bubble">
   <h4><strong>Teaching Experience</strong></h4>
-  <div class="cv-entry-list">
-  <div class="cv-entry">
-      <div class="cv-entry-header">
-        <span class="cv-entry-title">Johns Hopkins, Baltimore — Course Instructor</span>
-        <span class="cv-entry-date">Summer 2022 -- Present</span>
-      </div>
-      <p class="cv-entry-body">Developed a complete syllabus, lecture notes, and assignments to facilitate courses ranging from 15 to 80 students. Presented extensive lectures on linear algebra, probability, statistics, data analysis, and differential equations.  Facilitated student engagement and discussion.</p>
+  <div class="venue-list">
+    <div class="venue-item">
+      <span class="venue-name">Johns Hopkins — Course Instructor</span>
+      <span class="venue-date">Summer 2022 – Present</span>
     </div>
-    <div class="cv-entry">
-      <div class="cv-entry-header">
-        <span class="cv-entry-title">Johns Hopkins, Baltimore — Directed Reading Program</span>
-        <span class="cv-entry-date">Spring 2025/Fall 2025</span>
-      </div>
-      <p class="cv-entry-body">Paired with up to three students a semester, mentoring a self-contained course on gradient descent, its convergence theory and guarantees. Wrote a series of lecture notes and exercises for students who were expected to discuss and work independently for a few hours every week. After the semester of preparation, each student presented a structured talk to the group of mentees.</p>
+    <div class="venue-item">
+      <span class="venue-name">Johns Hopkins — Course Developer</span>
+      <span class="venue-date">Summer 2021</span>
     </div>
-    <div class="cv-entry">
-      <div class="cv-entry-header">
-        <span class="cv-entry-title">Johns Hopkins, Baltimore — Course Developer</span>
-        <span class="cv-entry-date">Summer 2021</span>
-      </div>
-      <p class="cv-entry-body">Contributed to the design and development of new mathematics and engineering courses. Authored original lecture material, guided Excel practice problems, engaging problem sets, and instructional resources tailored to enhance pedagogical clarity and student engagement.</p>
+    <div class="venue-item">
+      <span class="venue-name">Johns Hopkins — Teaching Assistant</span>
+      <span class="venue-date">January 2020 – Present</span>
     </div>
-    <div class="cv-entry">
-      <div class="cv-entry-header">
-        <span class="cv-entry-title">Johns Hopkins, Baltimore — Teaching Assistant</span>
-        <span class="cv-entry-date">January 2020 – Present</span>
-      </div>
-      <p class="cv-entry-body">Supported instruction in twenty undergraduate and graduate-level courses through grading, writing lecture notes, designing assignments, leading weekly discussion sections, and providing academic support to students. Collaborated with faculty to reinforce core course concepts and foster a strong learning environment.</p>
+    <div class="venue-item">
+      <span class="venue-name">Johns Hopkins — Directed Reading Program Mentor</span>
+      <span class="venue-date">Spring 2025/Fall 2025</span>
     </div>
-    <div class="cv-entry">
-      <div class="cv-entry-header">
-        <span class="cv-entry-title">Johns Hopkins, Baltimore — MSE Orientation Review Session</span>
-        <span class="cv-entry-date">August 2023/2024</span>
-      </div>
-      <p class="cv-entry-body">Designed and led a series of review sessions for the incoming 120 masters students, covering foundational concepts in linear algebra and matrix analysis. Developed comprehensive lecture notes and facilitated interactive discussions to prepare students for rigorous graduate coursework.</p>
+    <div class="venue-item">
+      <span class="venue-name">Johns Hopkins — MSE Orientation Review Session</span>
+      <span class="venue-date">August 2023/2024</span>
     </div>
-    <div class="cv-entry">
-      <div class="cv-entry-header">
-        <span class="cv-entry-title">Mathnasium, Baltimore — Math Instructor</span>
-        <span class="cv-entry-date">August 2019 – December 2019</span>
-      </div>
-      <p class="cv-entry-body">Tutored dozens of students ages 6 to 18 in fundamental math topics ranging from multiplication tables to AP calculus. Adapted instruction to individual learning styles, promoting confidence and mastery in mathematical skills.</p>
+    <div class="venue-item">
+      <span class="venue-name">Mathnasium — Math Instructor</span>
+      <span class="venue-date">August 2019 – December 2019</span>
+    </div>
+    <div class="venue-item">
+      <span class="venue-name">Personal Tutor</span>
+      <span class="venue-date">2022 – Present</span>
     </div>
   </div>
 </div>
 
 <div class="bubble">
   <h4><strong>Instructor of Record</strong></h4>
-  <div class="cv-entry-list">
+  <p class="cv-entry-body">Developed complete syllabi, lecture notes, discussion pages, and assignments to facilitate courses ranging from 15 to 140 students. Presented lectures, from asynchronous online to fully in-person, on linear algebra, probability, statistics, data analysis, and differential equations.</p>
+  <div class="cv-entry-list" style="margin-top: 0.75rem;">
     <div class="cv-entry">
       <div class="cv-entry-header">
         <span class="cv-entry-title">Data Analysis Workshop (AS.110.100)</span>
-        <span class="cv-entry-date">Summer 2023-2026</span>
+        <span class="cv-entry-date">Summer 2023–2026</span>
       </div>
-      <p class="cv-entry-body">In this two-week pre-college program, students work in groups to construct and present a data analysis project which collects, organizes, cleanses, and visualizes a dataset of their choosing. Topics include exploratory data analysis, data visualization, probability distributions, data scraping and cleansing, the basics of hypothesis testing, and regression modeling.
-</p>
+      <div class="cv-entry-subtitle">Johns Hopkins University</div>
+      <p class="cv-entry-body">In this two-week pre-college program, students work in groups to construct and present a data analysis project which collects, organizes, cleanses, and visualizes a dataset of their choosing. Topics include exploratory data analysis, data visualization, probability distributions, data scraping and cleansing, the basics of hypothesis testing, and regression modeling.</p>
     </div>
     <div class="cv-entry">
       <div class="cv-entry-header">
         <span class="cv-entry-title">Linear Algebra and Differential Equations (EN.553.291)</span>
         <span class="cv-entry-date">Fall 2026</span>
       </div>
+      <div class="cv-entry-subtitle">Johns Hopkins University</div>
       <p class="cv-entry-body">An introduction to the basic concepts of linear algebra, matrix theory, and differential equations that are used widely in modern engineering and science.</p>
     </div>
   </div>
 </div>
 
-
-
 <div class="bubble">
   <h4><strong>Course Development</strong></h4>
-  <div class="cv-entry-list">
+  <p class="cv-entry-body">Contributed to the design and development of new mathematics and engineering courses. Authored original lecture material, guided Excel practice problems, engaging problem sets, and instructional resources tailored to enhance pedagogical clarity and student engagement.</p>
+  <div class="cv-entry-list" style="margin-top: 0.75rem;">
     <div class="cv-entry">
       <div class="cv-entry-header">
         <span class="cv-entry-title">College Algebra (AS.110.102) — Complete</span>
@@ -331,6 +313,7 @@ custom_js: |
 
 <div class="bubble">
   <h4><strong>Teaching Assistant</strong></h4>
+  <p class="cv-entry-body">Supported instruction in twenty undergraduate and graduate-level courses through grading, writing lecture notes, designing assignments, leading weekly discussion sections, and providing academic support to students. Collaborated with faculty to reinforce core course concepts and foster a strong learning environment.</p>
 
   <div class="cv-subsection-label">Graduate Teaching Assistant</div>
   <div class="venue-list">
@@ -402,11 +385,75 @@ custom_js: |
 </div>
 
 <div class="bubble">
+  <h4><strong>Direct Reading Program Mentees and Presentations</strong></h4>
+  <p class="cv-entry-body">Paired with up to three undergraduate students, mentoring a self-contained course on gradient descent, its convergence theory, and its guarantees. Wrote a series of lecture notes and exercises for students who were, in addition to weekly hour one-on-one sessions, expected to prepare a presentation to conclude the semester.</p>
+  <div class="cv-entry-list" style="margin-top: 0.75rem;">
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <span class="cv-entry-title">Lingxi Kong</span>
+        <span class="cv-entry-date">Fall, 2025</span>
+      </div>
+      <div class="cv-entry-subtitle">Performance Estimation for Smooth Convex Gradient Descent</div>
+    </div>
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <span class="cv-entry-title">Darius Kim</span>
+        <span class="cv-entry-date">Fall, 2025</span>
+      </div>
+      <div class="cv-entry-subtitle">Adaptive Momentum Methods for Stochastic Optimization</div>
+    </div>
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <span class="cv-entry-title">Hermoine Larkin</span>
+        <span class="cv-entry-date">Spring, 2025</span>
+      </div>
+      <div class="cv-entry-subtitle">ADAM applications in Distillation Procedures</div>
+    </div>
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <span class="cv-entry-title">Hamza Alvi</span>
+        <span class="cv-entry-date">Spring, 2025</span>
+      </div>
+      <div class="cv-entry-subtitle">Acceleration Methods for Convex Minimization</div>
+    </div>
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <span class="cv-entry-title">Wynn Zhao</span>
+        <span class="cv-entry-date">Spring, 2025</span>
+      </div>
+      <div class="cv-entry-subtitle">Extension of Gradient Methods for Nonsmooth Optimization</div>
+    </div>
+  </div>
+</div>
+
+<div class="bubble">
+  <h4><strong>Service</strong></h4>
+  <div class="cv-entry-list">
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <span class="cv-entry-title">Johns Hopkins AMS Department External Review</span>
+        <span class="cv-entry-date">Fall 2023</span>
+      </div>
+      <div class="cv-entry-subtitle">Ph.D. Student Committee Member</div>
+      <p class="cv-entry-body">Performed review of the structure and design of the graduate program in the applied math and statistics department. Participated in discussion about course structure, qualifying exams, and various requirements for incoming and current Ph.D. students.</p>
+    </div>
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <span class="cv-entry-title">Johns Hopkins Education and Artificial Intelligence Focus Group</span>
+        <span class="cv-entry-date">May 2026 – Present</span>
+      </div>
+      <div class="cv-entry-subtitle">Graduate Researcher</div>
+      <p class="cv-entry-body">Participated in a group of faculty, post-doctorates, graduate students, and undergraduate student workers to research, develop, and implement AI into pedagogy. With the goal to enhance student learning, I beta-tested various course-specific AI tools, provided feedback, and integrated into various Johns Hopkins courses' LMS. Further work included providing feedback on textbook manuscripts about the use, benefits and fallback, of AI for students, instructors, and researchers.</p>
+    </div>
+  </div>
+</div>
+
+<div class="bubble">
   <h4><strong>Research Interests</strong></h4>
   <div class="cv-entry-list">
     <div class="cv-entry">
       <div class="cv-entry-header">
-        <span class="cv-entry-title">Optimization</span>
+        <span class="cv-entry-title">Optimization Research</span>
         <span class="cv-entry-date">Ongoing</span>
       </div>
       <div class="cv-entry-subtitle">Dissertation research with Dr. Benjamin Grimmer, Johns Hopkins University</div>
@@ -414,7 +461,7 @@ custom_js: |
     </div>
     <div class="cv-entry">
       <div class="cv-entry-header">
-        <span class="cv-entry-title">AI Pedagogy</span>
+        <span class="cv-entry-title">AI Pedagogy Research</span>
         <span class="cv-entry-date">Ongoing</span>
       </div>
       <div class="cv-entry-subtitle">Extracurricular research led by Dr. Sergey Kushnarev, Johns Hopkins University</div>
@@ -422,7 +469,7 @@ custom_js: |
     </div>
     <div class="cv-entry">
       <div class="cv-entry-header">
-        <span class="cv-entry-title">Signal Processing</span>
+        <span class="cv-entry-title">Signal Processing Research</span>
         <span class="cv-entry-date">Upcoming</span>
       </div>
       <div class="cv-entry-subtitle">Planned collaboration with Dr. Mario Michelli &amp; Kaleigh Rudge, Johns Hopkins University</div>
@@ -544,15 +591,6 @@ custom_js: |
 </div>
 
 <div class="bubble">
-  <h4><strong>Skills</strong></h4>
-  <ul class="skills-list">
-    <li>Expertise in mathematical problem-solving, analytical reasoning, and quantitative analysis, with the adept ability to tackle complex challenges.</li>
-    <li>Aptitude for delivering clear, engaging presentations and cultivating a dynamic, intellectually stimulating classroom environment.</li>
-    <li>Proficiency in Matlab, Python, and Julia, with extensive experience in optimization algorithms and image analysis techniques.</li>
-  </ul>
-</div>
-
-<div class="bubble">
   <h4><strong>Software</strong></h4>
-  <div class="software-row">Matlab &middot; Python &middot; Julia &middot; LaTeX &middot; Desmos &middot; Excel</div>
+  <div class="software-row">Matlab &middot; Python &middot; Julia &middot; LaTeX &middot; Desmos</div>
 </div>
