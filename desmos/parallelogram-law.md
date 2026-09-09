@@ -94,7 +94,7 @@ side_controls: true
 <!--writeup-->
 
 <div class="latex-body">
-Rotate the graph and you can watch the parallelogram with sides constructed by $u$ and $v$ take shape in three dimensions, with the sum $w = u + v$ drawing the diagonal (and $u-v$ drawing the other one). This is completely analogous to the two-dimensional picture, just embedded in 3-D, showing this image exists in higher dimensions.
+Above, we draw a parallelogram with sides constructed by vectors $u$ and $v$ (and their parallels). Rotating the graph, you can view the shape in three dimensions, with the sum $w = u + v$ drawing the diagonal (and $u-v$ drawing the other one). This is analogous to the two-dimensional picture, just embedded in 3-D, showing this image exists in higher dimensions.
 
 \begin{remark}
 This geometric picture has a clean algebraic counterpart, written entirely in terms of norms. Herein, we prove a geometric fact completely algebraically. The diagonals of the parallelogram are $u+v$ and $u-v$, and adding their squared lengths gives the \textbf{parallelogram law}
