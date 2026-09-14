@@ -19,7 +19,7 @@
     --avg:#a13d2f;
     --zg:#1f7a5c;
     --serif:Garamond,"Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
-    --mono:"SF Mono","JetBrains Mono","IBM Plex Mono",Menlo,Consolas,monospace;
+    --mono:var(--serif);   /* one typeface throughout, like the rest of the site */
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:var(--ground)}
@@ -38,10 +38,7 @@
   }
 
   /* ---- masthead ---- */
-  .eyebrow{
-    font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--ink-mute);
-  }
+  .eyebrow{font-weight:700;font-size:1.25rem;line-height:1.25;color:var(--ink)}
   .dek{
     font-size:15px;line-height:1.5;color:var(--ink-mute);max-width:62ch;margin-top:9px;
   }
@@ -55,13 +52,13 @@
   /* ---- controls ---- */
   .bar{
     display:flex;flex-wrap:wrap;gap:22px;align-items:baseline;
-    padding:12px 0 13px;font-family:var(--mono);font-size:11px;
+    padding:12px 0 13px;font-family:var(--mono);font-size:14px;
   }
   .grp{display:flex;align-items:baseline;gap:8px}
-  .grp>span{color:var(--ink-mute);letter-spacing:.13em;text-transform:uppercase;font-size:9.5px}
+  .grp>span{color:var(--ink-mute);letter-spacing:.02em;font-size:13.5px}
   button{
-    font-family:var(--mono);font-size:11px;background:none;color:var(--ink-mute);
-    border:1px solid transparent;border-radius:4px;padding:3px 8px;cursor:pointer;letter-spacing:.04em;
+    font-family:var(--mono);font-size:14px;background:none;color:var(--ink-mute);
+    border:1px solid transparent;border-radius:4px;padding:3px 8px;cursor:pointer;letter-spacing:.02em;
     transition:background .15s,border-color .15s,color .15s;
   }
   button:hover{color:var(--ink);border-color:var(--ink-faint)}
@@ -73,40 +70,38 @@
   canvas{display:block;width:100%;height:440px;cursor:grab;touch-action:none}
   canvas.drag{cursor:grabbing}
   .cap{
-    position:absolute;left:0;bottom:6px;font-family:var(--mono);font-size:10px;
-    color:var(--ink-faint);letter-spacing:.06em;pointer-events:none;
+    position:absolute;left:0;bottom:6px;font-family:var(--mono);font-size:13px;
+    color:var(--ink-faint);letter-spacing:.02em;pointer-events:none;
   }
   .readout{
-    position:absolute;right:0;top:0;text-align:right;font-family:var(--mono);font-size:10.5px;
+    position:absolute;right:0;top:0;text-align:right;font-family:var(--mono);font-size:13.5px;
     line-height:1.6;color:var(--ink-mute);pointer-events:none;
   }
   .readout b{color:var(--ink);font-weight:400}
   .readout .lam-on{color:var(--ink)}
   .readout .lam-off{color:var(--ink-faint)}
   .hint{
-    font-family:var(--mono);font-size:9.5px;color:var(--ink-faint);letter-spacing:.03em;
+    font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);letter-spacing:.02em;
     margin-top:6px;
   }
 
   /* ---- odometer: the signature ---- */
   .odo{border-top:1px solid var(--ink-faint);padding-top:16px;margin-top:8px}
-  .odo-head{
-    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--ink-mute);margin-bottom:11px;
-  }
+  .odo-head{font-weight:700;font-size:1.15rem;line-height:1.3;color:var(--ink);margin-bottom:11px}
+  .odo-note{font-weight:400;font-size:.95rem;color:var(--ink-faint);margin-left:6px}
   .wheels{display:flex;flex-wrap:wrap;align-items:center;gap:2px}
   .wheel{display:flex;flex-direction:column;gap:3px;padding:0 3px}
-  .wlab{font-family:var(--mono);font-size:9px;color:var(--ink-faint);text-align:center;padding-bottom:2px}
+  .wlab{font-family:var(--mono);font-size:12px;color:var(--ink-faint);text-align:center;padding-bottom:2px}
   .digits{display:flex;flex-direction:column;gap:2px}
   .digit{
-    font-family:var(--mono);font-size:11px;width:22px;height:19px;line-height:19px;text-align:center;
+    font-family:var(--mono);font-size:14px;width:22px;height:19px;line-height:19px;text-align:center;
     color:var(--ink-faint);border:1px solid transparent;border-radius:3px;cursor:pointer;
   }
   .digit:hover{color:var(--ink);border-color:var(--ink-faint)}
   .digit[data-on="1"]{color:#fff;font-weight:600}
-  .times{font-family:var(--mono);font-size:12px;color:var(--ink-faint);padding:0 5px;align-self:center}
+  .times{font-family:var(--mono);font-size:14.5px;color:var(--ink-faint);padding:0 5px;align-self:center}
   .eq{
-    font-family:var(--mono);font-size:12px;color:var(--ink);padding-left:12px;align-self:center;
+    font-family:var(--mono);font-size:14.5px;color:var(--ink);padding-left:12px;align-self:center;
     white-space:nowrap;
   }
   .eq b{color:var(--zg);font-weight:400}
@@ -117,25 +112,22 @@
   .arc-hit{cursor:grab}
   .arcbox.dragging .arc-hit,.arcbox.dragging{cursor:grabbing}
   .arccap{
-    font-family:var(--mono);font-size:11px;color:var(--ink-mute);
+    font-family:var(--mono);font-size:14px;color:var(--ink-mute);
     margin-top:8px;min-height:15px;letter-spacing:.02em;
   }
   .arccap b{color:var(--ink);font-weight:400}
 
   /* ---- W matrix ---- */
   .wmat{border-top:1px solid var(--ink-faint);padding-top:16px;margin-top:16px}
-  .wmat-head{
-    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--ink-mute);margin-bottom:11px;
-  }
-  .wmat-note{text-transform:none;letter-spacing:0;color:var(--ink-faint);margin-left:2px}
+  .wmat-head{font-weight:700;font-size:1.15rem;line-height:1.3;color:var(--ink);margin-bottom:11px}
+  .wmat-note{font-weight:400;font-size:.95rem;color:var(--ink-faint);margin-left:2px}
   .wmat-eq{font-size:19px;color:var(--ink);overflow-x:auto;padding-bottom:4px}
 
   /* ---- legend + stats ---- */
   .foot{
     display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;
     border-top:1px solid var(--ink-faint);margin-top:18px;padding-top:13px;
-    font-family:var(--mono);font-size:10.5px;color:var(--ink-mute);
+    font-family:var(--mono);font-size:13.5px;color:var(--ink-mute);
   }
   .keys{display:flex;flex-wrap:wrap;gap:16px}
   .key{display:flex;align-items:center;gap:6px;cursor:pointer}
@@ -153,7 +145,7 @@
 </style>
 
 <div class="plate">
-  <div class="eyebrow">minimax-optimal subgradient methods</div>
+  <div class="eyebrow">Minimax-optimal subgradient methods</div>
   <div class="dek-eq dek-eq--top" id="polyEq"></div>
   <p class="dek">
     Every minimax-optimal fixed-step method for Lipschitz convex minimization corresponds to a
@@ -183,7 +175,7 @@
   <div class="hint">drag to rotate · scroll / pinch to zoom · shift+drag, right-drag, or two-finger drag to pan</div>
 
   <div class="odo">
-    <div class="odo-head">each vertex is an arc diagram · drag an arc&rsquo;s endpoint to rewire it</div>
+    <div class="odo-head">Each vertex is an arc diagram <span class="odo-note">drag an arc&rsquo;s endpoint to rewire it</span></div>
     <div class="arcbox" id="arcbox">
       <svg id="arcsvg" class="arcsvg" xmlns="http://www.w3.org/2000/svg"></svg>
       <div class="arccap" id="arccap"></div>
@@ -191,7 +183,7 @@
   </div>
 
   <div class="wmat">
-    <div class="wmat-head">step-size matrix of the selected vertex <span class="wmat-note">(D = M = 1)</span></div>
+    <div class="wmat-head">Step-size matrix of the selected vertex <span class="wmat-note">(D = M = 1)</span></div>
     <div class="wmat-eq" id="wmatEq"></div>
   </div>
 

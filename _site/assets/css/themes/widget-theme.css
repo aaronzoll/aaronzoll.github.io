@@ -3,7 +3,9 @@
    ----------------------------------------------------------------------------
    The look shared by the standalone widget pages: /widgets/polytope,
    /widgets/optimal-couch, /widgets/chalk-studio. Warm off-white ground, slate
-   ink, hairline rules, tiny uppercase monospace labels, one slate accent.
+   ink, hairline rules, small muted labels, one slate accent. Type is the
+   site's Garamond throughout; headings are bold sentence case (.w-title),
+   never tracked-out uppercase, so the widgets read as part of the site.
 
    HOW TO USE IT in a new widget's *_code.html (the iframe contents):
 
@@ -20,8 +22,9 @@
 
    CLASS API (keep these names in widget markup so themes stay swappable):
      .w-plate    outermost padded container
+     .w-title    bold sentence-case section heading (like a page title)
      .w-bar      horizontal control bar        .w-group  one labelled cluster
-     .w-label    micro uppercase label         .w-val    numeric readout
+     .w-label    small muted label             .w-val    numeric readout
      .w-rule     hairline divider              .w-hint   faint helper text
      .w-stage    flexible region holding the figure
      .w-figure   the framed canvas / plot itself
@@ -58,7 +61,9 @@
 
   /* ---- type ---- */
   --serif: Garamond, "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-  --mono:  "SF Mono", "JetBrains Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
+  /* --mono is kept as a token name for compatibility, but it now resolves to
+     the same serif: labels and buttons should not look like a second typeface. */
+  --mono:  var(--serif);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -82,7 +87,7 @@ body {
   gap: 22px;
   padding: 0 0 13px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .w-group { display: flex; align-items: center; gap: 8px; }
@@ -90,15 +95,23 @@ body {
 .w-label {
   color: var(--ink-mute);
   font-family: var(--mono);
-  font-size: 9.5px;
-  letter-spacing: .13em;
-  text-transform: uppercase;
+  font-size: 13.5px;
+  letter-spacing: .02em;
+}
+
+.w-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0;
 }
 
 .w-val {
   color: var(--ink);
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: 13.5px;
   font-variant-numeric: tabular-nums;
   min-width: 26px;
   text-align: right;
@@ -113,9 +126,9 @@ body {
 
 .w-hint {
   font-family: var(--mono);
-  font-size: 9.5px;
+  font-size: 12.5px;
   color: var(--ink-faint);
-  letter-spacing: .03em;
+  letter-spacing: .02em;
 }
 
 .w-stage { flex: 1; min-height: 0; }
@@ -131,7 +144,7 @@ body {
 
 button, .w-btn {
   font-family: var(--mono);
-  font-size: .82rem;
+  font-size: .95rem;
   line-height: 1.2;
   color: var(--ink);
   background: var(--btn-bg);
@@ -201,7 +214,7 @@ input[type=checkbox], input[type=radio] { accent-color: var(--accent); }
 
 input[type=text] {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 14px;
   color: var(--ink);
   background: var(--field-bg);
   border: 1px solid var(--ink-faint);

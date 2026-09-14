@@ -68,7 +68,7 @@ Standalone interactive tools live at `/widgets/<name>/` and are built from two p
 
 #### Widget theme
 
-All widget apps share one look, so they read as instruments from the same shop: warm off-white ground, slate ink, hairline rules, tiny uppercase monospace labels, one slate accent, no heavy chrome. It is codified in `assets/css/themes/widget-theme.css` — link it and write only tool-specific rules:
+All widget apps share one look, so they read as instruments from the same shop: warm off-white ground, slate ink, hairline rules, the site's Garamond throughout (no monospace, no tracked-out uppercase), bold sentence-case section headings (`.w-title`), one slate accent, no heavy chrome. It is codified in `assets/css/themes/widget-theme.css` — link it and write only tool-specific rules:
 
 ```html
 <link rel="stylesheet" href="/assets/css/themes/widget-theme.css">
