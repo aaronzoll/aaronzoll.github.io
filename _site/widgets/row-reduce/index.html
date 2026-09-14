@@ -726,7 +726,7 @@ window.MathJax = {
 
   .widget-embed-container iframe {
     width: 100%;
-    height: 900px;
+    height: 760px;
     border: none;
     display: block;
     transition: height 0.15s;
@@ -818,15 +818,13 @@ window.MathJax = {
   </div>
 
   
-    <div class="widget-writeup page__content" id="writeup"><p>Above, I provide practice row reducing a matrix by hand. You may apply one elementary operation at a time. Note, these preserve all the solutions as we are not changing the underlying system. For example, swapping rows simply just changes the order of the equations we want to simultaneously satisfy. Adding a row to another gives a new equation that must satisfy the same system (and undoing this would revert to the original system, so they must be equivalent).</p>
+    <div class="widget-writeup page__content" id="writeup"><p>Above, I provide practice row reducing a matrix by hand. Start by choosing a difficulty: the number of equations, the number of unknowns, and the rank (i.e. the number of final pivot columns, more on this later). The par shown is the fewest row operations needed to reach reduced row echelon form from that starting matrix, so it doubles as a rough measure of how much work the system will take. If you have a particular system in mind (say, from a homework problem), choose “Custom” instead and type its augmented matrix in directly.</p>
 
-<p>The operation counter tracks how many steps you have used. Try to be the systemetic approach, which algorithmically solves the system and gives a “par” number of operations. Clicking “Show solution” walks through that systematic
-reduction step by step.</p>
+<p>Once you press play, you may apply one elementary operation at a time. Note, these preserve all the solutions as we are not changing the underlying system. For example, swapping rows simply just changes the order of the equations we want to simultaneously satisfy. Adding a row to another gives a new equation that must satisfy the same system (and undoing this would revert to the original system, so they must be equivalent).</p>
 
-<p>The status panel reports the rank, the pivot and free columns/variables,
-and whether the system is consistent. Note that when the rank is less than the number of columns, there must be free variables, so there must be infinite solutions.</p>
+<p>When you think the matrix is in reduced row echelon form, submit it. If it is, you will see the solution set read off the reduced matrix along with how your move count compares to par; if not, you will be told which condition still fails. Try to be systematic, which algorithmically solves the system and gives a “par” number of operations. Clicking “Show solution” walks through that systematic reduction step by step without disturbing your own work.</p>
 
-<p>The matrix dimensions and the rank are yours to set, which is the point. You have the freedom to set the problem’s “difficult”, and you can play around to see how adjusting the rank changes the underlying structure (and number of computations needs to reduce the matrix).</p>
+<p>The matrix dimensions and the rank are yours to set, which is the point. You have the freedom to set the problem’s “difficulty”, and you can play around to see how adjusting the rank changes the underlying structure (and number of computations needed to reduce the matrix). Note that when the rank is less than the number of unknowns, there must be free variables, so there must be infinitely many solutions.</p>
 </div>
   
 
