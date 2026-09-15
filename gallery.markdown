@@ -156,6 +156,10 @@ custom_js: |
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/parallelogram.png" alt="Parallelogram Law"></div>
       <span class="gallery-title">Parallelogram Law</span>
     </a>
+    <a class="gallery-card" href="/desmos/determinant" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/determinant.png" alt="The Determinant as Area"></div>
+      <span class="gallery-title">The Determinant as Area</span>
+    </a>
     <a class="gallery-card" href="/desmos/visual_gauss" target="_blank">
       <div class="gallery-picture">
         <img class="gallery-static" src="/assets/desmos/gifs/gaussian_elimination_demo_poster.png" alt="Visualizing Gaussian Elimination">

@@ -581,41 +581,41 @@ augmented by topics from linear algebra and the use of computer software (primar
     <div class="folder-body">
       <div class="lecture-grid">
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href="https://docs.google.com/presentation/d/1Nm2Hx0WyApDjrY_ysgR1sCKQzcQUXHTWXlRszScobXo/edit?usp=sharing" target="_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 7</span>
             <img src="/assets/LADE/thumbnails/Lecture_7.png" alt="Lecture 7 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 7</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Linear Independence</span>
+        </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href="https://docs.google.com/presentation/d/1EigNMM5mBS_XjNXCfLOupr_WIAlY64lJFFEcFtDfkso/edit?usp=sharing" target="_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 8</span>
             <img src="/assets/LADE/thumbnails/Lecture_8.png" alt="Lecture 8 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 8</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Nonsingularity and Linear Independence</span>
+        </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href="https://docs.google.com/presentation/d/12XYGDKyeBSVVTbtheR798Vlkl_c95e-LNB8YvEf0t7M/edit?usp=sharing" target="_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 9</span>
             <img src="/assets/LADE/thumbnails/Lecture_9.png" alt="Lecture 9 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 9</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Matrix Inverses</span>
+        </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href="https://docs.google.com/presentation/d/1c_d7UekNNEKqproINY7Z2gZgIhMkl-A8hWSq1cjUQGo/edit?usp=sharing" target="_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 10</span>
             <img src="/assets/LADE/thumbnails/Lecture_10.png" alt="Lecture 10 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 10</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Determinants</span>
+        </a>
 
         <div class="lecture-card lecture-card--pending">
           <div class="lecture-thumb">
@@ -1007,6 +1007,11 @@ augmented by topics from linear algebra and the use of computer software (primar
     <a class="gallery-card" href="/desmos/parallelogram-law" target="_blank">
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/parallelogram.png" alt="Parallelogram Law"></div>
       <span class="gallery-title">Parallelogram Law</span>
+    </a>
+
+    <a class="gallery-card" href="/desmos/determinant" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/determinant.png" alt="The Determinant as Area"></div>
+      <span class="gallery-title">The Determinant as Area</span>
     </a>
 
     <a class="gallery-card" href="/desmos/visual_gauss" target="_blank">
