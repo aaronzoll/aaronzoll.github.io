@@ -746,18 +746,35 @@ globalThis.COEF = {
   }
   var toPhaser = function (pts) { var o = new Array(pts.length); for (var i = 0; i < pts.length; i++) o[i] = { x: pts[i][0], y: -pts[i][1] }; return o; };
 
+  /* ----- palette -----
+     Phaser wants 0xRRGGBB ints, so the shared tokens from palette.css are read
+     once and converted. The fallbacks only apply if palette.css failed to load. */
+  function paletteColor(name, fallback) {
+    return getComputedStyle(document.documentElement)
+      .getPropertyValue(name).trim() || fallback;
+  }
+  function paletteInt(name, fallback) {
+    return parseInt(paletteColor(name, fallback).replace('#', ''), 16);
+  }
+
+  var C_GROUND    = paletteColor('--color-cream', '#faf9f6');
+  var C_CORRIDOR  = paletteInt('--color-cream-deep', '#f0ece3');
+  var C_EDGE      = paletteInt('--color-ink-faint', '#b0bec5');
+  var C_WOOD      = paletteInt('--color-wood', '#a67b5b');
+  var C_WOOD_DEEP = paletteInt('--color-wood-deep', '#593302');
+
   /* ----- rendering (constant on-screen stroke widths via /zoom) ----- */
   function render() {
     if (!APP.ready) return;
     var z = APP.cam.zoom;
     var corr = toPhaser(corridorPolyMath());
     APP.gCorr.clear();
-    APP.gCorr.fillStyle(0xefe9db, 1); APP.gCorr.fillPoints(corr, true);
-    APP.gCorr.lineStyle(2.5 / z, 0xb0bec5, 1); APP.gCorr.strokePoints(corr, true);
+    APP.gCorr.fillStyle(C_CORRIDOR, 1); APP.gCorr.fillPoints(corr, true);
+    APP.gCorr.lineStyle(2.5 / z, C_EDGE, 1); APP.gCorr.strokePoints(corr, true);
     var couch = toPhaser(couchVertsMath(APP.tau));
     APP.gCouch.clear();
-    APP.gCouch.fillStyle(0xa67b5b, 0.92); APP.gCouch.fillPoints(couch, true);
-    APP.gCouch.lineStyle(1.7 / z, 0x593302, 1); APP.gCouch.strokePoints(couch, true);
+    APP.gCouch.fillStyle(C_WOOD, 0.92); APP.gCouch.fillPoints(couch, true);
+    APP.gCouch.lineStyle(1.7 / z, C_WOOD_DEEP, 1); APP.gCouch.strokePoints(couch, true);
   }
 
   /* ----- camera: uniform zoom, pan, fit ----- */
@@ -875,7 +892,7 @@ globalThis.COEF = {
       new Phaser.Game({
         type: Phaser.AUTO,
         parent: 'game',
-        backgroundColor: '#f7f5f0',
+        backgroundColor: C_GROUND,
         scale: { mode: Phaser.Scale.RESIZE, width: '100%', height: '100%' },
         render: { antialias: true },
         scene: SofaScene

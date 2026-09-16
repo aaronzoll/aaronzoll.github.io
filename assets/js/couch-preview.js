@@ -83,12 +83,25 @@
     // Same palette as the deployed widget (widgets/optimal-couch_code.html
     // render()): cream ground, wood-toned couch — not the dark navy scheme
     // from the older unbundled src/couch/main.js.
+    // Canvas can't use var(), so each color is read off the shared palette at
+    // runtime; the fallbacks only apply if palette.css failed to load.
+    function paletteColor(name, fallback) {
+      return getComputedStyle(document.documentElement)
+        .getPropertyValue(name).trim() || fallback;
+    }
+
+    var GROUND    = paletteColor('--color-cream', '#faf9f6');
+    var CORRIDOR  = paletteColor('--color-cream-deep', '#f0ece3');
+    var EDGE      = paletteColor('--color-ink-faint', '#b0bec5');
+    var WOOD_RGB  = paletteColor('--color-wood-rgb', '166, 123, 91');
+    var WOOD_DEEP = paletteColor('--color-wood-deep', '#593302');
+
     function render() {
       ctx.clearRect(0, 0, SIZE, SIZE);
-      ctx.fillStyle = "#f7f5f0";
+      ctx.fillStyle = GROUND;
       ctx.fillRect(0, 0, SIZE, SIZE);
-      drawPoly(corridorPolyMath(shape, DRAW_LEN), "#efe9db", "#b0bec5", 2.5);
-      drawPoly(couchVertsMath(shape, tau), "rgba(166, 123, 91, 0.92)", "#593302", 1.7);
+      drawPoly(corridorPolyMath(shape, DRAW_LEN), CORRIDOR, EDGE, 2.5);
+      drawPoly(couchVertsMath(shape, tau), 'rgba(' + WOOD_RGB + ', 0.92)', WOOD_DEEP, 1.7);
     }
 
     var PAUSE_MS = 650; // hold at the end of the exit slide before looping back

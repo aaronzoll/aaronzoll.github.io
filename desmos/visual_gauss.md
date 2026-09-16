@@ -145,7 +145,7 @@ side_controls: true
     gap: 1.25rem 2rem;
     margin-top: 0.75rem;
     padding: 1rem 1.25rem;
-    background: var(--color-wood-bg);
+    background: var(--color-cream);
     border: 1px solid var(--color-wood);
     border-radius: 6px;
   }

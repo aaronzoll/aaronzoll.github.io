@@ -17,7 +17,7 @@
 
    NOTE on the Sass side: the theme's own masthead/card cream color is a
    separate Sass variable, $background-color, in
-   _sass/minimal-mistakes/_variables.scss (also set to #f7f5f0). That variable
+   _sass/minimal-mistakes/_variables.scss (also set to #faf9f6). That variable
    already drives the vendored theme partials (masthead, forms, sidebar, nav)
    directly in Sass and can't read a CSS custom property at compile time, so
    it's kept as its own value rather than merged into this file. If you change
@@ -28,8 +28,8 @@
   /* ---- backgrounds ---- */
   --color-bg-page:    #dde6ea; /* body edge/gutter behind the masthead+content on ordinary pages */
   --color-bg-panel:   #f0f0f0; /* body background on Desmos-graph / widget pages */
-  --color-cream:      #f7f5f0; /* masthead + .bubble cards; mirrors $background-color in _variables.scss */
-  --color-cream-deep: #efe9db; /* parchment shadow/hover tint (widget interiors) */
+  --color-cream:      #faf9f6; /* masthead + .bubble cards; mirrors $background-color in _variables.scss */
+  --color-cream-deep: #f0ece3; /* parchment shadow/hover tint (widget interiors) */
 
   /* ---- wood / brown accent ----
      Picture-frame borders (demo/gallery/slide/lecture thumbnails), the
