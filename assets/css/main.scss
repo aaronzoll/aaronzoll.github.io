@@ -22,16 +22,16 @@ $caption-font-family: $garamond !default;
 // Desmos pages keep the light cream background regardless of global body color
 body.layout--desmos-graph,
 body.layout--desmos-notebook {
-  background-color:  #f0f0f0;
+  background-color: var(--color-bg-panel);
 
   .masthead {
-    border-bottom: 2px solid #a67b5b;
-    box-shadow: 0 4px 0 0 #593302;
+    border-bottom: 2px solid var(--color-wood);
+    box-shadow: 0 4px 0 0 var(--color-wood-deep);
   }
 }
 body.layout--widget {
-  background-color: #f0f0f0;
-  .masthead { border-bottom: 2px solid #a67b5b; box-shadow: 0 4px 0 0 #593302; }
+  background-color: var(--color-bg-panel);
+  .masthead { border-bottom: 2px solid var(--color-wood); box-shadow: 0 4px 0 0 var(--color-wood-deep); }
 }
 
 // Reusable content card
@@ -60,10 +60,10 @@ body.layout--widget {
   display: inline-block;
   min-width: 160px;
   padding: 0.65rem 1.4rem;
-  border: 1px solid #b0bec5;
+  border: 1px solid var(--color-ink-faint);
   border-radius: 6px;
-  background: #f4f6f8;
-  color: #37474f;
+  background: var(--color-ink-btn-bg);
+  color: var(--color-ink);
   font-size: 1.05rem;
   font-family: inherit;
   cursor: pointer;
@@ -73,14 +73,14 @@ body.layout--widget {
 }
 
 .site-btn:hover:not(.site-btn--active) {
-  background: #e8edf2;
-  border-color: #90a4ae;
+  background: var(--color-ink-btn-bg-hover);
+  border-color: var(--color-ink-btn-border-hover);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .site-btn.site-btn--active {
-  background: #546e7a;
-  border-color: #37474f;
+  background: var(--color-ink-accent);
+  border-color: var(--color-ink);
   color: white;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2),
               0 2px 6px rgba(0, 0, 0, 0.15);
@@ -95,7 +95,7 @@ body.layout--widget {
 // Usage: class="site-slider" on <input type="range">
 .site-slider {
   width: 100%;
-  accent-color: #546e7a;
+  accent-color: var(--color-ink-accent);
   cursor: pointer;
 }
 
@@ -109,13 +109,13 @@ body.layout--widget {
 
 .desmos-param-label {
   font-size: 0.87rem;
-  color: #37474f;
+  color: var(--color-ink);
 }
 
 // Thin horizontal separator for side panels
 // Usage: <hr class="desmos-divider">
 .desmos-divider {
   border: none;
-  border-top: 1px solid #d0d7de;
+  border-top: 1px solid var(--color-divider);
   margin: 0.3rem 0;
 }

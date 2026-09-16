@@ -1,0 +1,72 @@
+/* ============================================================================
+   SITE PALETTE — single source of truth for color.
+   ----------------------------------------------------------------------------
+   Every "cream", "wood/brown", and shared accent value on the site is defined
+   here exactly once. To retheme (e.g. swap the cream background, or the wood
+   accent used on picture frames and Desmos embeds) edit the values in this
+   file — everything listed under "who uses this" picks it up automatically.
+
+   This file is loaded two ways:
+     1. Directly, via a <link> in _includes/head.html, so every Jekyll page
+        (and the inline <style> blocks on index/research/teaching/gallery/
+        widgets/CV/analytics/lade and the desmos-graph & widget layouts) can
+        use these custom properties.
+     2. Indirectly, via @import from assets/css/themes/widget-theme.css, so
+        the standalone widget iframes (which are plain HTML, not run through
+        Jekyll/Sass) get the same values.
+
+   NOTE on the Sass side: the theme's own masthead/card cream color is a
+   separate Sass variable, $background-color, in
+   _sass/minimal-mistakes/_variables.scss (also set to #f7f5f0). That variable
+   already drives the vendored theme partials (masthead, forms, sidebar, nav)
+   directly in Sass and can't read a CSS custom property at compile time, so
+   it's kept as its own value rather than merged into this file. If you change
+   --color-cream here, change $background-color to match.
+   ========================================================================= */
+
+:root {
+  /* ---- backgrounds ---- */
+  --color-bg-page:    #dde6ea; /* body edge/gutter behind the masthead+content on ordinary pages */
+  --color-bg-panel:   #f0f0f0; /* body background on Desmos-graph / widget pages */
+  --color-cream:      #f7f5f0; /* masthead + .bubble cards; mirrors $background-color in _variables.scss */
+  --color-cream-deep: #efe9db; /* parchment shadow/hover tint (widget interiors) */
+
+  /* ---- wood / brown accent ----
+     Picture-frame borders (demo/gallery/slide/lecture thumbnails), the
+     Desmos embed + widget iframe frame, and their toggle/action buttons. */
+  --color-wood:          #a67b5b;
+  --color-wood-rgb:      166, 123, 91; /* same value as --color-wood, split out for rgba() borders/tints */
+  --color-wood-deep:     #593302;
+  --color-wood-gradient: #5f3d02; /* dark corner of the frame's gradient fill, pairs with --color-wood */
+  --color-wood-bg:       #fdf6ee; /* toggle/action button fill (e.g. "Show Expressions") */
+  --color-wood-bg-hover: #f0e0ca;
+  --color-wood-ink:      #3b1f00; /* text on --color-wood-bg */
+  --color-divider:       #d0d7de; /* side-panel divider on Desmos/widget pages */
+
+  /* ---- ink / instrument slate ----
+     Desmos & widget controls: .site-btn, .site-slider, and the widget-theme
+     .w-* class API (buttons, sliders, the modal). */
+  --color-ink:                  #37474f;
+  --color-ink-mute:             #6f777d;
+  --color-ink-faint:            #b0bec5;
+  --color-ink-accent:           #546e7a;
+  --color-ink-btn-bg:           #f4f6f8;
+  --color-ink-btn-bg-hover:     #e8edf2;
+  --color-ink-btn-border-hover: #90a4ae;
+
+  --color-label: #4a5568; /* small bold uppercase labels on Desmos side-panel controls (".xxx-control-label" / ".xxx-section-label") */
+
+  /* ---- content slate ----
+     .arxiv-btn / .pdf-btn / .an-btn and adjacent meta text (dates, captions)
+     on index/research/teaching/CV/analytics/gallery. Deliberately a separate,
+     slightly bluer scale from "ink" above — the two have drifted close but
+     not identical over time; see the audit notes for detail. */
+  --color-slate:                   #3a4f63;
+  --color-slate-mute:              #6b7c8a;
+  --color-slate-btn-bg:            #eceff3;
+  --color-slate-btn-bg-hover:      #dde3ea;
+  --color-slate-btn-bg-active:     #c8d2dc;
+  --color-slate-btn-border:        #a0aebb;
+  --color-slate-btn-border-hover:  #7a8fa0;
+  --color-slate-btn-border-active: #556b7d;
+}

@@ -33,22 +33,26 @@
    toggle state is expressed with aria-pressed="true".
    ========================================================================= */
 
+/* Pulls the site's shared cream/wood/ink tokens (assets/css/palette.css) in
+   for the widget iframes, which are plain HTML and never see main.scss. */
+@import url("../palette.css");
+
 :root {
-  /* ---- palette ---- */
-  --ground:        #f7f5f0;
-  --ground-deep:   #efe9db;
-  --ink:           #37474f;
-  --ink-mute:      #6f777d;
-  --ink-faint:     #b0bec5;
-  --accent:        #546e7a;
-  --accent-deep:   #37474f;
+  /* ---- palette (aliases onto the shared tokens in palette.css) ---- */
+  --ground:        var(--color-cream);
+  --ground-deep:   var(--color-cream-deep);
+  --ink:           var(--color-ink);
+  --ink-mute:      var(--color-ink-mute);
+  --ink-faint:     var(--color-ink-faint);
+  --accent:        var(--color-ink-accent);
+  --accent-deep:   var(--color-ink);
   --accent-on:     #ffffff;   /* text on an accent fill */
 
   /* ---- controls ---- */
-  --btn-bg:        #f4f6f8;
-  --btn-bg-hover:  #e8edf2;
+  --btn-bg:        var(--color-ink-btn-bg);
+  --btn-bg-hover:  var(--color-ink-btn-bg-hover);
   --btn-border:    var(--ink-faint);
-  --btn-border-hover: #90a4ae;
+  --btn-border-hover: var(--color-ink-btn-border-hover);
   --btn-shadow:       0 1px 3px rgba(0, 0, 0, .1);
   --btn-shadow-hover: 0 2px 6px rgba(0, 0, 0, .15);
   --field-bg:      #ffffff;

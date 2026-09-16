@@ -22,14 +22,14 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
 <meta property="og:title" content="Teaching">
-<meta property="og:url" content="http://localhost:4000/teaching/">
+<meta property="og:url" content="https://aaronzoll.github.io/teaching/">
 
 
   <meta property="og:description" content="">
 
 
 
-  <meta property="og:image" content="http://localhost:4000/assets/images/teaching_banner.png">
+  <meta property="og:image" content="https://aaronzoll.github.io/assets/images/teaching_banner.png">
 
 
 
@@ -44,7 +44,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/teaching/">
+<link rel="canonical" href="https://aaronzoll.github.io/teaching/">
 
 
 
@@ -68,6 +68,7 @@
 </script>
 
 <!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/palette.css">
 <link rel="stylesheet" href="/assets/css/main.css">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
@@ -747,7 +748,7 @@ window.MathJax = {
   .course-date {
     flex-shrink: 0;
     font-size: 0.78rem;
-    color: #6b7c8a;
+    color: var(--color-slate-mute);
     font-style: italic;
     white-space: nowrap;
   }
@@ -782,24 +783,24 @@ window.MathJax = {
     font-size: 0.8rem;
     font-weight: 500;
     letter-spacing: 0.03em;
-    color: #3a4f63;
-    background: #eceff3;
-    border: 1px solid #a0aebb;
+    color: var(--color-slate);
+    background: var(--color-slate-btn-bg);
+    border: 1px solid var(--color-slate-btn-border);
     border-radius: 4px;
     text-decoration: none;
     transition: background 0.15s ease, border-color 0.15s ease;
   }
 
   .pdf-btn:hover {
-    background: #dde3ea;
-    border-color: #7a8fa0;
+    background: var(--color-slate-btn-bg-hover);
+    border-color: var(--color-slate-btn-border-hover);
     text-decoration: none;
-    color: #3a4f63;
+    color: var(--color-slate);
   }
 
   .pdf-btn:active {
-    background: #c8d2dc;
-    border-color: #556b7d;
+    background: var(--color-slate-btn-bg-active);
+    border-color: var(--color-slate-btn-border-active);
   }
 
   .ta-subheading {
@@ -831,7 +832,7 @@ window.MathJax = {
   .course-page-blurb {
     display: block;
     font-size: 0.8rem;
-    color: #6b7c8a;
+    color: var(--color-slate-mute);
     font-style: italic;
   }
 

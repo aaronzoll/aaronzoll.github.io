@@ -11,7 +11,7 @@ header:
 <style>
   .an-note {
     font-size: 0.84rem;
-    color: #6b7c8a;
+    color: var(--color-slate-mute);
     font-style: italic;
     margin-bottom: 1.25rem;
   }
@@ -21,7 +21,7 @@ header:
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #3a4f63;
+    color: var(--color-slate);
     border-bottom: 2px solid rgba(100, 120, 140, 0.2);
     padding-bottom: 0.35rem;
     margin: 2rem 0 1rem;
@@ -44,13 +44,13 @@ header:
   .an-card-title {
     font-weight: 700;
     font-size: 0.85rem;
-    color: #2c3e50;
+    color: var(--color-slate);
     margin-bottom: 0.35rem;
   }
 
   .an-card-desc {
     font-size: 0.84rem;
-    color: #4a5568;
+    color: var(--color-label);
     line-height: 1.5;
     margin: 0 0 0.8rem;
   }
@@ -60,19 +60,19 @@ header:
     padding: 0.25rem 0.7rem;
     font-size: 0.78rem;
     font-weight: 500;
-    color: #3a4f63;
-    background: #eceff3;
-    border: 1px solid #a0aebb;
+    color: var(--color-slate);
+    background: var(--color-slate-btn-bg);
+    border: 1px solid var(--color-slate-btn-border);
     border-radius: 4px;
     text-decoration: none;
     transition: background 0.15s ease, border-color 0.15s ease;
   }
 
   .an-btn:hover {
-    background: #dde3ea;
-    border-color: #7a8fa0;
+    background: var(--color-slate-btn-bg-hover);
+    border-color: var(--color-slate-btn-border-hover);
     text-decoration: none;
-    color: #3a4f63;
+    color: var(--color-slate);
   }
 
   .an-embed-wrap {
@@ -97,7 +97,7 @@ header:
     align-items: center;
     justify-content: center;
     height: 320px;
-    color: #6b7c8a;
+    color: var(--color-slate-mute);
     font-size: 0.9rem;
     text-align: center;
     gap: 0.5rem;
@@ -106,12 +106,12 @@ header:
 
   .an-embed-placeholder strong {
     font-size: 1rem;
-    color: #3a4f63;
+    color: var(--color-slate);
   }
 
   .an-embed-placeholder code {
     font-size: 0.8rem;
-    background: #eceff3;
+    background: var(--color-slate-btn-bg);
     padding: 0.15rem 0.4rem;
     border-radius: 3px;
   }

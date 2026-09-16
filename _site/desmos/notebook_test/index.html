@@ -22,7 +22,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
 <meta property="og:title" content="Notebook Title Here">
-<meta property="og:url" content="http://localhost:4000/desmos/notebook_test/">
+<meta property="og:url" content="https://aaronzoll.github.io/desmos/notebook_test/">
 
 
   <meta property="og:description" content="">
@@ -42,7 +42,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/desmos/notebook_test/">
+<link rel="canonical" href="https://aaronzoll.github.io/desmos/notebook_test/">
 
 
 
@@ -66,6 +66,7 @@
 </script>
 
 <!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/palette.css">
 <link rel="stylesheet" href="/assets/css/main.css">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
@@ -684,9 +685,9 @@ window.MathJax = {
     padding: 0.35rem 1rem;
     font-size: 0.85rem;
     cursor: pointer;
-    border: 1px solid #a67b5b;
-    background: #fdf6ee;
-    color: #3b1f00;
+    border: 1px solid var(--color-wood);
+    background: var(--color-wood-bg);
+    color: var(--color-wood-ink);
     border-radius: 3px;
     transition: background 0.15s;
     margin-bottom: 0.4rem;
@@ -694,13 +695,13 @@ window.MathJax = {
   }
 
   .dnb-toggle-btn:hover {
-    background: #f0e0ca;
+    background: var(--color-wood-bg-hover);
   }
 
   .dnb-calc-wrap {
     width: 100%;
-    border: 2px solid #a67b5b;
-    outline: 4px ridge #593302;
+    border: 2px solid var(--color-wood);
+    outline: 4px ridge var(--color-wood-deep);
     box-sizing: border-box;
     overflow: hidden;
   }

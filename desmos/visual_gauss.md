@@ -49,7 +49,7 @@ side_controls: true
   .gg-label {
     font-weight: bold;
     font-size: 0.82rem;
-    color: #4a5568;
+    color: var(--color-label);
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
@@ -71,7 +71,7 @@ side_controls: true
     flex: 1;
     text-align: center;
     font-size: 0.92rem;
-    color: #4a5568;
+    color: var(--color-label);
     white-space: nowrap;
   }
 
@@ -145,8 +145,8 @@ side_controls: true
     gap: 1.25rem 2rem;
     margin-top: 0.75rem;
     padding: 1rem 1.25rem;
-    background: #fdf6ee;
-    border: 1px solid #a67b5b;
+    background: var(--color-wood-bg);
+    border: 1px solid var(--color-wood);
     border-radius: 6px;
   }
 
@@ -154,7 +154,7 @@ side_controls: true
     display: block;
     font-weight: bold;
     font-size: 0.78rem;
-    color: #6b7c8a;
+    color: var(--color-label);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     margin-bottom: 0.35rem;

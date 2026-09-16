@@ -83,9 +83,9 @@ custom_js: |
     box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.6),
                 inset -2px -2px 6px rgba(0, 0, 0, 0.2),
                 0 4px 8px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
+    background: linear-gradient(to bottom right, var(--color-wood-gradient), var(--color-wood));
     padding: 8px;
-    outline: 5px ridge #593302;
+    outline: 5px ridge var(--color-wood-deep);
     box-sizing: border-box;
     overflow: hidden;
   }
@@ -129,7 +129,7 @@ custom_js: |
     line-height: 1.3;
     text-align: center;
     margin-top: 0.6rem;
-    color: #3a4f63;
+    color: var(--color-slate);
   }
 
   .gallery-section { margin-bottom: 1.5rem; }

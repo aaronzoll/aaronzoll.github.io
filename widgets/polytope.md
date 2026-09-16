@@ -63,7 +63,7 @@ The SSEP method constructed by <a href = "https://arxiv.org/abs/1803.05676">Dror
   .poly-control-label {
     font-weight: bold;
     font-size: 0.78rem;
-    color: #4a5568;
+    color: var(--color-label);
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }

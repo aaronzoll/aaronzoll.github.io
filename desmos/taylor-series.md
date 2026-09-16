@@ -55,7 +55,7 @@ side_controls: true
   .ts-section-label {
     font-weight: bold;
     font-size: 0.82rem;
-    color: #4a5568;
+    color: var(--color-label);
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
@@ -84,14 +84,14 @@ side_controls: true
     padding: 0.28rem 0.5rem;
     font-size: 0.82rem;
     font-family: monospace;
-    border: 1px solid #a67b5b;
+    border: 1px solid var(--color-wood);
     border-radius: 3px;
     background: #fff;
     color: #1a1a1a;
   }
 
   .ts-custom-input:focus {
-    outline: 2px solid #a67b5b;
+    outline: 2px solid var(--color-wood);
     outline-offset: 1px;
   }
 
@@ -99,16 +99,16 @@ side_controls: true
     padding: 0.28rem 0.7rem;
     font-size: 0.8rem;
     cursor: pointer;
-    border: 1px solid #a67b5b;
-    background: #fdf6ee;
-    color: #3b1f00;
+    border: 1px solid var(--color-wood);
+    background: var(--color-wood-bg);
+    color: var(--color-wood-ink);
     border-radius: 3px;
     white-space: nowrap;
     transition: background 0.12s;
   }
 
   .ts-action-btn:hover {
-    background: #f0e0ca;
+    background: var(--color-wood-bg-hover);
   }
 
   .ts-reset-btn {

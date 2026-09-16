@@ -22,7 +22,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
 <meta property="og:title" content="Chalk Studio">
-<meta property="og:url" content="http://localhost:4000/widgets/chalk-studio/">
+<meta property="og:url" content="https://aaronzoll.github.io/widgets/chalk-studio/">
 
 
   <meta property="og:description" content="">
@@ -42,7 +42,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/widgets/chalk-studio/">
+<link rel="canonical" href="https://aaronzoll.github.io/widgets/chalk-studio/">
 
 
 
@@ -66,6 +66,7 @@
 </script>
 
 <!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/palette.css">
 <link rel="stylesheet" href="/assets/css/main.css">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
@@ -702,7 +703,7 @@ window.MathJax = {
   }
 
   .widget-page-jump--pending {
-    color: #777;
+    color: var(--color-ink-mute);
     font-style: italic;
   }
 
@@ -719,8 +720,8 @@ window.MathJax = {
   /* Same board-and-frame treatment as .desmos-embed-container */
   .widget-embed-container {
     width: 100%;
-    border: 2px solid #a67b5b;
-    outline: 4px ridge #593302;
+    border: 2px solid var(--color-wood);
+    outline: 4px ridge var(--color-wood-deep);
     box-sizing: border-box;
   }
 
@@ -739,7 +740,7 @@ window.MathJax = {
   .widget-writeup {
     margin-top: 2rem;
     padding-top: 1.5rem;
-    border-top: 2px solid #a67b5b;
+    border-top: 2px solid var(--color-wood);
     scroll-margin-top: 1.5rem;
   }
 
@@ -757,7 +758,7 @@ window.MathJax = {
   .widget-side-panel {
     width: 310px;
     flex-shrink: 0;
-    border-left: 2px solid #d0d7de;
+    border-left: 2px solid var(--color-divider);
     padding-left: 1.25rem;
   }
 
@@ -772,7 +773,7 @@ window.MathJax = {
     .widget-side-panel {
       width: 100%;
       border-left: none;
-      border-top: 2px solid #d0d7de;
+      border-top: 2px solid var(--color-divider);
       padding-left: 0;
       padding-top: 1rem;
     }

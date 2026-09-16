@@ -1,6 +1,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>P^N — the polytope of optimal subgradient methods</title>
+<!-- Shared site palette (assets/css/palette.css) — the tokens below alias onto
+     it, rather than hardcoding their own copy, so a site-wide color change
+     (e.g. the wood/cream/ink values) reaches this widget too. -->
+<link rel="stylesheet" href="/assets/css/palette.css">
 <script>
   window.MathJax = {
     tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
@@ -10,11 +14,11 @@
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" defer></script>
 <style>
   :root{
-    --ground:#f7f5f0;
-    --ground-deep:#efe9db;
-    --ink:#37474f;
-    --ink-mute:#6f777d;
-    --ink-faint:#b0bec5;
+    --ground:var(--color-cream);
+    --ground-deep:var(--color-cream-deep);
+    --ink:var(--color-ink);
+    --ink-mute:var(--color-ink-mute);
+    --ink-faint:var(--color-ink-faint);
     --dt:#c1440e;
     --avg:#a13d2f;
     --zg:#1f7a5c;
@@ -62,7 +66,7 @@
     transition:background .15s,border-color .15s,color .15s;
   }
   button:hover{color:var(--ink);border-color:var(--ink-faint)}
-  button[aria-pressed="true"]{color:#fff;background:#546e7a;border-color:#37474f}
+  button[aria-pressed="true"]{color:#fff;background:var(--color-ink-accent);border-color:var(--color-ink)}
   button:focus-visible{outline:2px solid var(--zg);outline-offset:1px}
 
   /* ---- figure ---- */

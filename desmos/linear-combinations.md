@@ -41,7 +41,7 @@ side_controls: true
   .lc-label {
     font-weight: bold;
     font-size: 0.82rem;
-    color: #4a5568;
+    color: var(--color-label);
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }

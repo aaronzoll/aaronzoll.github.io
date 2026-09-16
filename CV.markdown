@@ -47,24 +47,24 @@ custom_js: |
     font-size: 0.8rem;
     font-weight: 500;
     letter-spacing: 0.03em;
-    color: #3a4f63;
-    background: #eceff3;
-    border: 1px solid #a0aebb;
+    color: var(--color-slate);
+    background: var(--color-slate-btn-bg);
+    border: 1px solid var(--color-slate-btn-border);
     border-radius: 4px;
     text-decoration: none;
     transition: background 0.15s ease, border-color 0.15s ease;
   }
 
   .arxiv-btn:hover {
-    background: #dde3ea;
-    border-color: #7a8fa0;
+    background: var(--color-slate-btn-bg-hover);
+    border-color: var(--color-slate-btn-border-hover);
     text-decoration: none;
-    color: #3a4f63;
+    color: var(--color-slate);
   }
 
   .arxiv-btn:active {
-    background: #c8d2dc;
-    border-color: #556b7d;
+    background: var(--color-slate-btn-bg-active);
+    border-color: var(--color-slate-btn-border-active);
   }
 
   /* ── Simple two-column rows (education, courses, awards) ──── */
@@ -87,7 +87,7 @@ custom_js: |
   .venue-date {
     flex-shrink: 0;
     font-size: 0.8rem;
-    color: #6b7c8a;
+    color: var(--color-slate-mute);
     font-style: italic;
     white-space: nowrap;
   }
@@ -95,7 +95,7 @@ custom_js: |
   .cv-subsection-label {
     font-weight: bold;
     font-size: 0.82rem;
-    color: #4a5568;
+    color: var(--color-label);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     margin: 1rem 0 0.3rem;
@@ -126,7 +126,7 @@ custom_js: |
   .cv-entry-date {
     flex-shrink: 0;
     font-size: 0.82rem;
-    color: #6b7c8a;
+    color: var(--color-slate-mute);
     font-style: italic;
     white-space: nowrap;
   }
@@ -134,7 +134,7 @@ custom_js: |
   .cv-entry-subtitle {
     font-size: 0.85rem;
     font-style: italic;
-    color: #556b7d;
+    color: var(--color-slate-btn-border-active);
     margin-top: 0.1rem;
   }
 
@@ -158,7 +158,7 @@ custom_js: |
     justify-content: space-between;
     gap: 1.5rem;
     padding: 0.55rem 0.75rem;
-    border-bottom: 1px solid rgba(139, 90, 43, 0.2);
+    border-bottom: 1px solid rgba(var(--color-wood-rgb), 0.2);
   }
 
   .paper-row:last-child { border-bottom: none; }
@@ -183,7 +183,7 @@ custom_js: |
   .software-row {
     text-align: center;
     font-size: 0.95rem;
-    color: #3a4f63;
+    color: var(--color-slate);
     letter-spacing: 0.02em;
   }
 

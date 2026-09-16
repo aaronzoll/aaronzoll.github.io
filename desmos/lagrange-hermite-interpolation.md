@@ -122,7 +122,7 @@ side_controls: true
   .lhi-side-note {
     font-size: 0.88rem;
     line-height: 1.65;
-    color: #4a5568;
+    color: var(--color-label);
     margin-bottom: 1rem;
   }
 
@@ -135,7 +135,7 @@ side_controls: true
   .lhi-label {
     font-weight: bold;
     font-size: 0.85rem;
-    color: #4a5568;
+    color: var(--color-label);
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }

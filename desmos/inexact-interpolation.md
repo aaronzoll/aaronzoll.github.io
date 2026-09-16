@@ -77,7 +77,7 @@ side_controls: true
   .ild-section-label {
     font-weight: bold;
     font-size: 0.82rem;
-    color: #4a5568;
+    color: var(--color-label);
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
@@ -102,7 +102,7 @@ side_controls: true
   }
 
   .coco-table th, .coco-table td {
-    border: 1px solid #d0d7de;
+    border: 1px solid var(--color-divider);
     padding: 0.4rem 0.9rem;
     text-align: center;
   }

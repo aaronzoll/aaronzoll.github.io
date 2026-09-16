@@ -43,7 +43,7 @@ custom_js: |
   .course-date {
     flex-shrink: 0;
     font-size: 0.78rem;
-    color: #6b7c8a;
+    color: var(--color-slate-mute);
     font-style: italic;
     white-space: nowrap;
   }
@@ -78,24 +78,24 @@ custom_js: |
     font-size: 0.8rem;
     font-weight: 500;
     letter-spacing: 0.03em;
-    color: #3a4f63;
-    background: #eceff3;
-    border: 1px solid #a0aebb;
+    color: var(--color-slate);
+    background: var(--color-slate-btn-bg);
+    border: 1px solid var(--color-slate-btn-border);
     border-radius: 4px;
     text-decoration: none;
     transition: background 0.15s ease, border-color 0.15s ease;
   }
 
   .pdf-btn:hover {
-    background: #dde3ea;
-    border-color: #7a8fa0;
+    background: var(--color-slate-btn-bg-hover);
+    border-color: var(--color-slate-btn-border-hover);
     text-decoration: none;
-    color: #3a4f63;
+    color: var(--color-slate);
   }
 
   .pdf-btn:active {
-    background: #c8d2dc;
-    border-color: #556b7d;
+    background: var(--color-slate-btn-bg-active);
+    border-color: var(--color-slate-btn-border-active);
   }
 
   .ta-subheading {
@@ -127,7 +127,7 @@ custom_js: |
   .course-page-blurb {
     display: block;
     font-size: 0.8rem;
-    color: #6b7c8a;
+    color: var(--color-slate-mute);
     font-style: italic;
   }
 

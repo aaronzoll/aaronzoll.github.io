@@ -4,14 +4,18 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Moving sofa — turning a corner</title>
+<!-- Shared site palette (assets/css/palette.css) — the tokens below alias onto
+     it, rather than hardcoding their own copy, so a site-wide color change
+     (e.g. the wood/cream/ink values) reaches this widget too. -->
+<link rel="stylesheet" href="/assets/css/palette.css">
 <style>
 :root{
-  --ground:#f7f5f0;
-  --ground-deep:#efe9db;
-  --ink:#37474f;
-  --ink-mute:#6f777d;
-  --ink-faint:#b0bec5;
-  --accent:#546e7a;
+  --ground:var(--color-cream);
+  --ground-deep:var(--color-cream-deep);
+  --ink:var(--color-ink);
+  --ink-mute:var(--color-ink-mute);
+  --ink-faint:var(--color-ink-faint);
+  --accent:var(--color-ink-accent);
   --serif:Garamond,"Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
   --mono:var(--serif);   /* one typeface throughout, like the rest of the site */
 }

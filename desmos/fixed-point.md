@@ -56,7 +56,7 @@ writeup: false
   .fp-selector-label {
     font-weight: bold;
     font-size: 0.95rem;
-    color: #4a5568;
+    color: var(--color-label);
     text-align: center;
   }
 

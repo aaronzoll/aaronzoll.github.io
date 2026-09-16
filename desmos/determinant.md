@@ -77,7 +77,7 @@ side_controls: true
   .dt-label {
     font-weight: bold;
     font-size: 0.82rem;
-    color: #4a5568;
+    color: var(--color-label);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     margin-bottom: 0.2rem;
@@ -104,8 +104,8 @@ side_controls: true
   }
   /* A pinned row takes the site's light slate-blue so it is unmistakable. */
   .dt-chip.dt-chip--lit {
-    background: #dde3ea;
-    border-color: #7a8fa0;
+    background: var(--color-slate-btn-bg-hover);
+    border-color: var(--color-slate-btn-border-hover);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
   }
 
@@ -114,7 +114,7 @@ side_controls: true
     align-items: center;
     justify-content: flex-end;
     font-size: 1.15rem;
-    color: #3a4f63;
+    color: var(--color-slate);
   }
 
   .dt-shape {
@@ -134,7 +134,7 @@ side_controls: true
 
   .dt-times {
     font-size: 0.85rem;
-    color: #4a5568;
+    color: var(--color-label);
   }
 
   /* Icons use the same Desmos colors as the pieces in the graph. */
@@ -165,7 +165,7 @@ side_controls: true
 
   .dt-chip-formula {
     font-size: 0.85rem;
-    color: #4a5568;
+    color: var(--color-label);
     line-height: 1.1;
     white-space: nowrap;
   }

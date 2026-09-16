@@ -70,7 +70,7 @@ custom_js: |
     object-position: center top;
     flex-shrink: 0;
     box-shadow: 0 2px 10px rgba(0,0,0,0.18);
-    border: 3px solid rgba(139, 90, 43, 0.25);
+    border: 3px solid rgba(var(--color-wood-rgb), 0.25);
   }
 
   .intro-text h4 { margin-top: 0; }
@@ -89,7 +89,7 @@ custom_js: |
     justify-content: space-between;
     gap: 1.5rem;
     padding: 0.55rem 0.75rem;
-    border-bottom: 1px solid rgba(139, 90, 43, 0.2);
+    border-bottom: 1px solid rgba(var(--color-wood-rgb), 0.2);
   }
 
   .paper-row:last-child { border-bottom: none; }
@@ -107,24 +107,24 @@ custom_js: |
     font-size: 0.8rem;
     font-weight: 500;
     letter-spacing: 0.03em;
-    color: #3a4f63;
-    background: #eceff3;
-    border: 1px solid #a0aebb;
+    color: var(--color-slate);
+    background: var(--color-slate-btn-bg);
+    border: 1px solid var(--color-slate-btn-border);
     border-radius: 4px;
     text-decoration: none;
     transition: background 0.15s ease, border-color 0.15s ease;
   }
 
   .arxiv-btn:hover {
-    background: #dde3ea;
-    border-color: #7a8fa0;
+    background: var(--color-slate-btn-bg-hover);
+    border-color: var(--color-slate-btn-border-hover);
     text-decoration: none;
-    color: #3a4f63;
+    color: var(--color-slate);
   }
 
   .arxiv-btn:active {
-    background: #c8d2dc;
-    border-color: #556b7d;
+    background: var(--color-slate-btn-bg-active);
+    border-color: var(--color-slate-btn-border-active);
   }
 
   /* ── Desmos section label ───────────────────────────────── */
@@ -165,9 +165,9 @@ custom_js: |
     box-shadow: inset 2px 2px 6px rgba(255,255,255,0.6),
                 inset -2px -2px 6px rgba(0,0,0,0.2),
                 0 4px 8px rgba(0,0,0,0.3);
-    background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
+    background: linear-gradient(to bottom right, var(--color-wood-gradient), var(--color-wood));
     padding: 8px;
-    outline: 5px ridge #593302;
+    outline: 5px ridge var(--color-wood-deep);
     box-sizing: border-box;
     overflow: hidden;
     container-type: inline-size; /* lets the caption text scale off the card's own width */

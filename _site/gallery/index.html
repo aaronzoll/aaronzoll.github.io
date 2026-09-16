@@ -22,14 +22,14 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
 <meta property="og:title" content="Gallery">
-<meta property="og:url" content="http://localhost:4000/gallery/">
+<meta property="og:url" content="https://aaronzoll.github.io/gallery/">
 
 
   <meta property="og:description" content="">
 
 
 
-  <meta property="og:image" content="http://localhost:4000/assets/images/desmos_gallery_background1.png">
+  <meta property="og:image" content="https://aaronzoll.github.io/assets/images/desmos_gallery_background1.png">
 
 
 
@@ -44,7 +44,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/gallery/">
+<link rel="canonical" href="https://aaronzoll.github.io/gallery/">
 
 
 
@@ -68,6 +68,7 @@
 </script>
 
 <!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/palette.css">
 <link rel="stylesheet" href="/assets/css/main.css">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
@@ -754,9 +755,9 @@ window.MathJax = {
     box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.6),
                 inset -2px -2px 6px rgba(0, 0, 0, 0.2),
                 0 4px 8px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
+    background: linear-gradient(to bottom right, var(--color-wood-gradient), var(--color-wood));
     padding: 8px;
-    outline: 5px ridge #593302;
+    outline: 5px ridge var(--color-wood-deep);
     box-sizing: border-box;
     overflow: hidden;
   }
@@ -800,7 +801,7 @@ window.MathJax = {
     line-height: 1.3;
     text-align: center;
     margin-top: 0.6rem;
-    color: #3a4f63;
+    color: var(--color-slate);
   }
 
   .gallery-section { margin-bottom: 1.5rem; }

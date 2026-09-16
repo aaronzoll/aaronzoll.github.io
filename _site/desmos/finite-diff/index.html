@@ -22,7 +22,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
 <meta property="og:title" content="Finite Difference and Interpolation">
-<meta property="og:url" content="http://localhost:4000/desmos/finite-diff/">
+<meta property="og:url" content="https://aaronzoll.github.io/desmos/finite-diff/">
 
 
   <meta property="og:description" content="">
@@ -42,7 +42,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/desmos/finite-diff/">
+<link rel="canonical" href="https://aaronzoll.github.io/desmos/finite-diff/">
 
 
 
@@ -66,6 +66,7 @@
 </script>
 
 <!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/palette.css">
 <link rel="stylesheet" href="/assets/css/main.css">
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
@@ -702,7 +703,7 @@ window.MathJax = {
   }
 
   .desmos-page-jump--pending {
-    color: #777;
+    color: var(--color-ink-mute);
     font-style: italic;
   }
 
@@ -724,22 +725,22 @@ window.MathJax = {
     padding: 0.35rem 1rem;
     font-size: 0.85rem;
     cursor: pointer;
-    border: 1px solid #a67b5b;
-    background: #fdf6ee;
-    color: #3b1f00;
+    border: 1px solid var(--color-wood);
+    background: var(--color-wood-bg);
+    color: var(--color-wood-ink);
     border-radius: 3px;
     transition: background 0.15s;
   }
 
   .desmos-toggle-btn:hover {
-    background: #f0e0ca;
+    background: var(--color-wood-bg-hover);
   }
 
   .desmos-embed-container {
     width: 100%;
     height: 650px;
-    border: 2px solid #a67b5b;
-    outline: 4px ridge #593302;
+    border: 2px solid var(--color-wood);
+    outline: 4px ridge var(--color-wood-deep);
     box-sizing: border-box;
   }
 
@@ -771,7 +772,7 @@ window.MathJax = {
   .desmos-writeup {
     margin-top: 2rem;
     padding-top: 1.5rem;
-    border-top: 2px solid #a67b5b;
+    border-top: 2px solid var(--color-wood);
     scroll-margin-top: 1.5rem;
   }
 
@@ -790,7 +791,7 @@ window.MathJax = {
   .desmos-side-panel {
     width: 310px;
     flex-shrink: 0;
-    border-left: 2px solid #d0d7de;
+    border-left: 2px solid var(--color-divider);
     padding-left: 1.25rem;
   }
 
@@ -811,7 +812,7 @@ window.MathJax = {
     .desmos-side-panel {
       width: 100%;
       border-left: none;
-      border-top: 2px solid #d0d7de;
+      border-top: 2px solid var(--color-divider);
       padding-left: 0;
       padding-top: 1rem;
     }
@@ -998,7 +999,7 @@ window.MathJax = {
     display: block;
     font-weight: bold;
     font-size: 0.82rem;
-    color: #4a5568;
+    color: var(--color-label);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     margin-top: 0.4rem;
@@ -1020,7 +1021,7 @@ window.MathJax = {
   .fd-section-label {
     font-weight: bold;
     font-size: 0.82rem;
-    color: #4a5568;
+    color: var(--color-label);
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
@@ -1067,14 +1068,14 @@ window.MathJax = {
     padding: 0.28rem 0.5rem;
     font-size: 0.82rem;
     font-family: monospace;
-    border: 1px solid #a67b5b;
+    border: 1px solid var(--color-wood);
     border-radius: 3px;
     background: #fff;
     color: #1a1a1a;
   }
 
   .fd-custom-input:focus {
-    outline: 2px solid #a67b5b;
+    outline: 2px solid var(--color-wood);
     outline-offset: 1px;
   }
 
@@ -1082,16 +1083,16 @@ window.MathJax = {
     padding: 0.28rem 0.7rem;
     font-size: 0.8rem;
     cursor: pointer;
-    border: 1px solid #a67b5b;
-    background: #fdf6ee;
-    color: #3b1f00;
+    border: 1px solid var(--color-wood);
+    background: var(--color-wood-bg);
+    color: var(--color-wood-ink);
     border-radius: 3px;
     white-space: nowrap;
     transition: background 0.12s;
   }
 
   .fd-action-btn:hover {
-    background: #f0e0ca;
+    background: var(--color-wood-bg-hover);
   }
 
   .fd-custom-note {

@@ -68,7 +68,7 @@ custom_js: |
     display: inline-block;
     font-size: 0.82rem;
     letter-spacing: 0.03em;
-    color: #6b7c8a;
+    color: var(--color-slate-mute);
   }
 
   .jump-link {
@@ -91,7 +91,7 @@ custom_js: |
 
   .course-meta {
     font-size: 0.85rem;
-    color: #6b7c8a;
+    color: var(--color-slate-mute);
     font-style: italic;
     margin-bottom: 0.8rem;
   }
@@ -115,7 +115,7 @@ custom_js: |
     content: "—";
     position: absolute;
     left: 0;
-    color: #6b7c8a;
+    color: var(--color-slate-mute);
   }
 
   /* ── Lecture slide cards ──────────────────────────────────────────────
@@ -158,9 +158,9 @@ custom_js: |
     box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.6),
                 inset -2px -2px 6px rgba(0, 0, 0, 0.2),
                 0 4px 8px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
+    background: linear-gradient(to bottom right, var(--color-wood-gradient), var(--color-wood));
     padding: 8px;
-    outline: 5px ridge #593302;
+    outline: 5px ridge var(--color-wood-deep);
     box-sizing: border-box;
     overflow: hidden;
   }
@@ -186,7 +186,7 @@ custom_js: |
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #eceff3;
+    background: var(--color-slate-btn-bg);
     color: #8a99a7;
     font-size: 0.8rem;
     letter-spacing: 0.06em;
@@ -201,7 +201,7 @@ custom_js: |
     font-size: 0.72rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #6b7c8a;
+    color: var(--color-slate-mute);
     margin-top: 0.6rem;
     text-align: center;
   }
@@ -210,7 +210,7 @@ custom_js: |
     font-size: 0.95rem;
     font-weight: 600;
     line-height: 1.35;
-    color: #3a4f63;
+    color: var(--color-slate);
     margin-top: 0.1rem;
     text-align: center;
   }
@@ -231,24 +231,24 @@ custom_js: |
      colour is noted beside it. */
   :root {
     /* Folder bars — CREAM / WOOD */
-    --lade-edge:         #a67b5b;                   /* slate alt: #7a8fa0 */
+    --lade-edge:         var(--color-wood);         /* slate alt: #7a8fa0 */
     --lade-bar-from:     #faf7f1;                   /* slate alt: #f4f6f8 */
     --lade-bar-to:       #f0e7d8;                   /* slate alt: #dde3ea */
     --lade-bar-from-hov: #f6efe2;                   /* slate alt: #e8edf2 */
     --lade-bar-to-hov:   #e5d5b8;                   /* slate alt: #c8d2dc */
-    --lade-ring:         rgba(166, 123, 91, 0.35);  /* slate alt: rgba(122, 143, 160, 0.45) */
+    --lade-ring:         rgba(var(--color-wood-rgb), 0.35);  /* slate alt: rgba(122, 143, 160, 0.45) */
     --lade-title:        #4a3316;                   /* slate alt: #3a4f63 */
     --lade-meta:         #8a7a63;                   /* slate alt: #6b7c8a */
     --lade-chevron:      #8a6a45;                   /* slate alt: #5c7085 */
 
     /* Expand / Collapse buttons — SLATE, the exact .pdf-btn values */
-    --lade-btn-bg:       #eceff3;
-    --lade-btn-bg-hov:   #dde3ea;
-    --lade-btn-bg-act:   #c8d2dc;
-    --lade-btn-edge:     #a0aebb;
-    --lade-btn-edge-hov: #7a8fa0;
-    --lade-btn-edge-act: #556b7d;
-    --lade-btn-text:     #3a4f63;
+    --lade-btn-bg:       var(--color-slate-btn-bg);
+    --lade-btn-bg-hov:   var(--color-slate-btn-bg-hover);
+    --lade-btn-bg-act:   var(--color-slate-btn-bg-active);
+    --lade-btn-edge:     var(--color-slate-btn-border);
+    --lade-btn-edge-hov: var(--color-slate-btn-border-hover);
+    --lade-btn-edge-act: var(--color-slate-btn-border-active);
+    --lade-btn-text:     var(--color-slate);
   }
 
   .lecture-folder {
@@ -321,7 +321,7 @@ custom_js: |
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #6b7c8a;
+    color: var(--color-slate-mute);
   }
 
   .lecture-section::after {
@@ -405,9 +405,9 @@ custom_js: |
     box-shadow: inset 2px 2px 6px rgba(255, 255, 255, 0.6),
                 inset -2px -2px 6px rgba(0, 0, 0, 0.2),
                 0 4px 8px rgba(0, 0, 0, 0.3);
-    background: linear-gradient(to bottom right, #5f3d02, #a67b5b);
+    background: linear-gradient(to bottom right, var(--color-wood-gradient), var(--color-wood));
     padding: 8px;
-    outline: 5px ridge #593302;
+    outline: 5px ridge var(--color-wood-deep);
     box-sizing: border-box;
     overflow: hidden;
   }
@@ -440,7 +440,7 @@ custom_js: |
     line-height: 1.3;
     text-align: center;
     margin-top: 0.6rem;
-    color: #3a4f63;
+    color: var(--color-slate);
   }
 
   #demos { scroll-margin-top: 1.5rem; }
