@@ -22,7 +22,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
 <meta property="og:title" content="The Determinant as Area">
-<meta property="og:url" content="https://aaronzoll.github.io/desmos/determinant/">
+<meta property="og:url" content="http://localhost:4000/desmos/determinant/">
 
 
   <meta property="og:description" content="">
@@ -42,7 +42,7 @@
   
 
 
-<link rel="canonical" href="https://aaronzoll.github.io/desmos/determinant/">
+<link rel="canonical" href="http://localhost:4000/desmos/determinant/">
 
 
 
@@ -1130,8 +1130,8 @@ window.MathJax = {
       // clockwise of A_2; otherwise pieces overlap or leave the rectangle,
       // though the algebra keeps working with the sign tracking orientation.
       var note = document.getElementById('dt-note');
-      var positive = a > 0 && b > 0 && c > 0 && d > 0;
-      if (positive && det > 0) {
+      var positive = a >= 0 && b >= 0 && c >= 0 && d >= 0;
+      if (positive && det >= 0) {
         note.hidden = true;
       } else if (positive) {
         note.hidden = false;
@@ -1203,7 +1203,7 @@ $$A = \begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix}, \qquad A_1 = \begin{
 The green region is the parallelogram with sides formed by $A_1$ and $A_2$, and its vertices are $0$, $A_1$, $A_2$, and $A_1 + A_2 = (a+b,\, c+d)$. The claim is that its area is exactly $|ad - bc|$, the absolute value of the determinant of $A$. The proof just relies on basic geometry (no fancy trig or linear algebra needed). We make some mild assumptions for ease of proof and omission of cases. 
 
 \begin{proposition}
-If $a, b, c, d &gt; 0$ and $A_1$ is clockwise of $A_2$, then the parallelogram with sides formed by $A_1$ and $A_2$ has area $ad - bc$.
+If $a, b, c, d &gt; 0$ and $\tfrac{d}{b} \geq \tfrac{c}{a}$, then the parallelogram with sides formed by $A_1$ and $A_2$ has area $ad - bc$.
 \end{proposition}
 
 \begin{proof}

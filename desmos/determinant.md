@@ -249,8 +249,8 @@ side_controls: true
       // clockwise of A_2; otherwise pieces overlap or leave the rectangle,
       // though the algebra keeps working with the sign tracking orientation.
       var note = document.getElementById('dt-note');
-      var positive = a > 0 && b > 0 && c > 0 && d > 0;
-      if (positive && det > 0) {
+      var positive = a >= 0 && b >= 0 && c >= 0 && d >= 0;
+      if (positive && det >= 0) {
         note.hidden = true;
       } else if (positive) {
         note.hidden = false;
@@ -316,7 +316,7 @@ $$A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}, \qquad A_1 = \begin{bmatrix}
 The green region is the parallelogram with sides formed by $A_1$ and $A_2$, and its vertices are $0$, $A_1$, $A_2$, and $A_1 + A_2 = (a+b,\, c+d)$. The claim is that its area is exactly $|ad - bc|$, the absolute value of the determinant of $A$. The proof just relies on basic geometry (no fancy trig or linear algebra needed). We make some mild assumptions for ease of proof and omission of cases. 
 
 \begin{proposition}
-If $a, b, c, d > 0$ and $A_1$ is clockwise of $A_2$, then the parallelogram with sides formed by $A_1$ and $A_2$ has area $ad - bc$.
+If $a, b, c, d > 0$ and $\tfrac{d}{b} \geq \tfrac{c}{a}$, then the parallelogram with sides formed by $A_1$ and $A_2$ has area $ad - bc$.
 \end{proposition}
 
 \begin{proof}
