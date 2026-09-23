@@ -617,22 +617,22 @@ augmented by topics from linear algebra and the use of computer software (primar
           <span class="lecture-title">Determinants</span>
         </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <div class="lecture-card" href="https://docs.google.com/presentation/d/1pDImOkFQK0HE8A98qluZEzK8WPLnkfRhk5kqLV-gVEg/edit?usp=sharing" target="_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 11</span>
             <img src="/assets/LADE/thumbnails/Lecture_11.png" alt="Lecture 11 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 11</span>
-          <span class="lecture-title">Topic TBD</span>
+          <span class="lecture-title">Subspaces</span>
         </div>
 
-        <div class="lecture-card lecture-card--pending">
+        <div class="lecture-card" href="https://docs.google.com/presentation/d/1C1r4_c4hBjeeUZdvklQmckZZITls_M2KBl_EV1XQdI0/edit?usp=sharing" target="_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 12</span>
             <img src="/assets/LADE/thumbnails/Lecture_12.png" alt="Lecture 12 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 12</span>
-          <span class="lecture-title">Topic TBD</span>
+          <span class="lecture-title">Span</span>
         </div>
 
       </div>
