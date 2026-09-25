@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Row reduction</title>
+<title>Gaussian Elimination Game</title>
 <link rel="stylesheet" href="/assets/css/themes/widget-theme.css">
 <style>
   :root{
@@ -41,7 +41,14 @@
 
   /* ---- menu ---- */
   .menu{max-width:520px;margin:2.5rem auto 3rem;text-align:center}
-  .menu .lede{color:var(--ink-mute);font-size:1rem;margin:.3rem 0 1.6rem}
+  .menu .title{font-size:1.7rem;margin:.9rem 0 1.8rem;padding-bottom:.55rem;display:inline-block;
+    border-bottom:3px solid;border-image:linear-gradient(90deg,var(--t),var(--s),var(--maroon)) 1}
+  .emblem .mini{padding:.35rem .8rem}
+  .emblem .mg{font-size:1.2rem;column-gap:1rem;color:var(--ink-faint)}
+  .emblem .p1{color:var(--t);font-weight:700}
+  .emblem .p2{color:var(--s);font-weight:700}
+  .emblem .p3{color:var(--maroon);font-weight:700}
+  .emblem .b{color:var(--ink-strong)}
   .menu .choices{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
   .menu .choices button{min-width:12rem;padding:.9rem 1.2rem;font-size:1.05rem;line-height:1.3}
   .menu .choices .sub{display:block;font-size:.85rem;opacity:.7;letter-spacing:0}
@@ -128,6 +135,23 @@
 
   .orig{margin-top:1.6rem;padding-top:1rem;border-top:1px solid var(--line)}
   .orig .h{margin-bottom:.4rem}
+  .col-side .h:empty{display:none}
+  #log:empty + .side-actions{margin-top:0}
+
+  /* ---- row-operations strip ---- */
+  .steps{display:flex;align-items:center;gap:.7rem;overflow-x:auto;padding:.5rem .2rem .8rem}
+  .step{flex:none}
+  .mini{position:relative;display:inline-block;padding:.2rem .6rem;--caph:0;--labw:0}
+  .mg{display:grid;column-gap:.7rem;row-gap:.15rem;justify-items:center;font-size:.98rem;color:var(--ink-strong)}
+  .mg .aug{border-left:1px solid var(--ink-faint);padding-left:.55rem;justify-self:stretch;text-align:center}
+  .mg .chg{color:var(--t)}
+  /* bottom padding matches the label so the shaft sits at the matrices' midline */
+  .arw{flex:none;display:flex;flex-direction:column;align-items:stretch;min-width:4.5rem;padding-bottom:1.35rem}
+  .arw .lbl{font-size:.85rem;line-height:1.2rem;color:var(--ink-mute);white-space:nowrap;text-align:center;padding:0 .4rem .15rem}
+  .arw .shaft{position:relative;height:0;border-top:1.5px solid var(--ink-mute);margin-right:.35rem}
+  .arw .shaft::after{content:"";position:absolute;right:-.4rem;top:-.36rem;
+    border-left:.55rem solid var(--ink-mute);border-top:.3rem solid transparent;border-bottom:.3rem solid transparent}
+  .ph{visibility:hidden}
 
   /* ---- matrix ---- */
   .mtx{display:flex;justify-content:center;user-select:none}
@@ -201,10 +225,18 @@
 
   <!-- ======================= menu ======================= -->
   <section class="screen menu" id="scrMenu">
-    <h2 class="h">Row reduction</h2>
-    <p class="lede">Reduce an augmented matrix to reduced row echelon form, one row operation at a time. Try to beat par!</p>
+    <div class="emblem" aria-hidden="true">
+      <div class="mini"><div class="brk l"></div><div class="brk r"></div>
+        <div class="mg" style="grid-template-columns:repeat(4,auto)">
+          <div class="p1">1</div><div>0</div><div>0</div><div class="aug b"><span class="ph">&minus;</span>2</div>
+          <div>0</div><div class="p2">1</div><div>0</div><div class="aug b"><span class="ph">&minus;</span>1</div>
+          <div>0</div><div>0</div><div class="p3">1</div><div class="aug b">&minus;3</div>
+        </div>
+      </div>
+    </div>
+    <h2 class="h title">Gaussian Elimination Game</h2>
     <div class="choices">
-      <button class="primary" id="toSetupNew">Play<span class="sub">choose a size and rank</span></button>
+      <button id="toSetupNew">Random system<span class="sub">choose a size and rank</span></button>
       <button id="toCustom">Custom<span class="sub">enter your own matrix</span></button>
     </div>
   </section>
@@ -248,6 +280,7 @@
 
     <div class="cols">
       <div class="col-main">
+        <h2 class="h">Working matrix</h2>
         <div class="board"><div id="workMtx"></div></div>
         <div id="workPanel"></div>
       </div>
@@ -259,8 +292,8 @@
     </div>
 
     <div class="orig">
-      <h2 class="h">Starting matrix</h2>
-      <div id="origMtx"></div>
+      <h2 class="h">Row operations</h2>
+      <div class="steps" id="steps"></div>
     </div>
     <div class="orig soln-sec" id="solnSec" hidden></div>
   </section>
@@ -291,10 +324,13 @@ function parseFrac(s){
 }
 var SUB="\u2080\u2081\u2082\u2083\u2084\u2085\u2086\u2087\u2088\u2089";
 function sub(k){return String(k).split("").map(function(d){return SUB[+d];}).join("");}
-function fracHTML(v,cls){
+/* ph: give nonnegative entries an invisible minus sign so that, in a column of
+   centered entries, the digits of \u22122 and 3 line up instead of zigzagging. */
+function fracHTML(v,cls,ph){
   var c=cls?' class="'+cls+'"':"";
-  if(v.d===1)return "<span"+c+">"+(v.n<0?"\u2212"+Math.abs(v.n):v.n)+"</span>";
-  return "<span"+c+'><span class="signed">'+(v.n<0?"\u2212":"")+
+  var sg=v.n<0?"\u2212":ph?'<span class="ph">\u2212</span>':"";
+  if(v.d===1)return "<span"+c+">"+sg+Math.abs(v.n)+"</span>";
+  return "<span"+c+'><span class="signed">'+sg+
     '<span class="frac"><span class="n">'+Math.abs(v.n)+'</span><span class="d">'+v.d+"</span></span></span></span>";
 }
 
@@ -364,7 +400,7 @@ function applyOp(M,op){
 }
 function opLabel(op){
   if(op.type==="swap")return "R"+sub(op.i+1)+" \u2194 R"+sub(op.j+1);
-  if(op.type==="scale")return "R"+sub(op.i+1)+" \u2190 "+(isOne(op.c)?"":fstr(op.c)+" ")+"R"+sub(op.i+1);
+  if(op.type==="scale")return "R"+sub(op.i+1)+" \u2190 "+(isOne(op.c)?"":fstr(op.c).replace("-","−")+" ")+"R"+sub(op.i+1);
   var sign=op.c.n<0?"\u2212":"+";
   var mag=fstr({n:Math.abs(op.c.n),d:op.c.d});
   return "R"+sub(op.i+1)+" \u2190 R"+sub(op.i+1)+" "+sign+" "+(mag==="1"?"":mag+" ")+"R"+sub(op.j+1);
@@ -510,10 +546,10 @@ function bestSolve(M,n){
 var S={screen:"menu",origin:"setup",m:3,n:3,r:3,orig:null,cur:null,hist:[],mode:"add",a:null,b:null,c:"1",
        drag:null,review:null,par:0,parProven:false,result:null,
        custom:{m:3,n:3,cells:null},solnView:"eq",tvals:{}};
-var focusC=false,caret=0;
+var focusC=false,caret=0,stepsSeen=-1;
 
 function startFrom(M){
-  S.orig=M;S.cur=M;S.hist=[];S.a=null;S.b=null;S.c="1";S.review=null;S.result=null;
+  S.orig=M;S.cur=M;S.hist=[];stepsSeen=-1;S.a=null;S.b=null;S.c="1";S.review=null;S.result=null;
   var bs=bestSolve(S.orig,S.n);
   S.par=bs.ops.length;S.parProven=bs.proven;
 }
@@ -621,8 +657,8 @@ function matrixHTML(M,n,opts){
     for(var k2=0;k2<=n;k2++){
       var v=M[i][k2],shown=prev?prev[i][k2]:v,changed=prev&&!eqF(shown,v);
       h+='<div class="cell'+(k2===n?" aug":"")+'">';
-      if(changed)h+='<span class="old">'+fracHTML(v)+"</span>";
-      h+=fracHTML(shown,changed?"new":"");
+      if(changed)h+='<span class="old">'+fracHTML(v,"",true)+"</span>";
+      h+=fracHTML(shown,changed?"new":"",true);
       h+="</div>";
     }
     h+='</div><div class="pad"></div></div>';
@@ -631,8 +667,28 @@ function matrixHTML(M,n,opts){
 }
 function vecHTML(v){
   var h='<span class="vec"><span class="bl"></span><span class="body">';
-  v.forEach(function(e){h+="<span>"+fracHTML(e)+"</span>";});
+  v.forEach(function(e){h+="<span>"+fracHTML(e,"",true)+"</span>";});
   return h+'</span><span class="br"></span></span>';
+}
+/* A small bracketed matrix for the row-operations strip; rows listed in
+   `changed` are drawn in the rewrite color. */
+function miniHTML(M,n,changed){
+  changed=changed||{};
+  var h='<div class="mini"><div class="brk l"></div><div class="brk r"></div>'+
+        '<div class="mg" style="grid-template-columns:repeat('+(n+1)+',auto)">';
+  for(var i=0;i<M.length;i++)for(var k=0;k<=n;k++)
+    h+='<div class="'+(k===n?"aug ":"")+(changed[i]?"chg":"")+'">'+fracHTML(M[i][k],"",true)+"</div>";
+  return h+"</div></div>";
+}
+function stepsHTML(){
+  var h='<div class="step">'+miniHTML(S.orig,S.n)+"</div>";
+  S.hist.forEach(function(e,k){
+    var after=k+1<S.hist.length?S.hist[k+1].before:S.cur,changed={};
+    for(var i=0;i<after.length;i++)if(rowKey(after[i])!==rowKey(e.before[i]))changed[i]=true;
+    h+='<div class="arw"><span class="lbl">'+e.label+'</span><span class="shaft"></span></div>'+
+       '<div class="step">'+miniHTML(after,S.n,changed)+"</div>";
+  });
+  return h;
 }
 function dialHTML(id,label,val,min,max){
   return '<div class="dial"><span class="w-label">'+label+'</span><div class="box">'+
@@ -701,7 +757,10 @@ function renderPlay(){
     '<div><span class="k">'+used+'</span><span class="w-label">moves</span></div>'+
     '<div><span class="k">'+S.par+'</span><span class="w-label">'+parWord()+'</span></div>';
 
-  document.getElementById("origMtx").innerHTML=matrixHTML(S.orig,n,{compact:true});
+  var strip=document.getElementById("steps");
+  strip.innerHTML=stepsHTML();
+  /* follow the newest move, but leave the scroll alone on other re-renders */
+  if(S.hist.length!==stepsSeen){stepsSeen=S.hist.length;strip.scrollLeft=strip.scrollWidth;}
   document.getElementById("workMtx").innerHTML=matrixHTML(shown,n,{roles:roles,preview:prev,live:!inReview,pivots:pivotCols(shown,n)});
 
   var panel="";
@@ -766,10 +825,7 @@ function renderPlay(){
     acts='<div class="row"><button class="sm" id="resClose">Close</button>'+
          '<button class="sm" id="resNew">New matrix</button></div>';
   }else{
-    document.getElementById("sideHead").textContent="Moves";
-    side=S.hist.length
-      ? '<ol class="log">'+S.hist.map(function(h){return "<li>"+h.label+"</li>";}).join("")+"</ol>"
-      : '<div class="empty">None yet.</div>';
+    document.getElementById("sideHead").textContent="";
     acts='<div class="row"><button class="sm" id="undo"'+(S.hist.length?"":" disabled")+'>Undo</button>'+
          '<button class="sm" id="reset"'+(S.hist.length?"":" disabled")+'>Restart</button></div>'+
          '<button class="primary" id="submit">Submit</button>'+
@@ -792,7 +848,7 @@ function resultHTML(){
   h+='<div class="verdict">Solved</div>'+
      '<div class="score">'+used+" move"+(used===1?"":"s")+", "+line+"</div>";
   var info=R.info,dof=n-info.rank;
-  h+='<div class="free">'+(info.inconsistent?"no solution":dof===0?"unique solution":"infinitely many solutions")+
+  h+='<div class="free">'+(info.inconsistent?"There is no solution.":dof===0?"There is a unique solution.":"There are infinitely many solutions.")+
      '</div><div class="free"><a href="#solnSec" class="jump">See the solution below \u2193</a></div>';
   return h+"</div>";
 }
@@ -1020,7 +1076,7 @@ function markDrag(){
 function showGhost(i,x,y){
   var g=document.getElementById("ghost");
   var cells=S.cur[i].map(function(v,k){
-    return "<span"+(k===S.n?' style="border-left:1px solid var(--line);padding-left:.5rem"':"")+">"+fracHTML(v)+"</span>";
+    return "<span"+(k===S.n?' style="border-left:1px solid var(--line);padding-left:.5rem"':"")+">"+fracHTML(v,"",true)+"</span>";
   }).join("");
   g.innerHTML='<span class="tag-r">R'+sub(i+1)+'</span><span class="g">'+cells+"</span>";
   g.style.display="flex";
