@@ -169,7 +169,7 @@ custom_js: |
       </div>
       <span class="gallery-title">Visualizing Gaussian Elimination</span>
     </a>
-    <a class="gallery-card" href="/widgets/row-reduce/" target="_blank">
+    <a class="gallery-card" href="/games/row-reduce/" target="_blank">
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/gaussian_elim.png" alt="Gaussian Elimination"></div>
       <span class="gallery-title">Gaussian Elimination</span>
     </a>

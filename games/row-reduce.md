@@ -1,9 +1,9 @@
 ---
-layout: widget
+layout: game
 title: "Gaussian Elimination"
-widget_src: "/widgets/row-reduce_code.html"
-widget_height: 760
-widget_height_mobile: 720
+game_src: "/games/row-reduce_code.html"
+game_height: 760
+game_height_mobile: 720
 back_url: "/teaching/lade/"
 back_label: "LADE"
 ---

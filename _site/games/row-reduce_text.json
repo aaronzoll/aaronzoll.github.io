@@ -8,7 +8,9 @@
     "custom": "Custom",
     "customSub": "enter your own matrix",
     "adventure": "Adventure",
-    "adventureSub": "learn the moves, defeat the matrices"
+    "adventureSub": "reduce matrices into oblivion",
+    "fullscreen": "Full screen ⤢",
+    "exitFullscreen": "Exit full screen"
   },
 
   "common": {
@@ -26,18 +28,19 @@
 
   "setup": {
     "title": "Choose a system",
-    "lede": "Pick the size of the augmented matrix and its rank. Try to beat par!",
+    "lede": "Pick the size of the augmented matrix and its rank",
     "newMatrix": "New matrix",
     "play": "Play ▶"
   },
 
   "custom": {
-    "title": "Your own system",
-    "lede": "Set the size, then type the entries of the augmented matrix. Integers, fractions like −3/4, or decimals.",
+    "title": "Custom System",
+    "lede": "Set the parameters below. Values allowed: integers, fractions like −3/4, or decimals.",
     "clear": "Clear",
     "play": "Play ▶",
     "badEntries": "Some entries could not be read. Use integers, fractions such as −3/4, or decimals.",
-    "entryLabel": "row {row} entry {col}"
+    "entryLabel": "row {row} entry {col}",
+    "augmented": "augmented columns"
   },
 
   "play": {
@@ -55,14 +58,14 @@
       "locked": "not learned yet"
     },
     "prompts": {
-      "swapStart": "Click a row, then the row to trade it with; or drag a row by its handle.",
+      "swapStart": "Click a row, then the row to swap it with; or drag a row by its handle.",
       "swapPicked": "{row} is picked up. Click the row to trade it with.",
-      "scaleStart": "Click the row to multiply.",
+      "scaleStart": "Click the row to scale.",
       "setMultiplier": "Set the multiplier, then apply.",
-      "addRowStart": "Click the row you want to add.",
+      "addRowStart": "Click the row you want to add to another row.",
       "addRowPicked": "{row} is picked up. Click the row it should be added to.",
-      "addStart": "Click the row you want to add a multiple of.",
-      "addPicked": "{row} is the source. Click the row that should change."
+      "addStart": "Click the row you want to add a multiple of to another row.",
+      "addPicked": "{row} will remain. Click the row that should receive the scaled row."
     },
     "multiplier": "multiplier",
     "apply": "Apply",
@@ -91,6 +94,9 @@
     "noSolution": "There is no solution.",
     "uniqueSolution": "There is a unique solution.",
     "infiniteSolutions": "There are infinitely many solutions.",
+    "noSolutionSome": "At least one right-hand side has no solution.",
+    "uniqueSolutionEach": "Each right-hand side has a unique solution.",
+    "infiniteSolutionsEach": "Each right-hand side has infinitely many solutions.",
     "seeSolution": "See the solution below ↓",
     "review": {
       "title": "Solution",
@@ -109,12 +115,13 @@
     "vectorForm": "Vector form",
     "free": "free",
     "pickValues": "Pick values for the free variables to get a particular solution.",
-    "inconsistent": "No solution: row {row} reads 0 = {c}, which no choice of the unknowns can satisfy."
+    "forColumn": "For the right-hand side {b}:",
+    "inconsistent": "No solution: row {row} reads 0 = {c}, which is not possible/inconsistent."
   },
 
   "adventure": {
     "title": "Adventure",
-    "lede": "Reduce each matrix before it wears you down.",
+    "lede": "Reduce each matrix before it reduces you.",
     "continue": "Continue",
     "continueSub": "{difficulty}, level {level}, {beaten} of {total} stages",
     "startOver": "or start over:",
@@ -140,23 +147,21 @@
 
   "places": {
     "_note": "Keyed by map id. 'name' shows on the map and as the enemy's name in battle unless 'foe' is given. 'blurb' shows when hovering the map and as the opening line of the battle (empty means no text).",
-    "1.0":    { "name": "Camp", "blurb": "Where the road begins." },
-    "1.1":    { "name": "Shuffled Slime", "blurb": "New move: swap." },
-    "1.2":    { "name": "Bloated Golem", "blurb": "New move: scale." },
+    "1.1":    { "name": "Silvester the Slime", "blurb": "New move: swapping rows." },
+    "1.2":    { "name": "Gauss's Golem", "blurb": "New move: scaling rows." },
     "yard":   { "name": "Training Yard", "foe": "Training Dummy", "blurb": "Practice with the moves you know." },
-    "1.3":    { "name": "Tangled Imp", "blurb": "New move: add a multiple." },
-    "shop1":  { "name": "Shop", "blurb": "Potions and scrolls, for gold." },
-    "1.4":    { "name": "Triad Knight", "blurb": "" },
-    "1.5":    { "name": "Hexing Crone", "blurb": "Unit Hex: no multiples." },
-    "1.6":    { "name": "Rank-Four Dragon", "blurb": "Guardian of the Pivot Plains." },
-    "2.0":    { "name": "Border Gate", "blurb": "Entrance to the Land of the Free Variables." },
-    "2.1":    { "name": "Drifting Wisp", "blurb": "" },
-    "2.2":    { "name": "Hollow Sentinel", "blurb": "" },
-    "mirage": { "name": "Mirage Oasis", "foe": "Mirage", "blurb": "It promises water." },
-    "2.3":    { "name": "Free Wraith", "blurb": "" },
-    "shop2":  { "name": "Shop", "blurb": "Potions and scrolls, for gold." },
-    "2.4":    { "name": "Hydra of Five Heads", "blurb": "" },
-    "ring":   { "name": "Sparring Ring", "foe": "Sparring Partner", "blurb": "Practice with free variables." },
+    "1.3":    { "name": "The Determined Ant", "blurb": "New move: adding a multiple of one row to another." },
+    "shop1":  { "name": "Shop", "blurb": "Spend gold on potions or scrolls." },
+    "1.4":    { "name": "Bernoulli Triplets", "blurb": "Use your moves together to reduce the matrix." },
+    "1.5":    { "name": "The Unit Victor", "blurb": "You've been cursed by the Victor's Hex! You cannot add multiples of rows to another, so you must scale beforehand." },
+    "1.6":    { "name": "Grothendieck the Dragon", "blurb": "Guardian of the Pivot Plains." },
+    "2.1":    { "name": "The Grassmannian Serpent", "blurb": "" },
+    "2.2":    { "name": "A Hollow Descartes", "blurb": "" },
+    "mirage": { "name": "An Inconsistent Mirage", "foe": "Mirage", "blurb": "It promises a solution, but it's a mirage." },
+    "2.3":    { "name": "The Free Spectre", "blurb": "" },
+    "shop2":  { "name": "Shop", "blurb": "Spend gold on potions or scrolls." },
+    "2.4":    { "name": "The Five Headed Euler", "blurb": "" },
+    "ring":   { "name": "Sparring Ring", "foe": "Sparring Partner", "blurb": "Practice your moves, now with free variables." },
     "2.5":    { "name": "Null Colossus", "blurb": "Guardian of the Free Variables." }
   },
 
@@ -173,10 +178,10 @@
     "scrolls": "scrolls",
     "level": "Level {level}",
     "xp": "{into} / {need} XP",
-    "worldTab": "World {n}: {name}",
-    "lockedWorld": "???",
+    "worldNumber": "World {n}",
+    "prevWorld": "previous world",
+    "nextWorld": "next world",
     "lockedPlace": "???",
-    "lockedTooltip": "Not yet reachable",
     "mapLabel": "Map of {world}",
     "fight": "Fight ▶",
     "close": "close",
@@ -194,8 +199,8 @@
     "stage": "stage {id}",
     "practice": "practice",
     "sideQuest": "side quest",
-    "windsUp": "The {foe} winds up…",
-    "strikes": "The {foe} strikes.",
+    "windsUp": "{foe} winds up…",
+    "strikes": "{foe} strikes.",
     "grewStronger": "It grows stronger.",
     "scrollUsed": "The scroll makes a move.",
     "potionUsed": "You drink a potion.",

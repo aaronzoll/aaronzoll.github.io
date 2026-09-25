@@ -4,30 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gaussian Elimination Game</title>
-<link rel="stylesheet" href="/assets/css/themes/widget-theme.css">
+<link rel="stylesheet" href="/games/game-theme.css">
 <style>
-  :root{
-    --ink-strong:#263238;
-    --maroon:#8a3a3a; --maroon-bg:#f8efef;
-    --line:#dde3e7;
-    --t:#2e6cb5;   --t-bg:#eef4fb;   /* row being rewritten */
-    --s:#4b7d3c;   --s-bg:#f2f8ef;   /* row being read from */
-    --bad:#b7312c;
-    --rowh:3.3rem;
-  }
+  /* colors come from /games/game-theme.css */
+  :root{--rowh:3.3rem}
   html{scroll-behavior:smooth}
   /* clicks on rows, nodes and buttons shouldn't select text or show a caret */
   body{-webkit-user-select:none;user-select:none;cursor:default;caret-color:transparent}
   input{-webkit-user-select:text;user-select:text;caret-color:auto}
   button,.mrow:not(.static),[data-node]{cursor:pointer}
-  body{font-size:17px;line-height:1.5}
+  /* Every size is in rem, so the root font size scales the whole game.
+     In the page it grows gently with the frame's width; in full screen
+     (html.fs, switched on by the host page) it follows whichever of width
+     and height is tighter, so a screen fills the display without spilling. */
+  html{font-size:clamp(14px, calc(11px + .55vw), 17px)}
+  html.fs{font-size:clamp(15px, min(1.3vw, 2.2vh), 27px)}
+  body{font-size:1rem;line-height:1.5}
+  .w-label{font-size:.8rem}
+  input[type=text]{font-size:.85rem}
   .h{font-family:var(--serif);font-weight:700;font-size:1.25rem;line-height:1.25;color:var(--ink-strong);margin:0}
-  .w-plate{padding:22px 26px 20px}
+  .w-plate{padding:.85rem 1.55rem 1.2rem}
+  /* full screen: fill the display; short screens (menus, setup) sit in the
+     middle instead of hugging the top with empty space below */
+  html.fs .w-plate{min-height:100vh;display:flex;flex-direction:column;max-width:110rem;margin:0 auto}
+  html.fs .screen.on.menu,html.fs .screen.on.setup{margin:auto;zoom:1.3}
+  html.fs .screen.on.setup{width:100%}
   .screen{display:none}
   .screen.on{display:block}
 
   /* ---- shared bits ---- */
-  .top{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:.9rem}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:.9rem}
   .top .w-label{display:block;margin-bottom:.15rem}
   .top h2{font-size:1.25rem;font-weight:500;color:var(--ink-strong);line-height:1.2}
   .top h2 span{color:var(--ink-mute);font-weight:400}
@@ -44,7 +50,10 @@
   button.warn:hover:not(:disabled){background:var(--maroon-bg)!important;border-color:var(--maroon)!important;box-shadow:none;color:var(--maroon)}
 
   /* ---- menu ---- */
-  .menu{max-width:520px;margin:2.5rem auto 3rem;text-align:center}
+  .menu{max-width:32rem;margin:2.5rem auto 3rem;text-align:center}
+  /* full-screen toggle: only on the main menu, in the plate's top-right corner */
+  .w-plate{position:relative}
+  .fsbtn{position:absolute;top:.85rem;right:1.55rem}
   .menu .title{font-size:1.7rem;margin:.9rem 0 1.8rem;padding-bottom:.55rem;display:inline-block;
     border-bottom:3px solid;border-image:linear-gradient(90deg,var(--t),var(--s),var(--maroon)) 1}
   .emblem .mini{padding:.35rem .8rem}
@@ -63,12 +72,16 @@
     border:1px solid var(--line);border-radius:4px;background:var(--field-bg);color:var(--ink-strong)}
   .entry input:focus{outline:none;border-color:var(--accent)}
   .entry input::placeholder{color:var(--ink-faint)}
-  .entry input.bad{border-color:var(--bad);background:#fff5f5}
+  .entry input.bad{border-color:var(--bad);background:var(--bad-bg)}
   .entry .cell{padding:0 .3rem}
   .setup .note{color:var(--bad);font-size:.9rem;min-height:1.4rem;margin-bottom:.6rem}
 
   /* ---- setup ---- */
-  .setup{max-width:620px;margin:0 auto;text-align:center}
+  .setup{max-width:38rem;margin:0 auto;text-align:center}
+  /* the custom grid can reach 10 x 15, so that screen may use the full width */
+  #scrCustom{max-width:none}
+  .entry.dense input{width:2.55rem;font-size:.95rem}
+  .entry.dense .cell{padding:0 .12rem}
   .setup .lede{color:var(--ink-mute);font-size:.98rem;margin:.3rem 0 1.4rem}
   .dials{display:flex;justify-content:center;gap:2.2rem;flex-wrap:wrap;margin-bottom:.4rem}
   .dial{display:flex;flex-direction:column;align-items:center;gap:.35rem}
@@ -85,7 +98,7 @@
   /* ---- play ---- */
   .cols{display:flex;gap:1.6rem;align-items:flex-start}
   .col-main{flex:1 1 0;min-width:0}
-  .col-side{flex:0 0 250px;min-width:0;padding-left:1.4rem;border-left:1px solid var(--line)}
+  .col-side{flex:0 0 15rem;min-width:0;padding-left:1.4rem;border-left:1px solid var(--line)}
   .col-side .h{margin-bottom:.5rem}
   .board{padding:.9rem .4rem .6rem;overflow-x:auto}
   .modes{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.6rem}
@@ -123,7 +136,10 @@
   .soln-sec .h{margin-bottom:.6rem}
   .soln-tabs{display:flex;gap:.4rem;margin-bottom:.8rem}
   .soln-body{font-size:1.15rem;color:var(--ink-strong);overflow-x:auto;line-height:1.7}
-  #partSol{display:flex;align-items:center;flex-wrap:wrap;gap:.2rem .8rem}
+  #partSol{display:flex;flex-direction:column;gap:.5rem}
+  #partSol .part-row{display:flex;align-items:center;flex-wrap:wrap;gap:.2rem .8rem}
+  .soln-rhs{font-weight:600;color:var(--ink-strong);margin:.7rem 0 .15rem}
+  #partSol .soln-rhs{margin:0}
   .soln-body.eqs div{padding:.05rem 0}
   .tag-free{font-size:.8rem;color:var(--ink-mute);margin-left:.3rem;font-style:italic}
   .fv{font-weight:600}
@@ -158,7 +174,6 @@
   .ph{visibility:hidden}
 
   /* ---- adventure ---- */
-  :root{--hp:#b7312c;--hp-bg:#f6e3e2;--foe:#6a4c93;--foe-bg:#eee8f5;--gold:#b5801d;--xp:#1f7a8c}
   .diffs{display:flex;justify-content:center;gap:.8rem;flex-wrap:wrap;margin:.4rem 0 1.4rem}
   .diffs button{min-width:9.5rem;padding:.75rem 1rem;font-size:1.02rem;line-height:1.3}
   .diffs .sub{display:block;font-size:.82rem;opacity:.7}
@@ -172,7 +187,7 @@
   .xprow{display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:var(--ink-mute)}
   .xprow span:first-child{color:var(--ink-strong);font-weight:600}
   .xprow .xpbar{flex:1 1 auto;min-width:4rem;height:.45rem;background:var(--line);border-radius:3px;overflow:hidden}
-  .xprow .xpbar i{display:block;height:100%;background:#5f7a3a}
+  .xprow .xpbar i{display:block;height:100%;background:var(--xp)}
   .mapwrap{position:relative}
   .sheet{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(30rem,calc(100% - 2rem));
     padding:1rem 1.2rem 1.1rem;background:#f8f0dc;border:1px solid #b89a6a;border-radius:var(--radius);
@@ -192,18 +207,23 @@
      (rollers top and bottom, torn edges at the sides) so it stretches to any width. */
   .map{--road:#5e4122;--road-hi:#94714a;--moss:#556b2f;--rust:#9c4a22;--ochre:#a0731f;
        --stone:#8f8470;--oxblood:#7a2a26;--sage:#4f7263;--mapink:#3b2f1f;--parch:#f3e6c6;--field:#e2c996;
-       border-style:solid;border-color:transparent;border-width:92px 34px 72px 34px;
+       border-style:solid;border-color:transparent;border-width:5.4rem 2rem 4.25rem 2rem;
        border-image:url("/assets/images/gauss-game/scroll.webp") 205 75 160 75 fill stretch;
        padding:0 .8rem}
   @media (max-width:720px){.map{border-width:50px 18px 40px 18px;padding:0}}
+  /* full screen: cap the map's width so the whole scroll fits the display height */
+  html.fs .mapwrap{max-width:calc(2.45 * (100vh - 17.5rem) + 5.6rem);margin:0 auto}
+  html.fs .sheet{zoom:1.25}
   .map svg{display:block;width:100%;height:auto}
   .map .road{stroke:var(--road);stroke-width:10;stroke-linecap:round;fill:none}
   .map .road-hi{stroke:var(--road-hi);stroke-width:4;stroke-linecap:round;fill:none}
   .map .road.locked{stroke:#7d6647;stroke-width:3.5;stroke-dasharray:2 9}
   .map .node{cursor:pointer}
   .map .node.locked{cursor:default}
-  .map .node circle.body{stroke-width:2.5;transition:r .15s}
-  .map .node:not(.locked):hover circle.body{r:24}
+  /* hovering a reachable stop enlarges its circle (and the glyph inside) */
+  .map .node circle.body,.map .node .num{transition:transform .15s;transform-box:fill-box;transform-origin:center}
+  .map .node circle.body{stroke-width:2.5}
+  .map .node:not(.locked):hover circle.body,.map .node:not(.locked):hover .num{transform:scale(1.15)}
   .map .node text{font-family:var(--serif);text-anchor:middle;pointer-events:none}
   .map .node.staged .num{font-size:14px}
   .map .node .num{font-size:17px;font-weight:700;dominant-baseline:central}
@@ -215,7 +235,22 @@
   .ware{display:flex;align-items:center;gap:1rem;padding:.55rem .7rem;border:1px solid var(--line);border-radius:var(--radius);background:var(--ground)}
   .ware .d{flex:1 1 auto}
   .ware img{width:2.4rem;height:2.4rem;object-fit:contain}
-  .worlds{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.6rem}
+  /* map header: menu on the left, the world's name truly centered (with
+     arrows to step between worlds), the HUD on the right */
+  .maptop{display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:1rem}
+  .mapnav{justify-self:start}
+  .maptop .hud{justify-self:end}
+  .worldnav{display:flex;align-items:center;gap:.5rem;padding-top:.2rem}
+  .worldnav .wname{text-align:center;line-height:1.2}
+  .worldnav .wn{display:block;font-size:.85rem;color:var(--ink-mute)}
+  .worldnav .wt{display:block;font-size:1.35rem;font-weight:700;color:var(--ink-strong);white-space:nowrap}
+  .worldnav button.arrow{background:none;border-color:transparent;box-shadow:none;font-size:2.4rem;line-height:.8;padding:.05rem .55rem .2rem;color:var(--ink)}
+  .worldnav button.arrow:hover:not(:disabled){background:none;border-color:var(--ink-faint);color:var(--ink)}
+  .worldnav button.arrow:disabled{visibility:hidden}
+  @media (max-width:720px){
+    .maptop{grid-template-columns:1fr auto}
+    .worldnav{grid-column:1 / -1;grid-row:2;justify-self:center}
+  }
   .items button.item{display:flex;align-items:center;justify-content:center;gap:.45rem}
   .items button.item img{height:1.5rem;width:1.5rem;object-fit:contain}
   .items button.item:disabled img{opacity:.45}
@@ -309,7 +344,7 @@
   .signed{display:inline-flex;align-items:center;gap:.05em}
 
   @media (max-width:720px){
-    .w-plate{padding:16px}
+    .w-plate{padding:.9rem}
     .cols{flex-direction:column}
     .col-side{flex:1 1 auto;width:100%;padding-left:0;border-left:none;padding-top:1rem;border-top:1px solid var(--line)}
     .side-actions{flex-direction:row;flex-wrap:wrap}
@@ -324,6 +359,7 @@
 
   <!-- ======================= menu ======================= -->
   <section class="screen menu" id="scrMenu">
+    <button class="quiet sm fsbtn" id="fsToggle" hidden></button>
     <div class="emblem" aria-hidden="true">
       <div class="mini"><div class="brk l"></div><div class="brk r"></div>
         <div class="mg" style="grid-template-columns:repeat(4,auto)">
@@ -351,11 +387,13 @@
 
   <!-- ======================= map ======================= -->
   <section class="screen" id="scrMap">
-    <div class="top">
-      <div><button class="quiet sm" id="mapMenu" data-t="common.toMenu"></button></div>
+    <div class="top maptop">
+      <div class="mapnav">
+        <button class="quiet sm" id="mapMenu" data-t="common.toMenu"></button>
+      </div>
+      <div class="worldnav" id="worlds"></div>
       <div class="hud" id="hud"></div>
     </div>
-    <div class="worlds" id="worlds"></div>
     <div class="mapwrap">
       <div class="map" id="map"></div>
       <div id="mapSheet"></div>
@@ -425,14 +463,14 @@
 
 <script>
 /* ============================== text ==============================
-   Every player-facing string lives in row-reduce_text.json, keyed by where
+   Every player-facing string lives in /games/row-reduce_text.json, keyed by where
    it appears. txt("a.b.c",{x:1}) looks one up and fills {x} placeholders;
    a missing key shows the key itself so gaps are easy to spot. A page can
    also preset window.ROW_REDUCE_TEXT (used for offline testing). */
 var TEXT={};
 function loadText(done){
   if(window.ROW_REDUCE_TEXT){TEXT=window.ROW_REDUCE_TEXT;done();return;}
-  fetch("/widgets/row-reduce_text.json",{cache:"no-cache"})
+  fetch("/games/row-reduce_text.json",{cache:"no-cache"})
     .then(function(r){return r.json();})
     .then(function(j){TEXT=j;done();})
     .catch(function(e){console.error("row-reduce: could not load text",e);done();});
@@ -461,22 +499,54 @@ function applyText(){
 function plural(n,one,many,vars){return txt(n===1?one:many,vars);}
 
 /* ============================== exact rationals ============================== */
+/* Fractions {n,d} in lowest terms with d > 0. Numerators and denominators are
+   ordinary numbers while they fit exactly (the common case, and fast enough
+   for the par search); when a result would pass 2^53, which big systems like
+   a 10 x 10 reach, that value is carried as a BigInt instead, and it drops
+   back to a number once it is small again. So arithmetic stays exact at any
+   size. Comparisons below use == (not ===) so they work for either kind. */
+var SAFE=Number.MAX_SAFE_INTEGER,BSAFE=BigInt(SAFE);
 function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=a%b;a=b;b=t;}return a||1;}
-function F(n,d){d=(d===undefined)?1:d;if(d===0)return{n:0,d:1};if(d<0){n=-n;d=-d;}var g=gcd(n,d);return{n:n/g,d:d/g};}
-function add(x,y){return F(x.n*y.d+y.n*x.d,x.d*y.d);}
-function mul(x,y){return F(x.n*y.n,x.d*y.d);}
+function gcdB(a,b){a=a<0n?-a:a;b=b<0n?-b:b;while(b){var t=a%b;a=b;b=t;}return a||1n;}
+function absN(n){return n<0?-n:n;}
+function normB(n,d){
+  if(d===0n)return{n:0,d:1};
+  if(d<0n){n=-n;d=-d;}
+  var g=gcdB(n,d);n/=g;d/=g;
+  return (n<=BSAFE&&n>=-BSAFE&&d<=BSAFE)?{n:Number(n),d:Number(d)}:{n:n,d:d};
+}
+function F(n,d){
+  d=(d===undefined)?1:d;
+  if(typeof n==="bigint"||typeof d==="bigint")return normB(BigInt(n),BigInt(d));
+  if(d===0)return{n:0,d:1};if(d<0){n=-n;d=-d;}var g=gcd(n,d);return{n:n/g,d:d/g};
+}
+function small(x){return typeof x.n==="number"&&typeof x.d==="number";}
+function add(x,y){
+  if(small(x)&&small(y)){
+    var a=x.n*y.d,b=y.n*x.d,c=x.d*y.d;
+    if(Math.abs(a)<=SAFE&&Math.abs(b)<=SAFE&&c<=SAFE&&Math.abs(a+b)<=SAFE)return F(a+b,c);
+  }
+  return normB(BigInt(x.n)*BigInt(y.d)+BigInt(y.n)*BigInt(x.d),BigInt(x.d)*BigInt(y.d));
+}
+function mul(x,y){
+  if(small(x)&&small(y)){
+    var a=x.n*y.n,c=x.d*y.d;
+    if(Math.abs(a)<=SAFE&&c<=SAFE)return F(a,c);
+  }
+  return normB(BigInt(x.n)*BigInt(y.n),BigInt(x.d)*BigInt(y.d));
+}
 function inv(x){return F(x.d,x.n);}
 function dvd(x,y){return mul(x,inv(y));}
 function neg(x){return{n:-x.n,d:x.d};}
-function isZero(x){return x.n===0;}
-function isOne(x){return x.n===1&&x.d===1;}
-function eqF(x,y){return x.n===y.n&&x.d===y.d;}
-function fstr(x){return x.d===1?String(x.n):x.n+"/"+x.d;}
+function isZero(x){return x.n==0;}
+function isOne(x){return x.n==1&&x.d==1;}
+function eqF(x,y){return x.n==y.n&&x.d==y.d;}
+function fstr(x){return x.d==1?String(x.n):x.n+"/"+x.d;}
 function parseFrac(s){
   var t=String(s).replace(/\s+/g,""),m;
   if(t===""||t==="-"||t==="/")return null;
-  if((m=/^(-?\d+)\/(-?\d+)$/.exec(t))){var d=+m[2];if(d===0)return null;return F(+m[1],d);}
-  if((m=/^(-?\d+)$/.exec(t)))return F(+m[1]);
+  if((m=/^(-?\d+)\/(-?\d+)$/.exec(t))){var d=BigInt(m[2]);if(d===0n)return null;return F(BigInt(m[1]),d);}
+  if((m=/^(-?\d+)$/.exec(t)))return F(BigInt(m[1]));
   if((m=/^(-?\d*\.\d+)$/.exec(t))){var dec=t.split(".")[1].length,p=Math.pow(10,dec);return F(Math.round(parseFloat(t)*p),p);}
   return null;
 }
@@ -487,9 +557,9 @@ function sub(k){return String(k).split("").map(function(d){return SUB[+d];}).joi
 function fracHTML(v,cls,ph){
   var c=cls?' class="'+cls+'"':"";
   var sg=v.n<0?"\u2212":ph?'<span class="ph">\u2212</span>':"";
-  if(v.d===1)return "<span"+c+">"+sg+Math.abs(v.n)+"</span>";
+  if(v.d==1)return "<span"+c+">"+sg+absN(v.n)+"</span>";
   return "<span"+c+'><span class="signed">'+sg+
-    '<span class="frac"><span class="n">'+Math.abs(v.n)+'</span><span class="d">'+v.d+"</span></span></span></span>";
+    '<span class="frac"><span class="n">'+absN(v.n)+'</span><span class="d">'+v.d+"</span></span></span></span>";
 }
 
 /* ============================== generation ============================== */
@@ -562,7 +632,7 @@ function opLabel(op){
   if(op.type==="swap")return "R"+sub(op.i+1)+" \u2194 R"+sub(op.j+1);
   if(op.type==="scale")return "R"+sub(op.i+1)+" \u2190 "+(isOne(op.c)?"":fstr(op.c).replace("-","−")+" ")+"R"+sub(op.i+1);
   var sign=op.c.n<0?"\u2212":"+";
-  var mag=fstr({n:Math.abs(op.c.n),d:op.c.d});
+  var mag=fstr({n:absN(op.c.n),d:op.c.d});
   return "R"+sub(op.i+1)+" \u2190 R"+sub(op.i+1)+" "+sign+" "+(mag==="1"?"":mag+" ")+"R"+sub(op.j+1);
 }
 function leadCol(row,n){for(var k=0;k<n;k++)if(!isZero(row[k]))return k;return -1;}
@@ -570,8 +640,16 @@ function leadCol(row,n){for(var k=0;k<n;k++)if(!isZero(row[k]))return k;return -
 function analyze(M,n){
   var m=M.length,piv=M.map(function(r){return leadCol(r,n);});
   var rank=piv.filter(function(p){return p>=0;}).length;
-  var inconsistent=false,badRow=-1;
-  for(var i=0;i<m;i++)if(piv[i]===-1&&!isZero(M[i][n])){inconsistent=true;badRow=i;break;}
+  /* columns n.. are right-hand sides (usually one). A row with no pivot but a
+     nonzero right-hand side reads 0 = c, so that right-hand side has no
+     solution; bad[j] is the first such row for right-hand side j, or -1. */
+  var bad=[],inconsistent=false,badRow=-1,badCol=-1;
+  for(var j0=n;j0<M[0].length;j0++){
+    var r0=-1;
+    for(var i=0;i<m;i++)if(piv[i]===-1&&!isZero(M[i][j0])){r0=i;break;}
+    bad.push(r0);
+    if(r0>=0&&!inconsistent){inconsistent=true;badRow=r0;badCol=j0;}
+  }
   var sorted=true,last=-1;
   for(var i2=0;i2<m;i2++){
     if(piv[i2]===-1){for(var j=i2;j<m;j++)if(piv[j]!==-1)sorted=false;break;}
@@ -584,15 +662,17 @@ function analyze(M,n){
     if(!isOne(M[i3][piv[i3]]))rref=false;
     for(var j2=0;j2<m;j2++)if(j2!==i3&&!isZero(M[j2][piv[i3]]))rref=false;
   }
-  return {piv:piv,rank:rank,inconsistent:inconsistent,badRow:badRow,ref:ref,rref:rref};
+  return {piv:piv,rank:rank,inconsistent:inconsistent,badRow:badRow,badCol:badCol,bad:bad,ref:ref,rref:rref};
 }
 
-function generalSolution(M,n,info){
-  if(info.inconsistent||!info.rref)return null;
+/* col: which right-hand-side column to solve for (default the first, n) */
+function generalSolution(M,n,info,col){
+  col=col===undefined?n:col;
+  if(!info.rref||info.bad[col-n]>=0)return null;
   var pivCols=info.piv.filter(function(p){return p>=0;});
   var free=[];for(var k=0;k<n;k++)if(pivCols.indexOf(k)<0)free.push(k);
   var p=[];for(var q=0;q<n;q++)p.push(F(0));
-  info.piv.forEach(function(pc,i){if(pc>=0)p[pc]=M[i][n];});
+  info.piv.forEach(function(pc,i){if(pc>=0)p[pc]=M[i][col];});
   var basis=free.map(function(f){
     var v=[];for(var q2=0;q2<n;q2++)v.push(F(0));
     v[f]=F(1);
@@ -753,7 +833,7 @@ function bestSolve(M,n,T,budget){
 /* ============================== state ============================== */
 var S={screen:"menu",origin:"setup",m:3,n:3,r:3,orig:null,cur:null,hist:[],mode:"add",a:null,b:null,c:"1",
        drag:null,review:null,par:0,parProven:false,result:null,
-       custom:{m:3,n:3,cells:null},solnView:"eq",tvals:{}};
+       custom:{m:3,n:3,k:1,cells:null},solnView:"eq",tvals:{}};
 var focusC=false,caret=0,stepsSeen=-1;
 
 function startFrom(M,T){
@@ -768,14 +848,18 @@ function newSystem(){
 }
 
 /* ---- custom entry: a grid of strings, resized without losing what was typed ---- */
+/* the typed grid: n coefficient columns then k right-hand sides. Resizing
+   keeps what was typed, and right-hand sides stay with their column when the
+   number of unknowns changes (oldN is the n the grid was last built with). */
 function customCells(){
-  var C=S.custom,old=C.cells||[],cells=[];
+  var C=S.custom,old=C.cells||[],on=C.oldN===undefined?C.n:C.oldN,cells=[];
   for(var i=0;i<C.m;i++){
-    var row=[];
-    for(var k=0;k<=C.n;k++)row.push(old[i]&&old[i][k]!==undefined?old[i][k]:"");
+    var o=old[i]||[],row=[];
+    for(var k=0;k<C.n;k++)row.push(k<on&&o[k]!==undefined?o[k]:"");
+    for(var j=0;j<C.k;j++)row.push(o[on+j]!==undefined?o[on+j]:"");
     cells.push(row);
   }
-  C.cells=cells;return cells;
+  C.cells=cells;C.oldN=C.n;return cells;
 }
 function customMatrix(){
   var cells=customCells(),M=[],bad=false;
@@ -854,6 +938,9 @@ function grade(){
    player at the level the fight expects survives exactly par + slack moves,
    where slack is 4, 2 or 0 by difficulty. Extra levels from side fights mean
    more HP than the fight was tuned for, which is real breathing room. */
+/* Testing aid: a "Skip battle (dev)" button that wins the current fight.
+   Set to false to remove it before release. */
+var DEV_SKIP=true;
 var ADV_KEY="gauss-adventure-v3",A=null;
 var DIFFS={1:{slack:4},2:{slack:2},3:{slack:0}};   /* names from the text file */
 var TOOL_NAME={};
@@ -918,10 +1005,9 @@ function genYard(){
 /* Sparring Ring: size and rank */
 function genRing(){var g=A.ring;return generateSystem(g.m,g.n,Math.min(g.r,g.m,g.n));}
 
-/* kind: camp (start of a world), main, boss, side (repeatable), quest (optional, once), shop */
+/* kind: main, boss, side (repeatable), quest (optional, once), shop */
 var NODES={
-  "1.0":{world:1,x:50, y:250,kind:"camp",req:null},
-  "1.1":{world:1,x:135,y:185,kind:"main",lvl:1,req:"1.0",learn:"swap",
+  "1.1":{world:1,x:80,y:215,kind:"main",lvl:1,req:null,learn:"swap",
          gen:function(){return genPerm(3);}},
   "1.2":{world:1,x:230,y:240,kind:"main",lvl:2,req:"1.1",learn:"scale",
          gen:function(){return genScaled(3);}},
@@ -936,8 +1022,7 @@ var NODES={
   "1.6":{world:1,x:668,y:95, kind:"boss",lvl:6,req:"1.5",
          gen:function(){return generateSystem(4,4,4);}},
 
-  "2.0":{world:2,x:50, y:160,kind:"camp",req:"1.6"},
-  "2.1":{world:2,x:140,y:230,kind:"main",lvl:7,req:"2.0",
+  "2.1":{world:2,x:95,y:215,kind:"main",lvl:7,req:"1.6",
          gen:function(){return generateSystem(2,3,2);}},
   "2.2":{world:2,x:250,y:160,kind:"main",lvl:8,req:"2.1",
          gen:function(){return generateSystem(3,3,2);}},
@@ -953,8 +1038,8 @@ var NODES={
   "2.5":{world:2,x:668,y:110,kind:"boss",lvl:11,req:"2.4",
          gen:function(){return generateSystem(5,5,2);}}
 };
-var EDGES=[["1.0","1.1"],["1.1","yard"],["1.1","1.2"],["1.2","1.3"],["1.3","shop1"],["1.3","1.4"],["1.4","1.5"],["1.5","1.6"],
-           ["2.0","2.1"],["2.1","2.2"],["2.2","mirage"],["2.2","2.3"],["2.3","shop2"],["2.3","2.4"],["2.2","ring"],["2.4","2.5"]];
+var EDGES=[["1.1","yard"],["1.1","1.2"],["1.2","1.3"],["1.3","shop1"],["1.3","1.4"],["1.4","1.5"],["1.5","1.6"],
+           ["2.1","2.2"],["2.2","mirage"],["2.2","2.3"],["2.3","shop2"],["2.3","2.4"],["2.2","ring"],["2.4","2.5"]];
 var SHOP=[
   {id:"potion",cost:12},
   {id:"scroll",cost:18}
@@ -965,7 +1050,7 @@ var SPRITE={potion:"/assets/images/gauss-game/potion.png",scroll:"/assets/images
 function saveAdv(){try{localStorage.setItem(ADV_KEY,JSON.stringify(A));}catch(e){}}
 function loadAdv(){try{var s=localStorage.getItem(ADV_KEY);return s?JSON.parse(s):null;}catch(e){return null;}}
 function newAdv(d){
-  A={diff:d,level:1,xp:0,gold:0,items:{potion:0,scroll:0},tools:[],cleared:[],world:1,at:"1.0",sel:"1.1",
+  A={diff:d,level:1,xp:0,gold:0,items:{potion:0,scroll:0},tools:[],cleared:[],world:1,at:"1.1",sel:"1.1",
      yard:{m:3,n:3},ring:{m:3,n:4,r:2}};
   saveAdv();
 }
@@ -985,8 +1070,10 @@ function toolFlags(t){
 function battleFlags(){return toolFlags(battleTools());}
 /* adds are stuck at multiplier 1 */
 function unitAdd(){var f=S.bt&&battleFlags();return !!f&&f.unit&&!f.add;}
-/* a camp or gate counts as cleared as soon as it is reachable */
-function isCleared(id){return NODES[id].kind==="camp"?isOpen(id):A.cleared.indexOf(id)>=0;}
+function isCleared(id){return A.cleared.indexOf(id)>=0;}
+/* the first stage of each world; a world opens when its first stage does */
+var WORLD_START={1:"1.1",2:"2.1"};
+function worldOpen(k){return !!WORLD_START[k]&&isOpen(WORLD_START[k]);}
 function isOpen(id){var r=NODES[id].req;return r===null||isCleared(r);}
 
 function startBattle(id){
@@ -1033,7 +1120,7 @@ function battleAfterMove(free){
     render();
   },ENEMY_DELAY);
 }
-var ENEMY_DELAY=900;
+var ENEMY_DELAY=1500;
 function winBattle(){
   var b=S.bt,nd=NODES[b.node];
   b.state="won";b.enemy=0;
@@ -1046,6 +1133,9 @@ function winBattle(){
   r.bonus=nd.kind==="side"?Math.max(0,b.enemyMax+2-b.moves)
          :8*Math.max(0,b.enemyMax+2-b.moves);
   r.xp+=r.bonus;
+  /* a stage or side quest already beaten can be replayed for a fifth of the XP */
+  var replay=nd.kind!=="side"&&A.cleared.indexOf(b.node)>=0;
+  if(replay){r.xp=Math.round(r.xp/5);r.bonus=Math.round(r.bonus/5);}
   r.learn=null;
   var L0=A.level;
   A.gold+=r.gold;A.xp+=r.xp;A.level=levelInfo(A.xp).L;r.levelUp=A.level>L0;
@@ -1053,7 +1143,8 @@ function winBattle(){
     A.cleared.push(b.node);
     if(nd.learn&&A.tools.indexOf(nd.learn)<0){A.tools.push(nd.learn);r.learn=nd.learn;}
   }
-  if(b.node==="1.6"){r.world=true;A.world=2;A.at="2.0";}
+  if(b.node==="1.6"&&!replay){r.world=true;A.world=2;A.at="2.1";}
+  r.finished=b.node==="2.5"&&!replay;
   b.reward=r;
   if(nd.world===2){S.result=grade();S.tvals={};S.solnView="eq";}
   var info=analyze(S.cur,S.n);
@@ -1078,24 +1169,47 @@ function useItem(id){
 function leaveBattle(){if(S.bt)clearTimeout(S.bt.timer);S.bt=null;S.result=null;S.a=null;S.b=null;S.screen="map";render();}
 
 /* ============================== rendering ============================== */
+/* column captions: x₁..xₙ, then "=" for one right-hand side or b₁..b_k for several */
+function rhsCount(M,n){return M[0].length-n;}
+function rhsCap(j,k){return k===1?"=":"b"+sub(j+1);}
+/* Each row of the working matrix is its own grid, so column widths are
+   worked out here, once, from the widest entry in each column (and any
+   previewed value), and every row uses the same list. Estimates are in em
+   of the cell font: about .55em per digit, fraction digits at 72%, plus
+   room for the sign. */
+function colWidths(M,prev,compact){
+  var fs=compact?.98:1.25,pad=compact?.8:1.1,min=compact?2.2:3,out=[];
+  function em(v){
+    var nl=String(absN(v.n)).length;
+    if(v.d==1)return .55*(nl+1);
+    return .55+.55*.72*Math.max(nl,String(v.d).length)+.3;
+  }
+  for(var k=0;k<M[0].length;k++){
+    var w=0;
+    for(var i=0;i<M.length;i++){w=Math.max(w,em(M[i][k]));if(prev)w=Math.max(w,em(prev[i][k]));}
+    out.push(Math.max(min,w*fs+pad).toFixed(2)+"rem");
+  }
+  return out.join(" ");
+}
 function matrixHTML(M,n,opts){
   opts=opts||{};
   var roles=opts.roles||{},prev=opts.preview,compact=!!opts.compact,live=!!opts.live,pv=opts.pivots||{};
   var labw=compact?"2.4rem":"3.9rem",caph="1.5rem";
-  var cols="repeat("+(n+1)+",minmax("+(compact?"2.2rem":"3rem")+",1fr))";
+  var nk=rhsCount(M,n),cols=colWidths(M,prev,compact);
   var h='<div class="mtx'+(compact?" compact":"")+'" style="--labw:'+labw+';--caph:'+caph+'">';
   h+='<div class="rows"><div class="brk l"></div><div class="brk r"></div>';
   h+='<div class="caprow"><div class="rlab"></div><div class="pad"></div>'+
      '<div class="caps" style="grid-template-columns:'+cols+'">';
   for(var k=0;k<n;k++)h+='<div class="'+(pv[k]?"pv":"")+'">x'+sub(k+1)+"</div>";
-  h+='<div>=</div></div><div class="pad"></div></div>';
+  for(var kj=0;kj<nk;kj++)h+="<div>"+rhsCap(kj,nk)+"</div>";
+  h+='</div><div class="pad"></div></div>';
   for(var i=0;i<M.length;i++){
     var role=roles[i]||"";
     h+='<div class="mrow '+(live?"":"static ")+(role==="t"?"t":role==="s"?"s":"")+'" data-row="'+i+'">';
     h+='<div class="rlab '+(role==="t"?"t":role==="s"?"s":"")+'">'+
        (live?'<span class="handle" data-handle="'+i+'">⠿</span>':"")+"R"+sub(i+1)+"</div>";
     h+='<div class="pad"></div><div class="cells" style="grid-template-columns:'+cols+'">';
-    for(var k2=0;k2<=n;k2++){
+    for(var k2=0;k2<n+nk;k2++){
       var v=M[i][k2],shown=prev?prev[i][k2]:v,changed=prev&&!eqF(shown,v);
       h+='<div class="cell'+(k2===n?" aug":"")+'">';
       if(changed)h+='<span class="old">'+fracHTML(v,"",true)+"</span>";
@@ -1116,8 +1230,8 @@ function vecHTML(v){
 function miniHTML(M,n,changed){
   changed=changed||{};
   var h='<div class="mini"><div class="brk l"></div><div class="brk r"></div>'+
-        '<div class="mg" style="grid-template-columns:repeat('+(n+1)+',auto)">';
-  for(var i=0;i<M.length;i++)for(var k=0;k<=n;k++)
+        '<div class="mg" style="grid-template-columns:repeat('+M[0].length+',auto)">';
+  for(var i=0;i<M.length;i++)for(var k=0;k<M[0].length;k++)
     h+='<div class="'+(k===n?"aug ":"")+(changed[i]?"chg":"")+'">'+fracHTML(M[i][k],"",true)+"</div>";
   return h+"</div></div>";
 }
@@ -1151,17 +1265,19 @@ function renderSetup(){
 function renderCustom(){
   var C=S.custom,cells=customCells(),n=C.n;
   document.getElementById("cdials").innerHTML=
-    dialHTML("cm",txt("common.equations"),C.m,2,6)+
-    dialHTML("cn",txt("common.unknowns"),C.n,2,6);
-  var cols="repeat("+(n+1)+",auto)",anyBad=false;
+    dialHTML("cm",txt("common.equations"),C.m,2,10)+
+    dialHTML("cn",txt("common.unknowns"),C.n,2,10)+
+    dialHTML("ck",txt("custom.augmented"),C.k,1,5);
+  var nk=C.k,cols="repeat("+(n+nk)+",auto)",anyBad=false;
   var h='<div class="mtx" style="--labw:2.4rem;--caph:1.5rem"><div class="rows"><div class="brk l"></div><div class="brk r"></div>';
   h+='<div class="caprow"><div class="rlab"></div><div class="pad"></div><div class="caps" style="grid-template-columns:'+cols+'">';
   for(var k=0;k<n;k++)h+="<div>x"+sub(k+1)+"</div>";
-  h+='<div>=</div></div><div class="pad"></div></div>';
+  for(var kj=0;kj<nk;kj++)h+="<div>"+rhsCap(kj,nk)+"</div>";
+  h+='</div><div class="pad"></div></div>';
   for(var i=0;i<C.m;i++){
     h+='<div class="mrow static" style="height:2.8rem"><div class="rlab">R'+sub(i+1)+'</div><div class="pad"></div>'+
        '<div class="cells" style="grid-template-columns:'+cols+'">';
-    for(var k2=0;k2<=n;k2++){
+    for(var k2=0;k2<n+nk;k2++){
       var t=cells[i][k2],bad=t.trim()!==""&&!parseFrac(t);
       if(bad)anyBad=true;
       h+='<div class="cell'+(k2===n?" aug":"")+'"><input data-ci="'+i+'" data-ck="'+k2+'" value="'+
@@ -1169,7 +1285,9 @@ function renderCustom(){
     }
     h+='</div><div class="pad"></div></div>';
   }
-  document.getElementById("entry").innerHTML=h+"</div></div>";
+  var ent=document.getElementById("entry");
+  ent.innerHTML=h+"</div></div>";
+  ent.classList.toggle("dense",n+nk>8);
   document.getElementById("cnote").textContent=anyBad?txt("custom.badEntries"):"";
   document.getElementById("cplay").disabled=anyBad;
 }
@@ -1299,8 +1417,10 @@ function resultHTML(){
   var line=d<0?txt("play.underPar",{d:-d}):d===0?txt("play.atPar"):txt("play.overPar",{d:d});
   h+='<div class="verdict">'+txt("play.solved")+'</div>'+
      '<div class="score">'+plural(used,"play.scoreOne","play.scoreMany",{moves:used,vsPar:line})+"</div>";
-  var info=R.info,dof=n-info.rank;
-  h+='<div class="free">'+(info.inconsistent?txt("play.noSolution"):dof===0?txt("play.uniqueSolution"):txt("play.infiniteSolutions"))+
+  var info=R.info,dof=n-info.rank,many=rhsCount(S.cur,n)>1;
+  h+='<div class="free">'+(many
+       ?(info.inconsistent?txt("play.noSolutionSome"):dof===0?txt("play.uniqueSolutionEach"):txt("play.infiniteSolutionsEach"))
+       :(info.inconsistent?txt("play.noSolution"):dof===0?txt("play.uniqueSolution"):txt("play.infiniteSolutions")))+
      '</div><div class="free"><a href="#solnSec" class="jump">'+txt("play.seeSolution")+"</a></div>";
   return h+"</div>";
 }
@@ -1342,7 +1462,7 @@ function battleSide(){
     if(r.levelUp)g+='<div class="gain"><b>'+txt("battle.levelUp")+"</b> "+txt("battle.levelUpDetail",{level:A.level,hp:maxHp(A.level)})+"</div>";
     if(r.learn)g+='<div class="gain"><b>'+txt("battle.newMove")+"</b> "+TOOL_NAME[r.learn]+"</div>";
     if(r.world)g+='<div class="gain"><b>'+txt("battle.worldComplete")+"</b></div>";
-    if(b.node==="2.5")g+='<div class="gain"><b>'+txt("battle.finished")+"</b></div>";
+    if(r.finished)g+='<div class="gain"><b>'+txt("battle.finished")+"</b></div>";
     return {head:txt("battle.result"),side:g+"</div>",acts:'<button class="primary" id="btMap">'+txt("battle.backToMap")+"</button>"};
   }
   if(b.state==="lost"){
@@ -1355,7 +1475,7 @@ function battleSide(){
                              itemBtn("scroll",txt("items.scroll.use"),A.items.scroll&&mine)+"</div>";
   return {head:txt("battle.items"),side:it,
     acts:'<button class="quiet sm" id="btRetreat">'+txt("battle.retreat")+"</button>"+
-         '<button class="dev sm" id="btSkip">'+txt("battle.skipDev")+"</button>"};
+         (DEV_SKIP?'<button class="dev sm" id="btSkip">'+txt("battle.skipDev")+"</button>":"")};
 }
 var STAGES=Object.keys(NODES).filter(function(id){var k=NODES[id].kind;return k==="main"||k==="boss";});
 function renderAdvStart(){
@@ -1377,6 +1497,7 @@ function hudItem(sprite,alt,val,cls){
   return '<div class="it"><img class="spr" src="'+SPRITE[sprite]+'" alt="'+alt+'" title="'+alt+'"><b'+(cls?' class="'+cls+'"':"")+">"+val+"</b></div>";
 }
 function renderMap(){
+  if(!NODES[A.at])A.at=WORLD_START[A.world]||"1.1";   /* saves from before camps were removed */
   var w=A.world,lv=levelInfo(A.xp);
   document.getElementById("hud").innerHTML=
     '<div class="hudrow">'+
@@ -1387,11 +1508,11 @@ function renderMap(){
     '<div class="xprow"><span>'+txt("map.level",{level:lv.L})+'</span><span class="xpbar"><i style="width:'+(100*lv.into/lv.need)+'%"></i></span>'+
       "<span>"+txt("map.xp",{into:lv.into,need:lv.need})+"</span></div>";
 
-  document.getElementById("worlds").innerHTML=[1,2].map(function(k){
-    var open=isOpen(k+".0");
-    return '<button class="sm" data-world="'+k+'" aria-pressed="'+(w===k)+'"'+(open?"":" disabled")+'>'+
-      txt("map.worldTab",{n:k,name:open?WORLDS[k]:txt("map.lockedWorld")})+"</button>";
-  }).join("");
+  /* arrows step to a neighbouring world once it is reachable */
+  document.getElementById("worlds").innerHTML=
+    '<button class="arrow" data-world="'+(w-1)+'"'+(worldOpen(w-1)?"":" disabled")+' aria-label="'+txt("map.prevWorld")+'">‹</button>'+
+    '<div class="wname"><span class="wn">'+txt("map.worldNumber",{n:w})+'</span><span class="wt">'+WORLDS[w]+"</span></div>"+
+    '<button class="arrow" data-world="'+(w+1)+'"'+(worldOpen(w+1)?"":" disabled")+' aria-label="'+txt("map.nextWorld")+'">›</button>';
 
   var svg='<svg viewBox="0 0 740 300" role="img" aria-label="'+txt("map.mapLabel",{world:WORLDS[w]})+'">';
   EDGES.forEach(function(e){
@@ -1405,6 +1526,8 @@ function renderMap(){
   Object.keys(NODES).forEach(function(id){
     var nd=NODES[id];
     if(nd.world!==w)return;
+    /* the last stage of a world looks like any other stage on the map */
+    var look=nd.kind==="boss"?"main":nd.kind;
     var open=isOpen(id),fight=nd.kind==="main"||nd.kind==="boss"||nd.kind==="quest",done=fight&&isCleared(id);
     /* [fill, stroke]: a light tint of each place's color */
     var col=!open?["#dcc9a2","var(--stone)"]
@@ -1412,13 +1535,10 @@ function renderMap(){
       :nd.kind==="shop"?["#f6dc92","#a8791a"]
       :nd.kind==="side"?["#d6e2ea","#3d6a8a"]
       :nd.kind==="quest"?["#dde6d3","var(--sage)"]
-      :nd.kind==="camp"?["var(--parch)","var(--road)"]
-      :nd.kind==="boss"?["#f0c8c0","var(--oxblood)"]
       :["#f5d2bf","#a8401d"];
-    var glyph={camp:"⌂",shop:"$",side:"+",quest:"?",boss:"★"}[nd.kind]||id;
-    var r=nd.kind==="boss"?25:nd.kind==="main"?21:18;
-    svg+='<g class="node'+(open?"":" locked")+(nd.kind==="main"?" staged":"")+'" data-node="'+id+'">'+
-         "<title>"+(open?nd.name+(nd.blurb?". "+nd.blurb:""):txt("map.lockedTooltip"))+"</title>";
+    var glyph={shop:"$",side:"+",quest:"?"}[look]||id;
+    var r=look==="main"?21:18;
+    svg+='<g class="node'+(open?"":" locked")+(look==="main"?" staged":"")+'" data-node="'+id+'">';
     if(A.sheet===id)svg+='<circle class="sel-ring" cx="'+nd.x+'" cy="'+nd.y+'" r="'+(r+7)+'"/>';
     svg+='<circle class="body" cx="'+nd.x+'" cy="'+nd.y+'" r="'+r+'" fill="'+col[0]+'" stroke="'+col[1]+'"/>'+
          '<text class="num" x="'+nd.x+'" y="'+nd.y+'" fill="'+col[1]+'">'+glyph+"</text>"+
@@ -1426,7 +1546,7 @@ function renderMap(){
   });
   var at=NODES[A.at];
   if(at.world===w){
-    var tr=(at.kind==="boss"?25:21)+4;
+    var tr=(at.kind==="main"||at.kind==="boss"?21:18)+4;
     svg+='<path class="token" d="M'+at.x+","+(at.y-tr)+' l-7,-13 a7.5,7.5 0 1 1 14,0 z"/>';
   }
   document.getElementById("map").innerHTML=svg+"</svg>";
@@ -1434,7 +1554,7 @@ function renderMap(){
 }
 /* the small card over the map for places that are not a straight fight */
 function sheetHTML(id){
-  var nd=NODES[id],h='<div class="sheet"><button class="quiet sm x" id="sheetClose" aria-label="'+txt("map.close")+'">×</button>'+
+  var nd=NODES[id],h='<div class="sheet on-parchment"><button class="quiet sm x" id="sheetClose" aria-label="'+txt("map.close")+'">×</button>'+
     '<div class="nm">'+nd.name+"</div>";
   if(nd.kind==="shop"){
     h+='<div class="shop">'+SHOP.map(function(it){
@@ -1463,22 +1583,16 @@ function xname(k){return "x"+sub(k+1);}
 function freeSpan(idx,text){return '<span class="fv" style="color:'+FREE_COLORS[idx%FREE_COLORS.length]+'">'+text+"</span>";}
 function termHTML(c,label,first){
   /* one "+ c label" term with the sign pulled out front */
-  var negv=c.n<0,mag={n:Math.abs(c.n),d:c.d},sign=negv?"\u2212":"+";
+  var negv=c.n<0,mag={n:absN(c.n),d:c.d},sign=negv?"\u2212":"+";
   var coef=isOne(mag)?"":fracHTML(mag)+"\u202F";
   if(first)return (negv?"\u2212":"")+coef+label;
   return " "+sign+" "+coef+label;
 }
-function solutionHTML(){
-  var R=S.result,n=S.n,info=R.info;
-  if(info.inconsistent){
-    return '<div class="soln-body">'+txt("solution.inconsistent",{row:info.badRow+1,c:fstr(S.cur[info.badRow][n])})+"</div>";
-  }
-  var gs=generalSolution(S.cur,n,info),free=gs.free,h="";
-  if(free.length){
-    h+='<div class="soln-tabs">'+
-       '<button class="sm" data-sview="eq" aria-pressed="'+(S.solnView==="eq")+'">'+txt("solution.equationForm")+"</button>"+
-       '<button class="sm" data-sview="vec" aria-pressed="'+(S.solnView==="vec")+'">'+txt("solution.vectorForm")+"</button></div>";
-  }
+/* the general solution for one right-hand-side column, in the chosen form */
+function solutionBodyHTML(col){
+  var n=S.n,info=S.result.info,r=info.bad[col-n];
+  if(r>=0)return '<div class="soln-body">'+txt("solution.inconsistent",{row:r+1,c:fstr(S.cur[r][col])})+"</div>";
+  var gs=generalSolution(S.cur,n,info,col),free=gs.free;
   if(S.solnView==="eq"||!free.length){
     /* each pivot variable in terms of the free ones; free ones are themselves */
     var lines=[];
@@ -1493,12 +1607,27 @@ function solutionHTML(){
       });
       lines.push(xname(k)+" = "+rhs);
     }
-    h+='<div class="soln-body eqs">'+lines.map(function(l){return "<div>"+l+"</div>";}).join("")+"</div>";
-  }else{
-    var body="x = "+vecHTML(gs.p);
-    gs.basis.forEach(function(bs,idx){body+=" + "+xname(free[idx])+"\u202F"+vecHTML(bs.v);});
-    h+='<div class="soln-body">'+body+"</div>";
+    return '<div class="soln-body eqs">'+lines.map(function(l){return "<div>"+l+"</div>";}).join("")+"</div>";
   }
+  var body="x = "+vecHTML(gs.p);
+  gs.basis.forEach(function(bs,idx){body+=" + "+xname(free[idx])+" "+vecHTML(bs.v);});
+  return '<div class="soln-body">'+body+"</div>";
+}
+function rhsCols(){var out=[];for(var c=S.n;c<S.cur[0].length;c++)out.push(c);return out;}
+function solutionHTML(){
+  var n=S.n,info=S.result.info,cols=rhsCols(),many=cols.length>1;
+  /* free variables depend only on the coefficient part, so they are shared */
+  var solvable=cols.filter(function(c){return info.bad[c-n]<0;});
+  var free=solvable.length?generalSolution(S.cur,n,info,solvable[0]).free:[],h="";
+  if(free.length){
+    h+='<div class="soln-tabs">'+
+       '<button class="sm" data-sview="eq" aria-pressed="'+(S.solnView==="eq")+'">'+txt("solution.equationForm")+"</button>"+
+       '<button class="sm" data-sview="vec" aria-pressed="'+(S.solnView==="vec")+'">'+txt("solution.vectorForm")+"</button></div>";
+  }
+  cols.forEach(function(c){
+    if(many)h+='<div class="soln-rhs">'+txt("solution.forColumn",{b:rhsCap(c-n,cols.length)})+"</div>";
+    h+=solutionBodyHTML(c);
+  });
   if(free.length){
     h+='<div class="soln-part"><div class="soln-sub">'+txt("solution.pickValues")+"</div>"+
        '<div class="tsliders">'+free.map(function(f,idx){
@@ -1506,18 +1635,25 @@ function solutionHTML(){
          return '<label class="tslider">'+freeSpan(idx,xname(f))+' = <span class="tv" id="tv'+f+'">'+v+'</span>'+
                 '<input type="range" min="-5" max="5" step="1" value="'+v+'" data-tv="'+f+'"></label>';
        }).join("")+"</div>"+
-       '<div class="soln-body" id="partSol">'+particularHTML(gs)+"</div></div>";
+       '<div class="soln-body" id="partSol">'+particularHTML()+"</div></div>";
   }
   return h;
 }
-function particularHTML(gs){
-  var n=S.n,x=gs.p.slice();
-  gs.basis.forEach(function(bs){
-    var t=F(S.tvals[bs.col]||0);
-    x=x.map(function(v,k){return add(v,mul(t,bs.v[k]));});
+/* the particular solution picked by the sliders, for every solvable right-hand side */
+function particularHTML(){
+  var n=S.n,info=S.result.info,cols=rhsCols(),many=cols.length>1,h="";
+  cols.forEach(function(c){
+    var gs=generalSolution(S.cur,n,info,c);if(!gs)return;
+    var x=gs.p.slice();
+    gs.basis.forEach(function(bs){
+      var t=F(S.tvals[bs.col]||0);
+      x=x.map(function(v,k){return add(v,mul(t,bs.v[k]));});
+    });
+    h+='<div class="part-row">'+(many?'<span class="soln-rhs">'+rhsCap(c-n,cols.length)+"</span>":"")+
+       "<span>x = "+vecHTML(x)+'</span><span class="soln-sub">'+
+       x.map(function(v,k){return xname(k)+" = "+fracHTML(v);}).join(", ")+"</span></div>";
   });
-  return "<span>x = "+vecHTML(x)+'</span><span class="soln-sub">'+
-    x.map(function(v,k){return xname(k)+" = "+fracHTML(v);}).join(", ")+"</span>";
+  return h;
 }
 function renderSolution(){
   var sec=document.getElementById("solnSec");
@@ -1571,7 +1707,8 @@ document.addEventListener("click",function(e){
     if(id==="m")S.m=Math.max(2,Math.min(6,S.m+dir));
     if(id==="n")S.n=Math.max(2,Math.min(6,S.n+dir));
     if(id==="r")S.r=Math.max(1,Math.min(Math.min(S.m,S.n),S.r+dir));
-    if(id==="cm"){S.custom.m=Math.max(2,Math.min(6,S.custom.m+dir));render();return;}
+    if(id==="cm"){S.custom.m=Math.max(2,Math.min(10,S.custom.m+dir));render();return;}
+    if(id==="ck"){S.custom.k=Math.max(1,Math.min(5,S.custom.k+dir));render();return;}
     if(id==="ym"||id==="yn"){
       var y=A.yard;y[id[1]]=Math.max(2,Math.min(4,y[id[1]]+dir));
       if(yardSquare())y.n=y.m;
@@ -1581,7 +1718,7 @@ document.addEventListener("click",function(e){
       var g=A.ring,k=id[1];g[k]=Math.max(k==="r"?1:2,Math.min(5,g[k]+dir));
       g.r=Math.min(g.r,g.m,g.n);saveAdv();render();return;
     }
-    if(id==="cn"){S.custom.n=Math.max(2,Math.min(6,S.custom.n+dir));render();return;}
+    if(id==="cn"){S.custom.n=Math.max(2,Math.min(10,S.custom.n+dir));render();return;}
     newSystem();return;
   }
   if(t.closest("#newsys")){newSystem();return;}
@@ -1593,14 +1730,17 @@ document.addEventListener("click",function(e){
   if(t.closest("#advCont")){S.screen="map";render();return;}
   if((el=t.closest("[data-world]"))){
     var wk=+el.getAttribute("data-world");
-    if(isOpen(wk+".0")){A.world=wk;A.sheet=null;saveAdv();render();}
+    if(worldOpen(wk)){A.world=wk;A.sheet=null;saveAdv();render();}
     return;
   }
   if((el=t.closest("[data-node]"))){
     var id=el.getAttribute("data-node"),nd=NODES[id];
     if(!isOpen(id))return;
-    A.at=id;A.sheet=null;saveAdv();
-    if((nd.kind==="main"||nd.kind==="boss"||nd.kind==="quest")&&!isCleared(id)){startBattle(id);return;}
+    /* first click walks the marker there; a click where the marker already
+       stands enters the fight (or opens the shop / practice card) */
+    if(A.at!==id){A.at=id;A.sheet=null;saveAdv();render();return;}
+    A.sheet=null;
+    if(nd.kind==="main"||nd.kind==="boss"||nd.kind==="quest"){startBattle(id);return;}
     if(nd.kind==="shop"||nd.kind==="side")A.sheet=id;
     render();return;
   }
@@ -1615,7 +1755,7 @@ document.addEventListener("click",function(e){
   if(t.closest("#btScroll")){useItem("scroll");return;}
   if(t.closest("#btRetry")){retryBattle();return;}
   if(t.closest("#btRetreat")||t.closest("#btMap")){leaveBattle();return;}
-  if(t.closest("#btSkip")){
+  if(DEV_SKIP&&t.closest("#btSkip")){
     if(S.bt&&S.bt.state==="fight"){
       clearTimeout(S.bt.timer);S.bt.turn="you";
       S.hist.push({label:txt("battle.skippedDev"),before:S.cur});
@@ -1673,7 +1813,7 @@ document.addEventListener("input",function(e){
     /* only the particular solution changes, so don't rebuild the sliders mid-drag */
     S.tvals[+tv]=+e.target.value;
     document.getElementById("tv"+tv).textContent=e.target.value;
-    document.getElementById("partSol").innerHTML=particularHTML(generalSolution(S.cur,S.n,S.result.info));
+    document.getElementById("partSol").innerHTML=particularHTML();
     return;
   }
   var ci=e.target.getAttribute&&e.target.getAttribute("data-ci");
@@ -1693,6 +1833,20 @@ document.addEventListener("keydown",function(e){
     /* Enter moves to the next entry; from the last one it starts the game */
     var all=Array.prototype.slice.call(document.querySelectorAll("#entry input")),k=all.indexOf(e.target);
     if(k>=0&&k<all.length-1)all[k+1].focus();else document.getElementById("cplay").click();
+    return;
+  }
+  if(S.screen==="custom"&&e.target.getAttribute&&e.target.getAttribute("data-ci")!==null&&
+     /^Arrow(Up|Down|Left|Right)$/.test(e.key)){
+    /* arrows move between entries like a spreadsheet (Tab already steps
+       through them in order). Left/Right only leave a box once the cursor is
+       at its start/end, so they still work for editing inside an entry. */
+    var inp=e.target,ci=+inp.getAttribute("data-ci"),ck=+inp.getAttribute("data-ck");
+    var atStart=inp.selectionStart===0&&inp.selectionEnd===0,atEnd=inp.selectionStart===inp.value.length;
+    var to=e.key==="ArrowUp"?[ci-1,ck]:e.key==="ArrowDown"?[ci+1,ck]
+          :e.key==="ArrowLeft"?(atStart||inp.selectionEnd-inp.selectionStart===inp.value.length?[ci,ck-1]:null)
+          :(atEnd?[ci,ck+1]:null);
+    var next=to&&document.querySelector('#entry input[data-ci="'+to[0]+'"][data-ck="'+to[1]+'"]');
+    if(next){e.preventDefault();next.focus();next.select();}
     return;
   }
   if(S.screen!=="play")return;
@@ -1766,6 +1920,7 @@ document.addEventListener("mouseup",function(){
 
 loadText(function(){
 applyText();
+fsLabel();
 newSystem();
 });
 
@@ -1773,6 +1928,32 @@ newSystem();
    The screens differ a lot in height, so report the content height to the
    host widget layout and let it resize the iframe instead of leaving a fixed
    frame with dead space or a scrollbar. */
+/* the host page (_layouts/game.html) says when the frame goes full screen */
+function fsLabel(){
+  var b=document.getElementById("fsToggle");
+  if(b)b.textContent=txt(document.documentElement.classList.contains("fs")?"menu.exitFullscreen":"menu.fullscreen");
+}
+addEventListener("message",function(e){
+  if(e.source!==window.parent||!e.data||typeof e.data.gameFullscreen!=="boolean")return;
+  document.documentElement.classList.toggle("fs",e.data.gameFullscreen);
+  fsLabel();
+});
+/* the menu's button asks the host page to toggle full screen (the host owns
+   the frame); opened on its own, the game toggles its own page instead */
+(function(){
+  var b=document.getElementById("fsToggle"),root=document.documentElement;
+  var embedded=window.parent!==window;
+  if(!embedded&&!(root.requestFullscreen||root.webkitRequestFullscreen))return;
+  b.hidden=false;
+  b.addEventListener("click",function(){
+    if(embedded){window.parent.postMessage({gameFullscreenToggle:true},"*");return;}
+    var on=document.fullscreenElement||document.webkitFullscreenElement;
+    if(on)(document.exitFullscreen||document.webkitExitFullscreen).call(document);
+    else (root.requestFullscreen||root.webkitRequestFullscreen).call(root);
+  });
+  function selfChange(){root.classList.toggle("fs",!!(document.fullscreenElement||document.webkitFullscreenElement));fsLabel();}
+  if(!embedded){document.addEventListener("fullscreenchange",selfChange);document.addEventListener("webkitfullscreenchange",selfChange);}
+})();
 (function(){
   if(window.parent===window)return;
   var el=document.getElementById("plate");

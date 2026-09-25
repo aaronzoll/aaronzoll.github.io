@@ -1,0 +1,33 @@
+/* ============================================================================
+   GAME THEME — the house palette (cream ground, slate ink)
+   ----------------------------------------------------------------------------
+   For the apps under /games/ (the iframe contents). It builds on the widget
+   theme, so the colors match the widgets, and adds the tokens the games
+   use for their own roles (row highlights, HP bars, gold, XP). The widget
+   theme and every widget page are left untouched.
+
+   Pair it with _layouts/game.html, which draws the thin black rounded frame
+   around the iframe.
+
+   A dark alternate lives in game-theme-burgundy.css; point a game's <link>
+   there to switch. Parchment cards carry .on-parchment, which only matters
+   in the dark theme (it restores dark ink on the light card).
+   ========================================================================= */
+
+@import url("/assets/css/themes/widget-theme.css");
+
+:root {
+  --ink-strong: #263238;
+  --line:       #dde3e7;
+
+  /* ---- game roles ---- */
+  --t:        #2e6cb5;  --t-bg: #eef4fb;    /* row being rewritten */
+  --s:        #4b7d3c;  --s-bg: #f2f8ef;    /* row being read from */
+  --maroon:   #8a3a3a;  --maroon-bg: #f8efef;
+  --bad:      #b7312c;
+  --bad-bg:   #fff5f5;
+  --hp:       #b7312c;  --hp-bg:  #f6e3e2;
+  --foe:      #6a4c93;  --foe-bg: #eee8f5;
+  --gold:     #b5801d;
+  --xp:       #5f7a3a;
+}

@@ -1,0 +1,171 @@
+---
+layout: default
+---
+<!-- Layout for the pages under /games/. A simpler sibling of _layouts/widget.html:
+     title row, back link, the game in an iframe inside a thin black rounded
+     frame, then the write-up. The iframe resizes to fit when the game posts
+     {embedHeight} (see the end of games/row-reduce_code.html). -->
+
+{% assign _writeup_text = content | strip_html | strip %}
+
+<style>
+  /* the wood bar under the site header, as on widget and Desmos pages
+     (those get it from assets/css/main.scss; kept here so games stay separate) */
+  body.layout--game .masthead {
+    border-bottom: 2px solid var(--color-wood);
+    box-shadow: 0 4px 0 0 var(--color-wood-deep);
+  }
+
+  .game-page-wrap {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+
+  .game-page-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .game-page-top h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  .game-page-links {
+    font-size: 0.9rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  /* full screen: the frame fills the screen and the game scrolls inside it */
+  .game-embed-container:fullscreen { border: none; border-radius: 0; overflow: auto; }
+  .game-embed-container:fullscreen iframe { height: 100% !important; }
+  .game-embed-container:-webkit-full-screen { border: none; border-radius: 0; overflow: auto; }
+  .game-embed-container:-webkit-full-screen iframe { height: 100% !important; }
+
+  .game-page-jump {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .game-page-jump a {
+    text-decoration: none;
+    border-bottom: 1px dotted currentColor;
+  }
+
+  .game-page-jump a:hover { border-bottom-style: solid; }
+
+  html { scroll-behavior: smooth; }
+
+  /* the game's frame: a thin black line with softly rounded corners */
+  .game-embed-container {
+    width: 100%;
+    border: 1px solid #000;
+    border-radius: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+    background: var(--color-cream);   /* matches the game ground while it loads */
+  }
+
+  .game-embed-container iframe {
+    width: 100%;
+    height: {{ page.game_height | default: 820 }}px;
+    border: none;
+    display: block;
+    transition: height 0.15s;
+  }
+
+  .game-writeup {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #000;
+    scroll-margin-top: 1.5rem;
+  }
+
+  @media (max-width: 700px) {
+    .game-embed-container iframe {
+      height: {{ page.game_height_mobile | default: 640 }}px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .game-embed-container iframe { transition: none; }
+  }
+</style>
+
+<div class="game-page-wrap">
+
+  <div class="game-page-top">
+    <h1>{{ page.title }}</h1>
+    <div class="game-page-links">
+      <a href="#" id="game-fullscreen" hidden>Full screen ⤢</a>
+      {% if page.back_url %}<a href="{{ page.back_url }}">← {{ page.back_label | default: 'Back' }}</a>{% endif %}
+    </div>
+  </div>
+
+  {% if _writeup_text != '' %}
+  <div class="game-page-jump"><a href="#writeup">Jump to write-up ↓</a></div>
+  {% endif %}
+
+  <div class="game-embed-container">
+    <iframe id="game-frame"
+            src="{{ page.game_src }}"
+            title="{{ page.title | escape }}"
+            loading="lazy"
+            allowfullscreen></iframe>
+  </div>
+
+  {% if _writeup_text != '' %}
+    <div class="game-writeup page__content" id="writeup">{{ content }}</div>
+  {% endif %}
+
+</div>
+
+<script>
+  /* Full screen: show the link only where the browser supports it; Esc exits */
+  (function () {
+    var box = document.querySelector('.game-embed-container'),
+        link = document.getElementById('game-fullscreen');
+    if (!box || !link) return;
+    var enter = box.requestFullscreen || box.webkitRequestFullscreen;
+    if (!enter) return;
+    link.hidden = false;
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      enter.call(box);
+    });
+    /* tell the game, so it can scale its type and center short screens */
+    function notify() {
+      var on = (document.fullscreenElement || document.webkitFullscreenElement) === box;
+      var frame = document.getElementById('game-frame');
+      if (frame && frame.contentWindow) frame.contentWindow.postMessage({ gameFullscreen: on }, '*');
+    }
+    document.addEventListener('fullscreenchange', notify);
+    document.addEventListener('webkitfullscreenchange', notify);
+    /* the game's own menu button asks for the same toggle */
+    window.addEventListener('message', function (e) {
+      var frame = document.getElementById('game-frame');
+      if (!frame || e.source !== frame.contentWindow || !e.data || !e.data.gameFullscreenToggle) return;
+      if (document.fullscreenElement || document.webkitFullscreenElement)
+        (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      else enter.call(box);
+    });
+  })();
+
+  (function () {
+    var frame = document.getElementById('game-frame');
+    if (!frame) return;
+    window.addEventListener('message', function (e) {
+      if (e.source !== frame.contentWindow) return;
+      var h = e.data && e.data.embedHeight;
+      if (typeof h === 'number' && h > 100 && h < 20000) frame.style.height = h + 'px';
+    });
+  })();
+</script>

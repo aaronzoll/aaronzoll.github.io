@@ -22,7 +22,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="">
 <meta property="og:title" content="Gaussian Elimination">
-<meta property="og:url" content="http://localhost:4000/widgets/row-reduce/">
+<meta property="og:url" content="http://localhost:4000/games/row-reduce/">
 
 
   <meta property="og:description" content="">
@@ -42,7 +42,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/widgets/row-reduce/">
+<link rel="canonical" href="http://localhost:4000/games/row-reduce/">
 
 
 
@@ -589,7 +589,7 @@ window.MathJax = {
 
   </head>
 
-  <body class="layout--widget" dir="ltr">
+  <body class="layout--game" dir="ltr">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -647,26 +647,28 @@ window.MathJax = {
 
 
     <div class="initial-content">
-      
+      <!-- Layout for the pages under /games/. A simpler sibling of _layouts/widget.html:
+     title row, back link, the game in an iframe inside a thin black rounded
+     frame, then the write-up. The iframe resizes to fit when the game posts
+     {embedHeight} (see the end of games/row-reduce_code.html). -->
 
-
-
-<!-- A page counts as having a write-up when the write-up region holds real prose. -->
-<!-- Set `writeup: false` in front matter when that region only holds controls.    -->
-
-
-
-<!-- Render the section for anything visible; comment-only regions stay hidden. -->
 
 
 <style>
-  .widget-page-wrap {
+  /* the wood bar under the site header, as on widget and Desmos pages
+     (those get it from assets/css/main.scss; kept here so games stay separate) */
+  body.layout--game .masthead {
+    border-bottom: 2px solid var(--color-wood);
+    box-shadow: 0 4px 0 0 var(--color-wood-deep);
+  }
+
+  .game-page-wrap {
     max-width: 1100px;
     margin: 2rem auto;
     padding: 0 1.5rem;
   }
 
-  .widget-page-top {
+  .game-page-top {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
@@ -675,57 +677,49 @@ window.MathJax = {
     margin-bottom: 0.35rem;
   }
 
-  .widget-page-top h1 {
+  .game-page-top h1 {
     margin: 0;
     font-size: 1.6rem;
   }
 
-  .widget-page-links {
+  .game-page-links {
     font-size: 0.9rem;
     display: flex;
     gap: 1.2rem;
     align-items: center;
   }
 
-  /* Small "jump to the write-up" line sitting directly under the title */
-  .widget-page-jump {
+  /* full screen: the frame fills the screen and the game scrolls inside it */
+  .game-embed-container:fullscreen { border: none; border-radius: 0; overflow: auto; }
+  .game-embed-container:fullscreen iframe { height: 100% !important; }
+  .game-embed-container:-webkit-full-screen { border: none; border-radius: 0; overflow: auto; }
+  .game-embed-container:-webkit-full-screen iframe { height: 100% !important; }
+
+  .game-page-jump {
     font-size: 0.85rem;
     margin-bottom: 1rem;
   }
 
-  .widget-page-jump a {
+  .game-page-jump a {
     text-decoration: none;
     border-bottom: 1px dotted currentColor;
   }
 
-  .widget-page-jump a:hover {
-    border-bottom-style: solid;
-  }
+  .game-page-jump a:hover { border-bottom-style: solid; }
 
-  .widget-page-jump--pending {
-    color: var(--color-ink-mute);
-    font-style: italic;
-  }
+  html { scroll-behavior: smooth; }
 
-  html {
-    scroll-behavior: smooth;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
-
-  /* Same board-and-frame treatment as .desmos-embed-container */
-  .widget-embed-container {
+  /* the game's frame: a thin black line with softly rounded corners */
+  .game-embed-container {
     width: 100%;
-    border: 2px solid var(--color-wood);
-    outline: 4px ridge var(--color-wood-deep);
+    border: 1px solid #000;
+    border-radius: 10px;
+    overflow: hidden;
     box-sizing: border-box;
+    background: var(--color-cream);   /* matches the game ground while it loads */
   }
 
-  .widget-embed-container iframe {
+  .game-embed-container iframe {
     width: 100%;
     height: 760px;
     border: none;
@@ -733,93 +727,49 @@ window.MathJax = {
     transition: height 0.15s;
   }
 
-  .widget-below {
-    margin-top: 0.5rem;
-  }
-
-  .widget-writeup {
+  .game-writeup {
     margin-top: 2rem;
     padding-top: 1.5rem;
-    border-top: 2px solid var(--color-wood);
+    border-top: 1px solid #000;
     scroll-margin-top: 1.5rem;
   }
 
-  .widget-body--side {
-    display: flex;
-    gap: 1.5rem;
-    align-items: flex-start;
-  }
-
-  .widget-body--side .widget-embed-section {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .widget-side-panel {
-    width: 310px;
-    flex-shrink: 0;
-    border-left: 2px solid var(--color-divider);
-    padding-left: 1.25rem;
-  }
-
   @media (max-width: 700px) {
-    .widget-embed-container iframe {
+    .game-embed-container iframe {
       height: 720px;
-    }
-
-    .widget-body--side { flex-direction: column; }
-    .widget-body--side .widget-embed-section { width: 100%; }
-
-    .widget-side-panel {
-      width: 100%;
-      border-left: none;
-      border-top: 2px solid var(--color-divider);
-      padding-left: 0;
-      padding-top: 1rem;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .widget-embed-container iframe { transition: none; }
+    html { scroll-behavior: auto; }
+    .game-embed-container iframe { transition: none; }
   }
 </style>
 
-<div class="widget-page-wrap">
+<div class="game-page-wrap">
 
-  <div class="widget-page-top">
+  <div class="game-page-top">
     <h1>Gaussian Elimination</h1>
-    <div class="widget-page-links">
+    <div class="game-page-links">
+      <a href="#" id="game-fullscreen" hidden>Full screen ⤢</a>
       <a href="/teaching/lade/">← LADE</a>
-      
     </div>
-  </div>
-
-  <div class="widget-page-jump">
-    
-      <a href="#writeup">Jump to write-up ↓</a>
-    
-  </div>
-
-  <div class="widget-body">
-
-    <div class="widget-embed-section">
-      <div class="widget-embed-container">
-        <iframe id="widget-frame"
-                src="/widgets/row-reduce_code.html"
-                title="Gaussian Elimination"
-                loading="lazy"
-                allowfullscreen></iframe>
-      </div>
-
-      
-    </div>
-
-    
-
   </div>
 
   
-    <div class="widget-writeup page__content" id="writeup"><p>Above, I provide practice row reducing a matrix by hand. You can either choose a random matrix to reduce (choosing the dimenions and rank), you can enter a custom matrix (which may be useful when working through homework problems), or you can play the Adventure mode, where you learn new skills and scale up in difficults. 
+  <div class="game-page-jump"><a href="#writeup">Jump to write-up ↓</a></div>
+  
+
+  <div class="game-embed-container">
+    <iframe id="game-frame"
+            src="/games/row-reduce_code.html"
+            title="Gaussian Elimination"
+            loading="lazy"
+            allowfullscreen></iframe>
+  </div>
+
+  
+    <div class="game-writeup page__content" id="writeup"><p>Above, I provide practice row reducing a matrix by hand. You can either choose a random matrix to reduce (choosing the dimenions and rank), you can enter a custom matrix (which may be useful when working through homework problems), or you can play the Adventure mode, where you learn new skills and scale up in difficults. 
 The par shown is the fewest row operations needed to reach reduced row echelon form from that starting matrix, so it doubles as a rough measure of how much work the system will take.</p>
 
 <p>Once you press play, you may apply one elementary operation at a time. Note, these preserve all the solutions as we are not changing the underlying system. For example, swapping rows simply just changes the order of the equations we want to simultaneously satisfy.</p>
@@ -832,10 +782,39 @@ The par shown is the fewest row operations needed to reach reduced row echelon f
 
 </div>
 
-
 <script>
+  /* Full screen: show the link only where the browser supports it; Esc exits */
   (function () {
-    var frame = document.getElementById('widget-frame');
+    var box = document.querySelector('.game-embed-container'),
+        link = document.getElementById('game-fullscreen');
+    if (!box || !link) return;
+    var enter = box.requestFullscreen || box.webkitRequestFullscreen;
+    if (!enter) return;
+    link.hidden = false;
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      enter.call(box);
+    });
+    /* tell the game, so it can scale its type and center short screens */
+    function notify() {
+      var on = (document.fullscreenElement || document.webkitFullscreenElement) === box;
+      var frame = document.getElementById('game-frame');
+      if (frame && frame.contentWindow) frame.contentWindow.postMessage({ gameFullscreen: on }, '*');
+    }
+    document.addEventListener('fullscreenchange', notify);
+    document.addEventListener('webkitfullscreenchange', notify);
+    /* the game's own menu button asks for the same toggle */
+    window.addEventListener('message', function (e) {
+      var frame = document.getElementById('game-frame');
+      if (!frame || e.source !== frame.contentWindow || !e.data || !e.data.gameFullscreenToggle) return;
+      if (document.fullscreenElement || document.webkitFullscreenElement)
+        (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      else enter.call(box);
+    });
+  })();
+
+  (function () {
+    var frame = document.getElementById('game-frame');
     if (!frame) return;
     window.addEventListener('message', function (e) {
       if (e.source !== frame.contentWindow) return;
@@ -844,7 +823,6 @@ The par shown is the fewest row operations needed to reach reduced row echelon f
     });
   })();
 </script>
-
 
       
     </div>

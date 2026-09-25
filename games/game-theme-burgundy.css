@@ -1,0 +1,72 @@
+/* ============================================================================
+   GAME THEME (alternate) — deep burgundy ground, white type
+   To use it, point the <link> in a game at /games/game-theme-burgundy.css.
+   ----------------------------------------------------------------------------
+   For the apps under /games/ (the iframe contents). It builds on the widget
+   theme so the class API and control styling carry over, and only redefines
+   tokens: a dark burgundy ground, white ink, translucent controls, and a warm
+   gold accent. The widget theme and every widget page are left untouched.
+
+   Pair it with _layouts/game.html, which draws the thin black rounded frame
+   around the iframe.
+
+   Parchment surfaces inside a game (the map card, the shop) keep dark ink:
+   wrap them in .on-parchment and they get the light-ground tokens back.
+   ========================================================================= */
+
+@import url("/assets/css/themes/widget-theme.css");
+
+:root {
+  /* ---- ground and ink ---- */
+  --ground:        #2b0810;
+  --ground-deep:   #3a0e18;
+  --ink:           #ffffff;
+  --ink-strong:    #ffffff;
+  --ink-mute:      rgba(255, 255, 255, .72);
+  --ink-faint:     rgba(255, 255, 255, .42);
+  --line:          rgba(255, 255, 255, .2);
+  --accent:        #e2b457;
+  --accent-deep:   #b98a2c;
+  --accent-on:     #3a0d16;
+
+  /* ---- controls ---- */
+  --btn-bg:           rgba(255, 255, 255, .07);
+  --btn-bg-hover:     rgba(255, 255, 255, .14);
+  --btn-border:       rgba(255, 255, 255, .34);
+  --btn-border-hover: rgba(255, 255, 255, .6);
+  --btn-shadow:       none;
+  --btn-shadow-hover: 0 2px 8px rgba(0, 0, 0, .25);
+  --field-bg:         #3f0f1b;
+
+  /* ---- game roles (brightened to read on burgundy) ---- */
+  --t:        #9cc3f2;  --t-bg: rgba(120, 170, 235, .2);   /* row being rewritten */
+  --s:        #a8d98f;  --s-bg: rgba(150, 210, 120, .17);  /* row being read from */
+  --maroon:   #ffb3b3;  --maroon-bg: rgba(255, 179, 179, .14);
+  --bad:      #ff8a80;
+  --bad-bg:   rgba(255, 90, 90, .16);
+  --hp:       #ff6b6b;  --hp-bg:  rgba(255, 255, 255, .13);
+  --foe:      #c3a6ff;  --foe-bg: rgba(255, 255, 255, .13);
+  --gold:     #f0c35c;
+  --xp:       #8fd3a0;
+}
+
+/* light-ground tokens for parchment cards drawn inside a game */
+.on-parchment {
+  --ground:        #f3e8cf;
+  --ground-deep:   #eadcbc;
+  --ink:           #3b2f1f;
+  --ink-strong:    #2a1f12;
+  --ink-mute:      #6b5a44;
+  --ink-faint:     #a8977c;
+  --line:          #d8c9a8;
+  --accent:        #6d2230;
+  --accent-deep:   #4a1420;
+  --accent-on:     #ffffff;
+  --btn-bg:        #fffaf0;
+  --btn-bg-hover:  #fff3dc;
+  --btn-border:    #b8a27c;
+  --btn-border-hover: #8a7250;
+  --field-bg:      #fffaf0;
+  --gold:          #9a6a12;
+  color: var(--ink);
+}
