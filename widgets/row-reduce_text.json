@@ -1,0 +1,224 @@
+{
+  "_readme": "All player-facing text for the Gaussian Elimination Game (widgets/row-reduce_code.html). Edit the values freely. Words in {curly braces} are filled in by the game, so keep them. Keys starting with _ are notes and are ignored.",
+
+  "menu": {
+    "title": "Gaussian Elimination Game",
+    "random": "Random system",
+    "randomSub": "choose a size and rank",
+    "custom": "Custom",
+    "customSub": "enter your own matrix",
+    "adventure": "Adventure",
+    "adventureSub": "learn the moves, defeat the matrices"
+  },
+
+  "common": {
+    "toMenu": "← Menu",
+    "back": "← Back",
+    "equations": "equations",
+    "unknowns": "unknowns",
+    "rank": "rank",
+    "size": "size",
+    "par": "par",
+    "moves": "moves",
+    "fewer": "fewer {label}",
+    "more": "more {label}"
+  },
+
+  "setup": {
+    "title": "Choose a system",
+    "lede": "Pick the size of the augmented matrix and its rank. Try to beat par!",
+    "newMatrix": "New matrix",
+    "play": "Play ▶"
+  },
+
+  "custom": {
+    "title": "Your own system",
+    "lede": "Set the size, then type the entries of the augmented matrix. Integers, fractions like −3/4, or decimals.",
+    "clear": "Clear",
+    "play": "Play ▶",
+    "badEntries": "Some entries could not be read. Use integers, fractions such as −3/4, or decimals.",
+    "entryLabel": "row {row} entry {col}"
+  },
+
+  "play": {
+    "workingMatrix": "Working matrix",
+    "rowOperations": "Row operations",
+    "modes": {
+      "swap": "Swap",
+      "swapFormula": "Rᵢ ↔ Rⱼ",
+      "scale": "Scale",
+      "scaleFormula": "Rᵢ ← c Rᵢ",
+      "add": "Add a multiple",
+      "addFormula": "Rᵢ ← Rᵢ + c Rⱼ",
+      "addRow": "Add a row",
+      "addRowFormula": "Rᵢ ← Rᵢ + Rⱼ",
+      "locked": "not learned yet"
+    },
+    "prompts": {
+      "swapStart": "Click a row, then the row to trade it with; or drag a row by its handle.",
+      "swapPicked": "{row} is picked up. Click the row to trade it with.",
+      "scaleStart": "Click the row to multiply.",
+      "setMultiplier": "Set the multiplier, then apply.",
+      "addRowStart": "Click the row you want to add.",
+      "addRowPicked": "{row} is picked up. Click the row it should be added to.",
+      "addStart": "Click the row you want to add a multiple of.",
+      "addPicked": "{row} is the source. Click the row that should change."
+    },
+    "multiplier": "multiplier",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "badMultiplier": "Enter an integer, a fraction such as −3/4, or a decimal. Multiplying by 0 is not a row operation.",
+    "dropHere": "{row} lands here",
+    "undo": "Undo",
+    "restart": "Restart",
+    "submit": "Submit",
+    "showSolution": "Show solution",
+    "result": "Result",
+    "close": "Close",
+    "newMatrix": "New matrix",
+    "notYet": "Not yet",
+    "why": {
+      "notEchelon": "The rows are not in echelon form yet: each leading entry must sit strictly to the right of the one above it, with any zero rows at the bottom.",
+      "notOne": "Echelon form, but a leading entry is not 1 yet.",
+      "notCleared": "Every leading entry is 1, but a pivot column still has a nonzero entry above its leading 1."
+    },
+    "solved": "Solved",
+    "scoreOne": "{moves} move, {vsPar}",
+    "scoreMany": "{moves} moves, {vsPar}",
+    "underPar": "under par by {d}",
+    "atPar": "right at par",
+    "overPar": "over par by {d}",
+    "noSolution": "There is no solution.",
+    "uniqueSolution": "There is a unique solution.",
+    "infiniteSolutions": "There are infinitely many solutions.",
+    "seeSolution": "See the solution below ↓",
+    "review": {
+      "title": "Solution",
+      "next": "Next: {op}",
+      "done": "Reduced row echelon form.",
+      "prev": "←",
+      "nextButton": "Next →",
+      "runToEnd": "Run to end",
+      "backToWork": "Back to my work"
+    }
+  },
+
+  "solution": {
+    "title": "Solution",
+    "equationForm": "Equation form",
+    "vectorForm": "Vector form",
+    "free": "free",
+    "pickValues": "Pick values for the free variables to get a particular solution.",
+    "inconsistent": "No solution: row {row} reads 0 = {c}, which no choice of the unknowns can satisfy."
+  },
+
+  "adventure": {
+    "title": "Adventure",
+    "lede": "Reduce each matrix before it wears you down.",
+    "continue": "Continue",
+    "continueSub": "{difficulty}, level {level}, {beaten} of {total} stages",
+    "startOver": "or start over:",
+    "difficulties": {
+      "1": { "name": "Easy", "sub": "par + {slack} moves" },
+      "2": { "name": "Medium", "sub": "par + {slack} moves" },
+      "3": { "name": "Hard", "sub": "exactly par" }
+    }
+  },
+
+  "worlds": {
+    "1": "Pivot Plains",
+    "2": "Land of the Free Variables"
+  },
+
+  "moveNames": {
+    "_note": "Used for 'New move: ...' after a win and 'Moves known' lists.",
+    "swap": "Swap",
+    "scale": "Scale",
+    "add": "Add a multiple",
+    "addrow": "Add a row"
+  },
+
+  "places": {
+    "_note": "Keyed by map id. 'name' shows on the map and as the enemy's name in battle unless 'foe' is given. 'blurb' shows when hovering the map and as the opening line of the battle (empty means no text).",
+    "1.0":    { "name": "Camp", "blurb": "Where the road begins." },
+    "1.1":    { "name": "Shuffled Slime", "blurb": "New move: swap." },
+    "1.2":    { "name": "Bloated Golem", "blurb": "New move: scale." },
+    "yard":   { "name": "Training Yard", "foe": "Training Dummy", "blurb": "Practice with the moves you know." },
+    "1.3":    { "name": "Tangled Imp", "blurb": "New move: add a multiple." },
+    "shop1":  { "name": "Shop", "blurb": "Potions and scrolls, for gold." },
+    "1.4":    { "name": "Triad Knight", "blurb": "" },
+    "1.5":    { "name": "Hexing Crone", "blurb": "Unit Hex: no multiples." },
+    "1.6":    { "name": "Rank-Four Dragon", "blurb": "Guardian of the Pivot Plains." },
+    "2.0":    { "name": "Border Gate", "blurb": "Entrance to the Land of the Free Variables." },
+    "2.1":    { "name": "Drifting Wisp", "blurb": "" },
+    "2.2":    { "name": "Hollow Sentinel", "blurb": "" },
+    "mirage": { "name": "Mirage Oasis", "foe": "Mirage", "blurb": "It promises water." },
+    "2.3":    { "name": "Free Wraith", "blurb": "" },
+    "shop2":  { "name": "Shop", "blurb": "Potions and scrolls, for gold." },
+    "2.4":    { "name": "Hydra of Five Heads", "blurb": "" },
+    "ring":   { "name": "Sparring Ring", "foe": "Sparring Partner", "blurb": "Practice with free variables." },
+    "2.5":    { "name": "Null Colossus", "blurb": "Guardian of the Free Variables." }
+  },
+
+  "items": {
+    "potion": { "name": "Health potion", "desc": "Heals half your max HP.", "use": "Drink potion" },
+    "scroll": { "name": "Scroll of elimination", "desc": "Makes the best next move, free.", "use": "Read scroll" }
+  },
+
+  "map": {
+    "difficulty": "difficulty",
+    "maxHp": "max HP",
+    "gold": "gold",
+    "potions": "potions",
+    "scrolls": "scrolls",
+    "level": "Level {level}",
+    "xp": "{into} / {need} XP",
+    "worldTab": "World {n}: {name}",
+    "lockedWorld": "???",
+    "lockedPlace": "???",
+    "lockedTooltip": "Not yet reachable",
+    "mapLabel": "Map of {world}",
+    "fight": "Fight ▶",
+    "close": "close",
+    "own": "own {n}",
+    "buy": "Buy"
+  },
+
+  "battle": {
+    "you": "You",
+    "yourLevel": "level {level}",
+    "hp": "{hp} / {max} HP",
+    "vs": "vs",
+    "fromRrefOne": "{n} move from RREF",
+    "fromRrefMany": "{n} moves from RREF",
+    "stage": "stage {id}",
+    "practice": "practice",
+    "sideQuest": "side quest",
+    "windsUp": "The {foe} winds up…",
+    "strikes": "The {foe} strikes.",
+    "grewStronger": "It grows stronger.",
+    "scrollUsed": "The scroll makes a move.",
+    "potionUsed": "You drink a potion.",
+    "reduced": "Reduced to RREF.",
+    "noSolution": "0 = {c}. No solution.",
+    "items": "Items",
+    "result": "Result",
+    "victory": "Victory",
+    "scoreOne": "{moves} move, par {par}",
+    "scoreMany": "{moves} moves, par {par}",
+    "gold": "+{gold} gold",
+    "xp": "+{xp} XP",
+    "bonus": "({bonus} bonus)",
+    "levelUp": "Level up!",
+    "levelUpDetail": "You are level {level}, max HP {hp}.",
+    "newMove": "New move:",
+    "worldComplete": "World 1 complete!",
+    "finished": "You have finished the adventure!",
+    "defeated": "Defeated",
+    "tryAgain": "Try again",
+    "retreat": "Retreat to the map",
+    "backToMap": "Back to the map",
+    "skipDev": "Skip battle (dev)",
+    "skippedDev": "skipped (dev)"
+  }
+}

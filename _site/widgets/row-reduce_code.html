@@ -16,6 +16,10 @@
     --rowh:3.3rem;
   }
   html{scroll-behavior:smooth}
+  /* clicks on rows, nodes and buttons shouldn't select text or show a caret */
+  body{-webkit-user-select:none;user-select:none;cursor:default;caret-color:transparent}
+  input{-webkit-user-select:text;user-select:text;caret-color:auto}
+  button,.mrow:not(.static),[data-node]{cursor:pointer}
   body{font-size:17px;line-height:1.5}
   .h{font-family:var(--serif);font-weight:700;font-size:1.25rem;line-height:1.25;color:var(--ink-strong);margin:0}
   .w-plate{padding:22px 26px 20px}
@@ -153,6 +157,101 @@
     border-left:.55rem solid var(--ink-mute);border-top:.3rem solid transparent;border-bottom:.3rem solid transparent}
   .ph{visibility:hidden}
 
+  /* ---- adventure ---- */
+  :root{--hp:#b7312c;--hp-bg:#f6e3e2;--foe:#6a4c93;--foe-bg:#eee8f5;--gold:#b5801d;--xp:#1f7a8c}
+  .diffs{display:flex;justify-content:center;gap:.8rem;flex-wrap:wrap;margin:.4rem 0 1.4rem}
+  .diffs button{min-width:9.5rem;padding:.75rem 1rem;font-size:1.02rem;line-height:1.3}
+  .diffs .sub{display:block;font-size:.82rem;opacity:.7}
+  .cont{margin-bottom:1.2rem}
+  .cont button{padding:.7rem 1.4rem;font-size:1.02rem;line-height:1.3}
+  .cont .sub{display:block;font-size:.82rem;opacity:.75}
+  .advnote{color:var(--ink-mute);font-size:.9rem;margin-bottom:.4rem}
+
+  .hud{display:flex;flex-direction:column;align-items:stretch;gap:.4rem;font-size:.95rem;color:var(--ink-strong)}
+  .hudrow{display:flex;gap:1.4rem;align-items:flex-end;flex-wrap:wrap;justify-content:flex-end}
+  .xprow{display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:var(--ink-mute)}
+  .xprow span:first-child{color:var(--ink-strong);font-weight:600}
+  .xprow .xpbar{flex:1 1 auto;min-width:4rem;height:.45rem;background:var(--line);border-radius:3px;overflow:hidden}
+  .xprow .xpbar i{display:block;height:100%;background:#5f7a3a}
+  .mapwrap{position:relative}
+  .sheet{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(30rem,calc(100% - 2rem));
+    padding:1rem 1.2rem 1.1rem;background:#f8f0dc;border:1px solid #b89a6a;border-radius:var(--radius);
+    box-shadow:0 10px 30px rgba(60,40,15,.28);text-align:center}
+  .sheet .nm{font-size:1.2rem;font-weight:600;color:var(--ink-strong);margin-bottom:.3rem}
+  .sheet .meta{font-size:.92rem;color:var(--ink-mute);margin:0 0 .8rem}
+  .sheet .x{position:absolute;right:.4rem;top:.3rem;font-size:1.2rem;line-height:1}
+  .sheet .dials{gap:1.6rem;margin-bottom:.9rem}
+  .sheet .shop{text-align:left}
+  .ware button{white-space:nowrap}
+  .hud .it{display:flex;flex-direction:column;align-items:center;gap:.1rem}
+  .hud .it .w-label,.hud .spr{height:1.45rem;display:flex;align-items:flex-end}
+  .hud .spr{width:auto;object-fit:contain}
+  .hud .it b{font-size:1.2rem;font-weight:600;line-height:1.1}
+  .hud .gold{color:var(--gold)}
+  /* the map is drawn on a parchment scroll. The image is 9-sliced
+     (rollers top and bottom, torn edges at the sides) so it stretches to any width. */
+  .map{--road:#5e4122;--road-hi:#94714a;--moss:#556b2f;--rust:#9c4a22;--ochre:#a0731f;
+       --stone:#8f8470;--oxblood:#7a2a26;--sage:#4f7263;--mapink:#3b2f1f;--parch:#f3e6c6;--field:#e2c996;
+       border-style:solid;border-color:transparent;border-width:92px 34px 72px 34px;
+       border-image:url("/assets/images/gauss-game/scroll.webp") 205 75 160 75 fill stretch;
+       padding:0 .8rem}
+  @media (max-width:720px){.map{border-width:50px 18px 40px 18px;padding:0}}
+  .map svg{display:block;width:100%;height:auto}
+  .map .road{stroke:var(--road);stroke-width:10;stroke-linecap:round;fill:none}
+  .map .road-hi{stroke:var(--road-hi);stroke-width:4;stroke-linecap:round;fill:none}
+  .map .road.locked{stroke:#7d6647;stroke-width:3.5;stroke-dasharray:2 9}
+  .map .node{cursor:pointer}
+  .map .node.locked{cursor:default}
+  .map .node circle.body{stroke-width:2.5;transition:r .15s}
+  .map .node:not(.locked):hover circle.body{r:24}
+  .map .node text{font-family:var(--serif);text-anchor:middle;pointer-events:none}
+  .map .node.staged .num{font-size:14px}
+  .map .node .num{font-size:17px;font-weight:700;dominant-baseline:central}
+  .map .node .cap{font-size:13px;fill:var(--mapink);paint-order:stroke;stroke:var(--field);stroke-width:4px;stroke-linejoin:round}
+  .map .node.locked .cap{fill:#8a7a5c}
+  .map .sel-ring{fill:none;stroke:var(--mapink);stroke-width:1.5;stroke-dasharray:3 3}
+  .map .token{fill:var(--oxblood);stroke:var(--parch);stroke-width:2}
+  .shop{display:flex;flex-direction:column;gap:.6rem;margin-top:.4rem}
+  .ware{display:flex;align-items:center;gap:1rem;padding:.55rem .7rem;border:1px solid var(--line);border-radius:var(--radius);background:var(--ground)}
+  .ware .d{flex:1 1 auto}
+  .ware img{width:2.4rem;height:2.4rem;object-fit:contain}
+  .worlds{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.6rem}
+  .items button.item{display:flex;align-items:center;justify-content:center;gap:.45rem}
+  .items button.item img{height:1.5rem;width:1.5rem;object-fit:contain}
+  .items button.item:disabled img{opacity:.45}
+  .ware .d b{color:var(--ink-strong)}
+  .ware .d span{display:block;font-size:.88rem;color:var(--ink-mute)}
+  .ware .own{font-size:.85rem;color:var(--ink-mute);white-space:nowrap}
+  .cost{color:var(--gold);font-weight:600}
+
+  .bt{display:flex;align-items:center;gap:1.2rem;padding:.7rem .9rem;margin-bottom:.9rem;border:1px solid var(--line);border-radius:var(--radius);background:var(--field-bg)}
+  .bt .who{flex:1 1 0;min-width:0}
+  .bt .nm{font-size:1.02rem;font-weight:600;color:var(--ink-strong);display:flex;justify-content:space-between;gap:.5rem}
+  .bt .nm span{font-weight:400;color:var(--ink-mute);font-size:.88rem}
+  .bt .bar{position:relative;height:.8rem;border-radius:4px;overflow:visible;margin:.3rem 0 .15rem}
+  .bt .bar .tr{position:absolute;inset:0;border-radius:4px;overflow:hidden}
+  .bt .bar i{display:block;height:100%;transition:width .35s ease}
+  .bt .you .tr{background:var(--hp-bg)} .bt .you i{background:var(--hp)}
+  .bt .foe .tr{background:var(--foe-bg)} .bt .foe i{background:var(--foe)}
+  .bt .hpv{font-size:.85rem;color:var(--ink-mute);font-variant-numeric:tabular-nums}
+  .bt .vs{font-style:italic;color:var(--ink-faint)}
+  .bt .pop{position:absolute;right:0;top:-1.25rem;font-weight:700;font-size:.95rem;animation:pop 1.1s ease-out forwards}
+  .bt .you .pop{color:var(--hp)} .bt .foe .pop{color:var(--foe)}
+  .bt .hit .tr{animation:shake .35s}
+  @keyframes pop{0%{opacity:0;transform:translateY(.4rem)}20%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-.5rem)}}
+  @keyframes shake{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .btmsg{font-size:.92rem;color:var(--ink-mute);margin:-.4rem 0 .8rem;min-height:1.3rem}
+  .items{display:flex;flex-direction:column;gap:.4rem}
+  .items button .n{color:var(--ink-mute);margin-left:.3rem}
+  .result.win .verdict{color:var(--s)}
+  .result.lose .verdict{color:var(--hp)}
+  .result .gain{font-size:.95rem;margin-top:.3rem;color:var(--ink)}
+  .result .gain b{font-weight:600}
+  button.dev{border-style:dashed;color:var(--ink-mute);font-size:.8rem}
+  .modes button:disabled .fmla{font-style:italic}
+  .col-main.waiting .board,.col-main.waiting #workPanel{opacity:.55;pointer-events:none;transition:opacity .2s}
+  @media (max-width:720px){.bt{flex-direction:column;align-items:stretch;gap:.5rem}.bt .vs{display:none}.hud{gap:.8rem;font-size:.85rem}}
+
   /* ---- matrix ---- */
   .mtx{display:flex;justify-content:center;user-select:none}
   .rows{position:relative;display:inline-block}
@@ -234,38 +333,60 @@
         </div>
       </div>
     </div>
-    <h2 class="h title">Gaussian Elimination Game</h2>
+    <h2 class="h title" data-t="menu.title"></h2>
     <div class="choices">
-      <button id="toSetupNew">Random system<span class="sub">choose a size and rank</span></button>
-      <button id="toCustom">Custom<span class="sub">enter your own matrix</span></button>
+      <button id="toSetupNew"><span data-t="menu.random"></span><span class="sub" data-t="menu.randomSub"></span></button>
+      <button id="toCustom"><span data-t="menu.custom"></span><span class="sub" data-t="menu.customSub"></span></button>
+      <button id="toAdv"><span data-t="menu.adventure"></span><span class="sub" data-t="menu.adventureSub"></span></button>
+    </div>
+  </section>
+
+  <!-- ======================= adventure start ======================= -->
+  <section class="screen setup" id="scrAdv">
+    <h2 class="h" data-t="adventure.title"></h2>
+    <p class="lede" data-t="adventure.lede"></p>
+    <div id="advStart"></div>
+    <div class="actions"><button class="quiet" id="toMenu3" data-t="common.toMenu"></button></div>
+  </section>
+
+  <!-- ======================= map ======================= -->
+  <section class="screen" id="scrMap">
+    <div class="top">
+      <div><button class="quiet sm" id="mapMenu" data-t="common.toMenu"></button></div>
+      <div class="hud" id="hud"></div>
+    </div>
+    <div class="worlds" id="worlds"></div>
+    <div class="mapwrap">
+      <div class="map" id="map"></div>
+      <div id="mapSheet"></div>
     </div>
   </section>
 
   <!-- ======================= setup ======================= -->
   <section class="screen setup" id="scrSetup">
-    <h2 class="h">Choose a system</h2>
-    <p class="lede">Pick the size of the augmented matrix and its rank. Try to beat par!</p>
+    <h2 class="h" data-t="setup.title"></h2>
+    <p class="lede" data-t="setup.lede"></p>
     <div class="dials" id="dials"></div>
     <div class="par" id="parLine"></div>
     <div class="preview" id="setupMtx"></div>
     <div class="actions">
-      <button class="quiet" id="toMenu">&#8592; Menu</button>
-      <button class="quiet" id="newsys">New matrix</button>
-      <button class="primary" id="play">Play &nbsp;&#9654;</button>
+      <button class="quiet" id="toMenu" data-t="common.toMenu"></button>
+      <button class="quiet" id="newsys" data-t="setup.newMatrix"></button>
+      <button class="primary" id="play" data-t="setup.play"></button>
     </div>
   </section>
 
   <!-- ======================= custom ======================= -->
   <section class="screen setup" id="scrCustom">
-    <h2 class="h">Your own system</h2>
-    <p class="lede">Set the size, then type the entries of the augmented matrix. Integers, fractions like &minus;3/4, or decimals.</p>
+    <h2 class="h" data-t="custom.title"></h2>
+    <p class="lede" data-t="custom.lede"></p>
     <div class="dials" id="cdials"></div>
     <div class="entry" id="entry"></div>
     <div class="note" id="cnote"></div>
     <div class="actions">
-      <button class="quiet" id="toMenu2">&#8592; Menu</button>
-      <button class="quiet" id="cclear">Clear</button>
-      <button class="primary" id="cplay">Play &nbsp;&#9654;</button>
+      <button class="quiet" id="toMenu2" data-t="common.toMenu"></button>
+      <button class="quiet" id="cclear" data-t="custom.clear"></button>
+      <button class="primary" id="cplay" data-t="custom.play"></button>
     </div>
   </section>
 
@@ -273,26 +394,27 @@
   <section class="screen" id="scrPlay">
     <div class="top">
       <div>
-        <button class="quiet sm" id="toSetup">&#8592; Back</button>
+        <button class="quiet sm" id="toSetup" data-t="common.back"></button>
       </div>
       <div class="readout" id="readout"></div>
     </div>
+    <div id="battle"></div>
 
     <div class="cols">
       <div class="col-main">
-        <h2 class="h">Working matrix</h2>
+        <h2 class="h" data-t="play.workingMatrix"></h2>
         <div class="board"><div id="workMtx"></div></div>
         <div id="workPanel"></div>
       </div>
       <div class="col-side">
-        <h2 class="h" id="sideHead">Moves</h2>
+        <h2 class="h" id="sideHead"></h2>
         <div id="log"></div>
         <div class="side-actions" id="sideActions"></div>
       </div>
     </div>
 
     <div class="orig">
-      <h2 class="h">Row operations</h2>
+      <h2 class="h" data-t="play.rowOperations"></h2>
       <div class="steps" id="steps"></div>
     </div>
     <div class="orig soln-sec" id="solnSec" hidden></div>
@@ -302,6 +424,42 @@
 <div id="ghost"></div>
 
 <script>
+/* ============================== text ==============================
+   Every player-facing string lives in row-reduce_text.json, keyed by where
+   it appears. txt("a.b.c",{x:1}) looks one up and fills {x} placeholders;
+   a missing key shows the key itself so gaps are easy to spot. A page can
+   also preset window.ROW_REDUCE_TEXT (used for offline testing). */
+var TEXT={};
+function loadText(done){
+  if(window.ROW_REDUCE_TEXT){TEXT=window.ROW_REDUCE_TEXT;done();return;}
+  fetch("/widgets/row-reduce_text.json",{cache:"no-cache"})
+    .then(function(r){return r.json();})
+    .then(function(j){TEXT=j;done();})
+    .catch(function(e){console.error("row-reduce: could not load text",e);done();});
+}
+function txt(path,vars){
+  var keys=typeof path==="string"?path.split("."):path;
+  var v=keys.reduce(function(o,k){return o==null?o:o[k];},TEXT);
+  if(typeof v!=="string")return keys.join(".");
+  return vars?v.replace(/\{(\w+)\}/g,function(m,k){return vars[k]!==undefined?vars[k]:m;}):v;
+}
+/* fill static labels, and copy names into the game tables that use them */
+function applyText(){
+  document.title=txt("menu.title");
+  Array.prototype.forEach.call(document.querySelectorAll("[data-t]"),function(el){el.textContent=txt(el.getAttribute("data-t"));});
+  Object.keys(NODES).forEach(function(id){
+    var nd=NODES[id];
+    nd.name=txt(["places",id,"name"]);
+    var foe=((TEXT.places||{})[id]||{}).foe;nd.foe=foe||null;
+    var blurb=((TEXT.places||{})[id]||{}).blurb;nd.blurb=blurb||"";
+  });
+  SHOP.forEach(function(it){it.name=txt(["items",it.id,"name"]);it.desc=txt(["items",it.id,"desc"]);});
+  [1,2,3].forEach(function(d){DIFFS[d].name=txt(["adventure","difficulties",String(d),"name"]);});
+  ["swap","scale","add","addrow"].forEach(function(k){TOOL_NAME[k]=txt(["moveNames",k]);});
+  [1,2].forEach(function(k){WORLDS[k]=txt(["worlds",String(k)]);});
+}
+function plural(n,one,many,vars){return txt(n===1?one:many,vars);}
+
 /* ============================== exact rationals ============================== */
 function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=a%b;a=b;b=t;}return a||1;}
 function F(n,d){d=(d===undefined)?1:d;if(d===0)return{n:0,d:1};if(d<0){n=-n;d=-d;}var g=gcd(n,d);return{n:n/g,d:d/g};}
@@ -336,7 +494,8 @@ function fracHTML(v,cls,ph){
 
 /* ============================== generation ============================== */
 function randInt(a,b){return a+Math.floor(Math.random()*(b-a+1));}
-function generateSystem(m,n,r){
+/* incon: plant a 0 = c row before mixing, so the system has no solution */
+function generateSystem(m,n,r,incon){
   r=Math.max(1,Math.min(r,Math.min(m,n)));
   for(var attempt=0;attempt<600;attempt++){
     var piv=[],pool=[];
@@ -357,6 +516,7 @@ function generateSystem(m,n,r){
       var b=0;for(var k2=0;k2<n;k2++)b+=row[k2]*x[k2];
       return row.concat([b]);
     });
+    if(incon&&r<m)M[r][n]=[-3,-2,-1,1,2,3][randInt(0,5)];
     var rounds=6+2*m;
     for(var t=0;t<rounds;t++){
       var u=Math.random();
@@ -446,7 +606,8 @@ function generalSolution(M,n,info){
 /* Gauss-Jordan that avoids avoidable work: a pivot row whose entry is already 1
    is preferred so no scaling is needed, the row already in place is preferred so
    no swap is needed, and rows already zero in the pivot column are skipped. */
-function refSolve(M0,n){
+function refSolve(M0,n,T){
+  if(T&&T.unit&&!T.add)return refSolveUnit(M0,n);
   var M=M0.map(function(r){return r.slice();}),ops=[],m=M.length,row=0;
   for(var col=0;col<n&&row<m;col++){
     var cand=[];
@@ -466,36 +627,81 @@ function refSolve(M0,n){
   }
   return {ops:ops,result:M};
 }
+/* The same elimination when adds are stuck at multiplier 1: to clear an
+   entry a with the pivot row, first scale the pivot row so its pivot is -a,
+   then add it. Clears that need the same scaling share it, and the pivot
+   row is scaled back to a leading 1 at the end. */
+function refSolveUnit(M0,n){
+  var M=M0.map(function(r){return r.slice();}),ops=[],m=M.length,row=0;
+  function go(o){M=applyOp(M,o);ops.push(o);}
+  for(var col=0;col<n&&row<m;col++){
+    var cand=[];
+    for(var i=row;i<m;i++)if(!isZero(M[i][col]))cand.push(i);
+    if(!cand.length)continue;
+    var pick=cand.indexOf(row)>=0?row:cand[0];
+    if(pick!==row)go({type:"swap",i:row,j:pick});
+    var targets=[];
+    for(var i2=0;i2<m;i2++)if(i2!==row&&!isZero(M[i2][col]))targets.push(i2);
+    /* group rows by the entry to clear so each needed pivot value is set once */
+    targets.sort(function(a,b){return fstr(M[a][col])<fstr(M[b][col])?-1:1;});
+    targets.forEach(function(i3){
+      var want=neg(M[i3][col]);
+      if(!eqF(M[row][col],want))go({type:"scale",i:row,c:dvd(want,M[row][col])});
+      go({type:"add",i:i3,j:row,c:F(1)});
+    });
+    if(!isOne(M[row][col]))go({type:"scale",i:row,c:inv(M[row][col])});
+    row++;
+  }
+  return {ops:ops,result:M};
+}
 
 function rowKey(row){return row.map(fstr).join(",");}
 function mtxKey(M){return M.map(rowKey).join(";");}
 
 /* Restricted move set: swaps, normalizing a leading entry, and the elimination
-   step that clears one entry using another row's pivot column. */
-function moves(M,n){
-  var m=M.length,out=[],i,j;
-  for(i=0;i<m;i++)for(j=i+1;j<m;j++)if(rowKey(M[i])!==rowKey(M[j]))out.push({type:"swap",i:i,j:j});
-  for(i=0;i<m;i++){
+   step that clears one entry using another row's pivot column. T limits it to
+   the moves a player has (swap / scale / add a multiple / add a row); with
+   adds stuck at 1, the useful scalings are the ones that make a row's entry
+   the negative of another row's, so the next add clears it. */
+function moves(M,n,T){
+  T=T||FULL;
+  var m=M.length,out=[],i,j,k,seen={};
+  function push(o){var key=o.type+o.i+","+o.j+","+(o.c?fstr(o.c):"");if(!seen[key]){seen[key]=1;out.push(o);}}
+  if(T.swap)for(i=0;i<m;i++)for(j=i+1;j<m;j++)if(rowKey(M[i])!==rowKey(M[j]))push({type:"swap",i:i,j:j});
+  if(T.scale)for(i=0;i<m;i++){
     var p=leadCol(M[i],n);
-    if(p>=0&&!isOne(M[i][p]))out.push({type:"scale",i:i,c:inv(M[i][p])});
+    if(p>=0&&!isOne(M[i][p]))push({type:"scale",i:i,c:inv(M[i][p])});
   }
-  for(j=0;j<m;j++){
-    var pj=leadCol(M[j],n);
-    if(pj<0)continue;
-    for(i=0;i<m;i++){
-      if(i===j||isZero(M[i][pj]))continue;
-      out.push({type:"add",i:i,j:j,c:neg(dvd(M[i][pj],M[j][pj]))});
+  if(T.add){
+    for(j=0;j<m;j++){
+      var pj=leadCol(M[j],n);
+      if(pj<0)continue;
+      for(i=0;i<m;i++){
+        if(i===j||isZero(M[i][pj]))continue;
+        push({type:"add",i:i,j:j,c:neg(dvd(M[i][pj],M[j][pj]))});
+      }
+    }
+  }else if(T.unit){
+    for(i=0;i<m;i++)for(j=0;j<m;j++){
+      if(i===j)continue;
+      push({type:"add",i:i,j:j,c:F(1)});
+      if(T.scale)for(k=0;k<n;k++){
+        if(isZero(M[i][k])||isZero(M[j][k]))continue;
+        var c=neg(dvd(M[i][k],M[j][k]));
+        if(!isOne(c))push({type:"scale",i:j,c:c});
+      }
     }
   }
   return out;
 }
+var FULL={swap:true,scale:true,add:true,unit:true};
 
 /* Iterative deepening under a node budget. Split the rows that differ from the
    target into those whose content appears nowhere in the target (each needs its
    own scale or add, since those rewrite one row) and those merely out of place
    (a swap fixes two at once), which bounds the remaining work from below. */
-function shortestSolve(M,n,cap){
-  var T=refSolve(M,n).result,tk=T.map(rowKey),m=M.length;
+function shortestSolve(M,n,cap,T,budget){
+  var Tg=refSolve(M,n).result,tk=Tg.map(rowKey),m=M.length;
   var tset={};tk.forEach(function(k){tset[k]=1;});
   function h(X){
     var w=0,q=0;
@@ -506,13 +712,13 @@ function shortestSolve(M,n,cap){
     }
     return q+Math.ceil((w-q)/2);
   }
-  var budget=8000,nodes=0,found=null;
+  var nodes=0,found=null;
   function dfs(X,depth,limit,path,seen){
     if(++nodes>budget)throw 0;
     var hh=h(X);
     if(hh===0){found=path.slice();return true;}
     if(depth+hh>limit)return false;
-    var mv=moves(X,n);
+    var mv=moves(X,n,T);
     for(var q=0;q<mv.length;q++){
       var Y=applyOp(X,mv[q]),ky=mtxKey(Y);
       if(seen[ky])continue;
@@ -532,10 +738,12 @@ function shortestSolve(M,n,cap){
   }catch(e){return {ops:null,proven:false};}
 }
 
-function bestSolve(M,n){
-  var ref=refSolve(M,n),m=M.length;
-  if(m*n<=12&&ref.ops.length<=10){
-    var s=shortestSolve(M,n,ref.ops.length);
+/* T: the moves allowed (default: all). With adds stuck at 1 the reference
+   route is longer and the search branches more, so it gets a bigger budget. */
+function bestSolve(M,n,T,budget){
+  var ref=refSolve(M,n,T),m=M.length,unit=T&&T.unit&&!T.add;
+  if(m*n<=12&&ref.ops.length<=(unit?16:10)){
+    var s=shortestSolve(M,n,ref.ops.length,T,budget||(unit?20000:8000));
     if(s.ops)return {ops:s.ops,proven:true};
     if(s.proven)return {ops:ref.ops,proven:true};
   }
@@ -548,9 +756,9 @@ var S={screen:"menu",origin:"setup",m:3,n:3,r:3,orig:null,cur:null,hist:[],mode:
        custom:{m:3,n:3,cells:null},solnView:"eq",tvals:{}};
 var focusC=false,caret=0,stepsSeen=-1;
 
-function startFrom(M){
+function startFrom(M,T){
   S.orig=M;S.cur=M;S.hist=[];stepsSeen=-1;S.a=null;S.b=null;S.c="1";S.review=null;S.result=null;
-  var bs=bestSolve(S.orig,S.n);
+  var bs=bestSolve(S.orig,S.n,T);
   S.par=bs.ops.length;S.parProven=bs.proven;
 }
 function newSystem(){
@@ -590,10 +798,14 @@ function pendingOp(){
   if(S.mode==="add"&&S.a!==null&&S.b!==null)return {type:"add",i:S.b,j:S.a,c:c};
   return null;
 }
-function commit(op){
-  S.hist.push({label:opLabel(op),before:S.cur});
+function battleLocked(){return !!S.bt&&(S.bt.state!=="fight"||S.bt.turn==="enemy");}
+function commit(op,free){
+  if(battleLocked())return;
+  S.hist.push({label:opLabel(op)+(free?" ✦":""),before:S.cur});
   S.cur=applyOp(S.cur,op);
-  S.a=null;S.b=null;S.c="1";S.result=null;focusC=false;render();
+  S.a=null;S.b=null;S.c="1";S.result=null;focusC=false;
+  if(S.bt)battleAfterMove(!!free);
+  render();
 }
 /* A column's caption turns green once it is a finished pivot column in its
    final place: a leading 1 sitting in the next row down (first pivot in row 1,
@@ -626,15 +838,244 @@ function grade(){
   var n=S.n,M=S.cur,info=analyze(M,n);
   if(info.rref)return {ok:true,info:info};
   var why;
-  if(!info.ref)why="The rows are not in echelon form yet: each leading entry must sit strictly to the right of the one above it, with any zero rows at the bottom.";
+  if(!info.ref)why=txt("play.why.notEchelon");
   else{
     var notOne=false;
     for(var i=0;i<M.length;i++)if(info.piv[i]>=0&&!isOne(M[i][info.piv[i]]))notOne=true;
-    why=notOne?"Echelon form, but a leading entry is not 1 yet."
-              :"Every leading entry is 1, but a pivot column still has a nonzero entry above its leading 1.";
+    why=notOne?txt("play.why.notOne"):txt("play.why.notCleared");
   }
   return {ok:false,why:why,info:info};
 }
+
+/* ============================== adventure ==============================
+   A map of battles. Each enemy's HP is the fewest row operations still needed
+   to reach RREF, so good moves wear it down and bad ones heal it. After every
+   move that doesn't finish it, it strikes for a fixed amount, tuned so that a
+   player at the level the fight expects survives exactly par + slack moves,
+   where slack is 4, 2 or 0 by difficulty. Extra levels from side fights mean
+   more HP than the fight was tuned for, which is real breathing room. */
+var ADV_KEY="gauss-adventure-v3",A=null;
+var DIFFS={1:{slack:4},2:{slack:2},3:{slack:0}};   /* names from the text file */
+var TOOL_NAME={};
+var WORLDS={};
+/* Levels take more XP as you go, and stage XP grows more slowly than that,
+   so a win moves you part of the way to the next level rather than exactly
+   one level. Each stage's attack is tuned to the level a player would have
+   from the main stages alone, so practice fights are what buy you slack. */
+function maxHp(L){return 20+4*(L-1);}
+function xpNeed(L){return 80+40*(L-1);}
+function levelInfo(x){
+  var L=1;
+  while(x>=xpNeed(L)){x-=xpNeed(L);L++;}
+  return {L:L,into:x,need:xpNeed(L)};
+}
+function stageXp(nd){return Math.round((40+15*nd.lvl)*(nd.kind==="boss"?1.5:1));}
+function expectedLevel(lvl){
+  var x=0;
+  Object.keys(NODES).forEach(function(id){
+    var nd=NODES[id];
+    if((nd.kind==="main"||nd.kind==="boss")&&nd.lvl<lvl)x+=stageXp(nd);
+  });
+  return levelInfo(x).L;
+}
+function slack(){return DIFFS[A.diff].slack;}
+
+function genPerm(m){
+  var p;
+  do{
+    p=[];for(var i=0;i<m;i++)p.push(i);
+    for(var j=m-1;j>0;j--){var r=randInt(0,j),t=p[j];p[j]=p[r];p[r]=t;}
+  }while(p.every(function(v,i){return v===i;}));
+  var b=[];for(var q=0;q<m;q++)b.push(randInt(-4,4));
+  return p.map(function(r){
+    var row=[];for(var k=0;k<m;k++)row.push(F(k===r?1:0));
+    row.push(F(b[r]));return row;
+  });
+}
+/* identity rows with a right-hand side, some rows scaled, sometimes shuffled */
+function genScaled(m){
+  var M=[],cs=[-3,-2,-1,2,3],hit=[],i;
+  for(i=0;i<m;i++)hit.push(i);
+  hit.sort(function(){return Math.random()-.5;});hit=hit.slice(0,m-1);
+  for(i=0;i<m;i++){
+    var c=hit.indexOf(i)>=0?cs[randInt(0,4)]:1,row=[];
+    for(var k=0;k<m;k++)row.push(F(k===i?c:0));
+    row.push(F(c*randInt(-3,3)));M.push(row);
+  }
+  if(Math.random()<.5){var a=randInt(0,m-1),b=(a+randInt(1,m-1))%m,t=M[a];M[a]=M[b];M[b]=t;}
+  return M;
+}
+/* Training Yard: only the moves already learned, at a size you pick. Until
+   rows can be combined it is a square shuffle (or scaled shuffle), so there
+   is one size; after that, rows and columns separately, always full rank. */
+function yardSquare(){return A.tools.indexOf("add")<0;}
+function genYard(){
+  var y=A.yard,t=A.tools;
+  if(t.indexOf("scale")<0)return genPerm(y.m);
+  if(yardSquare())return genScaled(y.m);
+  return generateSystem(y.m,y.n,Math.min(y.m,y.n));
+}
+/* Sparring Ring: size and rank */
+function genRing(){var g=A.ring;return generateSystem(g.m,g.n,Math.min(g.r,g.m,g.n));}
+
+/* kind: camp (start of a world), main, boss, side (repeatable), quest (optional, once), shop */
+var NODES={
+  "1.0":{world:1,x:50, y:250,kind:"camp",req:null},
+  "1.1":{world:1,x:135,y:185,kind:"main",lvl:1,req:"1.0",learn:"swap",
+         gen:function(){return genPerm(3);}},
+  "1.2":{world:1,x:230,y:240,kind:"main",lvl:2,req:"1.1",learn:"scale",
+         gen:function(){return genScaled(3);}},
+  yard :{world:1,x:160,y:68, kind:"side",req:"1.1",tune:2,gen:genYard},
+  "1.3":{world:1,x:330,y:170,kind:"main",lvl:3,req:"1.2",learn:"add",
+         gen:function(){return generateSystem(3,3,3);}},
+  shop1:{world:1,x:400,y:62, kind:"shop",req:"1.2"},
+  "1.4":{world:1,x:440,y:238,kind:"main",lvl:4,req:"1.3",
+         gen:function(){return generateSystem(3,3,3);}},
+  "1.5":{world:1,x:548,y:165,kind:"main",lvl:5,req:"1.4",curse:"unit",bonus:2,
+         gen:function(){return generateSystem(3,3,3);}},
+  "1.6":{world:1,x:668,y:95, kind:"boss",lvl:6,req:"1.5",
+         gen:function(){return generateSystem(4,4,4);}},
+
+  "2.0":{world:2,x:50, y:160,kind:"camp",req:"1.6"},
+  "2.1":{world:2,x:140,y:230,kind:"main",lvl:7,req:"2.0",
+         gen:function(){return generateSystem(2,3,2);}},
+  "2.2":{world:2,x:250,y:160,kind:"main",lvl:8,req:"2.1",
+         gen:function(){return generateSystem(3,3,2);}},
+  mirage:{world:2,x:215,y:55,kind:"quest",req:"2.2",tune:9,
+         gen:function(){return generateSystem(3,3,2,true);}},
+  "2.3":{world:2,x:360,y:232,kind:"main",lvl:9,req:"2.2",
+         gen:function(){return generateSystem(3,4,3);}},
+  shop2:{world:2,x:400,y:95, kind:"shop",req:"2.2"},
+  "2.4":{world:2,x:490,y:170,kind:"main",lvl:10,req:"2.3",
+         gen:function(){return generateSystem(3,5,3);}},
+  ring :{world:2,x:262,y:262,kind:"side",req:"2.2",tune:9,
+         gen:genRing},
+  "2.5":{world:2,x:668,y:110,kind:"boss",lvl:11,req:"2.4",
+         gen:function(){return generateSystem(5,5,2);}}
+};
+var EDGES=[["1.0","1.1"],["1.1","yard"],["1.1","1.2"],["1.2","1.3"],["1.3","shop1"],["1.3","1.4"],["1.4","1.5"],["1.5","1.6"],
+           ["2.0","2.1"],["2.1","2.2"],["2.2","mirage"],["2.2","2.3"],["2.3","shop2"],["2.3","2.4"],["2.2","ring"],["2.4","2.5"]];
+var SHOP=[
+  {id:"potion",cost:12},
+  {id:"scroll",cost:18}
+];
+var SPRITE={potion:"/assets/images/gauss-game/potion.png",scroll:"/assets/images/gauss-game/scroll-item.png",
+            heart:"/assets/images/gauss-game/heart.png",gold:"/assets/images/gauss-game/gold.png"};
+
+function saveAdv(){try{localStorage.setItem(ADV_KEY,JSON.stringify(A));}catch(e){}}
+function loadAdv(){try{var s=localStorage.getItem(ADV_KEY);return s?JSON.parse(s):null;}catch(e){return null;}}
+function newAdv(d){
+  A={diff:d,level:1,xp:0,gold:0,items:{potion:0,scroll:0},tools:[],cleared:[],world:1,at:"1.0",sel:"1.1",
+     yard:{m:3,n:3},ring:{m:3,n:4,r:2}};
+  saveAdv();
+}
+/* moves usable in the current battle: everything learned so far, plus the
+   move this stage teaches (kept on a win), minus anything a curse takes */
+function battleTools(){
+  var nd=S.bt&&NODES[S.bt.node],t=A.tools.slice();
+  if(nd&&nd.learn&&t.indexOf(nd.learn)<0)t.push(nd.learn);
+  /* the Unit Hex: adding a multiple becomes adding a whole row only */
+  if(nd&&nd.curse==="unit"&&t.indexOf("add")>=0)t=t.filter(function(x){return x!=="add";}).concat(["addrow"]);
+  return t;
+}
+function toolFlags(t){
+  function has(x){return t.indexOf(x)>=0;}
+  return {swap:has("swap"),scale:has("scale"),add:has("add"),unit:has("add")||has("addrow")};
+}
+function battleFlags(){return toolFlags(battleTools());}
+/* adds are stuck at multiplier 1 */
+function unitAdd(){var f=S.bt&&battleFlags();return !!f&&f.unit&&!f.add;}
+/* a camp or gate counts as cleared as soon as it is reachable */
+function isCleared(id){return NODES[id].kind==="camp"?isOpen(id):A.cleared.indexOf(id)>=0;}
+function isOpen(id){var r=NODES[id].req;return r===null||isCleared(r);}
+
+function startBattle(id){
+  var nd=NODES[id],M;
+  do{M=nd.gen();}while(analyze(M,M[0].length-1).rref);
+  S.bt={node:id};                         /* so battleTools knows the stage */
+  var T=battleFlags();
+  S.m=M.length;S.n=M[0].length-1;startFrom(M,T);
+  /* Attack strength is fixed in advance from the HP a player would have on
+     reaching this place by the main stages alone (tune: the stage it opens
+     alongside). It never looks at the player's actual level, so extra XP
+     from practice is pure breathing room and never makes enemies hit harder. */
+  var K=S.par+slack()+(nd.bonus||0),tuned=maxHp(expectedLevel(nd.lvl||nd.tune));
+  S.bt={node:id,T:T,K:K,dmg:tuned/(K-.5),max:maxHp(A.level),hp:maxHp(A.level),
+        enemy:S.par,enemyMax:S.par,moves:0,state:"fight",turn:"you",hit:null,msg:""};
+  var bt=battleTools();
+  S.mode=nd.learn&&A.tools.indexOf(nd.learn)<0?nd.learn:(T.unit?"add":bt[bt.length-1]);
+  if(S.mode==="addrow")S.mode="add";
+  S.origin="map";S.screen="play";render();
+}
+function retryBattle(){
+  var b=S.bt;clearTimeout(b.timer);b.turn="you";
+  S.cur=S.orig;S.hist=[];S.a=null;S.b=null;S.c="1";stepsSeen=-1;
+  b.hp=b.max;b.enemy=b.enemyMax;b.moves=0;b.state="fight";b.hit=null;b.msg="";b.reward=null;S.result=null;
+  render();
+}
+function battleAfterMove(free){
+  var b=S.bt,nd=NODES[b.node];
+  if(!free)b.moves++;
+  var info=analyze(S.cur,S.n),before=b.enemy;
+  b.enemy=info.rref?0:bestSolve(S.cur,S.n,b.T,5000).ops.length;
+  b.hit={foe:b.enemy-before,you:0};
+  if(info.rref){winBattle();return;}
+  if(free){b.msg=txt("battle.scrollUsed");return;}
+  /* the enemy's turn: the board locks, it winds up, then strikes */
+  var worse=b.enemy>before;
+  b.turn="enemy";
+  b.msg=(worse?txt("battle.grewStronger")+" ":"")+txt("battle.windsUp",{foe:nd.foe||nd.name});
+  b.timer=setTimeout(function(){
+    if(S.bt!==b||b.state!=="fight")return;
+    b.hp-=b.dmg;b.hit={you:b.dmg,foe:0};b.turn="you";
+    b.msg=txt("battle.strikes",{foe:nd.foe||nd.name});
+    if(b.hp<=1e-9){b.hp=0;b.state="lost";b.msg="";}
+    render();
+  },ENEMY_DELAY);
+}
+var ENEMY_DELAY=900;
+function winBattle(){
+  var b=S.bt,nd=NODES[b.node];
+  b.state="won";b.enemy=0;
+  var spare=Math.max(0,b.K-b.moves);
+  /* practice pays little; the side quest pays well */
+  var r=nd.kind==="side"?{gold:2,xp:10}:nd.kind==="quest"?{gold:25+3*spare,xp:80}
+       :{gold:6+4*nd.lvl+3*spare,xp:stageXp(nd)};
+  /* efficiency bonus, the same on every difficulty: finishing within two
+     moves of par earns extra XP, and each move under par earns more */
+  r.bonus=nd.kind==="side"?Math.max(0,b.enemyMax+2-b.moves)
+         :8*Math.max(0,b.enemyMax+2-b.moves);
+  r.xp+=r.bonus;
+  r.learn=null;
+  var L0=A.level;
+  A.gold+=r.gold;A.xp+=r.xp;A.level=levelInfo(A.xp).L;r.levelUp=A.level>L0;
+  if(nd.kind!=="side"&&A.cleared.indexOf(b.node)<0){
+    A.cleared.push(b.node);
+    if(nd.learn&&A.tools.indexOf(nd.learn)<0){A.tools.push(nd.learn);r.learn=nd.learn;}
+  }
+  if(b.node==="1.6"){r.world=true;A.world=2;A.at="2.0";}
+  b.reward=r;
+  if(nd.world===2){S.result=grade();S.tvals={};S.solnView="eq";}
+  var info=analyze(S.cur,S.n);
+  b.msg=info.inconsistent?txt("battle.noSolution",{c:fstr(S.cur[info.badRow][S.n])}):txt("battle.reduced");
+  saveAdv();
+}
+function useItem(id){
+  var b=S.bt;
+  if(!b||battleLocked()||!A.items[id])return;
+  if(id==="potion"){
+    if(b.hp>=b.max)return;
+    var before=b.hp;b.hp=Math.min(b.max,b.hp+b.max/2);
+    A.items.potion--;b.hit={you:-(b.hp-before),foe:0};
+    b.msg=txt("battle.potionUsed");
+    saveAdv();render();
+  }else{
+    var op=bestSolve(S.cur,S.n,b.T,5000).ops[0];
+    A.items.scroll--;saveAdv();
+    commit(op,true);
+  }
+}
+function leaveBattle(){if(S.bt)clearTimeout(S.bt.timer);S.bt=null;S.result=null;S.a=null;S.b=null;S.screen="map";render();}
 
 /* ============================== rendering ============================== */
 function matrixHTML(M,n,opts){
@@ -692,26 +1133,26 @@ function stepsHTML(){
 }
 function dialHTML(id,label,val,min,max){
   return '<div class="dial"><span class="w-label">'+label+'</span><div class="box">'+
-    '<button data-step="'+id+'" data-dir="-1"'+(val<=min?" disabled":"")+' aria-label="fewer '+label+'">−</button>'+
+    '<button data-step="'+id+'" data-dir="-1"'+(val<=min?" disabled":"")+' aria-label="'+txt("common.fewer",{label:label})+'">−</button>'+
     '<span class="v">'+val+"</span>"+
-    '<button data-step="'+id+'" data-dir="1"'+(val>=max?" disabled":"")+' aria-label="more '+label+'">+</button></div></div>';
+    '<button data-step="'+id+'" data-dir="1"'+(val>=max?" disabled":"")+' aria-label="'+txt("common.more",{label:label})+'">+</button></div></div>';
 }
-function parWord(){return "par";}
+function parWord(){return txt("common.par");}
 
 function renderSetup(){
   document.getElementById("dials").innerHTML=
-    dialHTML("m","equations",S.m,2,6)+
-    dialHTML("n","unknowns",S.n,2,6)+
-    dialHTML("r","rank",S.r,1,Math.min(S.m,S.n));
+    dialHTML("m",txt("common.equations"),S.m,2,6)+
+    dialHTML("n",txt("common.unknowns"),S.n,2,6)+
+    dialHTML("r",txt("common.rank"),S.r,1,Math.min(S.m,S.n));
   document.getElementById("parLine").innerHTML=parWord()+": <b>"+S.par+"</b>";
   document.getElementById("setupMtx").innerHTML=matrixHTML(S.orig,S.n,{});
 }
-var BAD_NOTE="Some entries could not be read. Use integers, fractions such as \u22123/4, or decimals.";
+
 function renderCustom(){
   var C=S.custom,cells=customCells(),n=C.n;
   document.getElementById("cdials").innerHTML=
-    dialHTML("cm","equations",C.m,2,6)+
-    dialHTML("cn","unknowns",C.n,2,6);
+    dialHTML("cm",txt("common.equations"),C.m,2,6)+
+    dialHTML("cn",txt("common.unknowns"),C.n,2,6);
   var cols="repeat("+(n+1)+",auto)",anyBad=false;
   var h='<div class="mtx" style="--labw:2.4rem;--caph:1.5rem"><div class="rows"><div class="brk l"></div><div class="brk r"></div>';
   h+='<div class="caprow"><div class="rlab"></div><div class="pad"></div><div class="caps" style="grid-template-columns:'+cols+'">';
@@ -724,12 +1165,12 @@ function renderCustom(){
       var t=cells[i][k2],bad=t.trim()!==""&&!parseFrac(t);
       if(bad)anyBad=true;
       h+='<div class="cell'+(k2===n?" aug":"")+'"><input data-ci="'+i+'" data-ck="'+k2+'" value="'+
-         t.replace(/"/g,"&quot;")+'" placeholder="0"'+(bad?' class="bad"':"")+' aria-label="row '+(i+1)+' entry '+(k2+1)+'"></div>';
+         t.replace(/"/g,"&quot;")+'" placeholder="0"'+(bad?' class="bad"':"")+' aria-label="'+txt("custom.entryLabel",{row:i+1,col:k2+1})+'"></div>';
     }
     h+='</div><div class="pad"></div></div>';
   }
   document.getElementById("entry").innerHTML=h+"</div></div>";
-  document.getElementById("cnote").textContent=anyBad?BAD_NOTE:"";
+  document.getElementById("cnote").textContent=anyBad?txt("custom.badEntries"):"";
   document.getElementById("cplay").disabled=anyBad;
 }
 
@@ -754,7 +1195,7 @@ function renderPlay(){
 
   var used=S.hist.length;
   document.getElementById("readout").innerHTML=
-    '<div><span class="k">'+used+'</span><span class="w-label">moves</span></div>'+
+    '<div><span class="k">'+used+'</span><span class="w-label">'+txt("common.moves")+'</span></div>'+
     '<div><span class="k">'+S.par+'</span><span class="w-label">'+parWord()+'</span></div>';
 
   var strip=document.getElementById("steps");
@@ -763,35 +1204,42 @@ function renderPlay(){
   if(S.hist.length!==stepsSeen){stepsSeen=S.hist.length;strip.scrollLeft=strip.scrollWidth;}
   document.getElementById("workMtx").innerHTML=matrixHTML(shown,n,{roles:roles,preview:prev,live:!inReview,pivots:pivotCols(shown,n)});
 
+  document.getElementById("battle").innerHTML=S.bt?battleHTML():"";
+
   var panel="";
-  if(!inReview){
-    var modes=[["swap","Swap","Rᵢ ↔ Rⱼ"],
-               ["scale","Scale","Rᵢ ← c Rᵢ"],
-               ["add","Add a multiple","Rᵢ ← Rᵢ + c Rⱼ"]];
+  /* during the enemy's turn keep the controls on screen, just inert */
+  document.querySelector("#scrPlay .col-main").classList.toggle("waiting",!!S.bt&&S.bt.turn==="enemy");
+  if(!inReview&&!(S.bt&&S.bt.state!=="fight")){
+    var modes=[["swap",txt("play.modes.swap"),txt("play.modes.swapFormula")],
+               ["scale",txt("play.modes.scale"),txt("play.modes.scaleFormula")],
+               ["add",txt("play.modes.add"),txt("play.modes.addFormula")]];
     panel+='<div class="modes">'+modes.map(function(x){
-      return '<button aria-pressed="'+(S.mode===x[0])+'" data-mode="'+x[0]+'">'+
-             x[1]+'<span class="fmla">'+x[2]+"</span></button>";
+      var f=S.bt&&battleFlags(),locked=!!f&&!(x[0]==="add"?f.unit:f[x[0]]);
+      if(x[0]==="add"&&unitAdd())x=["add",txt("play.modes.addRow"),txt("play.modes.addRowFormula")];
+      return '<button aria-pressed="'+(S.mode===x[0])+'" data-mode="'+x[0]+'"'+(locked?" disabled":"")+'>'+
+             x[1]+'<span class="fmla">'+(locked?txt("play.modes.locked"):x[2])+"</span></button>";
     }).join("")+"</div>";
     var prompt;
     if(S.mode==="swap")
-      prompt=S.a===null?"Click a row, then the row to trade it with; or drag a row by its handle."
-                       :"R"+sub(S.a+1)+" is picked up. Click the row to trade it with.";
+      prompt=S.a===null?txt("play.prompts.swapStart"):txt("play.prompts.swapPicked",{row:"R"+sub(S.a+1)});
     else if(S.mode==="scale")
-      prompt=S.a===null?"Click the row to multiply.":"Set the multiplier, then apply.";
+      prompt=S.a===null?txt("play.prompts.scaleStart"):txt("play.prompts.setMultiplier");
+    else if(unitAdd())
+      prompt=S.a===null?txt("play.prompts.addRowStart"):txt("play.prompts.addRowPicked",{row:"R"+sub(S.a+1)});
     else
-      prompt=S.a===null?"Click the row you want to add a multiple of."
-           :S.b===null?"R"+sub(S.a+1)+" is the source. Click the row that should change."
-           :"Set the multiplier, then apply.";
+      prompt=S.a===null?txt("play.prompts.addStart")
+           :S.b===null?txt("play.prompts.addPicked",{row:"R"+sub(S.a+1)})
+           :txt("play.prompts.setMultiplier");
     panel+='<div class="prompt">'+prompt+"</div>";
     var showPanel=(S.mode==="scale"&&S.a!==null)||(S.mode==="add"&&S.a!==null&&S.b!==null);
     if(showPanel){
       var c=currentC(),bad=!c||isZero(c),op2=pendingOp();
       var lhs=S.mode==="scale"?"R"+sub(S.a+1)+" ← ":"R"+sub(S.b+1)+" ← R"+sub(S.b+1)+" + ";
       panel+='<div class="opline"><span>'+lhs+"</span>"+
-        '<input id="cin" value="'+S.c.replace(/"/g,"&quot;")+'" class="'+(bad?"bad":"")+'" aria-label="multiplier">'+
+        '<input id="cin" value="'+S.c.replace(/"/g,"&quot;")+'" class="'+(bad?"bad":"")+'" aria-label="'+txt("play.multiplier")+'">'+
         "<span>R"+sub(S.a+1)+"</span>"+
-        '<button class="sm" id="apply"'+(op2?"":" disabled")+">Apply</button>"+
-        '<button class="quiet sm" id="cancel">Cancel</button></div>';
+        '<button class="sm" id="apply"'+(op2?"":" disabled")+">"+txt("play.apply")+"</button>"+
+        '<button class="quiet sm" id="cancel">'+txt("play.cancel")+'</button></div>';
       var quick=[];
       if(S.mode==="scale"){
         quick.push(["−1","-1"],["1/2","1/2"],["2","2"]);
@@ -801,35 +1249,39 @@ function renderPlay(){
       panel+='<div class="quick">'+quick.map(function(q){
         return '<button data-quick="'+q[1]+'">'+q[0]+"</button>";
       }).join("")+"</div>";
-      if(bad)panel+='<div class="err">Enter an integer, a fraction such as −3/4, or a decimal. Multiplying by 0 is not a row operation.</div>';
+      if(bad)panel+='<div class="err">'+txt("play.badMultiplier")+"</div>";
     }
   }
   document.getElementById("workPanel").innerHTML=panel;
 
   var side="",acts="";
-  if(inReview){
+  if(S.bt){
+    var bs=battleSide();
+    document.getElementById("sideHead").textContent=bs.head;
+    side=bs.side;acts=bs.acts;
+  }else if(inReview){
     var rv=S.review,cur=rv.ops[rv.idx];
-    document.getElementById("sideHead").textContent="Solution";
-    side='<div class="review"><div class="now">'+(cur?"Next: "+opLabel(cur):"Reduced row echelon form.")+"</div>"+
+    document.getElementById("sideHead").textContent=txt("play.review.title");
+    side='<div class="review"><div class="now">'+(cur?txt("play.review.next",{op:opLabel(cur)}):txt("play.review.done"))+"</div>"+
       '<div class="nav">'+
-      '<button class="sm" id="rvPrev"'+(rv.idx===0?" disabled":"")+">←</button>"+
-      '<button class="sm" id="rvNext"'+(cur?"":" disabled")+">Next →</button>"+
-      '<button class="quiet sm" id="rvAll"'+(cur?"":" disabled")+'>Run to end</button></div>'+
+      '<button class="sm" id="rvPrev"'+(rv.idx===0?" disabled":"")+">"+txt("play.review.prev")+"</button>"+
+      '<button class="sm" id="rvNext"'+(cur?"":" disabled")+">"+txt("play.review.nextButton")+"</button>"+
+      '<button class="quiet sm" id="rvAll"'+(cur?"":" disabled")+'>'+txt("play.review.runToEnd")+'</button></div>'+
       '<ol class="log">'+rv.ops.map(function(o,k){
         return '<li class="'+(k<rv.idx?"done":k===rv.idx?"cur":"")+'">'+opLabel(o)+"</li>";
       }).join("")+"</ol></div>";
-    acts='<button id="rvExit">Back to my work</button>';
+    acts='<button id="rvExit">'+txt("play.review.backToWork")+'</button>';
   }else if(S.result){
-    document.getElementById("sideHead").textContent="Result";
+    document.getElementById("sideHead").textContent=txt("play.result");
     side=resultHTML();
-    acts='<div class="row"><button class="sm" id="resClose">Close</button>'+
-         '<button class="sm" id="resNew">New matrix</button></div>';
+    acts='<div class="row"><button class="sm" id="resClose">'+txt("play.close")+'</button>'+
+         '<button class="sm" id="resNew">'+txt("play.newMatrix")+'</button></div>';
   }else{
     document.getElementById("sideHead").textContent="";
-    acts='<div class="row"><button class="sm" id="undo"'+(S.hist.length?"":" disabled")+'>Undo</button>'+
-         '<button class="sm" id="reset"'+(S.hist.length?"":" disabled")+'>Restart</button></div>'+
-         '<button class="primary" id="submit">Submit</button>'+
-         '<button class="warn sm" id="solve">Show solution</button>';
+    acts='<div class="row"><button class="sm" id="undo"'+(S.hist.length?"":" disabled")+'>'+txt("play.undo")+'</button>'+
+         '<button class="sm" id="reset"'+(S.hist.length?"":" disabled")+'>'+txt("play.restart")+'</button></div>'+
+         '<button class="primary" id="submit">'+txt("play.submit")+'</button>'+
+         '<button class="warn sm" id="solve">'+txt("play.showSolution")+'</button>';
   }
   document.getElementById("log").innerHTML=side;
   document.getElementById("sideActions").innerHTML=acts;
@@ -841,15 +1293,167 @@ function renderPlay(){
 function resultHTML(){
   var R=S.result,n=S.n,h='<div class="result">';
   if(!R.ok){
-    return h+'<div class="verdict">Not yet</div><div class="why">'+R.why+"</div></div>";
+    return h+'<div class="verdict">'+txt("play.notYet")+'</div><div class="why">'+R.why+"</div></div>";
   }
   var used=S.hist.length,d=used-S.par;
-  var line=d<0?"under par by "+(-d):d===0?"right at par":"over par by "+d;
-  h+='<div class="verdict">Solved</div>'+
-     '<div class="score">'+used+" move"+(used===1?"":"s")+", "+line+"</div>";
+  var line=d<0?txt("play.underPar",{d:-d}):d===0?txt("play.atPar"):txt("play.overPar",{d:d});
+  h+='<div class="verdict">'+txt("play.solved")+'</div>'+
+     '<div class="score">'+plural(used,"play.scoreOne","play.scoreMany",{moves:used,vsPar:line})+"</div>";
   var info=R.info,dof=n-info.rank;
-  h+='<div class="free">'+(info.inconsistent?"There is no solution.":dof===0?"There is a unique solution.":"There are infinitely many solutions.")+
-     '</div><div class="free"><a href="#solnSec" class="jump">See the solution below \u2193</a></div>';
+  h+='<div class="free">'+(info.inconsistent?txt("play.noSolution"):dof===0?txt("play.uniqueSolution"):txt("play.infiniteSolutions"))+
+     '</div><div class="free"><a href="#solnSec" class="jump">'+txt("play.seeSolution")+"</a></div>";
+  return h+"</div>";
+}
+
+/* ---- adventure views ---- */
+function barHTML(cls,title,sub,val,max,delta,valText){
+  var pct=Math.max(0,Math.min(100,100*val/max));
+  var pop=delta?'<span class="pop">'+(delta>0?"−":"+")+Math.round(Math.abs(delta))+"</span>":"";
+  return '<div class="who '+cls+(delta>0?" hit":"")+'"><div class="nm">'+title+"<span>"+sub+"</span></div>"+
+    '<div class="bar"><div class="tr"><i style="width:'+pct+'%"></i></div>'+pop+"</div>"+
+    '<div class="hpv">'+valText+"</div></div>";
+}
+function stageLabel(id){
+  var k=NODES[id].kind;
+  return k==="side"?txt("battle.practice"):k==="quest"?txt("battle.sideQuest"):txt("battle.stage",{id:id});
+}
+function battleHTML(){
+  var b=S.bt,nd=NODES[b.node],h=b.hit||{};
+  b.hit=null;   /* play the hit animation once, not on every re-render */
+  var you=barHTML("you",txt("battle.you"),txt("battle.yourLevel",{level:A.level}),b.hp,b.max,h.you,txt("battle.hp",{hp:Math.ceil(b.hp),max:b.max}));
+  var foe=barHTML("foe",(nd.foe||nd.name),stageLabel(b.node),b.enemy,b.enemyMax,-(h.foe||0),
+                  plural(b.enemy,"battle.fromRrefOne","battle.fromRrefMany",{n:b.enemy}));
+  var intro=(nd.kind==="side"?"":nd.blurb);
+  return '<div class="bt">'+you+'<div class="vs">'+txt("battle.vs")+'</div>'+foe+"</div>"+
+         '<div class="btmsg">'+(b.msg||intro)+"</div>";
+}
+function itemBtn(id,label,ok){
+  return '<button class="sm item" id="'+(id==="potion"?"btPotion":"btScroll")+'"'+(ok?"":" disabled")+'>'+
+    '<img src="'+SPRITE[id]+'" alt="">'+label+'<span class="n">×'+A.items[id]+"</span></button>";
+}
+function battleSide(){
+  var b=S.bt,nd=NODES[b.node];
+  if(b.state==="won"){
+    var r=b.reward,g='<div class="result win"><div class="verdict">'+txt("battle.victory")+'</div>'+
+      '<div class="score">'+plural(b.moves,"battle.scoreOne","battle.scoreMany",{moves:b.moves,par:b.enemyMax})+"</div>"+
+      '<div class="gain"><b class="cost">'+txt("battle.gold",{gold:r.gold})+"</b>, "+txt("battle.xp",{xp:r.xp})+
+      (r.bonus?" "+txt("battle.bonus",{bonus:r.bonus}):"")+"</div>";
+    if(S.result&&S.result.ok)g+='<div class="gain"><a href="#solnSec" class="jump">'+txt("play.seeSolution")+"</a></div>";
+    if(r.levelUp)g+='<div class="gain"><b>'+txt("battle.levelUp")+"</b> "+txt("battle.levelUpDetail",{level:A.level,hp:maxHp(A.level)})+"</div>";
+    if(r.learn)g+='<div class="gain"><b>'+txt("battle.newMove")+"</b> "+TOOL_NAME[r.learn]+"</div>";
+    if(r.world)g+='<div class="gain"><b>'+txt("battle.worldComplete")+"</b></div>";
+    if(b.node==="2.5")g+='<div class="gain"><b>'+txt("battle.finished")+"</b></div>";
+    return {head:txt("battle.result"),side:g+"</div>",acts:'<button class="primary" id="btMap">'+txt("battle.backToMap")+"</button>"};
+  }
+  if(b.state==="lost"){
+    return {head:txt("battle.result"),
+      side:'<div class="result lose"><div class="verdict">'+txt("battle.defeated")+"</div></div>",
+      acts:'<button class="primary" id="btRetry">'+txt("battle.tryAgain")+'</button><button class="sm" id="btRetreat">'+txt("battle.retreat")+"</button>"};
+  }
+  var mine=b.turn!=="enemy";
+  var it='<div class="items">'+itemBtn("potion",txt("items.potion.use"),A.items.potion&&b.hp<b.max&&mine)+
+                             itemBtn("scroll",txt("items.scroll.use"),A.items.scroll&&mine)+"</div>";
+  return {head:txt("battle.items"),side:it,
+    acts:'<button class="quiet sm" id="btRetreat">'+txt("battle.retreat")+"</button>"+
+         '<button class="dev sm" id="btSkip">'+txt("battle.skipDev")+"</button>"};
+}
+var STAGES=Object.keys(NODES).filter(function(id){var k=NODES[id].kind;return k==="main"||k==="boss";});
+function renderAdvStart(){
+  var saved=A||loadAdv(),h="";
+  if(saved){
+    A=saved;
+    var beat=STAGES.filter(function(id){return A.cleared.indexOf(id)>=0;}).length;
+    h+='<div class="cont"><button class="primary" id="advCont">'+txt("adventure.continue")+'<span class="sub">'+
+       txt("adventure.continueSub",{difficulty:DIFFS[A.diff].name,level:A.level,beaten:beat,total:STAGES.length})+"</span></button></div>"+
+       '<div class="advnote">'+txt("adventure.startOver")+"</div>";
+  }
+  h+='<div class="diffs">'+[1,2,3].map(function(d){
+    var s=DIFFS[d].slack;
+    return '<button data-diff="'+d+'">'+DIFFS[d].name+'<span class="sub">'+txt(["adventure","difficulties",String(d),"sub"],{slack:s})+"</span></button>";
+  }).join("")+"</div>";
+  document.getElementById("advStart").innerHTML=h;
+}
+function hudItem(sprite,alt,val,cls){
+  return '<div class="it"><img class="spr" src="'+SPRITE[sprite]+'" alt="'+alt+'" title="'+alt+'"><b'+(cls?' class="'+cls+'"':"")+">"+val+"</b></div>";
+}
+function renderMap(){
+  var w=A.world,lv=levelInfo(A.xp);
+  document.getElementById("hud").innerHTML=
+    '<div class="hudrow">'+
+      '<div class="it"><span class="w-label">'+txt("map.difficulty")+"</span><b>"+DIFFS[A.diff].name+"</b></div>"+
+      hudItem("heart",txt("map.maxHp"),maxHp(A.level))+hudItem("gold",txt("map.gold"),A.gold,"gold")+
+      hudItem("potion",txt("map.potions"),A.items.potion)+hudItem("scroll",txt("map.scrolls"),A.items.scroll)+
+    "</div>"+
+    '<div class="xprow"><span>'+txt("map.level",{level:lv.L})+'</span><span class="xpbar"><i style="width:'+(100*lv.into/lv.need)+'%"></i></span>'+
+      "<span>"+txt("map.xp",{into:lv.into,need:lv.need})+"</span></div>";
+
+  document.getElementById("worlds").innerHTML=[1,2].map(function(k){
+    var open=isOpen(k+".0");
+    return '<button class="sm" data-world="'+k+'" aria-pressed="'+(w===k)+'"'+(open?"":" disabled")+'>'+
+      txt("map.worldTab",{n:k,name:open?WORLDS[k]:txt("map.lockedWorld")})+"</button>";
+  }).join("");
+
+  var svg='<svg viewBox="0 0 740 300" role="img" aria-label="'+txt("map.mapLabel",{world:WORLDS[w]})+'">';
+  EDGES.forEach(function(e){
+    var a=NODES[e[0]],b=NODES[e[1]];
+    if(a.world!==w)return;
+    var open=isOpen(e[0])&&isOpen(e[1]);
+    var mx=(a.x+b.x)/2,my=(a.y+b.y)/2-18;
+    var d='d="M'+a.x+","+a.y+" Q"+mx+","+my+" "+b.x+","+b.y+'"';
+    svg+=open?'<path class="road" '+d+'/><path class="road-hi" '+d+'/>':'<path class="road locked" '+d+'/>';
+  });
+  Object.keys(NODES).forEach(function(id){
+    var nd=NODES[id];
+    if(nd.world!==w)return;
+    var open=isOpen(id),fight=nd.kind==="main"||nd.kind==="boss"||nd.kind==="quest",done=fight&&isCleared(id);
+    /* [fill, stroke]: a light tint of each place's color */
+    var col=!open?["#dcc9a2","var(--stone)"]
+      :done?["#e2e6c6","var(--moss)"]
+      :nd.kind==="shop"?["#f6dc92","#a8791a"]
+      :nd.kind==="side"?["#d6e2ea","#3d6a8a"]
+      :nd.kind==="quest"?["#dde6d3","var(--sage)"]
+      :nd.kind==="camp"?["var(--parch)","var(--road)"]
+      :nd.kind==="boss"?["#f0c8c0","var(--oxblood)"]
+      :["#f5d2bf","#a8401d"];
+    var glyph={camp:"⌂",shop:"$",side:"+",quest:"?",boss:"★"}[nd.kind]||id;
+    var r=nd.kind==="boss"?25:nd.kind==="main"?21:18;
+    svg+='<g class="node'+(open?"":" locked")+(nd.kind==="main"?" staged":"")+'" data-node="'+id+'">'+
+         "<title>"+(open?nd.name+(nd.blurb?". "+nd.blurb:""):txt("map.lockedTooltip"))+"</title>";
+    if(A.sheet===id)svg+='<circle class="sel-ring" cx="'+nd.x+'" cy="'+nd.y+'" r="'+(r+7)+'"/>';
+    svg+='<circle class="body" cx="'+nd.x+'" cy="'+nd.y+'" r="'+r+'" fill="'+col[0]+'" stroke="'+col[1]+'"/>'+
+         '<text class="num" x="'+nd.x+'" y="'+nd.y+'" fill="'+col[1]+'">'+glyph+"</text>"+
+         '<text class="cap" x="'+nd.x+'" y="'+(nd.y+r+16)+'">'+(open?nd.name:txt("map.lockedPlace"))+"</text></g>";
+  });
+  var at=NODES[A.at];
+  if(at.world===w){
+    var tr=(at.kind==="boss"?25:21)+4;
+    svg+='<path class="token" d="M'+at.x+","+(at.y-tr)+' l-7,-13 a7.5,7.5 0 1 1 14,0 z"/>';
+  }
+  document.getElementById("map").innerHTML=svg+"</svg>";
+  document.getElementById("mapSheet").innerHTML=A.sheet&&NODES[A.sheet].world===w?sheetHTML(A.sheet):"";
+}
+/* the small card over the map for places that are not a straight fight */
+function sheetHTML(id){
+  var nd=NODES[id],h='<div class="sheet"><button class="quiet sm x" id="sheetClose" aria-label="'+txt("map.close")+'">×</button>'+
+    '<div class="nm">'+nd.name+"</div>";
+  if(nd.kind==="shop"){
+    h+='<div class="shop">'+SHOP.map(function(it){
+      return '<div class="ware"><img src="'+SPRITE[it.id]+'" alt=""><div class="d"><b>'+it.name+"</b><span>"+it.desc+"</span></div>"+
+        '<span class="own">'+txt("map.own",{n:A.items[it.id]})+"</span>"+
+        '<button class="sm" data-buy="'+it.id+'"'+(A.gold>=it.cost?"":" disabled")+'>'+txt("map.buy")+' <span class="cost">'+it.cost+"</span></button></div>";
+    }).join("")+"</div>";
+  }else{
+    h+='<p class="meta">'+nd.blurb+"</p>";
+    if(id==="yard"){
+      h+='<div class="dials">'+(yardSquare()?dialHTML("ym",txt("common.size"),A.yard.m,2,4)
+        :dialHTML("ym",txt("common.equations"),A.yard.m,2,4)+dialHTML("yn",txt("common.unknowns"),A.yard.n,2,4))+"</div>";
+    }else{
+      var g=A.ring;
+      h+='<div class="dials">'+dialHTML("gm",txt("common.equations"),g.m,2,5)+dialHTML("gn",txt("common.unknowns"),g.n,2,5)+
+         dialHTML("gr",txt("common.rank"),g.r,1,Math.min(g.m,g.n))+"</div>";
+    }
+    h+='<button class="primary" id="fight">'+txt("map.fight")+"</button>";
+  }
   return h+"</div>";
 }
 
@@ -867,21 +1471,20 @@ function termHTML(c,label,first){
 function solutionHTML(){
   var R=S.result,n=S.n,info=R.info;
   if(info.inconsistent){
-    return '<div class="soln-body">No solution: row '+(info.badRow+1)+" reads 0 = "+fstr(S.cur[info.badRow][n])+
-           ", which no choice of the unknowns can satisfy.</div>";
+    return '<div class="soln-body">'+txt("solution.inconsistent",{row:info.badRow+1,c:fstr(S.cur[info.badRow][n])})+"</div>";
   }
   var gs=generalSolution(S.cur,n,info),free=gs.free,h="";
   if(free.length){
     h+='<div class="soln-tabs">'+
-       '<button class="sm" data-sview="eq" aria-pressed="'+(S.solnView==="eq")+'">Equation form</button>'+
-       '<button class="sm" data-sview="vec" aria-pressed="'+(S.solnView==="vec")+'">Vector form</button></div>';
+       '<button class="sm" data-sview="eq" aria-pressed="'+(S.solnView==="eq")+'">'+txt("solution.equationForm")+"</button>"+
+       '<button class="sm" data-sview="vec" aria-pressed="'+(S.solnView==="vec")+'">'+txt("solution.vectorForm")+"</button></div>";
   }
   if(S.solnView==="eq"||!free.length){
     /* each pivot variable in terms of the free ones; free ones are themselves */
     var lines=[];
     for(var k=0;k<n;k++){
       var fi=free.indexOf(k);
-      if(fi>=0){lines.push(xname(k)+" = "+freeSpan(fi,xname(k))+' <span class="tag-free">free</span>');continue;}
+      if(fi>=0){lines.push(xname(k)+" = "+freeSpan(fi,xname(k))+ ' <span class="tag-free">'+txt("solution.free")+"</span>");continue;}
       var rhs=isZero(gs.p[k])&&free.some(function(f,idx){return !isZero(gs.basis[idx].v[k]);})?"":fracHTML(gs.p[k]);
       var first=rhs==="";
       free.forEach(function(f,idx){
@@ -897,7 +1500,7 @@ function solutionHTML(){
     h+='<div class="soln-body">'+body+"</div>";
   }
   if(free.length){
-    h+='<div class="soln-part"><div class="soln-sub">Pick values for the free variables to get a particular solution.</div>'+
+    h+='<div class="soln-part"><div class="soln-sub">'+txt("solution.pickValues")+"</div>"+
        '<div class="tsliders">'+free.map(function(f,idx){
          var v=S.tvals[f]||0;
          return '<label class="tslider">'+freeSpan(idx,xname(f))+' = <span class="tv" id="tv'+f+'">'+v+'</span>'+
@@ -920,14 +1523,16 @@ function renderSolution(){
   var sec=document.getElementById("solnSec");
   var show=S.screen==="play"&&S.result&&S.result.ok;
   sec.hidden=!show;
-  sec.innerHTML=show?'<h2 class="h">Solution</h2>'+solutionHTML():"";
+  sec.innerHTML=show?'<h2 class="h">'+txt("solution.title")+"</h2>"+solutionHTML():"";
 }
 
 function render(){
-  ["Menu","Setup","Custom","Play"].forEach(function(k){
+  ["Menu","Setup","Custom","Play","Adv","Map"].forEach(function(k){
     document.getElementById("scr"+k).classList.toggle("on",S.screen===k.toLowerCase());
   });
-  if(S.screen==="setup")renderSetup();
+  if(S.screen==="adv")renderAdvStart();
+  else if(S.screen==="map")renderMap();
+  else if(S.screen==="setup")renderSetup();
   else if(S.screen==="custom")renderCustom();
   else if(S.screen==="play")renderPlay();
   renderSolution();
@@ -935,7 +1540,7 @@ function render(){
 
 /* ============================== interaction ============================== */
 function rowClick(i){
-  if(S.review)return;
+  if(S.review||battleLocked())return;
   S.result=null;
   var n=S.n,cur=S.cur;
   if(S.mode==="swap"){
@@ -950,6 +1555,7 @@ function rowClick(i){
   }else{
     if(S.a===null)S.a=i;
     else if(S.a===i){S.a=null;S.b=null;}
+    else if(unitAdd()){commit({type:"add",i:i,j:S.a,c:F(1)});return;}
     else{
       S.b=i;S.c="1";
     }
@@ -966,11 +1572,58 @@ document.addEventListener("click",function(e){
     if(id==="n")S.n=Math.max(2,Math.min(6,S.n+dir));
     if(id==="r")S.r=Math.max(1,Math.min(Math.min(S.m,S.n),S.r+dir));
     if(id==="cm"){S.custom.m=Math.max(2,Math.min(6,S.custom.m+dir));render();return;}
+    if(id==="ym"||id==="yn"){
+      var y=A.yard;y[id[1]]=Math.max(2,Math.min(4,y[id[1]]+dir));
+      if(yardSquare())y.n=y.m;
+      saveAdv();render();return;
+    }
+    if(id==="gm"||id==="gn"||id==="gr"){
+      var g=A.ring,k=id[1];g[k]=Math.max(k==="r"?1:2,Math.min(5,g[k]+dir));
+      g.r=Math.min(g.r,g.m,g.n);saveAdv();render();return;
+    }
     if(id==="cn"){S.custom.n=Math.max(2,Math.min(6,S.custom.n+dir));render();return;}
     newSystem();return;
   }
   if(t.closest("#newsys")){newSystem();return;}
   if(t.closest("#play")){S.origin="setup";S.screen="play";S.result=null;render();return;}
+  /* adventure */
+  if(t.closest("#toAdv")){S.screen="adv";render();return;}
+  if(t.closest("#toMenu3")||t.closest("#mapMenu")){S.screen="menu";render();return;}
+  if((el=t.closest("[data-diff]"))){newAdv(+el.getAttribute("data-diff"));S.screen="map";render();return;}
+  if(t.closest("#advCont")){S.screen="map";render();return;}
+  if((el=t.closest("[data-world]"))){
+    var wk=+el.getAttribute("data-world");
+    if(isOpen(wk+".0")){A.world=wk;A.sheet=null;saveAdv();render();}
+    return;
+  }
+  if((el=t.closest("[data-node]"))){
+    var id=el.getAttribute("data-node"),nd=NODES[id];
+    if(!isOpen(id))return;
+    A.at=id;A.sheet=null;saveAdv();
+    if((nd.kind==="main"||nd.kind==="boss"||nd.kind==="quest")&&!isCleared(id)){startBattle(id);return;}
+    if(nd.kind==="shop"||nd.kind==="side")A.sheet=id;
+    render();return;
+  }
+  if(t.closest("#fight")){var sh=A.sheet;A.sheet=null;startBattle(sh);return;}
+  if(t.closest("#sheetClose")||(S.screen==="map"&&A.sheet&&t.closest("#map"))){A.sheet=null;render();return;}
+  if((el=t.closest("[data-buy]"))){
+    var w=SHOP.filter(function(x){return x.id===el.getAttribute("data-buy");})[0];
+    if(A.gold>=w.cost){A.gold-=w.cost;A.items[w.id]++;saveAdv();render();}
+    return;
+  }
+  if(t.closest("#btPotion")){useItem("potion");return;}
+  if(t.closest("#btScroll")){useItem("scroll");return;}
+  if(t.closest("#btRetry")){retryBattle();return;}
+  if(t.closest("#btRetreat")||t.closest("#btMap")){leaveBattle();return;}
+  if(t.closest("#btSkip")){
+    if(S.bt&&S.bt.state==="fight"){
+      clearTimeout(S.bt.timer);S.bt.turn="you";
+      S.hist.push({label:txt("battle.skippedDev"),before:S.cur});
+      S.cur=refSolve(S.cur,S.n).result;winBattle();render();
+    }
+    return;
+  }
+  if(t.closest("#toSetup")&&S.bt){leaveBattle();return;}
   if(t.closest("#toSetup")){S.screen=S.origin;S.review=null;S.result=null;S.a=null;S.b=null;render();return;}
   /* menu */
   if(t.closest("#toSetupNew")){S.screen="setup";render();return;}
@@ -1031,7 +1684,7 @@ document.addEventListener("input",function(e){
     customCells()[+ci][ck]=e.target.value;
     e.target.classList.toggle("bad",e.target.value.trim()!==""&&!parseFrac(e.target.value));
     var anyBad=!!document.querySelector("#entry input.bad");
-    document.getElementById("cnote").textContent=anyBad?BAD_NOTE:"";
+    document.getElementById("cnote").textContent=anyBad?txt("custom.badEntries"):"";
     document.getElementById("cplay").disabled=anyBad;
   }
 });
@@ -1043,7 +1696,7 @@ document.addEventListener("keydown",function(e){
     return;
   }
   if(S.screen!=="play")return;
-  if(S.result&&e.key==="Escape"){S.result=null;render();return;}
+  if(S.result&&!S.bt&&e.key==="Escape"){S.result=null;render();return;}
   if(S.review){
     if(e.key==="ArrowRight"&&S.review.idx<S.review.ops.length){S.review.idx++;render();}
     if(e.key==="ArrowLeft"&&S.review.idx>0){S.review.idx--;render();}
@@ -1069,8 +1722,8 @@ function markDrag(){
   rows[d.from].classList.add("lifted");
   if(d.over!==null&&d.over!==d.from&&rows[d.over]){
     rows[d.over].classList.add("dropzone");
-    rows[d.over].setAttribute("data-drop","R"+sub(d.from+1)+" lands here");
-    rows[d.from].setAttribute("data-drop","R"+sub(d.over+1)+" lands here");
+    rows[d.over].setAttribute("data-drop",txt("play.dropHere",{row:"R"+sub(d.from+1)}));
+    rows[d.from].setAttribute("data-drop",txt("play.dropHere",{row:"R"+sub(d.over+1)}));
   }
 }
 function showGhost(i,x,y){
@@ -1089,7 +1742,7 @@ function moveGhost(x,y){
 }
 document.addEventListener("mousedown",function(e){
   var h=e.target.closest("[data-handle]");
-  if(!h||S.review)return;
+  if(!h||S.review||battleLocked())return;
   e.preventDefault();
   var from=+h.getAttribute("data-handle");
   S.drag={from:from,over:from};
@@ -1111,7 +1764,10 @@ document.addEventListener("mouseup",function(){
   if(d.over!==null&&d.over!==d.from)commit({type:"swap",i:d.from,j:d.over});
 });
 
+loadText(function(){
+applyText();
 newSystem();
+});
 
 /* ============================== embed height ==============================
    The screens differ a lot in height, so report the content height to the
