@@ -297,11 +297,11 @@ side_controls: true
 <!--writeup-->
 
 <div class="latex-body">
-We usually describe a vector in $\R^2$ by its two entries,
+We usually describe a vector in $\R^2$ by its two components (or entries),
 $$\mathbf{y} = \begin{bmatrix} y_1 \\ y_2 \end{bmatrix}.$$
-Those entries are really \emph{coordinates}: they say how far to walk along $\mathbf{e}_1$ and then along $\mathbf{e}_2$ to reach $\mathbf{y}$. Nothing forces us to use $\mathbf{e}_1$ and $\mathbf{e}_2$, though. Any basis $\beta = \{\mathbf{v}_1, \mathbf{v}_2\}$ gives its own set of directions to walk along, and the same arrow gets a different pair of coordinates. This page is about computing those new coordinates.
+Those entries are really \emph{coordinates}, in the standard basis: they say how far to walk along $\mathbf{e}_1$ (the ``x direction'') and how far to walk along $\mathbf{e}_2$ (the ``y direction''). The choice of basis being $\mathbf{e}_1$ and $\mathbf{e}_2$ is standard, but not required. Any basis $\beta = \{\mathbf{v}_1, \mathbf{v}_2\}$ suffices to give unique coordinates (as noted in the theorem below). This page is about computing those new coordinates when we know the standard ones. Coupling these ideas and composing operations lets us convert between any two bases.
 
-In the graph, the red vector is $\mathbf{v}_1$, the blue vector is $\mathbf{v}_2$ (drag either tip to change the basis), and the orange vector is $\mathbf{y}$ (drag it, or use the sliders). The faint black grid is the standard grid, built from $\mathbf{e}_1$ and $\mathbf{e}_2$. Toggle on the \emph{$\beta$-grid} to see the darker grid built from $\mathbf{v}_1$ and $\mathbf{v}_2$ instead: the same vector $\mathbf{y}$ sits at a different spot relative to each grid.
+In the graph, the red vector is $\mathbf{v}_1$, the blue vector is $\mathbf{v}_2$ (drag either tip to change the basis), and the orange vector is $\mathbf{y}$ (drag it, or use the sliders). The faint black grid is the standard grid, built from $\mathbf{e}_1$ and $\mathbf{e}_2$. Toggle on the \emph{$\beta$-grid} to see the grid built from $\mathbf{v}_1$ and $\mathbf{v}_2$ instead. Notably, the vector $\mathbf{y}$ may have different coordinates in different bases, thus sitting along different grid points. 
 
 \subsection*{Coordinates with respect to a basis}
 
@@ -315,7 +315,7 @@ $$\big[\mathbf{y}\big]_\beta = \begin{bmatrix} c_1 \\ c_2 \end{bmatrix} \in \R^2
 is the \textbf{coordinate vector} of $\mathbf{y}$ with respect to $\beta$.
 \end{definition}
 
-Toggle on $c_1\mathbf{v}_1,\ c_2\mathbf{v}_2$ to see this in the graph: the dashed red and blue arrows are the scaled vectors $c_1\mathbf{v}_1$ and $c_2\mathbf{v}_2$, and the dotted lines complete the parallelogram whose far corner is their sum $\mathbf{y}$. Equivalently, $\big[\mathbf{y}\big]_\beta$ is what you get by counting $\beta$-grid lines: $c_1$ steps in the $\mathbf{v}_1$ direction and $c_2$ steps in the $\mathbf{v}_2$ direction.
+Toggle on $c_1\mathbf{v}_1,\ c_2\mathbf{v}_2$ to see this in the graph: the dashed red and blue arrows are the scaled vectors $c_1\mathbf{v}_1$ and $c_2\mathbf{v}_2$, and the dotted lines complete the parallelogram whose far corner is their sum, $\mathbf{y}$. The coordinate vector, $\big[\mathbf{y}\big]_\beta$ simply tells use how to traverse the $\beta$-grid to arrive at $\mathbf{y}$.
 
 \begin{remark}
 A set has no order, so $\{\mathbf{v}_1, \mathbf{v}_2\} = \{\mathbf{v}_2, \mathbf{v}_1\}$. For coordinates, however, we have to fix an ordering of the basis, since the ordering decides which entry of $\big[\mathbf{y}\big]_\beta$ is which. Listing the basis as $\{\mathbf{v}_2, \mathbf{v}_1\}$ instead would give the same grid, but the two entries of $\big[\mathbf{y}\big]_\beta$ would trade places.
@@ -344,7 +344,7 @@ $$\big[\mathbf{y}\big]_{\beta'} = P\,\big[\mathbf{y}\big]_\beta = \begin{bmatrix
 \begin{example}
 Let $\alpha = \{\mathbf{e}_1, \mathbf{e}_2\}$ be the standard (canonical) basis of $\R^2$. For any $\mathbf{y}$,
 $$\mathbf{y} = \begin{bmatrix} y_1 \\ y_2 \end{bmatrix} = y_1\begin{bmatrix} 1 \\ 0 \end{bmatrix} + y_2\begin{bmatrix} 0 \\ 1 \end{bmatrix} = y_1\mathbf{e}_1 + y_2\mathbf{e}_2,$$
-so the coordinates of $\mathbf{y}$ with respect to $\alpha$ are just its entries: $\big[\mathbf{y}\big]_\alpha = \mathbf{y}$. To see this in the graph, turn on the $\beta$-grid and drag $\mathbf{v}_1$ onto $\mathbf{e}_1$ and $\mathbf{v}_2$ onto $\mathbf{e}_2$: the $\beta$-grid lands on the standard grid and the two pairs of sliders agree.
+so the coordinates of $\mathbf{y}$ with respect to $\alpha$ are just its entries: $\big[\mathbf{y}\big]_\alpha = \mathbf{y}$. 
 \end{example}
 
 \subsection*{Computing the new coordinates}
@@ -358,7 +358,7 @@ $$M_{\beta\leftarrow\alpha} = M_\beta^{-1}$$
 is called the \textbf{change of coordinates matrix} from the standard basis $\alpha$ to the basis $\beta$.
 \end{definition}
 
-With this notation the system above reads $M_\beta\big[\mathbf{y}\big]_\beta = \big[\mathbf{y}\big]_\alpha$. Since $\mathbf{v}_1, \mathbf{v}_2$ are linearly independent, $M_\beta$ is invertible, and multiplying both sides by $M_\beta^{-1}$ gives the main result.
+With this notation, the system above reads $M_\beta\big[\mathbf{y}\big]_\beta = \big[\mathbf{y}\big]_\alpha$. Since $\mathbf{v}_1, \mathbf{v}_2$ are linearly independent, $M_\beta$ is invertible, and multiplying both sides by $M_\beta^{-1}$ gives the main result.
 
 \begin{theorem}
 Let $\alpha$ be the standard basis of $\R^2$ and $\beta = \{\mathbf{v}_1, \mathbf{v}_2\}$ any basis of $\R^2$. For every $\mathbf{y} \in \R^2$,
@@ -383,7 +383,5 @@ $$2\mathbf{v}_1 + 2\mathbf{v}_2 = \begin{bmatrix} 2 \\ 2 \end{bmatrix} + \begin{
 With the $\beta$-grid on, $\mathbf{y}$ sits exactly two $\beta$-grid steps along $\mathbf{v}_1$ and two along $\mathbf{v}_2$.
 \end{example}
 
-\begin{remark}
-The formula also runs backwards: $\big[\mathbf{y}\big]_\alpha = M_\beta\big[\mathbf{y}\big]_\beta$, i.e. to recover $\mathbf{y}$ from its $\beta$-coordinates, just form $c_1\mathbf{v}_1 + c_2\mathbf{v}_2$. That is what the $c_1, c_2$ sliders do. Everything relies on $M_\beta$ being invertible: if you drag $\mathbf{v}_1$ and $\mathbf{v}_2$ onto a common line, then $\det M_\beta = 0$, the $\beta$-grid collapses, and $\beta$ is no longer a basis.
-\end{remark}
+
 </div>
