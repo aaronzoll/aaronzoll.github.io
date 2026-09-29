@@ -238,6 +238,10 @@
   // e.g. a stray thmtools `{}` artifact could shift phase B's numbering out of sync
   // with the labels phase A already recorded).
   function normalize(h) {
+    // LaTeX quotes: ``...'' -> “...”. The closing '' is only converted when it
+    // pairs with an opening `` on the same line with no $ between, so primes
+    // in math (f''(x)) are never touched. A lone `` still becomes “.
+    h = h.replace(/``([^`$\n]*?)''/g, '“$1”');
     h = h.replace(/``/g, '“');
     h = h.replace(/\\begin\{figure\*?\}[\s\S]*?\\end\{figure\*?\}/g, '');
     h = h.replace(/\\begin\{tikzpicture\}[\s\S]*?\\end\{tikzpicture\}/g, '');
@@ -853,7 +857,11 @@ bundle <span class="nb">install</span>
   // e.g. a stray thmtools <code class="language-plaintext highlighter-rouge">{}</code> artifact could shift phase B’s numbering out of sync
   // with the labels phase A already recorded).
   function normalize(h) {
-    h = h.replace(/``/g, ‘“’);
+    // LaTeX quotes: <code class="language-plaintext highlighter-rouge">...'' -&gt; “...”. The closing '' is only converted when it
+    // pairs with an opening</code> on the same line with no $ between, so primes
+    // in math (f’‘(x)) are never touched. A lone <code class="language-plaintext highlighter-rouge">still becomes “.
+    h = h.replace(/</code>([^<code class="language-plaintext highlighter-rouge">$\n]*?)''/g, '“$1”');
+    h = h.replace(/</code>`/g, ‘“’);
     h = h.replace(/\begin{figure*?}[\s\S]<em>?\end{figure*?}/g, ‘’);
     h = h.replace(/\begin{tikzpicture}[\s\S]</em>?\end{tikzpicture}/g, ‘’);
     h = h.replace(/\begin{(\w+)}({}){1,2}/g, ‘\begin{$1}’);

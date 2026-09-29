@@ -254,10 +254,28 @@ side_controls: true
     document.getElementById('cb-y1').addEventListener('input', function (e) { set('Y1', parseFloat(e.target.value)); });
     document.getElementById('cb-y2').addEventListener('input', function (e) { set('Y2', parseFloat(e.target.value)); });
 
+    // Keep y = c_1 v_1 + c_2 v_2 inside the ±BOUND frame: with the other
+    // coefficient fixed, each coordinate of y is linear in c[which], which
+    // gives an interval of allowed values to clamp into.
+    var BOUND = 6;
+    function clampCoord(which, value, c) {
+      var v = which === 0 ? [vals.A11, vals.A21] : [vals.A12, vals.A22];
+      var w = which === 0 ? [vals.A12, vals.A22] : [vals.A11, vals.A21];
+      var other = c[1 - which], lo = -Infinity, hi = Infinity;
+      for (var j = 0; j < 2; j++) {
+        var base = other * w[j];
+        if (Math.abs(v[j]) < 1e-9) { continue; }
+        var a = (-BOUND - base) / v[j], b = (BOUND - base) / v[j];
+        lo = Math.max(lo, Math.min(a, b));
+        hi = Math.min(hi, Math.max(a, b));
+      }
+      return Math.min(hi, Math.max(lo, value));
+    }
+
     function fromCoords(which, value) {
       if (Math.abs(det()) < EPS) { return; }
       var c = coords();
-      c[which] = value;
+      c[which] = clampCoord(which, value, c);
       set('Y1', c[0] * vals.A11 + c[1] * vals.A12);
       set('Y2', c[0] * vals.A21 + c[1] * vals.A22);
     }
@@ -337,7 +355,7 @@ satisfies $\begin{bmatrix} \mathbf{v}_1 & \mathbf{v}_2 \end{bmatrix}P = \begin{b
 $$\begin{bmatrix} \mathbf{v}_2 & \mathbf{v}_1 \end{bmatrix}\Big(P\big[\mathbf{y}\big]_\beta\Big)
 = \begin{bmatrix} \mathbf{v}_1 & \mathbf{v}_2 \end{bmatrix}P^2\big[\mathbf{y}\big]_\beta
 = \begin{bmatrix} \mathbf{v}_1 & \mathbf{v}_2 \end{bmatrix}\big[\mathbf{y}\big]_\beta = \mathbf{y}.$$
-Hence $P\big[\mathbf{y}\big]_\beta$ solves the coordinate equation for $\beta'$, and by uniqueness
+Hence $P\big[\mathbf{y}\big]_\beta$ solves the coordinate equation for $\beta'$ and
 $$\big[\mathbf{y}\big]_{\beta'} = P\,\big[\mathbf{y}\big]_\beta = \begin{bmatrix} c_2 \\ c_1 \end{bmatrix}.$$
 \end{proof}
 
@@ -365,14 +383,28 @@ Let $\alpha$ be the standard basis of $\R^2$ and $\beta = \{\mathbf{v}_1, \mathb
 $$\big[\mathbf{y}\big]_\beta = M_{\beta\leftarrow\alpha}\big[\mathbf{y}\big]_\alpha = M_\beta^{-1}\,\mathbf{y}.$$
 \end{theorem}
 
+\begin{remark}
+Because the inverse is an involution (the inverse of the inverse is the original matrix), given the $\beta$-coordinates, the standard ones are $\big[\mathbf{y}\big]_\alpha = M_\beta\big[\mathbf{y}\big]_\beta$, which is just $c_1\mathbf{v}_1 + c_2\mathbf{v}_2$. So $M_\beta$ is itself a change of coordinates matrix, $M_{\alpha\leftarrow\beta} = M_\beta$, and the two directions are inverses of each other:
+$$\mathbf{y} = \big[\mathbf{y}\big]_\alpha
+\;\;\mathrel{\begin{array}{c}
+\xrightarrow{\quad \textstyle M_{\beta\leftarrow\alpha} \,=\, M_\beta^{-1} \quad} \\[-2pt]
+\xleftarrow[\quad \textstyle M_{\alpha\leftarrow\beta} \,=\, M_\beta \quad]{}
+\end{array}}\;\;
+\big[\mathbf{y}\big]_\beta.$$
+\end{remark}
+
+\begin{remark}
+The above object is called a \textit{commutative diagram} and is read as follows. The arrows define the mapping from the input object (at the tail) to the output object (at the tip). Furthermore, you can navigate through any path (or around and around). We say the diagram \textit{commutes} because any path that starts and ends at the same points leads to the same result. This is illustrated more clearly in the next section.  
+\end{remark}
+
 For a $2\times 2$ matrix the inverse is explicit: whenever $ad - bc \neq 0$,
 $$M_\beta = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \quad\Longrightarrow\quad M_\beta^{-1} = \frac{1}{ad-bc}\begin{bmatrix} \phantom{-}d & -b \\ -c & \phantom{-}a \end{bmatrix}.$$
 This is exactly the computation shown live under the graph.
 
 \begin{example}
 Take
-$$\mathbf{v}_1 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \qquad \mathbf{v}_2 = \begin{bmatrix} -2 \\ \phantom{-}1 \end{bmatrix}, \qquad \mathbf{y} = \begin{bmatrix} -2 \\ \phantom{-}4 \end{bmatrix}$$
-(drag the three vectors to these positions to follow along in the graph). The basis matrix is
+$$\mathbf{v}_1 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \qquad \mathbf{v}_2 = \begin{bmatrix} -2 \\ \phantom{-}1 \end{bmatrix}, \qquad \mathbf{y} = \begin{bmatrix} -2 \\ \phantom{-}4 \end{bmatrix}.$$
+The basis matrix is
 $$M_\beta = \begin{bmatrix} 1 & -2 \\ 1 & \phantom{-}1 \end{bmatrix}, \qquad \det M_\beta = 1\cdot 1 - (-2)\cdot 1 = 3,$$
 so
 $$M_{\beta\leftarrow\alpha} = M_\beta^{-1} = \frac{1}{3}\begin{bmatrix} \phantom{-}1 & 2 \\ -1 & 1 \end{bmatrix}
@@ -380,7 +412,50 @@ $$M_{\beta\leftarrow\alpha} = M_\beta^{-1} = \frac{1}{3}\begin{bmatrix} \phantom
 \big[\mathbf{y}\big]_\beta = \frac{1}{3}\begin{bmatrix} \phantom{-}1 & 2 \\ -1 & 1 \end{bmatrix}\begin{bmatrix} -2 \\ \phantom{-}4 \end{bmatrix} = \frac{1}{3}\begin{bmatrix} 6 \\ 6 \end{bmatrix} = \begin{bmatrix} 2 \\ 2 \end{bmatrix}.$$
 We can check this directly:
 $$2\mathbf{v}_1 + 2\mathbf{v}_2 = \begin{bmatrix} 2 \\ 2 \end{bmatrix} + \begin{bmatrix} -4 \\ \phantom{-}2 \end{bmatrix} = \begin{bmatrix} -2 \\ \phantom{-}4 \end{bmatrix} = \mathbf{y}.$$
-With the $\beta$-grid on, $\mathbf{y}$ sits exactly two $\beta$-grid steps along $\mathbf{v}_1$ and two along $\mathbf{v}_2$.
+\end{example}
+
+\subsection*{Going between any two bases}
+
+So far we have only gone from the standard basis $\alpha$ to a new basis $\beta$. To go between two general bases $\beta = \{\mathbf{v}_1, \mathbf{v}_2\}$ and $\beta' = \{\mathbf{w}_1, \mathbf{w}_2\}$, we simply apply two transformations (stopping at the standard basis along the way). Multiplying by $M_\beta$ takes $\beta$-coordinates to standard coordinates (since $M_\beta\big[\mathbf{y}\big]_\beta = \mathbf{y}$), and multiplying by $M_{\beta'}^{-1}$ takes standard coordinates to $\beta'$-coordinates:
+$$\begin{CD}
+\big[\mathbf{y}\big]_\beta @>{\qquad \textstyle M_{\beta'\leftarrow\beta} \qquad}>> \big[\mathbf{y}\big]_{\beta'} \\
+@V{\textstyle M_\beta}VV @AA{\textstyle M_{\beta'}^{-1}}A \\
+\mathbf{y} @= \mathbf{y}
+\end{CD}$$
+As mentioned in an earlier remark, we say this diagram \textit{commutes} as going down, across, and up is the same as going straight across the top. In other words, we may compose our operations (equivalently multiplying the matrices), which gives $M_{\beta'\leftarrow\beta}$.
+
+\begin{theorem}
+Let $\beta$ and $\beta'$ be bases of $\R^2$. For every $\mathbf{y} \in \R^2$,
+$$\big[\mathbf{y}\big]_{\beta'} = M_{\beta'\leftarrow\beta}\big[\mathbf{y}\big]_\beta, \qquad \text{where } M_{\beta'\leftarrow\beta} = M_{\beta'}^{-1}M_\beta,$$
+and in the other direction,
+$$\big[\mathbf{y}\big]_\beta = M_{\beta\leftarrow\beta'}\big[\mathbf{y}\big]_{\beta'}, \qquad \text{where } M_{\beta\leftarrow\beta'} = M_\beta^{-1}M_{\beta'} = \big(M_{\beta'\leftarrow\beta}\big)^{-1}.$$
+\end{theorem}
+
+\begin{proof}
+Both coordinate vectors describe the same $\mathbf{y}$, so $M_{\beta'}\big[\mathbf{y}\big]_{\beta'} = \mathbf{y} = M_\beta\big[\mathbf{y}\big]_\beta$. Multiplying on the left by $M_{\beta'}^{-1}$ gives the first formula, and by $M_\beta^{-1}$ gives the second.
+\end{proof}
+
+
+\begin{remark}
+None of the theory so far required $\R^2.$ All the results generalize to $\R^n$ by just bulding similar $(n \times n)$ \textbf{basis matrices} and inverting as necessary. 
+\end{remark}
+
+Let's conclude with a final example, going between two bases. 
+
+\begin{example}
+Keep $\beta$ and $\mathbf{y}$ from the previous example, where we found $\big[\mathbf{y}\big]_\beta$ has entries $2, 2$, and let $\beta' = \{\mathbf{w}_1, \mathbf{w}_2\}$ with
+$$\mathbf{w}_1 = \begin{bmatrix} \phantom{-}1 \\ -1 \end{bmatrix}, \qquad \mathbf{w}_2 = \begin{bmatrix} -4 \\ \phantom{-}6 \end{bmatrix}, \qquad M_{\beta'} = \begin{bmatrix} \phantom{-}1 & -4 \\ -1 & \phantom{-}6 \end{bmatrix}, \qquad M_{\beta'}^{-1} = \frac{1}{2}\begin{bmatrix} 6 & 4 \\ 1 & 1 \end{bmatrix}.$$
+Then
+$$M_{\beta'\leftarrow\beta} = M_{\beta'}^{-1}M_\beta = \frac{1}{2}\begin{bmatrix} 6 & 4 \\ 1 & 1 \end{bmatrix}\begin{bmatrix} 1 & -2 \\ 1 & \phantom{-}1 \end{bmatrix} = \frac{1}{2}\begin{bmatrix} 10 & -8 \\ 2 & -1 \end{bmatrix},
+\qquad
+\big[\mathbf{y}\big]_{\beta'} = \frac{1}{2}\begin{bmatrix} 10 & -8 \\ 2 & -1 \end{bmatrix}\begin{bmatrix} 2 \\ 2 \end{bmatrix} = \begin{bmatrix} 2 \\ 1 \end{bmatrix}.$$
+We never had to compute $\mathbf{y}$ itself, but we can check against it:
+$$2\mathbf{w}_1 + \mathbf{w}_2 = \begin{bmatrix} \phantom{-}2 \\ -2 \end{bmatrix} + \begin{bmatrix} -4 \\ \phantom{-}6 \end{bmatrix} = \begin{bmatrix} -2 \\ \phantom{-}4 \end{bmatrix} = \mathbf{y}.$$
+Going back the other way,
+$$M_{\beta\leftarrow\beta'} = M_\beta^{-1}M_{\beta'} = \frac{1}{3}\begin{bmatrix} \phantom{-}1 & 2 \\ -1 & 1 \end{bmatrix}\begin{bmatrix} \phantom{-}1 & -4 \\ -1 & \phantom{-}6 \end{bmatrix} = \frac{1}{3}\begin{bmatrix} -1 & 8 \\ -2 & 10 \end{bmatrix},
+\qquad
+\frac{1}{3}\begin{bmatrix} -1 & 8 \\ -2 & 10 \end{bmatrix}\begin{bmatrix} 2 \\ 1 \end{bmatrix} = \begin{bmatrix} 2 \\ 2 \end{bmatrix} = \big[\mathbf{y}\big]_\beta,$$
+as expected.
 \end{example}
 
 

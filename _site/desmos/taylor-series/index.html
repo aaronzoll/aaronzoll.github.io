@@ -238,6 +238,10 @@
   // e.g. a stray thmtools `{}` artifact could shift phase B's numbering out of sync
   // with the labels phase A already recorded).
   function normalize(h) {
+    // LaTeX quotes: ``...'' -> “...”. The closing '' is only converted when it
+    // pairs with an opening `` on the same line with no $ between, so primes
+    // in math (f''(x)) are never touched. A lone `` still becomes “.
+    h = h.replace(/``([^`$\n]*?)''/g, '“$1”');
     h = h.replace(/``/g, '“');
     h = h.replace(/\\begin\{figure\*?\}[\s\S]*?\\end\{figure\*?\}/g, '');
     h = h.replace(/\\begin\{tikzpicture\}[\s\S]*?\\end\{tikzpicture\}/g, '');
