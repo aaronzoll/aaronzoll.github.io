@@ -648,22 +648,22 @@ augmented by topics from linear algebra and the use of computer software (primar
     <div class="folder-body">
       <div class="lecture-grid">
 
-        <div class="lecture-card lecture-card--pending">
+        <div class="lecture-card" href = "https://docs.google.com/presentation/d/1QOYj00IHDdKtlBVsS2dC9ZEHyzDmYUFZ1EFu4ZBEzbw/edit?usp=sharing" target="_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 13</span>
             <img src="/assets/LADE/thumbnails/Lecture_13.png" alt="Lecture 13 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 13</span>
-          <span class="lecture-title">Topic TBD</span>
+          <span class="lecture-title">Bases and Dimension</span>
         </div>
 
-        <div class="lecture-card lecture-card--pending">
+        <div class="lecture-card" href = "https://docs.google.com/presentation/d/1Tenex2ZdWL6f76iZMiiBPH-Q7mVSeQIGRZeZDr_OU7s/edit?usp=sharing" target="_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 14</span>
             <img src="/assets/LADE/thumbnails/Lecture_14.png" alt="Lecture 14 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 14</span>
-          <span class="lecture-title">Topic TBD</span>
+          <span class="lecture-title">Coordinates</span>
         </div>
 
         <div class="lecture-card lecture-card--pending">
