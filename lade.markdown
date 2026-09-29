@@ -617,23 +617,23 @@ augmented by topics from linear algebra and the use of computer software (primar
           <span class="lecture-title">Determinants</span>
         </a>
 
-        <div class="lecture-card" href="https://docs.google.com/presentation/d/1pDImOkFQK0HE8A98qluZEzK8WPLnkfRhk5kqLV-gVEg/edit?usp=sharing" target="_blank">
+        <a class="lecture-card" href="https://docs.google.com/presentation/d/1pDImOkFQK0HE8A98qluZEzK8WPLnkfRhk5kqLV-gVEg/edit?usp=sharing" target="_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 11</span>
             <img src="/assets/LADE/thumbnails/Lecture_11.png" alt="Lecture 11 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 11</span>
           <span class="lecture-title">Subspaces</span>
-        </div>
+        </a>
 
-        <div class="lecture-card" href="https://docs.google.com/presentation/d/1C1r4_c4hBjeeUZdvklQmckZZITls_M2KBl_EV1XQdI0/edit?usp=sharing" target="_blank">
+        <a class="lecture-card" href="https://docs.google.com/presentation/d/1C1r4_c4hBjeeUZdvklQmckZZITls_M2KBl_EV1XQdI0/edit?usp=sharing" target="_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 12</span>
             <img src="/assets/LADE/thumbnails/Lecture_12.png" alt="Lecture 12 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 12</span>
           <span class="lecture-title">Span</span>
-        </div>
+        </a>
 
       </div>
     </div>
@@ -648,23 +648,23 @@ augmented by topics from linear algebra and the use of computer software (primar
     <div class="folder-body">
       <div class="lecture-grid">
 
-        <div class="lecture-card" href = "https://docs.google.com/presentation/d/1QOYj00IHDdKtlBVsS2dC9ZEHyzDmYUFZ1EFu4ZBEzbw/edit?usp=sharing" target="_blank">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1QOYj00IHDdKtlBVsS2dC9ZEHyzDmYUFZ1EFu4ZBEzbw/edit?usp=sharing" target="_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 13</span>
             <img src="/assets/LADE/thumbnails/Lecture_13.png" alt="Lecture 13 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 13</span>
           <span class="lecture-title">Bases and Dimension</span>
-        </div>
+        </a>
 
-        <div class="lecture-card" href = "https://docs.google.com/presentation/d/1Tenex2ZdWL6f76iZMiiBPH-Q7mVSeQIGRZeZDr_OU7s/edit?usp=sharing" target="_blank">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1Tenex2ZdWL6f76iZMiiBPH-Q7mVSeQIGRZeZDr_OU7s/edit?usp=sharing" target="_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 14</span>
             <img src="/assets/LADE/thumbnails/Lecture_14.png" alt="Lecture 14 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 14</span>
           <span class="lecture-title">Coordinates</span>
-        </div>
+        </a>
 
         <div class="lecture-card lecture-card--pending">
           <div class="lecture-thumb">
@@ -1027,6 +1027,11 @@ augmented by topics from linear algebra and the use of computer software (primar
     <a class="gallery-card" href="/games/row-reduce/" target="_blank">
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/gaussian_elim.png" alt="Gaussian Elimination"></div>
       <span class="gallery-title">Gaussian Elimination</span>
+    </a>
+
+    <a class="gallery-card" href="/desmos/change-of-basis" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/change_of_basis.png" alt="Change of Basis" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
+      <span class="gallery-title">Change of Basis</span>
     </a>
 
   </div>

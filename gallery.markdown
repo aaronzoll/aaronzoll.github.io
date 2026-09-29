@@ -173,6 +173,10 @@ custom_js: |
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/gaussian_elim.png" alt="Gaussian Elimination"></div>
       <span class="gallery-title">Gaussian Elimination</span>
     </a>
+    <a class="gallery-card" href="/desmos/change-of-basis" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/change_of_basis.png" alt="Change of Basis" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
+      <span class="gallery-title">Change of Basis</span>
+    </a>
   </div>
 </div>
 
