@@ -675,14 +675,14 @@ augmented by topics from linear algebra and the use of computer software (primar
           <span class="lecture-title">Change of Basis</span>
         </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1L4IPIfraiekyywjSGmmKOvy2fEGwo83pThhS9ADr0jw/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 16</span>
             <img src="/assets/LADE/thumbnails/Lecture_16.png" alt="Lecture 16 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 16</span>
           <span class="lecture-title">Topic TBD</span>
-        </div>
+        </a>
 
         <div class="lecture-card lecture-card--pending">
           <div class="lecture-thumb">
