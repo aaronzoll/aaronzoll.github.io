@@ -681,7 +681,7 @@ augmented by topics from linear algebra and the use of computer software (primar
             <img src="/assets/LADE/thumbnails/Lecture_16.png" alt="Lecture 16 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 16</span>
-          <span class="lecture-title">Topic TBD</span>
+          <span class="lecture-title">Null Space and Range</span>
         </a>
 
         <div class="lecture-card lecture-card--pending">
