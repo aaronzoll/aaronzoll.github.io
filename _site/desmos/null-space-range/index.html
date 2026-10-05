@@ -804,6 +804,10 @@ window.MathJax = {
     <p class="ns-graph-title" id="ns-title-dom"></p>
     <p class="ns-caption" id="ns-cap-dom"></p>
   </div>
+  <div class="ns-map" aria-hidden="true">
+    <span class="ns-map-label">\({\color{#d9822b}\mathbf{y}} = A{\color{#8a3a3a}\mathbf{x}}\)</span>
+    <span class="ns-map-arrow"></span>
+  </div>
   <div class="dnb-graph" id="ns-cod" data-json="null_space_codomain.json" data-3d="true" data-height="460" data-no-toggle="true" data-ready-fn="nsCodomainReady">
     <p class="ns-graph-title" id="ns-title-cod"></p>
     <p class="ns-caption" id="ns-cap-cod"></p>
@@ -873,6 +877,34 @@ window.MathJax = {
 <style>
   .ns-graphs {
     margin-bottom: 1rem;
+  }
+
+  /* The map x -> y = Ax, drawn between the domain and the codomain. */
+  .ns-graphs > .ns-map {
+    flex: 0 0 auto;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 0.9rem;
+    color: var(--color-ink);
+  }
+
+  .ns-map-arrow {
+    position: relative;
+    width: 3.2rem;
+    border-top: 2px solid var(--color-ink-mute);
+  }
+
+  .ns-map-arrow::after {
+    content: "";
+    position: absolute;
+    right: -2px;
+    top: -6px;
+    border: 5px solid transparent;
+    border-left: 8px solid var(--color-ink-mute);
+    border-right: none;
   }
 
   .ns-graphs .ns-graph-title {
@@ -1163,6 +1195,28 @@ window.MathJax = {
     /* Stacked graphs would otherwise shrink to their caption's width. */
     .ns-graphs > .dnb-graph {
       align-self: stretch;
+    }
+
+    .ns-graphs > .ns-map {
+      flex-direction: row;
+      gap: 0.6rem;
+    }
+
+    .ns-map-arrow {
+      width: 0;
+      height: 2.2rem;
+      border-top: none;
+      border-left: 2px solid var(--color-ink-mute);
+    }
+
+    .ns-map-arrow::after {
+      right: auto;
+      top: auto;
+      bottom: -2px;
+      left: -6px;
+      border: 5px solid transparent;
+      border-top: 8px solid var(--color-ink-mute);
+      border-bottom: none;
     }
 
     .ns-block--size,
@@ -1551,7 +1605,7 @@ window.MathJax = {
     el('ns-title-dom').innerHTML = 'Domain: \\(\\R^{' + S.n + '}\\)';
     el('ns-title-cod').innerHTML = 'Codomain: \\(\\R^{' + S.m + '}\\)';
     el('ns-cap-dom').innerHTML = sw(C_NULL) + '\\(\\mathcal{N}(A)\\)' + sw(C_X) + '\\(\\mathbf{x}\\)';
-    el('ns-cap-cod').innerHTML = sw(C_RANGE) + '\\(\\mathcal{R}(A)\\)' + sw(C_AX) + '\\(A\\mathbf{x}\\)';
+    el('ns-cap-cod').innerHTML = sw(C_RANGE) + '\\(\\mathcal{R}(A)\\)' + sw(C_AX) + '\\(\\mathbf{y}\\)';
     typesetMath(['ns-title-dom', 'ns-title-cod', 'ns-cap-dom', 'ns-cap-cod'].map(el));
   }
 
