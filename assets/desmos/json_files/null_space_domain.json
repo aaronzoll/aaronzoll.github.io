@@ -104,19 +104,10 @@
       },
       {
         "type": "expression",
-        "id": "coset_grid",
-        "color": "#d3a5a5",
+        "id": "coset_fill",
+        "color": "#d9a0a0",
         "latex": "",
-        "hidden": true,
-        "lineWidth": "0.8"
-      },
-      {
-        "type": "expression",
-        "id": "coset_half",
-        "color": "#d3a5a5",
-        "latex": "",
-        "hidden": true,
-        "lineWidth": "0.4"
+        "hidden": true
       },
       {
         "type": "expression",

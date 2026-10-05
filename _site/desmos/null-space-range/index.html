@@ -844,8 +844,8 @@ window.MathJax = {
   <div class="ns-block ns-block--display">
     <span class="ns-label">Display</span>
     <div class="ns-grid2">
-      <button class="site-btn site-btn--active ns-toggle" aria-pressed="true" data-show="nb">\(\mathcal{N}(A)\)</button>
-      <button class="site-btn site-btn--active ns-toggle" aria-pressed="true" data-show="rb">\(\mathcal{R}(A)\)</button>
+      <button class="site-btn ns-toggle" aria-pressed="false" data-show="nb">\(\mathcal{N}(A)\)</button>
+      <button class="site-btn ns-toggle" aria-pressed="false" data-show="rb">\(\mathcal{R}(A)\)</button>
       <button class="site-btn ns-toggle" aria-pressed="false" data-show="bgrid">Basis grids</button>
       <button class="site-btn ns-toggle" aria-pressed="false" data-show="coset">\(\mathbf{x} + \mathcal{N}(A)\)</button>
     </div>
@@ -1144,7 +1144,7 @@ window.MathJax = {
 
   /* A bit smaller than body text so the row fits without scrolling. */
   .ns-calc-math {
-    font-size: 0.82rem;
+    font-size: 0.9rem;
   }
 
   .ns-calc-math mjx-container[display="true"] {
@@ -1288,7 +1288,7 @@ window.MathJax = {
     };
   }
   reset();
-  var show = { nb: true, rb: true, bgrid: false, coset: false };
+  var show = { nb: false, rb: false, bgrid: false, coset: false };
 
   // ── 3-vector geometry ──────────────────────────────────────────────────
   // Everything lives in R^3; a lower-dimensional space just keeps the
@@ -1470,25 +1470,17 @@ window.MathJax = {
     setLayer(calc, 'vec_pt', pt(point));
   }
 
-  // x + N(A): the solutions of Ay = Ax, drawn through x. A plane is drawn as
-  // a wireframe (its outline plus the shifted basis grid) so N(A) stays visible:
-  // lines at whole steps of the basis, and thinner ones halfway between.
+  // x + N(A): the solutions of Ay = Ax, drawn through x as a line or a
+  // (translucent) plane.
   function drawCoset(calc, d, basis, x) {
-    var k = basis.length, ext = box(d), line = null, grid = null, half = null;
+    var k = basis.length, ext = box(d), line = null, plane = null;
     if (show.coset && k === 1 && d > 1) {
       line = segments([clipLine(x, basis[0], ext)].filter(Boolean));
     } else if (show.coset && k === 2 && d === 3) {
-      var poly = planePolygon(x, basis[0], basis[1], ext);
-      if (poly) {
-        line = segments(poly.pts.map(function (p, i) { return [p, poly.pts[(i + 1) % poly.pts.length]]; }));
-        grid = segments(latticeLines(x, basis[0], basis[1], ext));
-        // Shifting by half of both basis vectors lands on the in-between lines.
-        half = segments(latticeLines(add(x, mul(add(basis[0], basis[1]), 0.5)), basis[0], basis[1], ext));
-      }
+      plane = fill(planePolygon(x, basis[0], basis[1], ext));
     }
     setLayer(calc, 'coset_line', line);
-    setLayer(calc, 'coset_grid', grid);
-    setLayer(calc, 'coset_half', half);
+    setLayer(calc, 'coset_fill', plane);
   }
 
   // ── Calculation display ────────────────────────────────────────────────
