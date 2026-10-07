@@ -1039,5 +1039,10 @@ augmented by topics from linear algebra and the use of computer software (primar
       <span class="gallery-title">Null Space and Range</span>
     </a>
 
+    <a class="gallery-card" href="/desmos/orthogonal-basis" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/orthogonal_basis.png" alt="Orthogonal Bases and Projections" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
+      <span class="gallery-title">Orthogonal Bases and Projections</span>
+    </a>
+
   </div>
 </div>
