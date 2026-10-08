@@ -684,14 +684,14 @@ augmented by topics from linear algebra and the use of computer software (primar
           <span class="lecture-title">Null Space and Range</span>
         </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1Toaa2qoJFRXI54NzGxTAU6FLMlbz2CDBxH__PxWi5GU/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 17</span>
             <img src="/assets/LADE/thumbnails/Lecture_17.png" alt="Lecture 17 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 17</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">More on Linear Independence and Span</span>
+        </a>
 
       </div>
     </div>
@@ -706,14 +706,14 @@ augmented by topics from linear algebra and the use of computer software (primar
     <div class="folder-body">
       <div class="lecture-grid">
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1NuvFHdfBmoe6A1hWZ3bddkr8OnIDoD4ZDK2vRsM8Vtw/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 18</span>
             <img src="/assets/LADE/thumbnails/Lecture_18.png" alt="Lecture 18 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 18</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Orthogonal Based and Gram Schmidt Orthogonalization</span>
+        </a>
 
         <div class="lecture-card lecture-card--pending">
           <div class="lecture-thumb">
@@ -1042,6 +1042,11 @@ augmented by topics from linear algebra and the use of computer software (primar
     <a class="gallery-card" href="/desmos/orthogonal-basis" target="_blank">
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/orthogonal_basis.png" alt="Orthogonal Bases and Projections" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
       <span class="gallery-title">Orthogonal Bases and Projections</span>
+    </a>
+
+    <a class="gallery-card" href="/desmos/gram-schmidt" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/gram_schmidt.png" alt="Gram–Schmidt Orthogonalization" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
+      <span class="gallery-title">Gram–Schmidt Orthogonalization</span>
     </a>
 
   </div>

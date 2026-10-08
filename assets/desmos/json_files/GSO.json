@@ -1,0 +1,482 @@
+{
+  "version": 11,
+  "randomSeed": "89e9b8d4af87091f3b0edff00ee8dc45",
+  "graph": {
+    "viewport": {
+      "xmin": -3.069566267703795,
+      "ymin": -3.069566267703795,
+      "zmin": -3.069566267703795,
+      "xmax": 3.069566267703795,
+      "ymax": 3.069566267703795,
+      "zmax": 3.069566267703795
+    },
+    "worldRotation3D": [
+      -0.9263483122221485,
+      0.3603265495250001,
+      -0.10974325560426301,
+      -0.3578242976230202,
+      -0.9328262312496567,
+      -0.04239096983066426,
+      -0.11764597942048324,
+      -6.378967802972387e-13,
+      0.9930555994133377
+    ],
+    "axis3D": [
+      0.3603265495213693,
+      -0.9328262312428797,
+      -9.313350108916262e-13
+    ],
+    "showPlane3D": false,
+    "showNumbers3D": false,
+    "showAxisLabels3D": false,
+    "product": "graphing-3d",
+    "threeDMode": true,
+    "__v12ViewportLatexStash": {
+      "xmin": "-3.069566267703795",
+      "xmax": "3.069566267703795",
+      "ymin": "-3.069566267703795",
+      "ymax": "3.069566267703795",
+      "zmin": "-3.069566267703795",
+      "zmax": "3.069566267703795"
+    }
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "folder",
+        "id": "2",
+        "title": "Original Vectors",
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "3",
+        "folderId": "2",
+        "color": "#2d70b3",
+        "latex": "v_{1}\\ =\\ \\left(1,1,1\\right)",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "4",
+        "folderId": "2",
+        "color": "#388c46",
+        "latex": "v_{2}=\\left(1,0,3\\right)",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "5",
+        "folderId": "2",
+        "color": "#6042a6",
+        "latex": "v_{3}=\\left(0,1,2\\right)",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "6",
+        "folderId": "2",
+        "color": "#c74440",
+        "latex": "\\operatorname{vector}\\left(O,v_{1}\\right)",
+        "lineWidth": "T_{1}"
+      },
+      {
+        "type": "expression",
+        "id": "8",
+        "folderId": "2",
+        "color": "#c74440",
+        "latex": "\\operatorname{vector}\\left(O,v_{2}\\right)",
+        "lineWidth": "T_{1}"
+      },
+      {
+        "type": "expression",
+        "id": "9",
+        "folderId": "2",
+        "color": "#c74440",
+        "latex": "\\operatorname{vector}\\left(O,v_{3}\\right)",
+        "lineWidth": "T_{1}"
+      },
+      {
+        "type": "expression",
+        "id": "7",
+        "folderId": "2",
+        "color": "#c74440",
+        "latex": "O=\\ \\left(0,0,0\\right)",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "19",
+        "folderId": "2",
+        "color": "#2d70b3",
+        "latex": "T_{1}=1.25",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "3"
+        }
+      },
+      {
+        "type": "folder",
+        "id": "11",
+        "title": "Gram Schmidt",
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "12",
+        "folderId": "11",
+        "color": "#aaaaaa",
+        "latex": "u_{1}\\ =\\ v_{1}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "16",
+        "folderId": "11",
+        "color": "#6042a6",
+        "latex": "u_{2}\\ =\\ v_{2}-\\frac{D_{ot}\\left(v_{2},u_{1}\\right)}{D_{ot}\\left(u_{1},u_{1}\\right)}u_{1}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "18",
+        "folderId": "11",
+        "color": "#c74440",
+        "latex": "u_{3}\\ =\\ v_{3}-\\frac{D_{ot}\\left(v_{3},u_{1}\\right)}{D_{ot}\\left(u_{1},u_{1}\\right)}u_{1}-\\frac{D_{ot}\\left(v_{3},u_{2}\\right)}{D_{ot}\\left(u_{2},u_{2}\\right)}u_{2}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "13",
+        "folderId": "11",
+        "color": "#fa7e19",
+        "latex": "\\operatorname{vector}\\left(O,h_{s}\\left(1\\right)p_{r}\\left(1\\right)u_{1}\\right)",
+        "lineWidth": "T_{2}"
+      },
+      {
+        "type": "expression",
+        "id": "14",
+        "folderId": "11",
+        "color": "#fa7e19",
+        "latex": "\\operatorname{vector}\\left(B_{2},B_{2}+h_{s}\\left(3\\right)p_{r}\\left(3\\right)u_{2}\\right)",
+        "lineWidth": "T_{2}"
+      },
+      {
+        "type": "expression",
+        "id": "15",
+        "folderId": "11",
+        "color": "#fa7e19",
+        "latex": "\\operatorname{vector}\\left(B_{3},B_{3}+h_{s}\\left(7\\right)p_{r}\\left(7\\right)u_{3}\\right)",
+        "lineWidth": "T_{2}"
+      },
+      {
+        "type": "expression",
+        "id": "20",
+        "folderId": "11",
+        "color": "#388c46",
+        "latex": "T_{2}=1.25",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "3"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "60",
+        "folderId": "11",
+        "color": "#2d70b3",
+        "latex": "p_{21}=\\frac{D_{ot}\\left(v_{2},u_{1}\\right)}{D_{ot}\\left(u_{1},u_{1}\\right)}u_{1}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "61",
+        "folderId": "11",
+        "color": "#6042a6",
+        "latex": "p_{31}=\\frac{D_{ot}\\left(v_{3},u_{1}\\right)}{D_{ot}\\left(u_{1},u_{1}\\right)}u_{1}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "62",
+        "folderId": "11",
+        "color": "#6042a6",
+        "latex": "p_{32}=\\frac{D_{ot}\\left(v_{3},u_{2}\\right)}{D_{ot}\\left(u_{2},u_{2}\\right)}u_{2}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "63",
+        "folderId": "11",
+        "color": "#aaaaaa",
+        "latex": "B_{2}=\\left(1-p_{r}\\left(4\\right)\\right)p_{21}",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "64",
+        "folderId": "11",
+        "color": "#aaaaaa",
+        "latex": "B_{3}=\\left(1-p_{r}\\left(8\\right)\\right)\\left(p_{31}+p_{32}\\right)",
+        "hidden": true
+      },
+      {
+        "type": "folder",
+        "id": "25",
+        "title": "Lines",
+        "hidden": false,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "26",
+        "folderId": "25",
+        "color": "#000000",
+        "latex": "\\operatorname{vector}\\left(-100h_{s}\\left(1\\right)u_{1},100h_{s}\\left(1\\right)u_{1}\\right)",
+        "lineWidth": "T_{3}p_{r}\\left(1\\right)f_{d}\\left(9\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "28",
+        "folderId": "25",
+        "color": "#000000",
+        "latex": "\\operatorname{vector}\\left(-100h_{s}\\left(4\\right)u_{2},100h_{s}\\left(4\\right)u_{2}\\right)",
+        "lineWidth": "T_{3}p_{r}\\left(4\\right)f_{d}\\left(9\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "29",
+        "folderId": "25",
+        "color": "#000000",
+        "latex": "\\operatorname{vector}\\left(-100h_{s}\\left(8\\right)u_{3},100h_{s}\\left(8\\right)u_{3}\\right)",
+        "lineWidth": "T_{3}p_{r}\\left(8\\right)f_{d}\\left(9\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "27",
+        "folderId": "25",
+        "color": "#388c46",
+        "latex": "T_{3}=0.52",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "folder",
+        "id": "41",
+        "title": "Projection from v2",
+        "hidden": false,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "23",
+        "folderId": "41",
+        "color": "#2d70b3",
+        "latex": "\\operatorname{vector}\\left(O,h_{s}\\left(2\\right)p_{r}\\left(2\\right)p_{21}\\right)",
+        "lineWidth": "1.5f_{d}\\left(5\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "42",
+        "folderId": "41",
+        "color": "#fa7e19",
+        "latex": "h_{s}\\left(2\\right)\\left(v_{2}+L\\left[L\\le p_{r}\\left(2\\right)\\right]\\left(p_{21}-v_{2}\\right)\\right)",
+        "pointSize": "T_{4}f_{d}\\left(4\\right)",
+        "movablePointSize": "T_{4}f_{d}\\left(4\\right)"
+      },
+      {
+        "type": "folder",
+        "id": "22",
+        "title": "Projections from v3",
+        "hidden": false,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "24",
+        "folderId": "22",
+        "color": "#6042a6",
+        "latex": "\\operatorname{vector}\\left(O,h_{s}\\left(5\\right)p_{r}\\left(5\\right)p_{31}\\right)",
+        "lineWidth": "1.5f_{d}\\left(8\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "30",
+        "folderId": "22",
+        "color": "#6042a6",
+        "latex": "\\operatorname{vector}\\left(O,h_{s}\\left(5\\right)p_{r}\\left(5\\right)p_{32}\\right)",
+        "lineWidth": "1.5f_{d}\\left(8\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "34",
+        "folderId": "22",
+        "color": "#6042a6",
+        "latex": "L\\ =\\ \\left[0,\\frac{1}{K},\\ ...,\\ 1\\right]",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "35",
+        "folderId": "22",
+        "color": "#aaaaaa",
+        "latex": "K\\ =17",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "2",
+          "max": "40",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "36",
+        "folderId": "22",
+        "color": "#6042a6",
+        "latex": "h_{s}\\left(5\\right)\\left(v_{3}+L\\left[L\\le p_{r}\\left(5\\right)\\right]\\left(p_{31}-v_{3}\\right)\\right)",
+        "pointSize": "T_{4}f_{d}\\left(6\\right)",
+        "movablePointSize": "T_{4}f_{d}\\left(6\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "39",
+        "folderId": "22",
+        "color": "#6042a6",
+        "latex": "h_{s}\\left(5\\right)\\left(v_{3}+L\\left[L\\le p_{r}\\left(5\\right)\\right]\\left(p_{32}-v_{3}\\right)\\right)",
+        "pointSize": "T_{4}f_{d}\\left(6\\right)",
+        "movablePointSize": "T_{4}f_{d}\\left(6\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "37",
+        "folderId": "22",
+        "color": "#2d70b3",
+        "latex": "T_{4}=1",
+        "hidden": true,
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "38",
+        "folderId": "22",
+        "color": "#388c46"
+      },
+      {
+        "type": "folder",
+        "id": "44",
+        "title": "Rectangle ",
+        "hidden": false,
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "45",
+        "folderId": "44",
+        "color": "#388c46",
+        "latex": "h_{s}\\left(6\\right)\\left(p_{32}+L\\left[L\\le p_{r}\\left(6\\right)\\right]p_{31}\\right)",
+        "pointSize": "T_{4}f_{d}\\left(8\\right)",
+        "movablePointSize": "T_{4}f_{d}\\left(8\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "46",
+        "folderId": "44",
+        "color": "#388c46",
+        "latex": "h_{s}\\left(6\\right)\\left(p_{31}+L\\left[L\\le p_{r}\\left(6\\right)\\right]p_{32}\\right)",
+        "pointSize": "T_{4}f_{d}\\left(8\\right)",
+        "movablePointSize": "T_{4}f_{d}\\left(8\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "47",
+        "folderId": "44",
+        "color": "#fa7e19",
+        "latex": "h_{s}\\left(7\\right)\\left(p_{31}+p_{32}+L\\left[L\\le p_{r}\\left(7\\right)\\right]u_{3}\\right)",
+        "pointSize": "T_{4}f_{d}\\left(8\\right)",
+        "movablePointSize": "T_{4}f_{d}\\left(8\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "65",
+        "folderId": "44",
+        "color": "#388c46",
+        "latex": "\\operatorname{vector}\\left(O,h_{s}\\left(6\\right)p_{r}\\left(6\\right)\\left(p_{31}+p_{32}\\right)\\right)",
+        "lineWidth": "1.5f_{d}\\left(8\\right)"
+      },
+      {
+        "type": "folder",
+        "id": "33",
+        "title": "Helper Functions"
+      },
+      {
+        "type": "expression",
+        "id": "17",
+        "folderId": "33",
+        "color": "#aaaaaa",
+        "latex": "D_{ot}\\left(u,v\\right)\\ =\\ u.xv.x+u.yv.y+u.zv.z"
+      },
+      {
+        "type": "folder",
+        "id": "49",
+        "title": "GSO Procedure"
+      },
+      {
+        "type": "expression",
+        "id": "51",
+        "folderId": "49",
+        "color": "#388c46",
+        "latex": "T=0",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "9",
+          "animationPeriod": 36000,
+          "loopMode": "PLAY_ONCE"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "52",
+        "folderId": "49",
+        "color": "#aaaaaa",
+        "latex": "p_{r}\\left(k\\right)=\\min\\left(\\max\\left(T-k+1,0\\right),1\\right)"
+      },
+      {
+        "type": "expression",
+        "id": "53",
+        "folderId": "49",
+        "color": "#aaaaaa",
+        "latex": "h_{s}\\left(k\\right)=\\left\\{T>k-1:1\\right\\}"
+      },
+      {
+        "type": "expression",
+        "id": "57",
+        "folderId": "49",
+        "color": "#aaaaaa",
+        "latex": "f_{d}\\left(k\\right)=1-p_{r}\\left(k\\right)"
+      }
+    ]
+  },
+  "includeFunctionParametersInRandomSeed": true,
+  "doNotMigrate3dLineWidthZero": true,
+  "doNotMigrateMovablePointStyle": true,
+  "backmigrated": 14
+}

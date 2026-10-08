@@ -185,6 +185,10 @@ custom_js: |
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/orthogonal_basis.png" alt="Orthogonal Bases and Projections" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
       <span class="gallery-title">Orthogonal Bases and Projections</span>
     </a>
+    <a class="gallery-card" href="/desmos/gram-schmidt" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/gram_schmidt.png" alt="Gram–Schmidt Orthogonalization" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
+      <span class="gallery-title">Gram–Schmidt Orthogonalization</span>
+    </a>
   </div>
 </div>
 
