@@ -715,23 +715,23 @@ augmented by topics from linear algebra and the use of computer software (primar
           <span class="lecture-title">Orthogonal Based and Gram Schmidt Orthogonalization</span>
         </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1CGEmz1QC43GrgDW2Nhf88WdZBPgStE7LgyPBRQ2pYCg/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 19</span>
             <img src="/assets/LADE/thumbnails/Lecture_19.png" alt="Lecture 19 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 19</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Linear Transformations and Rotations</span>
+        </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/16lxus8wCvKmceLTAt382tffemohWsCYK/edit?usp=sharing&ouid=101771517597685763938&rtpof=true&sd=true" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 20</span>
             <img src="/assets/LADE/thumbnails/Lecture_20.png" alt="Lecture 20 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 20</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Orthogonal Matrices</span>
+        </a>
 
         <div class="lecture-card lecture-card--pending">
           <div class="lecture-thumb">
