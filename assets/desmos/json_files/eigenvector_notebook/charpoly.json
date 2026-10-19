@@ -1,0 +1,185 @@
+{
+ "version": 11,
+ "randomSeed": "0",
+ "graph": {
+  "viewport": {
+   "xmin": -2,
+   "xmax": 7,
+   "ymin": -4,
+   "ymax": 8
+  },
+  "showGrid": true,
+  "showXAxis": true,
+  "showYAxis": true,
+  "__v12ViewportLatexStash": {
+   "xmin": "-2",
+   "xmax": "7",
+   "ymin": "-4",
+   "ymax": "8"
+  },
+  "xAxisLabel": "\u03bb",
+  "xAxisMinorSubdivisions": 1,
+  "yAxisMinorSubdivisions": 1
+ },
+ "expressions": {
+  "list": [
+   {
+    "type": "folder",
+    "id": "mat",
+    "title": "Matrix",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "a",
+    "color": "#000000",
+    "latex": "a=2",
+    "folderId": "mat",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "b",
+    "color": "#000000",
+    "latex": "b=2",
+    "folderId": "mat",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "c",
+    "color": "#000000",
+    "latex": "c=1",
+    "folderId": "mat",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "d",
+    "color": "#000000",
+    "latex": "d=3",
+    "folderId": "mat",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "l",
+    "color": "#000000",
+    "latex": "l=0",
+    "folderId": "mat",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-20",
+     "max": "20",
+     "step": "0.01"
+    }
+   },
+   {
+    "type": "folder",
+    "id": "poly",
+    "title": "Characteristic polynomial",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "p",
+    "color": "#000000",
+    "latex": "p\\left(x\\right)=\\left(a-x\\right)\\left(d-x\\right)-bc",
+    "folderId": "poly",
+    "lineWidth": "3"
+   },
+   {
+    "type": "expression",
+    "id": "rl",
+    "color": "#000000",
+    "latex": "r_{l}=\\frac{\\operatorname{round}\\left(10p\\left(l\\right)\\right)}{10}",
+    "folderId": "poly"
+   },
+   {
+    "type": "expression",
+    "id": "lv",
+    "color": "#fa7e19",
+    "latex": "x=l\\left\\{\\min\\left(0,p\\left(l\\right)\\right)\\le y\\le\\max\\left(0,p\\left(l\\right)\\right)\\right\\}",
+    "folderId": "poly",
+    "lineStyle": "DASHED",
+    "lineWidth": "2.5"
+   },
+   {
+    "type": "expression",
+    "id": "lp",
+    "color": "#fa7e19",
+    "latex": "\\left(l,p\\left(l\\right)\\right)",
+    "folderId": "poly",
+    "pointSize": "11",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "`${r_{l}}`",
+    "labelSize": "1.3",
+    "labelOrientation": "right"
+   },
+   {
+    "type": "expression",
+    "id": "lh",
+    "color": "#fa7e19",
+    "latex": "\\left(l,0\\right)",
+    "folderId": "poly",
+    "pointStyle": "OPEN",
+    "pointSize": "15",
+    "movablePointSize": "15"
+   },
+   {
+    "type": "folder",
+    "id": "roots",
+    "title": "Roots",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "R",
+    "color": "#000000",
+    "latex": "R=\\left[\\right]",
+    "folderId": "roots",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "rp",
+    "color": "#388c46",
+    "latex": "\\left(R,0\\right)",
+    "folderId": "roots",
+    "pointSize": "10",
+    "dragMode": "NONE"
+   }
+  ]
+ }
+}

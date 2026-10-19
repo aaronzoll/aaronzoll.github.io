@@ -1,0 +1,190 @@
+/* Eigenvector notebook. Panel, entry boxes and computation rows follow the
+   null-space page; colors come from the site tokens. */
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ── Credit line and the collapsed refresher ─────────────────────────── */
+.ev-credit {
+  margin: -0.75rem 0 1rem;
+  font-size: 0.85rem;
+  color: var(--color-ink-mute);
+  font-style: italic;
+}
+
+.ev-refresher {
+  margin: 0.5rem 0 2rem;
+  border: 1px solid var(--color-divider);
+  border-radius: 6px;
+  background: var(--color-cream);
+  padding: 0 1.1rem;
+}
+.ev-refresher > summary {
+  padding: 0.65rem 0;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--color-slate);
+}
+.ev-refresher[open] > summary { border-bottom: 1px solid var(--color-divider); margin-bottom: 1rem; }
+
+.dnb-content h3 { scroll-margin-top: 1rem; }
+
+/* ── Figure: graph(s) + side panel ─────────────────────────────────────── */
+.ev-figure { margin: 1.5rem 0 0.5rem; }
+.ev-figure > .dnb-row { margin: 0; }
+
+.ev-figure .ev-panel {
+  flex: 0 0 290px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+/* Under the side-by-side graphs of Figures 3 and 4 the panel runs full width. */
+.ev-panel--wide {
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem !important;
+  margin-top: 1rem;
+}
+.ev-panel--wide > .ev-block { flex: 1 1 260px; }
+.ev-panel--wide + .ev-caption { margin-top: 1rem; }
+
+.ev-block { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+
+.ev-label {
+  font-weight: bold;
+  font-size: 0.82rem;
+  color: var(--color-label);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.ev-label mjx-container { text-transform: none; }
+
+.ev-sub { font-size: 0.85rem; color: var(--color-label); }
+
+.ev-hint { font-size: 0.85rem; color: var(--color-ink-mute); font-style: italic; }
+
+.ev-grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+}
+
+.ev-panel .site-btn {
+  min-width: 0;
+  padding: 0.45rem 0.4rem;
+  font-size: 0.85rem;
+}
+.ev-panel .site-btn:disabled { opacity: 0.45; cursor: default; }
+.ev-wide { width: 100%; }
+.ev-span2 { grid-column: span 2; }
+
+.ev-panel hr { margin: 0.35rem 0; border: 0; border-top: 1px solid var(--color-divider); }
+
+/* Matrix entry: a bracketed grid of boxes. */
+.ev-mtx { display: flex; align-items: center; gap: 0.5rem; }
+
+.ev-mtx-body {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 0.25rem 0.3rem;
+  padding: 0.25rem 0.45rem;
+}
+.ev-mtx-body::before,
+.ev-mtx-body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0.4rem;
+  border: 2px solid var(--color-ink);
+  pointer-events: none;
+}
+.ev-mtx-body::before { left: 0; border-right: none; }
+.ev-mtx-body::after  { right: 0; border-left: none; }
+
+.ev-mtx-body input {
+  width: 3rem;
+  padding: 0.15rem 0.1rem;
+  font: inherit;
+  font-size: 0.95rem;
+  text-align: center;
+  border: 1px solid var(--color-ink-faint);
+  border-radius: 4px;
+  background: #ffffff;
+  color: var(--color-ink);
+}
+/* Column colors: first column red, second blue, as in the graphs. */
+.ev-mtx-body input[data-j="0"] { border-bottom: 2px solid #c74440; }
+.ev-mtx-body input[data-j="1"] { border-bottom: 2px solid #2d70b3; }
+.ev-mtx-body input:focus {
+  outline: none;
+  border-color: var(--color-ink-accent);
+  box-shadow: 0 0 0 2px rgba(84, 110, 122, 0.2);
+}
+.ev-mtx-body input.bad { border-color: #b7312c; background: #fff5f5; }
+
+/* Slider rows: label and value over a slider, play button beside it. */
+.ev-slide { display: flex; align-items: center; gap: 0.5rem; }
+.ev-slide input[type="range"] { flex: 1; min-width: 0; }
+.ev-slide .site-btn { flex: 0 0 auto; padding: 0.3rem 0.6rem; }
+.ev-slide-head { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--color-label); }
+.ev-slide-head strong { font-variant-numeric: tabular-nums; }
+
+.ev-snaps { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.ev-snaps .site-btn { flex: 0 0 auto; padding: 0.35rem 0.7rem; }
+
+.ev-note {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #b7472a;
+}
+
+/* Titles under the two Figure 3 graphs. */
+.ev-graph-title {
+  margin: 0.35rem 0 0;
+  font-size: 1rem;
+  text-align: center;
+  color: var(--color-ink);
+}
+
+/* ── Live computation under each figure ────────────────────────────────── */
+.ev-calc {
+  margin: 0.5rem 0 1.5rem;
+  padding: 0.5rem 0.9rem 0.25rem;
+  border-left: 3px solid var(--color-divider);
+}
+.ev-calc-math {
+  min-width: 0;
+  max-width: 100%;
+  color: #2d3748;
+  font-size: 0.92rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.ev-calc-math:empty { display: none; }
+.ev-calc:not(:has(.ev-calc-math:not(:empty))) { display: none; }
+.ev-calc-math mjx-container[display="true"] { margin: 0.35em 0; text-align: left; }
+
+.ev-caption {
+  font-size: 0.88rem;
+  color: #555;
+  font-style: italic;
+  margin: 0.4rem 0 0;
+}
+
+/* Wide display equations scroll inside their own box on narrow screens
+   instead of widening the page. */
+.dnb-content mjx-container[display="true"] {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+@media (max-width: 680px) {
+  .ev-figure .ev-panel { flex: 1 1 100%; }
+  .ev-figure .dnb-row > .dnb-graph { align-self: stretch; }
+}

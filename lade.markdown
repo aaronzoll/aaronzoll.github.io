@@ -733,14 +733,14 @@ augmented by topics from linear algebra and the use of computer software (primar
           <span class="lecture-title">Orthogonal Matrices</span>
         </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/16xcErMXdiKPBMy-_09Y8FJMZjyq-dxi5yL6UUPuY1kc/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 21</span>
             <img src="/assets/LADE/thumbnails/Lecture_21.png" alt="Lecture 21 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 21</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Transformations with Respect to a Basis</span>
+        </a>
 
       </div>
     </div>
@@ -755,32 +755,32 @@ augmented by topics from linear algebra and the use of computer software (primar
     <div class="folder-body">
       <div class="lecture-grid">
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1sDuGy2gdt8XkY1VYhc7QPJHG4rXdOKMFxYQsmc4Ox08/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 22</span>
             <img src="/assets/LADE/thumbnails/Lecture_22.png" alt="Lecture 22 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 22</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Introduction to the Eigenvalue Problem</span>
+        </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1LP4LOfmAZ-e6z8-rqtxkJilNFrbCcss3uIPuoH9-hjc/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 23</span>
             <img src="/assets/LADE/thumbnails/Lecture_23.png" alt="Lecture 23 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 23</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Complex Eigenvalues and Eigenvectors</span>
+        </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1vYpzVJ26pBY2J6pw6Sq-g7L5hm-YcjRF8wZB3LBBUoE/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 24</span>
             <img src="/assets/LADE/thumbnails/Lecture_24.png" alt="Lecture 24 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 24</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Eigenvalue Properties and Similarity</span>
+        </a>
 
         <div class="lecture-card lecture-card--pending">
           <div class="lecture-thumb">
@@ -1047,6 +1047,11 @@ augmented by topics from linear algebra and the use of computer software (primar
     <a class="gallery-card" href="/desmos/gram-schmidt" target="_blank">
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/gram_schmidt.png" alt="Gram–Schmidt Orthogonalization" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
       <span class="gallery-title">Gram–Schmidt Orthogonalization</span>
+    </a>
+
+    <a class="gallery-card" href="/desmos/eigenvector_notebook/" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/eigenvectors.png" alt="Eigenvectors and Eigenvalues" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
+      <span class="gallery-title">Eigenvectors and Eigenvalues</span>
     </a>
 
   </div>

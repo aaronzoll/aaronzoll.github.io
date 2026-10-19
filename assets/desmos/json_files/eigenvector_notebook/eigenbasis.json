@@ -1,0 +1,508 @@
+{
+ "version": 11,
+ "randomSeed": "0",
+ "graph": {
+  "viewport": {
+   "xmin": -7.4,
+   "xmax": 7.4,
+   "ymin": -7,
+   "ymax": 7
+  },
+  "showGrid": false,
+  "showXAxis": false,
+  "showYAxis": false,
+  "__v12ViewportLatexStash": {
+   "xmin": "-7.4",
+   "xmax": "7.4",
+   "ymin": "-7",
+   "ymax": "7"
+  }
+ },
+ "expressions": {
+  "list": [
+   {
+    "type": "folder",
+    "id": "frame",
+    "title": "Frame",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "F",
+    "color": "#000000",
+    "latex": "F=6",
+    "folderId": "frame"
+   },
+   {
+    "type": "expression",
+    "id": "K",
+    "color": "#000000",
+    "latex": "K=\\left[-14,...,14\\right]",
+    "folderId": "frame"
+   },
+   {
+    "type": "expression",
+    "id": "fx",
+    "color": "#000000",
+    "latex": "x=\\left[-F,F\\right]\\left\\{-F\\le y\\le F\\right\\}",
+    "folderId": "frame",
+    "lineWidth": "4"
+   },
+   {
+    "type": "expression",
+    "id": "fy",
+    "color": "#000000",
+    "latex": "y=\\left[-F,F\\right]\\left\\{-F\\le x\\le F\\right\\}",
+    "folderId": "frame",
+    "lineWidth": "4"
+   },
+   {
+    "type": "folder",
+    "id": "std",
+    "title": "Standard grid",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "gx",
+    "color": "#000000",
+    "latex": "x=\\left[-F,...,F\\right]\\left\\{-F\\le y\\le F\\right\\}",
+    "folderId": "std",
+    "lineOpacity": "0.18",
+    "lineWidth": "1"
+   },
+   {
+    "type": "expression",
+    "id": "gy",
+    "color": "#000000",
+    "latex": "y=\\left[-F,...,F\\right]\\left\\{-F\\le x\\le F\\right\\}",
+    "folderId": "std",
+    "lineOpacity": "0.18",
+    "lineWidth": "1"
+   },
+   {
+    "type": "expression",
+    "id": "ax",
+    "color": "#000000",
+    "latex": "x=0\\left\\{-F\\le y\\le F\\right\\}",
+    "folderId": "std",
+    "lineOpacity": "0.45",
+    "lineWidth": "2"
+   },
+   {
+    "type": "expression",
+    "id": "ay",
+    "color": "#000000",
+    "latex": "y=0\\left\\{-F\\le x\\le F\\right\\}",
+    "folderId": "std",
+    "lineOpacity": "0.45",
+    "lineWidth": "2"
+   },
+   {
+    "type": "folder",
+    "id": "mat",
+    "title": "Matrix",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "a",
+    "color": "#000000",
+    "latex": "a=3",
+    "folderId": "mat",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "b",
+    "color": "#000000",
+    "latex": "b=1",
+    "folderId": "mat",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "c",
+    "color": "#000000",
+    "latex": "c=0",
+    "folderId": "mat",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "d",
+    "color": "#000000",
+    "latex": "d=2",
+    "folderId": "mat",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "s",
+    "color": "#000000",
+    "latex": "s=1",
+    "folderId": "mat",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "0",
+     "max": "1",
+     "step": "0.01"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "M11",
+    "color": "#000000",
+    "latex": "M_{11}=1+s\\left(a-1\\right)",
+    "folderId": "mat"
+   },
+   {
+    "type": "expression",
+    "id": "M12",
+    "color": "#000000",
+    "latex": "M_{12}=sb",
+    "folderId": "mat"
+   },
+   {
+    "type": "expression",
+    "id": "M21",
+    "color": "#000000",
+    "latex": "M_{21}=sc",
+    "folderId": "mat"
+   },
+   {
+    "type": "expression",
+    "id": "M22",
+    "color": "#000000",
+    "latex": "M_{22}=1+s\\left(d-1\\right)",
+    "folderId": "mat"
+   },
+   {
+    "type": "expression",
+    "id": "fxf",
+    "color": "#000000",
+    "latex": "f_{x}\\left(p,q\\right)=M_{11}p+M_{12}q",
+    "folderId": "mat"
+   },
+   {
+    "type": "expression",
+    "id": "fyf",
+    "color": "#000000",
+    "latex": "f_{y}\\left(p,q\\right)=M_{21}p+M_{22}q",
+    "folderId": "mat"
+   },
+   {
+    "type": "folder",
+    "id": "tgrid",
+    "title": "Transformed standard grid",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "tgrid1",
+    "color": "#000000",
+    "latex": "\\left(f_{x}\\left(K,t\\right),f_{y}\\left(K,t\\right)\\right)\\left\\{\\left|f_{x}\\left(K,t\\right)\\right|\\le F\\right\\}\\left\\{\\left|f_{y}\\left(K,t\\right)\\right|\\le F\\right\\}",
+    "folderId": "tgrid",
+    "lineOpacity": "0.22",
+    "lineWidth": "1.5",
+    "parametricDomain": {
+     "min": "-14",
+     "max": "14"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "tgrid2",
+    "color": "#000000",
+    "latex": "\\left(f_{x}\\left(t,K\\right),f_{y}\\left(t,K\\right)\\right)\\left\\{\\left|f_{x}\\left(t,K\\right)\\right|\\le F\\right\\}\\left\\{\\left|f_{y}\\left(t,K\\right)\\right|\\le F\\right\\}",
+    "folderId": "tgrid",
+    "lineOpacity": "0.22",
+    "lineWidth": "1.5",
+    "parametricDomain": {
+     "min": "-14",
+     "max": "14"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "tgrida1",
+    "color": "#000000",
+    "latex": "\\left(f_{x}\\left(0,t\\right),f_{y}\\left(0,t\\right)\\right)\\left\\{\\left|f_{x}\\left(0,t\\right)\\right|\\le F\\right\\}\\left\\{\\left|f_{y}\\left(0,t\\right)\\right|\\le F\\right\\}",
+    "folderId": "tgrid",
+    "lineOpacity": "0.8",
+    "lineWidth": "2.5",
+    "parametricDomain": {
+     "min": "-14",
+     "max": "14"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "tgrida2",
+    "color": "#000000",
+    "latex": "\\left(f_{x}\\left(t,0\\right),f_{y}\\left(t,0\\right)\\right)\\left\\{\\left|f_{x}\\left(t,0\\right)\\right|\\le F\\right\\}\\left\\{\\left|f_{y}\\left(t,0\\right)\\right|\\le F\\right\\}",
+    "folderId": "tgrid",
+    "lineOpacity": "0.8",
+    "lineWidth": "2.5",
+    "parametricDomain": {
+     "min": "-14",
+     "max": "14"
+    }
+   },
+   {
+    "type": "folder",
+    "id": "basis",
+    "title": "Eigenbasis",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "u1x",
+    "color": "#000000",
+    "latex": "u_{1x}=1",
+    "folderId": "basis",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "u1y",
+    "color": "#000000",
+    "latex": "u_{1y}=0",
+    "folderId": "basis",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "u2x",
+    "color": "#000000",
+    "latex": "u_{2x}=-1",
+    "folderId": "basis",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "u2y",
+    "color": "#000000",
+    "latex": "u_{2y}=1",
+    "folderId": "basis",
+    "hidden": true
+   },
+   {
+    "type": "folder",
+    "id": "egrid",
+    "title": "Eigenbasis grid",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "eg1",
+    "color": "#388c46",
+    "latex": "\\left(f_{x}\\left(Ku_{2x}+tu_{1x},Ku_{2y}+tu_{1y}\\right),f_{y}\\left(Ku_{2x}+tu_{1x},Ku_{2y}+tu_{1y}\\right)\\right)\\left\\{\\left|f_{x}\\left(Ku_{2x}+tu_{1x},Ku_{2y}+tu_{1y}\\right)\\right|\\le F\\right\\}\\left\\{\\left|f_{y}\\left(Ku_{2x}+tu_{1x},Ku_{2y}+tu_{1y}\\right)\\right|\\le F\\right\\}",
+    "folderId": "egrid",
+    "lineOpacity": "0.5",
+    "lineWidth": "1.5",
+    "parametricDomain": {
+     "min": "-14",
+     "max": "14"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "eg2",
+    "color": "#6042a6",
+    "latex": "\\left(f_{x}\\left(Ku_{1x}+tu_{2x},Ku_{1y}+tu_{2y}\\right),f_{y}\\left(Ku_{1x}+tu_{2x},Ku_{1y}+tu_{2y}\\right)\\right)\\left\\{\\left|f_{x}\\left(Ku_{1x}+tu_{2x},Ku_{1y}+tu_{2y}\\right)\\right|\\le F\\right\\}\\left\\{\\left|f_{y}\\left(Ku_{1x}+tu_{2x},Ku_{1y}+tu_{2y}\\right)\\right|\\le F\\right\\}",
+    "folderId": "egrid",
+    "lineOpacity": "0.5",
+    "lineWidth": "1.5",
+    "parametricDomain": {
+     "min": "-14",
+     "max": "14"
+    }
+   },
+   {
+    "type": "folder",
+    "id": "evec",
+    "title": "Eigenvectors",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "w1_seg",
+    "color": "#388c46",
+    "latex": "\\left(t\\left(f_{x}\\left(u_{1x},u_{1y}\\right)\\right),t\\left(f_{y}\\left(u_{1x},u_{1y}\\right)\\right)\\right)\\left\\{\\left|t\\left(f_{x}\\left(u_{1x},u_{1y}\\right)\\right)\\right|\\le F\\right\\}\\left\\{\\left|t\\left(f_{y}\\left(u_{1x},u_{1y}\\right)\\right)\\right|\\le F\\right\\}",
+    "folderId": "evec",
+    "lineWidth": "5",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "w1_tip",
+    "color": "#388c46",
+    "latex": "\\left(\\left\\{\\left|f_{x}\\left(u_{1x},u_{1y}\\right)\\right|\\le F:f_{x}\\left(u_{1x},u_{1y}\\right)\\right\\},\\left\\{\\left|f_{y}\\left(u_{1x},u_{1y}\\right)\\right|\\le F:f_{y}\\left(u_{1x},u_{1y}\\right)\\right\\}\\right)",
+    "folderId": "evec",
+    "dragMode": "NONE",
+    "pointSize": "9",
+    "showLabel": true,
+    "label": "`Av_1`",
+    "labelSize": "1.5"
+   },
+   {
+    "type": "expression",
+    "id": "w2_seg",
+    "color": "#6042a6",
+    "latex": "\\left(t\\left(f_{x}\\left(u_{2x},u_{2y}\\right)\\right),t\\left(f_{y}\\left(u_{2x},u_{2y}\\right)\\right)\\right)\\left\\{\\left|t\\left(f_{x}\\left(u_{2x},u_{2y}\\right)\\right)\\right|\\le F\\right\\}\\left\\{\\left|t\\left(f_{y}\\left(u_{2x},u_{2y}\\right)\\right)\\right|\\le F\\right\\}",
+    "folderId": "evec",
+    "lineWidth": "5",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "w2_tip",
+    "color": "#6042a6",
+    "latex": "\\left(\\left\\{\\left|f_{x}\\left(u_{2x},u_{2y}\\right)\\right|\\le F:f_{x}\\left(u_{2x},u_{2y}\\right)\\right\\},\\left\\{\\left|f_{y}\\left(u_{2x},u_{2y}\\right)\\right|\\le F:f_{y}\\left(u_{2x},u_{2y}\\right)\\right\\}\\right)",
+    "folderId": "evec",
+    "dragMode": "NONE",
+    "pointSize": "9",
+    "showLabel": true,
+    "label": "`Av_2`",
+    "labelSize": "1.5"
+   },
+   {
+    "type": "folder",
+    "id": "iter",
+    "title": "Powers of A applied to x",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "p1",
+    "color": "#000000",
+    "latex": "p_{1}=1",
+    "folderId": "iter",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "p2",
+    "color": "#000000",
+    "latex": "p_{2}=1",
+    "folderId": "iter",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "It",
+    "color": "#000000",
+    "latex": "I_{t}=\\left[\\left(1,1\\right)\\right]",
+    "folderId": "iter",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "Nt",
+    "color": "#000000",
+    "latex": "N_{t}=\\sqrt{I_{t}.x^{2}+I_{t}.y^{2}}",
+    "folderId": "iter",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "Rt",
+    "color": "#000000",
+    "latex": "R_{t}=\\left(\\frac{I_{t}.x}{N_{t}},\\frac{I_{t}.y}{N_{t}}\\right)",
+    "folderId": "iter",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "irays",
+    "color": "#fa7e19",
+    "latex": "\\left(tR_{t}.x,tR_{t}.y\\right)\\left\\{\\left|tR_{t}.x\\right|\\le F\\right\\}\\left\\{\\left|tR_{t}.y\\right|\\le F\\right\\}",
+    "folderId": "iter",
+    "lineStyle": "DASHED",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.45",
+    "parametricDomain": {
+     "min": "0",
+     "max": "40"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "ipts",
+    "color": "#fa7e19",
+    "latex": "\\left(\\left\\{\\left|I_{t}.x\\right|\\le F:I_{t}.x\\right\\},\\left\\{\\left|I_{t}.y\\right|\\le F:I_{t}.y\\right\\}\\right)",
+    "folderId": "iter",
+    "pointSize": "8",
+    "dragMode": "NONE",
+    "lines": true,
+    "lineStyle": "DOTTED",
+    "lineWidth": "2"
+   },
+   {
+    "type": "expression",
+    "id": "ph",
+    "color": "#fa7e19",
+    "latex": "\\left(p_{1},p_{2}\\right)",
+    "folderId": "iter",
+    "pointStyle": "OPEN",
+    "pointSize": "15",
+    "movablePointSize": "15",
+    "showLabel": true,
+    "label": "`x`",
+    "labelSize": "1.5",
+    "labelOrientation": "right"
+   }
+  ]
+ }
+}
