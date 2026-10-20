@@ -229,6 +229,4 @@ In Figure 5, the green and purple lines are the grid built from the eigenbasis (
   </div>
 </div>
 
-<div class="latex-body">
-Eigenvalues return in the differential equations half of the course, where an eigenbasis splits a system $\mathbf{x}' = A\mathbf{x}$ into independent pieces. Slides are on the <a href="/teaching/lade/">LADE page</a>.
-</div>
+
