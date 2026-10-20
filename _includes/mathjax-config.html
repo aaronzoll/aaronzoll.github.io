@@ -187,24 +187,32 @@
     });
   }
 
+  // Examples are numbered on their own (Example 1, 2, ...); every other numbered
+  // environment shares one page-wide counter.
+  function nextNum(registry, name) {
+    var key = name === 'example' ? 'example' : 'main';
+    registry.counters[key] = (registry.counters[key] || 0) + 1;
+    return registry.counters[key];
+  }
+
   // Read-only: find every theorem-like environment in document order, assign it the
-  // next number in the page-wide shared counter, and (if labeled) register it.
+  // next number in its page-wide counter, and (if labeled) register it.
   function scanThmLabels(raw, registry) {
     var re = new RegExp('\\\\begin\\{(' + THM_ALT + ')\\}(?:\\[[^\\]]*\\])?([\\s\\S]*?)\\\\end\\{\\1\\}', 'g'), m;
     while ((m = re.exec(raw))) {
       var name = m[1], body = m[2];
-      registry.thmCounter++;
+      var num = nextNum(registry, name);
       var lm = /\\label\{([^}]*)\}/.exec(body);
       if (lm) {
         registry.labels[lm[1]] = {
-          type: 'thm', name: THM_ENVS[name][0], num: registry.thmCounter, anchor: slugify(lm[1])
+          type: 'thm', name: THM_ENVS[name][0], num: num, anchor: slugify(lm[1])
         };
       }
     }
   }
 
   function scanLabels(blocks) {
-    var registry = { labels: {}, thmCounter: 0 };
+    var registry = { labels: {}, counters: {} };
     blocks.forEach(function (el) {
       var raw = normalize(el.innerHTML);
       scanEqLabels(raw, registry);
@@ -302,10 +310,10 @@
     //    \label is stripped from the body — it's now baked into the title + anchor id.
     var thmRe = new RegExp('\\\\begin\\{(' + THM_ALT + ')\\}(\\[([^\\]]*)\\])?([\\s\\S]*?)\\\\end\\{\\1\\}', 'g');
     h = h.replace(thmRe, function (_, name, _br, opt, body) {
-      registry.thmCounter++;
-      var num = registry.thmCounter;
+      var num = nextNum(registry, name);
       var lm = /\\label\{([^}]*)\}/.exec(body);
-      var anchor = lm ? slugify(lm[1]) : 'latex-thm-' + num;
+      // Examples count separately, so the unlabeled anchor carries the env name.
+      var anchor = lm ? slugify(lm[1]) : 'latex-' + name + '-' + num;
       body = body.replace(/\\label\{[^}]*\}/g, '');
       var label = THM_ENVS[name][0];
       var html;
@@ -403,10 +411,10 @@
     var blocks = Array.prototype.slice.call(document.querySelectorAll('.latex-body'));
     if (!blocks.length) return;
     var registry = scanLabels(blocks);
-    // Phase A left thmCounter at the page-wide total while building the label->number
-    // map; reset it so Phase B recounts from 1, retracing the identical sequence of
+    // Phase A left the counters at the page-wide totals while building the label->number
+    // map; reset them so Phase B recounts from 1, retracing the identical sequence of
     // theorem-env matches (same content, same order) and landing on the same numbers.
-    registry.thmCounter = 0;
+    registry.counters = {};
     blocks.forEach(function (el) { preprocessLatex(el, registry); });
   };
 })();

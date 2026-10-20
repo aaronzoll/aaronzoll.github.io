@@ -650,7 +650,7 @@
   // ════════════════════════════════════════════════════════════════════════
   window.evFig5 = function (calc) {
     quiet(calc); fitBoard(calc);
-    var S = { x: [1, 1], s: 1, n: 3, eigView: false };
+    var S = { x: [1, 1], s: 1, n: 3 };
     var nInput = document.getElementById('ev5-n'), nOut = document.getElementById('ev5-n-val');
     var note = document.getElementById('ev5-note');
 
@@ -669,55 +669,40 @@
       draw();
     });
 
-    wireToggles('#ev5', calc, function (key, on) {
-      if (key === 'eigview') { S.eigView = on; }
-      draw();
-    });
-
     function Pmat(E) { return [[E.basis.P[0][0], E.basis.P[1][0]], [E.basis.P[0][1], E.basis.P[1][1]]]; }
-    function Dmat(E) { return [[E.basis.L[0], 0], [0, E.basis.L[1]]]; }
 
-    // In beta-coordinates the dragged point is [x]_beta; map it back to x.
     watch(calc, ['p_{1}', 'p_{2}'], function () {
-      var p = [value(calc, 'p_{1}'), value(calc, 'p_{2}')];
-      if (isNaN(p[0]) || isNaN(p[1])) { return; }
-      var E = eig(SHARED.A), x = S.eigView && E.basis ? mul(Pmat(E), p) : p;
+      var x = [value(calc, 'p_{1}'), value(calc, 'p_{2}')];
+      if (isNaN(x[0]) || isNaN(x[1])) { return; }
       if (Math.hypot(x[0] - S.x[0], x[1] - S.x[1]) < 1e-6) { return; }
       S.x = x;
       draw(true);
     });
 
     function labels() {
-      var v = S.eigView ? ['e_1', 'e_2'] : ['v_1', 'v_2'], M = S.eigView ? 'D' : 'A';
       [0, 1].forEach(function (k) {
-        calc.setExpression({ id: 'w' + (k + 1) + '_tip', label: S.s === 0 ? '`' + v[k] + '`' : S.s === 1 ? '`' + M + v[k] + '`' : '' });
+        var v = 'v_' + (k + 1);
+        calc.setExpression({ id: 'w' + (k + 1) + '_tip', label: S.s === 0 ? '`' + v + '`' : S.s === 1 ? '`A' + v + '`' : '' });
       });
     }
 
     // fromDrag: x came from the graph, so leave the point where the pointer put it.
     function draw(fromDrag) {
-      var E = eig(SHARED.A), has = !!E.basis;
-      var view = S.eigView && has;
-      var M = view ? Dmat(E) : SHARED.A, P = has ? Pmat(E) : null;
+      var E = eig(SHARED.A), has = !!E.basis, M = SHARED.A;
       setEntries(calc, M);
-
-      var shown = view ? mul(inv(P), S.x) : S.x;
-      if (!fromDrag) { setVar(calc, 'p1', 'p_{1}', shown[0]); setVar(calc, 'p2', 'p_{2}', shown[1]); }
+      if (!fromDrag) { setVar(calc, 'p1', 'p_{1}', S.x[0]); setVar(calc, 'p2', 'p_{2}', S.x[1]); }
 
       if (has) {
-        var u = view ? [[1, 0], [0, 1]] : E.basis.P;
-        setLine(calc, ['u1x', 'u1y'], ['u_{1x}', 'u_{1y}'], u[0]);
-        setLine(calc, ['u2x', 'u2y'], ['u_{2x}', 'u_{2y}'], u[1]);
+        setLine(calc, ['u1x', 'u1y'], ['u_{1x}', 'u_{1y}'], E.basis.P[0]);
+        setLine(calc, ['u2x', 'u2y'], ['u_{2x}', 'u_{2y}'], E.basis.P[1]);
       }
       show(calc, 'egrid', has);
       show(calc, 'evec', has);
 
-      var pts = [shown], y = shown;
+      var pts = [S.x], y = S.x;
       for (var k = 0; k < S.n; k++) { y = mul(M, y); pts.push(y); }
       calc.setExpression({ id: 'It', latex: 'I_{t}=\\left[' + pts.map(function (q) { return '\\left(' + num(q[0]) + ',' + num(q[1]) + '\\right)'; }).join(',') + '\\right]' });
 
-      var viewBtn = document.querySelector('#ev5 .ev-toggle[data-key="eigview"]');
-      viewBtn.disabled = !has;
       labels();
       readout();
     }
