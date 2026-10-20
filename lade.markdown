@@ -1049,5 +1049,10 @@ augmented by topics from linear algebra and the use of computer software (primar
       <span class="gallery-title">Gram–Schmidt Orthogonalization</span>
     </a>
 
+    <a class="gallery-card" href="/desmos/eigenvector_notebook/" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/eigenvectors.png" alt="Eigenvectors and Eigenvalues" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
+      <span class="gallery-title">Eigenvectors and Eigenvalues</span>
+    </a>
+
   </div>
 </div>
