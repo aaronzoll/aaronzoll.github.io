@@ -9,18 +9,18 @@ title: "Eigenvectors and Eigenvalues"
 <p class="ev-credit">Following 3Blue1Brown, <a href="https://www.youtube.com/watch?v=PFDu9oVAE-g" target="_blank" rel="noopener">Essence of Linear Algebra, Chapter 14</a></p>
 
 <div class="latex-body">
-Eigenvectors are simple once the ideas before them are solid: matrices as transformations, determinants, null spaces, and change of basis. If any of those feel shaky, open the refresher below; otherwise, read on.
+Eigen-things aren't actually so bad once you have a solid foundation of their prerequisites: matrices as transformations, determinants, null spaces, and change of basis. If any of those feel shaky, open the refresher below; otherwise, read on.
 
-One matrix $A$ drives every figure on the page. Change it in any panel (type the entries, or pick an example) and every figure follows. All numbers are rounded to the nearest tenth.
+Throughout the page, will we consider a $(2 \times 2)$ matrix $A$, which represents a linear transformation. You can adjust it in any panel by choosing a preset example (3b1b's choice, a diagonal matrix, a simple rotation, or a shear) or entering custom values. 
 </div>
 
 <details class="ev-refresher" id="refresher">
 <summary>Refresher: transformations, determinants, and change of basis</summary>
 
 <div class="latex-body">
-\textbf{Matrices are transformations.} A $2\times 2$ matrix sends each vector $\mathbf{x}$ to $A\mathbf{x}$, keeping grid lines straight, parallel, and evenly spaced. It is decided by where it sends $\mathbf{e}_1$ and $\mathbf{e}_2$, which are its columns:
+\textbf{Matrices are transformations.} A $2\times 2$ matrix transforms each vector $\mathbf{x} \in \R^2$ to $A\mathbf{x} \in \R^2$. By linearity, we really only need to consider where basis vectors are sent (why?), and also by linearity, these grid lines are transformed in a way that keeps them straight, parallel, and evenly spaced. Notably, all is decided by where $\mathbf{e}_1$ and $\mathbf{e}_2$ are sent, which are denoted precisely by the columns of $A$:
 $$A\mathbf{x} = x_1 A\mathbf{e}_1 + x_2 A\mathbf{e}_2.$$
-In Figure 1, drag the red and blue column tips or the orange $\mathbf{x}$, and press play to watch $A$ act (see <a href="/desmos/linear-combinations">linear combinations</a> and <a href="https://docs.google.com/presentation/d/1CGEmz1QC43GrgDW2Nhf88WdZBPgStE7LgyPBRQ2pYCg/edit?usp=sharing" target="_blank" rel="noopener">Lecture 19</a>).
+In Figure 1, you can drag the red and blue vectors, which choice the columns of $A$, i.e. where the canonical basis vectors get sent. You may also drag the input vector $\mathbf{x}$, or press play to watch $A$ transform the entire grid (see <a href="/desmos/linear-combinations">linear combinations</a> and <a href="https://docs.google.com/presentation/d/1CGEmz1QC43GrgDW2Nhf88WdZBPgStE7LgyPBRQ2pYCg/edit?usp=sharing" target="_blank" rel="noopener">Lecture 19</a> for additional material).
 </div>
 
 <div class="ev-figure" id="ev1">
@@ -34,10 +34,10 @@ In Figure 1, drag the red and blue column tips or the orange $\mathbf{x}$, and p
         <div class="ev-slide-head"><span>Apply \(A\)</span><strong class="ev-s-val">1</strong></div>
         <div class="ev-slide"><input class="site-slider" type="range" min="0" max="1" step="0.01" value="1" aria-label="Apply A"><button type="button" class="site-btn">▶ Play</button></div>
       </div>
-      <button type="button" class="site-btn ev-toggle ev-wide" aria-pressed="false" data-folder="sq">Unit square</button>
+      <button type="button" class="site-btn ev-toggle ev-wide" aria-pressed="false" data-folder="sq">Trasnformed square</button>
     </div>
   </div>
-  <p class="ev-caption">Figure 1. A matrix is a transformation, recorded by where it sends \(\mathbf{e}_1\) and \(\mathbf{e}_2\).</p>
+  <p class="ev-caption">Figure 1. A matrix as a transformation.</p>
   <div class="ev-calc">
     <div class="ev-calc-math" id="ev1-calc-ax"></div>
     <div class="ev-calc-math" id="ev1-calc-null"></div>
@@ -45,22 +45,27 @@ In Figure 1, drag the red and blue column tips or the orange $\mathbf{x}$, and p
 </div>
 
 <div class="latex-body">
-\textbf{Determinants measure squishing.} Toggle on the unit square: $A$ scales every area by $|\det A|$ (see <a href="/desmos/determinant">the determinant as area</a>). When $\det A = 0$, $A$ squishes the plane onto a line, sending a whole line of vectors, the null space, to $\mathbf{0}$. Drag $A\mathbf{e}_2$ onto the line through $A\mathbf{e}_1$ to see it appear in green (see <a href="/desmos/null-space-range">Null Space and Range</a>).
+\textbf{Determinants.} The determinant can measure how much a transformation squishes or expands the ambient space, how much the grid is deformed. You can see this by toggling the "transformed square" above. $A$ scales every area by $|\det A|$ (see <a href="/desmos/determinant">the determinant as area</a>). When $\det A = 0$, $A$ squishes the plane onto a line, sending a whole line of vectors, the null space, to $\mathbf{0}$. Drag $A\mathbf{e}_2$ onto the line parallel to $A\mathbf{e}_1$ to visualize this subspace in green (see <a href="/desmos/null-space-range">Null Space and Range</a>) and try to determine why the line slopes the way it does.
+
+We will be particularly interested in \textit{nontrivial solutions} to the nullspace, which occur only when the matrix is singular. Equivalently, we have the following theorem. 
 
 \begin{theorem}\label{thm:det-null}
 For an $n \times n$ matrix $A$, the equation $A\mathbf{x} = \mathbf{0}$ has a nonzero solution if and only if $\det A = 0$.
 \end{theorem}
 
-\textbf{Change of basis.} For a basis $\beta = \{\mathbf{v}_1, \mathbf{v}_2\}$ with basis matrix $M_\beta = \begin{bmatrix} \mathbf{v}_1 & \mathbf{v}_2 \end{bmatrix}$, the transformation $\mathbf{x} \mapsto A\mathbf{x}$ written in $\beta$-coordinates is $M_\beta^{-1}AM_\beta$: translate into standard coordinates, apply $A$, and translate back (see <a href="/desmos/change-of-basis">change of basis</a> and <a href="https://docs.google.com/presentation/d/16xcErMXdiKPBMy-_09Y8FJMZjyq-dxi5yL6UUPuY1kc/edit?usp=sharing" target="_blank" rel="noopener">Lecture 21</a>).
+\textbf{Change of basis.} For a basis $\beta = \{\mathbf{v}_1, \mathbf{v}_2\}$ with basis matrix $M_\beta = \begin{bmatrix} \mathbf{v}_1 & \mathbf{v}_2 \end{bmatrix}$, the transformation $\mathbf{x} \mapsto A\mathbf{x}$ written in $\beta$-coordinates is $M_\beta^{-1}AM_\beta$: i.e. translate into standard coordinates, apply $A$ (the "standard" transformation"), and translate back (see <a href="/desmos/change-of-basis">change of basis</a> and <a href="https://docs.google.com/presentation/d/16xcErMXdiKPBMy-_09Y8FJMZjyq-dxi5yL6UUPuY1kc/edit?usp=sharing" target="_blank" rel="noopener">Lecture 21</a>). This concept with be incredibly useful in applying the elegance of eigen-stuff. Often, a basis of eigenvectors will give exactly the desired perspective to simplify computation or better understand a transformation, and a strong foundation with change of basis is imperative for further exploration.  
 </div>
 </details>
 
 <h3 id="span">Vectors that stay on their span</h3>
 
 <div class="latex-body">
-Most vectors get knocked off their span (the line through them) by a transformation. A few special vectors stay on it, so $A$ only stretches or squishes them, as if multiplying by a scalar.
+Most vectors get knocked off their span by a transformation (recall projections or rotations). However, a few special vectors may remain, where $A$ only stretches or squeezes them, multiplying by a scalar.
 
-In Figure 2, drag $\mathbf{v}$: the dashed line is its span and the arrow is $A\mathbf{v}$. For the 3Blue1Brown example, $\mathbf{e}_1$ is stretched by $3$ and $(-1, 1)$ is stretched by $2$, and by linearity so is every vector on their lines. Toggle on \emph{Eigenlines} to see both, or press \emph{Snap} to move $\mathbf{v}$ onto one.
+In Figure 2, drag the vector $\mathbf{v}$. Included is the dashed line representing its span and its transformation, $A\mathbf{v}$. Considering the specific example from 3Blue1Brown, the basis vector $\mathbf{e}_1$ is stretched by $3$ and the vector whos standard coordinates are $(-1, 1)$ is stretched by $2$. By linearity, each vector on their respective lines are stretched similarly. Toggle on \textbf{Eigenlines} to see both, or press \textbf{Snap} to move $\mathbf{v}$ onto one of them. You may also proceed similarly with any matrix $A$. 
+
+
+Below we give a formal definition of all the eigen-stuff: eigenvalues, corresponding eigenvectors, and the subspace that constain them. Note, the zero vector $\mathbf{0}$ is \textit{not} an eigenvector, but we do place it in the eigenspace (with all solutions to $A\mathbf{x} = \lambda \mathbf{x}$).
 
 \begin{definition}
 A \textbf{nonzero} vector $\mathbf{v}$ is an \textbf{eigenvector} of $A$ if $A\mathbf{v} = \lambda\mathbf{v}$ for some scalar $\lambda$, its \textbf{eigenvalue}. The eigenvectors for $\lambda$, together with $\mathbf{0}$, form the \textbf{eigenspace} $E_\lambda$.
@@ -93,7 +98,7 @@ A \textbf{nonzero} vector $\mathbf{v}$ is an \textbf{eigenvector} of $A$ if $A\m
 </div>
 
 <div class="latex-body">
-A negative eigenvalue flips a vector but still keeps it on its line: try the \emph{Diagonal} example, where $\mathbf{e}_1$ has eigenvalue $-1$. In 3D, an eigenvector of a rotation is its axis, with eigenvalue $1$. Either way, eigenvectors describe what $A$ actually does, independent of the coordinates we chose.
+
 </div>
 
 <h3 id="algebra">From geometry to algebra</h3>
