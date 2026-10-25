@@ -213,6 +213,28 @@ custom_js: |
   <div class="slides">
     <div class="slide-row">
       <div class="bullet-points">
+        <div class="slide-heading">Presentations on Optimal Methods for Lipschitz Convex Minimization</div>
+        <div class="venue-list">
+          <div class="venue-item">
+            <span class="venue-name">Johns Hopkins <a href="https://sites.google.com/view/ams-grad-seminar" target="_blank">Applied Math and Statistics Student Seminar</a></span>
+            <span class="venue-date">Mar. 2026</span>
+          </div>
+          <div class="venue-item">
+            <span class="venue-name"><a href = "" target = "_blank">International Symposium on Mathematical Programming (ISMP)</a>, Amsterdam</span>
+            <span class="venue-date">July. 2027</span>
+          </div>
+        </div>
+      </div>
+      <div class="desmos-gallery-image">
+        <a href="https://docs.google.com/presentation/d/1gGmAMGcBsrtfm4aXXeb8Cd_zNzagzPUQmwMxPvdYOMc/edit?usp=sharing">
+          <div class="slide-picture">
+            <img src="/assets/images/optimal_methods.png" alt="Slides">
+          </div>
+        </a>
+      </div>
+    </div>  
+    <div class="slide-row">
+      <div class="bullet-points">
         <div class="slide-heading">Presentations on Interpolation Theory</div>
         <div class="venue-list">
           <div class="venue-item">

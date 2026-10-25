@@ -782,14 +782,14 @@ augmented by topics from linear algebra and the use of computer software (primar
           <span class="lecture-title">Eigenvalue Properties and Similarity</span>
         </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1XfT70ibIoq_wex9v_ci5ed-sGhGz4mREgcSj9K-tb30/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 25</span>
             <img src="/assets/LADE/thumbnails/Lecture_25.png" alt="Lecture 25 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 25</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Eigenspaces and Eigenbases</span>
+        </a>
 
         <div class="lecture-card lecture-card--pending">
           <div class="lecture-thumb">
