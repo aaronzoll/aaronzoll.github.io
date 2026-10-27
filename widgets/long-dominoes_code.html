@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiling with Long Dominoes</title>
+<style>
+  :root{
+    --bg:#f0f0f0;
+    --card:#ffffff;
+    --ink:#37474f;
+    --ink-strong:#263238;
+    --muted:#78909c;
+    --line:#d0d7de;
+    --slate:#546e7a;
+    --slate-dark:#37474f;
+    --btn:#f4f6f8;
+    --btn-line:#b0bec5;
+    --frame:#a67b5b;
+    --frame-out:#593302;
+    --blue:#2E6CB5;
+    --olive:#3C8031;
+    --olive-bg:#F3FBF1;
+    --brick:#B7312C;
+    --ghost:#b0bec5;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:Garamond,"EB Garamond",Georgia,serif;
+    font-size:17px; line-height:1.5;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:.5rem 1rem}
+  .page-top h1{margin:0 0 1.2rem;font-size:1.6rem;color:var(--ink-strong);font-weight:600}
+
+  .bubble{
+    background:var(--card); border-radius:16px; padding:1.5rem 2rem;
+    margin-bottom:1.5rem; box-shadow:0 3px 12px rgba(0,0,0,.15);
+  }
+  .bubble h2{
+    margin:0 0 .9rem; font-size:1rem; font-weight:600; color:var(--ink);
+    font-family:sans-serif; letter-spacing:.02em;
+  }
+  .bubble h2 span{font-weight:400;color:var(--muted)}
+
+  .cols{display:flex;gap:1.5rem;align-items:flex-start;flex-wrap:wrap}
+  .col-main{flex:1 1 560px;min-width:300px}
+  .col-side{flex:0 1 300px;min-width:220px}
+
+  .controls{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+  .controls .gap{flex:1 1 auto}
+  .stepper{display:flex;align-items:center;gap:.4rem;font-size:.92rem;color:var(--ink)}
+  .stepper .box{display:flex;align-items:center;border:1px solid var(--btn-line);border-radius:6px;background:var(--btn)}
+  .stepper button{border:none;background:none;cursor:pointer;padding:.15rem .55rem;font:inherit;font-size:1rem;color:var(--ink)}
+  .stepper button:disabled{color:var(--ghost);cursor:default}
+  .stepper .val{min-width:2.4rem;text-align:center;font-size:1rem}
+
+  .site-btn{
+    display:inline-block;padding:.35rem .8rem;
+    border:1px solid var(--btn-line);border-radius:6px;background:var(--btn);
+    color:var(--ink);font-size:.95rem;font-family:inherit;cursor:pointer;
+    box-shadow:0 1px 3px rgba(0,0,0,.1);
+    transition:background .15s,border-color .15s,box-shadow .15s;text-align:center;
+  }
+  .site-btn:hover:not(.site-btn--active):not(:disabled){background:#e8edf2;border-color:#90a4ae;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+  .site-btn--active{background:var(--slate);border-color:var(--slate-dark);color:#fff;
+    box-shadow:inset 0 1px 3px rgba(0,0,0,.2),0 2px 6px rgba(0,0,0,.15)}
+  .site-btn:disabled{color:var(--ghost);cursor:default;box-shadow:none}
+
+  .board{border:2px solid var(--frame);outline:4px ridge var(--frame-out);background:#fff;padding:.8rem}
+  #grid{display:block;width:100%;height:auto;max-width:560px;margin:0 auto;touch-action:none;user-select:none}
+  #grid .tile{cursor:grab}
+  .tag{display:inline-block;padding:.05rem .55rem;border-radius:4px;font-size:.8rem;
+       font-family:sans-serif;border:1px solid;font-weight:400;margin-left:.4rem;vertical-align:1px}
+  .tag.ok{color:var(--olive);border-color:var(--olive);background:var(--olive-bg)}
+
+  .bank{display:flex;gap:1.4rem;align-items:flex-start;justify-content:center;flex-wrap:wrap;padding:.4rem 0}
+  .piece{background:rgba(46,108,181,0.55);border:2.5px solid var(--blue);border-radius:7px;cursor:grab;touch-action:none;
+         position:relative}
+  .piece i{position:absolute;background:rgba(255,255,255,.45)}
+  .bank-note{font-size:.85rem;color:var(--muted);font-family:sans-serif;margin-top:.8rem;text-align:center}
+  .ghost{position:fixed;pointer-events:none;z-index:10;background:rgba(46,108,181,0.45);border:2.5px solid var(--blue);
+         border-radius:7px;box-shadow:0 6px 16px rgba(0,0,0,.2)}
+  body.dragging, body.dragging *{cursor:grabbing!important}
+  body.dragging{user-select:none;-webkit-user-select:none}
+  .piece,.bank{user-select:none;-webkit-user-select:none}
+
+  details.hint summary{cursor:pointer;font-family:sans-serif;font-weight:600;font-size:1rem;color:var(--ink);list-style:none}
+  details.hint summary::-webkit-details-marker{display:none}
+  details.hint summary::before{content:"\25B8";display:inline-block;width:1.1rem;color:var(--slate)}
+  details.hint[open] summary::before{content:"\25BE"}
+  .hint-body{margin-top:.9rem}
+  .hint-body p{margin:.4rem 0 .8rem}
+  table.colors{border-collapse:collapse;font-size:.98rem;margin-top:.6rem}
+  table.colors th{font-family:sans-serif;font-size:.78rem;color:var(--muted);font-weight:400;text-align:center;padding:.2rem .9rem}
+  table.colors td{text-align:center;padding:.25rem .9rem;border-top:1px solid var(--line)}
+  .sw{display:inline-block;width:1.6rem;height:1.15rem;border-radius:3px;vertical-align:middle;
+      font-size:.75rem;line-height:1.15rem;font-family:sans-serif;color:var(--ink-strong)}
+  td.hi{color:var(--brick);font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="bubble">
+    <div class="controls">
+      <div class="stepper"><span>board</span><div class="box">
+        <button data-step="n" data-dir="-1">&minus;</button><span class="val" id="nVal"></span><button data-step="n" data-dir="1">+</button>
+      </div></div>
+      <div class="stepper"><span>tile length</span><div class="box">
+        <button data-step="L" data-dir="-1">&minus;</button><span class="val" id="LVal"></span><button data-step="L" data-dir="1">+</button>
+      </div></div>
+      <span class="gap"></span>
+      <button class="site-btn" id="undo">Undo</button>
+      <button class="site-btn" id="clear">Clear</button>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div class="col-main">
+      <div class="bubble">
+        <h2 id="boardHead">Board</h2>
+        <div class="board"><svg id="grid"></svg></div>
+      </div>
+    </div>
+    <div class="col-side">
+      <div class="bubble">
+        <h2>Pieces</h2>
+        <div class="bank" id="bank"></div>
+        <div class="bank-note">Drag a piece onto the board. Drag a placed piece to move it, or off the board to remove it. Press R while dragging to rotate.</div>
+      </div>
+    </div>
+  </div>
+
+  <details class="bubble hint" id="hint">
+    <summary>Hint</summary>
+    <div class="hint-body">
+      <p id="hintText"></p>
+      <button class="site-btn" id="colorBtn">Color the board</button>
+      <table class="colors" id="colors"></table>
+    </div>
+  </details>
+</div>
+
+<script>
+var FILL=["#d6e4f7","#dcefd6","#f7dcda","#e6ddf3","#f8e9cc","#d5ecee"];
+var CELL=40;
+var S={n:10,L:4,tiles:[],hist:[],color:false,drag:null};
+
+function cellsOf(t){
+  var out=[];
+  for(var i=0;i<t.L;i++)out.push(t.o==="h"?[t.r,t.c+i]:[t.r+i,t.c]);
+  return out;
+}
+function occGrid(skip){
+  var g=[];for(var r=0;r<S.n;r++){g.push([]);for(var c=0;c<S.n;c++)g[r].push(-1);}
+  S.tiles.forEach(function(t,idx){if(t===skip)return;cellsOf(t).forEach(function(p){g[p[0]][p[1]]=idx;});});
+  return g;
+}
+/* rows and columns counted from 0, so the top-left square has color 0 */
+function colorOf(r,c){return (r+c)%S.L;}
+function fits(t,g){
+  return cellsOf(t).every(function(p){return p[0]>=0&&p[1]>=0&&p[0]<S.n&&p[1]<S.n&&g[p[0]][p[1]]<0;});
+}
+function snapshot(){S.hist.push(S.tiles.map(function(t){return {r:t.r,c:t.c,o:t.o,L:t.L};}));}
+
+/* ============================== rendering ============================== */
+function tileRect(t,fill,stroke,extra){
+  var w=(t.o==="h"?t.L:1)*CELL,h=(t.o==="h"?1:t.L)*CELL;
+  return '<rect x="'+(t.c*CELL+4)+'" y="'+(t.r*CELL+4)+'" width="'+(w-8)+'" height="'+(h-8)+'" rx="7" fill="'+fill+'" stroke="'+stroke+'" stroke-width="2.5" '+(extra||"")+"/>";
+}
+function render(){
+  var n=S.n,L=S.L,W=n*CELL,dragged=S.drag&&S.drag.from;
+  document.getElementById("nVal").textContent=n+"×"+n;
+  document.getElementById("LVal").textContent="1×"+L;
+  document.querySelectorAll("[data-step]").forEach(function(b){
+    var id=b.getAttribute("data-step"),dir=+b.getAttribute("data-dir");
+    var v=id==="n"?S.n:S.L,lo=id==="n"?Math.max(2,S.L):2,hi=id==="n"?14:Math.min(6,S.n);
+    b.disabled=dir<0?v<=lo:v>=hi;
+  });
+  document.getElementById("undo").disabled=!S.hist.length;
+  document.getElementById("clear").disabled=!S.tiles.length;
+
+  var h="";
+  for(var r=0;r<n;r++)for(var c=0;c<n;c++){
+    var col=colorOf(r,c);
+    h+='<rect x="'+(c*CELL)+'" y="'+(r*CELL)+'" width="'+CELL+'" height="'+CELL+'" fill="'+(S.color?FILL[col]:"#fff")+'" stroke="#cfd8dc" stroke-width="1"/>';
+    if(S.color)h+='<text x="'+(c*CELL+CELL/2)+'" y="'+(r*CELL+CELL/2+5)+'" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#546e7a">'+col+"</text>";
+  }
+  S.tiles.forEach(function(t,idx){
+    if(t===dragged)return;
+    h+=tileRect(t,S.color?"rgba(46,108,181,0.30)":"rgba(46,108,181,0.55)","#2E6CB5",'class="tile" data-tile="'+idx+'"');
+  });
+  if(S.drag&&S.drag.cand){
+    var ok=S.drag.ok;
+    h+=tileRect(S.drag.cand,ok?"rgba(60,128,49,0.18)":"rgba(183,49,44,0.12)",ok?"#3C8031":"#B7312C",'stroke-dasharray="6 4" pointer-events="none"');
+  }
+  h+='<rect x="0" y="0" width="'+W+'" height="'+W+'" fill="none" stroke="#263238" stroke-width="2.5" pointer-events="none"/>';
+  var svg=document.getElementById("grid");
+  svg.setAttribute("viewBox","-2 -2 "+(W+4)+" "+(W+4));
+  svg.innerHTML=h;
+
+  var done=S.tiles.length*L===n*n;
+  document.getElementById("boardHead").innerHTML="Board <span>— "+n+"×"+n+" with 1×"+L+" tiles</span>"+(done?'<span class="tag ok">tiled</span>':"");
+  renderHint();
+}
+
+function renderBank(){
+  var px=Math.min(30,Math.max(18,cellPx()*0.75)),L=S.L;
+  function piece(o){
+    var w=(o==="h"?L:1)*px,h=(o==="h"?1:L)*px,seps="";
+    for(var i=1;i<L;i++)seps+=o==="h"?'<i style="left:'+(i*px-3)+'px;top:20%;width:1px;height:60%"></i>'
+                                     :'<i style="top:'+(i*px-3)+'px;left:20%;height:1px;width:60%"></i>';
+    return '<div class="piece" data-piece="'+o+'" style="width:'+w+'px;height:'+h+'px" title="'+(o==="h"?"horizontal":"vertical")+' piece">'+seps+"</div>";
+  }
+  document.getElementById("bank").innerHTML=piece("h")+piece("v");
+}
+
+function renderHint(){
+  var n=S.n,L=S.L,g=occGrid();
+  document.getElementById("hintText").innerHTML=
+    "Number the rows and columns from 0, starting at the top left, and color the square in row <i>i</i> and column <i>j</i> by (<i>i</i> + <i>j</i>) mod "+L+". "+
+    "Wherever a tile goes, its "+L+" squares have "+L+" consecutive values of <i>i</i> + <i>j</i>, so it covers exactly one square of each color. "+
+    "A complete tiling would therefore cover every color the same number of times. Compare that with how many squares of each color the board has.";
+  var cb=document.getElementById("colorBtn");
+  cb.classList.toggle("site-btn--active",S.color);
+  cb.textContent=S.color?"Hide the coloring":"Color the board";
+  var total=[],covered=[];
+  for(var i=0;i<L;i++){total.push(0);covered.push(0);}
+  for(var r=0;r<n;r++)for(var c=0;c<n;c++){var cl=colorOf(r,c);total[cl]++;if(g[r][c]>=0)covered[cl]++;}
+  var mx=Math.max.apply(null,total),mn=Math.min.apply(null,total);
+  var t='<tr><th>color</th><th>squares</th><th>covered</th><th>empty</th></tr>';
+  for(var j=0;j<L;j++){
+    var odd=mx!==mn&&(total[j]===mx||total[j]===mn);
+    t+='<tr><td><span class="sw" style="background:'+FILL[j]+'">'+j+'</span></td><td class="'+(odd?"hi":"")+'">'+total[j]+"</td><td>"+covered[j]+"</td><td>"+(total[j]-covered[j])+"</td></tr>";
+  }
+  document.getElementById("colors").innerHTML=t;
+}
+
+/* ============================== dragging ============================== */
+var svgEl=document.getElementById("grid");
+function boardBox(){
+  /* screen box of the n x n grid (the viewBox has a 2-unit margin on each side) */
+  var b=svgEl.getBoundingClientRect(),k=b.width/(S.n*CELL+4);
+  return {left:b.left+2*k,top:b.top+2*k,size:S.n*CELL*k,cell:CELL*k};
+}
+function cellPx(){return boardBox().cell||40;}
+
+var ghost=null;
+function makeGhost(){
+  ghost=document.createElement("div");ghost.className="ghost";document.body.appendChild(ghost);
+}
+function sizeGhost(){
+  var cp=cellPx(),d=S.drag;
+  var w=(d.o==="h"?S.L:1)*cp-8,h=(d.o==="h"?1:S.L)*cp-8;
+  ghost.style.width=w+"px";ghost.style.height=h+"px";
+}
+function startDrag(ev,o,from){
+  var cp=cellPx(),d={o:o,from:from||null,gx:cp/2,gy:cp/2,cand:null,ok:false};
+  if(from){
+    var bb=boardBox();
+    d.gx=ev.clientX-(bb.left+from.c*bb.cell);
+    d.gy=ev.clientY-(bb.top+from.r*bb.cell);
+  }
+  S.drag=d;
+  if(window.getSelection)window.getSelection().removeAllRanges();
+  makeGhost();sizeGhost();moveDrag(ev);
+  document.body.classList.add("dragging");
+  ev.preventDefault();
+}
+function moveDrag(ev){
+  var d=S.drag;if(!d)return;
+  d.x=ev.clientX;d.y=ev.clientY;
+  ghost.style.left=(d.x-d.gx+4)+"px";ghost.style.top=(d.y-d.gy+4)+"px";
+  var bb=boardBox();
+  var c=Math.round((d.x-d.gx-bb.left)/bb.cell),r=Math.round((d.y-d.gy-bb.top)/bb.cell);
+  var inside=d.x>=bb.left&&d.x<=bb.left+bb.size&&d.y>=bb.top&&d.y<=bb.top+bb.size;
+  if(inside){
+    var cand={r:r,c:c,o:d.o,L:S.L};
+    /* slide back onto the board if the piece hangs off an edge */
+    cand.r=Math.max(0,Math.min(cand.r,S.n-(d.o==="v"?S.L:1)));
+    cand.c=Math.max(0,Math.min(cand.c,S.n-(d.o==="h"?S.L:1)));
+    d.cand=cand;d.ok=fits(cand,occGrid(d.from));
+  }else{d.cand=null;d.ok=false;}
+  render();
+}
+function endDrag(){
+  var d=S.drag;if(!d)return;
+  if(d.cand&&d.ok){
+    snapshot();
+    if(d.from){d.from.r=d.cand.r;d.from.c=d.cand.c;d.from.o=d.cand.o;}
+    else S.tiles.push(d.cand);
+  }else if(d.from&&!d.cand){
+    snapshot();
+    S.tiles.splice(S.tiles.indexOf(d.from),1);
+  }
+  S.drag=null;
+  if(ghost){ghost.remove();ghost=null;}
+  document.body.classList.remove("dragging");
+  render();
+}
+function rotateDrag(){
+  var d=S.drag;if(!d)return;
+  d.o=d.o==="h"?"v":"h";
+  var t=d.gx;d.gx=d.gy;d.gy=t;
+  sizeGhost();moveDrag({clientX:d.x,clientY:d.y});
+}
+
+document.addEventListener("pointerdown",function(ev){
+  if(ev.button!==undefined&&ev.button!==0)return;
+  var p=ev.target.closest(".piece");
+  if(p){startDrag(ev,p.getAttribute("data-piece"),null);return;}
+  var t=ev.target.closest(".tile");
+  if(t){var tile=S.tiles[+t.getAttribute("data-tile")];startDrag(ev,tile.o,tile);}
+});
+document.addEventListener("pointermove",function(ev){if(S.drag)moveDrag(ev);});
+document.addEventListener("pointerup",endDrag);
+document.addEventListener("pointercancel",function(){if(S.drag){S.drag.cand=null;S.drag.from=null;endDrag();}});
+document.addEventListener("keydown",function(ev){
+  if((ev.key==="r"||ev.key==="R")&&S.drag)rotateDrag();
+  if((ev.ctrlKey||ev.metaKey)&&ev.key==="z"){ev.preventDefault();undo();}
+});
+document.addEventListener("contextmenu",function(ev){if(S.drag){ev.preventDefault();rotateDrag();}});
+
+/* ============================== controls ============================== */
+function undo(){if(S.hist.length){S.tiles=S.hist.pop();render();}}
+document.addEventListener("click",function(ev){
+  var t=ev.target,st=t.closest("[data-step]");
+  if(st){
+    var id=st.getAttribute("data-step"),dir=+st.getAttribute("data-dir");
+    if(id==="n")S.n=Math.max(Math.max(2,S.L),Math.min(14,S.n+dir));
+    else S.L=Math.max(2,Math.min(Math.min(6,S.n),S.L+dir));
+    S.tiles=[];S.hist=[];render();renderBank();return;
+  }
+  if(t.closest("#clear")){if(S.tiles.length){snapshot();S.tiles=[];render();}return;}
+  if(t.closest("#undo")){undo();return;}
+  if(t.closest("#colorBtn")){S.color=!S.color;render();return;}
+});
+window.addEventListener("resize",renderBank);
+
+render();renderBank();
+</script>
+</body>
+</html>

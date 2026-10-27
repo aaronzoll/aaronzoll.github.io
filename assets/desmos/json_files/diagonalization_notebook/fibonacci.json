@@ -1,0 +1,197 @@
+{
+ "version": 11,
+ "randomSeed": "0",
+ "graph": {
+  "viewport": {
+   "xmin": -1.5,
+   "xmax": 3.5,
+   "ymin": -0.75,
+   "ymax": 3.25
+  },
+  "showGrid": true,
+  "showXAxis": true,
+  "showYAxis": true,
+  "__v12ViewportLatexStash": {
+   "xmin": "-1.5",
+   "xmax": "3.5",
+   "ymin": "-0.75",
+   "ymax": "3.25"
+  },
+  "xAxisMinorSubdivisions": 1,
+  "yAxisMinorSubdivisions": 1
+ },
+ "expressions": {
+  "list": [
+   {
+    "type": "folder",
+    "id": "eig",
+    "title": "Eigenlines",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "el1",
+    "color": "#388c46",
+    "latex": "y=1.618033988750x",
+    "folderId": "eig",
+    "lineStyle": "DASHED",
+    "lineWidth": "2.5",
+    "lineOpacity": "0.75"
+   },
+   {
+    "type": "expression",
+    "id": "el2",
+    "color": "#6042a6",
+    "latex": "y=-0.618033988750x",
+    "folderId": "eig",
+    "lineStyle": "DASHED",
+    "lineWidth": "2.5",
+    "lineOpacity": "0.75"
+   },
+   {
+    "type": "folder",
+    "id": "evec",
+    "title": "Eigenvectors",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "w1_seg",
+    "color": "#388c46",
+    "latex": "\\left(t,1.618033988750t\\right)",
+    "folderId": "evec",
+    "lineWidth": "4",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "w1_tip",
+    "color": "#388c46",
+    "latex": "\\left(1,1.618033988750\\right)",
+    "folderId": "evec",
+    "pointSize": "9",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "`v_{\\phi}`",
+    "labelSize": "1.4",
+    "labelOrientation": "right"
+   },
+   {
+    "type": "expression",
+    "id": "w2_seg",
+    "color": "#6042a6",
+    "latex": "\\left(t,-0.618033988750t\\right)",
+    "folderId": "evec",
+    "lineWidth": "4",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "w2_tip",
+    "color": "#6042a6",
+    "latex": "\\left(1,-0.618033988750\\right)",
+    "folderId": "evec",
+    "pointSize": "9",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "`v_{\\psi}`",
+    "labelSize": "1.4",
+    "labelOrientation": "below"
+   },
+   {
+    "type": "folder",
+    "id": "lim",
+    "title": "Limit point",
+    "collapsed": true,
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "limp",
+    "color": "#388c46",
+    "latex": "\\left(0.447213595500,0.723606797750\\right)",
+    "folderId": "lim",
+    "pointStyle": "OPEN",
+    "pointSize": "16",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "`\\frac{1}{\\sqrt{5}}v_{\\phi}`",
+    "labelSize": "1.3",
+    "labelOrientation": "above_left"
+   },
+   {
+    "type": "folder",
+    "id": "iter",
+    "title": "Iterates",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "It",
+    "color": "#000000",
+    "latex": "I_{t}=\\left[\\left(0,1\\right)\\right]",
+    "folderId": "iter",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "irays",
+    "color": "#fa7e19",
+    "latex": "\\left(tI_{t}.x,tI_{t}.y\\right)",
+    "folderId": "iter",
+    "lineStyle": "DASHED",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.4",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "ipts",
+    "color": "#fa7e19",
+    "latex": "I_{t}",
+    "folderId": "iter",
+    "pointSize": "8",
+    "dragMode": "NONE",
+    "lines": true,
+    "lineStyle": "DOTTED",
+    "lineWidth": "2"
+   },
+   {
+    "type": "expression",
+    "id": "ix",
+    "color": "#fa7e19",
+    "latex": "I_{t}\\left[1\\right]",
+    "folderId": "iter",
+    "pointStyle": "OPEN",
+    "pointSize": "15",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "`x`",
+    "labelSize": "1.5",
+    "labelOrientation": "left"
+   },
+   {
+    "type": "expression",
+    "id": "ilast",
+    "color": "#fa7e19",
+    "latex": "I_{t}\\left[\\operatorname{length}\\left(I_{t}\\right)\\right]",
+    "folderId": "iter",
+    "pointSize": "13",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "",
+    "labelSize": "1.5",
+    "labelOrientation": "right"
+   }
+  ]
+ }
+}

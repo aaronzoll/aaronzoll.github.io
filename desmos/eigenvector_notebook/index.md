@@ -229,4 +229,10 @@ In Figure 5, the green and purple lines are the grid built from the eigenbasis (
   </div>
 </div>
 
+<!-- Diagonalization link hidden until the page is ready.
+<div class="latex-body">
+For more on eigenbases, worked diagonalizations, and the Fibonacci numbers, continue to the <a href="/desmos/diagonalization_notebook/">diagonalization notebook</a>.
+</div>
+-->
+
 
