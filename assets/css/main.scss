@@ -19,19 +19,20 @@ $caption-font-family: $garamond !default;
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
-// Desmos pages keep the light cream background regardless of global body color
+// Panel pages: anything built around an interactive (Desmos graphs and notebooks,
+// widgets, puzzle sets) keeps the light panel background and a wood bar under the
+// masthead, regardless of the global body color. A new layout of this kind must be
+// added to this list, or its pages fall back to the plain blue ground with no bar.
 body.layout--desmos-graph,
-body.layout--desmos-notebook {
+body.layout--desmos-notebook,
+body.layout--widget,
+body.layout--puzzle-set {
   background-color: var(--color-bg-panel);
 
   .masthead {
     border-bottom: 2px solid var(--color-wood);
     box-shadow: 0 4px 0 0 var(--color-wood-deep);
   }
-}
-body.layout--widget {
-  background-color: var(--color-bg-panel);
-  .masthead { border-bottom: 2px solid var(--color-wood); box-shadow: 0 4px 0 0 var(--color-wood-deep); }
 }
 
 // Reusable content card

@@ -1,0 +1,34 @@
+---
+layout: default
+---
+
+<!-- A puzzle set: one <section class="pz-problem" id="..."> per problem, each with its
+     statement and dropdowns for the app and the solution. Front matter:
+       title, blurb            (blurb shows on the /puzzles/ index)
+       problems: [{id, title}] (builds the list of problems here and on the index;
+                                each id must match a section id on the page)
+     Page ground and masthead bar come from body.layout--puzzle-set in main.scss. -->
+
+<link rel="stylesheet" href="/puzzles/puzzles.css">
+<script src="/puzzles/puzzles.js"></script>
+
+<div class="pz-page-wrap">
+
+  <div class="pz-page-top">
+    <h1>{{ page.title }}</h1>
+    <div class="pz-page-links">
+      <a href="{{ page.back_url | default: '/puzzles/' }}">← {{ page.back_label | default: 'Puzzles' }}</a>
+    </div>
+  </div>
+
+  {% if page.problems %}
+  <ol class="pz-toc">
+    {% for p in page.problems %}<li><a href="#{{ p.id }}">{{ forloop.index }}. {{ p.title }}</a></li>{% endfor %}
+  </ol>
+  {% endif %}
+
+  <div class="page__content">
+    {{ content }}
+  </div>
+
+</div>

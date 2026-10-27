@@ -485,5 +485,18 @@ window.addEventListener("resize",draw);
 
 renderSide(false);draw();requestAnimationFrame(tick);
 </script>
+<script>
+/* Report content height so a host page (puzzle set or widget layout) can size the iframe to fit. */
+(function(){
+  if(window.parent===window)return;
+  var last=0;
+  function post(){
+    var h=Math.ceil(document.body.getBoundingClientRect().height);
+    if(h!==last){last=h;window.parent.postMessage({embedHeight:h},"*");}
+  }
+  if(window.ResizeObserver)new ResizeObserver(post).observe(document.body);
+  window.addEventListener("load",post);
+})();
+</script>
 </body>
 </html>

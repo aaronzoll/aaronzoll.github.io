@@ -68,36 +68,45 @@ side_controls: true
 </div>
 
 <style>
+  /* Same open readout as the other computational pages (change of basis, orthogonal
+     bases, null space): no box, small caps labels, centered math in slate ink. */
   .pl-linsys {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.25rem 2rem;
+    gap: 0.75rem 2rem;
     margin-top: 0.75rem;
-    padding: 1rem 1.25rem;
-    background: var(--color-wood-bg);
-    border: 1px solid var(--color-wood);
-    border-radius: 6px;
   }
 
   .pl-block-label {
     display: block;
     font-weight: bold;
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     color: var(--color-label);
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    margin-bottom: 0.35rem;
   }
 
   .pl-eq {
-    font-size: 1rem;
+    min-width: 0;
+    max-width: 100%;
+    color: #2d3748;
+    text-align: center;
     overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .pl-eq mjx-container[display="true"] {
+    margin: 0.6em 0;
   }
 
   .pl-block--solution {
     grid-column: 1 / -1;
-    padding-top: 0.5rem;
-    border-top: 1px solid rgba(166, 123, 91, 0.4);
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-divider);
+  }
+
+  .pl-block--solution .pl-eq {
+    text-align: left;
   }
 
   .pl-sol-tag {

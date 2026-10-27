@@ -331,6 +331,24 @@
       }
       return save(html);
     });
+    // Starred theorem-like environments (\begin{lemma*}) are unnumbered, as in LaTeX. The
+    // numbered regexes above and in scanThmLabels require '}' right after the name, so
+    // starred ones never touch the page-wide counter (e.g. a remark* inside a solution
+    // doesn't shift the numbering of the problems around it).
+    var thmStarRe = new RegExp('\\\\begin\\{(' + THM_ALT + ')\\*\\}(\\[([^\\]]*)\\])?([\\s\\S]*?)\\\\end\\{\\1\\*\\}', 'g');
+    h = h.replace(thmStarRe, function (_, name, _br, opt, body) {
+      body = body.replace(/\\label\{[^}]*\}/g, '');
+      var label = THM_ENVS[name][0];
+      if (name === 'algorithm') {
+        var parts = renderAlgorithmBody(body);
+        var t = label + (parts.caption ? ': ' + parts.caption : '') + (opt ? ' (' + opt + ')' : '');
+        return save('<div class="math-env math-env-algorithm">' +
+                    '<span class="math-env-title">' + t + '</span>' + parts.codeHtml + '</div>');
+      }
+      return save('<div class="math-env math-env-' + name + '">' +
+                  '<span class="math-env-title">' + label + (opt ? ' (' + opt + ')' : '') + '.</span> ' +
+                  inlineFormat(body) + '</div>');
+    });
     // Proof (unnumbered, not part of the shared counter)
     h = h.replace(/\\begin\{proof\}(\[([^\]]*)\])?([\s\S]*?)\\end\{proof\}/g, function (_, _br, opt, body) {
       var cleaned = inlineFormat(body)

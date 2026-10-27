@@ -193,12 +193,10 @@ custom_js: |
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/eigenvectors.png" alt="Eigenvectors and Eigenvalues" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
       <span class="gallery-title">Eigenvectors and Eigenvalues</span>
     </a>
-    <!-- Diagonalization card hidden until the page is ready.
     <a class="gallery-card" href="/desmos/diagonalization_notebook/" target="_blank">
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/diagonalization.png" alt="Diagonalization" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
       <span class="gallery-title">Diagonalization</span>
     </a>
-    -->
   </div>
 </div>
 
