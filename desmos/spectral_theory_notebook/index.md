@@ -97,30 +97,33 @@ To reiterate the payoff: for a general diagonalizable matrix, $D = P^{-1}AP$ nee
 \begin{example}
 Consider the symmetric matrix
 $$A = \frac{1}{8}\begin{bmatrix} 11 & 5 \\ 5 & 11 \end{bmatrix}.$$
-As in the diagonalization notebook, clear the fraction first. The characteristic polynomial of $8A$ is $(11 - \mu)^2 - 25 = (\mu - 16)(\mu - 6)$, so $A$ has eigenvalues $\lambda_1 = \frac{16}{8} = 2$ and $\lambda_2 = \frac{6}{8} = \frac{3}{4}$, exactly the same as the matrix in Figure 1 there. Row reducing,
+As in the diagonalization notebook, we will clear the fraction first to make computation easier. The characteristic polynomial of $8A$ is $(11 - \mu)^2 - 25 = (\mu - 16)(\mu - 6)$, so $A$ has eigenvalues $\lambda_1 = \frac{16}{8} = 2$ and $\lambda_2 = \frac{6}{8} = \frac{3}{4}$, exactly the same as the matrix in Figure 1 of the previous notebook. Row reducing,
 $$8A - 16I = \begin{bmatrix} -5 & \phantom{-}5 \\ \phantom{-}5 & -5 \end{bmatrix} \;\Longrightarrow\; E_2 = \operatorname{span}\left\{\begin{bmatrix} 1 \\ 1 \end{bmatrix}\right\}, \qquad 8A - 6I = \begin{bmatrix} 5 & 5 \\ 5 & 5 \end{bmatrix} \;\Longrightarrow\; E_{3/4} = \operatorname{span}\left\{\begin{bmatrix} -1 \\ \phantom{-}1 \end{bmatrix}\right\}.$$
-As promised by <a class="latex-ref" href="#latex-label-lem-orth">Lemma 2</a>, $(1, 1) \cdot (-1, 1) = 0$. Both have length $\sqrt{2}$, so the unit eigenvectors are $\mathbf{u}_1 = \frac{1}{\sqrt{2}}(1, 1)$ and $\mathbf{u}_2 = \frac{1}{\sqrt{2}}(-1, 1)$, and
+As promised by <a class="latex-ref" href="#latex-label-lem-orth">Lemma 2</a>, $(1, 1) \cdot (-1, 1) = 0$, so the eigenspaces are orthogonal. Both have length $\sqrt{2}$, so the unit eigenvectors are $\mathbf{u}_1 = \frac{1}{\sqrt{2}}(1, 1)$ and $\mathbf{u}_2 = \frac{1}{\sqrt{2}}(-1, 1)$, and
 $$P = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 & -1 \\ 1 & \phantom{-}1 \end{bmatrix} = \begin{bmatrix} \cos 45^\circ & -\sin 45^\circ \\ \sin 45^\circ & \phantom{-}\cos 45^\circ \end{bmatrix}, \qquad D = \begin{bmatrix} 2 & 0 \\ 0 & \tfrac{3}{4} \end{bmatrix}, \qquad P^T = \frac{1}{\sqrt{2}}\begin{bmatrix} \phantom{-}1 & 1 \\ -1 & 1 \end{bmatrix}.$$
-So $P$ is the rotation by $45^\circ$, and $P^T$ is the rotation back by $-45^\circ$. Multiplying out confirms $PDP^T = A$.
+So $P$ is the rotation by $45^\circ$, and $P^T$ is the rotation back by $-45^\circ$. We can also confirm our theorem by multiplying out $PDP^T = A$.
 \end{example}
 
-For comparison, recall the matrix from Figure 1 of the diagonalization notebook, which has the same eigenvalues and even shares the eigenline through $(1, 1)$. We call it $B$ here, and write its basis matrix as $M = \begin{bmatrix} \mathbf{v}_1 & \mathbf{v}_2 \end{bmatrix}$ to keep it apart from the orthogonal $P$:
+For comparison, recall the matrix from the last notebook, which has the same eigenvalues and even shares the eigenline through $(1, 1)$. We call it $B$ here, and write its basis matrix as $M = \begin{bmatrix} \mathbf{v}_1 & \mathbf{v}_2 \end{bmatrix}$ to keep it apart from the orthogonal $P$:
 $$B = \frac{1}{4}\begin{bmatrix} 6 & 2 \\ 3 & 5 \end{bmatrix} = MDM^{-1}, \qquad M = \begin{bmatrix} 1 & -2 \\ 1 & \phantom{-}3 \end{bmatrix}, \qquad M^{-1} = \frac{1}{5}\begin{bmatrix} \phantom{-}3 & 2 \\ -1 & 1 \end{bmatrix}.$$
-(We flipped the sign of $\mathbf{v}_2 = (2, -3)$, which is still an eigenvector, so that $M$, like $P$, does not reflect the plane.) Notice that $M^{-1}$ took real work to find, and $M^T$ is nowhere close to it.
+(We multiplied the entire eigenvector by negative one, $\mathbf{v}_2 = (2, -3)$, which is still an eigenvector, so that $M$, like $P$, does not reflect the plane.) Note that we have to compute $M^{-1}$ here, which wasn't really too much work as these matrices are only $(2 \times 2)$. However, with larger matrices, this becomes more and more rewarding. 
 </div>
 
 <h3 id="rotate">Rotate, stretch, rotate back</h3>
 
 <div class="latex-body">
-The factorization $A\mathbf{x} = P(D(P^T\mathbf{x}))$ reads right to left as three steps.
+The factorization $A\mathbf{x} = PDP^T\mathbf{x} = P(D(P^T\mathbf{x}))$ reads right to left (as matrix multiplication and functional composition always do) as 
 \begin{itemize}
-\item $P^T$ rotates by $-45^\circ$, carrying $\mathbf{u}_1, \mathbf{u}_2$ onto $\mathbf{e}_1, \mathbf{e}_2$. In terms of coordinates, $P^T\mathbf{x} = [\mathbf{x}]_\beta$, the coordinates of $\mathbf{x}$ in the eigenbasis.
+\item $P^T$ rotates by $-45^\circ$, carrying $\mathbf{u}_1, \mathbf{u}_2$ onto $\mathbf{e}_1, \mathbf{e}_2$. In terms of coordinates, $P^T\mathbf{x} = [\mathbf{x}]_\beta$, the coordinates of $\mathbf{x}$ in its eigenbasis.
 \item $D$ stretches by $2$ along the first axis and by $\frac{3}{4}$ along the second.
-\item $P$ rotates by $45^\circ$, putting the stretched axes back along $\mathbf{u}_1, \mathbf{u}_2$.
+\item $P$ rotates back by $45^\circ$, putting the stretched axes back along $\mathbf{u}_1, \mathbf{u}_2$.
 \end{itemize}
-The same reading of $B\mathbf{x} = M(D(M^{-1}\mathbf{x}))$ also has three steps, and the middle one is identical. The difference is the first and last steps. The eigenvectors $\mathbf{v}_1, \mathbf{v}_2$ are neither perpendicular nor of length one, so $M^{-1}$ cannot simply turn them onto $\mathbf{e}_1, \mathbf{e}_2$. It has to shear and squash the whole plane to get them there, and $M$ has to undo all of it at the end.
+The same reading of $B\mathbf{x} = M(D(M^{-1}\mathbf{x}))$ also has three steps, and the middle one is identical. The difference is the first and last steps are performing full trasnformations, which skew, stretch, or shear the space. The eigenvectors $\mathbf{v}_1, \mathbf{v}_2$ are not perpendicular, so $M^{-1}$ cannot simply rotate them onto $\mathbf{e}_1, \mathbf{e}_2$. Thus, undoing this transformation (i.e. inverting the matrix) requires a much harder arithmetic. 
 
-The figure below runs both side by side, with one slider for both. I invite you to step through it slowly, and to drag $\mathbf{x}$ around.
+\begin{remark}
+We have laid most of our focus on $\R^2$ here, and as a result, $(2 \times 2)$ matrices. This is simply for ease of computation and ease of visualization. Rotations make the most sense in $\R^2$, but really rotations are well defined in $\R^n$, in any dimension, by just thinking about them as orthogonal transformations. Thus, we can think of rotations as being defined as those that preserve length and angles rigidly.  
+\end{remark}
+
 </div>
 
 <div class="ev-figure" id="sp1">
@@ -155,23 +158,28 @@ The figure below runs both side by side, with one slider for both. I invite you 
 Some things to look for:
 \begin{itemize}
 \item After step 1, both purple grids land exactly on the faint standard grid. That is, both $P^T$ and $M^{-1}$ convert to eigenbasis coordinates. On the left the grid simply turns; on the right it gets sheared into place.
-\item The green circle stays a circle through step 1 on the left, since a rotation preserves lengths. On the right it is already squashed into an ellipse before $D$ has done anything.
+\item The green circle stays a circle through step 1 on the left, since a rotation preserves lengths and angles. On the right, though, it is already squashed into an ellipse before $D$ has done anything stretching.
 \item Step 2 is the same stretch on both sides.
-\item At the end, the circle has become an ellipse on both sides. On the left, the axes of the ellipse are exactly the eigenvectors, with half-lengths $2 \cdot 2 = 4$ and $2 \cdot \frac{3}{4} = \frac{3}{2}$. On the right, the axes of the ellipse do not line up with the eigenvectors at all.
+\item At the end, the circle has become an ellipse on both sides (as linear transformations do).
+\item On the left, the axes of the ellipse are exactly the eigenvectors, possibly scaled. On the right, the axes of the ellipse do not line up with the eigenvectors at all. Try to think about why this is the case! 
 \end{itemize}
-To reiterate: every diagonalization is a change of basis, a stretch, and a change back. What being symmetric buys us is that the change of basis is a rotation, so it keeps the geometry intact (lengths and right angles), and undoing it is only a transpose.
+To reiterate: every diagonalization performs a change of basis, a stretch, and a change back. What being symmetric buys us is that the change of basis is a rotation, so it keeps the geometry intact (lengths and angles), and undoing it requires only a simple transpose.
 </div>
 
 <h3 id="decomposition">Spectral decomposition</h3>
 
 <div class="latex-body">
-There is a second, equally geometric way to read $A = PDP^T$. Writing $\mathbf{u}_1, \dots, \mathbf{u}_n$ for the orthonormal eigenvectors (the columns of $P$) and $\lambda_1, \dots, \lambda_n$ for their eigenvalues, the product can be rewritten as a sum,
+There is a second, equally geometric way to read $A = PDP^T$. Writing $\mathbf{u}_1, \dots, \mathbf{u}_n$ for the orthonormal eigenvectors (the columns of $P$) and $\lambda_1, \dots, \lambda_n$ for their eigenvalues, the product $A = PDP^{T}$ can be rewritten as a sum of projections,
 $$A = \lambda_1\mathbf{u}_1\mathbf{u}_1^T + \lambda_2\mathbf{u}_2\mathbf{u}_2^T + \cdots + \lambda_n\mathbf{u}_n\mathbf{u}_n^T,$$
 which is called the \textbf{spectral decomposition} of $A$ (this is Problem 10.19 on Homework 10). The set of eigenvalues $\{\lambda_1, \dots, \lambda_n\}$ is often called the \textit{spectrum} of $A$, which is where the name spectral theory comes from.
 
-Notably, each $\mathbf{u}_i\mathbf{u}_i^T$ is an $n \times n$ matrix, and since $\|\mathbf{u}_i\| = 1$, it is exactly the projection matrix onto the line through $\mathbf{u}_i$ (recall <a href="/desmos/orthogonal-basis">orthogonal bases and projections</a>):
+\begin{remark}
+The above really lies at the heart of a broader, more general, and more applicable aspect of linear algebra called \textit{Singular Value Decomposition}. We don't cover this in LADE, but aspects are discussed in LADS. 
+\end{remark}
+
+Back to the spectral decomposition, each $\mathbf{u}_i\mathbf{u}_i^T$ is an $n \times n$ matrix, and since $\|\mathbf{u}_i\| = 1$, it is exactly the projection matrix onto the line through $\mathbf{u}_i$ (recall <a href="/desmos/orthogonal-basis">orthogonal bases and projections</a>):
 $$P_{\mathbf{u}_i} = \frac{\mathbf{u}_i\mathbf{u}_i^T}{\|\mathbf{u}_i\|^2} = \mathbf{u}_i\mathbf{u}_i^T, \qquad P_{\mathbf{u}_i}\mathbf{x} = (\mathbf{u}_i^T\mathbf{x})\,\mathbf{u}_i.$$
-(Each of these has rank one, by Problem 10.1.) So the spectral decomposition says
+(Each of these has rank one, by Problem 10.1.) So the spectral decomposition says we can write out matrix as a sum of $n$ rank one matrices
 $$A\mathbf{x} = \lambda_1P_{\mathbf{u}_1}\mathbf{x} + \lambda_2P_{\mathbf{u}_2}\mathbf{x} + \cdots + \lambda_nP_{\mathbf{u}_n}\mathbf{x},$$
 and we can read the action of $A$ on $\mathbf{x}$ in three steps:
 \begin{itemize}
