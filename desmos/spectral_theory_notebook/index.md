@@ -187,9 +187,9 @@ and we can read the action of $A$ on $\mathbf{x}$ in three steps:
 \item Each piece $P_{\mathbf{u}_i}\mathbf{x}$ lies in the eigenspace $E_{\lambda_i}$, so $A$ simply scales it by $\lambda_i$.
 \item Add the scaled pieces back together, which gives $A\mathbf{x}$.
 \end{itemize}
-In a sense, this is the same story as rotate, stretch, rotate back, just told in different words. The numbers $\mathbf{u}_i^T\mathbf{x}$ are exactly the entries of $P^T\mathbf{x}$ (the coordinates of $\mathbf{x}$ in the eigenbasis), multiplying by $\lambda_i$ is $D$, and putting $\lambda_i(\mathbf{u}_i^T\mathbf{x})\,\mathbf{u}_i$ back together is $P$.
+In a sense, this is the same story as rotate, stretch, rotate back, just told in different words (really we are just expanding $PDP^T$ and applying orthonormality. The numbers $\mathbf{u}_i^T\mathbf{x}$ are exactly the entries of $P^T\mathbf{x}$ (the coordinates of $\mathbf{x}$ in the eigenbasis), multiplying by $\lambda_i$ is $D$, and putting $\lambda_i(\mathbf{u}_i^T\mathbf{x})\,\mathbf{u}_i$ back together is $P$.
 
-It is worth comparing with the not symmetric $B$. There we can still write $\mathbf{x} = c_1\mathbf{v}_1 + c_2\mathbf{v}_2$ and get $B\mathbf{x} = \lambda_1c_1\mathbf{v}_1 + \lambda_2c_2\mathbf{v}_2$ (see <a href="/desmos/diagonalization_notebook/#eigenbasis">eigenbases</a> in the diagonalization notebook). However, since $\mathbf{v}_1$ and $\mathbf{v}_2$ are not perpendicular, the pieces $c_1\mathbf{v}_1$ and $c_2\mathbf{v}_2$ are not found by dropping perpendiculars. We have to solve for $c_1, c_2$, which is exactly the work that $M^{-1}$ does.
+It is worth comparing with the not symmetric $B$. There we can still write $\mathbf{x} = c_1\mathbf{v}_1 + c_2\mathbf{v}_2$ and get $B\mathbf{x} = \lambda_1c_1\mathbf{v}_1 + \lambda_2c_2\mathbf{v}_2$ (see <a href="/desmos/diagonalization_notebook/#eigenbasis">eigenbases</a> in the diagonalization notebook). However, since $\mathbf{v}_1$ and $\mathbf{v}_2$ are not perpendicular, we cannot cancel nicely and $c_1$ and $c_2$ are not a simple to find. We have to solve for $c_1, c_2$, which is exactly the work that $M^{-1}$ does.
 
 The figure below builds a symmetric $2 \times 2$ matrix from its spectrum: choose the direction of $\mathbf{u}_1$ (and $\mathbf{u}_2$ is perpendicular to it) and the two eigenvalues, then drag $\mathbf{x}$ around. The defaults give the matrix $A$ from the example above.
 </div>
@@ -224,8 +224,8 @@ The figure below builds a symmetric $2 \times 2$ matrix from its spectrum: choos
 <div class="latex-body">
 I invite you to try the following:
 \begin{itemize}
-\item Make $\lambda_2$ negative. The scaled piece $\lambda_2P_{\mathbf{u}_2}\mathbf{x}$ flips to the other side of the origin, and $A\mathbf{x}$ follows it.
-\item Set $\lambda_2 = 0$. Now $A\mathbf{x}$ always lands on the line through $\mathbf{u}_1$, no matter where $\mathbf{x}$ is, and $A = \lambda_1\mathbf{u}_1\mathbf{u}_1^T$ has rank one. The end of Homework 10 asks how the rank of $A$ relates to its eigenvalues in general, and this picture is a good place to start.
+\item Make $\lambda_2$ negative. The scaled piece $\lambda_2P_{\mathbf{u}_2}\mathbf{x}$ flips to the other side of the origin, and $A\mathbf{x}$ follows.
+\item Set $\lambda_2 = 0$. Now $A\mathbf{x}$ always lands on the line through $\mathbf{u}_1$, no matter where $\mathbf{x}$ is, and $A = \lambda_1\mathbf{u}_1\mathbf{u}_1^T$ has rank one. The end of Homework 10 asks how the rank of $A$ relates to its eigenvalues in general, and this picture is a good place to start. Notably, we can think about how many directions are "lost" to the zero eigenvalue.
 \item Set $\lambda_1 = \lambda_2$. The matrix stops depending on the angle at all (why?).
 \item Turn $\mathbf{u}_1$ while keeping the eigenvalues fixed. The matrix changes, but it stays symmetric.
 \end{itemize}
