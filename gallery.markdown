@@ -197,10 +197,12 @@ custom_js: |
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/diagonalization.png" alt="Diagonalization" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
       <span class="gallery-title">Diagonalization</span>
     </a>
+    <!-- Hidden for now: Spectral Theory card.
     <a class="gallery-card" href="/desmos/spectral_theory_notebook/" target="_blank">
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/spectral_theory.png" alt="Spectral Theory" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
       <span class="gallery-title">Spectral Theory</span>
     </a>
+    -->
   </div>
 </div>
 
