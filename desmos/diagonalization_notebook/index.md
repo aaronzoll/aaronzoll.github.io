@@ -10,12 +10,18 @@ title: "Diagonalization"
 <p class="ev-credit">Continuing the <a href="/desmos/eigenvector_notebook/">eigenvectors notebook</a></p>
 
 <div class="latex-body">
-The <a href="/desmos/eigenvector_notebook/#eigenbasis">eigenvectors notebook</a> ended by discussing diagonalization: representing a transformation in a basis that makes its resulting matrix diagonal. Diagonal matrices are easy to work with, and the way in which the image of an eigenvector is just a scaling makes them the perfect basis to work with. This page expands on this notion.
+The <a href="/desmos/eigenvector_notebook/#eigenbasis">eigenvectors notebook</a> ended by discussing diagonalization: representing a transformation in a basis for which the resulting matrix is diagonal. Diagonal matrices are easy to work with. Applying these typse of matrices to a vector simply scales its coordinates (with respect to our chosen basis). In particular, when there exists a \textit{basis of eigenvectors}, such diagonalization is possible (by simply representing the transformation in that basis).
 </div>
 
 <h3 id="eigenbasis">Eigenbases</h3>
 
 <div class="latex-body">
+Why should we care about a basis made of eigenvectors? Suppose $\mathbf{v}_1, \dots, \mathbf{v}_n$ are eigenvectors of $A$, with $A\mathbf{v}_i = \lambda_i\mathbf{v}_i$, and that together they form a basis of $\R^n$. Then any vector can be written as a unique linear combination $\mathbf{x} = c_1\mathbf{v}_1 + \cdots + c_n\mathbf{v}_n$, and applying $A$ (first using linearity, then the eigenvalue equation on each term) gives
+$$A\mathbf{x} = c_1A\mathbf{v}_1 + \cdots + c_nA\mathbf{v}_n = \lambda_1c_1\mathbf{v}_1 + \cdots + \lambda_nc_n\mathbf{v}_n.$$
+That is, in terms of the coordinates $c_1, \dots, c_n$, the transformation just scales each coordinate by its own eigenvalue, with no mixing between coordinates at all. Written as a matrix acting on these coordinates, this is simply
+$$\begin{bmatrix} c_1 \\ \vdots \\ c_n \end{bmatrix} \mapsto \begin{bmatrix} \lambda_1 & & \\ & \ddots & \\ & & \lambda_n \end{bmatrix}\begin{bmatrix} c_1 \\ \vdots \\ c_n \end{bmatrix} = \begin{bmatrix} \lambda_1c_1 \\ \vdots \\ \lambda_nc_n \end{bmatrix},$$
+a diagonal matrix. So having a basis of eigenvectors is precisely the same as having a basis in which the transformation is represented by a diagonal matrix. As a result, something that would have been computationally expensive, computing powers of the matrix $A$ (similarly, long term behavior of repeated transformations), become much more simple.  The rest of this section makes this precise.
+
 We begin by noting two definitions that work in tandem.
 \begin{definition}
 The matrix $A$ is \textbf{diagonalizable} if $A = PDP^{-1}$ for some invertible matrix $P$ and diagonal matrix $D$.
@@ -25,7 +31,7 @@ The matrix $A$ is \textbf{diagonalizable} if $A = PDP^{-1}$ for some invertible 
 An \textbf{eigenbasis} of an $n \times n$ matrix $A$ is a basis of $\R^n$ made up of eigenvectors of $A$.
 \end{definition}
 
-The next theorem shows exactly how these correspond. There is some subtlety here, and it requires an assumption that both the matrix and its eigenvectors are \textit{real}. A more precise statement would consider the eigenvectors being linearly independent over $\C$ (or form a basis in a complex vector space).
+The next theorem shows exactly how these correspond. There is some subtlety here, and it requires an assumption that both the matrix and its eigenvectors are \textit{real}. A more precise statement would consider the eigenvectors being linearly independent over $\C^n$ (with complex scalars as well, i.e. forming a basis in a complex vector space).
 
 \begin{theorem}\label{thm:diag}
 An $n \times n$ matrix $A$ is diagonalizable if and only if it has an eigenbasis. Consequently, $A = PDP^{-1}$, where the columns of $P$ are the eigenbasis vectors $\mathbf{v}_1, \dots, \mathbf{v}_n$ and $D$ has the corresponding eigenvalues $\lambda_1, \dots, \lambda_n$ on its diagonal.
@@ -35,7 +41,7 @@ An $n \times n$ matrix $A$ is diagonalizable if and only if it has an eigenbasis
 Let $P = \begin{bmatrix} \mathbf{v}_1 & \cdots & \mathbf{v}_n \end{bmatrix}$ and let $D$ be diagonal with entries $\lambda_1, \dots, \lambda_n$. Distributing the matrix multiplication over the columns of $P$, $$AP = \begin{bmatrix} A\mathbf{v}_1 & \cdots & A\mathbf{v}_n \end{bmatrix} \quad \text{and} \quad PD = \begin{bmatrix} \lambda_1\mathbf{v}_1 & \cdots & \lambda_n\mathbf{v}_n \end{bmatrix},$$ so $AP = PD$ says exactly that $A\mathbf{v}_i = \lambda_i\mathbf{v}_i$ for each $i$. The matrix $P$ is invertible exactly when its columns form a basis (note this means no column is $\mathbf{0}$, and each $\mathbf{v}_i$ really is an eigenvector). Thus, for invertible $P$, $AP = PD$ is the same as $A = PDP^{-1}$, and both directions follow immediately.
 \end{proof}
 
-Unfortunately, not every matrix has this (quite remarkable) property. In the eigenvectors notebook, the $90^\circ$ rotation has no real eigenvectors and the shear has only one line of them. Since neither has "enough" linearly independent eigenvectors, neither has an eigenbasis (see <a href="/desmos/eigenvector_notebook/#breaks">when the pattern breaks</a>), and neither is diagonalizable. On the other hand, eigenvectors for different eigenvalues are always linearly independent, so an $n \times n$ matrix with $n$ distinct eigenvalues is always diagonalizable.
+Unfortunately, not every matrix has this (quite remarkable) property. In the eigenvectors notebook, the $90^\circ$ rotation has no real eigenvectors and the shear has only one line of them. Since neither has "enough" (real) linearly independent eigenvectors, neither matrix forms an eigenbasis (see <a href="/desmos/eigenvector_notebook/#breaks">when the pattern breaks</a>), and neither is diagonalizable (again, over a real vector space). On the other hand, eigenvectors for different eigenvalues are always linearly independent, so an $n \times n$ matrix with $n$ distinct eigenvalues is always diagonalizable.
 </div>
 
 <h3 id="two-bases">Transformations, with respect to a basis</h3>

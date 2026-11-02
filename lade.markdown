@@ -791,23 +791,23 @@ augmented by topics from linear algebra and the use of computer software (primar
           <span class="lecture-title">Eigenspaces and Eigenbases</span>
         </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1T-uAYXruLZqWmxgYSxj9oKWImglTnCK6kIE4PBaGwXQ/edit?usp=sharing" target = "_blanK">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 26</span>
             <img src="/assets/LADE/thumbnails/Lecture_26.png" alt="Lecture 26 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 26</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Diagonalizable Matrices</span>
+        </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1oDsPprJuX8dt-psyaBj3HsPZCBzWgWOSNdw95xS9Fc4/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 27</span>
             <img src="/assets/LADE/thumbnails/Lecture_27.png" alt="Lecture 27 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 27</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">The Spectral Theorem</span>
+        </a>
 
       </div>
     </div>

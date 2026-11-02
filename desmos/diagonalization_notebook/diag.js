@@ -209,9 +209,15 @@
       labels();
     });
 
-    // Dragging x in either graph moves it in both.
+    // Dragging x in either graph moves it in both, but only the graph last
+    // pressed may move it. Desmos reports values a beat late, one coordinate
+    // at a time, so the other graph's reports are echoes of our own (stale or
+    // half-updated) writes; acting on them would fight the drag.
+    var driver = null;
     both.forEach(function (calc) {
+      calc._dgEl.addEventListener('pointerdown', function () { driver = calc; }, true);
       watch(calc, ['p_{1}', 'p_{2}'], function () {
+        if (calc !== driver) { return; }
         var x = [value(calc, 'p_{1}'), value(calc, 'p_{2}')];
         if (isNaN(x[0]) || isNaN(x[1]) || Math.hypot(x[0] - S.x[0], x[1] - S.x[1]) < 1e-6) { return; }
         S.x = x;
@@ -275,7 +281,8 @@
   function pair(names, build) {
     var calcs = {};
     names.forEach(function (n) {
-      window[n] = function (calc) {
+      window[n] = function (calc, container) {
+        calc._dgEl = container;
         calcs[n] = calc;
         if (names.every(function (m) { return calcs[m]; })) { build(calcs[names[0]], calcs[names[1]]); }
       };
