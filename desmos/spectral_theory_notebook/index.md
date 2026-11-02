@@ -10,19 +10,23 @@ title: "Spectral Theory"
 <p class="ev-credit">Continuing the <a href="/desmos/diagonalization_notebook/">diagonalization notebook</a></p>
 
 <div class="latex-body">
-The <a href="/desmos/diagonalization_notebook/">diagonalization notebook</a> ended on a slightly sour note. Not every matrix is diagonalizable, and if we insist on working with real numbers (as we try to in this course), even more matrices fail. The $90^\circ$ rotation, for instance, has no real eigenvalues at all. \textit{Spectral theory} is the study of when, and how nicely, a matrix can be diagonalized. Here we focus on one case, which happens to be the nicest one possible: \textbf{real symmetric matrices}, i.e. real matrices with $A^T = A$.
+In the last notebook about <a href="/desmos/diagonalization_notebook/">diagonalization</a>, we saw how to write the matrix of a transformation with respect to a new basis, making it diagonal. Here, we can simply stretch the entire space along a basis of eigenvectors, which lets us much more simply write out how the transformation acts on any given input. Unfortunately, there was a slight cost. For one, not every matrix is diagonalizable, so we can't always ensure this nice property. Second, even when we can diagonalize, we still have to invert a matrix when performing our change of basis. In this notebook, we look towards \textit{Spectral theory}, the study of when, and how nicely, a matrix can be diagonalized. Here we focus on one case, which happens to be the nicest one possible: \textbf{real symmetric matrices}, i.e. real matrices ($\overline{A} = A$) with $A^T = A$.
 
-Recall the exploration at the end of the diagonalization notebook. For both symmetric matrices, the eigenvectors were perpendicular, and the eigenbasis grid was just a square grid turned on its side. That was no accident! By the end of this notebook we will see that every real symmetric matrix has real eigenvalues, a basis of perpendicular eigenvectors, and as a result, a diagonalization that is really just a rotation, a stretch, and a rotation back.
+Recall the exploration at the end of the diagonalization notebook. For both of the real symmetric matrices, the eigenvectors were perpendicular, and the grid induced by the eigenbasis looked like a rotated square grid. That was no accident! We will see that every real symmetric matrix has real eigenvalues, a basis of perpendicular eigenvectors, and as a result, a diagonalization that is really just a rotation, a stretch, and a rotation back.
 </div>
 
 <h3 id="real">Real eigenvalues</h3>
 
 <div class="latex-body">
-A priori, the eigenvalues of a real matrix are roots of its characteristic polynomial, and those roots can be complex (as they were for the rotation). So to show the eigenvalues of a symmetric matrix are real, we have to allow complex eigenvalues and eigenvectors for a moment, and then show that they could not have been complex after all.
+A priori, the eigenvalues of a real matrix are roots of its characteristic polynomial, so those roots can be (and often are) complex (as they were for the rotation). Below we show that for real and \textit{symmetric} matrices, all eigenvalues are in fact real as well.
 
-For a complex vector or matrix, we write $^*$ for the \textbf{conjugate transpose}: take the transpose and the complex conjugate of every entry, so that $\mathbf{x}^* = \overline{\mathbf{x}}^T$. For a scalar (a $1 \times 1$ matrix), this is just the conjugate, $\lambda^* = \overline{\lambda}$, and a scalar is real exactly when $\lambda^* = \lambda$. The conjugate transpose follows the same rule as the transpose, $(BC)^* = C^*B^*$. Notably,
-$$\mathbf{x}^*\mathbf{x} = \overline{x_1}x_1 + \cdots + \overline{x_n}x_n = |x_1|^2 + \cdots + |x_n|^2 = \|\mathbf{x}\|^2,$$
-which is positive for any $\mathbf{x} \neq \mathbf{0}$. (This is why we need the conjugate. Without it, $\mathbf{x}^T\mathbf{x}$ can be zero for a nonzero complex vector: try $\mathbf{x} = (1, i)$.) Finally, if $A$ is real, conjugating does nothing, so $A^* = A^T$; and if $A$ is also symmetric, then $A^* = A^T = A$.
+For a complex vector or matrix, we write the superscript $^*$ for the \textbf{conjugate transpose}, so that $\mathbf{x}^* = \overline{\mathbf{x}}^T$. For a scalar (equivalent to a $1 \times 1$ matrix), this is just the conjugate, and we have $\lambda^* = \overline{\lambda}$. Notably, a scalar is real exactly when $\lambda^* = \lambda$.
+
+Similar to real vectors, we can write the norm as a row-vector times a column vector: $$\mathbf{x}^*\mathbf{x} = \overline{x_1}x_1 + \cdots + \overline{x_n}x_n = |x_1|^2 + \cdots + |x_n|^2 = \|\mathbf{x}\|^2,$$
+which is strictly positive for any $\mathbf{x} \neq \mathbf{0}$. (This is why we need the conjugate. Without it, $\mathbf{x}^T\mathbf{x}$ can be zero for a nonzero complex vector: try $\mathbf{x} = (1, i)$.) Finally, if $A$ is real, conjugating does nothing, so $A^* = A^T$; and if $A$ is also symmetric, then $A^* = A^T = A$.
+
+
+We proceed by showing the following lemma allowing the possibility of everything to be complex. So $\mathbf{x} \in \C^n$ and $\lambda \in \C$. However, the reals are a subset of the complex numbers (really, they form a \textit{subspace}), and we will show that given $A\mathbf{x} = \lambda \mathbf{x}$ and $A^* = A$, then both $\lambda$ is real and $\mathbf{x}$ can be real as well.
 
 \begin{lemma}\label{lem:real}
 If $A$ is a real symmetric matrix, then every eigenvalue of $A$ is real. Consequently, each eigenvalue has a real eigenvector.
@@ -37,12 +41,13 @@ For the second claim, $\lambda$ being real means $A - \lambda I$ is a real matri
 
 This also explains the rotation from the eigenvectors notebook. The $90^\circ$ rotation has eigenvalues $\pm i$, and sure enough, it is not symmetric:
 $$\begin{bmatrix} 0 & -1 \\ 1 & \phantom{-}0 \end{bmatrix}^T = \begin{bmatrix} \phantom{-}0 & 1 \\ -1 & 0 \end{bmatrix} \neq \begin{bmatrix} 0 & -1 \\ 1 & \phantom{-}0 \end{bmatrix}.$$
+Now, the above lemma is not an "if and only if" one, so we cannot conclude that \textit{every} non symmetric matrix has complex eigenvalues. All we can say is that if $A$ is real and symmetric, all the eigenstuff is real as well. 
 
 \begin{remark*}
-The proof above is quite slick, and it is fair to wonder how anyone would come up with it. Really, the idea is the following. We want to prove something about a \textit{scalar} ($\lambda^* = \lambda$), but all we are handed is the equation $A\mathbf{x} = \lambda\mathbf{x}$, which is about vectors and a matrix. So we need some way to turn vectors and a matrix into a single number. The expression
+The proof above is quite slick, and it is fair to wonder how anyone would come up with it. Sometimes proofs arise that way. Sometimes they are modified and cleansed until they become far from obvious. Really, the idea is the following. We want to prove something about a \textit{scalar} ($\lambda^* = \lambda$), but all we are handed is the equation $A\mathbf{x} = \lambda\mathbf{x}$, which is about vectors and a matrix, as well as $\overline{A} = A$ and $A^T = A$. So we need some way to turn vectors and a matrix into a single number. The expression
 $$\mathbf{y}^*A\mathbf{x} = (\text{row vector})(\text{matrix})(\text{column vector}) = (1 \times n)(n \times n)(n \times 1) = (1 \times 1)$$
-does exactly that: it combines a row vector, a matrix, and a column vector, and returns a scalar.<br><br>
-Now take $\mathbf{y} = \mathbf{x}$, and evaluate the scalar $\mathbf{x}^*A\mathbf{x}$ in two ways. Letting $A$ act on the column vector to its right gives $\mathbf{x}^*(A\mathbf{x}) = \mathbf{x}^*(\lambda\mathbf{x}) = \lambda\|\mathbf{x}\|^2$. Letting $A$ act on the row vector to its left, and using $A = A^*$, gives $(\mathbf{x}^*A)\mathbf{x} = (\mathbf{x}^*A^*)\mathbf{x} = (A\mathbf{x})^*\mathbf{x} = \lambda^*\|\mathbf{x}\|^2$. These are the same number, so $\lambda\|\mathbf{x}\|^2 = \lambda^*\|\mathbf{x}\|^2$. The one-line proof is just these two computations glued together at $\mathbf{x}^*A\mathbf{x}$. We will use this exact trick again in the next lemma, this time with two different eigenvectors on either side of $A$.
+does exactly that: it combines a row vector, a matrix, and a column vector, and returns a scalar. Note that when $A = I$, we are just doing a dot product (or complex version thereof).<br><br>
+Now take $\mathbf{y} = \mathbf{x}$, and evaluate the scalar $\mathbf{x}^*A\mathbf{x}$ in two ways. Letting $A$ act on the column vector to its right gives $\mathbf{x}^*(A\mathbf{x}) = \mathbf{x}^*(\lambda\mathbf{x}) = \lambda\|\mathbf{x}\|^2$. Letting $A$ act on the row vector to its left, and using $A = A^*$, gives $(\mathbf{x}^*A)\mathbf{x} = (\mathbf{x}^*A^*)\mathbf{x} = (A\mathbf{x})^*\mathbf{x} = \lambda^*\|\mathbf{x}\|^2$. Since these are the same number, we have $\lambda\|\mathbf{x}\|^2 = \lambda^*\|\mathbf{x}\|^2$, which gave us $\lambda^* = \lambda$. We will use this exact trick again in the following lemma, this time with two different eigenvectors on either side of $A$.
 \end{remark*}
 
 From here on, \Cref{lem:real} lets us stay entirely in the real world: every eigenvalue is real, and we may always pick real eigenvectors. In particular, the conjugate transpose of a real vector is just its transpose, so we go back to writing $^T$.
@@ -63,29 +68,29 @@ $$\mathbf{y}^TA\mathbf{x} = \mathbf{y}^TA^T\mathbf{x} = (A\mathbf{y})^T\mathbf{x
 Subtracting the two, $(\lambda - \mu)\,\mathbf{y}^T\mathbf{x} = 0$. Since $\lambda \neq \mu$, we can divide by $\lambda - \mu$, leaving $\mathbf{y}^T\mathbf{x} = 0$.
 \end{proof}
 
-In a sense, both lemmas say the same thing: a symmetric matrix can be moved from one side of a dot product to the other, $(A\mathbf{y}) \cdot \mathbf{x} = \mathbf{y} \cdot (A\mathbf{x})$. This is exactly the step that fails for the not symmetric matrix in the diagonalization notebook, and sure enough, its eigenvectors $(1, 1)$ and $(2, -3)$ are not perpendicular.
+In a sense, both lemmas say the same thing: a symmetric matrix can be moved from one side of a dot product to the other, $(A\mathbf{y}) \cdot \mathbf{x} = \mathbf{y} \cdot (A\mathbf{x})$. As I have said before, math rewards symmetry, and here the gift is real numbers.
 </div>
 
 <h3 id="spectral">The spectral theorem</h3>
 
 <div class="latex-body">
-Perpendicular eigenvectors are useful because we can also scale them to have length one, and a basis of perpendicular unit vectors gives a particularly nice matrix (see <a href="/desmos/orthogonal-basis">orthogonal bases</a> and <a href="/desmos/gram-schmidt">Gram–Schmidt</a>).
+After scaling our eigenvectors to have norm $1$, we can get an orthonormal basis of eigenvectors, which can be augmented together to form a nice matrix (see <a href="/desmos/orthogonal-basis">orthogonal bases</a> and <a href="/desmos/gram-schmidt">Gram–Schmidt</a>). The last part is subtle because if the geometric multiplicity of an eigenspace is more than 1, then the chosen eigenvectors themselves (with respect to the same eigenvalue) may not be perpendicular; however, Gram–Schmidt can fix this, while keeping them orthogonal to everything else. 
 
 \begin{definition}
 A real $n \times n$ matrix $Q$ is \textbf{orthogonal} if $Q^TQ = I$, i.e. its columns $\mathbf{q}_1, \dots, \mathbf{q}_n$ form an orthonormal basis of $\R^n$.
 \end{definition}
 
-The two descriptions agree since the $(i, j)$ entry of $Q^TQ$ is $\mathbf{q}_i^T\mathbf{q}_j$, which is $1$ on the diagonal (unit length) and $0$ off of it (perpendicular). The important consequence is that
+The two descriptions agree since the $(i, j)$ entry of $Q^TQ$ is $\mathbf{q}_i^T\mathbf{q}_j$, which is $1$ on the diagonal (unit length) and $0$ off of it (perpendicular). The important consequence here is that
 $$Q^{-1} = Q^T.$$
-That is, inverting an orthogonal matrix costs nothing: no row reduction, no determinant, just flip the matrix over its diagonal. Orthogonal matrices also preserve lengths, since $\|Q\mathbf{x}\|^2 = (Q\mathbf{x})^T(Q\mathbf{x}) = \mathbf{x}^TQ^TQ\mathbf{x} = \mathbf{x}^T\mathbf{x} = \|\mathbf{x}\|^2$, and (by the same computation with two vectors) angles. In $\R^2$, this means an orthogonal matrix is a rotation or a reflection, and in a diagonalization we can always make it a rotation by flipping the sign of one eigenvector.
+That is, inverting an orthogonal matrix costs nearly nothing. We don't have to row reduce, or find a determinant. We simply transpose to compute it. We also have that orthogonal matrices preserve lengths, since $\|Q\mathbf{x}\|^2 = (Q\mathbf{x})^T(Q\mathbf{x}) = \mathbf{x}^TQ^TQ\mathbf{x} = \mathbf{x}^T\mathbf{x} = \|\mathbf{x}\|^2$, and (by the same computation with two vectors) angles. In $\R^2$, this means an orthogonal matrix is a rotation or a reflection, and in a diagonalization we can always make it a rotation by flipping the sign of one eigenvector.
 
 \begin{theorem}[Spectral theorem]\label{thm:spectral}
 A real $n \times n$ matrix $A$ is symmetric if and only if
 $$A = PDP^T, \qquad \text{equivalently} \qquad D = P^TAP,$$
-for some orthogonal matrix $P$ and real diagonal matrix $D$. The columns of $P$ form an orthonormal eigenbasis of $A$, and $D$ has the corresponding eigenvalues on its diagonal.
+for some orthogonal matrix $P$ and real diagonal matrix $D$. The columns of $P$ are an orthonormal eigenbasis of $A$, and $D$ has the corresponding eigenvalues on its diagonal.
 \end{theorem}
 
-We will mostly take this one on faith, but it is worth seeing how much of it we already have. One direction, that an orthonormal eigenbasis forces $A$ to be symmetric, is Problem 10.18 on Homework 10. For the other, suppose $A$ is symmetric with $n$ distinct eigenvalues. By \Cref{lem:real} they are all real with real eigenvectors, by \Cref{lem:orth} those eigenvectors are pairwise orthogonal, and dividing each by its length makes them orthonormal. So the matrix $P$ of these unit eigenvectors is orthogonal, and the <a href="/desmos/diagonalization_notebook/#latex-label-thm-diag">diagonalization theorem</a> gives $A = PDP^{-1} = PDP^T$. The genuinely hard part is a repeated eigenvalue: there, the theorem promises that a symmetric matrix still has "enough" eigenvectors (an eigenvalue repeated $k$ times has a $k$-dimensional eigenspace), and Gram–Schmidt inside each eigenspace makes them orthonormal. Proving that takes more work than we will do here.
+We will not prove this in its entirety, but it is worth seeing how much of it we already have. One direction, that an orthonormal eigenbasis forces $A$ to be symmetric, is Problem 10.18 on Homework 10, and everything being real forces $A$ to be real as well. For the other, suppose $A$ is symmetric with $n$ distinct eigenvalues. By \Cref{lem:real} they are all real with real eigenvectors, by \Cref{lem:orth} those eigenvectors are pairwise orthogonal, and dividing each by its length makes them orthonormal. So the matrix $P$ of these unit eigenvectors is orthogonal, and the <a href="/desmos/diagonalization_notebook/#latex-label-thm-diag">diagonalization theorem</a> gives $A = PDP^{-1} = PDP^T$. The genuinely hard part is a repeated eigenvalue: there, the theorem promises that a symmetric matrix still has "enough" eigenvectors (an eigenvalue repeated $k$ times has a $k$-dimensional eigenspace). However, once that is shown, applying Gram–Schmidt inside each eigenspace makes them orthonormal.
 
 To reiterate the payoff: for a general diagonalizable matrix, $D = P^{-1}AP$ needs the inverse of $P$. For a symmetric matrix, $D = P^TAP$ only needs a transpose.
 
