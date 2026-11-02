@@ -1,0 +1,496 @@
+{
+ "version": 11,
+ "randomSeed": "0",
+ "graph": {
+  "viewport": {
+   "xmin": -7.4,
+   "xmax": 7.4,
+   "ymin": -7,
+   "ymax": 7
+  },
+  "showGrid": false,
+  "showXAxis": false,
+  "showYAxis": false,
+  "__v12ViewportLatexStash": {
+   "xmin": "-7.4",
+   "xmax": "7.4",
+   "ymin": "-7",
+   "ymax": "7"
+  }
+ },
+ "expressions": {
+  "list": [
+   {
+    "type": "folder",
+    "id": "frame",
+    "title": "Frame",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "F",
+    "color": "#000000",
+    "latex": "F=6",
+    "folderId": "frame"
+   },
+   {
+    "type": "expression",
+    "id": "fx",
+    "color": "#000000",
+    "latex": "x=\\left[-F,F\\right]\\left\\{-F\\le y\\le F\\right\\}",
+    "folderId": "frame",
+    "lineWidth": "4"
+   },
+   {
+    "type": "expression",
+    "id": "fy",
+    "color": "#000000",
+    "latex": "y=\\left[-F,F\\right]\\left\\{-F\\le x\\le F\\right\\}",
+    "folderId": "frame",
+    "lineWidth": "4"
+   },
+   {
+    "type": "folder",
+    "id": "spec",
+    "title": "Spectrum",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "q",
+    "color": "#000000",
+    "latex": "q=0.785398163397",
+    "folderId": "spec",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "l1",
+    "color": "#000000",
+    "latex": "l_{1}=2",
+    "folderId": "spec",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "l2",
+    "color": "#000000",
+    "latex": "l_{2}=0.75",
+    "folderId": "spec",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "U1",
+    "color": "#000000",
+    "latex": "U_{1}=\\left(\\cos q,\\sin q\\right)",
+    "folderId": "spec",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "U2",
+    "color": "#000000",
+    "latex": "U_{2}=\\left(-\\sin q,\\cos q\\right)",
+    "folderId": "spec",
+    "hidden": true
+   },
+   {
+    "type": "folder",
+    "id": "vx",
+    "title": "Vector x",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "p1",
+    "color": "#000000",
+    "latex": "p_{1}=-1",
+    "folderId": "vx",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "p2",
+    "color": "#000000",
+    "latex": "p_{2}=4",
+    "folderId": "vx",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "X",
+    "color": "#000000",
+    "latex": "X=\\left(p_{1},p_{2}\\right)",
+    "folderId": "vx",
+    "hidden": true
+   },
+   {
+    "type": "folder",
+    "id": "pieces",
+    "title": "Projections",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "Q1",
+    "color": "#000000",
+    "latex": "Q_{1}=\\left(X.xU_{1}.x+X.yU_{1}.y\\right)U_{1}",
+    "folderId": "pieces",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "L1",
+    "color": "#000000",
+    "latex": "L_{1}=l_{1}Q_{1}",
+    "folderId": "pieces",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "Q2",
+    "color": "#000000",
+    "latex": "Q_{2}=\\left(X.xU_{2}.x+X.yU_{2}.y\\right)U_{2}",
+    "folderId": "pieces",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "L2",
+    "color": "#000000",
+    "latex": "L_{2}=l_{2}Q_{2}",
+    "folderId": "pieces",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "Y",
+    "color": "#000000",
+    "latex": "Y=L_{1}+L_{2}",
+    "folderId": "pieces",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "O",
+    "color": "#000000",
+    "latex": "O=\\left(0,0\\right)",
+    "folderId": "pieces",
+    "hidden": true
+   },
+   {
+    "type": "folder",
+    "id": "lines",
+    "title": "Eigenlines",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "el1",
+    "color": "#6042a6",
+    "latex": "\\left(t U_{1}.x,t U_{1}.y\\right)\\left\\{\\left|t U_{1}.x\\right|\\le F\\right\\}\\left\\{\\left|t U_{1}.y\\right|\\le F\\right\\}",
+    "folderId": "lines",
+    "lineStyle": "DASHED",
+    "lineWidth": "2",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "-20",
+     "max": "20"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "el2",
+    "color": "#6042a6",
+    "latex": "\\left(t U_{2}.x,t U_{2}.y\\right)\\left\\{\\left|t U_{2}.x\\right|\\le F\\right\\}\\left\\{\\left|t U_{2}.y\\right|\\le F\\right\\}",
+    "folderId": "lines",
+    "lineStyle": "DASHED",
+    "lineWidth": "2",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "-20",
+     "max": "20"
+    }
+   },
+   {
+    "type": "folder",
+    "id": "drops",
+    "title": "Perpendiculars and parallelogram",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "d1",
+    "color": "#7a7a7a",
+    "latex": "\\left(X.x+t\\left(Q_{1}.x-X.x\\right),X.y+t\\left(Q_{1}.y-X.y\\right)\\right)\\left\\{\\left|X.x+t\\left(Q_{1}.x-X.x\\right)\\right|\\le F\\right\\}\\left\\{\\left|X.y+t\\left(Q_{1}.y-X.y\\right)\\right|\\le F\\right\\}",
+    "folderId": "drops",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    },
+    "lineStyle": "DASHED",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "expression",
+    "id": "pg1",
+    "color": "#7a7a7a",
+    "latex": "\\left(L_{1}.x+t\\left(Y.x-L_{1}.x\\right),L_{1}.y+t\\left(Y.y-L_{1}.y\\right)\\right)\\left\\{\\left|L_{1}.x+t\\left(Y.x-L_{1}.x\\right)\\right|\\le F\\right\\}\\left\\{\\left|L_{1}.y+t\\left(Y.y-L_{1}.y\\right)\\right|\\le F\\right\\}",
+    "folderId": "drops",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    },
+    "lineStyle": "DASHED",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "expression",
+    "id": "d2",
+    "color": "#7a7a7a",
+    "latex": "\\left(X.x+t\\left(Q_{2}.x-X.x\\right),X.y+t\\left(Q_{2}.y-X.y\\right)\\right)\\left\\{\\left|X.x+t\\left(Q_{2}.x-X.x\\right)\\right|\\le F\\right\\}\\left\\{\\left|X.y+t\\left(Q_{2}.y-X.y\\right)\\right|\\le F\\right\\}",
+    "folderId": "drops",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    },
+    "lineStyle": "DASHED",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "expression",
+    "id": "pg2",
+    "color": "#7a7a7a",
+    "latex": "\\left(L_{2}.x+t\\left(Y.x-L_{2}.x\\right),L_{2}.y+t\\left(Y.y-L_{2}.y\\right)\\right)\\left\\{\\left|L_{2}.x+t\\left(Y.x-L_{2}.x\\right)\\right|\\le F\\right\\}\\left\\{\\left|L_{2}.y+t\\left(Y.y-L_{2}.y\\right)\\right|\\le F\\right\\}",
+    "folderId": "drops",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    },
+    "lineStyle": "DASHED",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "folder",
+    "id": "arrows",
+    "title": "Arrows",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "Ls1",
+    "color": "#2d70b3",
+    "latex": "\\left(O.x+t\\left(L_{1}.x-O.x\\right),O.y+t\\left(L_{1}.y-O.y\\right)\\right)\\left\\{\\left|O.x+t\\left(L_{1}.x-O.x\\right)\\right|\\le F\\right\\}\\left\\{\\left|O.y+t\\left(L_{1}.y-O.y\\right)\\right|\\le F\\right\\}",
+    "folderId": "arrows",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    },
+    "lineStyle": "DOTTED",
+    "lineWidth": "3.5"
+   },
+   {
+    "type": "expression",
+    "id": "Lt1",
+    "color": "#2d70b3",
+    "latex": "\\left(\\left\\{\\left|L_{1}.x\\right|\\le F:L_{1}.x\\right\\},\\left\\{\\left|L_{1}.y\\right|\\le F:L_{1}.y\\right\\}\\right)",
+    "folderId": "arrows",
+    "dragMode": "NONE",
+    "pointSize": "8",
+    "showLabel": true,
+    "label": "`\\lambda_{1}P_{1}x`",
+    "labelSize": "1.2"
+   },
+   {
+    "type": "expression",
+    "id": "Qs1",
+    "color": "#2d70b3",
+    "latex": "\\left(O.x+t\\left(Q_{1}.x-O.x\\right),O.y+t\\left(Q_{1}.y-O.y\\right)\\right)\\left\\{\\left|O.x+t\\left(Q_{1}.x-O.x\\right)\\right|\\le F\\right\\}\\left\\{\\left|O.y+t\\left(Q_{1}.y-O.y\\right)\\right|\\le F\\right\\}",
+    "folderId": "arrows",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    },
+    "lineWidth": "4"
+   },
+   {
+    "type": "expression",
+    "id": "Qt1",
+    "color": "#2d70b3",
+    "latex": "\\left(\\left\\{\\left|Q_{1}.x\\right|\\le F:Q_{1}.x\\right\\},\\left\\{\\left|Q_{1}.y\\right|\\le F:Q_{1}.y\\right\\}\\right)",
+    "folderId": "arrows",
+    "dragMode": "NONE",
+    "pointSize": "8",
+    "showLabel": true,
+    "label": "`P_{1}x`",
+    "labelSize": "1.2"
+   },
+   {
+    "type": "expression",
+    "id": "u1_seg",
+    "color": "#6042a6",
+    "latex": "\\left(t\\left(U_{1}.x\\right),t\\left(U_{1}.y\\right)\\right)\\left\\{\\left|t\\left(U_{1}.x\\right)\\right|\\le F\\right\\}\\left\\{\\left|t\\left(U_{1}.y\\right)\\right|\\le F\\right\\}",
+    "folderId": "arrows",
+    "lineWidth": "4",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "u1_tip",
+    "color": "#6042a6",
+    "latex": "\\left(\\left\\{\\left|U_{1}.x\\right|\\le F:U_{1}.x\\right\\},\\left\\{\\left|U_{1}.y\\right|\\le F:U_{1}.y\\right\\}\\right)",
+    "folderId": "arrows",
+    "dragMode": "NONE",
+    "pointSize": "9",
+    "showLabel": true,
+    "label": "`u_1`",
+    "labelSize": "1.5"
+   },
+   {
+    "type": "expression",
+    "id": "Ls2",
+    "color": "#2d70b3",
+    "latex": "\\left(O.x+t\\left(L_{2}.x-O.x\\right),O.y+t\\left(L_{2}.y-O.y\\right)\\right)\\left\\{\\left|O.x+t\\left(L_{2}.x-O.x\\right)\\right|\\le F\\right\\}\\left\\{\\left|O.y+t\\left(L_{2}.y-O.y\\right)\\right|\\le F\\right\\}",
+    "folderId": "arrows",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    },
+    "lineStyle": "DOTTED",
+    "lineWidth": "3.5"
+   },
+   {
+    "type": "expression",
+    "id": "Lt2",
+    "color": "#2d70b3",
+    "latex": "\\left(\\left\\{\\left|L_{2}.x\\right|\\le F:L_{2}.x\\right\\},\\left\\{\\left|L_{2}.y\\right|\\le F:L_{2}.y\\right\\}\\right)",
+    "folderId": "arrows",
+    "dragMode": "NONE",
+    "pointSize": "8",
+    "showLabel": true,
+    "label": "`\\lambda_{2}P_{2}x`",
+    "labelSize": "1.2"
+   },
+   {
+    "type": "expression",
+    "id": "Qs2",
+    "color": "#2d70b3",
+    "latex": "\\left(O.x+t\\left(Q_{2}.x-O.x\\right),O.y+t\\left(Q_{2}.y-O.y\\right)\\right)\\left\\{\\left|O.x+t\\left(Q_{2}.x-O.x\\right)\\right|\\le F\\right\\}\\left\\{\\left|O.y+t\\left(Q_{2}.y-O.y\\right)\\right|\\le F\\right\\}",
+    "folderId": "arrows",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    },
+    "lineWidth": "4"
+   },
+   {
+    "type": "expression",
+    "id": "Qt2",
+    "color": "#2d70b3",
+    "latex": "\\left(\\left\\{\\left|Q_{2}.x\\right|\\le F:Q_{2}.x\\right\\},\\left\\{\\left|Q_{2}.y\\right|\\le F:Q_{2}.y\\right\\}\\right)",
+    "folderId": "arrows",
+    "dragMode": "NONE",
+    "pointSize": "8",
+    "showLabel": true,
+    "label": "`P_{2}x`",
+    "labelSize": "1.2"
+   },
+   {
+    "type": "expression",
+    "id": "u2_seg",
+    "color": "#6042a6",
+    "latex": "\\left(t\\left(U_{2}.x\\right),t\\left(U_{2}.y\\right)\\right)\\left\\{\\left|t\\left(U_{2}.x\\right)\\right|\\le F\\right\\}\\left\\{\\left|t\\left(U_{2}.y\\right)\\right|\\le F\\right\\}",
+    "folderId": "arrows",
+    "lineWidth": "4",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "u2_tip",
+    "color": "#6042a6",
+    "latex": "\\left(\\left\\{\\left|U_{2}.x\\right|\\le F:U_{2}.x\\right\\},\\left\\{\\left|U_{2}.y\\right|\\le F:U_{2}.y\\right\\}\\right)",
+    "folderId": "arrows",
+    "dragMode": "NONE",
+    "pointSize": "9",
+    "showLabel": true,
+    "label": "`u_2`",
+    "labelSize": "1.5"
+   },
+   {
+    "type": "expression",
+    "id": "ax_seg",
+    "color": "#c74440",
+    "latex": "\\left(t\\left(Y.x\\right),t\\left(Y.y\\right)\\right)\\left\\{\\left|t\\left(Y.x\\right)\\right|\\le F\\right\\}\\left\\{\\left|t\\left(Y.y\\right)\\right|\\le F\\right\\}",
+    "folderId": "arrows",
+    "lineWidth": "4",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "ax_tip",
+    "color": "#c74440",
+    "latex": "\\left(\\left\\{\\left|Y.x\\right|\\le F:Y.x\\right\\},\\left\\{\\left|Y.y\\right|\\le F:Y.y\\right\\}\\right)",
+    "folderId": "arrows",
+    "dragMode": "NONE",
+    "pointSize": "9",
+    "showLabel": true,
+    "label": "`Ax`",
+    "labelSize": "1.5"
+   },
+   {
+    "type": "expression",
+    "id": "xs",
+    "color": "#fa7e19",
+    "latex": "\\left(O.x+t\\left(X.x-O.x\\right),O.y+t\\left(X.y-O.y\\right)\\right)\\left\\{\\left|O.x+t\\left(X.x-O.x\\right)\\right|\\le F\\right\\}\\left\\{\\left|O.y+t\\left(X.y-O.y\\right)\\right|\\le F\\right\\}",
+    "folderId": "arrows",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    },
+    "lineWidth": "4"
+   },
+   {
+    "type": "expression",
+    "id": "xh",
+    "color": "#fa7e19",
+    "latex": "\\left(p_{1},p_{2}\\right)",
+    "folderId": "arrows",
+    "pointStyle": "OPEN",
+    "pointSize": "15",
+    "movablePointSize": "15",
+    "showLabel": true,
+    "label": "`x`",
+    "labelSize": "1.5",
+    "labelOrientation": "right"
+   }
+  ]
+ }
+}

@@ -10,7 +10,7 @@ title: "Diagonalization"
 <p class="ev-credit">Continuing the <a href="/desmos/eigenvector_notebook/">eigenvectors notebook</a></p>
 
 <div class="latex-body">
-The <a href="/desmos/eigenvector_notebook/#eigenbasis">eigenvectors notebook</a> ended by discussing diagonalization: representing a transformation in a basis for which the resulting matrix is diagonal. Diagonal matrices are easy to work with. Applying these typse of matrices to a vector simply scales its coordinates (with respect to our chosen basis). In particular, when there exists a \textit{basis of eigenvectors}, such diagonalization is possible (by simply representing the transformation in that basis).
+The <a href="/desmos/eigenvector_notebook/#eigenbasis">eigenvectors notebook</a> ended by discussing diagonalization: representing a transformation in a basis for which the resulting matrix is diagonal. Diagonal matrices are easy to work with. Applying these types of matrices to a vector simply scales its coordinates (with respect to our chosen basis). In particular, when there exists a \textit{basis of eigenvectors}, such diagonalization is possible (by simply representing the transformation in that basis).
 </div>
 
 <h3 id="eigenbasis">Eigenbases</h3>
@@ -20,7 +20,7 @@ Why should we care about a basis made of eigenvectors? Suppose $\mathbf{v}_1, \d
 $$A\mathbf{x} = c_1A\mathbf{v}_1 + \cdots + c_nA\mathbf{v}_n = \lambda_1c_1\mathbf{v}_1 + \cdots + \lambda_nc_n\mathbf{v}_n.$$
 That is, in terms of the coordinates $c_1, \dots, c_n$, the transformation just scales each coordinate by its own eigenvalue, with no mixing between coordinates at all. Written as a matrix acting on these coordinates, this is simply
 $$\begin{bmatrix} c_1 \\ \vdots \\ c_n \end{bmatrix} \mapsto \begin{bmatrix} \lambda_1 & & \\ & \ddots & \\ & & \lambda_n \end{bmatrix}\begin{bmatrix} c_1 \\ \vdots \\ c_n \end{bmatrix} = \begin{bmatrix} \lambda_1c_1 \\ \vdots \\ \lambda_nc_n \end{bmatrix},$$
-a diagonal matrix. So having a basis of eigenvectors is precisely the same as having a basis in which the transformation is represented by a diagonal matrix. As a result, something that would have been computationally expensive, computing powers of the matrix $A$ (similarly, long term behavior of repeated transformations), become much more simple.  The rest of this section makes this precise.
+a diagonal matrix. So having a basis of eigenvectors is precisely the same as having a basis in which the transformation is represented by a diagonal matrix. As a result, something that would have been computationally expensive, computing powers of the matrix $A$ (similarly, long term behavior of repeated transformations), becomes much more simple.  The rest of this section makes this precise.
 
 We begin by noting two definitions that work in tandem.
 \begin{definition}
@@ -42,16 +42,20 @@ Let $P = \begin{bmatrix} \mathbf{v}_1 & \cdots & \mathbf{v}_n \end{bmatrix}$ and
 \end{proof}
 
 Unfortunately, not every matrix has this (quite remarkable) property. In the eigenvectors notebook, the $90^\circ$ rotation has no real eigenvectors and the shear has only one line of them. Since neither has "enough" (real) linearly independent eigenvectors, neither matrix forms an eigenbasis (see <a href="/desmos/eigenvector_notebook/#breaks">when the pattern breaks</a>), and neither is diagonalizable (again, over a real vector space). On the other hand, eigenvectors for different eigenvalues are always linearly independent, so an $n \times n$ matrix with $n$ distinct eigenvalues is always diagonalizable.
+
+\begin{remark}
+As mentioned before, we are making a slight error when discussing some matrix as nondiagonalizable. In fact, the $90^\circ$ rotation can be diagonalized if we allow complex eigenvectors and complex eigenvalues. We have seen that this matrix does in fact have two distinct eigenvalues, $i$ and $-i$, so the eigenvectors are linearly independent and form a basis in $\C^2$. However, in the course, we try to work and theorize with real numbers, vectors, and matrices as much as possible, and with this restriction, even more matrices are nondiagonalizable. The study of <a href="/desmos/spectral_theory_notebook/">spectral theory</a> will give us some conditions when real diagonalization is possible. 
+\end{remark}
 </div>
 
 <h3 id="two-bases">Transformations, with respect to a basis</h3>
 
 <div class="latex-body">
-Recall from <a href="/desmos/change-of-basis">change of basis</a> (and <a href="https://docs.google.com/presentation/d/16xcErMXdiKPBMy-_09Y8FJMZjyq-dxi5yL6UUPuY1kc/edit?usp=sharing" target="_blank" rel="noopener">Lecture 21</a>) that for a basis $\beta = \{\mathbf{v}_1, \mathbf{v}_2\}$ with $P = \begin{bmatrix} \mathbf{v}_1 & \mathbf{v}_2 \end{bmatrix}$, the basis matrix $P = M_\beta$ converts $\beta$-coordinates into standard ones, $\mathbf{x} = P[\mathbf{x}]_\beta$, and the transformation $\mathbf{x} \mapsto A\mathbf{x}$ written in $\beta$-coordinates has matrix $P^{-1}AP = M_\beta^{-1}AM_\beta$. When $\beta$ is an eigenbasis, \Cref{thm:diag} says that this new matrix, just representing the transformation in a different basis, is the diagonal $D$ (why?). Notably, we cannot think of a matrix as the unique way to write a transformation. It is just the way to write it when everything lives with respect to the canonical basis. Otherwise, it may look different; but it may also be easier to work with.
+Recall from <a href="/desmos/change-of-basis">change of basis</a> (and <a href="https://docs.google.com/presentation/d/16xcErMXdiKPBMy-_09Y8FJMZjyq-dxi5yL6UUPuY1kc/edit?usp=sharing" target="_blank" rel="noopener">Lecture 21</a>) that for a basis $\beta = \{\mathbf{v}_1, \mathbf{v}_2\}$ with $P = \begin{bmatrix} \mathbf{v}_1 & \mathbf{v}_2 \end{bmatrix}$, the basis matrix $P = M_\beta$ converts $\beta$-coordinates into standard ones, $\mathbf{x} = P[\mathbf{x}]_\beta$, and the transformation $\mathbf{x} \mapsto A\mathbf{x}$ written in $\beta$-coordinates has matrix $P^{-1}AP = M_\beta^{-1}AM_\beta$. When $\beta$ is an eigenbasis, \Cref{thm:diag} says that this new matrix, just representing the transformation in a different basis, is the diagonal $D$ (why?). Notably, we cannot think of a matrix $A$ as the unique way to algebraically describe a transformation. Simply, $A$ represents the transformation when everything is with respect to the canonical basis. Otherwise, it may look different but with the possibility of a computational, algebraic, or geometric benefit.
 
 The figure below will work with the following matrix (respectively, the transformation that sends $[x_1 \ \  x_2]^T \mapsto [\tfrac{6}{4}x_1 + \tfrac{2}{4}x_2 \ \ \tfrac{3}{4}x_1+ \tfrac{5}{4}x_2]^T$) in two different ways
 $$A = \frac{1}{4}\begin{bmatrix} 6 & 2 \\ 3 & 5 \end{bmatrix}.$$
-Both graphs are showing the same transformation, the same input vector $\mathbf{x}$ and its output; the only difference is the grid drawn underneath. On the left is the standard grid, built from the standard basis $\mathbf{e}_1$ and $\mathbf{e}_2$. The transformation shears and rotates these vectors. On the right is the grid built from the eigenbasis $\mathbf{v}_1 = (1, 1)$ and $\mathbf{v}_2 = (2, -3)$. Now, this transformation appears to just stretch this grid: lines along $\mathbf{v}_1$ stretch by $2$, and lines along $\mathbf{v}_2$ shrink to $\frac{3}{4}$ of their length. In particular, this transformation, with $A$ in the standard coordinates and the eigenvectors also written in the standard coordinates, scales the vectors by their corresponding eigenvalues. This is exactly what the diagonal matrix $D = \operatorname{diag}(2, \frac{3}{4})$ does to the eigenvectors written in the coordinates with respect to their basis.
+Both graphs are showing the same transformation, the same input vector $\mathbf{x}$ and its output; the only difference is the grid drawn underneath. On the left is the standard grid, built from the standard basis $\mathbf{e}_1$ and $\mathbf{e}_2$. The transformation shears and rotates these vectors. On the right is the grid built from the eigenbasis $\mathbf{v}_1 = (1, 1)$ and $\mathbf{v}_2 = (2, -3)$. In this representation, the transformation appears to just stretch this grid. This is exactly what the diagonal matrix $D = \operatorname{diag}(2, \frac{3}{4})$ does to the eigenvectors written in the coordinates with respect to their basis.
 
 
 </div>
@@ -79,13 +83,13 @@ Both graphs are showing the same transformation, the same input vector $\mathbf{
 </div>
 
 <div class="latex-body">
-The two readouts describe the same vector $A\mathbf{x}$ in two coordinate systems. In symbols, $[A\mathbf{x}]_\beta = D[\mathbf{x}]_\beta$, and translating back using $\mathbf{x} = P[\mathbf{x}]_\beta$ (and its inverse) gives $A = PDP^{-1}$ since this holds for all $\mathbf{x}$.
+The two readouts describe the same vector $A\mathbf{x}$, just in two different coordinate systems. Notably, we have $[A\mathbf{x}]_\beta = D[\mathbf{x}]_\beta$ by the eigenvalue relations, and we have $\mathbf{x} = P[\mathbf{x}]_\beta$ by definition that $P = S^{-1} = M_\beta$. All together, this gives $A = PDP^{-1}$ since those equations hold for all $\mathbf{x}$.
 </div>
 
 <h3 id="example">Diagonalizing a matrix</h3>
 
 <div class="latex-body">
-Diagonalizing takes the same two steps as finding eigenvectors (see <a href="/desmos/eigenvector_notebook/#algebra">finding eigenvalues and eigenvectors</a>), followed by assembling $P$ and $D$.
+Diagonalizing takes the same two steps as finding eigenvectors (see <a href="/desmos/eigenvector_notebook/#algebra">finding eigenvalues and eigenvectors</a>), followed by assembling $P$ and $D$ (essentially group eigenvalues and eigenvectors).
 
 \begin{example}
 For simplicity of arithmetic, let's consider a slightly different matrix (really just scaling $A$ to remove the fractions). Notably, $A = \frac{1}{4}B$ in Figure 1, where $B = \begin{bmatrix} 6 & 2 \\ 3 & 5 \end{bmatrix}$. Scaling a matrix keeps its eigenvectors and only scales its eigenvalues: $A\mathbf{v} = \lambda\mathbf{v}$ exactly when $B\mathbf{v} = 4\lambda\mathbf{v}$. So we can work with the integer matrix $B$. Its characteristic polynomial is
@@ -97,18 +101,16 @@ $$P = \begin{bmatrix} 1 & \phantom{-}2 \\ 1 & -3 \end{bmatrix}, \qquad D = \begi
 Multiplying out confirms $PDP^{-1} = A$.
 \end{example}
 
-One particular payoff here is that we can compute matrix powers far more easily. Matrix powers appear when a transformation is repeated a number of times, and computing them directly can take a lot of work. For example computing $A^8$ directly takes seven matrix products. Instead consider,
+One particular payoff here is that we can compute matrix powers far more easily. Matrix powers appear when a transformation is repeated a number of times, and computing them directly can take a lot of work (imagine doing tens, hundreds, or even thousands of matrix multiplications). For example computing $A^8$ directly takes seven matrix products. Instead consider,
 $$A^8 = (PDP^{-1})(PDP^{-1})\cdots(PDP^{-1}) = PD^8P^{-1},$$
-since each inner $P^{-1}P$ cancels. Now we just have two matrix products to consider, and a simple computation of $D^8$ raising each diagonal entry to the eighth power. This pattern holds for any number and in general $A^k = PD^k P^{-1}$.
+since each inner $P^{-1}P$ cancels. Now we just have two matrix products to consider, and a simple computation of $D^8$, which raises each diagonal component individually. In general, we have $A^k = PD^k P^{-1}$.
 
 \begin{example}
 With $P$, $D$ and $P^{-1}$ from the example above, $\lambda_1^8 = 2^8 = 256$ and $\lambda_2^8 = \left(\frac{3}{4}\right)^8 = \frac{6561}{65536} \approx 0.1001$,
 $$A^8 = \begin{bmatrix} 1 & \phantom{-}2 \\ 1 & -3 \end{bmatrix}\begin{bmatrix} 256 & 0 \\ 0 & \lambda_2^8 \end{bmatrix}\frac{1}{5}\begin{bmatrix} 3 & \phantom{-}2 \\ 1 & -1 \end{bmatrix} = \frac{1}{5}\begin{bmatrix} 768 + 2\lambda_2^8 & 512 - 2\lambda_2^8 \\ 768 - 3\lambda_2^8 & 512 + 3\lambda_2^8 \end{bmatrix} \approx \begin{bmatrix} 153.64 & 102.36 \\ 153.54 & 102.46 \end{bmatrix}.$$
-Nothing about $8$ was special. The same computation gives every power at once:
-$$A^n = PD^nP^{-1} = \frac{1}{5}\begin{bmatrix} 3 \cdot 2^n + 2\left(\frac{3}{4}\right)^n & 2 \cdot 2^n - 2\left(\frac{3}{4}\right)^n \\ 3 \cdot 2^n - 3\left(\frac{3}{4}\right)^n & 2 \cdot 2^n + 3\left(\frac{3}{4}\right)^n \end{bmatrix}.$$
 \end{example}
 
-As $n$ grows, the $\left(\frac{3}{4}\right)^n$ terms die out, and both columns of $A^n$ point more and more along the eigenvector $\mathbf{v}_1 = (1, 1)$. With this example (which can be seen in Figure 1), $A$ doubles the $\mathbf{v}_1$-coordinate and shrinks the $\mathbf{v}_2$-coordinate, so repeated application pulls every vector toward the line through $\mathbf{v}_1$. However, all that really matters is how the eigenvalues relate, and this phenomenon happens for any matrix. Repeated powers push any input towards the eigenvector with the largest eigenvalue. 
+As $n$ grows, the $\left(\frac{3}{4}\right)^n$ terms die out, and both columns of $A^n$ point more and more along the eigenvector $\mathbf{v}_1 = (1, 1)$. With this example (which can be seen in Figure 1), $A$ doubles the $\mathbf{v}_1$-coordinate and shrinks the $\mathbf{v}_2$-coordinate, so repeated application pulls every vector toward the line through $\mathbf{v}_1$. However, all that really matters is how the eigenvalues relate, and this phenomenon happens for any matrix. Repeated powers push any input towards the eigenvector with the largest eigenvalue.
 </div>
 
 <h3 id="fibonacci">Fibonacci numbers</h3>
@@ -194,7 +196,7 @@ The following repeats what happens in Figure 1 for four simple matrices. Some th
       <div class="ev-slide"><input class="site-slider" type="range" min="0" max="1" step="0.01" value="1" aria-label="Apply A"><button type="button" class="site-btn">▶ Play</button></div>
     </div>
   </div>
-  <p class="ev-caption">Figure 3.</p>
+  <p class="ev-caption"></p>
   <div class="ev-calc">
     <div class="ev-calc-math" id="dg3-calc-fact"></div>
     <div class="ev-calc-math" id="dg3-calc-std"></div>
