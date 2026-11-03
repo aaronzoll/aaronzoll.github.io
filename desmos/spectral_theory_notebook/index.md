@@ -227,6 +227,5 @@ I invite you to try the following:
 \item Make $\lambda_2$ negative. The scaled piece $\lambda_2P_{\mathbf{u}_2}\mathbf{x}$ flips to the other side of the origin, and $A\mathbf{x}$ follows.
 \item Set $\lambda_2 = 0$. Now $A\mathbf{x}$ always lands on the line through $\mathbf{u}_1$, no matter where $\mathbf{x}$ is, and $A = \lambda_1\mathbf{u}_1\mathbf{u}_1^T$ has rank one. The end of Homework 10 asks how the rank of $A$ relates to its eigenvalues in general, and this picture is a good place to start. Notably, we can think about how many directions are "lost" to the zero eigenvalue.
 \item Set $\lambda_1 = \lambda_2$. The matrix stops depending on the angle at all (why?).
-\item Turn $\mathbf{u}_1$ while keeping the eigenvalues fixed. The matrix changes, but it stays symmetric.
 \end{itemize}
 </div>
