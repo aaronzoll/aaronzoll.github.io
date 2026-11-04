@@ -824,14 +824,14 @@ augmented by topics from linear algebra and the use of computer software (primar
     <div class="folder-body">
       <div class="lecture-grid">
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1ecEZq75c7kSGzFQk4Pd2Oh1KTSJso2Z9hzEWzKiMgPQ/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 28</span>
             <img src="/assets/LADE/thumbnails/Lecture_28.png" alt="Lecture 28 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 28</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Introduction to Differential Equations</span>
+        </a>
 
         <div class="lecture-card lecture-card--pending">
           <div class="lecture-thumb">
