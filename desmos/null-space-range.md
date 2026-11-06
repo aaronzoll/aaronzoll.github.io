@@ -67,15 +67,15 @@ title: "Null Space and Range"
   <button id="ns-swap" title="Swap the settings and the computation" aria-label="Swap the settings and the computation">&#8645;</button>
 </div>
 
-<div class="ns-calc">
-  <span class="ns-label">Computation</span>
+<details class="desmos-calc-drop ns-calc">
+  <summary>Computation</summary>
   <div class="ns-calc-row">
     <div class="ns-calc-math" id="ns-calc-rref"></div>
     <div class="ns-calc-math" id="ns-calc-null"></div>
     <div class="ns-calc-math" id="ns-calc-range"></div>
     <div class="ns-calc-math" id="ns-calc-ax"></div>
   </div>
-</div>
+</details>
 
 </div>
 
@@ -365,14 +365,18 @@ title: "Null Space and Range"
     display: block;
   }
 
-  /* Fixed cells, so a changing x only moves its own cell; the Ax cell grows
-     to the right from a fixed left edge instead of re-centering (which made
-     everything shake while x was dragged). */
+  /* Cells take the width their math needs (equal columns cut off a two-vector
+     null space). Only Ax depends on x, and it comes last and grows to the right
+     from a fixed left edge, so dragging x doesn't shake the others. */
   .ns-calc-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    column-gap: 1.5em;
+    column-gap: 2.5em;
+  }
+
+  .ns-calc-row #ns-calc-ax {
+    flex: 1 1 auto;
   }
 
   .ns-calc-row #ns-calc-ax mjx-container[display="true"] {
@@ -1032,6 +1036,9 @@ title: "Null Space and Range"
     syncCover(g);
   }
 
+  var latestCalc;
+  var settleCalc = calcOnRest('ns-calc-rref', function () { writeCalc.apply(null, latestCalc); });
+
   var pending = false;
   function render() {
     if (pending) { return; }
@@ -1054,7 +1061,8 @@ title: "Null Space and Range"
       drawCoset(G.dom.calc, n, nbF, v3(xq.map(qval)));
       drawSpace(G.cod.calc, m, rbF, v3(Ax.map(qval)), show.rb);
       document.getElementById('ns-view').disabled = n < 3 && m < 3;
-      writeCalc(red, nb, xq, Ax);
+      latestCalc = [red, nb, xq, Ax];
+      settleCalc();
     });
   }
 

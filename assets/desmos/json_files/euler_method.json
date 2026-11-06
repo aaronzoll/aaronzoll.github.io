@@ -1,0 +1,769 @@
+{
+ "version": 11,
+ "randomSeed": "euler",
+ "graph": {
+  "viewport": {
+   "xmin": -5.832646104508301,
+   "ymin": -3.3451611422222998,
+   "xmax": 5.7569832515310555,
+   "ymax": 5.430918414668056
+  },
+  "showGrid": false
+ },
+ "expressions": {
+  "list": [
+   {
+    "type": "text",
+    "id": "96",
+    "text": "Euler's method for y' = f(x, y). Enter your favorite differential equation in the first folder and drag the starting point."
+   },
+   {
+    "type": "folder",
+    "id": "2",
+    "title": "Function",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "3",
+    "color": "#2d70b3",
+    "latex": "f\\left(x,y\\right)=y\\sin\\left(x\\right)",
+    "folderId": "2"
+   },
+   {
+    "type": "expression",
+    "id": "11",
+    "color": "#000000",
+    "latex": "x_{0}=-3.7",
+    "folderId": "2",
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "102",
+    "color": "#000000",
+    "latex": "y_{0}=2.5",
+    "folderId": "2",
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "4",
+    "color": "#000000",
+    "latex": "x_{N}=4.2",
+    "folderId": "2",
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-6",
+     "max": "6",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "folder",
+    "id": "6",
+    "title": "Euler's Method",
+    "collapsed": true,
+    "inFrontOfEverything": true
+   },
+   {
+    "type": "expression",
+    "id": "119",
+    "color": "#000000",
+    "latex": "N=10",
+    "folderId": "6",
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "1",
+     "max": "100",
+     "step": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "30",
+    "color": "#c74440",
+    "latex": "h=\\frac{x_{N}-x_{0}}{N}",
+    "folderId": "6"
+   },
+   {
+    "type": "expression",
+    "id": "52",
+    "color": "#388c46",
+    "latex": "S\\left(p\\right)=\\left(p.x+h,\\ p.y+hf\\left(p.x,p.y\\right)\\right)",
+    "folderId": "6"
+   },
+   {
+    "type": "expression",
+    "id": "33",
+    "color": "#6042a6",
+    "latex": "U\\left(0\\right)=\\left(x_{0},y_{0}\\right)",
+    "folderId": "6",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "7",
+    "color": "#000000",
+    "latex": "U\\left(j\\right)=S\\left(U\\left(j-1\\right)\\right)",
+    "folderId": "6"
+   },
+   {
+    "type": "expression",
+    "id": "54",
+    "color": "#000000",
+    "latex": "E=\\left[U\\left(j\\right)\\ \\operatorname{for}\\ j=\\left[0,...,N\\right]\\right]",
+    "folderId": "6",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "56",
+    "color": "#2d70b3",
+    "latex": "E",
+    "folderId": "6",
+    "lines": true,
+    "lineOpacity": "0.7",
+    "lineWidth": "6",
+    "pointSize": "0",
+    "movablePointSize": "0"
+   },
+   {
+    "type": "expression",
+    "id": "121",
+    "color": "#000000",
+    "latex": "E",
+    "folderId": "6",
+    "pointStyle": "OPEN",
+    "pointSize": "12",
+    "movablePointSize": "12"
+   },
+   {
+    "type": "expression",
+    "id": "125",
+    "color": "#000000",
+    "latex": "E_{x}=E.x",
+    "folderId": "6"
+   },
+   {
+    "type": "expression",
+    "id": "126",
+    "color": "#000000",
+    "latex": "E_{y}=E.y",
+    "folderId": "6"
+   },
+   {
+    "type": "expression",
+    "id": "127",
+    "color": "#000000",
+    "latex": "E_{f}=f\\left(E_{x},E_{y}\\right)",
+    "folderId": "6"
+   },
+   {
+    "type": "expression",
+    "id": "39",
+    "color": "#000000",
+    "latex": "\\left(x_{0},y_{0}\\right)",
+    "folderId": "6",
+    "pointStyle": "OPEN",
+    "pointSize": "15",
+    "movablePointSize": "15",
+    "dragMode": "XY",
+    "showLabel": false,
+    "labelSize": "1.5"
+   },
+   {
+    "type": "folder",
+    "id": "300",
+    "title": "True solution",
+    "collapsed": true,
+    "inFrontOfEverything": true,
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "301",
+    "color": "#000000",
+    "latex": "r_{ef}=\\operatorname{ceil}\\left(\\frac{200}{N}\\right)",
+    "folderId": "300"
+   },
+   {
+    "type": "expression",
+    "id": "302",
+    "color": "#000000",
+    "latex": "M=r_{ef}N",
+    "folderId": "300"
+   },
+   {
+    "type": "expression",
+    "id": "303",
+    "color": "#000000",
+    "latex": "g=\\frac{h}{r_{ef}}",
+    "folderId": "300"
+   },
+   {
+    "type": "expression",
+    "id": "304",
+    "color": "#000000",
+    "latex": "K_{1}\\left(p\\right)=f\\left(p.x,p.y\\right)",
+    "folderId": "300"
+   },
+   {
+    "type": "expression",
+    "id": "305",
+    "color": "#000000",
+    "latex": "K_{2}\\left(p\\right)=f\\left(p.x+\\frac{g}{2},p.y+\\frac{g}{2}K_{1}\\left(p\\right)\\right)",
+    "folderId": "300"
+   },
+   {
+    "type": "expression",
+    "id": "306",
+    "color": "#000000",
+    "latex": "K_{3}\\left(p\\right)=f\\left(p.x+\\frac{g}{2},p.y+\\frac{g}{2}K_{2}\\left(p\\right)\\right)",
+    "folderId": "300"
+   },
+   {
+    "type": "expression",
+    "id": "307",
+    "color": "#000000",
+    "latex": "K_{4}\\left(p\\right)=f\\left(p.x+g,p.y+gK_{3}\\left(p\\right)\\right)",
+    "folderId": "300"
+   },
+   {
+    "type": "expression",
+    "id": "308",
+    "color": "#000000",
+    "latex": "T\\left(p\\right)=\\left(p.x+g,p.y+\\frac{g}{6}\\left(K_{1}\\left(p\\right)+2K_{2}\\left(p\\right)+2K_{3}\\left(p\\right)+K_{4}\\left(p\\right)\\right)\\right)",
+    "folderId": "300"
+   },
+   {
+    "type": "expression",
+    "id": "309",
+    "color": "#000000",
+    "latex": "V\\left(0\\right)=\\left(x_{0},y_{0}\\right)",
+    "folderId": "300",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "310",
+    "color": "#000000",
+    "latex": "V\\left(j\\right)=T\\left(V\\left(j-1\\right)\\right)",
+    "folderId": "300"
+   },
+   {
+    "type": "expression",
+    "id": "311",
+    "color": "#000000",
+    "latex": "Z=\\left[V\\left(j\\right)\\ \\operatorname{for}\\ j=\\left[0,...,M\\right]\\right]",
+    "folderId": "300",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "312",
+    "color": "#388c46",
+    "latex": "Z",
+    "folderId": "300",
+    "lines": true,
+    "lineWidth": "4",
+    "pointSize": "0",
+    "movablePointSize": "0"
+   },
+   {
+    "type": "folder",
+    "id": "103",
+    "title": "Current step",
+    "collapsed": true,
+    "inFrontOfEverything": true
+   },
+   {
+    "type": "expression",
+    "id": "104",
+    "color": "#000000",
+    "latex": "n=0",
+    "folderId": "103",
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "0",
+     "max": "N-1",
+     "step": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "105",
+    "color": "#fa7e19",
+    "latex": "p_{1}=U\\left(n\\right)",
+    "folderId": "103",
+    "pointStyle": "OPEN",
+    "pointSize": "S_{ize}",
+    "movablePointSize": "S_{ize}",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "`y_{${n}}`",
+    "labelSize": "1.5",
+    "labelOrientation": "above"
+   },
+   {
+    "type": "expression",
+    "id": "120",
+    "color": "#6042a6",
+    "latex": "S_{ize}=13.2",
+    "folderId": "103",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "158",
+    "color": "#2d70b3",
+    "latex": "m=f\\left(p_{1}.x,p_{1}.y\\right)",
+    "folderId": "103"
+   },
+   {
+    "type": "expression",
+    "id": "111",
+    "color": "#000000",
+    "latex": "x_{next}=p_{1}.x+h",
+    "folderId": "103"
+   },
+   {
+    "type": "expression",
+    "id": "110",
+    "color": "#6042a6",
+    "latex": "y_{next}=p_{1}.y+hm",
+    "folderId": "103"
+   },
+   {
+    "type": "expression",
+    "id": "113",
+    "color": "#c74440",
+    "latex": "y=p_{1}.y+m\\left(x-p_{1}.x\\right)\\left\\{p_{1}.x-\\frac{h}{5}\\le x\\le x_{next}+\\frac{h}{5}\\right\\}",
+    "folderId": "103",
+    "lineOpacity": "0.6",
+    "lineWidth": "5"
+   },
+   {
+    "type": "expression",
+    "id": "114",
+    "color": "#000000",
+    "latex": "\\left(p_{1}.x+th,p_{1}.y\\right)",
+    "folderId": "103",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    },
+    "lineStyle": "DOTTED",
+    "lineWidth": "2",
+    "lineOpacity": "0.7"
+   },
+   {
+    "type": "expression",
+    "id": "115",
+    "color": "#000000",
+    "latex": "\\left(x_{next},p_{1}.y+thm\\right)",
+    "folderId": "103",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    },
+    "lineStyle": "DOTTED",
+    "lineWidth": "2",
+    "lineOpacity": "0.7"
+   },
+   {
+    "type": "expression",
+    "id": "116",
+    "color": "#000000",
+    "latex": "n_{1}=n+1",
+    "folderId": "103"
+   },
+   {
+    "type": "expression",
+    "id": "112",
+    "color": "#c74440",
+    "latex": "\\left(x_{next},y_{next}\\right)",
+    "folderId": "103",
+    "pointSize": "12",
+    "movablePointSize": "12",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "`y_{${n_{1}}}`",
+    "labelSize": "1.5",
+    "labelOrientation": "above"
+   },
+   {
+    "type": "expression",
+    "id": "117",
+    "color": "#000000",
+    "latex": "\\left(p_{1}.x+\\frac{h}{2},p_{1}.y\\right)\\left\\{N\\le30\\right\\}",
+    "folderId": "103",
+    "pointOpacity": "0",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "`h`",
+    "labelSize": "1.5",
+    "labelOrientation": "below"
+   },
+   {
+    "type": "expression",
+    "id": "124",
+    "color": "#000000",
+    "latex": "\\left(x_{next},p_{1}.y+\\frac{hm}{2}\\right)\\left\\{N\\le30\\right\\}\\left\\{\\left|hm\\right|>0.4\\right\\}",
+    "folderId": "103",
+    "pointOpacity": "0",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "`hf(x_n,y_n)`",
+    "labelSize": "1.5",
+    "labelOrientation": "right"
+   },
+   {
+    "type": "expression",
+    "id": "118",
+    "color": "#000000",
+    "latex": "y_{true}=Z\\left[r_{ef}\\left(n+1\\right)+1\\right].y",
+    "folderId": "103"
+   },
+   {
+    "type": "expression",
+    "id": "128",
+    "color": "#000000",
+    "latex": "E_{t}=Z\\left[r_{ef}\\cdot\\left[1,...,N\\right]+1\\right].y",
+    "folderId": "103"
+   },
+   {
+    "type": "folder",
+    "id": "61",
+    "title": "Vector Flow"
+   },
+   {
+    "type": "expression",
+    "id": "74",
+    "folderId": "61",
+    "color": "#6042a6",
+    "latex": "N_{grid}=\\left[0,...,\\ N_{max}\\right]"
+   },
+   {
+    "type": "expression",
+    "id": "78",
+    "folderId": "61",
+    "color": "#388c46",
+    "latex": "N_{max}=N_{x}^{2}-1",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "min": "0",
+     "max": "1000"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "79",
+    "folderId": "61",
+    "color": "#6042a6",
+    "latex": "N_{x}\\ =25",
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "1",
+     "max": "100",
+     "step": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "81",
+    "folderId": "61",
+    "color": "#c74440",
+    "latex": "d_{x}\\ =0.5",
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "0",
+     "max": "2"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "82",
+    "folderId": "61",
+    "color": "#2d70b3",
+    "latex": "d_{y}=d_{x}",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "0",
+     "max": "2"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "83",
+    "folderId": "61",
+    "color": "#388c46",
+    "latex": "x_{min}=-\\frac{\\left(N_{x}-1\\right)d_{x}}{2}",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "85",
+    "folderId": "61",
+    "color": "#000000",
+    "latex": "y_{min}=-\\frac{\\left(N_{x}-1\\right)d_{x}}{2}",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "68",
+    "folderId": "61",
+    "color": "#388c46",
+    "latex": "n_{x}=x_{min}+\\operatorname{mod}\\left(N_{grid},N_{x}\\right)d_{x}"
+   },
+   {
+    "type": "expression",
+    "id": "73",
+    "folderId": "61",
+    "color": "#388c46",
+    "latex": "n_{y}=y_{min}+\\operatorname{floor}\\left(\\frac{N_{grid}}{N_{x}}\\right)d_{y}"
+   },
+   {
+    "type": "expression",
+    "id": "62",
+    "folderId": "61",
+    "color": "#2d70b3",
+    "latex": "y\\ =\\ n_{y}+f\\left(n_{x},n_{y}\\right)\\left(x-n_{x}\\right)\\ \\left\\{\\left(x-n_{x}\\right)^{2}+\\left(y-n_{y}\\right)^{2}\\le R^{2}\\right\\}",
+    "colorLatex": "C_{olor}",
+    "lineOpacity": "O_{pacity}",
+    "lineWidth": "4"
+   },
+   {
+    "type": "expression",
+    "id": "90",
+    "folderId": "61",
+    "color": "#000000",
+    "latex": "O_{pacity}=0.334",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "0",
+     "max": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "87",
+    "folderId": "61",
+    "color": "#2d70b3",
+    "latex": "C_{olor}\\ =\\ \\operatorname{hsv}\\left(\\min\\left(255,\\max\\left(0,128-Pf\\left(n_{x},n_{y}\\right)\\right)\\right),\\ 0.7,0.7\\right)"
+   },
+   {
+    "type": "expression",
+    "id": "92",
+    "folderId": "61",
+    "color": "#2d70b3"
+   },
+   {
+    "type": "expression",
+    "id": "89",
+    "folderId": "61",
+    "color": "#6042a6",
+    "latex": "P\\ =\\frac{128}{\\max\\left(f\\left(n_{x},n_{y}\\right)\\right)}",
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "1",
+     "max": "20"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "88",
+    "folderId": "61",
+    "color": "#388c46",
+    "latex": "\\min\\left(255,\\max\\left(0,128-10P\\right)\\right)"
+   },
+   {
+    "type": "expression",
+    "id": "86",
+    "folderId": "61",
+    "color": "#c74440",
+    "latex": "\\left(n_{x},n_{y}\\right)",
+    "pointSize": "6",
+    "movablePointSize": "6"
+   },
+   {
+    "type": "expression",
+    "id": "76",
+    "folderId": "61",
+    "color": "#c74440",
+    "latex": "R=0.23",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "0",
+     "max": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "77",
+    "folderId": "61",
+    "color": "#2d70b3"
+   },
+   {
+    "type": "folder",
+    "id": "156",
+    "title": "Arrow",
+    "collapsed": true,
+    "inFrontOfEverything": true
+   },
+   {
+    "type": "expression",
+    "id": "200",
+    "color": "#000000",
+    "latex": "A_{rrow}=0.4",
+    "folderId": "156",
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "0",
+     "max": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "166",
+    "color": "#000000",
+    "latex": "R_{1}=A_{rrow}h\\sqrt{1+m^{2}}",
+    "folderId": "156",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "167",
+    "color": "#c74440",
+    "latex": "D_{x}=\\frac{1}{\\sqrt{1+m^{2}}}",
+    "folderId": "156"
+   },
+   {
+    "type": "expression",
+    "id": "168",
+    "color": "#2d70b3",
+    "latex": "D_{y}=\\frac{m}{\\sqrt{1+m^{2}}}",
+    "folderId": "156"
+   },
+   {
+    "type": "expression",
+    "id": "170",
+    "color": "#6042a6",
+    "latex": "a_{ngle}=\\frac{\\pi}{8}",
+    "folderId": "156"
+   },
+   {
+    "type": "expression",
+    "id": "169",
+    "color": "#388c46",
+    "latex": "p_{x}=D_{x}\\cos\\left(a_{ngle}\\right)-D_{y}\\sin\\left(a_{ngle}\\right)",
+    "folderId": "156"
+   },
+   {
+    "type": "expression",
+    "id": "171",
+    "color": "#000000",
+    "latex": "p_{y}=D_{x}\\sin\\left(a_{ngle}\\right)+D_{y}\\cos\\left(a_{ngle}\\right)",
+    "folderId": "156"
+   },
+   {
+    "type": "expression",
+    "id": "172",
+    "color": "#c74440",
+    "latex": "q_{x}=D_{x}\\cos\\left(a_{ngle}\\right)+D_{y}\\sin\\left(a_{ngle}\\right)",
+    "folderId": "156"
+   },
+   {
+    "type": "expression",
+    "id": "173",
+    "color": "#2d70b3",
+    "latex": "q_{y}=-D_{x}\\sin\\left(a_{ngle}\\right)+D_{y}\\cos\\left(a_{ngle}\\right)",
+    "folderId": "156"
+   },
+   {
+    "type": "expression",
+    "id": "162",
+    "color": "#c74440",
+    "latex": "x_{arrow}=p_{1}.x+R_{1}D_{x}",
+    "folderId": "156"
+   },
+   {
+    "type": "expression",
+    "id": "163",
+    "color": "#2d70b3",
+    "latex": "y_{arrow}=p_{1}.y+R_{1}D_{y}",
+    "folderId": "156"
+   },
+   {
+    "type": "expression",
+    "id": "174",
+    "color": "#000000",
+    "latex": "\\left(p_{1}.x+tR_{1}D_{x},p_{1}.y+tR_{1}D_{y}\\right)",
+    "folderId": "156",
+    "lineWidth": "8",
+    "parametricDomain": {
+     "min": "0",
+     "max": "1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "175",
+    "color": "#000000",
+    "latex": "\\left(x_{arrow}-tp_{x},y_{arrow}-tp_{y}\\right)",
+    "folderId": "156",
+    "lineWidth": "6",
+    "parametricDomain": {
+     "min": "0",
+     "max": "L_{arrow}R_{1}"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "177",
+    "color": "#000000",
+    "latex": "\\left(x_{arrow}-tq_{x},y_{arrow}-tq_{y}\\right)",
+    "folderId": "156",
+    "lineWidth": "6",
+    "parametricDomain": {
+     "min": "0",
+     "max": "L_{arrow}R_{1}"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "176",
+    "color": "#000000",
+    "latex": "L_{arrow}=0.354",
+    "folderId": "156",
+    "hidden": true
+   }
+  ]
+ }
+}

@@ -76,14 +76,15 @@ Both graphs are showing the same transformation, the same input vector $\mathbf{
     </div>
   </div>
   <p class="ev-caption">Figure 1. One transformation against two grids: \(A\) in the standard basis, \(D = P^{-1}AP\) in the eigenbasis.</p>
-  <div class="ev-calc">
+  <details class="desmos-calc-drop ev-calc">
+    <summary>Computation</summary>
     <div class="ev-calc-math" id="dg1-calc-std"></div>
     <div class="ev-calc-math" id="dg1-calc-eig"></div>
-  </div>
+  </details>
 </div>
 
 <div class="latex-body">
-The two readouts describe the same vector $A\mathbf{x}$, just in two different coordinate systems. Notably, we have $[A\mathbf{x}]_\beta = D[\mathbf{x}]_\beta$ by the eigenvalue relations, and we have $\mathbf{x} = P[\mathbf{x}]_\beta$ by definition that $P = S^{-1} = M_\beta$. All together, this gives $A = PDP^{-1}$ since those equations hold for all $\mathbf{x}$.
+The two readouts in the \emph{Computation} dropdown describe the same vector $A\mathbf{x}$, just in two different coordinate systems. Notably, we have $[A\mathbf{x}]_\beta = D[\mathbf{x}]_\beta$ by the eigenvalue relations, and we have $\mathbf{x} = P[\mathbf{x}]_\beta$ by definition that $P = S^{-1} = M_\beta$. All together, this gives $A = PDP^{-1}$ since those equations hold for all $\mathbf{x}$.
 </div>
 
 <h3 id="example">Diagonalizing a matrix</h3>
@@ -160,10 +161,11 @@ instead.
     </div>
   </div>
   <p class="ev-caption">Figure 2. The iterates \(F^k\mathbf{x} = (f_k, f_{k+1})\) turn toward the eigenline of the golden ratio.</p>
-  <div class="ev-calc">
+  <details class="desmos-calc-drop ev-calc">
+    <summary>Computation</summary>
     <div class="ev-calc-math" id="dg2-calc-n"></div>
     <div class="ev-calc-math" id="dg2-calc-lim"></div>
-  </div>
+  </details>
 </div>
 
 <h3 id="explore">Exploration</h3>
@@ -197,9 +199,10 @@ The following repeats what happens in Figure 1 for four simple matrices. Some th
     </div>
   </div>
   <p class="ev-caption"></p>
-  <div class="ev-calc">
+  <details class="desmos-calc-drop ev-calc">
+    <summary>Computation</summary>
     <div class="ev-calc-math" id="dg3-calc-fact"></div>
     <div class="ev-calc-math" id="dg3-calc-std"></div>
     <div class="ev-calc-math" id="dg3-calc-eig"></div>
-  </div>
+  </details>
 </div>

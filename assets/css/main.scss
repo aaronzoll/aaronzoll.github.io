@@ -120,3 +120,40 @@ body.layout--puzzle-set {
   border-top: 1px solid var(--color-divider);
   margin: 0.3rem 0;
 }
+
+// Live calculation under a graph, closed until asked for
+// Usage: <details class="desmos-calc-drop"><summary>Computation</summary> ... </details>
+.desmos-calc-drop > summary {
+  display: block;
+  cursor: pointer;
+  list-style: none;
+  text-align: left;
+  font-weight: bold;
+  font-size: 0.82rem;
+  color: var(--color-label);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.desmos-calc-drop > summary::-webkit-details-marker { display: none; }
+
+.desmos-calc-drop > summary::before {
+  content: "";
+  display: inline-block;
+  margin-right: 0.45rem;
+  vertical-align: 0.1em;
+  border-left: 6px solid var(--color-label);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  transition: transform 0.2s ease;
+}
+
+.desmos-calc-drop[open] > summary { margin-bottom: 0.4rem; }
+.desmos-calc-drop[open] > summary::before { transform: rotate(90deg); }
+
+// The 1px keeps sub-pixel math widths from raising a horizontal scrollbar
+.desmos-calc-drop [class$="-calc-math"] { padding-left: 1px; padding-right: 1px; }
+
+// While a point moves, the math keeps its last numbers, dimmed (assets/js/calc-rest.js)
+.desmos-calc-drop [class$="-calc-math"] { transition: opacity 0.15s ease; }
+.desmos-calc-drop.is-calc-moving [class$="-calc-math"] { opacity: 0.4; }

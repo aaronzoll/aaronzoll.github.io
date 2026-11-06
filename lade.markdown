@@ -443,6 +443,15 @@ custom_js: |
     color: var(--color-slate);
   }
 
+  /* Hairline between runs of cards (linear algebra, then differential
+     equations): a full-width item, so the flex row breaks around it. */
+  .gallery-break {
+    flex: 0 0 100%;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid rgba(100, 120, 140, 0.28);
+  }
+
   #demos { scroll-margin-top: 1.5rem; }
 
   .empty-note {
@@ -1062,6 +1071,23 @@ augmented by topics from linear algebra and the use of computer software (primar
     <a class="gallery-card" href="/desmos/spectral_theory_notebook/" target="_blank">
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/spectral_theory.png" alt="Spectral Theory" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
       <span class="gallery-title">Spectral Theory</span>
+    </a>
+
+    <hr class="gallery-break">
+
+    <a class="gallery-card" href="/desmos/ivp-bvp" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/ivp_bvp.png" alt="Initial and Boundary Value Problems" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
+      <span class="gallery-title">Initial and Boundary Value Problems</span>
+    </a>
+
+    <a class="gallery-card" href="/desmos/linear-first-order" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/linear_first_order.png" alt="Linear First Order Differential Equations" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
+      <span class="gallery-title">Linear First Order Differential Equations</span>
+    </a>
+
+    <a class="gallery-card" href="/desmos/euler-method" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/euler_method.png" alt="Euler's Method" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
+      <span class="gallery-title">Euler's Method</span>
     </a>
 
   </div>

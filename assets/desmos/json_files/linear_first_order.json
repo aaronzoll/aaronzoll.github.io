@@ -3,380 +3,243 @@
  "randomSeed": "lade29",
  "graph": {
   "viewport": {
-   "xmin": -5,
+   "xmin": -6,
    "ymin": -4,
-   "xmax": 7,
+   "xmax": 6,
    "ymax": 4
-  }
+  },
+  "showGrid": false,
+  "showXAxis": false,
+  "showYAxis": false
  },
  "expressions": {
   "list": [
    {
     "type": "text",
-    "text": "Lecture 29: linear first order DEs y' + p(x)y = q(x). Set s = 1 for the example y' - 2xy = x, s = 2 for your own p and q (edit them in Coefficients). Drag the red point to set y(x_0) = k_1. Set H = 1 to split the solution into homogeneous plus particular parts.",
-    "id": "1"
+    "id": "1",
+    "text": "Linear first order DEs y' + p(x)y = q(x). Edit P (an antiderivative of p) and q in the first folder; drag the red point to set y(x_0) = k. The solution is y = (I(x) + C)/m(x), split into f_p = I/m and f_h = C/m."
    },
    {
     "type": "folder",
-    "title": "Controls",
-    "collapsed": false,
-    "id": "2"
+    "id": "2",
+    "title": "Equation",
+    "collapsed": false
    },
    {
     "type": "expression",
-    "latex": "s=1",
+    "id": "3",
+    "color": "#000000",
+    "latex": "P\\left(x\\right)=-x^{2}",
     "folderId": "2",
-    "sliderBounds": {
-     "min": "1",
-     "max": "2",
-     "step": "1"
-    },
-    "id": "3"
+    "hidden": true
    },
    {
     "type": "expression",
-    "latex": "H=0",
+    "id": "4",
+    "color": "#000000",
+    "latex": "p\\left(x\\right)=\\frac{d}{dx}P\\left(x\\right)",
     "folderId": "2",
-    "sliderBounds": {
-     "min": "0",
-     "max": "1",
-     "step": "1"
-    },
-    "id": "4"
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "5",
+    "color": "#000000",
+    "latex": "q\\left(x\\right)=x",
+    "folderId": "2",
+    "hidden": true
    },
    {
     "type": "folder",
-    "title": "Coefficients",
-    "collapsed": false,
-    "id": "5"
-   },
-   {
-    "type": "text",
-    "text": "Used when s = 2. P(x) is an antiderivative of p(x), so m(x) = exp{∫p(x)dx}. Edit P and q.",
-    "folderId": "5",
-    "id": "6"
+    "id": "6",
+    "title": "Initial condition",
+    "collapsed": true
    },
    {
     "type": "expression",
-    "latex": "P(x)=x",
-    "folderId": "5",
-    "id": "7"
-   },
-   {
-    "type": "expression",
-    "latex": "p(x)=\\frac{d}{dx}P(x)",
-    "folderId": "5",
-    "id": "8"
-   },
-   {
-    "type": "expression",
-    "latex": "q(x)=\\sin\\left(x\\right)",
-    "folderId": "5",
-    "id": "9"
-   },
-   {
-    "type": "folder",
-    "title": "Parameters",
-    "collapsed": true,
-    "id": "10"
-   },
-   {
-    "type": "expression",
-    "latex": "x_0=0",
-    "folderId": "10",
-    "sliderBounds": {
-     "min": "-4",
-     "max": "6",
+    "id": "7",
+    "color": "#000000",
+    "latex": "x_{0}=0",
+    "folderId": "6",
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-5",
+     "max": "5",
      "step": "0.25"
-    },
-    "id": "11"
+    }
    },
    {
     "type": "expression",
-    "latex": "k_1=1",
-    "folderId": "10",
-    "sliderBounds": {
+    "id": "8",
+    "color": "#000000",
+    "latex": "k=1",
+    "folderId": "6",
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
      "min": "-3.5",
      "max": "3.5",
      "step": "0.25"
-    },
-    "id": "12"
+    }
    },
    {
     "type": "expression",
-    "latex": "A=\\left[-2,-1.5,...,2\\right]",
-    "folderId": "10",
-    "id": "13"
-   },
-   {
-    "type": "expression",
-    "latex": "B=\\left[-3,-2,...,3\\right]",
-    "folderId": "10",
-    "id": "14"
+    "id": "9",
+    "color": "#000000",
+    "latex": "B=\\left[-3,-2.5,...,3\\right]",
+    "folderId": "6"
    },
    {
     "type": "folder",
-    "title": "Constants",
-    "collapsed": true,
-    "id": "15"
+    "id": "10",
+    "title": "Integrating factor",
+    "collapsed": true
    },
    {
     "type": "expression",
-    "latex": "C=\\left(k_1+\\frac{1}{2}\\right)e^{-x_0^{2}}",
-    "folderId": "15",
-    "id": "16"
+    "id": "11",
+    "color": "#000000",
+    "latex": "m\\left(x\\right)=e^{P\\left(x\\right)}",
+    "folderId": "10",
+    "hidden": true
    },
    {
     "type": "expression",
-    "latex": "m(x)=e^{P(x)-P\\left(x_0\\right)}",
-    "folderId": "15",
-    "id": "17"
+    "id": "12",
+    "color": "#000000",
+    "latex": "I\\left(x\\right)=-\\frac{1}{2}e^{-x^{2}}",
+    "folderId": "10",
+    "hidden": true
    },
    {
     "type": "expression",
-    "latex": "I(x)=\\int_{x_0}^{x}m\\left(t\\right)q\\left(t\\right)dt",
-    "folderId": "15",
-    "id": "18"
+    "id": "25",
+    "color": "#000000",
+    "latex": "C=km\\left(x_{0}\\right)-I\\left(x_{0}\\right)",
+    "folderId": "10"
    },
    {
     "type": "expression",
-    "latex": "f_h(x)=\\frac{k_1}{m(x)}",
-    "folderId": "15",
-    "id": "19"
+    "id": "13",
+    "color": "#000000",
+    "latex": "f_{p}\\left(x\\right)=\\frac{I\\left(x\\right)}{m\\left(x\\right)}",
+    "folderId": "10",
+    "hidden": true
    },
    {
     "type": "expression",
-    "latex": "f_p(x)=\\frac{I(x)}{m(x)}",
-    "folderId": "15",
-    "id": "20"
+    "id": "14",
+    "color": "#000000",
+    "latex": "f_{h}\\left(x\\right)=\\frac{C}{m\\left(x\\right)}",
+    "folderId": "10",
+    "hidden": true
    },
    {
     "type": "text",
-    "text": "s = 2: m(x_0) = 1, so C = k_1, the homogeneous part is C/m(x), and the particular part is (1/m(x))∫ m(t)q(t)dt from x_0 to x.",
-    "folderId": "15",
-    "id": "21"
+    "id": "15",
+    "text": "I is any antiderivative of m(x)q(x): a closed form for the preset equations, a numerical integral from 0 otherwise. C is whatever makes y(x_0) = k.",
+    "folderId": "10"
    },
    {
     "type": "folder",
-    "title": "Functions",
+    "id": "26",
+    "title": "Axes",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "27",
+    "color": "#000000",
+    "latex": "y=0",
+    "folderId": "26",
+    "lineWidth": "2",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "expression",
+    "id": "28",
+    "color": "#000000",
+    "latex": "x=0",
+    "folderId": "26",
+    "lineWidth": "2",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "folder",
+    "id": "16",
+    "title": "Family of solutions",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "17",
+    "color": "#000000",
+    "latex": "y=f_{p}\\left(x\\right)+\\frac{B}{m\\left(x\\right)}",
+    "folderId": "16",
+    "lineWidth": "2",
+    "lineOpacity": "0.25"
+   },
+   {
+    "type": "folder",
+    "id": "18",
+    "title": "Homogeneous and particular parts",
     "collapsed": true,
-    "id": "22"
+    "hidden": true
    },
    {
     "type": "expression",
-    "latex": "y=Ae^{x^{2}}-\\frac{1}{2}\\left\\{s=1\\right\\}",
-    "folderId": "22",
-    "color": "#888888",
-    "lineOpacity": "0.35",
-    "lineWidth": "2",
-    "id": "23"
-   },
-   {
-    "type": "expression",
-    "latex": "y=f_p(x)+\\frac{B}{m(x)}\\left\\{s=2\\right\\}",
-    "folderId": "22",
-    "color": "#888888",
-    "lineOpacity": "0.35",
-    "lineWidth": "2",
-    "id": "24"
-   },
-   {
-    "type": "expression",
-    "latex": "y=Ce^{x^{2}}-\\frac{1}{2}\\left\\{s=1\\right\\}",
-    "folderId": "22",
-    "color": "#2d70b3",
-    "lineWidth": "4",
-    "id": "25"
-   },
-   {
-    "type": "expression",
-    "latex": "y=f_h(x)+f_p(x)\\left\\{s=2\\right\\}",
-    "folderId": "22",
-    "color": "#2d70b3",
-    "lineWidth": "4",
-    "id": "26"
-   },
-   {
-    "type": "expression",
-    "latex": "y=Ce^{x^{2}}\\left\\{s=1\\right\\}\\left\\{H=1\\right\\}",
-    "folderId": "22",
+    "id": "19",
     "color": "#388c46",
+    "latex": "y=f_{h}\\left(x\\right)",
+    "folderId": "18",
     "lineStyle": "DASHED",
-    "lineWidth": "2.5",
-    "id": "27"
+    "lineWidth": "4"
    },
    {
     "type": "expression",
-    "latex": "y=-\\frac{1}{2}\\left\\{s=1\\right\\}\\left\\{H=1\\right\\}",
-    "folderId": "22",
+    "id": "20",
     "color": "#fa7e19",
+    "latex": "y=f_{p}\\left(x\\right)",
+    "folderId": "18",
     "lineStyle": "DASHED",
-    "lineWidth": "2.5",
-    "id": "28"
-   },
-   {
-    "type": "expression",
-    "latex": "y=f_h(x)\\left\\{s=2\\right\\}\\left\\{H=1\\right\\}",
-    "folderId": "22",
-    "color": "#388c46",
-    "lineStyle": "DASHED",
-    "lineWidth": "2.5",
-    "id": "29"
-   },
-   {
-    "type": "expression",
-    "latex": "y=f_p(x)\\left\\{s=2\\right\\}\\left\\{H=1\\right\\}",
-    "folderId": "22",
-    "color": "#fa7e19",
-    "lineStyle": "DASHED",
-    "lineWidth": "2.5",
-    "id": "30"
+    "lineWidth": "4"
    },
    {
     "type": "folder",
+    "id": "21",
+    "title": "Solution",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "22",
+    "color": "#2d70b3",
+    "latex": "y=f_{h}\\left(x\\right)+f_{p}\\left(x\\right)",
+    "folderId": "21",
+    "lineWidth": "5"
+   },
+   {
+    "type": "folder",
+    "id": "23",
     "title": "Points",
     "collapsed": true,
-    "id": "31"
+    "inFrontOfEverything": true
    },
    {
     "type": "expression",
-    "latex": "\\left(x_0,k_1\\right)",
-    "folderId": "31",
+    "id": "24",
     "color": "#c74440",
-    "pointSize": "13",
+    "latex": "\\left(x_{0},k\\right)",
+    "folderId": "23",
+    "label": "`(x_0, k)`",
+    "labelOrientation": "above",
+    "pointStyle": "OPEN",
+    "pointSize": "15",
+    "movablePointSize": "15",
     "dragMode": "XY",
     "showLabel": true,
-    "label": "(x₀, k₁)",
-    "labelOrientation": "above",
-    "id": "32"
-   },
-   {
-    "type": "folder",
-    "title": "Labels",
-    "collapsed": true,
-    "id": "33"
-   },
-   {
-    "type": "expression",
-    "latex": "c=\\operatorname{round}\\left(C,2\\right)",
-    "folderId": "33",
-    "id": "34"
-   },
-   {
-    "type": "expression",
-    "latex": "a_1=\\operatorname{round}\\left(k_1,2\\right)",
-    "folderId": "33",
-    "id": "35"
-   },
-   {
-    "type": "expression",
-    "latex": "p_0=\\operatorname{round}\\left(x_0,2\\right)",
-    "folderId": "33",
-    "id": "36"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-4.8,\\left\\{s=1:3.6\\right\\}\\right)",
-    "folderId": "33",
-    "color": "#000000",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "y' - 2xy = x,   y(${p_0}) = ${a_1}",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "37"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-4.8,\\left\\{s=1:3.05\\right\\}\\right)",
-    "folderId": "33",
-    "color": "#000000",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "y(x) = ${c} exp(x²) - 1/2",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "38"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-4.8,\\left\\{s=2:3.6\\right\\}\\right)",
-    "folderId": "33",
-    "color": "#000000",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "y' + p(x)y = q(x),   y(${p_0}) = ${a_1}",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "39"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-4.8,\\left\\{s=2:3.05\\right\\}\\right)",
-    "folderId": "33",
-    "color": "#000000",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "y(x) = (1/m(x)) { ∫ m(t)q(t)dt + C },   m(x) = exp{∫p(x)dx},   C = ${a_1}",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "40"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-4.8,\\left\\{H=1:\\left\\{s=1:2.5\\right\\}\\right\\}\\right)",
-    "folderId": "33",
-    "color": "#388c46",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "homogeneous part:   ${c} exp(x²)",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "41"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-4.8,\\left\\{H=1:\\left\\{s=1:1.95\\right\\}\\right\\}\\right)",
-    "folderId": "33",
-    "color": "#fa7e19",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "particular part:   -1/2",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "42"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-4.8,\\left\\{H=1:\\left\\{s=2:2.5\\right\\}\\right\\}\\right)",
-    "folderId": "33",
-    "color": "#388c46",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "homogeneous part:   C/m(x)",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "43"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-4.8,\\left\\{H=1:\\left\\{s=2:1.95\\right\\}\\right\\}\\right)",
-    "folderId": "33",
-    "color": "#fa7e19",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "particular part:   (1/m(x)) ∫ m(t)q(t)dt",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "44"
+    "labelSize": "1.5"
    }
   ]
  }

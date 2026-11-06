@@ -7,394 +7,312 @@
    "ymin": -4.6,
    "xmax": 7.5,
    "ymax": 4.6
-  }
+  },
+  "showGrid": false,
+  "showXAxis": false,
+  "showYAxis": false
  },
  "expressions": {
   "list": [
    {
     "type": "text",
-    "text": "Lecture 28: initial and boundary value problems. Set s = 1 for the IVP y' = y, s = 2 for the IVP y'' = -y, s = 3 for the BVP y'' = -y. Drag the red and purple points.",
-    "id": "1"
+    "id": "1",
+    "text": "Initial and boundary value problems. s = 1: y' = y, y(x_0) = k_1. s = 2: y'' = -y, y(x_0) = k_1, y'(x_0) = k_2 (the orange point sets the slope). s = 3: y'' = -y, y(x_0) = k_1, y(x_1) = k_2. Drag the red and orange points."
    },
    {
     "type": "folder",
+    "id": "2",
     "title": "Controls",
-    "collapsed": false,
-    "id": "2"
+    "collapsed": false
    },
    {
     "type": "expression",
+    "id": "3",
+    "color": "#000000",
     "latex": "s=1",
     "folderId": "2",
-    "sliderBounds": {
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
      "min": "1",
      "max": "3",
      "step": "1"
-    },
-    "id": "3"
-   },
-   {
-    "type": "text",
-    "text": "s = 1: y' = y, y(x_0) = k_1.  s = 2: y'' = -y, y(x_0) = k_1, y'(x_0) = k_2 (purple point sets the slope).  s = 3: y'' = -y, y(x_0) = k_1, y(x_1) = k_2.",
-    "folderId": "2",
-    "id": "4"
+    }
    },
    {
     "type": "folder",
+    "id": "5",
     "title": "Parameters",
-    "collapsed": true,
-    "id": "5"
+    "collapsed": true
    },
    {
     "type": "expression",
-    "latex": "x_0=0",
+    "id": "6",
+    "color": "#000000",
+    "latex": "x_{0}=0",
     "folderId": "5",
-    "sliderBounds": {
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
      "min": "-2\\pi",
      "max": "2\\pi",
      "step": "\\frac{\\pi}{12}"
-    },
-    "id": "6"
+    }
    },
    {
     "type": "expression",
-    "latex": "k_1=2",
+    "id": "7",
+    "color": "#000000",
+    "latex": "k_{1}=2",
     "folderId": "5",
-    "sliderBounds": {
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
      "min": "-4",
      "max": "4",
      "step": "0.25"
-    },
-    "id": "7"
+    }
    },
    {
     "type": "expression",
-    "latex": "x_1=\\frac{\\pi}{2}",
+    "id": "8",
+    "color": "#000000",
+    "latex": "x_{1}=1.5707963267948966",
     "folderId": "5",
-    "sliderBounds": {
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
      "min": "-2\\pi",
      "max": "2\\pi",
      "step": "\\frac{\\pi}{12}"
-    },
-    "id": "8"
+    }
    },
    {
     "type": "expression",
-    "latex": "y_1=1",
+    "id": "9",
+    "color": "#000000",
+    "latex": "y_{1}=1",
     "folderId": "5",
-    "sliderBounds": {
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
      "min": "-4",
      "max": "4",
      "step": "0.25"
-    },
-    "id": "9"
+    }
    },
    {
     "type": "expression",
+    "id": "10",
+    "color": "#000000",
     "latex": "A=\\left[-3,-2.5,...,3\\right]",
-    "folderId": "5",
-    "id": "10"
+    "folderId": "5"
    },
    {
     "type": "folder",
+    "id": "11",
     "title": "Constants",
-    "collapsed": true,
-    "id": "11"
+    "collapsed": true
    },
    {
     "type": "expression",
-    "latex": "D=x_1-x_0",
-    "folderId": "11",
-    "id": "12"
+    "id": "12",
+    "color": "#000000",
+    "latex": "D=x_{1}-x_{0}",
+    "folderId": "11"
    },
    {
     "type": "expression",
-    "latex": "k_2=\\left\\{s=2:\\frac{y_1-k_1}{x_1-x_0},y_1\\right\\}",
-    "folderId": "11",
-    "id": "13"
+    "id": "13",
+    "color": "#000000",
+    "latex": "k_{2}=\\left\\{s=2:\\frac{y_{1}-k_{1}}{x_{1}-x_{0}},y_{1}\\right\\}",
+    "folderId": "11"
    },
    {
     "type": "expression",
-    "latex": "C=k_1e^{-x_0}",
-    "folderId": "11",
-    "id": "14"
+    "id": "14",
+    "color": "#000000",
+    "latex": "C=k_{1}e^{-x_{0}}",
+    "folderId": "11"
    },
    {
     "type": "expression",
-    "latex": "Q=\\left\\{\\left|\\sin\\left(D\\right)\\right|<10^{-9}:\\left\\{\\left|k_2-k_1\\cos\\left(D\\right)\\right|<10^{-9}:2,0\\right\\},1\\right\\}",
-    "folderId": "11",
-    "id": "15"
+    "id": "15",
+    "color": "#000000",
+    "latex": "Q=\\left\\{\\left|\\sin\\left(D\\right)\\right|<10^{-9}:\\left\\{\\left|k_{2}-k_{1}\\cos\\left(D\\right)\\right|<10^{-9}:2,0\\right\\},1\\right\\}",
+    "folderId": "11"
    },
    {
     "type": "expression",
-    "latex": "C_1=\\left\\{s=2:k_1\\cos\\left(x_0\\right)-k_2\\sin\\left(x_0\\right),Q=1:\\frac{k_1\\sin\\left(x_1\\right)-k_2\\sin\\left(x_0\\right)}{\\sin\\left(D\\right)}\\right\\}",
-    "folderId": "11",
-    "id": "16"
+    "id": "16",
+    "color": "#000000",
+    "latex": "C_{1}=\\left\\{s=2:k_{1}\\cos\\left(x_{0}\\right)-k_{2}\\sin\\left(x_{0}\\right),Q=1:\\frac{k_{1}\\sin\\left(x_{1}\\right)-k_{2}\\sin\\left(x_{0}\\right)}{\\sin\\left(D\\right)}\\right\\}",
+    "folderId": "11"
    },
    {
     "type": "expression",
-    "latex": "C_2=\\left\\{s=2:k_1\\sin\\left(x_0\\right)+k_2\\cos\\left(x_0\\right),Q=1:\\frac{k_2\\cos\\left(x_0\\right)-k_1\\cos\\left(x_1\\right)}{\\sin\\left(D\\right)}\\right\\}",
-    "folderId": "11",
-    "id": "17"
+    "id": "17",
+    "color": "#000000",
+    "latex": "C_{2}=\\left\\{s=2:k_{1}\\sin\\left(x_{0}\\right)+k_{2}\\cos\\left(x_{0}\\right),Q=1:\\frac{k_{2}\\cos\\left(x_{0}\\right)-k_{1}\\cos\\left(x_{1}\\right)}{\\sin\\left(D\\right)}\\right\\}",
+    "folderId": "11"
    },
    {
     "type": "text",
+    "id": "18",
     "text": "Q = 1: one solution, Q = 0: no solution, Q = 2: infinitely many (only used when s = 3).",
-    "folderId": "11",
-    "id": "18"
+    "folderId": "11"
    },
    {
     "type": "folder",
-    "title": "Functions",
-    "collapsed": true,
-    "id": "19"
+    "id": "39",
+    "title": "Axes",
+    "collapsed": true
    },
    {
     "type": "expression",
+    "id": "40",
+    "color": "#000000",
+    "latex": "y=0",
+    "folderId": "39",
+    "lineWidth": "2",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "expression",
+    "id": "41",
+    "color": "#000000",
+    "latex": "x=0",
+    "folderId": "39",
+    "lineWidth": "2",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "folder",
+    "id": "19",
+    "title": "Family of solutions",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "20",
+    "color": "#000000",
     "latex": "y=Ae^{x}\\left\\{s=1\\right\\}",
     "folderId": "19",
-    "color": "#888888",
-    "lineOpacity": "0.35",
     "lineWidth": "2",
-    "id": "20"
+    "lineOpacity": "0.25"
    },
    {
     "type": "expression",
-    "latex": "y=Ce^{x}\\left\\{s=1\\right\\}",
+    "id": "21",
+    "color": "#000000",
+    "latex": "y=k_{1}\\cos\\left(x-x_{0}\\right)+A\\sin\\left(x-x_{0}\\right)\\left\\{s>1\\right\\}",
     "folderId": "19",
-    "color": "#2d70b3",
-    "lineWidth": "4",
-    "id": "21"
-   },
-   {
-    "type": "expression",
-    "latex": "y=C_1\\cos\\left(x\\right)+C_2\\sin\\left(x\\right)\\left\\{s>1\\right\\}",
-    "folderId": "19",
-    "color": "#2d70b3",
-    "lineWidth": "4",
-    "id": "22"
-   },
-   {
-    "type": "expression",
-    "latex": "y=k_1+k_2\\left(x-x_0\\right)\\left\\{s=2\\right\\}\\left\\{\\left|x-x_0\\right|<\\left|x_1-x_0\\right|+1\\right\\}",
-    "folderId": "19",
-    "color": "#fa7e19",
-    "lineStyle": "DASHED",
-    "lineWidth": "2.5",
-    "id": "23"
-   },
-   {
-    "type": "expression",
-    "latex": "y=k_1\\cos\\left(x-x_0\\right)+A\\sin\\left(x-x_0\\right)\\left\\{s=3\\right\\}\\left\\{Q=2\\right\\}",
-    "folderId": "19",
-    "color": "#2d70b3",
-    "lineOpacity": "0.5",
     "lineWidth": "2",
-    "id": "24"
-   },
-   {
-    "type": "expression",
-    "latex": "x=x_1\\left\\{s=3\\right\\}",
-    "folderId": "19",
-    "color": "#888888",
-    "lineStyle": "DOTTED",
-    "lineWidth": "1.5",
-    "id": "25"
-   },
-   {
-    "type": "expression",
-    "latex": "x=x_0\\left\\{s=3\\right\\}",
-    "folderId": "19",
-    "color": "#888888",
-    "lineStyle": "DOTTED",
-    "lineWidth": "1.5",
-    "id": "26"
+    "lineOpacity": "0.25"
    },
    {
     "type": "folder",
+    "id": "22",
+    "title": "Solution",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "23",
+    "color": "#2d70b3",
+    "latex": "y=Ce^{x}\\left\\{s=1\\right\\}",
+    "folderId": "22",
+    "lineWidth": "5"
+   },
+   {
+    "type": "expression",
+    "id": "24",
+    "color": "#2d70b3",
+    "latex": "y=C_{1}\\cos\\left(x\\right)+C_{2}\\sin\\left(x\\right)\\left\\{s>1\\right\\}",
+    "folderId": "22",
+    "lineWidth": "5"
+   },
+   {
+    "type": "expression",
+    "id": "25",
+    "color": "#2d70b3",
+    "latex": "y=k_{1}\\cos\\left(x-x_{0}\\right)+A\\sin\\left(x-x_{0}\\right)\\left\\{s=3\\right\\}\\left\\{Q=2\\right\\}",
+    "folderId": "22",
+    "lineWidth": "4",
+    "lineOpacity": "0.6"
+   },
+   {
+    "type": "folder",
+    "id": "26",
+    "title": "Guides",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "27",
+    "color": "#fa7e19",
+    "latex": "y=k_{1}+k_{2}\\left(x-x_{0}\\right)\\left\\{s=2\\right\\}\\left\\{\\left|x-x_{0}\\right|<\\left|x_{1}-x_{0}\\right|+1\\right\\}",
+    "folderId": "26",
+    "lineStyle": "DASHED",
+    "lineWidth": "4"
+   },
+   {
+    "type": "expression",
+    "id": "28",
+    "color": "#000000",
+    "latex": "x=x_{0}\\left\\{s=3\\right\\}",
+    "folderId": "26",
+    "lineStyle": "DOTTED",
+    "lineWidth": "2",
+    "lineOpacity": "0.7"
+   },
+   {
+    "type": "expression",
+    "id": "29",
+    "color": "#000000",
+    "latex": "x=x_{1}\\left\\{s=3\\right\\}",
+    "folderId": "26",
+    "lineStyle": "DOTTED",
+    "lineWidth": "2",
+    "lineOpacity": "0.7"
+   },
+   {
+    "type": "folder",
+    "id": "30",
     "title": "Points",
     "collapsed": true,
-    "id": "27"
+    "inFrontOfEverything": true
    },
    {
     "type": "expression",
-    "latex": "\\left(x_0,k_1\\right)",
-    "folderId": "27",
+    "id": "31",
     "color": "#c74440",
-    "pointSize": "13",
-    "dragMode": "XY",
-    "showLabel": true,
-    "label": "(x₀, k₁)",
+    "latex": "\\left(x_{0},k_{1}\\right)",
+    "folderId": "30",
+    "label": "`(x_0, k)`",
     "labelOrientation": "above",
-    "id": "28"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(x_1,y_1\\right)",
-    "folderId": "27",
-    "color": "#6042a6",
-    "pointSize": "13",
+    "pointStyle": "OPEN",
+    "pointSize": "15",
+    "movablePointSize": "15",
     "dragMode": "XY",
-    "pointOpacity": "\\left\\{s=1:0,1\\right\\}",
-    "id": "29"
-   },
-   {
-    "type": "folder",
-    "title": "Labels",
-    "collapsed": true,
-    "id": "30"
-   },
-   {
-    "type": "expression",
-    "latex": "c=\\operatorname{round}\\left(C,2\\right)",
-    "folderId": "30",
-    "id": "31"
-   },
-   {
-    "type": "expression",
-    "latex": "c_1=\\operatorname{round}\\left(C_1,2\\right)",
-    "folderId": "30",
-    "id": "32"
-   },
-   {
-    "type": "expression",
-    "latex": "c_2=\\operatorname{round}\\left(C_2,2\\right)",
-    "folderId": "30",
-    "id": "33"
-   },
-   {
-    "type": "expression",
-    "latex": "a_1=\\operatorname{round}\\left(k_1,2\\right)",
-    "folderId": "30",
-    "id": "34"
-   },
-   {
-    "type": "expression",
-    "latex": "a_2=\\operatorname{round}\\left(k_2,2\\right)",
-    "folderId": "30",
-    "id": "35"
-   },
-   {
-    "type": "expression",
-    "latex": "p_0=\\operatorname{round}\\left(x_0,2\\right)",
-    "folderId": "30",
-    "id": "36"
-   },
-   {
-    "type": "expression",
-    "latex": "p_1=\\operatorname{round}\\left(x_1,2\\right)",
-    "folderId": "30",
-    "id": "37"
-   },
-   {
-    "type": "expression",
-    "latex": "m=\\operatorname{round}\\left(\\frac{D}{\\pi},3\\right)",
-    "folderId": "30",
-    "id": "38"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-7.2,\\left\\{s=1:4\\right\\}\\right)",
-    "folderId": "30",
-    "color": "#000000",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
     "showLabel": true,
-    "label": "y' = y,   y(${p_0}) = ${a_1}",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "39"
+    "labelSize": "1.5"
    },
    {
     "type": "expression",
-    "latex": "\\left(-7.2,\\left\\{s=1:3.4\\right\\}\\right)",
+    "id": "32",
+    "color": "#fa7e19",
+    "latex": "\\left(x_{1},y_{1}\\right)",
     "folderId": "30",
-    "color": "#000000",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "y(x) = ${c} eˣ",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "40"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-7.2,\\left\\{s=2:4\\right\\}\\right)",
-    "folderId": "30",
-    "color": "#000000",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "y'' = -y,   y(${p_0}) = ${a_1},   y'(${p_0}) = ${a_2}",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "41"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-7.2,\\left\\{s=2:3.4\\right\\}\\right)",
-    "folderId": "30",
-    "color": "#000000",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "y(x) = ${c_1} cos x + ${c_2} sin x",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "42"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-7.2,\\left\\{s=3:4\\right\\}\\right)",
-    "folderId": "30",
-    "color": "#000000",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "y'' = -y,   y(${p_0}) = ${a_1},   y(${p_1}) = ${a_2},   x₁ - x₀ = ${m}π",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "43"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-7.2,\\left\\{s=3:\\left\\{Q=1:3.4\\right\\}\\right\\}\\right)",
-    "folderId": "30",
-    "color": "#000000",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "One solution:   y(x) = ${c_1} cos x + ${c_2} sin x",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "44"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-7.2,\\left\\{s=3:\\left\\{Q=0:3.4\\right\\}\\right\\}\\right)",
-    "folderId": "30",
-    "color": "#000000",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "No solution",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "45"
-   },
-   {
-    "type": "expression",
-    "latex": "\\left(-7.2,\\left\\{s=3:\\left\\{Q=2:3.4\\right\\}\\right\\}\\right)",
-    "folderId": "30",
-    "color": "#000000",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "Infinitely many solutions:   y(x) = ${a_1} cos(x - ${p_0}) + c sin(x - ${p_0})",
-    "labelOrientation": "right",
-    "labelSize": "1.3",
-    "id": "46"
+    "label": "`(x_1, k_2)`",
+    "labelOrientation": "above",
+    "hidden": true,
+    "pointStyle": "OPEN",
+    "pointSize": "15",
+    "movablePointSize": "15",
+    "dragMode": "XY",
+    "showLabel": false,
+    "labelSize": "1.5"
    }
   ]
  }

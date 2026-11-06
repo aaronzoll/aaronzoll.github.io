@@ -210,7 +210,12 @@ side_controls: true
         var s = current();
         syncSlider('x1', s.x[0]);
         syncSlider('x2', s.x[1]);
+        settleCalc();
+      });
+    }
 
+    var settleCalc = calcOnRest('ob-calc-dot', function () {
+        var s = current();
         var D = s.v1[0] * s.v2[1] - s.v2[0] * s.v1[1];
         var singular = Math.abs(D) < EPS;
         var d12 = dot(s.v1, s.v2);
@@ -246,8 +251,7 @@ side_controls: true
           '\\[\\text{coordinates: }\\big[\\mathbf{x}\\big]_\\beta = M_\\beta^{-1}\\mathbf{x} = ' + bmatrix([c], 2) + '\\]';
 
         typesetMath([el.dot, el.p1, el.p2, el.sum, el.coeffs, el.coords]);
-      });
-    }
+    });
 
     Object.keys(vals).forEach(function (name) {
       var h = calc.HelperExpression({ latex: name.charAt(0) + '_{' + name.slice(1) + '}' });
@@ -338,8 +342,8 @@ side_controls: true
 
 <!--below-graph-->
 
-<div class="ob-calc">
-  <span class="ob-label">Computation</span>
+<details class="desmos-calc-drop ob-calc">
+  <summary>Computation</summary>
   <div class="ob-calc-math" id="ob-calc-dot"></div>
   <div class="ob-calc-row">
     <div class="ob-calc-math" id="ob-calc-p1"></div>
@@ -351,7 +355,7 @@ side_controls: true
     <div class="ob-calc-math" id="ob-calc-coeffs"></div>
     <div class="ob-calc-math" id="ob-calc-coords"></div>
   </div>
-</div>
+</details>
 
 <!--writeup-->
 

@@ -38,10 +38,11 @@ In Figure 1, you can drag the red and blue vectors, which choice the columns of 
     </div>
   </div>
   <p class="ev-caption">Figure 1. A matrix as a transformation.</p>
-  <div class="ev-calc">
+  <details class="desmos-calc-drop ev-calc">
+    <summary>Computation</summary>
     <div class="ev-calc-math" id="ev1-calc-ax"></div>
     <div class="ev-calc-math" id="ev1-calc-null"></div>
-  </div>
+  </details>
 </div>
 
 <div class="latex-body">
@@ -89,11 +90,12 @@ A \textbf{nonzero} vector $\mathbf{v}$ is an \textbf{eigenvector} of $A$ if $A\m
     </div>
   </div>
   <p class="ev-caption">Figure 2. Eigenvectors and their image</p>
-  <div class="ev-calc">
+  <details class="desmos-calc-drop ev-calc">
+    <summary>Computation</summary>
     <div class="ev-calc-math" id="ev2-calc-v"></div>
     <div class="ev-calc-math" id="ev2-calc-status"></div>
     <div class="ev-calc-math" id="ev2-calc-lines"></div>
-  </div>
+  </details>
 </div>
 
 <div class="latex-body">
@@ -133,10 +135,11 @@ Below, we will imagine $\lambda$ as a knob of sorts. The left graph is the grid 
     </div>
   </div>
   <p class="ev-caption">Figure 3. Finding eigenvalues with a "$\lambda$ knob" </p>
-  <div class="ev-calc">
+  <details class="desmos-calc-drop ev-calc">
+    <summary>Computation</summary>
     <div class="ev-calc-math" id="ev3-calc-p"></div>
     <div class="ev-calc-math" id="ev3-calc-at"></div>
-  </div>
+  </details>
 </div>
 
 <div class="latex-body">
@@ -223,10 +226,11 @@ In Figure 5, the green and purple lines are the grid built from the eigenbasis (
     </div>
   </div>
   <p class="ev-caption">Figure 5. In an eigenbasis, a transformation only stretches along the basis directions.</p>
-  <div class="ev-calc">
+  <details class="desmos-calc-drop ev-calc">
+    <summary>Computation</summary>
     <div class="ev-calc-math" id="ev5-calc-d"></div>
     <div class="ev-calc-math" id="ev5-calc-n"></div>
-  </div>
+  </details>
 </div>
 
 <div class="latex-body">

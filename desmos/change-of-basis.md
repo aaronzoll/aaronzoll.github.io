@@ -215,6 +215,15 @@ side_controls: true
         document.getElementById('cb-c1').disabled = singular;
         document.getElementById('cb-c2').disabled = singular;
 
+        settleCalc();
+      });
+    }
+
+    var settleCalc = calcOnRest('cb-calc-basis', function () {
+        var D = det();
+        var singular = Math.abs(D) < EPS;
+        var c = singular ? [NaN, NaN] : coords();
+
         // Top row: the basis matrix and its inverse (the change of coordinates
         // matrix, as 1/det times the adjugate) side by side, wrapping on narrow
         // screens. Beneath: [y]_β.
@@ -238,8 +247,7 @@ side_controls: true
           note.textContent = 'v₁ and v₂ are parallel, so β is not a basis: its basis matrix has no inverse ' +
                              'and most vectors y cannot be written as c₁v₁ + c₂v₂.';
         }
-      });
-    }
+    });
 
     Object.keys(vals).forEach(function (name) {
       var h = calc.HelperExpression({ latex: name.charAt(0) + '_{' + name.slice(1) + '}' });
@@ -302,15 +310,15 @@ side_controls: true
 
 <!--below-graph-->
 
-<div class="cb-calc">
-  <span class="cb-label">Change of coordinates</span>
+<details class="desmos-calc-drop cb-calc">
+  <summary>Change of coordinates</summary>
   <div class="cb-calc-row">
     <div class="cb-calc-math" id="cb-calc-basis"></div>
     <div class="cb-calc-math" id="cb-calc-inv"></div>
   </div>
   <div class="cb-calc-math" id="cb-calc-coords"></div>
   <p class="cb-note" id="cb-note" hidden></p>
-</div>
+</details>
 
 <!--writeup-->
 
@@ -399,7 +407,7 @@ The above object is called a \textit{commutative diagram} and is read as follows
 
 For a $2\times 2$ matrix the inverse is explicit: whenever $ad - bc \neq 0$,
 $$M_\beta = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \quad\Longrightarrow\quad M_\beta^{-1} = \frac{1}{ad-bc}\begin{bmatrix} \phantom{-}d & -b \\ -c & \phantom{-}a \end{bmatrix}.$$
-This is exactly the computation shown live under the graph.
+This is exactly the computation shown live under the graph, in the \emph{Change of coordinates} dropdown.
 
 \begin{example}
 Take

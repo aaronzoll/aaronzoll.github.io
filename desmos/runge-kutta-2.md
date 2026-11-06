@@ -51,35 +51,40 @@ side_controls: true
 
   <hr class="desmos-divider">
 
-  <span class="rk2-label">Visual Parameters</span>
+  <details class="rk2-drop">
+    <summary class="rk2-label">Visual Parameters</summary>
+    <div class="rk2-drop-body">
 
-  <div class="desmos-param">
-    <span class="desmos-param-label">Arrow length = <strong id="rk2-arrow-val">0.40</strong></span>
-    <input class="site-slider" id="rk2-arrow-slider" type="range"
-           min="0" max="1" step="0.01" value="0.4"
-           data-val-id="rk2-arrow-val" data-decimals="2">
-  </div>
+      <div class="desmos-param">
+        <span class="desmos-param-label">Arrow length = <strong id="rk2-arrow-val">0.40</strong></span>
+        <input class="site-slider" id="rk2-arrow-slider" type="range"
+               min="0" max="1" step="0.01" value="0.4"
+               data-val-id="rk2-arrow-val" data-decimals="2">
+      </div>
 
-  <div class="desmos-param">
-    <span class="desmos-param-label">Field opacity = <strong id="rk2-opacity-val">0.33</strong></span>
-    <input class="site-slider" id="rk2-opacity-slider" type="range"
-           min="0" max="1" step="0.01" value="0.334"
-           data-val-id="rk2-opacity-val" data-decimals="2">
-  </div>
+      <div class="desmos-param">
+        <span class="desmos-param-label">Field opacity = <strong id="rk2-opacity-val">0.33</strong></span>
+        <input class="site-slider" id="rk2-opacity-slider" type="range"
+               min="0" max="1" step="0.01" value="0.334"
+               data-val-id="rk2-opacity-val" data-decimals="2">
+      </div>
 
-  <div class="desmos-param">
-    <span class="desmos-param-label">Grid points \(N_x\) = <strong id="rk2-nx-val">25</strong></span>
-    <input class="site-slider" id="rk2-nx-slider" type="range"
-           min="1" max="100" step="1" value="25"
-           data-val-id="rk2-nx-val" data-decimals="0">
-  </div>
+      <div class="desmos-param">
+        <span class="desmos-param-label">Grid points \(N_x\) = <strong id="rk2-nx-val">25</strong></span>
+        <input class="site-slider" id="rk2-nx-slider" type="range"
+               min="1" max="100" step="1" value="25"
+               data-val-id="rk2-nx-val" data-decimals="0">
+      </div>
 
-  <div class="desmos-param">
-    <span class="desmos-param-label">Grid spacing \(d_x\) = <strong id="rk2-dx-val">0.50</strong></span>
-    <input class="site-slider" id="rk2-dx-slider" type="range"
-           min="0" max="2" step="0.01" value="0.5"
-           data-val-id="rk2-dx-val" data-decimals="2">
-  </div>
+      <div class="desmos-param">
+        <span class="desmos-param-label">Grid spacing \(d_x\) = <strong id="rk2-dx-val">0.50</strong></span>
+        <input class="site-slider" id="rk2-dx-slider" type="range"
+               min="0" max="2" step="0.01" value="0.5"
+               data-val-id="rk2-dx-val" data-decimals="2">
+      </div>
+
+    </div>
+  </details>
 
 </div>
 
@@ -181,6 +186,35 @@ side_controls: true
     font-size: 0.72rem;
     color: #888;
     font-style: italic;
+  }
+
+  /* Visual parameters stay out of the way until asked for. */
+  .rk2-drop > summary {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .rk2-drop > summary::-webkit-details-marker { display: none; }
+
+  .rk2-drop > summary::before {
+    content: "";
+    flex-shrink: 0;
+    border-left: 6px solid var(--color-label);
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    transition: transform 0.2s ease;
+  }
+
+  .rk2-drop[open] > summary::before { transform: rotate(90deg); }
+
+  .rk2-drop-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
   }
 
   .rk2-reset-btn {

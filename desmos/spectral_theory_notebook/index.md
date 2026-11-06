@@ -148,10 +148,11 @@ We have laid most of our focus on $\R^2$ here, and as a result, $(2 \times 2)$ m
     </div>
   </div>
   <p class="ev-caption">Figure 1. The same stretch \(D\), reached two ways: by a rotation (left) or by a change of basis that distorts the plane (right).</p>
-  <div class="ev-calc">
+  <details class="desmos-calc-drop ev-calc">
+    <summary>Computation</summary>
     <div class="ev-calc-math" id="sp1-calc-sym"></div>
     <div class="ev-calc-math" id="sp1-calc-gen"></div>
-  </div>
+  </details>
 </div>
 
 <div class="latex-body">
@@ -215,10 +216,11 @@ The figure below builds a symmetric $2 \times 2$ matrix from its spectrum: choos
     </div>
   </div>
   <p class="ev-caption">Figure 2. Project \(\mathbf{x}\) onto each eigenline, scale each piece by its eigenvalue, and add: the result is \(A\mathbf{x}\).</p>
-  <div class="ev-calc">
+  <details class="desmos-calc-drop ev-calc">
+    <summary>Computation</summary>
     <div class="ev-calc-math" id="sp2-calc-a"></div>
     <div class="ev-calc-math" id="sp2-calc-x"></div>
-  </div>
+  </details>
 </div>
 
 <div class="latex-body">

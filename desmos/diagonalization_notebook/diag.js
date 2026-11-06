@@ -64,8 +64,10 @@
     return el;
   }
   function typesetAll(pairs) {
-    var nodes = pairs.map(function (p) { return setMath(p[0], p[1]); }).filter(Boolean);
-    if (nodes.length) { typesetMath(nodes); }
+    calcOnRestPairs(pairs, function (ready) {
+      var nodes = ready.map(function (p) { return setMath(p[0], p[1]); }).filter(Boolean);
+      if (nodes.length) { typesetMath(nodes); }
+    });
   }
 
   // ── Desmos helpers ─────────────────────────────────────────────────────
