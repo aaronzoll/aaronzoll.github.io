@@ -220,7 +220,7 @@ custom_js: |
             <span class="venue-date">Mar. 2026</span>
           </div>
           <div class="venue-item">
-            <span class="venue-name"><a href = "" target = "_blank">International Symposium on Mathematical Programming (ISMP)</a>, Amsterdam</span>
+            <span class="venue-name"><a href = "https://ismp2027.mathopt.nl/" target = "_blank">International Symposium on Mathematical Programming (ISMP)</a>, Amsterdam</span>
             <span class="venue-date">July. 2027</span>
           </div>
         </div>
