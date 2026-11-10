@@ -2,6 +2,7 @@
 layout: desmos-graph
 title: "Initial and Boundary Value Problems"
 desmos_json: "ivp_bvp.json"
+desmos_url: "https://www.desmos.com/calculator/ktnpilxf5c"
 side_controls: true
 ---
 
@@ -16,12 +17,12 @@ side_controls: true
   <hr class="desmos-divider">
 
   <span class="ib-label">Display</span>
-  <button class="site-btn site-btn--active ib-wide" id="ib-family" aria-pressed="true">Family of solutions</button>
+  <button class="site-btn site-btn--active ib-wide" id="ib-family" aria-pressed="true">Show family of solutions</button>
   <p class="ib-hint" id="ib-family-hint"></p>
 
   <div id="ib-cases" hidden>
     <hr class="desmos-divider">
-    <span class="ib-label">Try a case</span>
+    <span class="ib-label">Cases</span>
     <div class="ib-cases">
       <button class="site-btn ib-wide ib-case" data-x1="pi/2" data-k1="2" data-k2="1">One solution</button>
       <button class="site-btn ib-wide ib-case" data-x1="2pi" data-k1="2" data-k2="3">No solution</button>
@@ -126,13 +127,13 @@ side_controls: true
 
     var HINT = {
       1: 'Drag the red point to set the initial condition \\(y(x_0) = k\\).',
-      2: 'The red point sets \\(y(x_0) = k_1\\). The dashed line through the orange point sets the slope \\(y\'(x_0) = k_2\\).',
-      3: 'The red point sets \\(y(x_0) = k_1\\) and the orange point sets \\(y(x_1) = k_2\\).'
+      2: 'Drag the red and orange points to set initial condition \\(y(x_0) = k_1\\) and initial slope slope \\(y\'(x_0) = k_2\\).',
+      3: 'Drag the red and orange points to set boundary condition  \\(y(x_0) = k_1\\) \\(y(x_1) = k_2\\).'
     };
     var FAMILY_HINT = {
-      1: 'Solutions \\(y = Ce^x\\) of the DE, one for each \\(C\\).',
-      2: 'Solutions of the DE that satisfy \\(y(x_0) = k_1\\). The slope picks one.',
-      3: 'Solutions of the DE that satisfy \\(y(x_0) = k_1\\). Can one reach the orange point?'
+      1: '',
+      2: '',
+      3: ''
     };
 
     // ── Formatting ───────────────────────────────────────────────────────
@@ -321,23 +322,23 @@ side_controls: true
 <!--writeup-->
 
 <div class="latex-body">
-A differential equation usually has infinitely many solutions. The equation $y' = y$ is solved by $y(x) = Ce^x$ for every constant $C$, and the equation $y'' = -y$ is solved by $y(x) = C_1\cos x + C_2\sin x$ for every pair of constants $C_1, C_2$. These sets of all solutions are the \textbf{general solutions}, and typically the general solution to an $n^{\text{th}}$ order DE depends on $n$ arbitrary constants. To single out one \textbf{particular solution}, we need $n$ extra conditions. This page is about where those conditions are placed, and why it matters.
+An $n^{\text{th}}$ differential equation usually has infinitely many solutions, parameterized by $n$ different values (consequentially, the set of solutions can be viewed as a subset of $\R^n$). For examples, the equation $y' = y$ is solved by $y(x) = Ce^x$ for every constant $C$, and the equation $y'' = -y$ is solved by $y(x) = C_1\cos x + C_2\sin x$ for every pair of constants $C_1, C_2$. These sets of all solutions are the \textbf{general solutions}. To single out a \textbf{particular solution}, we (often) need $n$ extra conditions. 
 
-In the graph, the blue curve is the solution, and the faint curves are the other members of the family it was picked from. Drag the red point (and the orange point, for the second order problems) to change the conditions.
+In the graph, the blue curve is \text{the} solution, satisfying both the underlying DE and the conditions in place. The faint curves are the other members of the family it was picked from. Notably, the red and orange points will give us those initial or boundary conditions which single out a particular solution. 
 
 \begin{definition}
-An \textbf{initial value problem (IVP)} is a differential equation together with conditions on the solution and its derivatives, all at a single initial point $x_0$. For a second order equation,
+An \textbf{initial value problem (IVP)} is a differential equation together with conditions on the solution and its derivatives, all at a single initial point $x_0$. For a second order equation, we may have
 $$\begin{cases} y'' = -y \\ y(x_0) = k_1 \\ y'(x_0) = k_2. \end{cases}$$
 \end{definition}
 
-So the initial conditions specify the \emph{value} of the solution at $x_0$ and its \emph{slope} at $x_0$. In the first order case, there is just one constant to determine, and so just one condition: $y' = y$, $y(0) = 2$ gives $C = 2$, so the solution is $y(x) = 2e^x$.
+So the initial conditions specify the \emph{value} of the solution at $x_0$ and its \emph{slope} at $x_0$. In the first order case, there is just one constant to determine, and so just one condition needed: e.g. $y' = y$, $y(0) = 2$ gives $C = 2$, and the solution is $y(x) = 2e^x$.
 
 \begin{definition}
-A \textbf{boundary value problem (BVP)} is a differential equation together with conditions at two different points, such as
+A \textbf{boundary value problem (BVP)} is a differential equation together with value conditions at two different points, such as
 $$\begin{cases} y'' = -y \\ y(x_0) = k_1 \\ y(x_1) = k_2. \end{cases}$$
 \end{definition}
 
-This looks like a small change, but the behavior is quite different. Flip between the two second order problems and watch the family: in both, the curves shown are the solutions passing through the red point. Choosing a slope always picks out exactly one of them. Choosing a second point may not. As it turns out, this comes down to linear algebra. Imposing the conditions on $y(x) = C_1\cos x + C_2\sin x$ gives a system of two linear equations in the unknowns $C_1, C_2$, and everything we know about $A\mathbf{x} = \mathbf{b}$ applies.
+Because we are constraining two different values at two different points of the \textit{same equation}, we note a drastic change in behavior. In the former problem, choosing an initial value and initial slope always gave a unique solution. However, in the latter boundary problem, we may not have this luxury. Not surprisingly, this comes down to linear algebra (and really the linear independence or dependence, as funcitons, of $y(x)$ and $y'(x)$, or in the BVP $y(x)$ and $y(x)$). Imposing the boundary conditions on $y(x) = C_1\cos x + C_2\sin x$ gives a system of two linear equations in the unknowns $C_1, C_2$, and everything we know about solving $A\mathbf{x} = \mathbf{b}$ applies.
 
 \begin{proposition}
 For $y'' = -y$, the initial value problem above has exactly one solution for all $x_0, k_1, k_2$. The boundary value problem has
@@ -356,7 +357,4 @@ $$\cos x_0 \sin x_1 - \sin x_0 \cos x_1 = \sin(x_1 - x_0),$$
 which is nonzero unless $x_1 - x_0 = n\pi$. In that case, $\cos x_1 = (-1)^n\cos x_0$ and $\sin x_1 = (-1)^n\sin x_0$, so the second row of the matrix is $(-1)^n$ times the first. The system is then consistent exactly when $k_2 = (-1)^n k_1$. If so, there is a free variable and so infinitely many solutions. If not, there are none.
 \end{proof}
 
-\begin{remark}
-The picture agrees. Every solution through the red point has the form $y(x) = k_1\cos(x - x_0) + c\sin(x - x_0)$, and the sine term vanishes at $x = x_0 + n\pi$. So the whole family pinches together at the single point $\big(x_0 + n\pi,\ (-1)^n k_1\big)$. Move the orange point onto that pinch and every curve is a solution. Move it straight up or down from there and no curve can reach it. The buttons under \emph{Try a case} set up the three situations with $x_0 = 0$.
-\end{remark}
 </div>

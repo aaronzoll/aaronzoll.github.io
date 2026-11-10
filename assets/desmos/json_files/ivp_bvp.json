@@ -205,7 +205,7 @@
     "type": "expression",
     "id": "21",
     "color": "#000000",
-    "latex": "y=k_{1}\\cos\\left(x-x_{0}\\right)+A\\sin\\left(x-x_{0}\\right)\\left\\{s>1\\right\\}",
+    "latex": "y=k_{1}\\cos\\left(x-x_{0}\\right)+A\\sin\\left(x-x_{0}\\right)\\left\\{s>1\\right\\}\\left\\{s=2:1,\\left(x-x_{0}\\right)\\left(x-x_{1}\\right)\\le0:1\\right\\}",
     "folderId": "19",
     "lineWidth": "2",
     "lineOpacity": "0.25"
@@ -228,7 +228,7 @@
     "type": "expression",
     "id": "24",
     "color": "#2d70b3",
-    "latex": "y=C_{1}\\cos\\left(x\\right)+C_{2}\\sin\\left(x\\right)\\left\\{s>1\\right\\}",
+    "latex": "y=C_{1}\\cos\\left(x\\right)+C_{2}\\sin\\left(x\\right)\\left\\{s>1\\right\\}\\left\\{s=2:1,\\left(x-x_{0}\\right)\\left(x-x_{1}\\right)\\le0:1\\right\\}",
     "folderId": "22",
     "lineWidth": "5"
    },
@@ -236,7 +236,7 @@
     "type": "expression",
     "id": "25",
     "color": "#2d70b3",
-    "latex": "y=k_{1}\\cos\\left(x-x_{0}\\right)+A\\sin\\left(x-x_{0}\\right)\\left\\{s=3\\right\\}\\left\\{Q=2\\right\\}",
+    "latex": "y=k_{1}\\cos\\left(x-x_{0}\\right)+A\\sin\\left(x-x_{0}\\right)\\left\\{s=3\\right\\}\\left\\{Q=2\\right\\}\\left\\{\\left(x-x_{0}\\right)\\left(x-x_{1}\\right)\\le0\\right\\}",
     "folderId": "22",
     "lineWidth": "4",
     "lineOpacity": "0.6"

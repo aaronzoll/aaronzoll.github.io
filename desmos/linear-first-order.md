@@ -2,6 +2,7 @@
 layout: desmos-graph
 title: "Linear First Order Differential Equations"
 desmos_json: "linear_first_order.json"
+desmos_url: "https://www.desmos.com/calculator/qsvgevkwo0"
 side_controls: true
 ---
 
@@ -23,7 +24,7 @@ side_controls: true
     <label class="lf-field"><span>\(q(x) =\)</span>
       <input class="lf-input" id="lf-q" type="text" placeholder="\cos(x)" autocomplete="off" spellcheck="false"></label>
     <button class="lf-apply" id="lf-apply">Apply</button>
-    <span class="lf-custom-note">\(P\) is an antiderivative of \(p\). Use LaTeX in the variable \(x\) (e.g. x^2, \sin(x), e^{-x}). Both must be defined at \(x = 0\), where the integral starts.</span>
+    <span class="lf-custom-note">Here, \(P\) is an antiderivative of \(p\). Use LaTeX in the variable \(x\) (e.g. x^2, \sin(x), e^{-x}). Both must be defined at \(x = 0\), for the numerics to work well.</span>
     <p class="lf-note" id="lf-error" hidden></p>
   </div>
 
@@ -400,7 +401,7 @@ side_controls: true
 <!--writeup-->
 
 <div class="latex-body">
-A first order differential equation is \textbf{linear} if the unknown function and its derivative only appear to the first power, with coefficients depending on $x$ alone. Unlike most differential equations, these can always be solved by a single formula (at least up to computing an integral).
+A first order differential equation is \textbf{linear} if the unknown function and its derivative only appear to the first power (recall, now functions are out unknowns), with coefficients depending on $x$ alone (as $x$ is not the variable to be solved for, $y(x)$ is). Unlike most differential equations, these can always be solved by a single formula (at least up to computing an integral).
 
 \begin{definition}
 A linear first order differential equation is in \textbf{standard form} when it is of the type
@@ -408,7 +409,6 @@ $$y' + p(x)y = q(x),$$
 that is, when the coefficient of $y'$ is equal to one. It is \textbf{homogeneous} if $q(x) = 0$ and \textbf{non-homogeneous} otherwise.
 \end{definition}
 
-In the graph, drag the red point to set the initial condition $y(x_0) = k$. The blue curve is the solution to that initial value problem, and the faint curves are the other members of the general solution. You can choose an equation from the panel or enter your own, in which case you provide $q$ and an antiderivative $P$ of $p$.
 
 The method of solution hinges on a clever multiplication.
 
@@ -417,7 +417,9 @@ An \textbf{integrating factor} for $y' + p(x)y = q(x)$ is
 $$m(x) = \exp\left\{\int p(x)\,dx\right\}.$$
 \end{definition}
 
-The antiderivative is only defined up to an additive constant, which is why this is \emph{an} integrating factor and not \emph{the} integrating factor. In problems, we just choose the simplest one. By the chain rule, $m' = mp$, and this is the only property of $m$ we need.
+The antiderivative is only defined up to an additive constant, which is why this is \emph{an} integrating factor and not \emph{the} integrating factor. In problems, we just choose the simplest one, as this factor is the solution to a linear homogenous equation, so any additive constant in $\int p(x)\,dx$ becomes multiplicative after exponentiating. Linearity, and the fact that a constant-scaled solution is still a solution (to the homogeneous equation) lets us ignore our $+C$ in $m(x)$.
+
+One thing to note, by the chain rule, $m' = mp$, and this is the only property of $m$ we need. This will let us turn our standard form, first-order, linear, non-homogeneous equation into something much more tractable, where we are just an antiderivative and a division away from a solution. 
 
 \begin{theorem}
 The general solution to $y' + p(x)y = q(x)$ is
@@ -426,9 +428,12 @@ where $C$ is an arbitrary constant.
 \end{theorem}
 
 \begin{proof}
-Suppose $y$ is a solution and differentiate the product $my$. Using the product rule, then $m' = mp$, and then the differential equation,
-$$(my)' = m'y + my' = mpy + my' = m(y' + py) = mq.$$
-So the product $my$ is an antiderivative of $mq$, meaning $my = \int mq\,dx + C$. Dividing by $m$, which is never zero, gives the result.
+As promised, we solve this by multiplying both sides by $m$. As a result, we have $$my'+mpy = mq.$$
+
+Now this may not seem any better, but let's take a closer look at the left hand side. Here, we have $$\underbrace{e^{\int p(x)dx}}_{\color{CarnationPink} \text{function}}\underbrace{y'}_{\color{Cornflowerblue} \text{derivative}} + \underbrace{p(x)e^{\int p(x)dx}}_{\color{Cornflowerblue} \text{derivative}}\underbrace{y}_{\color{CarnationPink} \text{function}},$$
+which is precise of the form $fg'+f'g$ where $f(x) = m(x)$ and $g(x) = y(x)$. That is, we have a product rule written in full. So, we can rewrite the equation as $$[my]' = mq.$$
+
+To conclude, we just note that the product $my$ is an antiderivative of $mq$, meaning $my = \int mq\,dx + C$. Now, we cannot ignore that "$+C$" term, as we are no longer dealing with homogeneous solutions. Regardless, we finish by dividing by $m$, giving the result.
 \end{proof}
 
 For example, $y' - 2xy = x$ has $p(x) = -2x$ and $q(x) = x$, so we choose $m(x) = e^{-x^2}$. A substitution $u = x^2$ gives $\int xe^{-x^2}dx = -\tfrac{1}{2}e^{-x^2}$, and so
@@ -438,10 +443,10 @@ $$y(x) = \frac{1}{e^{-x^2}}\left\{-\frac{1}{2}e^{-x^2} + C\right\} = Ce^{x^2} - 
 
 Let $I(x)$ be an antiderivative of $m(x)q(x)$. Distributing the $\tfrac{1}{m(x)}$ in the theorem splits the solution into two pieces,
 $$y(x) = \underbrace{\frac{C}{m(x)}}_{y_h(x)} + \underbrace{\frac{I(x)}{m(x)}}_{y_p(x)}.$$
-Toggle on $y_h$ and $y_p$ to see these as the dashed green and orange curves, which add up to the blue curve at each $x$. Here $y_h$ is the general solution to the homogeneous equation $y' + p(x)y = 0$, while $y_p$ is one particular solution to the original equation. The initial condition only decides the constant, $C = k\,m(x_0) - I(x_0)$, so dragging the red point only changes $y_h$: the orange curve stays put.
+Here $y_h$ is the general solution to the homogeneous equation $y' + p(x)y = 0$, while $y_p$ is one particular solution to the original equation. The initial condition only decides the constant, $C = k\,m(x_0) - I(x_0)$, so dragging the red point only changes $y_h$: the orange curve representing the particular solutions (toggle with the adjacent button) stays put.
 
 \begin{remark}
-The theorem asks for \emph{some} antiderivative $I(x)$, and this freedom is an advantage: when a clean integral exists, we can make the cleanest choice. For $y' - 2xy = x$, taking $I(x) = -\tfrac{1}{2}e^{-x^2}$ gives the constant particular solution $y_p = -\tfrac{1}{2}$, whereas taking $I(x) = \int_0^x te^{-t^2}dt = \tfrac{1}{2} - \tfrac{1}{2}e^{-x^2}$ gives $y_p = \tfrac{1}{2}e^{x^2} - \tfrac{1}{2}$. Both are correct: they differ by a multiple of $\tfrac{1}{m(x)}$, which only changes the value of $C$, and so the blue curve is the same. The equations in the panel use the clean choice. When you enter your own, there may be no clean integral, so the graph computes $I(x) = \int_0^x m(t)q(t)\,dt$ numerically.
+The theorem asks for \emph{some} antiderivative $I(x)$, and this freedom gives an analytical advantage: when a clean integral exists, we can choose the cleanest choice. For $y' - 2xy = x$, taking $I(x) = -\tfrac{1}{2}e^{-x^2}$ gives the constant particular solution $y_p = -\tfrac{1}{2}$, whereas taking $I(x) = \int_0^x te^{-t^2}dt = \tfrac{1}{2} - \tfrac{1}{2}e^{-x^2}$ gives $y_p = \tfrac{1}{2}e^{x^2} - \tfrac{1}{2}$. Both are correct: they differ by a multiple of $\tfrac{1}{m(x)}$, which only changes the value of $C$.
 \end{remark}
 
 \begin{remark}
@@ -450,7 +455,5 @@ $$y_p + \{\text{solutions of } L[y] = 0\},$$
 in exact analogy with the solutions of $A\mathbf{x} = \mathbf{b}$ being $\mathbf{x}_p + \mathcal{N}(A)$, as on the <a href="/desmos/null-space-range">Null Space and Range</a> page. Just as with $\mathbf{x}_p$, any one solution can play the role of $y_p$, which is exactly the freedom in the remark above.
 \end{remark}
 
-\begin{remark}
-The homogeneous part often tells us the long-term behavior. For $y' + 2y = 4$, the solutions are $y(x) = Ce^{-2x} + 2$: as $x$ grows, the term $Ce^{-2x}$ dies off and every solution approaches the particular solution $y_p = 2$. In contrast, for $y' - 2xy = x$ the homogeneous part $Ce^{x^2}$ dominates, and nearby solutions separate rapidly. Compare the families of these two equations in the graph.
-\end{remark}
+
 </div>

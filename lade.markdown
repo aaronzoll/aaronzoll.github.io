@@ -851,14 +851,14 @@ augmented by topics from linear algebra and the use of computer software (primar
           <span class="lecture-title">Linear First-Order Differential Equations</span>
         </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1mRZ4kvGlHGeye5UIaJJrYNFscxAnGh-0AB_BJHIYbro/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 30</span>
             <img src="/assets/LADE/thumbnails/Lecture_30.png" alt="Lecture 30 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 30</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Bases of Solutions to Linear Homogeneous DEs</span>
+        </a>
 
         <div class="lecture-card lecture-card--pending">
           <div class="lecture-thumb">
