@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Sample Questions Difficulty Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,600;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: chalkboard page; 3-D map on the left, question card on the right (stacks on phones). */
+:root {
+  color-scheme: dark;
+  --board: #1d1f1c;
+  --chalk: #efefef;
+  --chalk-dim: rgba(239, 239, 239, 0.62);
+  --chalk-faint: rgba(239, 239, 239, 0.16);
+  --note-a: #404f39;
+  --note-b: #343e2c;
+  --def: #ffa2e1;      /* Definition */
+  --exp: #b6d7a8;      /* Explain */
+  --comp: #7dbaff;     /* Computation */
+  --form: #ffb624;     /* Formula */
+  --yellow: #f7ff80;
+  --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+html, body { height: 100%; }
+body {
+  background: var(--board) url("chalkboard.jpg") center / cover fixed;
+  color: var(--chalk);
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.wrap {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding-block: 20px 28px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  gap: 16px;
+}
+header h1 {
+  font-weight: 400;
+  font-size: 1.9rem;
+  margin: 0;
+  text-wrap: balance;
+}
+header p { margin: 4px 0 0; color: var(--chalk-dim); max-width: 70ch; }
+.axes-key { font-family: var(--mono); font-size: 0.82rem; color: var(--chalk-dim); }
+.axes-key b { color: var(--chalk); font-weight: 500; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+.group { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.group-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--chalk-dim); margin-right: 4px; }
+.chip {
+  font: inherit; font-size: 0.9rem; color: var(--chalk);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--chalk-faint);
+  border-radius: 999px; padding: 3px 12px 3px 10px;
+  display: inline-flex; gap: 7px; align-items: center; cursor: pointer;
+}
+.chip[aria-pressed="false"] { opacity: 0.4; }
+.chip:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+.sw { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+.sym { width: 12px; height: 12px; display: inline-block; background: var(--chalk); }
+.sym.circle { border-radius: 50%; }
+.sym.diamond { transform: rotate(45deg) scale(0.8); }
+.bank { margin-left: auto; }
+.bank select {
+  font: inherit; font-size: 0.9rem; color: var(--chalk);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--chalk-faint); border-radius: 999px;
+  padding: 3px 10px; width: 260px; max-width: 100%; cursor: pointer;
+}
+.bank select:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+.bank option, .bank optgroup { background: var(--board); color: var(--chalk); }
+/* The collapsed select shows a short title: its own text is hidden and .bank-face is laid over it. */
+.bank-box { position: relative; display: inline-flex; max-width: 100%; }
+.bank select {
+  color: transparent; padding-right: 26px;
+  -webkit-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23efefef' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 11px center;
+}
+.bank-face {
+  position: absolute; left: 11px; right: 26px; top: 50%; transform: translateY(-50%);
+  pointer-events: none; font-size: 0.9rem; color: var(--chalk);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+@media (max-width: 700px) { .bank { margin-left: 0; width: 100%; } .bank-box { flex: 1; } .bank select { width: 100%; } }
+
+.main { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 960px) { .main { grid-template-columns: minmax(0, 1fr); } .card { max-height: none !important; } }
+#plot { width: 100%; height: min(72vh, 680px); min-height: 380px; }
+
+.card {
+  background:
+    url("chalk_overlay.webp") center / 100% 100% no-repeat local,
+    linear-gradient(160deg, var(--note-a), var(--note-b)) local;
+  border: 2px solid #666666;
+  border-radius: 10px;
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,0.07), inset -2px -2px 0 rgba(0,0,0,0.25), 0 6px 20px rgba(0,0,0,0.35);
+  padding: 16px 20px;
+  min-width: 0;
+  max-height: min(72vh, 680px);
+  overflow-y: auto;
+}
+.card .id { font-family: var(--mono); font-weight: 500; font-size: 0.95rem; }
+.card .meta { color: var(--chalk-dim); font-size: 0.85rem; }
+.card h2 { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--chalk-dim); font-weight: 400; margin: 14px 0 4px; }
+.card .q { font-size: 1.05rem; }
+.card .a { line-height: 1.9; }
+.score { display: grid; grid-template-columns: 7.5em 2.4em minmax(0, 1fr); gap: 4px 10px; align-items: center; margin-top: 10px; }
+.score .name { font-weight: 400; }
+.score .val { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+.bar { height: 6px; background: var(--chalk-faint); border-radius: 3px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--yellow); }
+.score .why { grid-column: 1 / -1; color: var(--chalk-dim); font-size: 0.92rem; margin: 0 0 6px; }
+.hint { color: var(--chalk-dim); font-size: 0.85rem; margin: 10px 0 0; }
+
+#hover {
+  position: fixed; z-index: 20; pointer-events: none;
+  max-width: min(420px, calc(100vw - 32px));
+  background: rgba(20, 22, 19, 0.94);
+  border: 1px solid var(--chalk-faint);
+  border-left: 3px solid var(--c, var(--chalk));
+  border-radius: 6px; padding: 8px 12px; font-size: 0.95rem;
+}
+#hover .id { font-family: var(--mono); font-size: 0.8rem; color: var(--chalk-dim); }
+mjx-container { color: var(--chalk); }
+mjx-container[display="true"] { margin: 0.5em 0 !important; }
+</style>
+<style>body{margin:0}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>Sample Questions Difficulty Map</h1>
+    <p>Each point below represents a question and its difficulty of transcription, review, and execution. Hover over a point to see the question and click on it for additional details.</p>
+  </header>
+
+  <div class="filters">
+    <div class="group" id="typeChips"><span class="group-label">Type</span></div>
+    <div class="group" id="topicChips"><span class="group-label">Topic</span></div>
+    <label class="group bank"><span class="group-label">Question</span><span class="bank-box"><select id="bank" aria-label="Choose a question"></select><span class="bank-face" id="bankFace" aria-hidden="true"></span></span></label>
+  </div>
+
+  <div class="main">
+    <div id="plot" role="img" aria-label="3-D scatter plot of questions on transcription, review and execution axes"></div>
+    <aside class="card" id="detail" aria-live="polite"></aside>
+  </div>
+</div>
+<div id="hover" hidden></div>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [["$", "$"]], displayMath: [["$$", "$$"]],
+    macros: {
+      R: "\\mathbb{R}", T: "\\mathsf{T}", Lcal: "\\mathcal{L}",
+      nul: "\\mathrm{null}", rank: "\\mathrm{rank}", proj: "\\mathrm{proj}",
+      norm: ["\\left\\| #1 \\right\\|", 1]
+    }
+  },
+  svg: { fontCache: "global" },
+  startup: { typeset: false }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.27.0/plotly.min.js"></script>
+<script src="questions_data.js"></script>
+<script src="short_titles.js"></script>
+<script>
+(function () {
+  const D = window.QC_DATA;
+  D.questions.forEach(q => { q.id = q.id.replace(/^S-/, "Stat-"); });
+  const css = getComputedStyle(document.documentElement);
+  const TYPE_COLOR = {
+    Definition: css.getPropertyValue("--def").trim(),
+    Explain: css.getPropertyValue("--exp").trim(),
+    Computation: css.getPropertyValue("--comp").trim(),
+    Formula: css.getPropertyValue("--form").trim()
+  };
+  const TOPIC_SYMBOL = { "Statistics": "circle", "Linear Algebra": "diamond", "Differential Equations": "square" };
+  const AXIS_NAME = { T: "Transcription", R: "Review", E: "Execution" };
+  const on = { type: new Set(D.types.map(t => t.key)), topic: new Set(D.topics) };
+  const byId = Object.fromEntries(D.questions.map(q => [q.id, q]));
+  const esc = s => String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+  const typeset = el => (window.MathJax && MathJax.startup && MathJax.startup.promise) ? MathJax.startup.promise.then(() => MathJax.typesetPromise([el])).catch(() => {}) : null;
+
+  // ── filter chips ─────────────────────────────────────────────
+  function chip(container, label, set, key, inner) {
+    const b = document.createElement("button");
+    b.className = "chip"; b.type = "button"; b.id = "chip-" + key.replace(/\s+/g, "-");
+    b.setAttribute("aria-pressed", "true");
+    b.innerHTML = inner + esc(label);
+    b.addEventListener("click", () => {
+      if (set.has(key)) set.delete(key); else set.add(key);
+      b.setAttribute("aria-pressed", set.has(key) ? "true" : "false");
+      draw();
+    });
+    container.appendChild(b);
+  }
+  D.types.forEach(t => chip(document.getElementById("typeChips"), t.heading, on.type, t.key,
+    `<span class="sw" style="--c:${TYPE_COLOR[t.key]}"></span>`));
+  D.topics.forEach(t => chip(document.getElementById("topicChips"), t, on.topic, t,
+    `<span class="sym ${TOPIC_SYMBOL[t]}"></span>`));
+
+  // ── plot ─────────────────────────────────────────────────────
+  const plotEl = document.getElementById("plot");
+  const axis = name => ({
+    title: { text: name, font: { size: 13 } }, range: [0, 5], dtick: 1,
+    gridcolor: "rgba(239,239,239,0.16)", zerolinecolor: "rgba(239,239,239,0.45)",
+    linecolor: "rgba(239,239,239,0.45)", showbackground: true,
+    backgroundcolor: "rgba(0,0,0,0.18)", tickfont: { size: 11 }
+  });
+  const layout = {
+    paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+    font: { family: "IBM Plex Serif, Georgia, serif", color: "#efefef" },
+    margin: { l: 0, r: 0, t: 0, b: 0 }, showlegend: false,
+    scene: {
+      xaxis: axis("Transcription"), yaxis: axis("Review"), zaxis: axis("Execution"),
+      aspectmode: "cube", camera: { eye: { x: 1.9, y: 1.7, z: 1.15 } }
+    }
+  };
+
+  function traces() {
+    const out = [];
+    for (const t of D.types) for (const topic of D.topics) {
+      if (!on.type.has(t.key) || !on.topic.has(topic)) continue;
+      const qs = D.questions.filter(q => q.type === t.key && q.topic === topic);
+      if (!qs.length) continue;
+      out.push({
+        type: "scatter3d", mode: "markers",
+        x: qs.map(q => q.T), y: qs.map(q => q.R), z: qs.map(q => q.E),
+        customdata: qs.map(q => q.id), hoverinfo: "none",
+        marker: {
+          size: topic === "Linear Algebra" ? 7 : 6, symbol: TOPIC_SYMBOL[topic], color: TYPE_COLOR[t.key],
+          opacity: 0.95, line: { color: "rgba(0,0,0,0.55)", width: 1 }
+        }
+      });
+    }
+    return out;
+  }
+  function draw() { Plotly.react(plotEl, traces(), layout, { displaylogo: false, responsive: true, modeBarButtonsToRemove: ["toImage"] }); }
+  draw();
+
+  // ── hover card ───────────────────────────────────────────────
+  const hover = document.getElementById("hover");
+  let mouse = { x: 0, y: 0 };
+  plotEl.addEventListener("mousemove", e => { mouse = { x: e.clientX, y: e.clientY }; place(); });
+  function place() {
+    if (hover.hidden) return;
+    const r = hover.getBoundingClientRect();
+    let x = mouse.x + 16, y = mouse.y + 16;
+    if (x + r.width > innerWidth - 8) x = mouse.x - r.width - 16;
+    if (y + r.height > innerHeight - 8) y = innerHeight - r.height - 8;
+    hover.style.left = Math.max(8, x) + "px"; hover.style.top = Math.max(8, y) + "px";
+  }
+  plotEl.on("plotly_hover", ev => {
+    const q = byId[ev.points[0].customdata];
+    hover.style.setProperty("--c", TYPE_COLOR[q.type]);
+    hover.innerHTML = `<div class="id">${q.id} · (${q.T}, ${q.R}, ${q.E})</div><div>${q.question}</div>`;
+    hover.hidden = false; place();
+    const p = typeset(hover); if (p) p.then(place);
+  });
+  plotEl.on("plotly_unhover", () => { hover.hidden = true; });
+
+  // ── detail card ──────────────────────────────────────────────
+  const detail = document.getElementById("detail");
+  function show(id) {
+    const q = byId[id];
+    document.getElementById("bank").value = id;
+    const short = (window.QC_SHORT || {})[id];
+    document.getElementById("bankFace").textContent = id + ": " + (short || plain(q.question));
+    const typeHeading = D.types.find(t => t.key === q.type).heading;
+    detail.scrollTop = 0;
+    detail.innerHTML = `
+      <div class="id" style="color:${TYPE_COLOR[q.type]}">${q.id}</div>
+      <h2>Question</h2><div class="q">${q.question}</div>
+      <h2>Expected answer</h2><div class="a">${q.answer}</div>
+      <h2>Placement</h2>
+      <div class="score">${D.axes.map(a => `
+        <span class="name">${AXIS_NAME[a.key]}</span><span class="val">${q[a.key]}</span>
+        <span class="bar"><i style="width:${q[a.key] * 20}%"></i></span>
+        <p class="why">${q.why[a.key]}</p>`).join("")}
+      </div>`;
+    typeset(detail);
+  }
+  // ── question bank dropdown ───────────────────────────────────
+  const bank = document.getElementById("bank");
+  const plain = s => s
+    .replace(/\$\$[\s\S]*?\$\$/g, "…")
+    .replace(/\\begin\{([a-z]*matrix)\}[\s\S]*?\\end\{\1\}/g, "[…]")
+    .replace(/\\(?:mathbf|mathcal|mathrm|text|operatorname)\{([^{}]*)\}/g, "$1")
+    .replace(/\\(?:left|right)/g, "")
+    .replace(/\\(times|mid|in|ldots|cdots|Lcal|det|neq|leq|geq)\b/g, (_, c) =>
+      ({ times: "×", mid: "|", in: "∈", ldots: "…", cdots: "…", Lcal: "L", det: "det", neq: "≠", leq: "≤", geq: "≥" }[c]))
+    .replace(/\\[a-zA-Z]+/g, "").replace(/[$\\{}]/g, "")
+    .replace(/\s+/g, " ").trim();
+  const clip = (s, n) => s.length > n ? s.slice(0, n - 1).trimEnd() + "…" : s;
+  for (const topic of D.topics) {
+    const g = document.createElement("optgroup"); g.label = topic;
+    for (const q of D.questions.filter(q => q.topic === topic)) {
+      const o = document.createElement("option");
+      o.value = q.id; o.textContent = q.id + ": " + clip(plain(q.question), 60);
+      o.title = plain(q.question);
+      g.appendChild(o);
+    }
+    bank.appendChild(g);
+  }
+  bank.addEventListener("change", () => show(bank.value));
+
+  plotEl.on("plotly_click", ev => { hover.hidden = true; show(ev.points[0].customdata); });
+  show("LA-C1");
+})();
+</script>
+
+</body>
+</html>

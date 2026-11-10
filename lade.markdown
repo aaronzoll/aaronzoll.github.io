@@ -860,14 +860,14 @@ augmented by topics from linear algebra and the use of computer software (primar
           <span class="lecture-title">Bases of Solutions to Linear Homogeneous DEs</span>
         </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1r28YsQGSUZLPyT2DrEYFQmeikZR22JZ3PCdwVfEnPQM/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 31</span>
             <img src="/assets/LADE/thumbnails/Lecture_31.png" alt="Lecture 31 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 31</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Constant-Coefficient DEs</span>
+        </a>
 
         <div class="lecture-card lecture-card--pending">
           <div class="lecture-thumb">
