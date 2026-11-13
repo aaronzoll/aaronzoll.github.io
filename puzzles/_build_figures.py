@@ -53,20 +53,52 @@ class Fig:
             a += f' stroke-dasharray="{dash}"'
         return a + extra
 
+    # Shapes are stored as (tag, geometry, paint, content). save() wraps runs of
+    # consecutive shapes with identical paint in one <g>, so a color is written
+    # once per run instead of once per shape (the forests have ~240 dots each).
+    # Raw strings in self.els pass through untouched.
+    def shape(self, tag, geom, paint, content=None):
+        self.els.append((tag, geom, paint, content))
+
     def line(self, ps, **kw):
-        self.els.append(f'<polyline points="{self.pts(ps)}" {self.attrs(**kw)} stroke-linejoin="round" stroke-linecap="round"/>')
+        self.shape("polyline", f'points="{self.pts(ps)}"', f'{self.attrs(**kw)} stroke-linejoin="round" stroke-linecap="round"')
 
     def poly(self, ps, **kw):
-        self.els.append(f'<polygon points="{self.pts(ps)}" {self.attrs(**kw)} stroke-linejoin="round"/>')
+        self.shape("polygon", f'points="{self.pts(ps)}"', f'{self.attrs(**kw)} stroke-linejoin="round"')
 
     def circle(self, c, r, **kw):
-        self.els.append(f'<circle cx="{f(self.X(c[0]))}" cy="{f(self.Y(c[1]))}" r="{f(r * self.px)}" {self.attrs(**kw)}/>')
+        self.shape("circle", f'cx="{f(self.X(c[0]))}" cy="{f(self.Y(c[1]))}" r="{f(r * self.px)}"', self.attrs(**kw))
 
     def rect(self, x, y, w, h, rx=0, **kw):
-        self.els.append(f'<rect x="{f(self.X(x))}" y="{f(self.Y(y + h))}" width="{f(w * self.px)}" height="{f(h * self.px)}" rx="{f(rx * self.px)}" {self.attrs(**kw)}/>')
+        self.shape("rect", f'x="{f(self.X(x))}" y="{f(self.Y(y + h))}" width="{f(w * self.px)}" height="{f(h * self.px)}" rx="{f(rx * self.px)}"',
+                   self.attrs(**kw))
 
     def dot(self, c, r=3.2, fill=INK, stroke="none"):
-        self.els.append(f'<circle cx="{f(self.X(c[0]))}" cy="{f(self.Y(c[1]))}" r="{r}" fill="{fill}" stroke="{stroke}" stroke-width="1.3"/>')
+        self.shape("circle", f'cx="{f(self.X(c[0]))}" cy="{f(self.Y(c[1]))}" r="{r}"', f'fill="{fill}" stroke="{stroke}" stroke-width="1.3"')
+
+    def render_els(self):
+        out, i, els = [], 0, self.els
+        while i < len(els):
+            e = els[i]
+            if isinstance(e, str):
+                out.append(e)
+                i += 1
+                continue
+            j = i
+            while j + 1 < len(els) and not isinstance(els[j + 1], str) and els[j + 1][2] == e[2]:
+                j += 1
+
+            def el(t, inline_paint):
+                tag, geom, paint, content = t
+                a = f"{geom} {paint}" if inline_paint else geom
+                return f"<{tag} {a}>{content}</{tag}>" if content is not None else f"<{tag} {a}/>"
+
+            if j == i:
+                out.append(el(e, True))
+            else:
+                out.append(f'<g {e[2]}>' + "".join(el(t, False) for t in els[i:j + 1]) + "</g>")
+            i = j + 1
+        return "".join(out)
 
     def arrow(self, a, b, **kw):
         self.line([a, b], **kw)
@@ -78,8 +110,9 @@ class Fig:
 
     def text(self, c, s, size=16, fill=INK, italic=False):
         style = ' font-style="italic"' if italic else ""
-        self.els.append(f'<text x="{f(self.X(c[0]))}" y="{f(self.Y(c[1]))}" font-size="{size}" fill="{fill}"{style} '
-                        f'text-anchor="middle" dominant-baseline="central">{s}</text>')
+        # dominant-baseline stays on the element: it isn't reliably inherited from a <g>.
+        self.shape("text", f'x="{f(self.X(c[0]))}" y="{f(self.Y(c[1]))}" dominant-baseline="central"',
+                   f'font-size="{size}" fill="{fill}"{style} text-anchor="middle"', s)
 
     def brace(self, p, q, amp=0.12, **kw):
         """Curly brace from p to q, bulging to the left of the direction p -> q (TikZ convention)."""
@@ -96,7 +129,7 @@ class Fig:
                ("Q", [P(L / 2, a), P(L / 2, 2 * a)]), ("Q", [P(L / 2, a), P(L / 2 + a, a)]),
                ("L", [P(L - a, a)]), ("Q", [P(L, a), P(L, 0)])]
         d = " ".join(cmd + " " + " ".join(f"{f(self.X(x))},{f(self.Y(y))}" for x, y in ps) for cmd, ps in seq)
-        self.els.append(f'<path d="{d}" {self.attrs(**kw)}/>')
+        self.shape("path", f'd="{d}"', self.attrs(**kw))
         return P(L / 2, 2 * a)
 
     def lab(self, c, tex, anchor="center", gap=5, color=None, size=18):
@@ -120,7 +153,7 @@ class Fig:
         maxw = maxw or round(self.w)
         self.labs = [lab(maxw) for lab in self.labs]
         svg = (f'<svg viewBox="0 0 {f(self.w)} {f(self.h)}" role="img" aria-label="{self.alt}" '
-               f'font-family=\'{FONT}\'>' + "".join(self.defs) + "".join(self.els) + "</svg>")
+               f'font-family=\'{FONT}\'>' + "".join(self.defs) + self.render_els() + "</svg>")
         html = (f'<figure class="pz-fig" style="max-width:{maxw}px">'
                 f'<div class="pz-fig-box">{svg}{"".join(self.labs)}</div></figure>\n')
         with open(os.path.join(OUT, self.name + ".html"), "w", encoding="utf-8", newline="\n") as fh:
