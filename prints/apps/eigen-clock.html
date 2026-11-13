@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eigenvector clock</title>
+<link rel="stylesheet" href="/assets/css/themes/widget-theme.css">
+<style>
+  /* The STLs are drawn in their real filament colours (black, white, purple,
+     red) on the widget's cream ground; "Part colours" swaps the black parts
+     for distinct hues so the gear train can be read. */
+  html, body { height: 100%; }
+  .ec { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 1rem; height: 100%; padding: 0.75rem; }
+  .ec-stage { position: relative; min-height: 0; border: var(--figure-border); border-radius: var(--figure-radius); overflow: hidden; background: #f3efe6; }
+  .ec-stage canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+  .ec-load { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem; background: rgba(243, 239, 230, 0.9); font-size: 1.05rem; }
+  .ec-load[hidden] { display: none; }
+  .ec-load-bar { width: 220px; height: 6px; border-radius: 3px; background: rgba(0, 0, 0, 0.1); overflow: hidden; }
+  .ec-load-bar > div { height: 100%; width: 0; background: var(--accent); transition: width 0.2s ease; }
+
+  .ec-side { display: flex; flex-direction: column; gap: 0.85rem; min-height: 0; overflow-y: auto; padding-right: 2px; }
+  .ec-sec { display: flex; flex-direction: column; gap: 0.45rem; }
+  .ec-sec + .ec-sec { border-top: 1px solid var(--ink-faint); padding-top: 0.75rem; }
+  .ec-row { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
+  .ec-row > button { flex: 1 1 0; min-width: 0; }
+  .ec-row input[type=range] { flex: 1 1 auto; }
+  .ec-sets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; }
+  .ec-sets button { display: flex; justify-content: center; padding: 0.45rem 0.2rem; }
+  /* A 2×2 matrix drawn with CSS brackets: left/right borders with short serifs. */
+  .ec-mat { position: relative; display: grid; grid-template-columns: auto auto; column-gap: 0.55em; row-gap: 0.05em;
+            padding: 0.05em 0.4em; font-size: 1.05rem; line-height: 1.15; font-variant-numeric: tabular-nums; }
+  .ec-mat span { text-align: right; min-width: 0.9em; }
+  .ec-mat::before, .ec-mat::after { content: ""; position: absolute; top: 0; bottom: 0; width: 0.28em; border: 1.5px solid currentColor; }
+  .ec-mat::before { left: 0; border-right: 0; }
+  .ec-mat::after { right: 0; border-left: 0; }
+  .ec-check { display: flex; align-items: center; gap: 0.4rem; font-size: 0.95rem; cursor: pointer; }
+  .ec-val { min-width: 3.2em; text-align: center; font-variant-numeric: tabular-nums; }
+  .ec-step { flex: 0 0 auto; }
+
+  @media (max-width: 700px) {
+    .ec { grid-template-columns: 1fr; grid-template-rows: 430px auto; height: auto; }
+    .ec-side { overflow: visible; }
+  }
+</style>
+</head>
+<body>
+<div class="ec">
+  <div class="ec-stage" id="stage">
+    <div class="ec-load" id="load"><div id="load-msg">Loading parts…</div><div class="ec-load-bar"><div id="load-bar"></div></div></div>
+  </div>
+
+  <div class="ec-side">
+    <div class="ec-sec">
+      <div class="w-title">Matrix</div>
+      <div class="ec-sets" id="sets"></div>
+    </div>
+
+    <div class="ec-sec">
+      <div class="w-title">Turn crank</div>
+      <div class="ec-row"><button type="button" id="play" aria-pressed="false">Play</button></div>
+      <label class="ec-check"><input type="checkbox" id="eig-stop" checked> Stop at eigenvectors</label>
+    </div>
+
+    <div class="ec-sec">
+      <div class="w-title">Build</div>
+      <div class="ec-row">
+        <input type="range" id="step" min="0" max="16" step="1" value="16" aria-label="Build step">
+        <span class="ec-val ec-step" id="step-val">16/16</span>
+      </div>
+      <div class="ec-row">
+        <button type="button" id="explode" aria-pressed="false">Expand</button>
+        <button type="button" id="build-all">Build it</button>
+      </div>
+    </div>
+
+    <div class="ec-sec">
+      <div class="w-title">View</div>
+      <label class="ec-check"><input type="checkbox" id="part-colours"> Part colours</label>
+      <label class="ec-check"><input type="checkbox" id="hide-face"> Hide face</label>
+    </div>
+  </div>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+
+const DATA = await (await fetch('/prints/apps/eigen-clock-data.json')).json();
+const RATE = DATA.rate, CEN = DATA.centres, C = DATA.C;
+
+// ── Build order, from the assembly guide (src/guide3.py); K is the set letter ──
+const STEPS = [
+  ['Push-in pins', ['base', 'centre_pin', 'crank_pin'], "Turn the base over and press the two identical pins up through the holes at the centre and in the crank ear, until their heads sit flush underneath. Each pin then stands about 13 mm proud. The arrow on the wall top marks 12 o'clock."],
+  ['Shaft', ['shaft_G1'], "Lower the shaft over the centre pin, gear down. Turn it so the small arrow on the gear points to 12 o'clock; the keyway then faces 3 o'clock. Keep it there until the island hub is on."],
+  ['Layshaft K', ['layshaft_K'], 'Drop the layshaft on its post, bigger gear down. Any orientation; it meshes the shaft gear.'],
+  ['Crank idler and crank gear', ['crank_idler', 'crank_gear'], "Put the 52-tooth crank idler on its post, hub up. Lower the crank gear over the crank pin, axle up, arrow to 12 o'clock. Turning the shaft now turns the crank the same way."],
+  ['Idler J', ['idler_J'], 'Lower the 16-tooth idler J onto the stepped post, turning it gently until it drops onto the step and meshes the upper gear of K.'],
+  ['Carrier hub', ['carrier_hub'], "Lower the carrier hub over the shaft, arrow at 12 o'clock. It meshes idler J. If it won't drop in, recheck the shaft arrow rather than forcing it."],
+  ['Carrier plate', ['carrier_plate'], "Press the plate onto the hub's flat-sided tube (it fits one way), big arrow to 12 o'clock. Turning the shaft now turns the plate the opposite way at the same speed."],
+  ['Sun', ['sun'], "Slide the sun down the shaft, collar up. Its tab rides in the shaft's keyway, so it only fits one way."],
+  ['Carrier idler and lock gear', ['idler_I_lock'], 'Put the two-level idler on the inner carrier post, small gear on top. Any orientation; it meshes the sun.'],
+  ['Planet', ['planet'], "Put the planet on the outer post with the flat of its key facing outward (3 o'clock). This sets the arm timing."],
+  ['Island hub', ['island_hub'], "Lower the island hub over the shaft, flat facing 3 o'clock. Turn the shaft a full turn: the island hub stays still while the planet turns with the shaft."],
+  ['Planet arm', ['K_arm'], 'Press the arm onto the planet key (it fits one way), pin up. Each set has its own arm, lettered D, S or N.'],
+  ['Outer face and round island', ['K_face', 'K_face_WHITE', 'K_disc'], 'Set the outer face on the three wall pegs (it fits one way), with the pin poking up through the cut-out. Press the round island onto the hub key until it sits flat.'],
+  ['Ear lid and crank knob', ['ear_lid', 'K_crank_knob'], "Press the ear lid onto its two pegs; the crank axle passes through its bearing hole. Press the crank knob onto the axle's flat. The knob's arrow stays parallel to x."],
+  ['Ax hand and red arrow', ['Ax_hand', 'Ax_arrow'], 'Slide the red arrow into the track under the Ax hand, point outward. Lower the hand over the island boss and guide the pin up into the arrow.'],
+  ['x hand and centre knob', ['K_x_hand', 'centre_knob'], 'Press the x hand onto the top of the shaft (its tab finds the keyway), then the centre knob. Turn the crank: when the red arrow lies on the line of x, x is an eigenvector.'],
+];
+const SET_PARTS = ['arm', 'face', 'face_WHITE', 'disc', 'crank_knob', 'x_hand'];
+const FACE_PARTS = ['face', 'face_WHITE', 'disc', 'ear_lid'];
+
+// ── Colours ──
+const SLOT = { 1: 0x3b3d42, 2: 0xf4f4f0, 3: 0x8a5cd6, 4: 0xd8262a };
+const PART_HUE = {
+  base: 0xb9b2a6, centre_pin: 0xc05030, crank_pin: 0xc05030, ear_lid: 0xa59d90,
+  shaft_G1: 0x3a7bd5, layshaft_K: 0xe0a020, crank_idler: 0x2aa060, crank_gear: 0xc05030, idler_J: 0x1aa3a3,
+  carrier_hub: 0x5d6fb8, carrier_plate: 0x9aa6b4, sun: 0xe0a020, idler_I_lock: 0x2aa060, planet: 0xc05030, island_hub: 0x1aa3a3,
+  arm: 0x3a7bd5, disc: 0x55585f, face: 0x3b3d42, Ax_hand: 0x3b3d42,
+};
+const generic = n => n.replace(/^[DSN]_/, '');
+function colourOf(name, partColours) {
+  const p = DATA.parts[name];
+  if (!partColours || p.slot !== 1) return SLOT[p.slot];
+  const h = PART_HUE[generic(name)];
+  return h === undefined ? SLOT[1] : h;
+}
+
+// ── Three.js scene. The clock is modelled z-up in mm; the root turns it y-up. ──
+const stage = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
+renderer.setClearColor(0xf3efe6, 1);
+stage.prepend(renderer.domElement);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(35, 1, 1, 5000);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.12;
+scene.add(new THREE.HemisphereLight(0xffffff, 0xb8b0a0, 1.6));
+const key = new THREE.DirectionalLight(0xffffff, 1.9); key.position.set(-160, 320, 220); scene.add(key);
+const fill = new THREE.DirectionalLight(0xfff4e6, 0.7); fill.position.set(260, 140, -200); scene.add(fill);
+const root = new THREE.Group(); root.rotation.x = -Math.PI / 2; scene.add(root);
+const CENTRE = new THREE.Vector3(10, 20, 15);   // three.js coords: a little toward the crank ear
+
+// Camera offsets from the target. Clock +y (12 o'clock) is three.js -z, so a
+// camera on the +z side looks at the clock the right way up.
+const VIEWS = {
+  '3q': new THREE.Vector3(-160, 250, 320),
+  top: new THREE.Vector3(0, 440, 1),
+  side: new THREE.Vector3(0, 60, 420),
+};
+let curView = '3q', camMove = 0;
+function setView(v, instant) {
+  curView = v;
+  // When exploded, the stack is ~130 mm tall: aim higher and stand further back.
+  const target = CENTRE.clone().add(new THREE.Vector3(0, 72 * exploded, 0));
+  const to = target.clone().add(VIEWS[v].clone().multiplyScalar(1 + 0.7 * exploded));
+  if (instant) { camera.position.copy(to); controls.target.copy(target); controls.update(); dirty = true; return; }
+  const from = camera.position.clone(), t0 = performance.now(), tf = controls.target.clone();
+  const token = ++camMove;   // a newer camera move cancels this one
+  anims.push(t => {
+    if (token !== camMove) return false;
+    const u = Math.min(1, (t - t0) / 600), e = u * u * (3 - 2 * u);
+    camera.position.lerpVectors(from, to, e); controls.target.lerpVectors(tf, target, e); controls.update();
+    return u < 1;
+  });
+}
+
+function resize() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); dirty = true;
+}
+new ResizeObserver(resize).observe(stage);
+
+// ── Loading. Each STL is moved from its print pose to its assembled pose once. ──
+const loader = new STLLoader();
+const meshes = {};      // name -> THREE.Mesh
+const loading = {};     // name -> Promise
+function loadPart(name) {
+  if (loading[name]) return loading[name];
+  const p = DATA.parts[name];
+  return (loading[name] = new Promise((res, rej) => loader.load(p.url, g => {
+    g.translate(p.shift[0], p.shift[1], p.shift[2]);
+    if (p.flip) g.rotateX(Math.PI);
+    const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: colourOf(name, view.partColours), roughness: 0.78, metalness: 0.0, transparent: true }));
+    m.matrixAutoUpdate = false; m.visible = false; m.name = name;
+    root.add(m); meshes[name] = m; res(m);
+  }, undefined, rej)));
+}
+function loadSet(k, onEach) {
+  const names = Object.keys(DATA.parts).filter(n => !/^[DSN]_/.test(n) || n.startsWith(k + '_'));
+  return Promise.all(names.map(n => loadPart(n).then(m => { onEach && onEach(); return m; })));
+}
+
+// ── Kinematics, exactly as src/pose3.py ──
+const D2R = Math.PI / 180;
+const M4 = () => new THREE.Matrix4();
+function rotAbout(c, deg) {
+  return M4().makeTranslation(c[0], c[1], 0).multiply(M4().makeRotationZ(deg * D2R)).multiply(M4().makeTranslation(-c[0], -c[1], 0));
+}
+const O = [0, 0];
+function pinAt(K, phi) {
+  const d = DATA.sets[K];
+  return [C * Math.cos(-phi * D2R) + d.e * Math.cos((d.gamma + phi) * D2R), C * Math.sin(-phi * D2R) + d.e * Math.sin((d.gamma + phi) * D2R)];
+}
+function poseOf(g, K, phi) {
+  const rel = r => (r - RATE.Tc) * phi;
+  switch (g) {
+    case 'shaft_G1': case 'sun': case 'centre_knob': case 'x_hand': return rotAbout(O, phi);
+    case 'layshaft_K': return rotAbout(CEN.K, RATE.K * phi);
+    case 'idler_J': return rotAbout(CEN.J, RATE.J * phi);
+    case 'crank_idler': return rotAbout(CEN.CI, RATE.CI * phi);
+    case 'crank_gear': case 'crank_knob': return rotAbout(CEN.CG, phi);
+    case 'carrier_hub': case 'carrier_plate': return rotAbout(O, -phi);
+    case 'idler_I_lock': return rotAbout(O, -phi).multiply(rotAbout(CEN.I, rel(RATE.I)));
+    case 'planet': case 'arm': return rotAbout(O, -phi).multiply(rotAbout(CEN.P, rel(RATE.P)));
+    case 'Ax_hand': case 'Ax_arrow': {
+      const p = pinAt(K, phi), ang = Math.atan2(p[1], p[0]) / D2R, r = Math.hypot(p[0], p[1]);
+      const m = rotAbout(O, ang);
+      return g === 'Ax_arrow' ? m.multiply(M4().makeTranslation(r, 0, 0)) : m;
+    }
+    default: return M4();
+  }
+}
+
+// ── State ──
+const view = { partColours: false, hideFace: false };
+let K = 'S', phi = 0, step = 16, exploded = 0, dirty = true;
+const lift = {};        // name -> extra z (mm), animated
+const fade = {};        // name -> opacity 0..1
+const anims = [];       // per-frame callbacks; return false when done
+
+function stepOf(name) {
+  const g = name.replace(/^[DSN]_/, 'K_');
+  return STEPS.findIndex(s => s[1].includes(g)) + 1;
+}
+function inCurrentSet(name) { return !/^[DSN]_/.test(name) || name.startsWith(K + '_'); }
+function shown(name) {
+  if (!inCurrentSet(name) || stepOf(name) > step) return false;
+  if (view.hideFace && FACE_PARTS.includes(generic(name))) return false;
+  return true;
+}
+// Exploded view: every part raised in proportion to its build step.
+function explodeZ(name) { return exploded * 9 * (stepOf(name) - 1); }
+
+function place() {
+  for (const [n, m] of Object.entries(meshes)) {
+    const vis = shown(n) || (fade[n] !== undefined && fade[n] > 0.01);
+    m.visible = vis;
+    if (!vis) continue;
+    const g = generic(n), set = n.match(/^([DSN])_/);
+    const M = poseOf(g, set ? set[1] : K, phi);
+    m.matrix.copy(M4().makeTranslation(0, 0, (lift[n] || 0) + explodeZ(n)).multiply(M));
+    m.matrixWorldNeedsUpdate = true;
+    const op = fade[n] === undefined ? 1 : fade[n];
+    m.material.opacity = op; m.material.depthWrite = op > 0.99;
+  }
+  dirty = true;
+}
+
+// Drop parts in from above (or lift them away), easing over ~0.6 s.
+function animateParts(names, from, to, fadeFrom, fadeTo, delay = 0, dur = 650) {
+  return new Promise(res => {
+    const t0 = performance.now() + delay;
+    names.forEach(n => { lift[n] = from; if (fadeFrom !== undefined) fade[n] = fadeFrom; });
+    anims.push(t => {
+      const u = Math.max(0, Math.min(1, (t - t0) / dur)), e = u * u * (3 - 2 * u);
+      names.forEach(n => { lift[n] = from + (to - from) * e; if (fadeFrom !== undefined) fade[n] = fadeFrom + (fadeTo - fadeFrom) * e; });
+      if (u >= 1) { names.forEach(n => { if (fadeTo === 1) delete fade[n]; }); res(); return false; }
+      return true;
+    });
+  });
+}
+
+
+// ── Controls ──
+const $ = id => document.getElementById(id);
+const matHTML = A => `<span class="ec-mat">${A.flat().map(v => `<span>${String(v).replace('-', '−')}</span>`).join('')}</span>`;
+$('sets').innerHTML = ['D', 'S', 'N'].map(k => `<button type="button" data-k="${k}" aria-pressed="${k === K}" aria-label="${DATA.sets[k].name} matrix">${matHTML(DATA.sets[k].A)}</button>`).join('');
+let swapping = false;
+$('sets').addEventListener('click', async e => {
+  const b = e.target.closest('button[data-k]'); if (!b || swapping || b.dataset.k === K) return;
+  swapping = true;
+  const nk = b.dataset.k, old = K;
+  $('sets').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x.dataset.k === nk));
+  const oldNames = SET_PARTS.map(p => `${old}_${p}`).filter(n => meshes[n] && stepOf(n) <= step);
+  const loadP = loadSet(nk);
+  oldNames.forEach(n => fade[n] = 1);
+  await animateParts(oldNames, 0, 70, 1, 0, 0, 550);
+  await loadP;
+  oldNames.forEach(n => { delete lift[n]; delete fade[n]; });
+  K = nk;
+  const newNames = SET_PARTS.map(p => `${K}_${p}`).filter(n => stepOf(n) <= step).sort((a, b) => stepOf(a) - stepOf(b));
+  await Promise.all(newNames.map((n, i) => animateParts([n], 70, 0, 0, 1, i * 90, 600)));
+  swapping = false; place();
+});
+
+function setPhi(v) {
+  phi = ((v % 360) + 360) % 360;
+  place();
+}
+// Crank angles where x lies on an eigenvector line (x points at phi + delta).
+function eigenPhis() {
+  const d = DATA.sets[K];
+  return d.eig.flatMap(([, a]) => [a, a + 180]).map(a => (((a - d.delta) % 360) + 360) % 360);
+}
+let playing = false, pauseUntil = 0;
+function setPlaying(on) {
+  playing = on; $('play').setAttribute('aria-pressed', on); $('play').textContent = on ? 'Pause' : 'Play';
+}
+$('play').addEventListener('click', () => setPlaying(!playing));
+// Advance the crank by dphi; with "Stop at eigenvectors" on, land exactly on
+// each eigenvector angle it crosses and hold there for a moment.
+function turn(dphi, t) {
+  let next = phi + dphi;
+  if ($('eig-stop').checked) {
+    for (const a of eigenPhis()) {
+      const ahead = ((a - phi) % 360 + 360) % 360;        // degrees until we reach a
+      if (ahead > 1e-6 && ahead <= dphi) { next = phi + ahead; pauseUntil = t + 1200; break; }
+    }
+  }
+  setPhi(next);
+}
+function showStep(s, animate) {
+  const prev = step; step = Math.max(0, Math.min(16, s));
+  $('step').value = step; $('step-val').textContent = `${step}/16`;
+  if (animate && step === prev + 1) {
+    const names = STEPS[step - 1][1].map(g => g.replace('K_', K + '_')).filter(n => meshes[n]);
+    animateParts(names, 60, 0, 0, 1);
+  }
+  place();
+}
+// Sliding forward one step drops that step's parts in; jumps just show the result.
+$('step').addEventListener('input', e => showStep(+e.target.value, true));
+let building = false;
+$('build-all').addEventListener('click', async () => {
+  if (building) return; building = true;
+  setPlaying(false); setPhi(0); showStep(0);
+  for (let s = 1; s <= 16; s++) { showStep(s, true); await new Promise(r => setTimeout(r, 520)); }
+  building = false;
+});
+$('explode').addEventListener('click', () => {
+  const on = $('explode').getAttribute('aria-pressed') !== 'true';
+  $('explode').setAttribute('aria-pressed', on);
+  const from = exploded, to = on ? 1 : 0, t0 = performance.now();
+  anims.push(t => { const u = Math.min(1, (t - t0) / 700), e = u * u * (3 - 2 * u); exploded = from + (to - from) * e; place(); return u < 1; });
+  // Reframe for the new height (setView reads `exploded`, so give it the end value).
+  const keep = exploded; exploded = to; setView(curView); exploded = keep;
+});
+$('part-colours').addEventListener('change', e => {
+  view.partColours = e.target.checked;
+  for (const [n, m] of Object.entries(meshes)) m.material.color.setHex(colourOf(n, view.partColours));
+  dirty = true;
+});
+$('hide-face').addEventListener('change', e => { view.hideFace = e.target.checked; place(); });
+controls.addEventListener('change', () => { dirty = true; });
+
+// ── Loop ──
+let last = performance.now();
+renderer.setAnimationLoop(t => {
+  const dt = Math.min(0.05, (t - last) / 1000); last = t;
+  for (let i = anims.length - 1; i >= 0; i--) { if (!anims[i](t)) anims.splice(i, 1); dirty = true; }
+  if (anims.length) place();
+  if (playing && t > pauseUntil) turn(36 * dt, t);   // one turn every 10 s
+  if (controls.update()) dirty = true;
+  if (dirty) { renderer.render(scene, camera); dirty = false; }
+});
+
+// ── Start ──
+setView('3q', true); resize(); showStep(16);
+const total = Object.keys(DATA.parts).filter(n => !/^[DSN]_/.test(n) || n.startsWith(K + '_')).length;
+let done = 0;
+await loadSet(K, () => { done++; $('load-bar').style.width = (100 * done / total) + '%'; $('load-msg').textContent = `Loading parts… ${done}/${total}`; });
+$('load').hidden = true;
+place();
+
+// For checks: bounding box of a part in clock coordinates (mm, z up).
+window.__ec = {
+  pose(k, p) { K = k; setPhi(p); },
+  get phi() { return phi; },
+  box(n) { const m = meshes[n]; m.geometry.computeBoundingBox(); return m.geometry.boundingBox.clone().applyMatrix4(m.matrix); },
+  loadSet, meshes,
+  // PNG of the current view with a transparent background (for thumbnails).
+  snapshot() {
+    renderer.setClearColor(0x000000, 0); renderer.render(scene, camera);
+    const url = renderer.domElement.toDataURL('image/png');
+    renderer.setClearColor(0xf3efe6, 1); dirty = true;
+    return url;
+  },
+};
+</script>
+</body>
+</html>

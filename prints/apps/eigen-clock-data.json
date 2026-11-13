@@ -1,0 +1,511 @@
+{
+ "C": 42.0,
+ "centres": {
+  "CI": [
+   42.55258,
+   -33.24572
+  ],
+  "CG": [
+   85.10516,
+   -66.49144
+  ],
+  "K": [
+   -28.72667,
+   24.10454
+  ],
+  "J": [
+   -22.16202,
+   -3.8864
+  ],
+  "I": [
+   21.0,
+   0.0
+  ],
+  "P": [
+   42.0,
+   0.0
+  ]
+ },
+ "rate": {
+  "G1": 1.0,
+  "CI": -0.38461538461538464,
+  "CG": 1.0,
+  "K": -0.6666666666666666,
+  "J": 1.25,
+  "Tc": -1.0,
+  "S": 1.0,
+  "I": -3.0,
+  "P": 1.0,
+  "Is": 0.0
+ },
+ "z": {
+  "floor": 3.0,
+  "L1": 9.0,
+  "L1t": 14.0,
+  "L2": 14.6,
+  "L2t": 19.6,
+  "plate": 20.200000000000003,
+  "platet": 23.200000000000003,
+  "L4": 23.799999999999997,
+  "L4t": 28.799999999999997,
+  "L5": 29.4,
+  "L5t": 33.4,
+  "arm": 34.0,
+  "armt": 37.0,
+  "face": 37.6,
+  "facet": 40.6,
+  "ax": 42.6,
+  "axt": 46.6,
+  "xh": 47.0,
+  "xarm": 49.0,
+  "xht": 52.0,
+  "knobt": 60.0,
+  "shaftt": 58.0,
+  "pint": 47.6
+ },
+ "sets": {
+  "D": {
+   "A": [
+    [
+     2,
+     0
+    ],
+    [
+     0,
+     -1
+    ]
+   ],
+   "name": "Diagonal",
+   "s": 28.0,
+   "e": 14.0,
+   "delta": 0.0,
+   "gamma": 0.0,
+   "eig": [
+    [
+     2.0,
+     0.0
+    ],
+    [
+     -1.0,
+     90.0
+    ]
+   ]
+  },
+  "S": {
+   "A": [
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     1
+    ]
+   ],
+   "name": "Symmetric",
+   "s": 21.0,
+   "e": 21.0,
+   "delta": 90.0,
+   "gamma": 90.0,
+   "eig": [
+    [
+     3.0000000000000004,
+     44.99999999999999
+    ],
+    [
+     -0.9999999999999996,
+     135.0
+    ]
+   ]
+  },
+  "N": {
+   "A": [
+    [
+     2,
+     1
+    ],
+    [
+     0,
+     -1
+    ]
+   ],
+   "name": "Non-symmetric",
+   "s": 26.563132345414385,
+   "e": 18.782971010998235,
+   "delta": 18.43494882292201,
+   "gamma": -26.56505117707799,
+   "eig": [
+    [
+     2.0,
+     0.0
+    ],
+    [
+     -1.0,
+     108.43494882292201
+    ]
+   ]
+  }
+ },
+ "parts": {
+  "base": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/base.stl",
+   "flip": false,
+   "shift": [
+    4.05202,
+    0.0,
+    0.0
+   ],
+   "slot": 1
+  },
+  "centre_pin": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/centre_pin.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "slot": 1
+  },
+  "crank_pin": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/crank_pin.stl",
+   "flip": false,
+   "shift": [
+    85.10516,
+    -66.49144,
+    0.0
+   ],
+   "slot": 1
+  },
+  "ear_lid": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/ear_lid.stl",
+   "flip": false,
+   "shift": [
+    82.20251,
+    -62.25564,
+    37.6
+   ],
+   "slot": 1
+  },
+  "shaft_G1": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/shaft_G1.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    9.0
+   ],
+   "slot": 1
+  },
+  "layshaft_K": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/layshaft_K.stl",
+   "flip": false,
+   "shift": [
+    -28.72667,
+    24.10454,
+    9.0
+   ],
+   "slot": 1
+  },
+  "idler_J": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/idler_J.stl",
+   "flip": false,
+   "shift": [
+    -22.16202,
+    -3.8864,
+    14.6
+   ],
+   "slot": 1
+  },
+  "crank_idler": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/crank_idler.stl",
+   "flip": false,
+   "shift": [
+    42.55258,
+    -33.24572,
+    9.0
+   ],
+   "slot": 1
+  },
+  "crank_gear": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/crank_gear.stl",
+   "flip": false,
+   "shift": [
+    85.10516,
+    -66.49144,
+    9.0
+   ],
+   "slot": 1
+  },
+  "carrier_hub": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/carrier_hub.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    14.6
+   ],
+   "slot": 1
+  },
+  "carrier_plate": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/carrier_plate.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    20.2
+   ],
+   "slot": 1
+  },
+  "sun": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/sun.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    23.8
+   ],
+   "slot": 1
+  },
+  "idler_I_lock": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/idler_I_lock.stl",
+   "flip": false,
+   "shift": [
+    21.0,
+    0.0,
+    23.8
+   ],
+   "slot": 1
+  },
+  "planet": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/planet.stl",
+   "flip": false,
+   "shift": [
+    42.0,
+    0.0,
+    23.8
+   ],
+   "slot": 1
+  },
+  "island_hub": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/island_hub.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    29.4
+   ],
+   "slot": 1
+  },
+  "centre_knob": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/centre_knob.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    52.0
+   ],
+   "slot": 3
+  },
+  "Ax_hand": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/Ax_hand.stl",
+   "flip": false,
+   "shift": [
+    29.5,
+    0.0,
+    42.6
+   ],
+   "slot": 1
+  },
+  "Ax_arrow": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/common/Ax_arrow.stl",
+   "flip": true,
+   "shift": [
+    2.5,
+    0.0,
+    -48.6
+   ],
+   "slot": 4
+  },
+  "D_face": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_D/D_face.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    37.6
+   ],
+   "slot": 1
+  },
+  "D_face_WHITE": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_D/D_face_WHITE.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    37.6
+   ],
+   "slot": 2
+  },
+  "D_disc": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_D/D_disc.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    37.6
+   ],
+   "slot": 1
+  },
+  "D_arm": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_D/D_arm.stl",
+   "flip": false,
+   "shift": [
+    45.875,
+    0.0,
+    34.0
+   ],
+   "slot": 1
+  },
+  "D_x_hand": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_D/D_x_hand.stl",
+   "flip": true,
+   "shift": [
+    10.0,
+    0.0,
+    -52.0
+   ],
+   "slot": 3
+  },
+  "D_crank_knob": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_D/D_crank_knob.stl",
+   "flip": false,
+   "shift": [
+    85.10516,
+    -66.49144,
+    41.2
+   ],
+   "slot": 3
+  },
+  "S_face": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_S/S_face.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    37.6
+   ],
+   "slot": 1
+  },
+  "S_face_WHITE": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_S/S_face_WHITE.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    37.6
+   ],
+   "slot": 2
+  },
+  "S_disc": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_S/S_disc.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    37.6
+   ],
+   "slot": 1
+  },
+  "S_arm": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_S/S_arm.stl",
+   "flip": false,
+   "shift": [
+    42.0,
+    7.375,
+    34.0
+   ],
+   "slot": 1
+  },
+  "S_x_hand": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_S/S_x_hand.stl",
+   "flip": true,
+   "shift": [
+    0.0,
+    -6.5,
+    -52.0
+   ],
+   "slot": 3
+  },
+  "S_crank_knob": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_S/S_crank_knob.stl",
+   "flip": false,
+   "shift": [
+    85.10516,
+    -66.49144,
+    41.2
+   ],
+   "slot": 3
+  },
+  "N_face": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_N/N_face.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    37.6
+   ],
+   "slot": 1
+  },
+  "N_face_WHITE": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_N/N_face_WHITE.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    37.6
+   ],
+   "slot": 2
+  },
+  "N_disc": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_N/N_disc.stl",
+   "flip": false,
+   "shift": [
+    0.0,
+    0.0,
+    37.6
+   ],
+   "slot": 1
+  },
+  "N_arm": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_N/N_arm.stl",
+   "flip": false,
+   "shift": [
+    47.275,
+    -1.075,
+    34.0
+   ],
+   "slot": 1
+  },
+  "N_x_hand": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_N/N_x_hand.stl",
+   "flip": true,
+   "shift": [
+    8.6,
+    -1.21193,
+    -52.0
+   ],
+   "slot": 3
+  },
+  "N_crank_knob": {
+   "url": "/assets/eigen_clock_v3/eigen_clock_v3/stl/set_N/N_crank_knob.stl",
+   "flip": false,
+   "shift": [
+    85.10516,
+    -66.49144,
+    41.2
+   ],
+   "slot": 3
+  }
+ }
+}
