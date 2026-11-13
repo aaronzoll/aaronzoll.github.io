@@ -1,0 +1,107 @@
+{
+ "version": 11,
+ "randomSeed": "0",
+ "graph": {
+  "viewport": {
+   "xmin": -1.5,
+   "xmax": 7.5,
+   "ymin": -4,
+   "ymax": 4
+  },
+  "showGrid": true,
+  "showXAxis": true,
+  "showYAxis": true,
+  "xAxisMinorSubdivisions": 1,
+  "yAxisMinorSubdivisions": 1,
+  "__v12ViewportLatexStash": {
+   "xmin": "-1.5",
+   "xmax": "7.5",
+   "ymin": "-4",
+   "ymax": "4"
+  }
+ },
+ "expressions": {
+  "list": [
+   {
+    "type": "folder",
+    "id": "basis",
+    "title": "Basis functions",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "u1",
+    "color": "#000000",
+    "latex": "u_{1}\\left(x\\right)=0",
+    "folderId": "basis",
+    "hidden": true,
+    "lineWidth": "2.5",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "expression",
+    "id": "u2",
+    "color": "#000000",
+    "latex": "u_{2}\\left(x\\right)=0",
+    "folderId": "basis",
+    "hidden": true,
+    "lineWidth": "2.5",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "expression",
+    "id": "u3",
+    "color": "#000000",
+    "latex": "u_{3}\\left(x\\right)=0",
+    "folderId": "basis",
+    "hidden": true,
+    "lineWidth": "2.5",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "expression",
+    "id": "u4",
+    "color": "#000000",
+    "latex": "u_{4}\\left(x\\right)=0",
+    "folderId": "basis",
+    "hidden": true,
+    "lineWidth": "2.5",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "expression",
+    "id": "u5",
+    "color": "#000000",
+    "latex": "u_{5}\\left(x\\right)=0",
+    "folderId": "basis",
+    "hidden": true,
+    "lineWidth": "2.5",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "expression",
+    "id": "u6",
+    "color": "#000000",
+    "latex": "u_{6}\\left(x\\right)=0",
+    "folderId": "basis",
+    "hidden": true,
+    "lineWidth": "2.5",
+    "lineOpacity": "0.8"
+   },
+   {
+    "type": "folder",
+    "id": "comb",
+    "title": "Combination",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "Y",
+    "color": "#000000",
+    "latex": "y=0",
+    "folderId": "comb",
+    "lineWidth": "4"
+   }
+  ]
+ }
+}

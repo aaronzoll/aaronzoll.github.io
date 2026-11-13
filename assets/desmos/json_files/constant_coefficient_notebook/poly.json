@@ -1,0 +1,387 @@
+{
+ "version": 11,
+ "randomSeed": "0",
+ "graph": {
+  "viewport": {
+   "xmin": -4.5,
+   "xmax": 4.5,
+   "ymin": -3,
+   "ymax": 3
+  },
+  "showGrid": false,
+  "showXAxis": true,
+  "showYAxis": true,
+  "xAxisMinorSubdivisions": 1,
+  "yAxisMinorSubdivisions": 1,
+  "__v12ViewportLatexStash": {
+   "xmin": "-4.5",
+   "xmax": "4.5",
+   "ymin": "-3",
+   "ymax": "3"
+  },
+  "xAxisNumbers": false,
+  "yAxisNumbers": false,
+  "xAxisLabel": "r",
+  "yAxisLabel": "p(r)"
+ },
+ "expressions": {
+  "list": [
+   {
+    "type": "folder",
+    "id": "vars",
+    "title": "Roots",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "h1",
+    "color": "#000000",
+    "latex": "h_{1}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "o1",
+    "color": "#000000",
+    "latex": "o_{1}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "h2",
+    "color": "#000000",
+    "latex": "h_{2}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "o2",
+    "color": "#000000",
+    "latex": "o_{2}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "h3",
+    "color": "#000000",
+    "latex": "h_{3}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "o3",
+    "color": "#000000",
+    "latex": "o_{3}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "h4",
+    "color": "#000000",
+    "latex": "h_{4}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "o4",
+    "color": "#000000",
+    "latex": "o_{4}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "h5",
+    "color": "#000000",
+    "latex": "h_{5}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "o5",
+    "color": "#000000",
+    "latex": "o_{5}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "h6",
+    "color": "#000000",
+    "latex": "h_{6}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "o6",
+    "color": "#000000",
+    "latex": "o_{6}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "g1",
+    "color": "#000000",
+    "latex": "g_{1}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "w1",
+    "color": "#000000",
+    "latex": "w_{1}=1",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "q1",
+    "color": "#000000",
+    "latex": "q_{1}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "g2",
+    "color": "#000000",
+    "latex": "g_{2}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "w2",
+    "color": "#000000",
+    "latex": "w_{2}=1",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "q2",
+    "color": "#000000",
+    "latex": "q_{2}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "g3",
+    "color": "#000000",
+    "latex": "g_{3}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "w3",
+    "color": "#000000",
+    "latex": "w_{3}=1",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "q3",
+    "color": "#000000",
+    "latex": "q_{3}=0",
+    "folderId": "vars",
+    "hidden": true
+   },
+   {
+    "type": "folder",
+    "id": "poly",
+    "title": "Characteristic polynomial",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "F",
+    "color": "#000000",
+    "latex": "F\\left(x\\right)=\\left(1+o_{1}\\left(x-h_{1}-1\\right)\\right)\\left(1+o_{2}\\left(x-h_{2}-1\\right)\\right)\\left(1+o_{3}\\left(x-h_{3}-1\\right)\\right)\\left(1+o_{4}\\left(x-h_{4}-1\\right)\\right)\\left(1+o_{5}\\left(x-h_{5}-1\\right)\\right)\\left(1+o_{6}\\left(x-h_{6}-1\\right)\\right)\\left(1+q_{1}\\left(\\left(x-g_{1}\\right)^{2}+w_{1}^{2}-1\\right)\\right)\\left(1+q_{2}\\left(\\left(x-g_{2}\\right)^{2}+w_{2}^{2}-1\\right)\\right)\\left(1+q_{3}\\left(\\left(x-g_{3}\\right)^{2}+w_{3}^{2}-1\\right)\\right)",
+    "folderId": "poly",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "a0",
+    "color": "#000000",
+    "latex": "a_{0}=1",
+    "folderId": "poly",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-100000",
+     "max": "100000",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "p",
+    "color": "#000000",
+    "latex": "p\\left(x\\right)=F\\left(x\\right)+a_{0}-F\\left(0\\right)",
+    "folderId": "poly",
+    "lineWidth": "3"
+   },
+   {
+    "type": "expression",
+    "id": "A0",
+    "color": "#6042a6",
+    "latex": "\\left(0,a_{0}\\right)",
+    "folderId": "poly",
+    "pointSize": "12",
+    "movablePointSize": "12",
+    "showLabel": true,
+    "label": "`a_0`",
+    "labelOrientation": "right",
+    "labelSize": "1.2"
+   },
+   {
+    "type": "folder",
+    "id": "real",
+    "title": "Real roots",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "M1",
+    "color": "#000000",
+    "latex": "\\left(h_{1},0\\right)",
+    "folderId": "real",
+    "hidden": true,
+    "pointSize": "11",
+    "dragMode": "NONE",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "below",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "M2",
+    "color": "#000000",
+    "latex": "\\left(h_{2},0\\right)",
+    "folderId": "real",
+    "hidden": true,
+    "pointSize": "11",
+    "dragMode": "NONE",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "below",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "M3",
+    "color": "#000000",
+    "latex": "\\left(h_{3},0\\right)",
+    "folderId": "real",
+    "hidden": true,
+    "pointSize": "11",
+    "dragMode": "NONE",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "below",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "M4",
+    "color": "#000000",
+    "latex": "\\left(h_{4},0\\right)",
+    "folderId": "real",
+    "hidden": true,
+    "pointSize": "11",
+    "dragMode": "NONE",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "below",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "M5",
+    "color": "#000000",
+    "latex": "\\left(h_{5},0\\right)",
+    "folderId": "real",
+    "hidden": true,
+    "pointSize": "11",
+    "dragMode": "NONE",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "below",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "M6",
+    "color": "#000000",
+    "latex": "\\left(h_{6},0\\right)",
+    "folderId": "real",
+    "hidden": true,
+    "pointSize": "11",
+    "dragMode": "NONE",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "below",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "N1",
+    "color": "#000000",
+    "latex": "\\left(g_{1},0\\right)",
+    "folderId": "real",
+    "hidden": true,
+    "pointSize": "11",
+    "dragMode": "NONE",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "below",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "N2",
+    "color": "#000000",
+    "latex": "\\left(g_{2},0\\right)",
+    "folderId": "real",
+    "hidden": true,
+    "pointSize": "11",
+    "dragMode": "NONE",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "below",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "N3",
+    "color": "#000000",
+    "latex": "\\left(g_{3},0\\right)",
+    "folderId": "real",
+    "hidden": true,
+    "pointSize": "11",
+    "dragMode": "NONE",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "below",
+    "labelSize": "1.1"
+   }
+  ]
+ }
+}

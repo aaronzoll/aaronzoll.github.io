@@ -1,0 +1,691 @@
+{
+ "version": 11,
+ "randomSeed": "0",
+ "graph": {
+  "viewport": {
+   "xmin": -4.5,
+   "xmax": 4.5,
+   "ymin": -4,
+   "ymax": 4
+  },
+  "showGrid": true,
+  "showXAxis": true,
+  "showYAxis": true,
+  "xAxisMinorSubdivisions": 1,
+  "yAxisMinorSubdivisions": 1,
+  "__v12ViewportLatexStash": {
+   "xmin": "-4.5",
+   "xmax": "4.5",
+   "ymin": "-4",
+   "ymax": "4"
+  },
+  "xAxisLabel": "Re",
+  "yAxisLabel": "Im",
+  "xAxisStep": 1,
+  "yAxisStep": 1
+ },
+ "expressions": {
+  "list": [
+   {
+    "type": "folder",
+    "id": "circ",
+    "title": "Multiplicity circles",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "Q1",
+    "color": "#000000",
+    "latex": "Q_{1}=\\left[\\right]",
+    "folderId": "circ",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "QR1",
+    "color": "#000000",
+    "latex": "\\left(h_{1}+Q_{1}\\cos t,Q_{1}\\sin t\\right)",
+    "folderId": "circ",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "0",
+     "max": "2\\pi"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "Q2",
+    "color": "#000000",
+    "latex": "Q_{2}=\\left[\\right]",
+    "folderId": "circ",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "QR2",
+    "color": "#000000",
+    "latex": "\\left(h_{2}+Q_{2}\\cos t,Q_{2}\\sin t\\right)",
+    "folderId": "circ",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "0",
+     "max": "2\\pi"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "Q3",
+    "color": "#000000",
+    "latex": "Q_{3}=\\left[\\right]",
+    "folderId": "circ",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "QR3",
+    "color": "#000000",
+    "latex": "\\left(h_{3}+Q_{3}\\cos t,Q_{3}\\sin t\\right)",
+    "folderId": "circ",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "0",
+     "max": "2\\pi"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "Q4",
+    "color": "#000000",
+    "latex": "Q_{4}=\\left[\\right]",
+    "folderId": "circ",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "QR4",
+    "color": "#000000",
+    "latex": "\\left(h_{4}+Q_{4}\\cos t,Q_{4}\\sin t\\right)",
+    "folderId": "circ",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "0",
+     "max": "2\\pi"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "Q5",
+    "color": "#000000",
+    "latex": "Q_{5}=\\left[\\right]",
+    "folderId": "circ",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "QR5",
+    "color": "#000000",
+    "latex": "\\left(h_{5}+Q_{5}\\cos t,Q_{5}\\sin t\\right)",
+    "folderId": "circ",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "0",
+     "max": "2\\pi"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "Q6",
+    "color": "#000000",
+    "latex": "Q_{6}=\\left[\\right]",
+    "folderId": "circ",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "QR6",
+    "color": "#000000",
+    "latex": "\\left(h_{6}+Q_{6}\\cos t,Q_{6}\\sin t\\right)",
+    "folderId": "circ",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "0",
+     "max": "2\\pi"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "P1",
+    "color": "#000000",
+    "latex": "P_{1}=\\left[\\right]",
+    "folderId": "circ",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "PU1",
+    "color": "#000000",
+    "latex": "\\left(g_{1}+P_{1}\\cos t,w_{1}+P_{1}\\sin t\\right)",
+    "folderId": "circ",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "0",
+     "max": "2\\pi"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "PL1",
+    "color": "#000000",
+    "latex": "\\left(g_{1}+P_{1}\\cos t,-w_{1}+P_{1}\\sin t\\right)",
+    "folderId": "circ",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "0",
+     "max": "2\\pi"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "P2",
+    "color": "#000000",
+    "latex": "P_{2}=\\left[\\right]",
+    "folderId": "circ",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "PU2",
+    "color": "#000000",
+    "latex": "\\left(g_{2}+P_{2}\\cos t,w_{2}+P_{2}\\sin t\\right)",
+    "folderId": "circ",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "0",
+     "max": "2\\pi"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "PL2",
+    "color": "#000000",
+    "latex": "\\left(g_{2}+P_{2}\\cos t,-w_{2}+P_{2}\\sin t\\right)",
+    "folderId": "circ",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "0",
+     "max": "2\\pi"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "P3",
+    "color": "#000000",
+    "latex": "P_{3}=\\left[\\right]",
+    "folderId": "circ",
+    "hidden": true
+   },
+   {
+    "type": "expression",
+    "id": "PU3",
+    "color": "#000000",
+    "latex": "\\left(g_{3}+P_{3}\\cos t,w_{3}+P_{3}\\sin t\\right)",
+    "folderId": "circ",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "0",
+     "max": "2\\pi"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "PL3",
+    "color": "#000000",
+    "latex": "\\left(g_{3}+P_{3}\\cos t,-w_{3}+P_{3}\\sin t\\right)",
+    "folderId": "circ",
+    "lineWidth": "1.5",
+    "lineOpacity": "0.55",
+    "parametricDomain": {
+     "min": "0",
+     "max": "2\\pi"
+    }
+   },
+   {
+    "type": "folder",
+    "id": "sexp",
+    "title": "Exponent s of b(x)",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "fa",
+    "color": "#000000",
+    "latex": "f_{a}=0",
+    "folderId": "sexp",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "fb",
+    "color": "#000000",
+    "latex": "f_{b}=2",
+    "folderId": "sexp",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "S2",
+    "color": "#fa7e19",
+    "latex": "\\left(f_{a},-f_{b}\\right)",
+    "folderId": "sexp",
+    "hidden": true,
+    "dragMode": "NONE",
+    "pointStyle": "OPEN",
+    "pointSize": "14",
+    "pointOpacity": "0.55"
+   },
+   {
+    "type": "expression",
+    "id": "S",
+    "color": "#fa7e19",
+    "latex": "\\left(f_{a},f_{b}\\right)",
+    "folderId": "sexp",
+    "hidden": true,
+    "pointStyle": "OPEN",
+    "pointSize": "18",
+    "movablePointSize": "18",
+    "showLabel": false,
+    "label": "`s`",
+    "labelOrientation": "above_right",
+    "labelSize": "1.3"
+   },
+   {
+    "type": "folder",
+    "id": "conj",
+    "title": "Conjugates",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "W1",
+    "color": "#000000",
+    "latex": "\\left(g_{1},-w_{1}\\right)",
+    "folderId": "conj",
+    "hidden": true,
+    "dragMode": "NONE",
+    "pointSize": "11",
+    "pointOpacity": "0.6",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "below_right",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "W2",
+    "color": "#000000",
+    "latex": "\\left(g_{2},-w_{2}\\right)",
+    "folderId": "conj",
+    "hidden": true,
+    "dragMode": "NONE",
+    "pointSize": "11",
+    "pointOpacity": "0.6",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "below_right",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "W3",
+    "color": "#000000",
+    "latex": "\\left(g_{3},-w_{3}\\right)",
+    "folderId": "conj",
+    "hidden": true,
+    "dragMode": "NONE",
+    "pointSize": "11",
+    "pointOpacity": "0.6",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "below_right",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "folder",
+    "id": "roots",
+    "title": "Roots",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "h1",
+    "color": "#000000",
+    "latex": "h_{1}=0",
+    "folderId": "roots",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "R1",
+    "color": "#000000",
+    "latex": "\\left(h_{1},0\\right)",
+    "folderId": "roots",
+    "hidden": true,
+    "pointSize": "12",
+    "movablePointSize": "12",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "above",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "h2",
+    "color": "#000000",
+    "latex": "h_{2}=0",
+    "folderId": "roots",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "R2",
+    "color": "#000000",
+    "latex": "\\left(h_{2},0\\right)",
+    "folderId": "roots",
+    "hidden": true,
+    "pointSize": "12",
+    "movablePointSize": "12",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "above",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "h3",
+    "color": "#000000",
+    "latex": "h_{3}=0",
+    "folderId": "roots",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "R3",
+    "color": "#000000",
+    "latex": "\\left(h_{3},0\\right)",
+    "folderId": "roots",
+    "hidden": true,
+    "pointSize": "12",
+    "movablePointSize": "12",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "above",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "h4",
+    "color": "#000000",
+    "latex": "h_{4}=0",
+    "folderId": "roots",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "R4",
+    "color": "#000000",
+    "latex": "\\left(h_{4},0\\right)",
+    "folderId": "roots",
+    "hidden": true,
+    "pointSize": "12",
+    "movablePointSize": "12",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "above",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "h5",
+    "color": "#000000",
+    "latex": "h_{5}=0",
+    "folderId": "roots",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "R5",
+    "color": "#000000",
+    "latex": "\\left(h_{5},0\\right)",
+    "folderId": "roots",
+    "hidden": true,
+    "pointSize": "12",
+    "movablePointSize": "12",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "above",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "h6",
+    "color": "#000000",
+    "latex": "h_{6}=0",
+    "folderId": "roots",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "R6",
+    "color": "#000000",
+    "latex": "\\left(h_{6},0\\right)",
+    "folderId": "roots",
+    "hidden": true,
+    "pointSize": "12",
+    "movablePointSize": "12",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "above",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "g1",
+    "color": "#000000",
+    "latex": "g_{1}=0",
+    "folderId": "roots",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "w1",
+    "color": "#000000",
+    "latex": "w_{1}=1",
+    "folderId": "roots",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "Z1",
+    "color": "#000000",
+    "latex": "\\left(g_{1},w_{1}\\right)",
+    "folderId": "roots",
+    "hidden": true,
+    "pointSize": "12",
+    "movablePointSize": "12",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "above_right",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "g2",
+    "color": "#000000",
+    "latex": "g_{2}=0",
+    "folderId": "roots",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "w2",
+    "color": "#000000",
+    "latex": "w_{2}=1",
+    "folderId": "roots",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "Z2",
+    "color": "#000000",
+    "latex": "\\left(g_{2},w_{2}\\right)",
+    "folderId": "roots",
+    "hidden": true,
+    "pointSize": "12",
+    "movablePointSize": "12",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "above_right",
+    "labelSize": "1.1"
+   },
+   {
+    "type": "expression",
+    "id": "g3",
+    "color": "#000000",
+    "latex": "g_{3}=0",
+    "folderId": "roots",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "w3",
+    "color": "#000000",
+    "latex": "w_{3}=1",
+    "folderId": "roots",
+    "hidden": true,
+    "slider": {
+     "hardMin": true,
+     "hardMax": true,
+     "min": "-4",
+     "max": "4",
+     "step": "0.1"
+    }
+   },
+   {
+    "type": "expression",
+    "id": "Z3",
+    "color": "#000000",
+    "latex": "\\left(g_{3},w_{3}\\right)",
+    "folderId": "roots",
+    "hidden": true,
+    "pointSize": "12",
+    "movablePointSize": "12",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "above_right",
+    "labelSize": "1.1"
+   }
+  ]
+ }
+}

@@ -129,10 +129,10 @@ body.layout--puzzle-set {
   list-style: none;
   text-align: left;
   font-weight: bold;
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   color: var(--color-label);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
 }
 
 .desmos-calc-drop > summary::-webkit-details-marker { display: none; }
@@ -150,6 +150,38 @@ body.layout--puzzle-set {
 
 .desmos-calc-drop[open] > summary { margin-bottom: 0.4rem; }
 .desmos-calc-drop[open] > summary::before { transform: rotate(90deg); }
+
+// Hover cue for every collapsible on the site, after the LADE folder bars but
+// quieter: a warm wood tint fades in from the left, the line slides right a
+// touch, and the label darkens. Side padding is offset by a negative margin,
+// so at rest the text sits where it did, and the slide gives back on the
+// right so a long summary doesn't rewrap.
+.desmos-calc-drop > summary,
+.eu-drop > summary,
+.rk2-drop > summary,
+.ev-refresher > summary,
+.pz-drop > summary {
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s ease, box-shadow 0.2s ease, padding 0.2s ease, color 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: linear-gradient(to right, rgba(var(--color-wood-rgb), 0.16) 0%, rgba(var(--color-wood-rgb), 0.02) 100%);
+    box-shadow: inset 0 0 0 1px rgba(var(--color-wood-rgb), 0.25);
+    padding-left: 0.75rem;
+    padding-right: 0.25rem;
+    color: var(--color-text, #2d3748);
+    outline: none;
+  }
+  &:hover::before,
+  &:focus-visible::before { border-left-color: currentColor; }
+
+  @media (prefers-reduced-motion: reduce) { transition: none; }
+}
 
 // The 1px keeps sub-pixel math widths from raising a horizontal scrollbar
 .desmos-calc-drop [class$="-calc-math"] { padding-left: 1px; padding-right: 1px; }

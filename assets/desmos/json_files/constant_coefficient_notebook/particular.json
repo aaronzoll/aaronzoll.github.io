@@ -1,0 +1,50 @@
+{
+ "version": 11,
+ "randomSeed": "0",
+ "graph": {
+  "viewport": {
+   "xmin": -1,
+   "xmax": 9,
+   "ymin": -4,
+   "ymax": 4
+  },
+  "showGrid": true,
+  "showXAxis": true,
+  "showYAxis": true,
+  "xAxisMinorSubdivisions": 1,
+  "yAxisMinorSubdivisions": 1,
+  "__v12ViewportLatexStash": {
+   "xmin": "-1",
+   "xmax": "9",
+   "ymin": "-4",
+   "ymax": "4"
+  }
+ },
+ "expressions": {
+  "list": [
+   {
+    "type": "folder",
+    "id": "rhs",
+    "title": "Non-homogeneous term and particular solution",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "b",
+    "color": "#6b7c8a",
+    "latex": "y=0",
+    "folderId": "rhs",
+    "lineStyle": "DASHED",
+    "lineWidth": "2.5"
+   },
+   {
+    "type": "expression",
+    "id": "yp",
+    "color": "#fa7e19",
+    "latex": "y=0",
+    "folderId": "rhs",
+    "lineWidth": "4"
+   }
+  ]
+ }
+}

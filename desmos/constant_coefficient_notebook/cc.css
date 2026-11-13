@@ -1,0 +1,50 @@
+/* Constant-coefficient notebook: only what eigen.css doesn't already cover. */
+
+/* Coefficient and coordinate sliders: name | slider | value. */
+.cc-coefs { display: flex; flex-direction: column; gap: 0.3rem; }
+.cc-coef {
+  display: grid;
+  grid-template-columns: 2rem 1fr 3.6rem;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.9rem;
+}
+.cc-coef input[type="range"] { width: 100%; min-width: 0; }
+.cc-coef-name { font-style: italic; font-weight: bold; color: var(--color-label); }
+.cc-coef-val { text-align: right; font-variant-numeric: tabular-nums; color: var(--color-ink); }
+
+/* Preset equations run long; let them wrap rather than squeeze. */
+.cc-presets .site-btn { white-space: normal; line-height: 1.25; }
+.cc-presets .site-btn mjx-container { font-size: 92% !important; }
+
+/* Three-across button rows (add/remove roots). */
+.cc-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; }
+.cc-grid3 .site-btn { min-width: 0; padding: 0.4rem 0.3rem; font-size: 0.85rem; }
+
+.ev-panel--wide > .ev-block.cc-wide { flex: 2 1 380px; }
+
+/* The current b(x), written out above its sliders. */
+.cc-bx { min-height: 2.6rem; margin: 0.1rem 0 0.2rem; color: var(--color-ink); }
+.cc-bx mjx-container[display="true"] { margin: 0.3rem 0 !important; }
+
+/* Opening quote: centered italic, attribution below. */
+.cc-quote { max-width: 40rem; margin: 1.25rem auto 1.5rem; padding: 0; border: 0; text-align: center; font-style: italic; }
+.cc-quote p { margin: 0 0 0.4rem; line-height: 1.6; }
+.cc-quote footer { font-style: normal; font-size: 0.9rem; color: var(--color-label); }
+.cc-quote footer::before { content: "\2014\00a0"; }
+.cc-quote cite::before { content: none; }  /* the theme adds its own dash */
+
+/* Bernoulli's story: ordinary prose above the interest graph, with an optional portrait. */
+.cc-story { display: flex; align-items: center; gap: 1.25rem; margin: 1rem 0 0.75rem; }
+.cc-story-text { margin: 0; }
+.cc-story-portrait { flex: 0 0 auto; width: 120px; height: auto; border-radius: 4px; }
+@media (max-width: 600px) { .cc-story { flex-direction: column; } }
+/* The interest graph is static. */
+/* The collapsible introduction uses the site's .desmos-calc-drop; just space it. */
+.cc-intro { margin: 0 0 1.5rem; }
+/* Section dropdowns read as headings, a touch larger than "Computation".
+   (Hover cue and normal case for all dropdowns live in assets/css/main.scss.) */
+.cc-intro > summary { font-size: 1rem; }
+.cc-story-figure { max-width: 32rem; margin: 0 auto 1.5rem; }
+.cc-story-figure .dnb-calc-wrap { pointer-events: none; }

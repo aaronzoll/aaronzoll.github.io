@@ -219,6 +219,10 @@ custom_js: |
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/linear_first_order.png" alt="Linear First Order Differential Equations" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
       <span class="gallery-title">Linear First Order Differential Equations</span>
     </a>
+    <a class="gallery-card" href="/desmos/constant_coefficient_notebook/" target="_blank">
+      <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/constant_coefficient.png" alt="Constant-Coefficient Differential Equations" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
+      <span class="gallery-title">Constant-Coefficient Differential Equations</span>
+    </a>
     <a class="gallery-card" href="/desmos/euler-method" target="_blank">
       <div class="gallery-picture"><img class="gallery-static" src="/assets/desmos/images/euler_method.png" alt="Euler's Method" onerror="this.onerror=null; this.src='/assets/desmos/images/placeholder.svg'"></div>
       <span class="gallery-title">Euler's Method</span>

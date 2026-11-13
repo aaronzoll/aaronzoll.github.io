@@ -1,0 +1,171 @@
+{
+ "version": 11,
+ "randomSeed": "0",
+ "graph": {
+  "viewport": {
+   "xmin": -0.06,
+   "xmax": 1.55,
+   "ymin": 0.8,
+   "ymax": 3.0
+  },
+  "showGrid": false,
+  "showXAxis": true,
+  "showYAxis": true,
+  "xAxisMinorSubdivisions": 1,
+  "yAxisMinorSubdivisions": 1,
+  "__v12ViewportLatexStash": {
+   "xmin": "-0.06",
+   "xmax": "1.55",
+   "ymin": "0.8",
+   "ymax": "3.0"
+  },
+  "squareAxes": false,
+  "xAxisStep": 0.25,
+  "yAxisStep": 0.5,
+  "yAxisLabel": "dollars"
+ },
+ "expressions": {
+  "list": [
+   {
+    "type": "folder",
+    "id": "limit",
+    "title": "Continuously",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "cont",
+    "color": "#fa7e19",
+    "latex": "y=e^{x}\\left\\{0\\le x\\le1\\right\\}",
+    "folderId": "limit",
+    "lineWidth": "3",
+    "lineOpacity": "0.5"
+   },
+   {
+    "type": "expression",
+    "id": "Pe",
+    "color": "#fa7e19",
+    "latex": "\\left(1,e\\right)",
+    "folderId": "limit",
+    "pointSize": "10",
+    "dragMode": "NONE"
+   },
+   {
+    "type": "folder",
+    "id": "steps",
+    "title": "Compounded n times a year",
+    "collapsed": true
+   },
+   {
+    "type": "expression",
+    "id": "n1",
+    "color": "#c74440",
+    "latex": "\\left(\\frac{j}{1},\\left(1+\\frac{1}{1}\\right)^{j}\\right)\\operatorname{for}j=\\left[0...1\\right]",
+    "folderId": "steps",
+    "pointSize": "10",
+    "dragMode": "NONE"
+   },
+   {
+    "type": "expression",
+    "id": "P1",
+    "color": "#c74440",
+    "latex": "\\left(1,\\left(1+\\frac{1}{1}\\right)^{1}\\right)",
+    "folderId": "steps",
+    "pointSize": "10",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "yearly: $2",
+    "labelOrientation": "right",
+    "labelSize": "0.95"
+   },
+   {
+    "type": "expression",
+    "id": "n2",
+    "color": "#cf4d3a",
+    "latex": "\\left(\\frac{j}{2},\\left(1+\\frac{1}{2}\\right)^{j}\\right)\\operatorname{for}j=\\left[0...2\\right]",
+    "folderId": "steps",
+    "pointSize": "9",
+    "dragMode": "NONE"
+   },
+   {
+    "type": "expression",
+    "id": "P2",
+    "color": "#cf4d3a",
+    "latex": "\\left(1,\\left(1+\\frac{1}{2}\\right)^{2}\\right)",
+    "folderId": "steps",
+    "pointSize": "9",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "every 6 months: $2.25",
+    "labelOrientation": "right",
+    "labelSize": "0.95"
+   },
+   {
+    "type": "expression",
+    "id": "n4",
+    "color": "#d65534",
+    "latex": "\\left(\\frac{j}{4},\\left(1+\\frac{1}{4}\\right)^{j}\\right)\\operatorname{for}j=\\left[0...4\\right]",
+    "folderId": "steps",
+    "pointSize": "8",
+    "dragMode": "NONE"
+   },
+   {
+    "type": "expression",
+    "id": "P4",
+    "color": "#d65534",
+    "latex": "\\left(1,\\left(1+\\frac{1}{4}\\right)^{4}\\right)",
+    "folderId": "steps",
+    "pointSize": "8",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "quarterly: $2.44",
+    "labelOrientation": "right",
+    "labelSize": "0.95"
+   },
+   {
+    "type": "expression",
+    "id": "n12",
+    "color": "#de5e2e",
+    "latex": "\\left(\\frac{j}{12},\\left(1+\\frac{1}{12}\\right)^{j}\\right)\\operatorname{for}j=\\left[0...12\\right]",
+    "folderId": "steps",
+    "pointSize": "6.5",
+    "dragMode": "NONE"
+   },
+   {
+    "type": "expression",
+    "id": "P12",
+    "color": "#de5e2e",
+    "latex": "\\left(1,\\left(1+\\frac{1}{12}\\right)^{12}\\right)",
+    "folderId": "steps",
+    "pointSize": "6.5",
+    "dragMode": "NONE",
+    "showLabel": true,
+    "label": "monthly: $2.61",
+    "labelOrientation": "right",
+    "labelSize": "0.95"
+   },
+   {
+    "type": "expression",
+    "id": "n52",
+    "color": "#e66729",
+    "latex": "\\left(\\frac{j}{52},\\left(1+\\frac{1}{52}\\right)^{j}\\right)\\operatorname{for}j=\\left[0...52\\right]",
+    "folderId": "steps",
+    "pointSize": "4.5",
+    "dragMode": "NONE"
+   },
+   {
+    "type": "expression",
+    "id": "P52",
+    "color": "#e66729",
+    "latex": "\\left(1,\\left(1+\\frac{1}{52}\\right)^{52}\\right)",
+    "folderId": "steps",
+    "pointSize": "4.5",
+    "dragMode": "NONE",
+    "showLabel": false,
+    "label": "",
+    "labelOrientation": "right",
+    "labelSize": "0.95"
+   }
+  ]
+ }
+}

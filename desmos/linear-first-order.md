@@ -43,6 +43,13 @@ side_controls: true
 <style>
   .desmos-page-wrap { max-width: 1350px; }
 
+  /* Opening quote: centered italic, attribution below. */
+  .lf-quote { max-width: 40rem; margin: 0.5rem auto 1.5rem; padding: 0; border: 0; text-align: center; font-style: italic; }
+  .lf-quote p { margin: 0 0 0.4rem; line-height: 1.6; }
+  .lf-quote footer { font-style: normal; font-size: 0.9rem; color: var(--color-label); }
+  .lf-quote footer::before { content: "\2014\00a0"; }
+  .lf-quote cite::before { content: none; }  /* the theme adds its own dash */
+
   .lf-panel {
     display: flex;
     flex-direction: column;
@@ -399,6 +406,11 @@ side_controls: true
 </details>
 
 <!--writeup-->
+
+<blockquote class="lf-quote">
+  <p>“…it’s a mysterious and marvelous fact that our universe obeys laws of nature that always turn out to be expressible in the language of calculus as sentences called differential equations.”</p>
+  <footer>Steven Strogatz</footer>
+</blockquote>
 
 <div class="latex-body">
 A first order differential equation is \textbf{linear} if the unknown function and its derivative only appear to the first power (recall, now functions are out unknowns), with coefficients depending on $x$ alone (as $x$ is not the variable to be solved for, $y(x)$ is). Unlike most differential equations, these can always be solved by a single formula (at least up to computing an integral).
