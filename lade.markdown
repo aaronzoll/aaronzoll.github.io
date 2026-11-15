@@ -869,14 +869,14 @@ augmented by topics from linear algebra and the use of computer software (primar
           <span class="lecture-title">Constant-Coefficient DEs</span>
         </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1k3x988IuoK4DkksaJk2ri2PHku2cWO3BvVBobk65Hc8/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 32</span>
             <img src="/assets/LADE/thumbnails/Lecture_32.png" alt="Lecture 32 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 32</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">The Method of Undetermined Coefficients</span>
+        </a>
 
         <div class="lecture-card lecture-card--pending">
           <div class="lecture-thumb">
