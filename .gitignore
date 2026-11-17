@@ -2,3 +2,8 @@
 _site/
 .jekyll-cache/
 .sass-cache/
+
+# Data Analytics Workshop: private instructor files (syllabus, answer keys,
+# Canvas exports, captions) stay local. The zip bundles admin/ too.
+assets/Data_Analytics_Workshop/admin/
+assets/Data_Analytics_Workshop.zip

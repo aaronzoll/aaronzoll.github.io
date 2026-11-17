@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Straw That Broke the Camel's Back</title>
+<link rel="stylesheet" href="/assets/css/themes/widget-theme.css">
+<style>
+  /* Tool-specific rules only; the shared widget theme supplies type, buttons and the .w-* API. */
+  :root {
+    --brick: #b7312c;
+    --card: #ffffff;
+    --line: var(--color-divider, #d0d7de);
+  }
+  body { font-size: 17px; line-height: 1.5; }
+  .w-plate { max-width: 760px; margin: 0 auto; display: grid; gap: 14px; }
+  [hidden] { display: none !important; }
+  .w-rule { margin: 0; }
+  .w-figure { background: var(--card); max-width: 560px; width: 100%; margin: 0 auto; }
+  #scene { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; image-rendering: pixelated; cursor: pointer; touch-action: manipulation; }
+
+  /* progress bar: one segment per straw, length proportional to its weight */
+  .gauge { position: relative; height: 26px; border-radius: 3px; background: var(--btn-bg); border: 1px solid var(--line); overflow: hidden; display: flex; }
+  .gauge .seg { height: 100%; flex: none; box-shadow: inset -1px 0 0 rgba(60, 40, 0, .35), inset 0 3px 0 rgba(255, 255, 255, .25); transition: width .15s; }
+  .gauge .seg.final { background: var(--brick) !important; }
+  .gauge .mark { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--ink); }
+  .gauge-lab { position: relative; height: 1.3em; font-size: 13px; color: var(--ink-mute); }
+  .gauge-lab span { position: absolute; top: 0; white-space: nowrap; }
+
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  button:disabled { color: var(--ink-faint); cursor: default; box-shadow: none; }
+
+  .hist svg { display: block; width: 100%; height: auto; }
+  .key { display: flex; flex-wrap: wrap; gap: 16px; font-size: 14px; color: var(--ink-mute); }
+  .key span::before { content: ""; display: inline-block; width: 18px; border-top: 2px solid; vertical-align: middle; margin-right: 6px; }
+  .key .k-final::before { border-color: var(--brick); }
+  .key .k-pred::before { display: none; }
+  /* explore mode: the three settings, styled like the theme's fields */
+  .params { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 18px; }
+  @media (max-width: 560px) { .params { grid-template-columns: 1fr; } }
+  .pf { display: flex; flex-direction: column; gap: 4px; }
+  .pf-lab { font-size: 15px; color: var(--ink-mute); }
+  .pf-lab i { font-family: "Times New Roman", var(--serif); font-size: 1.1em; color: var(--ink); }
+  .pf-in { display: flex; align-items: center; gap: 8px; color: var(--ink-mute); }
+  input[type=number] { font-family: var(--serif); font-size: 17px; color: var(--ink); background: var(--field-bg); border: 1px solid var(--ink-faint);
+    border-radius: var(--radius); box-shadow: var(--btn-shadow); padding: .3rem .6rem; width: 5.5em; outline: none; -moz-appearance: textfield; appearance: textfield; }
+  input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type=number]:focus { border-color: var(--accent); }
+  #pMsg { color: var(--brick); }
+  .key b { font-weight: 600; color: var(--ink); }
+  .key .k-final b { color: var(--brick); }
+  .key .k-all::before { border-color: var(--ink); border-top-style: dashed; }
+  .key label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+
+  details.hist-drop > summary { cursor: pointer; font-weight: 600; }
+  details.hist-drop[open] > summary { margin-bottom: 10px; }
+  .table-wrap { max-height: 280px; overflow: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--card); margin-top: 10px; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 4px 8px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; vertical-align: middle; }
+  td.thumb-cell { width: 52px; padding: 2px 4px; text-align: left; }
+  .thumb { position: relative; display: block; width: 52px; height: 52px; padding: 0; margin: 0; border: 0; background: none; box-shadow: none; cursor: pointer; border-radius: 3px; overflow: hidden; }
+  .thumb:hover, .thumb:focus-visible { background: var(--ground-deep); }
+  .thumb img { position: absolute; left: 6px; top: 12px; width: 40px; height: 40px; image-rendering: pixelated; }
+  .thumb i { position: absolute; height: 2px; }
+  th { position: sticky; top: 0; background: var(--ground-deep); font-weight: 600; color: var(--ink-mute); }
+  td.final { color: var(--brick); }
+  tr.avg td { font-weight: 600; background: var(--ground-deep); }
+  tr.avg td:nth-child(2) { text-align: left; }
+  textarea { width: 100%; min-height: 80px; font-size: 13px; border: 1px solid var(--ink-faint); border-radius: 3px; padding: 6px; background: var(--field-bg); color: var(--ink); }
+  .danger { color: var(--brick); border-color: var(--brick); }
+  .msg { font-size: 14px; color: var(--ink-mute); margin: 6px 0 0; }
+  .msg:empty { display: none; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="w-plate">
+
+  <div id="params" hidden>
+    <div class="params">
+      <label class="pf"><span class="pf-lab">Lightest straw, <i>a</i></span><span class="pf-in"><input type="number" id="pA" min="0" max="100" step="1" value="0"> lb</span></label>
+      <label class="pf"><span class="pf-lab">Heaviest straw, <i>b</i></span><span class="pf-in"><input type="number" id="pB" min="1" max="100" step="1" value="20"> lb</span></label>
+      <label class="pf"><span class="pf-lab">Back breaks over, <i>T</i></span><span class="pf-in"><input type="number" id="pL" min="1" max="1000" step="1" value="100"> lb</span></label>
+    </div>
+    <p class="msg" id="pMsg" role="status"></p>
+    <div class="w-rule" style="margin-top:14px"></div>
+  </div>
+
+  <div class="w-figure"><canvas id="scene" width="1120" height="840" aria-label="Straws stacked on a camel's back"></canvas></div>
+  <div>
+    <div class="gauge" id="gauge" role="img" aria-label="Straws on the camel's back"></div>
+    <div class="gauge-lab" id="gLab"></div>
+  </div>
+  <div class="btns">
+    <button id="addStraw">Add straw</button>
+    <button id="finishRun">Finish run</button>
+    <button id="newCamel">New camel</button>
+  </div>
+
+  <div class="w-rule"></div>
+  <h2 class="w-title">Run simulations</h2>
+  <div class="btns">
+    <button id="run10">Run 10</button>
+    <button id="run100">Run 100</button>
+    <button id="run1000">Run 1,000</button>
+  </div>
+
+  <div class="hist" id="hist" role="img" aria-label="Histogram of final straw weights"></div>
+  <div class="key"><span class="k-final">average final straw: <b id="kFinal">–</b></span><span class="k-all">average of all straws: <b id="kAll">–</b></span><span class="k-pred" id="kPredWrap" hidden>formula predicts: <b id="kPred">–</b></span></div>
+
+  <div class="w-rule"></div>
+  <details class="hist-drop">
+    <summary id="histSum">History</summary>
+    <div class="btns">
+      <button id="dlCsv">Download CSV</button>
+      <button id="copyCsv">Copy CSV</button>
+      <button id="clearAsk">Clear history</button>
+      <span id="clearConfirm" hidden class="btns"><button id="clearYes" class="danger">Delete all runs</button><button id="clearNo">Keep</button></span>
+    </div>
+    <p class="msg" id="csvMsg" role="status"></p>
+    <textarea id="csvBox" hidden readonly aria-label="CSV text"></textarea>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>Camel</th><th>Straws</th><th>Final (lb)</th><th>Total (lb)</th></tr></thead>
+        <tbody id="histBody"></tbody>
+      </table>
+    </div>
+  </details>
+</div>
+
+<script>
+(function () {
+  /* Artwork: pixel-art camel (standing and collapsed) and straw, in the folder beside this file.
+     BACK gives the top of the hump in each camel image, as fractions of the image (x from left, y from top). */
+  var ART = { camel: "/widgets/camel-straw/camel.png", camelBroken: "/widgets/camel-straw/camel_broken.png" };
+  var BACK = { x: 0.587, up: 0.234, down: 0.423 };
+  var TONES = ["#f6b116", "#e9a10f", "#f4c450", "#d99308", "#f0b43a", "#e6ad24", "#f8cd6a", "#dd9c1c"];
+
+  // ?explore: the same camel, but the straw range and breaking weight can be changed, with its own history
+  var EXPLORE = /[?&]explore(?:[=&]|$)/.test(location.search);
+  var KEY = EXPLORE ? "camel-straw-explore-v1" : "camel-straw-history-v1";
+  var $ = function (id) { return document.getElementById(id); };
+  var history = [];
+  try { history = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!Array.isArray(history)) history = []; } catch (e) { history = []; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(history)); } catch (e) {} }
+
+  function loadImg(src) { var im = new Image(); im.ok = false; im.onload = function () { im.ok = true; drawScene(); }; im.src = src; return im; }
+  var camelImg = loadImg(ART.camel), brokenImg = loadImg(ART.camelBroken);
+
+  var S = { L: 100, a: 0, b: 20 };
+  function r4(x) { return Math.round(x * 10000) / 10000; }
+  function straw() { return r4(S.a + (S.b - S.a) * Math.random()); }
+  function same(h) { return h.limit === S.L && h.min === S.a && h.max === S.b; }
+  // long-run average final straw for weights spread evenly from a to b: E(X) + sigma^2 / E(X)
+  function formula() { var m = (S.a + S.b) / 2, v = (S.b - S.a) * (S.b - S.a) / 12; return m + v / m; }
+  function record(run) {
+    run.id = (history.length ? history[history.length - 1].id : 0) + 1; history.push(run);
+    var old = history[history.length - 201]; if (old) delete old.w;   // only the newest 200 runs keep their straws (for the thumbnails)
+  }
+
+  /* ---- the current camel ----
+     cur holds the straw weights and drops[i] says when straw i starts falling and how long it takes.
+     The scene and bar only count straws that have landed, so the back breaks when the last one hits. */
+  var cur = [], drops = [], shake = 0, shownId = null, recorded = true, lastLanded = -1, raf = 0;
+  var reduceMotion = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  function sum(a) { return a.reduce(function (x, y) { return x + y; }, 0); }
+  function broken() { return cur.length > 0 && sum(cur) > S.L; }   // decided, even while the last straw is still falling
+  function landed(t) { var k = 0; while (k < cur.length && t >= drops[k].start + drops[k].dur) k++; return k; }
+  function lastStart() { return drops.length ? drops[drops.length - 1].start : -Infinity; }
+
+  function reset() { cur = []; drops = []; shownId = null; recorded = true; lastLanded = -1; }
+  function drop(w, start, dur) { cur.push(w); drops.push({ start: start, dur: reduceMotion ? 0 : dur }); if (broken()) recorded = false; }
+  // keep dropping straws, gap ms apart, until the back is going to break
+  function pileOn(gap, dur) {
+    var start = Math.max(performance.now(), lastStart() + gap);
+    while (!broken()) { drop(straw(), start, dur); start += gap; }
+    animate();
+  }
+  function showRun(id, ws) {
+    reset(); cur = ws.slice(); drops = cur.map(function () { return { start: 0, dur: 0 }; }); shownId = id; drawOne();
+  }
+  function finishRecord() {
+    recorded = true;
+    var t = sum(cur);
+    record({ limit: S.L, min: S.a, max: S.b, straws: cur.length, final: cur[cur.length - 1], total: r4(t), sumAll: r4(t), w: cur.slice() });
+    shownId = history[history.length - 1].id;
+    save(); refresh();
+  }
+
+  $("addStraw").onclick = function () {
+    if (broken() || sim) return;
+    drop(straw(), Math.max(performance.now(), lastStart() + 120), 480); animate();
+  };
+  $("finishRun").onclick = function () { if (!broken() && !sim) pileOn(110, 380); };
+  $("newCamel").onclick = function () { reset(); drawOne(); };
+  // clicking the camel adds a straw; once its back has broken (and the last straw has landed), a click starts a new camel
+  $("scene").onclick = function () {
+    if (sim) return;
+    if (!broken()) $("addStraw").onclick();
+    else if (landed(performance.now()) === cur.length) $("newCamel").onclick();
+  };
+
+  function animate() { if (!raf) raf = requestAnimationFrame(frame); }
+  function frame(t) {
+    raf = 0;
+    var n = landed(t);
+    if (n !== lastLanded) {
+      lastLanded = n;
+      if (n === cur.length && !recorded) { finishRecord(); startShake(); }
+      drawOne(t);
+    } else drawScene(t);
+    if (sim) simStep(t);
+    if (n < cur.length || sim) animate();
+  }
+
+  function startShake() {
+    if (reduceMotion) return;
+    var t0 = performance.now();
+    (function step(t) { var k = (t - t0) / 450; shake = k < 1 ? Math.sin(k * 28) * 6 * (1 - k) : 0; drawScene(); if (k < 1) requestAnimationFrame(step); })(t0);
+  }
+
+  function drawOne(t) {
+    t = t || performance.now();
+    var n = landed(t), vis = cur.slice(0, n), br = n > 0 && n === cur.length && broken();
+    var top = S.L + S.b, html = "";
+    vis.forEach(function (w, i) {
+      var fin = br && i === n - 1;
+      html += "<div class='seg" + (fin ? " final" : "") + "' style='width:" + (100 * w / top) + "%;background:" + TONES[(i * 5) % TONES.length] + "' title='Straw " + (i + 1) + ": " + w.toFixed(2) + " lb'></div>";
+    });
+    html += "<div class='mark' style='left:calc(" + (100 * S.L / top) + "% - 1px)'></div>";
+    $("gauge").innerHTML = html;
+    $("gLab").innerHTML = "<span style='left:0'>0</span><span style='left:" + (100 * S.L / top) + "%;transform:translateX(-50%)'>" + S.L + " lb</span><span style='right:0'>" + top + "</span>";
+    var busy = !!sim;
+    $("addStraw").disabled = broken() || busy; $("finishRun").disabled = broken() || busy; $("newCamel").disabled = busy;
+    drawScene(t);
+  }
+
+  function drawScene(t) {
+    t = t || performance.now();
+    var cv = $("scene"), g = cv.getContext("2d"), W = cv.width, H = cv.height;
+    var nl = landed(t), br = nl > 0 && nl === cur.length && broken();
+    g.clearRect(0, 0, W, H); g.imageSmoothingEnabled = false;
+    var faint = getComputedStyle(document.documentElement).getPropertyValue("--ink-faint").trim() || "#b0bec5";
+    var ground = H - 30;
+    g.fillStyle = faint; g.fillRect(30, ground, W - 60, 3);
+    var size = 480, cx = W * 0.45 + shake, x = Math.round(cx - size / 2), y = ground - size * 0.906;  // hooves end at 888/980 of the image
+    var im = br ? brokenImg : camelImg;
+    if (im.ok) g.drawImage(im, x, y, size, size);
+    else { g.fillStyle = "#ed8d05"; g.fillRect(x + size * 0.3, y + size * (br ? 0.45 : 0.27), size * 0.5, size * 0.3); }
+    var px = x + BACK.x * size, py = y + (br ? BACK.down : BACK.up) * size;
+    // straws: pixel blocks the size of the camel's pixels; length grows with weight; falling ones accelerate down to their spot
+    var c = Math.round(size / 32), th = 2 * c, gapY = Math.min(th, (py - 20) / Math.max(1, cur.length));
+    for (var i = 0; i < cur.length; i++) {
+      var d = drops[i], p = d.dur ? (t - d.start) / d.dur : 1;
+      if (p < 0) continue;
+      p = Math.min(1, p);
+      var n = 3 + Math.round(11 * cur[i] / S.b);   // 3 to 14 blocks
+      var restY = py - (i + 1) * gapY, fromY = -3 * th;
+      var sx = Math.round(px - n * c / 2 + ((i * 7) % 5 - 2) * c / 2), sy = Math.round(fromY + (restY - fromY) * p * p);
+      drawStraw(g, sx, sy, n, c, br && i === cur.length - 1, TONES[(i * 5) % TONES.length]);
+    }
+    if (br) {
+      var fy = py - cur.length * gapY;
+      g.fillStyle = "#b7312c"; g.font = "600 34px Garamond, Palatino, Georgia, serif"; g.textAlign = "left";
+      g.fillText(cur[cur.length - 1].toFixed(2) + " lb", Math.min(W - 170, px + 8 * c), Math.max(40, fy + th));
+    }
+  }
+
+  // one straw: top row inset by a block at each end, body row, darker underside, darker nodes
+  function drawStraw(g, x, y, n, c, last, tone) {
+    var hi = last ? "#d9473f" : tone, lo = last ? "#8e211c" : "#c9820a", node = last ? "#8e211c" : "#d07a06";
+    var h = c;
+    g.fillStyle = hi; g.fillRect(x + c, y, (n - 2) * c, Math.ceil(h / 2));
+    g.fillRect(x, y + Math.ceil(h / 2), n * c, Math.ceil(h / 2));
+    g.fillStyle = lo; g.fillRect(x, y + h, n * c, h);
+    g.fillStyle = node;
+    for (var k = 3; k < n - 1; k += 4) g.fillRect(x + k * c, y + Math.ceil(h / 2), c, h + Math.floor(h / 2));
+  }
+
+  /* ---- simulations ----
+     Run 10 piles straws onto ten camels in a row, quickly; Run 100 and Run 1,000 are immediate. */
+  var sim = null;
+  function setRunBtns(dis) { ["run10", "run100", "run1000"].forEach(function (id) { $(id).disabled = dis; }); }
+  function stopSim() { sim = null; setRunBtns(false); drawOne(); }
+  $("run10").onclick = function () {
+    if (sim) return;
+    sim = { left: 10, next: 0, first: true };
+    setRunBtns(true); reset(); drawOne(); animate();
+  };
+  function simStep(t) {
+    if (landed(t) < cur.length || !recorded) return;    // current camel still loading
+    if (!sim.next) sim.next = t + (sim.first ? 0 : 450);   // let each broken camel sit a moment
+    if (t < sim.next) return;
+    if (sim.left === 0) { stopSim(); return; }
+    sim.left--; sim.next = 0; sim.first = false;
+    reset(); pileOn(55, 220);
+  }
+  function runNow(k) {
+    for (var i = 0; i < k; i++) {
+      var tot = 0, n = 0, w = 0, ws = [];
+      while (tot <= S.L) { w = straw(); ws.push(w); tot += w; n++; }
+      record({ limit: S.L, min: S.a, max: S.b, straws: n, final: w, total: r4(tot), sumAll: r4(tot), w: ws });
+    }
+    save(); refresh();
+  }
+  $("run100").onclick = function () { runNow(100); };
+  $("run1000").onclick = function () { runNow(1000); };
+
+  /* ---- summary, histogram, history ---- */
+  function refresh() {
+    var rows = history.filter(same), n = rows.length, mf = null, ma = null;
+    if (n) {
+      var straws = rows.reduce(function (x, h) { return x + h.straws; }, 0);
+      mf = rows.reduce(function (x, h) { return x + h.final; }, 0) / n;
+      ma = rows.reduce(function (x, h) { return x + h.sumAll; }, 0) / straws;
+    }
+    drawHist(rows, mf, ma);
+    $("kFinal").textContent = mf === null ? "–" : mf.toFixed(2) + " lb";
+    $("kAll").textContent = ma === null ? "–" : ma.toFixed(2) + " lb";
+    $("kPred").textContent = formula().toFixed(2) + " lb";
+    $("histSum").textContent = "History (" + n.toLocaleString() + (n === 1 ? " camel)" : " camels)");
+    var body = $("histBody"); body.innerHTML = "";
+    // first row: averages over every camel in the history
+    var N = rows.length;
+    if (N) {
+      var avg = function (f) { return rows.reduce(function (x, h) { return x + f(h); }, 0) / N; };
+      var tr0 = document.createElement("tr"); tr0.className = "avg";
+      tr0.innerHTML = "<td class='thumb-cell'></td><td>Average</td><td>" + avg(function (h) { return h.straws; }).toFixed(2) + "</td><td class='final'>" +
+        avg(function (h) { return h.final; }).toFixed(4) + "</td><td>" + avg(function (h) { return h.total; }).toFixed(2) + "</td>";
+      body.appendChild(tr0);
+    }
+    rows.slice(-200).reverse().forEach(function (h) {
+      var tr = document.createElement("tr");
+      tr.innerHTML = "<td class='thumb-cell'>" + thumb(h) + "</td><td>" + h.id + "</td><td>" + h.straws + "</td><td class='final'>" + h.final.toFixed(4) + "</td><td>" + h.total.toFixed(2) + "</td>";
+      body.appendChild(tr);
+    });
+  }
+
+  // a tiny broken camel with that run's straws; clicking it puts the run back on the scene
+  function thumb(h) {
+    if (!h.w) return "";
+    var o = "<button class='thumb' data-id='" + h.id + "' aria-label='Show camel " + h.id + "' title='Show camel " + h.id + "'>" +
+      "<img src='" + ART.camelBroken + "' alt=''>";
+    var px = 6 + BACK.x * 40, py = 12 + BACK.down * 40, gy = Math.min(2, (py - 1) / h.w.length);
+    h.w.forEach(function (w, i) {
+      var len = 4 + Math.round(10 * w / h.max), fin = i === h.w.length - 1;
+      o += "<i style='left:" + Math.round(px - len / 2 + ((i * 7) % 5 - 2) * 0.6) + "px;top:" + Math.round(py - (i + 1) * gy) + "px;width:" + len + "px;background:" +
+        (fin ? "var(--brick)" : TONES[(i * 5) % TONES.length]) + "'></i>";
+    });
+    return o + "</button>";
+  }
+  $("histBody").addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest(".thumb") : null;
+    if (!b || sim) return;
+    var id = +b.dataset.id, h = history.filter(function (r) { return r.id === id; })[0];
+    if (!h || !h.w) return;
+    showRun(id, h.w);
+    try { $("scene").scrollIntoView({ behavior: "smooth", block: "center" }); } catch (err) {}
+  });
+
+  function drawHist(rows, mf, ma) {
+    var cs = getComputedStyle(document.documentElement);
+    var ink = cs.getPropertyValue("--ink").trim() || "#37474f", mute = cs.getPropertyValue("--ink-mute").trim() || "#6f777d";
+    var line = "#d0d7de", bar = cs.getPropertyValue("--accent").trim() || "#546e7a";
+    var W = 900, H = 260, P = { l: 52, r: 16, t: 14, b: 44 }, bins = 20, counts = [];
+    for (var i = 0; i < bins; i++) counts.push(0);
+    rows.forEach(function (h) { var j = Math.floor((h.final - S.a) / (S.b - S.a) * bins); counts[Math.min(bins - 1, Math.max(0, j))]++; });
+    var maxC = Math.max.apply(null, [1].concat(counts)), step = niceStep(maxC), yTop = Math.ceil(maxC / step) * step;
+    function x(v) { return P.l + (v - S.a) / (S.b - S.a) * (W - P.l - P.r); }
+    function y(v) { return H - P.b - v / yTop * (H - P.t - P.b); }
+    var o = "";
+    for (var v = 0; v <= yTop; v += step) o += "<line x1='" + P.l + "' x2='" + (W - P.r) + "' y1='" + y(v) + "' y2='" + y(v) + "' stroke='" + line + "'/><text x='" + (P.l - 8) + "' y='" + (y(v) + 5) + "' text-anchor='end' font-size='15' fill='" + mute + "'>" + v + "</text>";
+    var bw = (W - P.l - P.r) / bins;
+    counts.forEach(function (k, j) { if (k) o += "<rect x='" + (P.l + j * bw + 1) + "' y='" + y(k) + "' width='" + (bw - 2) + "' height='" + (y(0) - y(k)) + "' fill='" + bar + "' fill-opacity='0.75'/>"; });
+    for (var q = 0; q <= 4; q++) { var tv = S.a + q * (S.b - S.a) / 4; o += "<text x='" + x(tv) + "' y='" + (H - P.b + 20) + "' text-anchor='middle' font-size='15' fill='" + mute + "'>" + (+tv.toFixed(2)) + "</text>"; }
+    o += "<text x='" + ((W + P.l - P.r) / 2) + "' y='" + (H - 4) + "' text-anchor='middle' font-size='15' fill='" + mute + "'>weight of the final straw (lb)</text>";
+    if (ma !== null) o += "<line x1='" + x(ma) + "' x2='" + x(ma) + "' y1='" + P.t + "' y2='" + y(0) + "' stroke='" + ink + "' stroke-width='2' stroke-dasharray='6 5'/>";
+    if (mf !== null) o += "<line x1='" + x(mf) + "' x2='" + x(mf) + "' y1='" + P.t + "' y2='" + y(0) + "' stroke='#b7312c' stroke-width='2.5'/>";
+    $("hist").innerHTML = "<svg viewBox='0 0 " + W + " " + H + "' font-family='Garamond, Palatino, Georgia, serif'>" + o + "</svg>";
+  }
+  function niceStep(m) { var raw = m / 5, p = Math.pow(10, Math.floor(Math.log10(raw || 1))), f = raw / p; return Math.max(1, (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p); }
+
+  /* ---- CSV ---- */
+  function csv() {
+    return "camel,limit_lb,straw_min_lb,straw_max_lb,straws,final_straw_lb,total_lb\n" +
+      history.map(function (h) { return [h.id, h.limit, h.min, h.max, h.straws, h.final.toFixed(4), h.total.toFixed(4)].join(","); }).join("\n") + "\n";
+  }
+  $("dlCsv").onclick = function () {
+    if (!history.length) { $("csvMsg").textContent = "No runs yet."; return; }
+    try {
+      var url = URL.createObjectURL(new Blob([csv()], { type: "text/csv" })), a = document.createElement("a");
+      a.href = url; a.download = "camel_straw_runs.csv"; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+      $("csvMsg").textContent = "";
+    } catch (e) { $("csvMsg").textContent = "Downloading is blocked here. Use Copy CSV instead."; }
+  };
+  $("copyCsv").onclick = function () {
+    if (!history.length) { $("csvMsg").textContent = "No runs yet."; return; }
+    var text = csv(), box = $("csvBox");
+    function fallback() { box.hidden = false; box.value = text; box.focus(); box.select(); $("csvMsg").textContent = "Copying is blocked here. Press Ctrl+C (Cmd+C on a Mac)."; }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { $("csvMsg").textContent = "Copied " + history.length + " runs."; }, fallback);
+    else fallback();
+  };
+  $("clearAsk").onclick = function () { $("clearConfirm").hidden = false; };
+  $("clearNo").onclick = function () { $("clearConfirm").hidden = true; };
+  $("clearYes").onclick = function () { history = []; save(); $("clearConfirm").hidden = true; $("csvBox").hidden = true; $("csvMsg").textContent = ""; refresh(); };
+
+  // open with a camel partly loaded so the scene shows what happens
+  function openingCamel() {
+    reset();
+    for (var i = 0; i < 6; i++) { var w = straw(); if (sum(cur) + w > S.L) break; cur.push(w); drops.push({ start: 0, dur: 0 }); }
+  }
+  if (EXPLORE) {
+    $("params").hidden = false; $("kPredWrap").hidden = false;
+    var setParams = function () {
+      var a = parseFloat($("pA").value), b = parseFloat($("pB").value), L = parseFloat($("pL").value), msg = "";
+      if (!(a >= 0 && b <= 100 && a < b)) msg = "Choose weights with 0 ≤ lightest < heaviest ≤ 100.";
+      else if (!(L >= 1 && L <= 1000)) msg = "Choose a breaking weight from 1 to 1,000 lb.";
+      else if (L / ((a + b) / 2) > 400) msg = "That would take over 400 straws per camel. Try heavier straws or a lower breaking weight.";
+      $("pMsg").textContent = msg;
+      if (msg || sim) return;
+      if (a === S.a && b === S.b && L === S.L) return;
+      S.a = a; S.b = b; S.L = L;
+      history = []; save();
+      $("clearConfirm").hidden = true; $("csvBox").hidden = true; $("csvMsg").textContent = "";
+      openingCamel(); drawOne(); refresh();
+    };
+    ["pA", "pB", "pL"].forEach(function (id) {
+      $(id).addEventListener("change", setParams);
+      $(id).addEventListener("keydown", function (e) { if (e.key === "Enter") setParams(); });
+    });
+    // every visit starts from the defaults with an empty history
+    history = []; save();
+    $("pA").value = S.a; $("pB").value = S.b; $("pL").value = S.L;   // undo any values the browser restored on reload
+  }
+  openingCamel(); drawOne(); refresh();
+})();
+</script>
+<script>
+/* Report content height so the widget layout can size the iframe to fit. */
+(function(){
+  if(window.parent===window)return;
+  var last=0;
+  function post(){
+    var h=Math.ceil(document.body.getBoundingClientRect().height);
+    if(h!==last){last=h;window.parent.postMessage({embedHeight:h},"*");}
+  }
+  if(window.ResizeObserver)new ResizeObserver(post).observe(document.body);
+  window.addEventListener("load",post);
+})();
+</script>
+</body>
+</html>

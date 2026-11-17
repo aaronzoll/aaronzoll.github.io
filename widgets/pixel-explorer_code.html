@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pixel Data Explorer</title>
+<link rel="stylesheet" href="/assets/css/themes/widget-theme.css">
+<style>
+  /* Tool-specific rules only; the shared widget theme supplies type, buttons and the .w-* API. */
+  :root {
+    --card: #ffffff;
+    --rule: var(--color-divider, #d0d7de);
+    --barfill: var(--color-ink-accent, #546e7a);
+    --hl: var(--color-wood, #a67b5b);
+    --r: #b7312c;
+    --g: #3d7a3a;
+    --b: #2f5d8a;
+  }
+  body { font-size: 17px; line-height: 1.5; }
+  [hidden] { display: none !important; }
+  .w-plate { max-width: 760px; margin: 0 auto; display: grid; gap: 12px; }
+  .w-bar { padding: 0; gap: 10px 22px; }
+  .w-rule { margin: 4px 0; }
+  .w-figure { background: var(--card); }
+  .img-fig { max-width: 560px; width: 100%; margin: 0 auto; }
+  .sc-fig { max-width: 520px; width: 100%; margin: 0 auto; }
+  #img { display: block; width: 100%; height: auto; image-rendering: pixelated; cursor: crosshair; background: #000; touch-action: none; }
+  canvas.plot { display: block; width: 100%; }
+  .readout { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; min-height: 2em; font-variant-numeric: tabular-nums; }
+  .readout .w-hint { margin-left: auto; }
+  .sw { width: 26px; height: 26px; border-radius: 3px; border: 1px solid var(--ink-faint); flex: none; background: var(--ground-deep); }
+  .note { font-size: 15px; color: var(--ink-mute); min-height: 1.5em; margin: 0; font-variant-numeric: tabular-nums; }
+  .r { color: var(--r); } .g { color: var(--g); } .b { color: var(--b); }
+  select, input[type=file] { font-family: var(--serif); font-size: 15px; color: var(--ink); }
+  select { background: var(--field-bg); border: 1px solid var(--ink-faint); border-radius: 3px; padding: 3px 6px; }
+  .seg { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+  .mixer { display: grid; grid-template-columns: auto minmax(0, 1fr) 3.2em; gap: 8px 12px; align-items: center; }
+  .mixer input { width: 100%; }
+  .pair { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; font-variant-numeric: tabular-nums; }
+  .big { width: 56px; height: 56px; border-radius: 4px; border: 1px solid var(--ink-faint); }
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; font-size: 15px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 4px 12px; text-align: right; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; }
+  th { background: var(--ground-deep); font-weight: 600; color: var(--ink-mute); }
+  details.drop > summary { cursor: pointer; font-weight: 600; }
+  details.drop[open] > summary { margin-bottom: 10px; }
+  textarea { width: 100%; height: 110px; margin-top: 10px; font-family: var(--serif); font-size: 14px; border: 1px solid var(--ink-faint); border-radius: 3px; padding: 6px; background: var(--field-bg); color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="w-plate">
+
+  <div class="w-bar">
+    <div class="w-group"><label class="w-label" for="pick">Image</label>
+      <select id="pick">
+        <option value="gilman">Gilman</option>
+        <option value="fireworks">Fireworks</option>
+        <option value="colors">Color bars</option>
+      </select>
+    </div>
+    <div class="w-group"><label class="w-label" for="upload">or your own</label>
+      <input id="upload" type="file" accept="image/*" style="max-width:210px">
+    </div>
+  </div>
+
+  <div class="seg" role="group" aria-label="Show channel" id="chanSeg">
+    <button aria-pressed="true" data-ch="rgb">Color</button>
+    <button aria-pressed="false" data-ch="0">Red only</button>
+    <button aria-pressed="false" data-ch="1">Green only</button>
+    <button aria-pressed="false" data-ch="2">Blue only</button>
+  </div>
+  <div class="w-figure img-fig"><canvas id="img" aria-label="Selected image"></canvas></div>
+  <div class="readout"><span class="sw" id="sw"></span><span id="rtext">Hover over (or tap) the image to read a pixel.</span><span class="w-hint" id="info"></span></div>
+
+  <div class="w-rule"></div>
+  <h2 class="w-title" id="h-hist">Histogram</h2>
+  <div class="w-bar">
+    <div class="w-group"><label class="w-label" for="hchan">Brightness from</label>
+      <select id="hchan">
+        <option value="3">average of all three</option>
+        <option value="0">red</option>
+        <option value="1">green</option>
+        <option value="2">blue</option>
+      </select>
+    </div>
+    <div class="w-group"><label class="w-label" for="bw">Bin width</label>
+      <input id="bw" type="range" min="1" max="64" value="8"><span class="w-val" id="bwv">8</span>
+    </div>
+  </div>
+  <div class="w-figure"><canvas class="plot" id="hist" height="240" aria-label="Histogram"></canvas></div>
+  <p class="note" id="hnote"></p>
+
+  <div class="w-rule"></div>
+  <h2 class="w-title" id="h-bar">Average color</h2>
+  <div class="w-figure"><canvas class="plot" id="bar" height="200" aria-label="Bar chart of average red, green and blue"></canvas></div>
+  <div class="table-wrap"><table id="avgTable"><thead><tr><th>Image</th><th class="r">Red</th><th class="g">Green</th><th class="b">Blue</th></tr></thead><tbody></tbody></table></div>
+
+  <h2 class="w-title" id="h-mix">Mix a pixel</h2>
+  <div class="mixer">
+    <label class="w-label r" for="mr">Red</label><input id="mr" type="range" min="0" max="255" value="30"><span class="w-val" id="mrv"></span>
+    <label class="w-label g" for="mg">Green</label><input id="mg" type="range" min="0" max="255" value="60"><span class="w-val" id="mgv"></span>
+    <label class="w-label b" for="mb">Blue</label><input id="mb" type="range" min="0" max="255" value="90"><span class="w-val" id="mbv"></span>
+    <label class="w-label" for="mk">Scale all by</label><input id="mk" type="range" min="0" max="300" value="200"><span class="w-val" id="mkv"></span>
+  </div>
+  <div class="pair">
+    <div class="big" id="mix1"></div><span id="mix1t"></span>
+    <span class="w-hint">&rarr;</span>
+    <div class="big" id="mix2"></div><span id="mix2t"></span>
+  </div>
+
+  <div class="w-rule"></div>
+  <h2 class="w-title" id="h-sc">Scatter plot</h2>
+  <div class="w-bar">
+    <div class="w-group"><label class="w-label" for="sx">Horizontal</label><select id="sx"><option value="0">Red</option><option value="1">Green</option><option value="2">Blue</option></select></div>
+    <div class="w-group"><label class="w-label" for="sy">Vertical</label><select id="sy"><option value="0">Red</option><option value="1" selected>Green</option><option value="2">Blue</option></select></div>
+    <div class="w-group"><label class="w-label" for="sn">Pixels</label><select id="sn"><option value="300">300</option><option value="2000" selected>2,000</option><option value="0">all</option></select></div>
+    <div class="w-group"><input id="scol" type="checkbox" checked><label class="w-label" for="scol">true colors</label></div>
+    <div class="w-group"><input id="sfit" type="checkbox"><label class="w-label" for="sfit">best-fit line</label></div>
+    <button id="resample">New sample</button>
+  </div>
+  <div class="w-figure sc-fig"><canvas class="plot" id="sc" height="360" aria-label="Scatter plot"></canvas></div>
+  <p class="note" id="snote"></p>
+
+  <div class="w-rule"></div>
+  <details class="drop">
+    <summary>Pixel data (CSV)</summary>
+    <div class="w-bar"><button id="dl">Download CSV</button><button id="cp">Copy CSV</button><span class="w-hint" id="dnote"></span></div>
+    <textarea id="preview" readonly aria-label="First rows of the pixel table"></textarea>
+  </details>
+
+</div>
+<script src="pixel-explorer/images.js"></script>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const NAMES = { gilman: "Gilman", fireworks: "Fireworks", colors: "Color bars" };
+  const state = { key: "gilman", px: null, w: 0, h: 0, ch: "rgb", hl: null, sample: null, avgs: {}, hover: null };
+  const MAXW = 300;
+
+  function loadSrc(src, key, label) {
+    const im = new Image();
+    im.onload = () => {
+      let w = im.naturalWidth, h = im.naturalHeight;
+      if (w > MAXW) { h = Math.round(h * MAXW / w); w = MAXW; }
+      const c = document.createElement("canvas"); c.width = w; c.height = h;
+      const cx = c.getContext("2d"); cx.drawImage(im, 0, 0, w, h);
+      const d = cx.getImageData(0, 0, w, h).data;
+      const px = new Uint8Array(w * h * 3);
+      for (let i = 0, j = 0; i < d.length; i += 4, j += 3) { px[j] = d[i]; px[j + 1] = d[i + 1]; px[j + 2] = d[i + 2]; }
+      state.avgs[label] = avg(px);
+      if (key === null) { renderTable(); return; }
+      Object.assign(state, { key, px, w, h, hl: null, sample: null, label });
+      $("info").textContent = `${w} × ${h} = ${(w * h).toLocaleString()} pixels`; state.hover = null;
+      drawAll(); renderTable(); preview();
+    };
+    im.src = src;
+  }
+  function avg(px) {
+    const s = [0, 0, 0], n = px.length / 3;
+    for (let i = 0; i < px.length; i += 3) { s[0] += px[i]; s[1] += px[i + 1]; s[2] += px[i + 2]; }
+    return s.map((v) => v / n);
+  }
+  function renderTable() {
+    const tb = $("avgTable").tBodies[0]; tb.innerHTML = "";
+    for (const [k, a] of Object.entries(state.avgs)) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${k}</td>` + a.map((v) => `<td>${v.toFixed(1)}</td>`).join("");
+      tb.appendChild(tr);
+    }
+  }
+
+  // ---------- image ----------
+  function value(i, ch) { const p = state.px; return ch === 3 ? (p[i] + p[i + 1] + p[i + 2]) / 3 : p[i + ch]; }
+  function drawImage() {
+    const { w, h, px, ch, hl } = state, c = $("img");
+    c.width = w; c.height = h;
+    const cx = c.getContext("2d"), id = cx.createImageData(w, h), d = id.data;
+    const hc = hexRGB(css("--hl")), hch = +$("hchan").value;
+    for (let i = 0, j = 0; j < px.length; i += 4, j += 3) {
+      let r, g, b;
+      if (ch === "rgb") { r = px[j]; g = px[j + 1]; b = px[j + 2]; } else { r = g = b = px[j + +ch]; }
+      if (hl) {
+        const v = value(j, hch);
+        if (v >= hl[0] && v < hl[1]) { r = hc[0]; g = hc[1]; b = hc[2]; } else { r *= 0.35; g *= 0.35; b *= 0.35; }
+      }
+      d[i] = r; d[i + 1] = g; d[i + 2] = b; d[i + 3] = 255;
+    }
+    cx.putImageData(id, 0, 0);
+  }
+  function hexRGB(h) { h = h.replace("#", ""); return [0, 2, 4].map((k) => parseInt(h.slice(k, k + 2), 16)); }
+  function readPixel(e) {
+    const c = $("img"), r = c.getBoundingClientRect();
+    const x = Math.floor((e.clientX - r.left) / r.width * state.w), y = Math.floor((e.clientY - r.top) / r.height * state.h);
+    if (x < 0 || y < 0 || x >= state.w || y >= state.h) return;
+    const j = (y * state.w + x) * 3, p = state.px;
+    $("sw").style.background = `rgb(${p[j]},${p[j + 1]},${p[j + 2]})`;
+    $("rtext").innerHTML = `pixel (${x}, ${y}): &nbsp;<span class="r">${p[j]}</span>, <span class="g">${p[j + 1]}</span>, <span class="b">${p[j + 2]}</span>`;
+    state.hover = j; drawHist();
+  }
+  $("img").addEventListener("pointermove", readPixel);
+  $("img").addEventListener("pointerdown", readPixel);
+  $("img").addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { state.hover = null; drawHist(); } });
+  $("chanSeg").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    for (const x of $("chanSeg").children) x.setAttribute("aria-pressed", x === b);
+    state.ch = b.dataset.ch; drawImage();
+  });
+
+  // ---------- canvas helpers ----------
+  function setup(c) {
+    const dpr = window.devicePixelRatio || 1, W = c.clientWidth, H = c.id === "sc" ? Math.min(360, W - 20) : +c.getAttribute("height");
+    c.width = W * dpr; c.height = H * dpr; c.style.height = H + "px";
+    const cx = c.getContext("2d"); cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx.font = `14px ${css("--serif")}`;
+    return { cx, W, H };
+  }
+  function niceTicks(max, n = 5) {
+    const raw = max / n, mag = Math.pow(10, Math.floor(Math.log10(raw || 1)));
+    const step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => s >= raw) || mag * 10;
+    const t = [0]; while (t[t.length - 1] < max - 1e-9) t.push(t[t.length - 1] + step); return t;
+  }
+  function axes(cx, L, T, R, B, xt, yt, sx, sy, xl, yl) {
+    cx.strokeStyle = css("--rule"); cx.fillStyle = css("--ink-mute"); cx.lineWidth = 1;
+    cx.textAlign = "right"; cx.textBaseline = "middle";
+    for (const v of yt) { const y = sy(v); cx.beginPath(); cx.moveTo(L, y); cx.lineTo(R, y); cx.stroke(); cx.fillText(v.toLocaleString(), L - 6, y); }
+    cx.textAlign = "center"; cx.textBaseline = "top";
+    for (const v of xt) cx.fillText(v, sx(v), B + 6);
+    if (xl) cx.fillText(xl, (L + R) / 2, B + 24);
+    if (yl) { cx.save(); cx.translate(12, (T + B) / 2); cx.rotate(-Math.PI / 2); cx.textBaseline = "middle"; cx.fillText(yl, 0, 0); cx.restore(); }
+  }
+
+  // ---------- histogram ----------
+  let hbins = [];
+  function drawHist() {
+    const c = $("hist"), { cx, W, H } = setup(c), bw = +$("bw").value, ch = +$("hchan").value;
+    $("bwv").textContent = bw;
+    const nb = Math.floor(255 / bw) + 1, counts = new Array(nb).fill(0), p = state.px;
+    for (let j = 0; j < p.length; j += 3) counts[Math.min(nb - 1, Math.floor(value(j, ch) / bw))]++;
+    const L = 64, R = W - 12, T = 10, B = H - 44, xmax = nb * bw;
+    const ymax = Math.max(...counts), yt = niceTicks(ymax);
+    const sx = (v) => L + (v / xmax) * (R - L), sy = (v) => B - (v / yt[yt.length - 1]) * (B - T);
+    axes(cx, L, T, R, B, [0, 50, 100, 150, 200, 250].filter((v) => v <= xmax), yt, sx, sy, "brightness", "");
+    hbins = counts.map((n, k) => ({ a: k * bw, b: (k + 1) * bw, n, x0: sx(k * bw), x1: sx((k + 1) * bw) }));
+    for (const bin of hbins) {
+      const on = state.hl && state.hl[0] === bin.a && state.hl[1] === bin.b;
+      cx.fillStyle = on ? css("--hl") : css("--barfill");
+      cx.fillRect(bin.x0, sy(bin.n), Math.max(1, bin.x1 - bin.x0), B - sy(bin.n));
+      if (bin.x1 - bin.x0 > 4) { cx.strokeStyle = css("--ink"); cx.globalAlpha = 0.5; cx.strokeRect(bin.x0 + 0.5, sy(bin.n) + 0.5, bin.x1 - bin.x0, B - sy(bin.n)); cx.globalAlpha = 1; }
+    }
+    if (state.hover !== null) {
+      const v = value(state.hover, ch), xv = sx(v + 0.5);
+      cx.strokeStyle = css("--ink"); cx.lineWidth = 2; cx.setLineDash([5, 4]);
+      cx.beginPath(); cx.moveTo(xv, T); cx.lineTo(xv, B); cx.stroke(); cx.setLineDash([]);
+      cx.fillStyle = css("--ink"); cx.textAlign = v > 200 ? "right" : "left"; cx.textBaseline = "top";
+      cx.fillText(`this pixel: ${Math.round(v)}`, xv + (v > 200 ? -6 : 6), T + 2);
+    }
+    hnoteDefault();
+  }
+  function binLabel(b) { return `${b.a} to ${Math.min(255, b.b - 1)}`; }
+  function hnoteDefault() {
+    const hl = hbins.find((b) => state.hl && b.a === state.hl[0] && b.b === state.hl[1]);
+    $("hnote").textContent = hl ? `Lit up: brightness ${binLabel(hl)}, ${hl.n.toLocaleString()} pixels. Click the bar again to clear.`
+      : `${hbins.length} bins. Click a bar to light up those pixels in the image.`;
+  }
+  function binAt(e) {
+    const r = $("hist").getBoundingClientRect(), x = e.clientX - r.left;
+    return hbins.find((b) => x >= b.x0 && x < b.x1);
+  }
+  $("hist").addEventListener("mousemove", (e) => {
+    const b = binAt(e); if (b) $("hnote").textContent = `Brightness ${binLabel(b)}: ${b.n.toLocaleString()} pixels`; else hnoteDefault();
+  });
+  $("hist").addEventListener("mouseleave", hnoteDefault);
+  $("hist").addEventListener("click", (e) => {
+    const b = binAt(e); if (!b) return;
+    state.hl = state.hl && state.hl[0] === b.a && state.hl[1] === b.b ? null : [b.a, b.b];
+    drawImage(); drawHist();
+  });
+  $("bw").addEventListener("input", () => { state.hl = null; drawImage(); drawHist(); });
+  $("hchan").addEventListener("change", () => { state.hl = null; drawImage(); drawHist(); });
+
+  // ---------- bar chart ----------
+  function drawBar() {
+    const c = $("bar"), { cx, W, H } = setup(c), a = avg(state.px);
+    const L = 48, R = W - 12, T = 10, B = H - 28, yt = niceTicks(Math.max(...a, 1), 5);
+    const top = yt[yt.length - 1], sy = (v) => B - (v / top) * (B - T);
+    const labels = ["red", "green", "blue"], cols = ["--r", "--g", "--b"], slot = (R - L) / 3;
+    axes(cx, L, T, R, B, [], yt, () => 0, sy);
+    labels.forEach((lb, k) => {
+      const x = L + slot * k + slot * 0.2, w = slot * 0.6;
+      cx.fillStyle = css(cols[k]); cx.fillRect(x, sy(a[k]), w, B - sy(a[k]));
+      cx.fillStyle = css("--ink"); cx.textAlign = "center"; cx.textBaseline = "bottom"; cx.fillText(a[k].toFixed(1), x + w / 2, sy(a[k]) - 3);
+      cx.fillStyle = css("--ink-mute"); cx.textBaseline = "top"; cx.fillText(lb, x + w / 2, B + 6);
+    });
+  }
+  function mixer() {
+    const r = +$("mr").value, g = +$("mg").value, b = +$("mb").value, k = +$("mk").value / 100;
+    $("mrv").textContent = r; $("mgv").textContent = g; $("mbv").textContent = b; $("mkv").textContent = k.toFixed(2);
+    const s = [r, g, b].map((v) => Math.min(255, Math.round(v * k)));
+    $("mix1").style.background = `rgb(${r},${g},${b})`; $("mix1t").textContent = `(${r}, ${g}, ${b})`;
+    $("mix2").style.background = `rgb(${s})`; $("mix2t").textContent = `(${s.join(", ")})` + (s.some((v, i) => v !== Math.round([r, g, b][i] * k)) ? ", capped at 255" : "");
+  }
+  ["mr", "mg", "mb", "mk"].forEach((id) => $(id).addEventListener("input", mixer));
+
+  // ---------- scatter ----------
+  function drawScatter() {
+    const c = $("sc"), { cx, W, H } = setup(c), p = state.px, N = p.length / 3;
+    const xi = +$("sx").value, yi = +$("sy").value, n = +$("sn").value || N;
+    if (!state.sample || state.sample.length !== Math.min(n, N)) {
+      const idx = Array.from({ length: N }, (_, i) => i);
+      for (let i = N - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
+      state.sample = idx.slice(0, Math.min(n, N));
+    }
+    const S = Math.min(W - 70, H - 50), L = 58, T = 10, R = L + S, B = T + S;
+    const sx = (v) => L + (v / 255) * S, sy = (v) => B - (v / 255) * S, ticks = [0, 50, 100, 150, 200, 250];
+    const nm = ["Red", "Green", "Blue"];
+    axes(cx, L, T, R, B, ticks, ticks, sx, sy, `${nm[xi]} intensity`, `${nm[yi]} intensity`);
+    const colored = $("scol").checked, accent = css("--accent");
+    cx.globalAlpha = state.sample.length > 5000 ? 0.15 : state.sample.length > 1000 ? 0.4 : 0.85;
+    for (const i of state.sample) {
+      const j = i * 3, x = sx(p[j + xi]), y = sy(p[j + yi]);
+      if (colored) { cx.fillStyle = `rgb(${p[j]},${p[j + 1]},${p[j + 2]})`; cx.fillRect(x - 2, y - 2, 4, 4); }
+      else { cx.strokeStyle = accent; cx.beginPath(); cx.arc(x, y, 2.6, 0, 7); cx.stroke(); }
+    }
+    cx.globalAlpha = 1;
+    // statistics over all pixels
+    let mx = 0, my = 0; for (let j = 0; j < p.length; j += 3) { mx += p[j + xi]; my += p[j + yi]; } mx /= N; my /= N;
+    let sxx = 0, syy = 0, sxy = 0;
+    for (let j = 0; j < p.length; j += 3) { const dx = p[j + xi] - mx, dy = p[j + yi] - my; sxx += dx * dx; syy += dy * dy; sxy += dx * dy; }
+    const r = sxx && syy ? sxy / Math.sqrt(sxx * syy) : NaN, slope = sxx ? sxy / sxx : NaN, icpt = my - slope * mx;
+    let txt = `correlation r = ${isNaN(r) ? "undefined" : r.toFixed(2)}`;
+    if ($("sfit").checked && !isNaN(slope)) {
+      cx.save(); cx.beginPath(); cx.rect(L, T, S, S); cx.clip();
+      cx.strokeStyle = css("--hl"); cx.lineWidth = 2.5; cx.beginPath(); cx.moveTo(sx(0), sy(icpt)); cx.lineTo(sx(255), sy(icpt + slope * 255)); cx.stroke(); cx.restore();
+      txt += `   ·   best fit: ${nm[yi].toLowerCase()} ≈ ${slope.toFixed(2)} × ${nm[xi].toLowerCase()} ${icpt < 0 ? "−" : "+"} ${Math.abs(icpt).toFixed(1)}`;
+    }
+    $("snote").textContent = `${txt}   ·   ${state.sample.length.toLocaleString()} of ${N.toLocaleString()} pixels shown`;
+  }
+  ["sx", "sy", "scol", "sfit"].forEach((id) => $(id).addEventListener("change", drawScatter));
+  $("sn").addEventListener("change", () => { state.sample = null; drawScatter(); });
+  $("resample").addEventListener("click", () => { state.sample = null; drawScatter(); });
+
+  // ---------- data ----------
+  function csv() {
+    const { w, h, px } = state, out = ["x,y,red,green,blue"];
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const j = (y * w + x) * 3; out.push(`${x},${y},${px[j]},${px[j + 1]},${px[j + 2]}`); }
+    return out.join("\n");
+  }
+  function preview() { $("preview").value = csv().split("\n").slice(0, 12).join("\n") + "\n…"; $("dnote").textContent = ""; }
+  $("dl").addEventListener("click", () => {
+    try {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([csv()], { type: "text/csv" }));
+      a.download = `${state.key}_pixels.csv`; document.body.appendChild(a); a.click(); a.remove();
+      $("dnote").textContent = "";
+    } catch (e) { $("dnote").textContent = "Download is blocked here. Use Copy CSV instead."; }
+  });
+  $("cp").addEventListener("click", () => {
+    const t = csv();
+    navigator.clipboard.writeText(t).then(() => { $("dnote").textContent = "Copied. Paste into cell A1 of an empty sheet."; },
+      () => { $("preview").value = t; $("preview").select(); $("dnote").textContent = "Press Ctrl+C (Cmd+C) to copy the selected table."; });
+  });
+
+  // ---------- wiring ----------
+  function drawAll() { drawImage(); drawHist(); drawBar(); drawScatter(); }
+  $("pick").addEventListener("change", (e) => loadSrc(window.D2_IMAGES[e.target.value], e.target.value, NAMES[e.target.value]));
+  $("upload").addEventListener("change", (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => {
+      let o = $("pick").querySelector('option[value="upload"]');
+      if (!o) { o = new Option("Your image", "upload"); $("pick").add(o); }
+      $("pick").value = "upload"; window.D2_IMAGES.upload = rd.result;
+      loadSrc(rd.result, "upload", "Your image");
+    };
+    rd.readAsDataURL(f);
+  });
+  let rz; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => state.px && drawAll(), 120); });
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => state.px && drawAll());
+  new MutationObserver(() => state.px && drawAll()).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  mixer();
+  for (const k of ["fireworks", "colors"]) loadSrc(window.D2_IMAGES[k], null, NAMES[k]);
+  loadSrc(window.D2_IMAGES.gilman, "gilman", NAMES.gilman);
+})();
+</script>
+<script>
+/* Report content height so the widget layout can size the iframe to fit. */
+(function(){
+  if(window.parent===window)return;
+  var last=0;
+  function post(){
+    var h=Math.ceil(document.body.getBoundingClientRect().height);
+    if(h!==last){last=h;window.parent.postMessage({embedHeight:h},"*");}
+  }
+  if(window.ResizeObserver)new ResizeObserver(post).observe(document.body);
+  window.addEventListener("load",post);
+})();
+</script>
+</body>
+</html>

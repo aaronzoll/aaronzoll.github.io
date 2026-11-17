@@ -878,14 +878,14 @@ augmented by topics from linear algebra and the use of computer software (primar
           <span class="lecture-title">The Method of Undetermined Coefficients</span>
         </a>
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/1PhNh_HBvxFyvP7lKEu6MOmXvi45y3YCxo1GV6y9yNtQ/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 33</span>
             <img src="/assets/LADE/thumbnails/Lecture_33.png" alt="Lecture 33 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 33</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">The Method of Variation of Parameters</span>
+        </a>
 
       </div>
     </div>

@@ -160,6 +160,14 @@ I have always loved to teach. In high school, I helped peers with their calculus
   </span>
   <a class="pdf-btn" href="/teaching/lade/">Visit</a>
 </div>
+
+<div class="course-page-row">
+  <span class="course-page-name">
+    Data Analytics Workshop
+    <span class="course-page-blurb">Lecture notes, discussions, and simulations for the pre-college course</span>
+  </span>
+  <a class="pdf-btn" href="/teaching/data-analytics/">Visit</a>
+</div>
 </div>
 
 <div class="bubble">
