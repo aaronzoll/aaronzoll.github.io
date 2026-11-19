@@ -134,7 +134,12 @@
      BACK gives the top of the hump in each camel image, as fractions of the image (x from left, y from top). */
   var ART = { camel: "/widgets/camel-straw/camel.png", camelBroken: "/widgets/camel-straw/camel_broken.png" };
   var BACK = { x: 0.587, up: 0.234, down: 0.423 };
-  var TONES = ["#f6b116", "#e9a10f", "#f4c450", "#d99308", "#f0b43a", "#e6ad24", "#f8cd6a", "#dd9c1c"];
+  /* Straw look. "straw": long, thin, pale stalks with frayed ends, lying at slight angles.
+     "baguette": the original chunky two-row pixel blocks. Switch here, or add ?straw to the URL to compare. */
+  var STRAW_STYLE = /[?&]straw(?:[=&]|$)/.test(location.search) ? "straw" : "baguette";
+  var TONES = STRAW_STYLE === "baguette"
+    ? ["#f6b116", "#e9a10f", "#f4c450", "#d99308", "#f0b43a", "#e6ad24", "#f8cd6a", "#dd9c1c"]
+    : ["#e2c164", "#d4ad46", "#ead07e", "#c99f38", "#dfbb58", "#d8b34e", "#eed78f", "#cfa743"];
 
   // ?explore: the same camel, but the straw range and breaking weight can be changed, with its own history
   var EXPLORE = /[?&]explore(?:[=&]|$)/.test(location.search);
@@ -249,15 +254,18 @@
     else { g.fillStyle = "#ed8d05"; g.fillRect(x + size * 0.3, y + size * (br ? 0.45 : 0.27), size * 0.5, size * 0.3); }
     var px = x + BACK.x * size, py = y + (br ? BACK.down : BACK.up) * size;
     // straws: pixel blocks the size of the camel's pixels; length grows with weight; falling ones accelerate down to their spot
-    var c = Math.round(size / 32), th = 2 * c, gapY = Math.min(th, (py - 20) / Math.max(1, cur.length));
+    var straws = STRAW_STYLE === "straw";
+    var c = Math.round(size / 32), th = straws ? c : 2 * c, gapY = Math.min(th, (py - 20) / Math.max(1, cur.length));
     for (var i = 0; i < cur.length; i++) {
       var d = drops[i], p = d.dur ? (t - d.start) / d.dur : 1;
       if (p < 0) continue;
       p = Math.min(1, p);
-      var n = 3 + Math.round(11 * cur[i] / S.b);   // 3 to 14 blocks
+      var n = straws ? 5 + Math.round(13 * cur[i] / S.b) : 3 + Math.round(11 * cur[i] / S.b);   // straw 5-18 blocks, baguette 3-14
       var restY = py - (i + 1) * gapY, fromY = -3 * th;
       var sx = Math.round(px - n * c / 2 + ((i * 7) % 5 - 2) * c / 2), sy = Math.round(fromY + (restY - fromY) * p * p);
-      drawStraw(g, sx, sy, n, c, br && i === cur.length - 1, TONES[(i * 5) % TONES.length]);
+      var last = br && i === cur.length - 1, tone = TONES[(i * 5) % TONES.length];
+      if (straws) drawStalk(g, sx, sy, n * c, c, last, tone, (((i * 37) % 7) - 3) * 0.035);
+      else drawStraw(g, sx, sy, n, c, last, tone);
     }
     if (br) {
       var fy = py - cur.length * gapY;
@@ -275,6 +283,33 @@
     g.fillStyle = lo; g.fillRect(x, y + h, n * c, h);
     g.fillStyle = node;
     for (var k = 3; k < n - 1; k += 4) g.fillRect(x + k * c, y + Math.ceil(h / 2), c, h + Math.floor(h / 2));
+  }
+
+  // one stalk of straw: a thin hollow tube with a light top edge, darker underside, faint joints,
+  // and a few splayed fibres at each cut end; tilted slightly by `ang` radians about its middle
+  function drawStalk(g, x, y, len, c, last, tone, ang) {
+    var t = Math.max(4, Math.round(c * 0.5));           // tube thickness
+    var hi = last ? "#e0645c" : "#f5e3a6", lo = last ? "#8e211c" : "#a8812a", body = last ? "#d9473f" : tone;
+    g.save();
+    g.translate(x + len / 2, y + t / 2); g.rotate(ang);
+    var x0 = -len / 2, y0 = -t / 2, f = Math.round(c * 0.6);   // fibre length at the ends
+    g.fillStyle = body; g.fillRect(x0 + f, y0, len - 2 * f, t);
+    g.fillStyle = hi; g.fillRect(x0 + f, y0, len - 2 * f, Math.max(1, Math.round(t / 4)));
+    g.fillStyle = lo; g.fillRect(x0 + f, y0 + t - Math.max(1, Math.round(t / 4)), len - 2 * f, Math.max(1, Math.round(t / 4)));
+    for (var k = x0 + f + 3 * c; k < -x0 - f - c; k += 3.5 * c) g.fillRect(Math.round(k), y0, 2, t);   // joints
+    // frayed ends: three thin fibres fanning out a little
+    g.fillStyle = body;
+    var fw = Math.max(1, Math.round(t / 3));
+    for (var s = -1; s <= 1; s += 2) {
+      var ex = s < 0 ? x0 + f : -x0 - f;
+      for (var j = 0; j < 3; j++) {
+        var fl = f * (j === 1 ? 1 : 0.75), dy = (j - 1) * fw * 0.9;
+        g.save(); g.translate(ex, y0 + t / 2 + dy); g.rotate(s * (j - 1) * 0.18);
+        g.fillRect(s < 0 ? -fl : 0, -fw / 2, fl, fw);
+        g.restore();
+      }
+    }
+    g.restore();
   }
 
   /* ---- simulations ----
@@ -405,11 +440,8 @@
   $("clearNo").onclick = function () { $("clearConfirm").hidden = true; };
   $("clearYes").onclick = function () { history = []; save(); $("clearConfirm").hidden = true; $("csvBox").hidden = true; $("csvMsg").textContent = ""; refresh(); };
 
-  // open with a camel partly loaded so the scene shows what happens
-  function openingCamel() {
-    reset();
-    for (var i = 0; i < 6; i++) { var w = straw(); if (sum(cur) + w > S.L) break; cur.push(w); drops.push({ start: 0, dur: 0 }); }
-  }
+  // every visit opens on a fresh camel with no straws (the history is kept)
+  function openingCamel() { reset(); }
   if (EXPLORE) {
     $("params").hidden = false; $("kPredWrap").hidden = false;
     var setParams = function () {
