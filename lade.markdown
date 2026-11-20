@@ -900,7 +900,7 @@ augmented by topics from linear algebra and the use of computer software (primar
     <div class="folder-body">
       <div class="lecture-grid">
 
-        <a class="lecture-card lecture-card--pending" href = "https://docs.google.com/presentation/d/14tb4Wy5f-foxTWNPxBCq7Y9pvwl_dCQ3jLg5bsGTR6k/edit?usp=sharing" target = "_blank">
+        <a class="lecture-card" href = "https://docs.google.com/presentation/d/14tb4Wy5f-foxTWNPxBCq7Y9pvwl_dCQ3jLg5bsGTR6k/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 34</span>
             <img src="/assets/LADE/thumbnails/Lecture_34.png" alt="Lecture 34 slides" onerror="this.remove()">
