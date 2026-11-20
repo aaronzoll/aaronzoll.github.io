@@ -437,6 +437,7 @@ custom_js: |
   <p class="section-intro">Discussion boards run alongside the project. Each asks for an initial post and replies to classmates a day later.</p>
 
   <div style="margin-top:0.75rem;">
+    <!-- Hidden while the Pixel Explorer is broken; uncomment to restore.
     <div class="note-row">
       <span class="note-name"><span class="note-day">Day 2</span> <strong>Data Visualization</strong>
         <span class="note-blurb">A photo is a grid of red, green, and blue values. Histograms, bar charts, and scatter plots of those pixel values introduce what each kind of chart is good for.</span>
@@ -445,6 +446,7 @@ custom_js: |
         <a class="pdf-btn" href="/widgets/pixel-explorer/">Pixel Explorer</a>
       </div>
     </div>
+    -->
 
     <div class="note-row">
       <span class="note-name"><span class="note-day">Day 8</span> <strong>Back-Breaking Straws and Expected Value</strong>
@@ -481,11 +483,13 @@ custom_js: |
       <span class="gallery-sub">Expected value · Discussion 5</span>
     </a>
 
+    <!-- Hidden while the Pixel Explorer is broken; uncomment to restore.
     <a class="gallery-card" href="/widgets/pixel-explorer/">
       <div class="gallery-picture"><img src="/widgets/images/pixel_explorer_img.jpg" alt="Fireworks photo"></div>
       <span class="gallery-title">Pixel Data Explorer</span>
       <span class="gallery-sub">Data visualization · Discussion 2</span>
     </a>
+    -->
 
   </div>
 </div>
