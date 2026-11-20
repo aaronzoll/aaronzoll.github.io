@@ -900,14 +900,14 @@ augmented by topics from linear algebra and the use of computer software (primar
     <div class="folder-body">
       <div class="lecture-grid">
 
-        <div class="lecture-card lecture-card--pending">
+        <a class="lecture-card lecture-card--pending" href = "https://docs.google.com/presentation/d/14tb4Wy5f-foxTWNPxBCq7Y9pvwl_dCQ3jLg5bsGTR6k/edit?usp=sharing" target = "_blank">
           <div class="lecture-thumb">
             <span class="lecture-thumb-fallback">Lecture 34</span>
             <img src="/assets/LADE/thumbnails/Lecture_34.png" alt="Lecture 34 slides" onerror="this.remove()">
           </div>
           <span class="lecture-label">Lecture 34</span>
-          <span class="lecture-title">Topic TBD</span>
-        </div>
+          <span class="lecture-title">Existence and Uniqueness, Slope Fields and Euler's Method</span>
+        </a>
 
         <div class="lecture-card lecture-card--pending">
           <div class="lecture-thumb">
