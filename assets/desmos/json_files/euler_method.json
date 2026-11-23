@@ -83,21 +83,28 @@
     "type": "expression",
     "id": "119",
     "color": "#000000",
-    "latex": "N=10",
+    "latex": "N=\\operatorname{floor}\\left(\\frac{x_{N}-x_{0}}{h}+10^{-9}\\right)",
+    "folderId": "6"
+   },
+   {
+    "type": "expression",
+    "id": "131",
+    "color": "#000000",
+    "latex": "h_{s}=0.5",
     "folderId": "6",
     "slider": {
      "hardMin": true,
      "hardMax": true,
-     "min": "1",
+     "min": "0.01",
      "max": "100",
-     "step": "1"
+     "step": "0.01"
     }
    },
    {
     "type": "expression",
     "id": "30",
     "color": "#c74440",
-    "latex": "h=\\frac{x_{N}-x_{0}}{N}",
+    "latex": "h=\\min\\left(h_{s},x_{N}-x_{0}\\right)",
     "folderId": "6"
    },
    {
@@ -356,35 +363,8 @@
     "latex": "y=p_{1}.y+m\\left(x-p_{1}.x\\right)\\left\\{p_{1}.x-\\frac{h}{5}\\le x\\le x_{next}+\\frac{h}{5}\\right\\}",
     "folderId": "103",
     "lineOpacity": "0.6",
-    "lineWidth": "5"
-   },
-   {
-    "type": "expression",
-    "id": "114",
-    "color": "#000000",
-    "latex": "\\left(p_{1}.x+th,p_{1}.y\\right)",
-    "folderId": "103",
-    "parametricDomain": {
-     "min": "0",
-     "max": "1"
-    },
-    "lineStyle": "DOTTED",
-    "lineWidth": "2",
-    "lineOpacity": "0.7"
-   },
-   {
-    "type": "expression",
-    "id": "115",
-    "color": "#000000",
-    "latex": "\\left(x_{next},p_{1}.y+thm\\right)",
-    "folderId": "103",
-    "parametricDomain": {
-     "min": "0",
-     "max": "1"
-    },
-    "lineStyle": "DOTTED",
-    "lineWidth": "2",
-    "lineOpacity": "0.7"
+    "lineWidth": "5",
+    "hidden": true
    },
    {
     "type": "expression",
@@ -406,32 +386,6 @@
     "label": "`y_{${n_{1}}}`",
     "labelSize": "1.5",
     "labelOrientation": "above"
-   },
-   {
-    "type": "expression",
-    "id": "117",
-    "color": "#000000",
-    "latex": "\\left(p_{1}.x+\\frac{h}{2},p_{1}.y\\right)\\left\\{N\\le30\\right\\}",
-    "folderId": "103",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "`h`",
-    "labelSize": "1.5",
-    "labelOrientation": "below"
-   },
-   {
-    "type": "expression",
-    "id": "124",
-    "color": "#000000",
-    "latex": "\\left(x_{next},p_{1}.y+\\frac{hm}{2}\\right)\\left\\{N\\le30\\right\\}\\left\\{\\left|hm\\right|>0.4\\right\\}",
-    "folderId": "103",
-    "pointOpacity": "0",
-    "dragMode": "NONE",
-    "showLabel": true,
-    "label": "`hf(x_n,y_n)`",
-    "labelSize": "1.5",
-    "labelOrientation": "right"
    },
    {
     "type": "expression",

@@ -38,17 +38,18 @@ side_controls: true
   <span class="eu-label">Step Parameters</span>
 
   <div class="desmos-param">
-    <span class="desmos-param-label">Steps \(N\) = <strong id="eu-N-val">10</strong></span>
-    <input class="site-slider" id="eu-N" type="range" min="1" max="100" step="1" value="10">
+    <span class="desmos-param-label">Step size \(h\) = <strong id="eu-h-val">0.5</strong>
+      <span class="eu-steps-note">(<span id="eu-N-val">15 steps</span>)</span></span>
+    <input class="site-slider" id="eu-h" type="range" min="0.01" max="7.9" step="0.01" value="0.5">
   </div>
 
   <div class="desmos-param">
     <span class="desmos-param-label">Current step \(n\) = <strong id="eu-n-val">0</strong></span>
-    <input class="site-slider" id="eu-n" type="range" min="0" max="9" step="1" value="0">
+    <input class="site-slider" id="eu-n" type="range" min="0" max="14" step="1" value="0">
   </div>
 
   <div class="desmos-param">
-    <span class="desmos-param-label">Endpoint \(x_N\) = <strong id="eu-end-val">4.2</strong></span>
+    <span class="desmos-param-label">Endpoint \(b\) = <strong id="eu-end-val">4.2</strong></span>
     <input class="site-slider" id="eu-end" type="range" min="-6" max="6" step="0.1" value="4.2">
   </div>
 
@@ -58,6 +59,7 @@ side_controls: true
 
   <button class="site-btn eu-toggle eu-wide" aria-pressed="false" data-folder="300">True solution</button>
   <button class="site-btn site-btn--active eu-toggle eu-wide" aria-pressed="true" data-folder="61">Slope field</button>
+  <button class="site-btn eu-toggle eu-wide" aria-pressed="false" data-folder="113">Tangent line</button>
 
   <hr class="desmos-divider">
 
@@ -108,6 +110,11 @@ side_controls: true
   }
 
   .eu-wide { width: 100%; }
+
+  .eu-steps-note {
+    font-weight: normal;
+    color: var(--color-ink-mute);
+  }
 
   .eu-stack .eu-toggle {
     min-width: 0;
@@ -376,9 +383,10 @@ side_controls: true
   window.onDesmosReady = function (calc) {
 
     // ── Expression IDs from euler_method.json ────────────────────────────
-    var ID = { f: '3', x0: '11', y0: '102', end: '4', N: '119', n: '104',
+    var ID = { f: '3', x0: '11', y0: '102', end: '4', h: '131', n: '104',
                arrow: '200', opacity: '90', nx: '79', dx: '81' };
-    var DEFAULT = { f: 'y\\sin\\left(x\\right)', x0: -3.7, y0: 2.5, end: 4.2, N: 10 };
+    var DEFAULT = { f: 'y\\sin\\left(x\\right)', x0: -3.7, y0: 2.5, end: 4.2, h: 0.5 };
+    var H_MIN = 0.01;
 
     function el(id) { return document.getElementById(id); }
 
@@ -409,7 +417,7 @@ side_controls: true
     // ── Live calculation ─────────────────────────────────────────────────
     var vals = {};
     var NAMES = { n: 'n', h: 'h', xn: 'p_{1}.x', yn: 'p_{1}.y', m: 'm', xNext: 'x_{next}', yNext: 'y_{next}',
-                  yTrue: 'y_{true}', x0: 'x_{0}', xEnd: 'x_{N}' };
+                  yTrue: 'y_{true}', x0: 'x_{0}', xEnd: 'x_{N}', N: 'N' };
 
     var pending = false;
     function render() {
@@ -499,7 +507,7 @@ side_controls: true
     Object.keys(NAMES).forEach(function (key) {
       vals[key] = NaN;
       var h = calc.HelperExpression({ latex: NAMES[key] });
-      h.observe('numericValue', function () { vals[key] = h.numericValue; render(); keepOrdered(); });
+      h.observe('numericValue', function () { vals[key] = h.numericValue; render(); keepOrdered(); syncSteps(); });
     });
 
     // ── Function f(x, y) selector ────────────────────────────────────────
@@ -547,14 +555,33 @@ side_controls: true
     });
 
     // ── Steps ────────────────────────────────────────────────────────────
-    var nSlider = el('eu-N'), iSlider = el('eu-n'), endSlider = el('eu-end');
+    // The reader sets h; Desmos caps it at one step, h = min(h_s, x_N - x_0), and
+    // takes N = floor((x_N - x_0)/h) steps, so the path never passes the endpoint.
+    var hSlider = el('eu-h'), iSlider = el('eu-n'), endSlider = el('eu-end');
 
-    function setN(N) {
-      el('eu-N-val').textContent = N;
-      nSlider.value = N;
-      calc.setExpression({ id: ID.N, latex: 'N=' + N });
-      iSlider.max = N - 1;
-      if (+iSlider.value > N - 1) { setStep(N - 1); }
+    function setH(h) {
+      hSlider.value = h;
+      calc.setExpression({ id: ID.h, latex: 'h_{s}=' + h });
+    }
+
+    // Follow Desmos's own h and N, which move when the start point is dragged.
+    function syncSteps() {
+      var span = vals.xEnd - vals.x0;
+      if (isFinite(span) && span > 0) {
+        var hMax = Math.floor(span * 100 + 1e-6) / 100;
+        hSlider.max = Math.max(H_MIN, hMax);
+        if (!(+hSlider.value < hMax)) { hSlider.value = hMax; }   // at the cap: pin the thumb right
+      }
+      if (isFinite(vals.h)) { el('eu-h-val').textContent = fmt(vals.h); }
+      var N = Math.round(vals.N);
+      if (isFinite(N) && N >= 1) {
+        el('eu-N-val').textContent = N + (N === 1 ? ' step' : ' steps');
+        // Read n before changing max: the browser clamps the thumb silently,
+        // which would leave Desmos on a step that no longer exists.
+        var cur = +el('eu-n-val').textContent;
+        iSlider.max = N - 1;
+        if (cur > N - 1) { setStep(N - 1); }
+      }
     }
     function setStep(n) {
       iSlider.value = n;
@@ -567,7 +594,11 @@ side_controls: true
       calc.setExpression({ id: ID.end, latex: 'x_{N}=' + x });
     }
 
-    nSlider.addEventListener('input', function () { setN(+this.value); });
+    // At the right end of the track, ask for a full step even if the span is not a
+    // multiple of 0.01; Desmos's min() trims it to exactly one step.
+    hSlider.addEventListener('input', function () {
+      setH(+this.value >= +this.max ? 100 : Math.max(H_MIN, +this.value));
+    });
     iSlider.addEventListener('input', function () { setStep(+this.value); });
     endSlider.addEventListener('input', function () {
       var x = +this.value;
@@ -613,7 +644,7 @@ side_controls: true
       calc.setExpression({ id: ID.x0, latex: 'x_{0}=' + DEFAULT.x0 });
       calc.setExpression({ id: ID.y0, latex: 'y_{0}=' + DEFAULT.y0 });
       setEnd(DEFAULT.end);
-      setN(DEFAULT.N);
+      setH(DEFAULT.h);
       setStep(0);
       input.value = '';
       markFn(document.querySelector('.eu-fn-btn'));
@@ -668,19 +699,19 @@ and solving for $y(x+h)$,
 $$y(x+h) \approx y(x) + hy'(x) = y(x) + hf(x, y(x)),$$
 using that $y$ solves the differential equation. We then replace the unknown $y(x_n)$ with our best guess so far, $y_n$.
 
-Geometrically, we are simply marching along the slope field. From the current point $(x_n, y_n)$ we follow the line with slope $f(x_n, y_n)$ for a horizontal distance $h$, which is a vertical distance $hf(x_n, y_n)$. Then we stop, read a new slope, and repeat. In the graph, the orange circle is $(x_n, y_n)$, the red line is the slope there, and the dotted legs show the horizontal distance $h$ and vertical distance $hf(x_n, y_n)$ leading to the next point. Move the slider for $n$, or click a row of the table in the \emph{Computation} dropdown under the graph, to march along the blue path, and drag the black starting point to change the initial condition.
+Geometrically, we are simply marching along the slope field. From the current point $(x_n, y_n)$ we follow the line with slope $f(x_n, y_n)$ for a horizontal distance $h$, which is a vertical distance $hf(x_n, y_n)$. Then we stop, read a new slope, and repeat. In the graph, the orange circle is $(x_n, y_n)$ and the red point is the next one, $(x_{n+1}, y_{n+1})$. Toggle on \emph{Tangent line} to see the line with slope $f(x_n, y_n)$ that carries us between them. Move the slider for $n$, or click a row of the table in the \emph{Computation} dropdown under the graph, to march along the blue path, and drag the black starting point to change the initial condition.
 
 \begin{remark}
 Toggle on \emph{True solution} to see it as the green curve (to good accuracy, as it is computed by a much more careful numerical method). Euler's path leaves it for two reasons. First, we follow a straight line for the whole step, while the true solution curves away. Second, after the first step, we read the slope at $(x_n, y_n)$ rather than on the true solution, so we follow slightly the wrong direction, and these errors accumulate from step to step.
 \end{remark}
 
-To reduce the error, reduce the step size, so that we correct course more often. Increase $N$ in the graph, which sets $h = (x_N - x_0)/N$, and watch the blue path close in on the true solution. Doubling $N$ roughly halves the error, once $h$ is small: the error at a fixed $x$ is proportional to $h$. This makes Euler's method a \textit{first order} method, and is why more careful methods, such as the <a href="/desmos/runge-kutta-2">second order Runge Kutta methods</a>, are used in practice.
+To reduce the error, reduce the step size, so that we correct course more often. Decrease $h$ in the graph, which takes as many steps as fit before the endpoint $b$, and watch the blue path close in on the true solution. Halving $h$ roughly halves the error, once $h$ is small: the error at a fixed $x$ is proportional to $h$. This makes Euler's method a \textit{first order} method, and is why more careful methods, such as the <a href="/desmos/runge-kutta-2">second order Runge Kutta methods</a>, are used in practice.
 
 \begin{remark}
 Two choices of $f$ are worth exploring, as here we can write the iterates exactly.
 \begin{itemize}
-  \item For $y' = y$, Euler's method gives $y_{n+1} = (1 + h)y_n$, so $y_n = (1+h)^n y_0$. Starting from $y(0) = 1$ with $N$ steps to $x_N = 1$, this approximates $y(1) = e$ by $\left(1 + \tfrac{1}{N}\right)^N$.
-  \item For $y' = -y$, Euler's method gives $y_n = (1-h)^n y_0$. The true solution decays, but when $h > 2$ we have $|1 - h| > 1$ and the iterates oscillate and grow. Try $N = 2$ or $N = 3$. A convergent method can still behave badly when the step is too large.
+  \item For $y' = y$, Euler's method gives $y_{n+1} = (1 + h)y_n$, so $y_n = (1+h)^n y_0$. Starting from $y(0) = 1$ with $h = 1/N$, so that $N$ steps reach $x = 1$, this approximates $y(1) = e$ by $\left(1 + \tfrac{1}{N}\right)^N$.
+  \item For $y' = -y$, Euler's method gives $y_n = (1-h)^n y_0$. The true solution decays, but when $h > 2$ we have $|1 - h| > 1$ and the iterates oscillate and grow. Try $h = 2.5$ or $h = 3$. A convergent method can still behave badly when the step is too large.
 \end{itemize}
 \end{remark}
 </div>
