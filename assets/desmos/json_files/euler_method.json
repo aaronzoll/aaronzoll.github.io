@@ -360,10 +360,10 @@
     "type": "expression",
     "id": "113",
     "color": "#c74440",
-    "latex": "y=p_{1}.y+m\\left(x-p_{1}.x\\right)\\left\\{p_{1}.x-\\frac{h}{5}\\le x\\le x_{next}+\\frac{h}{5}\\right\\}",
+    "latex": "y=p_{1}.y+m\\left(x-p_{1}.x\\right)\\left\\{p_{1}.x-\\frac{3}{\\sqrt{1+m^{2}}}\\le x\\le x_{next}+\\frac{3}{\\sqrt{1+m^{2}}}\\right\\}",
     "folderId": "103",
-    "lineOpacity": "0.6",
-    "lineWidth": "5",
+    "lineOpacity": "0.35",
+    "lineWidth": "4",
     "hidden": true
    },
    {
